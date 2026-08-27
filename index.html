@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عُدّة — أدوات يومية عملية</title>
+<meta name="description" content="عُدّة: تحويل التاريخ بين الهجري والميلادي، حساب الفرق بين تاريخين والعمر، وأدوات PDF — كلها تعمل داخل متصفحك مباشرة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+  :root{
+    --bg:#1C1B1A;
+    --bg-elev:#242220;
+    --bg-elev-2:#2C2A27;
+    --border:#3A3733;
+    --brass:#B8863B;
+    --brass-light:#D4A65C;
+    --bone:#EDE6D6;
+    --bone-dim:#B7AF9F;
+    --steel:#5C6873;
+    --rust:#B05A32;
+    --patina:#7A9A6B;
+    --radius:10px;
+    --font-display:'IBM Plex Sans Arabic',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(184,134,59,0.07) 1px, transparent 0);
+    background-size:22px 22px;
+    color:var(--bone);
+    font-family:var(--font-display);
+    line-height:1.6;
+    min-height:100vh;
+  }
+  a{color:var(--brass-light);}
+  .wrap{max-width:920px;margin:0 auto;padding:0 18px;}
+
+  /* Header */
+  header.top{padding:36px 0 18px;text-align:center;}
+  .logo{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:1.9rem;font-weight:700;letter-spacing:.5px;color:var(--bone);
+  }
+  .logo .mark{
+    width:34px;height:34px;border:2px solid var(--brass);border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--brass-light);font-family:var(--font-mono);font-size:1rem;font-weight:600;
+    transform:rotate(-6deg);
+  }
+  .tagline{color:var(--bone-dim);font-size:.95rem;margin-top:8px;}
+
+  /* Live stamp — signature element */
+  .stamp{
+    margin:26px auto 6px;max-width:420px;
+    border:1px solid var(--border);background:var(--bg-elev);
+    border-radius:var(--radius);padding:16px 20px;
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    position:relative;overflow:hidden;
+  }
+  .stamp::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(135deg, rgba(184,134,59,0.10), transparent 55%);
+    pointer-events:none;
+  }
+  .stamp .side{text-align:center;flex:1;}
+  .stamp .side .lbl{font-size:.68rem;color:var(--bone-dim);letter-spacing:1px;text-transform:uppercase;}
+  .stamp .side .val{font-family:var(--font-mono);font-size:1.05rem;color:var(--brass-light);font-weight:600;margin-top:4px;}
+  .stamp .div{width:1px;align-self:stretch;background:var(--border);}
+
+  /* Tabs */
+  nav.tabs{
+    display:flex;gap:8px;overflow-x:auto;
+    margin:30px 0 22px;padding-bottom:4px;
+    border-bottom:1px solid var(--border);
+  }
+  nav.tabs button{
+    flex:0 0 auto;background:transparent;border:none;color:var(--bone-dim);
+    font-family:var(--font-display);font-size:.95rem;font-weight:600;
+    padding:10px 16px;cursor:pointer;border-bottom:2px solid transparent;
+    transition:.15s;white-space:nowrap;
+  }
+  nav.tabs button:hover{color:var(--bone);}
+  nav.tabs button.active{color:var(--brass-light);border-bottom-color:var(--brass);}
+
+  /* Panels */
+  section.panel{display:none;padding-bottom:60px;}
+  section.panel.active{display:block;}
+  .card{
+    background:var(--bg-elev);border:1px solid var(--border);
+    border-radius:var(--radius);padding:22px;margin-bottom:18px;
+  }
+  .card h2{margin:0 0 6px;font-size:1.15rem;color:var(--bone);}
+  .card p.hint{margin:0 0 18px;color:var(--bone-dim);font-size:.88rem;}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:.85rem;color:var(--bone-dim);margin-bottom:6px;}
+  .row{display:flex;gap:12px;flex-wrap:wrap;}
+  .row .field{flex:1;min-width:140px;}
+
+  input[type=date], input[type=number], input[type=text], select{
+    width:100%;background:var(--bg-elev-2);border:1px solid var(--border);
+    color:var(--bone);border-radius:8px;padding:11px 12px;
+    font-family:var(--font-mono);font-size:.95rem;
+  }
+  input:focus, select:focus, button:focus-visible{
+    outline:2px solid var(--brass-light);outline-offset:1px;
+  }
+  input[type=file]{
+    width:100%;background:var(--bg-elev-2);border:1px dashed var(--steel);
+    color:var(--bone-dim);border-radius:8px;padding:16px 12px;font-size:.85rem;
+  }
+
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--brass);color:#1C1B1A;border:none;
+    font-family:var(--font-display);font-weight:700;font-size:.92rem;
+    padding:11px 22px;border-radius:8px;cursor:pointer;transition:.15s;
+  }
+  .btn:hover{background:var(--brass-light);}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+  .btn.secondary{background:transparent;border:1px solid var(--steel);color:var(--bone);}
+  .btn.secondary:hover{border-color:var(--brass);color:var(--brass-light);}
+
+  .result{
+    margin-top:18px;padding:16px;border-radius:8px;
+    background:var(--bg-elev-2);border:1px solid var(--border);
+  }
+  .result .big{font-family:var(--font-mono);font-size:1.4rem;color:var(--brass-light);font-weight:600;}
+  .result .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;text-align:center;}
+  .result .grid3 div .n{font-family:var(--font-mono);font-size:1.3rem;color:var(--bone);font-weight:600;}
+  .result .grid3 div .l{font-size:.75rem;color:var(--bone-dim);margin-top:2px;}
+
+  .msg{margin-top:12px;font-size:.85rem;padding:10px 12px;border-radius:8px;}
+  .msg.err{background:rgba(176,90,50,0.15);color:#E29473;border:1px solid rgba(176,90,50,0.4);}
+  .msg.ok{background:rgba(122,154,107,0.15);color:#A6C79A;border:1px solid rgba(122,154,107,0.4);}
+
+  .spin{
+    display:inline-block;width:14px;height:14px;border-radius:50%;
+    border:2px solid rgba(28,27,26,0.3);border-top-color:#1C1B1A;
+    animation:sp .7s linear infinite;
+  }
+  @keyframes sp{to{transform:rotate(360deg);}}
+
+  .note{
+    font-size:.8rem;color:var(--bone-dim);border-inline-start:2px solid var(--brass);
+    padding-inline-start:10px;margin-top:14px;
+  }
+
+  footer{border-top:1px solid var(--border);padding:26px 0;text-align:center;color:var(--bone-dim);font-size:.8rem;}
+
+  @media (max-width:520px){
+    .logo{font-size:1.5rem;}
+    .stamp{flex-direction:row;padding:14px;}
+    .result .grid3{grid-template-columns:repeat(3,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="logo"><span class="mark">ع</span> عُدّة</div>
+    <p class="tagline">أدوات يومية عملية — تواريخ وملفات PDF، كلها تشتغل داخل متصفحك</p>
+
+    <div class="stamp">
+      <div class="side">
+        <div class="lbl">اليوم ميلادي</div>
+        <div class="val" id="stampGreg">—</div>
+      </div>
+      <div class="div"></div>
+      <div class="side">
+        <div class="lbl">اليوم هجري</div>
+        <div class="val" id="stampHijri">—</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="tabs" id="tabs">
+    <button data-tab="convert" class="active">تحويل التاريخ</button>
+    <button data-tab="diffage">الفرق بين تاريخين والعمر</button>
+    <button data-tab="pdf">أدوات PDF</button>
+  </nav>
+
+  <!-- ===================== TAB 1: DATE CONVERTER ===================== -->
+  <section class="panel active" id="panel-convert">
+
+    <div class="card">
+      <h2>ميلادي ← هجري</h2>
+      <p class="hint">اختر تاريخاً ميلادياً وسيظهر مقابله بتقويم أم القرى الهجري.</p>
+      <div class="field">
+        <label for="g2h-input">التاريخ الميلادي</label>
+        <input type="date" id="g2h-input">
+      </div>
+      <button class="btn" id="g2h-btn">حوّل إلى هجري</button>
+      <div class="result" id="g2h-result" style="display:none;">
+        <div class="big" id="g2h-out"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>هجري ← ميلادي</h2>
+      <p class="hint">أدخل التاريخ الهجري (يوم / شهر / سنة) وسيظهر مقابله الميلادي.</p>
+      <div class="row">
+        <div class="field">
+          <label for="h2g-day">اليوم</label>
+          <input type="number" id="h2g-day" min="1" max="30" placeholder="مثال: 15">
+        </div>
+        <div class="field">
+          <label for="h2g-month">الشهر</label>
+          <select id="h2g-month">
+            <option value="1">محرم</option><option value="2">صفر</option>
+            <option value="3">ربيع الأول</option><option value="4">ربيع الآخر</option>
+            <option value="5">جمادى الأولى</option><option value="6">جمادى الآخرة</option>
+            <option value="7">رجب</option><option value="8">شعبان</option>
+            <option value="9">رمضان</option><option value="10">شوال</option>
+            <option value="11">ذو القعدة</option><option value="12">ذو الحجة</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="h2g-year">السنة</label>
+          <input type="number" id="h2g-year" placeholder="مثال: 1446">
+        </div>
+      </div>
+      <button class="btn" id="h2g-btn">حوّل إلى ميلادي</button>
+      <div class="result" id="h2g-result" style="display:none;">
+        <div class="big" id="h2g-out"></div>
+      </div>
+      <div class="msg err" id="h2g-err" style="display:none;"></div>
+    </div>
+
+    <p class="note">يعتمد التحويل على تقويم أم القرى المدمج في متصفحك (نفس التقويم الرسمي المعتمد في السعودية)، وهو مدعوم في أغلب المتصفحات الحديثة على الجوال والحاسوب.</p>
+  </section>
+
+  <!-- ===================== TAB 2: DIFF & AGE ===================== -->
+  <section class="panel" id="panel-diffage">
+
+    <div class="card">
+      <h2>الفرق بين تاريخين</h2>
+      <p class="hint">أدخل تاريخين ميلاديين لمعرفة الفرق بينهما بالسنوات والأشهر والأيام.</p>
+      <div class="row">
+        <div class="field">
+          <label for="diff-a">التاريخ الأول</label>
+          <input type="date" id="diff-a">
+        </div>
+        <div class="field">
+          <label for="diff-b">التاريخ الثاني</label>
+          <input type="date" id="diff-b">
+        </div>
+      </div>
+      <button class="btn" id="diff-btn">احسب الفرق</button>
+      <div class="result" id="diff-result" style="display:none;">
+        <div class="grid3">
+          <div><div class="n" id="diff-y">0</div><div class="l">سنة</div></div>
+          <div><div class="n" id="diff-m">0</div><div class="l">شهر</div></div>
+          <div><div class="n" id="diff-d">0</div><div class="l">يوم</div></div>
+        </div>
+        <p class="note" id="diff-total"></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>حساب العمر</h2>
+      <p class="hint">أدخل تاريخ الميلاد وسيُحسب العمر بالتقويمين الميلادي والهجري حتى اليوم.</p>
+      <div class="field">
+        <label for="age-input">تاريخ الميلاد (ميلادي)</label>
+        <input type="date" id="age-input">
+      </div>
+      <button class="btn" id="age-btn">احسب العمر</button>
+      <div class="result" id="age-result" style="display:none;">
+        <p class="hint" style="margin-bottom:6px;">بالتقويم الميلادي</p>
+        <div class="grid3">
+          <div><div class="n" id="age-gy">0</div><div class="l">سنة</div></div>
+          <div><div class="n" id="age-gm">0</div><div class="l">شهر</div></div>
+          <div><div class="n" id="age-gd">0</div><div class="l">يوم</div></div>
+        </div>
+        <p class="hint" style="margin:16px 0 6px;">بالتقويم الهجري</p>
+        <div class="grid3">
+          <div><div class="n" id="age-hy">0</div><div class="l">سنة</div></div>
+          <div><div class="n" id="age-hm">0</div><div class="l">شهر</div></div>
+          <div><div class="n" id="age-hd">0</div><div class="l">يوم</div></div>
+        </div>
+        <p class="note" id="age-total"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TAB 3: PDF TOOLS ===================== -->
+  <section class="panel" id="panel-pdf">
+
+    <div class="card">
+      <h2>دمج ملفات PDF</h2>
+      <p class="hint">اختر عدة ملفات PDF بالترتيب المطلوب وسيتم دمجها في ملف واحد.</p>
+      <div class="field">
+        <input type="file" id="merge-files" accept="application/pdf" multiple>
+      </div>
+      <button class="btn" id="merge-btn">دمج الملفات وتنزيلها</button>
+      <div id="merge-status"></div>
+    </div>
+
+    <div class="card">
+      <h2>استخراج صفحات محددة</h2>
+      <p class="hint">اختر ملف PDF وحدد أرقام الصفحات المطلوبة (مثال: 1-3,5,8).</p>
+      <div class="field">
+        <input type="file" id="extract-file" accept="application/pdf">
+      </div>
+      <div class="field">
+        <label for="extract-range">أرقام الصفحات</label>
+        <input type="text" id="extract-range" placeholder="مثال: 1-3,5,8">
+      </div>
+      <button class="btn" id="extract-btn">استخراج وتنزيل</button>
+      <div id="extract-status"></div>
+    </div>
+
+    <div class="card">
+      <h2>تحويل صور إلى PDF</h2>
+      <p class="hint">اختر صورة أو أكثر (JPG أو PNG) وسيتم وضع كل صورة في صفحة داخل ملف PDF واحد.</p>
+      <div class="field">
+        <input type="file" id="img2pdf-files" accept="image/png,image/jpeg" multiple>
+      </div>
+      <button class="btn" id="img2pdf-btn">تحويل إلى PDF وتنزيل</button>
+      <div id="img2pdf-status"></div>
+    </div>
+
+    <div class="card">
+      <h2>تحويل PDF إلى صور</h2>
+      <p class="hint">اختر ملف PDF وسيتم تحويل كل صفحة إلى صورة PNG منفصلة يتم تنزيلها تلقائياً.</p>
+      <div class="field">
+        <input type="file" id="pdf2img-file" accept="application/pdf">
+      </div>
+      <button class="btn" id="pdf2img-btn">تحويل وتنزيل الصور</button>
+      <div id="pdf2img-status"></div>
+    </div>
+
+    <div class="card">
+      <h2>ضغط ملف PDF</h2>
+      <p class="hint">يعيد هذا الخيار رسم صفحات الملف بجودة أقل لتقليل الحجم — مناسب للمستندات النصية والصور، وقد يقلل وضوح النصوص الدقيقة جداً.</p>
+      <div class="field">
+        <input type="file" id="compress-file" accept="application/pdf">
+      </div>
+      <div class="field">
+        <label for="compress-quality">مستوى الضغط</label>
+        <select id="compress-quality">
+          <option value="0.85">خفيف (جودة أعلى، حجم أكبر)</option>
+          <option value="0.6" selected>متوسط</option>
+          <option value="0.35">قوي (حجم أصغر، جودة أقل)</option>
+        </select>
+      </div>
+      <button class="btn" id="compress-btn">ضغط وتنزيل</button>
+      <div id="compress-status"></div>
+    </div>
+
+    <p class="note">جميع أدوات PDF تعمل بالكامل داخل متصفحك — لا تُرفع ملفاتك لأي سيرفر، وتحويل الصيغ إلى Word أو Excel بدقة عالية يحتاج معالجة خارج المتصفح وسيُضاف لاحقاً كخدمة منفصلة.</p>
+  </section>
+</div>
+
+<footer>عُدّة — أدوات محلية تعمل في متصفحك بدون اتصال دائم بالإنترنت بعد أول تحميل للصفحة</footer>
+
+<script>
+/* ============================================================
+   TAB SWITCHING
+   ============================================================ */
+document.querySelectorAll('#tabs button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('section.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ============================================================
+   HIJRI <-> GREGORIAN CORE (Umm al-Qura via Intl, native ICU)
+   ============================================================ */
+const HIJRI_FMT = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', {year:'numeric', month:'numeric', day:'numeric'});
+const HIJRI_MONTHS = ["محرم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة"];
+
+function gregorianToHijri(date){
+  const parts = HIJRI_FMT.formatToParts(date);
+  let y,m,d;
+  parts.forEach(p=>{
+    if(p.type==='year') y=parseInt(p.value,10);
+    if(p.type==='month') m=parseInt(p.value,10);
+    if(p.type==='day') d=parseInt(p.value,10);
+  });
+  return {year:y, month:m, day:d};
+}
+
+// Approximate anchor: 1 Muharram, 1 AH ≈ 19 July 622 (proleptic Gregorian), used only to seed a search.
+const HIJRI_ANCHOR = Date.UTC(622,6,19);
+const DAY_MS = 86400000;
+
+function hijriToGregorian(hy, hm, hd){
+  const estDays = (hy-1)*354.36707 + (hm-1)*29.53059 + (hd-1);
+  let candidate = new Date(HIJRI_ANCHOR + Math.round(estDays)*DAY_MS);
+  // widen search window progressively until an exact match is found
+  for(let radius=10; radius<=40; radius+=10){
+    for(let i=-radius; i<=radius; i++){
+      const d = new Date(candidate.getTime() + i*DAY_MS);
+      const h = gregorianToHijri(d);
+      if(h.year===hy && h.month===hm && h.day===hd) return d;
+    }
+  }
+  return null; // out of supported calendar range
+}
+
+function hijriMonthLength(y, m){
+  let ny=y, nm=m+1;
+  if(nm>12){ nm=1; ny=y+1; }
+  const d1 = hijriToGregorian(y, m, 1);
+  const d2 = hijriToGregorian(ny, nm, 1);
+  if(!d1 || !d2) return 30;
+  return Math.round((d2 - d1)/DAY_MS);
+}
+
+function formatHijri(h){
+  return `${h.day} ${HIJRI_MONTHS[h.month-1]} ${h.year}هـ`;
+}
+
+/* Live stamp in header */
+function paintStamp(){
+  const now = new Date();
+  document.getElementById('stampGreg').textContent = now.toLocaleDateString('ar-SA-u-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit'});
+  document.getElementById('stampHijri').textContent = formatHijri(gregorianToHijri(now));
+}
+paintStamp();
+
+/* ============================================================
+   TAB 1: CONVERTER
+   ============================================================ */
+document.getElementById('g2h-btn').addEventListener('click', ()=>{
+  const val = document.getElementById('g2h-input').value;
+  if(!val) return;
+  const [y,m,d] = val.split('-').map(Number);
+  const date = new Date(Date.UTC(y, m-1, d, 12));
+  const h = gregorianToHijri(date);
+  document.getElementById('g2h-out').textContent = formatHijri(h);
+  document.getElementById('g2h-result').style.display = 'block';
+});
+
+document.getElementById('h2g-btn').addEventListener('click', ()=>{
+  const day = parseInt(document.getElementById('h2g-day').value, 10);
+  const month = parseInt(document.getElementById('h2g-month').value, 10);
+  const year = parseInt(document.getElementById('h2g-year').value, 10);
+  const errBox = document.getElementById('h2g-err');
+  const resBox = document.getElementById('h2g-result');
+  errBox.style.display = 'none';
+  resBox.style.display = 'none';
+  if(!day || !month || !year || day<1 || day>30){
+    errBox.textContent = 'تأكد من إدخال اليوم والشهر والسنة بشكل صحيح.';
+    errBox.style.display = 'block';
+    return;
+  }
+  const g = hijriToGregorian(year, month, day);
+  if(!g){
+    errBox.textContent = 'لم يتم إيجاد تاريخ مطابق — تأكد من صحة الأرقام المدخلة.';
+    errBox.style.display = 'block';
+    return;
+  }
+  document.getElementById('h2g-out').textContent = g.toLocaleDateString('ar-SA-u-nu-latn',{year:'numeric',month:'long',day:'numeric', timeZone:'UTC'});
+  resBox.style.display = 'block';
+});
+
+/* ============================================================
+   TAB 2: DIFF & AGE
+   ============================================================ */
+function calendarDiff(d1, d2){
+  if(d1 > d2){ const t=d1; d1=d2; d2=t; }
+  let y = d2.getUTCFullYear() - d1.getUTCFullYear();
+  let m = d2.getUTCMonth() - d1.getUTCMonth();
+  let d = d2.getUTCDate() - d1.getUTCDate();
+  if(d < 0){
+    m--;
+    const prevMonthDays = new Date(Date.UTC(d2.getUTCFullYear(), d2.getUTCMonth(), 0)).getUTCDate();
+    d += prevMonthDays;
+  }
+  if(m < 0){ y--; m += 12; }
+  return {years:y, months:m, days:d};
+}
+
+function hijriDiff(b, t){
+  let y = t.year - b.year, m = t.month - b.month, d = t.day - b.day;
+  if(d < 0){
+    m--;
+    let py=t.year, pm=t.month-1;
+    if(pm<1){ pm=12; py=t.year-1; }
+    d += hijriMonthLength(py, pm);
+  }
+  if(m < 0){ y--; m += 12; }
+  return {years:y, months:m, days:d};
+}
+
+document.getElementById('diff-btn').addEventListener('click', ()=>{
+  const a = document.getElementById('diff-a').value;
+  const b = document.getElementById('diff-b').value;
+  if(!a || !b) return;
+  const [ay,am,ad] = a.split('-').map(Number);
+  const [by,bm,bd] = b.split('-').map(Number);
+  const da = new Date(Date.UTC(ay,am-1,ad));
+  const db = new Date(Date.UTC(by,bm-1,bd));
+  const diff = calendarDiff(da, db);
+  document.getElementById('diff-y').textContent = diff.years;
+  document.getElementById('diff-m').textContent = diff.months;
+  document.getElementById('diff-d').textContent = diff.days;
+  const totalDays = Math.round(Math.abs(db-da)/DAY_MS);
+  document.getElementById('diff-total').textContent = `إجمالي الأيام: ${totalDays.toLocaleString('en-US')} يوم`;
+  document.getElementById('diff-result').style.display = 'block';
+});
+
+document.getElementById('age-btn').addEventListener('click', ()=>{
+  const val = document.getElementById('age-input').value;
+  if(!val) return;
+  const [y,m,d] = val.split('-').map(Number);
+  const birth = new Date(Date.UTC(y, m-1, d));
+  const today = new Date(Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
+
+  const gDiff = calendarDiff(birth, today);
+  document.getElementById('age-gy').textContent = gDiff.years;
+  document.getElementById('age-gm').textContent = gDiff.months;
+  document.getElementById('age-gd').textContent = gDiff.days;
+
+  const hBirth = gregorianToHijri(birth);
+  const hToday = gregorianToHijri(today);
+  const hDiff = hijriDiff(hBirth, hToday);
+  document.getElementById('age-hy').textContent = hDiff.years;
+  document.getElementById('age-hm').textContent = hDiff.months;
+  document.getElementById('age-hd').textContent = hDiff.days;
+
+  const totalDays = Math.round((today-birth)/DAY_MS);
+  document.getElementById('age-total').textContent = `إجمالي الأيام منذ الميلاد: ${totalDays.toLocaleString('en-US')} يوم`;
+  document.getElementById('age-result').style.display = 'block';
+});
+
+/* ============================================================
+   TAB 3: PDF TOOLS
+   ============================================================ */
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const { PDFDocument } = PDFLib;
+
+function setStatus(id, text, type){
+  const el = document.getElementById(id);
+  el.innerHTML = `<div class="msg ${type}">${text}</div>`;
+}
+function setBusy(btn, busy, labelBusy, labelIdle){
+  btn.disabled = busy;
+  btn.innerHTML = busy ? `<span class="spin"></span> ${labelBusy}` : labelIdle;
+}
+function downloadBlob(blob, filename){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 4000);
+}
+
+/* --- Merge --- */
+document.getElementById('merge-btn').addEventListener('click', async ()=>{
+  const files = document.getElementById('merge-files').files;
+  const btn = document.getElementById('merge-btn');
+  if(!files.length){ setStatus('merge-status','اختر ملفين على الأقل.','err'); return; }
+  setBusy(btn, true, 'جارٍ الدمج...', 'دمج الملفات وتنزيلها');
+  try{
+    const merged = await PDFDocument.create();
+    for(const file of files){
+      const bytes = await file.arrayBuffer();
+      const src = await PDFDocument.load(bytes);
+      const pages = await merged.copyPages(src, src.getPageIndices());
+      pages.forEach(p=>merged.addPage(p));
+    }
+    const outBytes = await merged.save();
+    downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مدمج.pdf');
+    setStatus('merge-status','تم الدمج بنجاح.','ok');
+  }catch(e){
+    setStatus('merge-status','تعذر دمج الملفات — تأكد أنها ملفات PDF صحيحة.','err');
+  }
+  setBusy(btn, false, '', 'دمج الملفات وتنزيلها');
+});
+
+/* --- Extract pages --- */
+function parseRange(str, max){
+  const set = new Set();
+  str.split(',').forEach(part=>{
+    part = part.trim();
+    if(!part) return;
+    if(part.includes('-')){
+      const [s,e] = part.split('-').map(n=>parseInt(n,10));
+      for(let i=s;i<=e;i++) if(i>=1 && i<=max) set.add(i-1);
+    } else {
+      const n = parseInt(part,10);
+      if(n>=1 && n<=max) set.add(n-1);
+    }
+  });
+  return [...set].sort((a,b)=>a-b);
+}
+
+document.getElementById('extract-btn').addEventListener('click', async ()=>{
+  const file = document.getElementById('extract-file').files[0];
+  const range = document.getElementById('extract-range').value;
+  const btn = document.getElementById('extract-btn');
+  if(!file || !range){ setStatus('extract-status','اختر ملفاً وأدخل أرقام الصفحات.','err'); return; }
+  setBusy(btn, true, 'جارٍ الاستخراج...', 'استخراج وتنزيل');
+  try{
+    const bytes = await file.arrayBuffer();
+    const src = await PDFDocument.load(bytes);
+    const indices = parseRange(range, src.getPageCount());
+    if(!indices.length) throw new Error('empty');
+    const out = await PDFDocument.create();
+    const pages = await out.copyPages(src, indices);
+    pages.forEach(p=>out.addPage(p));
+    const outBytes = await out.save();
+    downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'صفحات_مستخرجة.pdf');
+    setStatus('extract-status','تم الاستخراج بنجاح.','ok');
+  }catch(e){
+    setStatus('extract-status','تعذر الاستخراج — تحقق من أرقام الصفحات والملف.','err');
+  }
+  setBusy(btn, false, '', 'استخراج وتنزيل');
+});
+
+/* --- Images to PDF --- */
+document.getElementById('img2pdf-btn').addEventListener('click', async ()=>{
+  const files = document.getElementById('img2pdf-files').files;
+  const btn = document.getElementById('img2pdf-btn');
+  if(!files.length){ setStatus('img2pdf-status','اختر صورة واحدة على الأقل.','err'); return; }
+  setBusy(btn, true, 'جارٍ التحويل...', 'تحويل إلى PDF وتنزيل');
+  try{
+    const doc = await PDFDocument.create();
+    for(const file of files){
+      const bytes = await file.arrayBuffer();
+      let img;
+      if(file.type === 'image/png') img = await doc.embedPng(bytes);
+      else img = await doc.embedJpg(bytes);
+      const page = doc.addPage([img.width, img.height]);
+      page.drawImage(img, {x:0, y:0, width:img.width, height:img.height});
+    }
+    const outBytes = await doc.save();
+    downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'صور_إلى_pdf.pdf');
+    setStatus('img2pdf-status','تم التحويل بنجاح.','ok');
+  }catch(e){
+    setStatus('img2pdf-status','تعذر التحويل — تأكد أن الملفات صور JPG أو PNG صحيحة.','err');
+  }
+  setBusy(btn, false, '', 'تحويل إلى PDF وتنزيل');
+});
+
+/* --- PDF to images --- */
+document.getElementById('pdf2img-btn').addEventListener('click', async ()=>{
+  const file = document.getElementById('pdf2img-file').files[0];
+  const btn = document.getElementById('pdf2img-btn');
+  if(!file){ setStatus('pdf2img-status','اختر ملف PDF أولاً.','err'); return; }
+  setBusy(btn, true, 'جارٍ التحويل...', 'تحويل وتنزيل الصور');
+  try{
+    const bytes = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data: bytes}).promise;
+    for(let i=1; i<=pdf.numPages; i++){
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({scale: 2});
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width; canvas.height = viewport.height;
+      const ctx = canvas.getContext('2d');
+      await page.render({canvasContext: ctx, viewport}).promise;
+      const blob = await new Promise(res=>canvas.toBlob(res, 'image/png'));
+      downloadBlob(blob, `صفحة_${i}.png`);
+      await new Promise(r=>setTimeout(r, 250)); // avoid browser blocking rapid downloads
+    }
+    setStatus('pdf2img-status',`تم تحويل ${pdf.numPages} صفحة بنجاح.`,'ok');
+  }catch(e){
+    setStatus('pdf2img-status','تعذر تحويل الملف — تأكد أنه PDF صحيح.','err');
+  }
+  setBusy(btn, false, '', 'تحويل وتنزيل الصور');
+});
+
+/* --- Compress --- */
+document.getElementById('compress-btn').addEventListener('click', async ()=>{
+  const file = document.getElementById('compress-file').files[0];
+  const quality = parseFloat(document.getElementById('compress-quality').value);
+  const btn = document.getElementById('compress-btn');
+  if(!file){ setStatus('compress-status','اختر ملف PDF أولاً.','err'); return; }
+  setBusy(btn, true, 'جارٍ الضغط...', 'ضغط وتنزيل');
+  try{
+    const bytes = await file.arrayBuffer();
+    const originalSize = bytes.byteLength;
+    const pdf = await pdfjsLib.getDocument({data: bytes}).promise;
+    const out = await PDFDocument.create();
+    for(let i=1; i<=pdf.numPages; i++){
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({scale: 1.4});
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width; canvas.height = viewport.height;
+      const ctx = canvas.getContext('2d');
+      await page.render({canvasContext: ctx, viewport}).promise;
+      const jpegDataUrl = canvas.toDataURL('image/jpeg', quality);
+      const jpegBytes = await (await fetch(jpegDataUrl)).arrayBuffer();
+      const img = await out.embedJpg(jpegBytes);
+      const newPage = out.addPage([viewport.width, viewport.height]);
+      newPage.drawImage(img, {x:0, y:0, width:viewport.width, height:viewport.height});
+    }
+    const outBytes = await out.save();
+    const newSize = outBytes.byteLength;
+    downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مضغوط.pdf');
+    const pct = Math.max(0, Math.round((1 - newSize/originalSize)*100));
+    setStatus('compress-status', `تم الضغط — تقليل الحجم بنسبة تقريبية ${pct}%.`, 'ok');
+  }catch(e){
+    setStatus('compress-status','تعذر ضغط الملف — تأكد أنه PDF صحيح.','err');
+  }
+  setBusy(btn, false, '', 'ضغط وتنزيل');
+});
+</script>
+</body>
+</html>
