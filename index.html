@@ -444,6 +444,34 @@
       </div>
       <p class="note">تجب الزكاة إذا بلغ المال النصاب (ما يعادل قيمة ٨٥ جراماً من الذهب تقريباً) ومرّ عليه حول هجري كامل. هذه الأداة للمساعدة الحسابية فقط، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.</p>
     </div>
+
+    <div class="card">
+      <h2>حاسبة زكاة الذهب والفضة</h2>
+      <p class="hint">اختر النوع، وأدخل الوزن الذي تملكه وسعر الجرام الحالي (تقدر تعرفه من أي محل ذهب أو موقع أسعار يومي)، لحساب النصاب والزكاة الواجبة.</p>
+      <div class="field">
+        <label for="goldzakat-type">النوع</label>
+        <select id="goldzakat-type">
+          <option value="gold">ذهب (النصاب: ٨٥ جرام)</option>
+          <option value="silver">فضة (النصاب: ٥٩٥ جرام)</option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="goldzakat-weight">الوزن الذي تملكه (جرام)</label>
+          <input type="number" id="goldzakat-weight" min="0" placeholder="مثال: 100">
+        </div>
+        <div class="field">
+          <label for="goldzakat-price">سعر الجرام الحالي (ريال)</label>
+          <input type="number" id="goldzakat-price" min="0" placeholder="مثال: 320">
+        </div>
+      </div>
+      <button class="btn" id="goldzakat-btn">احسب الزكاة</button>
+      <div class="result" id="goldzakat-result" style="display:none;">
+        <div class="big" id="goldzakat-out"></div>
+        <p class="note" id="goldzakat-sub"></p>
+      </div>
+      <p class="note">هذه الأداة للمساعدة الحسابية فقط بناءً على السعر الذي تدخله، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.</p>
+    </div>
   </section>
 
   <!-- ===================== TAB 3: PDF TOOLS ===================== -->
@@ -920,6 +948,28 @@ document.getElementById('zakat-btn').addEventListener('click', ()=>{
   document.getElementById('zakat-out').textContent =
     `${zakat.toLocaleString('en-US',{maximumFractionDigits:2})} ريال`;
   document.getElementById('zakat-result').style.display = 'block';
+});
+
+/* --- Gold/Silver Zakat --- */
+const NISAB_GRAMS = { gold: 85, silver: 595 };
+document.getElementById('goldzakat-btn').addEventListener('click', ()=>{
+  const type = document.getElementById('goldzakat-type').value;
+  const weight = parseFloat(document.getElementById('goldzakat-weight').value) || 0;
+  const price = parseFloat(document.getElementById('goldzakat-price').value) || 0;
+  const nisab = NISAB_GRAMS[type];
+  const value = weight * price;
+  const out = document.getElementById('goldzakat-out');
+  const sub = document.getElementById('goldzakat-sub');
+
+  if(weight < nisab){
+    out.textContent = 'لا زكاة عليك حالياً';
+    sub.textContent = `الوزن الذي تملكه (${weight.toLocaleString('en-US')} جرام) أقل من النصاب (${nisab} جرام لـ${type === 'gold' ? 'الذهب' : 'الفضة'}).`;
+  } else {
+    const zakat = value * 0.025;
+    out.textContent = `${zakat.toLocaleString('en-US',{maximumFractionDigits:2})} ريال`;
+    sub.textContent = `القيمة الإجمالية: ${value.toLocaleString('en-US',{maximumFractionDigits:2})} ريال — بلغ النصاب، والزكاة الواجبة ٢.٥٪.`;
+  }
+  document.getElementById('goldzakat-result').style.display = 'block';
 });
 
 /* --- File pickers with removable chips --- */
