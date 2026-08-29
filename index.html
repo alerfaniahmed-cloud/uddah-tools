@@ -43,6 +43,35 @@
   a{color:var(--brass-light);}
   .wrap{max-width:920px;margin:0 auto;padding:0 18px;}
 
+  html[data-theme="dark"]{
+    --bg:#1C1B1A;
+    --bg-elev:#242220;
+    --bg-elev-2:#2C2A27;
+    --border:#3A3733;
+    --brass:#B8863B;
+    --brass-light:#D4A65C;
+    --bone:#EDE6D6;
+    --bone-dim:#B7AF9F;
+    --steel:#5C6873;
+    --rust:#C97A52;
+    --patina:#7A9A6B;
+  }
+  html[data-theme="dark"] body{
+    background-image:radial-gradient(circle at 1px 1px, rgba(184,134,59,0.07) 1px, transparent 0);
+  }
+  html[data-theme="dark"] .msg.err{background:rgba(176,90,50,0.15);color:#E29473;border-color:rgba(176,90,50,0.4);}
+  html[data-theme="dark"] .msg.ok{background:rgba(122,154,107,0.15);color:#A6C79A;border-color:rgba(122,154,107,0.4);}
+  html[data-theme="dark"] .spin{border-color:rgba(28,27,26,0.3);border-top-color:#1C1B1A;}
+
+  .theme-toggle{
+    position:absolute;top:20px;left:18px;
+    width:38px;height:38px;border-radius:50%;
+    background:var(--bg-elev);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:1.1rem;color:var(--bone);
+  }
+  .theme-toggle:hover{border-color:var(--brass);}
+
   /* Header */
   header.top{padding:36px 0 18px;text-align:center;}
   .logo{
@@ -186,10 +215,11 @@
 </head>
 <body>
 
-<header class="top">
+<header class="top" style="position:relative;">
+  <button class="theme-toggle" id="themeToggle" title="تبديل الوضع الليلي/النهاري" aria-label="تبديل الوضع الليلي/النهاري">🌙</button>
   <div class="wrap">
     <div class="logo"><span class="mark">ع</span> عُدّة</div>
-    <p class="tagline">أدوات يومية عملية — تواريخ وملفات PDF، كلها تشتغل داخل متصفحك</p>
+    <p class="tagline">أدوات يومية عملية — تواريخ، وحدات، عملات، وملفات PDF — كلها تشتغل داخل متصفحك</p>
 
     <div class="stamp">
       <div class="side">
@@ -209,6 +239,8 @@
   <nav class="tabs" id="tabs">
     <button data-tab="convert" class="active">تحويل التاريخ</button>
     <button data-tab="diffage">الفرق بين تاريخين والعمر</button>
+    <button data-tab="units">تحويل الوحدات</button>
+    <button data-tab="money">العملات والزكاة</button>
     <button data-tab="pdf">أدوات PDF</button>
   </nav>
 
@@ -326,6 +358,91 @@
         </div>
         <p class="note" id="age-total"></p>
       </div>
+    </div>
+  </section>
+
+  <!-- ===================== TAB: UNIT CONVERTER ===================== -->
+  <section class="panel" id="panel-units">
+
+    <div class="card">
+      <h2>تحويل الوحدات</h2>
+      <p class="hint">اختر نوع القياس والوحدتين، وأدخل القيمة لتحويلها فوراً.</p>
+      <div class="field">
+        <label for="unit-category">نوع القياس</label>
+        <select id="unit-category">
+          <option value="length">الطول</option>
+          <option value="weight">الوزن</option>
+          <option value="temperature">الحرارة</option>
+          <option value="volume">الحجم</option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="unit-value">القيمة</label>
+          <input type="number" id="unit-value" placeholder="مثال: 10">
+        </div>
+        <div class="field">
+          <label for="unit-from">من وحدة</label>
+          <select id="unit-from"></select>
+        </div>
+        <div class="field">
+          <label for="unit-to">إلى وحدة</label>
+          <select id="unit-to"></select>
+        </div>
+      </div>
+      <button class="btn" id="unit-btn">حوّل</button>
+      <div class="result" id="unit-result" style="display:none;">
+        <div class="big" id="unit-out"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TAB: MONEY (CURRENCY + ZAKAT) ===================== -->
+  <section class="panel" id="panel-money">
+
+    <div class="card">
+      <h2>حاسبة العملات</h2>
+      <p class="hint">أدخل المبلغ واختر العملتين — الأسعار تُجلب مباشرة من مصدر أسعار صرف مفتوح ومجاني.</p>
+      <div class="row">
+        <div class="field">
+          <label for="fx-amount">المبلغ</label>
+          <input type="number" id="fx-amount" value="1" min="0">
+        </div>
+        <div class="field">
+          <label for="fx-from">من عملة</label>
+          <select id="fx-from"></select>
+        </div>
+        <div class="field">
+          <label for="fx-to">إلى عملة</label>
+          <select id="fx-to"></select>
+        </div>
+      </div>
+      <button class="btn" id="fx-btn">حوّل</button>
+      <div class="result" id="fx-result" style="display:none;">
+        <div class="big" id="fx-out"></div>
+        <p class="note" id="fx-updated"></p>
+      </div>
+      <div class="msg err" id="fx-err" style="display:none;"></div>
+    </div>
+
+    <div class="card">
+      <h2>حاسبة الزكاة</h2>
+      <p class="hint">أدخل إجمالي المال الذي حال عليه الحول (نقد ومدخرات) والديون المستحقة عليك، لحساب مقدار الزكاة الواجبة (٢.٥٪).</p>
+      <div class="row">
+        <div class="field">
+          <label for="zakat-total">إجمالي المال (ريال)</label>
+          <input type="number" id="zakat-total" min="0" placeholder="مثال: 50000">
+        </div>
+        <div class="field">
+          <label for="zakat-debts">الديون المستحقة عليك (ريال)</label>
+          <input type="number" id="zakat-debts" min="0" placeholder="مثال: 0">
+        </div>
+      </div>
+      <button class="btn" id="zakat-btn">احسب الزكاة</button>
+      <div class="result" id="zakat-result" style="display:none;">
+        <div class="big" id="zakat-out"></div>
+      </div>
+      <p class="note">تجب الزكاة إذا بلغ المال النصاب (ما يعادل قيمة ٨٥ جراماً من الذهب تقريباً) ومرّ عليه حول هجري كامل. هذه الأداة للمساعدة الحسابية فقط، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.</p>
     </div>
   </section>
 
@@ -630,6 +747,180 @@ function downloadBlob(blob, filename){
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(url), 4000);
 }
+
+/* ============================================================
+   DARK / LIGHT MODE TOGGLE
+   ============================================================ */
+const themeToggleBtn = document.getElementById('themeToggle');
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  themeToggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('uddah-theme', theme);
+}
+applyTheme(localStorage.getItem('uddah-theme') || 'light');
+themeToggleBtn.addEventListener('click', ()=>{
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+/* ============================================================
+   UNIT CONVERTER
+   ============================================================ */
+const UNIT_DATA = {
+  length: {
+    label: 'الطول',
+    units: {m:'متر', km:'كيلومتر', cm:'سنتيمتر', mm:'مليمتر', mile:'ميل', yard:'ياردة', foot:'قدم', inch:'إنش'},
+    toBase: {m:1, km:1000, cm:0.01, mm:0.001, mile:1609.344, yard:0.9144, foot:0.3048, inch:0.0254}
+  },
+  weight: {
+    label: 'الوزن',
+    units: {kg:'كيلوجرام', g:'جرام', mg:'مليجرام', lb:'رطل', oz:'أونصة'},
+    toBase: {kg:1, g:0.001, mg:0.000001, lb:0.45359237, oz:0.028349523}
+  },
+  volume: {
+    label: 'الحجم',
+    units: {l:'لتر', ml:'مليلتر', gal:'جالون', cup:'كوب'},
+    toBase: {l:1, ml:0.001, gal:3.785411784, cup:0.24}
+  },
+  temperature: {
+    label: 'الحرارة',
+    units: {c:'مئوية', f:'فهرنهايت', k:'كلفن'}
+  }
+};
+
+function populateUnitSelects(){
+  const cat = document.getElementById('unit-category').value;
+  const fromSel = document.getElementById('unit-from');
+  const toSel = document.getElementById('unit-to');
+  fromSel.innerHTML = '';
+  toSel.innerHTML = '';
+  const units = UNIT_DATA[cat].units;
+  Object.keys(units).forEach((key, idx)=>{
+    const opt1 = document.createElement('option');
+    opt1.value = key; opt1.textContent = units[key];
+    const opt2 = opt1.cloneNode(true);
+    fromSel.appendChild(opt1);
+    toSel.appendChild(opt2);
+  });
+  if(toSel.options.length > 1) toSel.selectedIndex = 1;
+  document.getElementById('unit-result').style.display = 'none';
+}
+document.getElementById('unit-category').addEventListener('change', populateUnitSelects);
+populateUnitSelects();
+
+function convertTemperature(value, from, to){
+  let celsius;
+  if(from === 'c') celsius = value;
+  else if(from === 'f') celsius = (value - 32) * 5/9;
+  else celsius = value - 273.15;
+
+  if(to === 'c') return celsius;
+  if(to === 'f') return celsius * 9/5 + 32;
+  return celsius + 273.15;
+}
+
+document.getElementById('unit-btn').addEventListener('click', ()=>{
+  const cat = document.getElementById('unit-category').value;
+  const value = parseFloat(document.getElementById('unit-value').value);
+  const from = document.getElementById('unit-from').value;
+  const to = document.getElementById('unit-to').value;
+  const out = document.getElementById('unit-out');
+  const resultBox = document.getElementById('unit-result');
+  if(isNaN(value)){ return; }
+
+  let result;
+  if(cat === 'temperature'){
+    result = convertTemperature(value, from, to);
+  } else {
+    const data = UNIT_DATA[cat];
+    const baseValue = value * data.toBase[from];
+    result = baseValue / data.toBase[to];
+  }
+  const rounded = Math.round(result * 10000) / 10000;
+  out.textContent = `${rounded.toLocaleString('en-US')} ${UNIT_DATA[cat].units[to]}`;
+  resultBox.style.display = 'block';
+});
+
+/* ============================================================
+   CURRENCY CONVERTER
+   ============================================================ */
+const CURRENCY_LIST = {
+  sar:'ريال سعودي', usd:'دولار أمريكي', eur:'يورو', gbp:'جنيه إسترليني',
+  aed:'درهم إماراتي', kwd:'دينار كويتي', qar:'ريال قطري', bhd:'دينار بحريني',
+  omr:'ريال عماني', egp:'جنيه مصري', jod:'دينار أردني', try:'ليرة تركية',
+  inr:'روبية هندية', pkr:'روبية باكستانية', cny:'يوان صيني', jpy:'ين ياباني'
+};
+function populateCurrencySelects(){
+  const fromSel = document.getElementById('fx-from');
+  const toSel = document.getElementById('fx-to');
+  Object.keys(CURRENCY_LIST).forEach(code=>{
+    const o1 = document.createElement('option');
+    o1.value = code; o1.textContent = `${CURRENCY_LIST[code]} (${code.toUpperCase()})`;
+    const o2 = o1.cloneNode(true);
+    fromSel.appendChild(o1);
+    toSel.appendChild(o2);
+  });
+  fromSel.value = 'sar';
+  toSel.value = 'usd';
+}
+populateCurrencySelects();
+
+async function fetchRate(from){
+  const urls = [
+    `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${from}.json`,
+    `https://latest.currency-api.pages.dev/v1/currencies/${from}.json`
+  ];
+  let lastErr;
+  for(const url of urls){
+    try{
+      const res = await fetch(url);
+      if(!res.ok) throw new Error('bad response');
+      return await res.json();
+    }catch(e){ lastErr = e; }
+  }
+  throw lastErr;
+}
+
+document.getElementById('fx-btn').addEventListener('click', async ()=>{
+  const amount = parseFloat(document.getElementById('fx-amount').value);
+  const from = document.getElementById('fx-from').value;
+  const to = document.getElementById('fx-to').value;
+  const btn = document.getElementById('fx-btn');
+  const errBox = document.getElementById('fx-err');
+  const resultBox = document.getElementById('fx-result');
+  errBox.style.display = 'none';
+  resultBox.style.display = 'none';
+  if(isNaN(amount)) return;
+  setBusy(btn, true, 'جارٍ الجلب...', 'حوّل');
+  try{
+    const data = await fetchRate(from);
+    const rates = data[from];
+    const rate = rates[to];
+    if(!rate) throw new Error('missing rate');
+    const converted = amount * rate;
+    document.getElementById('fx-out').textContent =
+      `${amount.toLocaleString('en-US')} ${from.toUpperCase()} = ${converted.toLocaleString('en-US',{maximumFractionDigits:4})} ${to.toUpperCase()}`;
+    document.getElementById('fx-updated').textContent = `تاريخ آخر تحديث للأسعار: ${data.date || '—'}`;
+    resultBox.style.display = 'block';
+  }catch(e){
+    errBox.textContent = 'تعذر جلب أسعار الصرف الحالية — تأكد من اتصالك بالإنترنت وحاول مرة أخرى.';
+    errBox.style.display = 'block';
+  }
+  setBusy(btn, false, '', 'حوّل');
+});
+
+/* ============================================================
+   ZAKAT CALCULATOR
+   ============================================================ */
+document.getElementById('zakat-btn').addEventListener('click', ()=>{
+  const total = parseFloat(document.getElementById('zakat-total').value) || 0;
+  const debts = parseFloat(document.getElementById('zakat-debts').value) || 0;
+  const net = Math.max(0, total - debts);
+  const zakat = net * 0.025;
+  document.getElementById('zakat-out').textContent =
+    `${zakat.toLocaleString('en-US',{maximumFractionDigits:2})} ريال`;
+  document.getElementById('zakat-result').style.display = 'block';
+});
 
 /* --- File pickers with removable chips --- */
 function setupFilePicker(inputId, listId, multiple){
