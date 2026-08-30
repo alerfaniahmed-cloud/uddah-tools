@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   :root{
     --bg:#F7F5F0;
@@ -242,6 +243,7 @@
     <button data-tab="units">تحويل الوحدات</button>
     <button data-tab="money">العملات والزكاة</button>
     <button data-tab="inheritance">حاسبة المواريث</button>
+    <button data-tab="tools">أدوات متنوعة</button>
     <button data-tab="pdf">أدوات PDF</button>
   </nav>
 
@@ -596,6 +598,60 @@
       <div class="msg err" id="inh-err" style="display:none;"></div>
 
       <p class="note">تغطي هذه الأداة الحالات الشائعة والمركّبة وفق الرأي الراجح عند جمهور الفقهاء (بما في ذلك العول والرد)، ولا تشمل حالات نادرة مثل أبناء الابن كبديل عن ابن متوفى، أو بعض تفصيلات الخلاف الفقهي النادرة (كحالة الجد مع الإخوة عند بعض المذاهب). لتوزيع تركة حقيقية، يُنصح بشدة بمراجعة جهة شرعية مختصة أو كتابة العدل قبل اتخاذ أي إجراء، خصوصاً أن الموضوع يمس حقوقاً مالية حقيقية.</p>
+    </div>
+  </section>
+
+  <!-- ===================== TAB: MISC TOOLS (QR + PASSWORD) ===================== -->
+  <section class="panel" id="panel-tools">
+
+    <div class="card">
+      <h2>مولد رمز QR</h2>
+      <p class="hint">أدخل أي نص أو رابط، وسيتولّد رمز QR فوري تقدر تنزّله كصورة.</p>
+      <div class="field">
+        <label for="qr-input">النص أو الرابط</label>
+        <input type="text" id="qr-input" placeholder="مثال: https://example.com">
+      </div>
+      <button class="btn" id="qr-btn">توليد الرمز</button>
+      <div id="qr-output-wrap" style="display:none;margin-top:18px;text-align:center;">
+        <div id="qr-canvas-holder" style="display:inline-block;padding:16px;background:#fff;border-radius:8px;border:1px solid var(--border);"></div>
+        <div style="margin-top:14px;">
+          <button class="btn secondary" id="qr-download-btn">تنزيل كصورة PNG</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>مولد كلمات المرور</h2>
+      <p class="hint">اختر الطول والخصائص، وولّد كلمة مرور عشوائية قوية فوراً.</p>
+      <div class="field">
+        <label for="pw-length">طول الكلمة: <span id="pw-length-val">16</span></label>
+        <input type="range" id="pw-length" min="6" max="48" value="16" style="width:100%;">
+      </div>
+      <div class="row">
+        <label style="display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--bone);">
+          <input type="checkbox" id="pw-upper" checked> أحرف كبيرة (A-Z)
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--bone);">
+          <input type="checkbox" id="pw-lower" checked> أحرف صغيرة (a-z)
+        </label>
+      </div>
+      <div class="row" style="margin-top:10px;">
+        <label style="display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--bone);">
+          <input type="checkbox" id="pw-numbers" checked> أرقام (0-9)
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--bone);">
+          <input type="checkbox" id="pw-symbols" checked> رموز (!@#$...)
+        </label>
+      </div>
+      <button class="btn" id="pw-btn" style="margin-top:16px;">توليد كلمة مرور</button>
+      <div class="result" id="pw-result" style="display:none;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="big" id="pw-out" style="word-break:break-all;flex:1;"></div>
+          <button class="btn secondary" id="pw-copy-btn" style="flex:0 0 auto;padding:8px 14px;font-size:.82rem;">نسخ</button>
+        </div>
+        <p class="note" id="pw-strength"></p>
+      </div>
+      <div class="msg err" id="pw-err" style="display:none;"></div>
     </div>
   </section>
 
@@ -1374,6 +1430,110 @@ document.getElementById('inh-btn').addEventListener('click', ()=>{
   }
 
   resultBox.style.display = 'block';
+});
+
+/* ============================================================
+   QR CODE GENERATOR
+   ============================================================ */
+let currentQR = null;
+document.getElementById('qr-btn').addEventListener('click', ()=>{
+  const text = document.getElementById('qr-input').value.trim();
+  const holder = document.getElementById('qr-canvas-holder');
+  const wrap = document.getElementById('qr-output-wrap');
+  if(!text) return;
+  holder.innerHTML = '';
+  currentQR = new QRCode(holder, {
+    text: text,
+    width: 220,
+    height: 220,
+    colorDark: '#2B2A28',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+  wrap.style.display = 'block';
+});
+
+document.getElementById('qr-download-btn').addEventListener('click', ()=>{
+  const holder = document.getElementById('qr-canvas-holder');
+  const img = holder.querySelector('img');
+  const canvas = holder.querySelector('canvas');
+  const src = img ? img.src : (canvas ? canvas.toDataURL('image/png') : null);
+  if(!src) return;
+  const a = document.createElement('a');
+  a.href = src;
+  a.download = 'qr-code.png';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+});
+
+/* ============================================================
+   PASSWORD GENERATOR
+   ============================================================ */
+const pwLengthInput = document.getElementById('pw-length');
+const pwLengthVal = document.getElementById('pw-length-val');
+pwLengthInput.addEventListener('input', ()=>{ pwLengthVal.textContent = pwLengthInput.value; });
+
+function generatePassword(length, useUpper, useLower, useNumbers, useSymbols){
+  const sets = [];
+  if(useUpper) sets.push('ABCDEFGHJKLMNPQRSTUVWXYZ');
+  if(useLower) sets.push('abcdefghijkmnopqrstuvwxyz');
+  if(useNumbers) sets.push('23456789');
+  if(useSymbols) sets.push('!@#$%^&*()-_=+[]{}');
+  if(sets.length === 0) return null;
+
+  const allChars = sets.join('');
+  const array = new Uint32Array(length);
+  crypto.getRandomValues(array);
+  let result = '';
+  for(let i=0; i<length; i++){
+    result += allChars[array[i] % allChars.length];
+  }
+  // ensure at least one char from each selected set
+  const resultArr = result.split('');
+  sets.forEach((set, idx)=>{
+    const pos = crypto.getRandomValues(new Uint32Array(1))[0] % length;
+    resultArr[pos] = set[crypto.getRandomValues(new Uint32Array(1))[0] % set.length];
+  });
+  return resultArr.join('');
+}
+
+document.getElementById('pw-btn').addEventListener('click', ()=>{
+  const length = parseInt(pwLengthInput.value, 10);
+  const useUpper = document.getElementById('pw-upper').checked;
+  const useLower = document.getElementById('pw-lower').checked;
+  const useNumbers = document.getElementById('pw-numbers').checked;
+  const useSymbols = document.getElementById('pw-symbols').checked;
+  const errBox = document.getElementById('pw-err');
+  const resultBox = document.getElementById('pw-result');
+  errBox.style.display = 'none';
+
+  const pw = generatePassword(length, useUpper, useLower, useNumbers, useSymbols);
+  if(!pw){
+    errBox.textContent = 'اختر خاصية واحدة على الأقل (أحرف كبيرة، صغيرة، أرقام، أو رموز).';
+    errBox.style.display = 'block';
+    resultBox.style.display = 'none';
+    return;
+  }
+  document.getElementById('pw-out').textContent = pw;
+  let strength = 'ضعيفة';
+  let setsUsed = [useUpper,useLower,useNumbers,useSymbols].filter(Boolean).length;
+  if(length >= 12 && setsUsed >= 3) strength = 'قوية جداً';
+  else if(length >= 10 && setsUsed >= 2) strength = 'قوية';
+  else if(length >= 8) strength = 'متوسطة';
+  document.getElementById('pw-strength').textContent = `قوة الكلمة: ${strength}`;
+  resultBox.style.display = 'block';
+});
+
+document.getElementById('pw-copy-btn').addEventListener('click', ()=>{
+  const pw = document.getElementById('pw-out').textContent;
+  if(!pw) return;
+  navigator.clipboard.writeText(pw).then(()=>{
+    const btn = document.getElementById('pw-copy-btn');
+    const original = btn.textContent;
+    btn.textContent = 'تم النسخ ✓';
+    setTimeout(()=>{ btn.textContent = original; }, 1500);
+  });
 });
 
 /* --- Gold/Silver Zakat --- */
