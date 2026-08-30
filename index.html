@@ -582,7 +582,7 @@
             <tr style="border-bottom:1px solid var(--border);">
               <th style="text-align:right;padding:8px 4px;color:var(--bone-dim);font-weight:600;">الوارث</th>
               <th style="text-align:right;padding:8px 4px;color:var(--bone-dim);font-weight:600;">النسبة</th>
-              <th style="text-align:right;padding:8px 4px;color:var(--bone-dim);font-weight:600;">المبلغ (ريال)</th>
+              <th style="text-align:right;padding:8px 4px;color:var(--bone-dim);font-weight:600;" id="inh-amount-header">المبلغ (ريال)</th>
             </tr>
           </thead>
           <tbody id="inh-table-body"></tbody>
@@ -1301,6 +1301,7 @@ let inhShowFraction = true;
 function renderInheritanceTable(){
   if(!lastInheritanceResult) return;
   const { shares, estate, unit } = lastInheritanceResult;
+  document.getElementById('inh-amount-header').textContent = `الكمية (${unit})`;
   const tbody = document.getElementById('inh-table-body');
   tbody.innerHTML = '';
   shares.forEach(s=>{
