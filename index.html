@@ -588,6 +588,10 @@
           <tbody id="inh-table-body"></tbody>
         </table>
         <p class="note" id="inh-adjustment-note"></p>
+        <div id="inh-blocked-box" style="display:none;margin-top:14px;padding:14px 16px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:8px;">
+          <p style="margin:0 0 8px;font-weight:600;font-size:.88rem;color:var(--bone);">ورثة محجوبون (لا يرثون في هذه الحالة)</p>
+          <ul id="inh-blocked-list" style="margin:0;padding-inline-start:20px;font-size:.85rem;color:var(--bone-dim);"></ul>
+        </div>
       </div>
       <div class="msg err" id="inh-err" style="display:none;"></div>
 
@@ -1124,12 +1128,39 @@ function calcInheritance(input){
   const maternalSiblingsBlocked = hasChild || hasFatherOrGF;
   const fullOrPaternalSiblingsBlocked = hasSon || hasFatherOrGF;
 
+  const blocked = [];
+
+  // Grandfather blocked by living father
+  if(fatherPresent && input.grandfatherAlive){
+    blocked.push({label:'الجد لأب', reason:'الأب'});
+  }
+  // Grandmother(s) blocked by living mother
+  if(motherPresent && input.grandmothers > 0){
+    blocked.push({label: input.grandmothers>1 ? 'الجدات' : 'الجدة', reason:'الأم'});
+  }
+
   let effFullBrothers = fullOrPaternalSiblingsBlocked ? 0 : input.fullBrothers;
   let effFullSisters = fullOrPaternalSiblingsBlocked ? 0 : input.fullSisters;
   let effPaternalBrothers = fullOrPaternalSiblingsBlocked ? 0 : input.paternalBrothers;
   let effPaternalSisters = fullOrPaternalSiblingsBlocked ? 0 : input.paternalSisters;
+
+  if(fullOrPaternalSiblingsBlocked){
+    const reason = hasSon ? 'الابن' : (fatherPresent ? 'الأب' : 'الجد لأب');
+    if(input.fullBrothers>0) blocked.push({label: input.fullBrothers>1?`الإخوة الأشقاء (${input.fullBrothers})`:'الأخ الشقيق', reason});
+    if(input.fullSisters>0) blocked.push({label: input.fullSisters>1?`الأخوات الشقيقات (${input.fullSisters})`:'الأخت الشقيقة', reason});
+    if(input.paternalBrothers>0) blocked.push({label: input.paternalBrothers>1?`الإخوة لأب (${input.paternalBrothers})`:'الأخ لأب', reason});
+    if(input.paternalSisters>0) blocked.push({label: input.paternalSisters>1?`الأخوات لأب (${input.paternalSisters})`:'الأخت لأب', reason});
+  } else if((effFullBrothers > 0 || effFullSisters > 0)){
+    if(input.paternalBrothers>0) blocked.push({label: input.paternalBrothers>1?`الإخوة لأب (${input.paternalBrothers})`:'الأخ لأب', reason:'وجود إخوة/أخوات أشقاء'});
+    if(input.paternalSisters>0) blocked.push({label: input.paternalSisters>1?`الأخوات لأب (${input.paternalSisters})`:'الأخت لأب', reason:'وجود إخوة/أخوات أشقاء'});
+  }
   if(effFullBrothers > 0 || effFullSisters > 0){ effPaternalBrothers = 0; effPaternalSisters = 0; }
+
   let effMaternalSiblings = maternalSiblingsBlocked ? 0 : input.maternalSiblings;
+  if(maternalSiblingsBlocked && input.maternalSiblings > 0){
+    const reason = hasChild ? 'وجود فرع وارث (أبناء/بنات)' : (fatherPresent ? 'الأب' : 'الجد لأب');
+    blocked.push({label: input.maternalSiblings>1?`الإخوة/الأخوات لأم (${input.maternalSiblings})`:'الأخ/الأخت لأم', reason});
+  }
 
   const shares = [];
 
@@ -1261,7 +1292,7 @@ function calcInheritance(input){
     }
   }
 
-  return {shares, note};
+  return {shares, note, blocked};
 }
 
 let lastInheritanceResult = null;
@@ -1320,7 +1351,7 @@ document.getElementById('inh-btn').addEventListener('click', ()=>{
     return;
   }
 
-  const { shares, note } = calcInheritance(input);
+  const { shares, note, blocked } = calcInheritance(input);
 
   if(shares.length === 0){
     errBox.textContent = 'لم يتم إدخال أي وارث. أدخل بيانات الورثة أولاً.';
@@ -1331,6 +1362,16 @@ document.getElementById('inh-btn').addEventListener('click', ()=>{
   lastInheritanceResult = { shares, estate, unit };
   renderInheritanceTable();
   document.getElementById('inh-adjustment-note').textContent = note;
+
+  const blockedBox = document.getElementById('inh-blocked-box');
+  const blockedList = document.getElementById('inh-blocked-list');
+  if(blocked.length > 0){
+    blockedList.innerHTML = blocked.map(b => `<li>${b.label} — محجوب بـ${b.reason}</li>`).join('');
+    blockedBox.style.display = 'block';
+  } else {
+    blockedBox.style.display = 'none';
+  }
+
   resultBox.style.display = 'block';
 });
 
