@@ -1300,28 +1300,32 @@ function calcInheritance(input){
 
   // Asaba (residuary) determination
   let asabaEntries = [];
+  let mixedGenderAsaba = false;
   if(hasSon){
     asabaEntries.push({label: input.sons>1?`الأبناء (${input.sons})`:'الابن', weight: input.sons*2});
-    if(hasDaughter) asabaEntries.push({label: input.daughters>1?`البنات مع الأبناء`:'البنت مع الأبناء', weight: input.daughters*1});
+    if(hasDaughter){ asabaEntries.push({label: input.daughters>1?`البنات (نصيبهن الكامل، نصف نصيب كل ابن)`:'البنت (نصيبها الكامل، نصف نصيب الابن)', weight: input.daughters*1}); mixedGenderAsaba = true; }
   } else if(fatherOrGfIsResidualCandidate){
     asabaEntries.push({label: (fatherPresent?'الأب':'الجد لأب') + ' (فاضل)', weight:1});
   } else if(effFullBrothers>0 || (effFullSisters>0 && hasDaughter && !fullSistersAsFixed)){
     if(effFullBrothers>0){
       asabaEntries.push({label: effFullBrothers>1?`الإخوة الأشقاء (${effFullBrothers})`:'الأخ الشقيق', weight: effFullBrothers*2});
-      if(effFullSisters>0) asabaEntries.push({label: effFullSisters>1?`الأخوات الشقيقات مع الإخوة`:'الأخت الشقيقة مع الإخوة', weight: effFullSisters*1});
+      if(effFullSisters>0){ asabaEntries.push({label: effFullSisters>1?`الأخوات الشقيقات (نصيبهن الكامل، نصف نصيب كل أخ)`:'الأخت الشقيقة (نصيبها الكامل، نصف نصيب الأخ)', weight: effFullSisters*1}); mixedGenderAsaba = true; }
     } else {
-      asabaEntries.push({label: effFullSisters>1?`الأخوات الشقيقات مع البنات (${effFullSisters})`:'الأخت الشقيقة مع البنات', weight: effFullSisters});
+      asabaEntries.push({label: effFullSisters>1?`الأخوات الشقيقات مع البنات (${effFullSisters})`:'الأخت الشقيقة مع البنات (نصيبها الكامل)', weight: effFullSisters});
     }
   } else if(effPaternalBrothers>0 || (effPaternalSisters>0 && hasDaughter && !paternalSistersAsFixed && effFullSisters===0 && effFullBrothers===0)){
     if(effPaternalBrothers>0){
       asabaEntries.push({label: effPaternalBrothers>1?`الإخوة لأب (${effPaternalBrothers})`:'الأخ لأب', weight: effPaternalBrothers*2});
-      if(effPaternalSisters>0) asabaEntries.push({label: effPaternalSisters>1?`الأخوات لأب مع الإخوة`:'الأخت لأب مع الإخوة', weight: effPaternalSisters*1});
+      if(effPaternalSisters>0){ asabaEntries.push({label: effPaternalSisters>1?`الأخوات لأب (نصيبهن الكامل، نصف نصيب كل أخ)`:'الأخت لأب (نصيبها الكامل، نصف نصيب الأخ)', weight: effPaternalSisters*1}); mixedGenderAsaba = true; }
     } else {
-      asabaEntries.push({label: effPaternalSisters>1?`الأخوات لأب مع البنات (${effPaternalSisters})`:'الأخت لأب مع البنات', weight: effPaternalSisters});
+      asabaEntries.push({label: effPaternalSisters>1?`الأخوات لأب مع البنات (${effPaternalSisters})`:'الأخت لأب مع البنات (نصيبها الكامل)', weight: effPaternalSisters});
     }
   }
   const hasAsaba = asabaEntries.length>0;
   let note = '';
+  if(mixedGenderAsaba){
+    note = 'الأنصبة الظاهرة أعلاه للذكور والإناث الوارثين معاً هي أنصبتهم الكاملة والنهائية (بعد اقتسام الباقي من التركة بينهم، حيث يأخذ كل ذكر ضعف نصيب كل أنثى) — وليست أجزاءً ناقصة يتبقى منها شيء آخر.';
+  }
 
   if(remaining.n < 0){
     const scale = F(totalFixed.d, totalFixed.n);
