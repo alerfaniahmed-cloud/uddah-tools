@@ -11,6 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root{
     --bg:#F7F5F0;
@@ -188,7 +189,12 @@
     background:var(--rust);color:#fff;font-size:.85rem;line-height:1;cursor:pointer;
     display:flex;align-items:center;justify-content:center;padding:0;
   }
-  .file-chip-remove:hover{background:#8A3D1F;}
+  .pdf-export-btn{
+    display:block;margin-top:12px;font-size:.78rem;padding:6px 14px;
+    background:transparent;border:1px solid var(--border);color:var(--bone-dim);
+    border-radius:6px;cursor:pointer;
+  }
+  .pdf-export-btn:hover{border-color:var(--brass);color:var(--brass-light);}
 
   .spin{
     display:inline-block;width:14px;height:14px;border-radius:50%;
@@ -260,6 +266,7 @@
       <button class="btn" id="g2h-btn">حوّل إلى هجري</button>
       <div class="result" id="g2h-result" style="display:none;">
         <div class="big" id="g2h-out"></div>
+        <button type="button" class="pdf-export-btn" data-export="g2h">تنزيل PDF</button>
       </div>
     </div>
 
@@ -290,6 +297,7 @@
       <button class="btn" id="h2g-btn">حوّل إلى ميلادي</button>
       <div class="result" id="h2g-result" style="display:none;">
         <div class="big" id="h2g-out"></div>
+        <button type="button" class="pdf-export-btn" data-export="h2g">تنزيل PDF</button>
       </div>
       <div class="msg err" id="h2g-err" style="display:none;"></div>
     </div>
@@ -321,6 +329,7 @@
           <div><div class="n" id="diff-d">0</div><div class="l">يوم</div></div>
         </div>
         <p class="note" id="diff-total"></p>
+        <button type="button" class="pdf-export-btn" data-export="diff">تنزيل PDF</button>
       </div>
     </div>
 
@@ -335,6 +344,7 @@
       <div class="result" id="fromtoday-result" style="display:none;">
         <div class="big" id="fromtoday-out"></div>
         <p class="note" id="fromtoday-sub"></p>
+        <button type="button" class="pdf-export-btn" data-export="fromtoday">تنزيل PDF</button>
       </div>
     </div>
 
@@ -360,6 +370,7 @@
           <div><div class="n" id="age-hd">0</div><div class="l">يوم</div></div>
         </div>
         <p class="note" id="age-total"></p>
+        <button type="button" class="pdf-export-btn" data-export="age">تنزيل PDF</button>
       </div>
     </div>
   </section>
@@ -396,6 +407,7 @@
       <button class="btn" id="unit-btn">حوّل</button>
       <div class="result" id="unit-result" style="display:none;">
         <div class="big" id="unit-out"></div>
+        <button type="button" class="pdf-export-btn" data-export="unit">تنزيل PDF</button>
       </div>
     </div>
   </section>
@@ -424,6 +436,7 @@
       <div class="result" id="fx-result" style="display:none;">
         <div class="big" id="fx-out"></div>
         <p class="note" id="fx-updated"></p>
+        <button type="button" class="pdf-export-btn" data-export="fx">تنزيل PDF</button>
       </div>
       <div class="msg err" id="fx-err" style="display:none;"></div>
     </div>
@@ -444,6 +457,7 @@
       <button class="btn" id="zakat-btn">احسب الزكاة</button>
       <div class="result" id="zakat-result" style="display:none;">
         <div class="big" id="zakat-out"></div>
+        <button type="button" class="pdf-export-btn" data-export="zakat">تنزيل PDF</button>
       </div>
       <p class="note">تجب الزكاة إذا بلغ المال النصاب (ما يعادل قيمة ٨٥ جراماً من الذهب تقريباً) ومرّ عليه حول هجري كامل. هذه الأداة للمساعدة الحسابية فقط، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.</p>
     </div>
@@ -472,6 +486,7 @@
       <div class="result" id="goldzakat-result" style="display:none;">
         <div class="big" id="goldzakat-out"></div>
         <p class="note" id="goldzakat-sub"></p>
+        <button type="button" class="pdf-export-btn" data-export="goldzakat">تنزيل PDF</button>
       </div>
       <p class="note">هذه الأداة للمساعدة الحسابية فقط بناءً على السعر الذي تدخله، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.</p>
     </div>
@@ -594,6 +609,7 @@
           <p style="margin:0 0 8px;font-weight:600;font-size:.88rem;color:var(--bone);">ورثة محجوبون (لا يرثون في هذه الحالة)</p>
           <ul id="inh-blocked-list" style="margin:0;padding-inline-start:20px;font-size:.85rem;color:var(--bone-dim);"></ul>
         </div>
+        <button type="button" class="pdf-export-btn" data-export="inheritance" style="margin-top:14px;">تنزيل PDF</button>
       </div>
       <div class="msg err" id="inh-err" style="display:none;"></div>
 
@@ -723,6 +739,46 @@
       </div>
       <button class="btn" id="compress-btn">ضغط وتنزيل</button>
       <div id="compress-status"></div>
+    </div>
+
+    <div class="card">
+      <h2>توقيع إلكتروني على PDF</h2>
+      <p class="hint">ارسم توقيعك بإصبعك أو الماوس، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
+      <div class="field">
+        <input type="file" id="sign-file" accept="application/pdf">
+        <div class="file-list" id="sign-file-list"></div>
+      </div>
+
+      <div class="field">
+        <label>ارسم توقيعك هنا</label>
+        <canvas id="sign-canvas" width="600" height="180" style="width:100%;max-width:500px;height:150px;background:var(--bg-elev-2);border:1px dashed var(--steel);border-radius:8px;touch-action:none;cursor:crosshair;display:block;"></canvas>
+        <button type="button" class="btn secondary" id="sign-clear-btn" style="margin-top:8px;padding:8px 16px;font-size:.82rem;">مسح التوقيع</button>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="sign-page">رقم الصفحة</label>
+          <input type="number" id="sign-page" min="1" value="1" placeholder="آخر صفحة افتراضياً">
+        </div>
+        <div class="field">
+          <label for="sign-size">حجم التوقيع (نقطة PDF)</label>
+          <input type="number" id="sign-size" min="40" max="400" value="150">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="sign-x">الموضع الأفقي: <span id="sign-x-val">70</span>٪ (من اليسار)</label>
+          <input type="range" id="sign-x" min="0" max="100" value="70" style="width:100%;">
+        </div>
+        <div class="field">
+          <label for="sign-y">الموضع الرأسي: <span id="sign-y-val">10</span>٪ (من الأسفل)</label>
+          <input type="range" id="sign-y" min="0" max="100" value="10" style="width:100%;">
+        </div>
+      </div>
+
+      <button class="btn" id="sign-btn" style="margin-top:14px;">إضافة التوقيع وتنزيل</button>
+      <div id="sign-status"></div>
+      <p class="note">التوقيع يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو توقيعك لأي سيرفر خارجي.</p>
     </div>
 
     <p class="note">جميع أدوات PDF تعمل بالكامل داخل متصفحك — لا تُرفع ملفاتك لأي سيرفر، وتحويل الصيغ إلى Word أو Excel بدقة عالية يحتاج معالجة خارج المتصفح وسيُضاف لاحقاً كخدمة منفصلة.</p>
@@ -1562,6 +1618,132 @@ document.getElementById('goldzakat-btn').addEventListener('click', ()=>{
   document.getElementById('goldzakat-result').style.display = 'block';
 });
 
+/* ============================================================
+   PDF EXPORT FOR RESULTS
+   ============================================================ */
+function buildPrintableHTML(title, rows, note){
+  const rowsHTML = rows.map(r => `
+    <tr>
+      <td style="padding:10px 8px;border-bottom:1px solid #E3DDCF;font-size:14px;color:#2B2A28;">${r.label}</td>
+      <td style="padding:10px 8px;border-bottom:1px solid #E3DDCF;font-size:14px;font-family:'IBM Plex Mono',monospace;font-weight:600;color:#2B2A28;">${r.value}</td>
+    </tr>`).join('');
+  const todayStr = new Date().toLocaleDateString('ar-SA-u-nu-latn',{year:'numeric',month:'long',day:'numeric'});
+  return `
+    <div style="width:650px;background:#ffffff;padding:32px;font-family:'IBM Plex Sans Arabic',sans-serif;direction:rtl;color:#2B2A28;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+        <div style="width:32px;height:32px;border:2px solid #B8863B;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#8B6428;font-weight:700;font-size:16px;transform:rotate(-6deg);">ع</div>
+        <div style="font-size:22px;font-weight:700;">عُدّة</div>
+      </div>
+      <div style="font-size:13px;color:#6B6559;margin-bottom:20px;">${title} — ${todayStr}</div>
+      <table style="width:100%;border-collapse:collapse;">${rowsHTML}</table>
+      ${note ? `<p style="font-size:12px;color:#6B6559;margin-top:18px;line-height:1.7;">${note}</p>` : ''}
+      <div style="margin-top:24px;padding-top:12px;border-top:1px solid #E3DDCF;font-size:11px;color:#B7AF9F;text-align:center;">تم إنشاؤه بواسطة موقع عُدّة — uddah-tools</div>
+    </div>`;
+}
+
+async function exportPDF(title, rows, note, filename){
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;';
+  wrapper.innerHTML = buildPrintableHTML(title, rows, note);
+  document.body.appendChild(wrapper);
+  try{
+    const canvas = await html2canvas(wrapper, {scale:2, backgroundColor:'#ffffff'});
+    const imgData = canvas.toDataURL('image/png');
+    const pdfDoc = await PDFDocument.create();
+    const pngImage = await pdfDoc.embedPng(imgData);
+    const pageWidth = 595.28;
+    const scaleFactor = pageWidth / canvas.width;
+    const pageHeight = canvas.height * scaleFactor;
+    const page = pdfDoc.addPage([pageWidth, pageHeight]);
+    page.drawImage(pngImage, {x:0, y:0, width:pageWidth, height:pageHeight});
+    const pdfBytes = await pdfDoc.save();
+    downloadBlob(new Blob([pdfBytes], {type:'application/pdf'}), filename);
+  } finally {
+    document.body.removeChild(wrapper);
+  }
+}
+
+function collectRowsFor(exportKey){
+  switch(exportKey){
+    case 'g2h': return { title:'تحويل ميلادي إلى هجري', rows:[
+      {label:'التاريخ الميلادي', value: document.getElementById('g2h-input').value || '—'},
+      {label:'التاريخ الهجري', value: document.getElementById('g2h-out').textContent}
+    ]};
+    case 'h2g': return { title:'تحويل هجري إلى ميلادي', rows:[
+      {label:'التاريخ الهجري', value: `${document.getElementById('h2g-day').value}/${document.getElementById('h2g-month').selectedOptions[0].textContent}/${document.getElementById('h2g-year').value}`},
+      {label:'التاريخ الميلادي', value: document.getElementById('h2g-out').textContent}
+    ]};
+    case 'diff': return { title:'الفرق بين تاريخين', rows:[
+      {label:'التاريخ الأول', value: document.getElementById('diff-a').value},
+      {label:'التاريخ الثاني', value: document.getElementById('diff-b').value},
+      {label:'السنوات', value: document.getElementById('diff-y').textContent},
+      {label:'الأشهر', value: document.getElementById('diff-m').textContent},
+      {label:'الأيام', value: document.getElementById('diff-d').textContent},
+      {label:'إجمالي الأيام', value: document.getElementById('diff-total').textContent}
+    ]};
+    case 'fromtoday': return { title:'عدد الأيام من تاريخ إلى اليوم', rows:[
+      {label:'التاريخ', value: document.getElementById('fromtoday-input').value},
+      {label:'النتيجة', value: document.getElementById('fromtoday-out').textContent},
+      {label:'التفصيل', value: document.getElementById('fromtoday-sub').textContent}
+    ]};
+    case 'age': return { title:'حساب العمر', rows:[
+      {label:'تاريخ الميلاد', value: document.getElementById('age-input').value},
+      {label:'العمر بالميلادي', value: `${document.getElementById('age-gy').textContent} سنة، ${document.getElementById('age-gm').textContent} شهر، ${document.getElementById('age-gd').textContent} يوم`},
+      {label:'العمر بالهجري', value: `${document.getElementById('age-hy').textContent} سنة، ${document.getElementById('age-hm').textContent} شهر، ${document.getElementById('age-hd').textContent} يوم`},
+      {label:'إجمالي الأيام', value: document.getElementById('age-total').textContent}
+    ]};
+    case 'unit': return { title:'تحويل الوحدات', rows:[
+      {label:'القيمة الأصلية', value: `${document.getElementById('unit-value').value} ${document.getElementById('unit-from').selectedOptions[0].textContent}`},
+      {label:'النتيجة', value: document.getElementById('unit-out').textContent}
+    ]};
+    case 'fx': return { title:'حاسبة العملات', rows:[
+      {label:'النتيجة', value: document.getElementById('fx-out').textContent},
+      {label:'التحديث', value: document.getElementById('fx-updated').textContent}
+    ]};
+    case 'zakat': return { title:'حاسبة الزكاة', rows:[
+      {label:'إجمالي المال', value: document.getElementById('zakat-total').value + ' ريال'},
+      {label:'الديون', value: (document.getElementById('zakat-debts').value || '0') + ' ريال'},
+      {label:'الزكاة الواجبة', value: document.getElementById('zakat-out').textContent}
+    ]};
+    case 'goldzakat': return { title:'زكاة الذهب والفضة', rows:[
+      {label:'النوع', value: document.getElementById('goldzakat-type').selectedOptions[0].textContent},
+      {label:'الوزن', value: document.getElementById('goldzakat-weight').value + ' جرام'},
+      {label:'سعر الجرام', value: document.getElementById('goldzakat-price').value + ' ريال'},
+      {label:'النتيجة', value: document.getElementById('goldzakat-out').textContent},
+      {label:'التفصيل', value: document.getElementById('goldzakat-sub').textContent}
+    ]};
+    case 'inheritance': {
+      const rows = lastInheritanceResult ? lastInheritanceResult.shares.map(s=>({
+        label: s.label,
+        value: `${s.fraction.toFractionString()}  —  ${(s.fraction.toNumber()*lastInheritanceResult.estate).toLocaleString('en-US',{maximumFractionDigits:2})} ${lastInheritanceResult.unit}`
+      })) : [];
+      const blockedText = document.getElementById('inh-blocked-list').textContent.trim();
+      let note = document.getElementById('inh-adjustment-note').textContent;
+      if(blockedText) note += (note ? ' | ' : '') + 'ورثة محجوبون: ' + blockedText;
+      return { title:'حاسبة المواريث', rows, note };
+    }
+    default: return null;
+  }
+}
+
+document.querySelectorAll('.pdf-export-btn').forEach(btn=>{
+  btn.addEventListener('click', async ()=>{
+    const key = btn.dataset.export;
+    const data = collectRowsFor(key);
+    if(!data) return;
+    const original = btn.textContent;
+    btn.textContent = 'جارٍ التجهيز...';
+    btn.disabled = true;
+    try{
+      await exportPDF(data.title, data.rows, data.note || '', `عدة-${data.title}.pdf`);
+    }catch(e){
+      alert('تعذر تنزيل الملف، حاول مرة أخرى.');
+    }
+    btn.textContent = original;
+    btn.disabled = false;
+  });
+});
+
 /* --- File pickers with removable chips --- */
 function setupFilePicker(inputId, listId, multiple){
   const input = document.getElementById(inputId);
@@ -1607,6 +1789,7 @@ setupFilePicker('extract-file', 'extract-file-list', false);
 setupFilePicker('img2pdf-files', 'img2pdf-files-list', true);
 setupFilePicker('pdf2img-file', 'pdf2img-file-list', false);
 setupFilePicker('compress-file', 'compress-file-list', false);
+setupFilePicker('sign-file', 'sign-file-list', false);
 
 /* --- Merge --- */
 document.getElementById('merge-btn').addEventListener('click', async ()=>{
@@ -1757,6 +1940,98 @@ document.getElementById('compress-btn').addEventListener('click', async ()=>{
     setStatus('compress-status','تعذر ضغط الملف — تأكد أنه PDF صحيح.','err');
   }
   setBusy(btn, false, '', 'ضغط وتنزيل');
+});
+
+/* --- Electronic Signature --- */
+const signCanvas = document.getElementById('sign-canvas');
+const signCtx = signCanvas.getContext('2d');
+signCtx.strokeStyle = '#2B2A28';
+signCtx.lineWidth = 3;
+signCtx.lineCap = 'round';
+signCtx.lineJoin = 'round';
+let signDrawing = false;
+let signHasContent = false;
+
+function signCanvasPos(evt){
+  const rect = signCanvas.getBoundingClientRect();
+  const scaleX = signCanvas.width / rect.width;
+  const scaleY = signCanvas.height / rect.height;
+  const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+  const clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
+  return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+}
+function signStart(evt){
+  evt.preventDefault();
+  signDrawing = true;
+  const p = signCanvasPos(evt);
+  signCtx.beginPath();
+  signCtx.moveTo(p.x, p.y);
+}
+function signMove(evt){
+  if(!signDrawing) return;
+  evt.preventDefault();
+  const p = signCanvasPos(evt);
+  signCtx.lineTo(p.x, p.y);
+  signCtx.stroke();
+  signHasContent = true;
+}
+function signEnd(){ signDrawing = false; }
+
+signCanvas.addEventListener('mousedown', signStart);
+signCanvas.addEventListener('mousemove', signMove);
+window.addEventListener('mouseup', signEnd);
+signCanvas.addEventListener('touchstart', signStart, {passive:false});
+signCanvas.addEventListener('touchmove', signMove, {passive:false});
+signCanvas.addEventListener('touchend', signEnd);
+
+document.getElementById('sign-clear-btn').addEventListener('click', ()=>{
+  signCtx.clearRect(0, 0, signCanvas.width, signCanvas.height);
+  signHasContent = false;
+});
+
+const signXInput = document.getElementById('sign-x');
+const signYInput = document.getElementById('sign-y');
+signXInput.addEventListener('input', ()=>{ document.getElementById('sign-x-val').textContent = signXInput.value; });
+signYInput.addEventListener('input', ()=>{ document.getElementById('sign-y-val').textContent = signYInput.value; });
+
+document.getElementById('sign-btn').addEventListener('click', async ()=>{
+  const file = document.getElementById('sign-file').files[0];
+  const btn = document.getElementById('sign-btn');
+  if(!file){ setStatus('sign-status','اختر ملف PDF أولاً.','err'); return; }
+  if(!signHasContent){ setStatus('sign-status','ارسم توقيعك أولاً بالمربع بالأعلى.','err'); return; }
+
+  setBusy(btn, true, 'جارٍ الإضافة...', 'إضافة التوقيع وتنزيل');
+  try{
+    const pdfBytes = await file.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const pages = pdfDoc.getPages();
+
+    let pageNum = parseInt(document.getElementById('sign-page').value, 10);
+    if(!pageNum || pageNum < 1 || pageNum > pages.length) pageNum = pages.length;
+    const targetPage = pages[pageNum - 1];
+    const { width: pw, height: ph } = targetPage.getSize();
+
+    const signaturePngDataUrl = signCanvas.toDataURL('image/png');
+    const signatureBytes = await (await fetch(signaturePngDataUrl)).arrayBuffer();
+    const sigImage = await pdfDoc.embedPng(signatureBytes);
+
+    const sigWidth = parseFloat(document.getElementById('sign-size').value) || 150;
+    const sigHeight = sigWidth * (signCanvas.height / signCanvas.width);
+
+    const xPct = parseFloat(signXInput.value) / 100;
+    const yPct = parseFloat(signYInput.value) / 100;
+    const x = xPct * (pw - sigWidth);
+    const y = yPct * (ph - sigHeight);
+
+    targetPage.drawImage(sigImage, { x, y, width: sigWidth, height: sigHeight });
+
+    const outBytes = await pdfDoc.save();
+    downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'موقّع.pdf');
+    setStatus('sign-status', `تم إضافة التوقيع بنجاح على الصفحة ${pageNum}.`, 'ok');
+  }catch(e){
+    setStatus('sign-status','تعذر إضافة التوقيع — تأكد أن الملف PDF صحيح.','err');
+  }
+  setBusy(btn, false, '', 'إضافة التوقيع وتنزيل');
 });
 </script>
 </body>
