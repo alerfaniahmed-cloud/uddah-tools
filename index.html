@@ -11,6 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root{
@@ -713,7 +714,7 @@
 
     <div class="card">
       <h2>تحويل PDF إلى صور</h2>
-      <p class="hint">اختر ملف PDF وسيتم تحويل كل صفحة إلى صورة PNG منفصلة يتم تنزيلها تلقائياً.</p>
+      <p class="hint">اختر ملف PDF وسيتم تحويل كل صفحة إلى صورة PNG، وتنزيلها كلها داخل ملف مضغوط (ZIP) واحد.</p>
       <div class="field">
         <input type="file" id="pdf2img-file" accept="application/pdf">
         <div class="file-list" id="pdf2img-file-list"></div>
@@ -1946,6 +1947,7 @@ document.getElementById('pdf2img-btn').addEventListener('click', async ()=>{
   try{
     const bytes = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({data: bytes}).promise;
+    const zip = new JSZip();
     for(let i=1; i<=pdf.numPages; i++){
       const page = await pdf.getPage(i);
       const viewport = page.getViewport({scale: 2});
@@ -1954,10 +1956,11 @@ document.getElementById('pdf2img-btn').addEventListener('click', async ()=>{
       const ctx = canvas.getContext('2d');
       await page.render({canvasContext: ctx, viewport}).promise;
       const blob = await new Promise(res=>canvas.toBlob(res, 'image/png'));
-      downloadBlob(blob, `صفحة_${i}.png`);
-      await new Promise(r=>setTimeout(r, 250)); // avoid browser blocking rapid downloads
+      zip.file(`صفحة_${i}.png`, blob);
     }
-    setStatus('pdf2img-status',`تم تحويل ${pdf.numPages} صفحة بنجاح.`,'ok');
+    const zipBlob = await zip.generateAsync({type:'blob'});
+    downloadBlob(zipBlob, 'صفحات_PDF.zip');
+    setStatus('pdf2img-status',`تم تحويل ${pdf.numPages} صفحة بنجاح داخل ملف مضغوط واحد.`,'ok');
   }catch(e){
     setStatus('pdf2img-status','تعذر تحويل الملف — تأكد أنه PDF صحيح.','err');
   }
