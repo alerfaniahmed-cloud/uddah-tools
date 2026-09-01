@@ -251,6 +251,7 @@
     <button data-tab="money">العملات والزكاة</button>
     <button data-tab="inheritance">حاسبة المواريث</button>
     <button data-tab="tools">أدوات متنوعة</button>
+    <button data-tab="voice">الصوت والنص</button>
     <button data-tab="pdf">أدوات PDF</button>
   </nav>
 
@@ -669,6 +670,55 @@
         <p class="note" id="pw-strength"></p>
       </div>
       <div class="msg err" id="pw-err" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- ===================== TAB: VOICE (STT + TTS) ===================== -->
+  <section class="panel" id="panel-voice">
+
+    <div class="card">
+      <h2>تحويل الصوت إلى نص</h2>
+      <p class="hint">اضغط "ابدأ التسجيل" وتكلم — النص يظهر مباشرة أثناء الكلام، وتقدر تعدّله أو تنسخه بعدها.</p>
+      <div class="field">
+        <label for="stt-lang">اللغة</label>
+        <select id="stt-lang">
+          <option value="ar-SA">العربية</option>
+          <option value="en-US">الإنجليزية</option>
+        </select>
+      </div>
+      <button class="btn" id="stt-btn">ابدأ التسجيل 🎙️</button>
+      <div class="field" style="margin-top:16px;">
+        <label for="stt-output">النص</label>
+        <textarea id="stt-output" rows="6" placeholder="سيظهر النص هنا أثناء الكلام..." style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
+      </div>
+      <div class="row">
+        <button class="btn secondary" id="stt-copy-btn" style="padding:9px 18px;font-size:.85rem;">نسخ النص</button>
+        <button class="btn secondary" id="stt-clear-btn" style="padding:9px 18px;font-size:.85rem;">مسح</button>
+      </div>
+      <div class="msg err" id="stt-support-msg" style="display:none;">هذه الميزة غير مدعومة بالكامل بمتصفحك الحالي — جرّب Chrome أو Edge للحصول على أفضل دعم.</div>
+      <p class="note">التسجيل والتفريغ يتمّان داخل متصفحك مباشرة عبر خدمة تعرّف الصوت المدمجة به — لا نُخزّن أي تسجيل صوتي على أي سيرفر.</p>
+    </div>
+
+    <div class="card">
+      <h2>تحويل النص إلى صوت</h2>
+      <p class="hint">الصق أو اكتب أي نص، اختر الصوت والسرعة، واضغط تشغيل لسماعه.</p>
+      <div class="field">
+        <label for="tts-text">النص</label>
+        <textarea id="tts-text" rows="5" placeholder="اكتب أو الصق النص هنا..." style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
+      </div>
+      <div class="field">
+        <label for="tts-voice">الصوت</label>
+        <select id="tts-voice"></select>
+      </div>
+      <div class="field">
+        <label for="tts-rate">سرعة القراءة: <span id="tts-rate-val">1</span>x</label>
+        <input type="range" id="tts-rate" min="0.5" max="2" step="0.1" value="1" style="width:100%;">
+      </div>
+      <div class="row">
+        <button class="btn" id="tts-play-btn">تشغيل ▶</button>
+        <button class="btn secondary" id="tts-stop-btn" style="padding:11px 22px;">إيقاف ⏹</button>
+      </div>
+      <p class="note">الأصوات المتاحة تعتمد على جهازك ومتصفحك — لو ما وجدت صوتاً عربياً بالقائمة، معناه جهازك لا يحتوي حزمة صوت عربية مثبتة.</p>
     </div>
   </section>
 
@@ -2479,6 +2529,120 @@ document.getElementById('text-btn').addEventListener('click', async ()=>{
     setStatus('text-status','تعذر إضافة النص — تأكد أن الملف PDF صحيح.','err');
   }
   setBusy(btn, false, '', 'إضافة النص وتنزيل');
+});
+
+/* ============================================================
+   SPEECH TO TEXT
+   ============================================================ */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const sttBtn = document.getElementById('stt-btn');
+const sttOutput = document.getElementById('stt-output');
+const sttLangSelect = document.getElementById('stt-lang');
+let sttRecognition = null;
+let sttRecognizing = false;
+let sttFinalTranscript = '';
+
+if(!SR){
+  sttBtn.disabled = true;
+  document.getElementById('stt-support-msg').style.display = 'block';
+}
+
+sttBtn.addEventListener('click', ()=>{
+  if(!SR) return;
+  if(sttRecognizing){
+    sttRecognition.stop();
+    return;
+  }
+  sttRecognition = new SR();
+  sttRecognition.lang = sttLangSelect.value;
+  sttRecognition.continuous = true;
+  sttRecognition.interimResults = true;
+
+  sttRecognition.onresult = (event)=>{
+    let interim = '';
+    for(let i = event.resultIndex; i < event.results.length; i++){
+      const transcript = event.results[i][0].transcript;
+      if(event.results[i].isFinal){
+        sttFinalTranscript += transcript + ' ';
+      } else {
+        interim += transcript;
+      }
+    }
+    sttOutput.value = sttFinalTranscript + interim;
+  };
+  sttRecognition.onerror = ()=>{
+    sttRecognizing = false;
+    sttBtn.textContent = 'ابدأ التسجيل 🎙️';
+  };
+  sttRecognition.onend = ()=>{
+    sttRecognizing = false;
+    sttBtn.textContent = 'ابدأ التسجيل 🎙️';
+  };
+
+  sttRecognition.start();
+  sttRecognizing = true;
+  sttBtn.textContent = 'إيقاف التسجيل ⏹️';
+});
+
+document.getElementById('stt-clear-btn').addEventListener('click', ()=>{
+  sttFinalTranscript = '';
+  sttOutput.value = '';
+});
+
+document.getElementById('stt-copy-btn').addEventListener('click', ()=>{
+  if(!sttOutput.value) return;
+  navigator.clipboard.writeText(sttOutput.value).then(()=>{
+    const btn = document.getElementById('stt-copy-btn');
+    const original = btn.textContent;
+    btn.textContent = 'تم النسخ ✓';
+    setTimeout(()=>{ btn.textContent = original; }, 1500);
+  });
+});
+
+/* ============================================================
+   TEXT TO SPEECH
+   ============================================================ */
+const ttsVoiceSelect = document.getElementById('tts-voice');
+const ttsRateInput = document.getElementById('tts-rate');
+let ttsVoices = [];
+
+function populateTTSVoices(){
+  ttsVoices = speechSynthesis.getVoices();
+  ttsVoiceSelect.innerHTML = '';
+  const sorted = [...ttsVoices].sort((a,b)=>{
+    const aAr = a.lang.startsWith('ar') ? 0 : 1;
+    const bAr = b.lang.startsWith('ar') ? 0 : 1;
+    return aAr - bAr;
+  });
+  sorted.forEach(voice=>{
+    const opt = document.createElement('option');
+    opt.value = ttsVoices.indexOf(voice);
+    opt.textContent = `${voice.name} (${voice.lang})`;
+    ttsVoiceSelect.appendChild(opt);
+  });
+}
+populateTTSVoices();
+if(typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined){
+  speechSynthesis.onvoiceschanged = populateTTSVoices;
+}
+
+ttsRateInput.addEventListener('input', ()=>{
+  document.getElementById('tts-rate-val').textContent = ttsRateInput.value;
+});
+
+document.getElementById('tts-play-btn').addEventListener('click', ()=>{
+  const text = document.getElementById('tts-text').value.trim();
+  if(!text) return;
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  const voiceIdx = parseInt(ttsVoiceSelect.value, 10);
+  if(ttsVoices[voiceIdx]) utter.voice = ttsVoices[voiceIdx];
+  utter.rate = parseFloat(ttsRateInput.value);
+  speechSynthesis.speak(utter);
+});
+
+document.getElementById('tts-stop-btn').addEventListener('click', ()=>{
+  speechSynthesis.cancel();
 });
 </script>
 </body>
