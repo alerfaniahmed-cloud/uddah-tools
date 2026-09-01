@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zahidul Islam Alam — بطاقة تعريف</title>
-<meta name="description" content="بطاقة التعريف الرقمية لـ Zahidul Islam Alam — مدير مكتبة النسيم المركزية">
+<title>زاهد الاسلام — بطاقة تعريف</title>
+<meta name="description" content="بطاقة التعريف الرقمية لـ زاهد الاسلام — مدير مكتبة النسيم المركزية">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -32,7 +32,9 @@
     width:88px;height:88px;border-radius:50%;background:var(--bg-elev-2);border:3px solid var(--brass);
     display:flex;align-items:center;justify-content:center;margin:0 auto 18px;
     font-size:2rem;font-weight:700;color:var(--brass-light);
+    overflow:hidden;
   }
+  .avatar img{width:100%;height:100%;object-fit:cover;}
   h1{font-size:1.3rem;margin:0 0 6px;color:var(--bone);}
   p.title{color:var(--bone-dim);font-size:.95rem;margin:0 0 26px;}
   .actions{display:flex;flex-direction:column;gap:12px;}
@@ -49,6 +51,8 @@
   }
   .action-btn.call .ic{background:var(--brass);}
   .action-btn.whatsapp .ic{background:var(--patina);}
+  .action-btn.imo .ic{background:#fff;border:1px solid var(--border);padding:4px;}
+  .action-btn.imo .ic img{width:100%;height:100%;object-fit:contain;}
   .action-btn .num{font-family:var(--font-mono);direction:ltr;margin-inline-start:auto;color:var(--bone-dim);font-size:.85rem;font-weight:500;}
   footer{margin-top:26px;font-size:.72rem;color:#B7AF9F;}
   footer a{color:var(--brass-light);text-decoration:none;}
@@ -57,8 +61,8 @@
 <body>
 
 <div class="card">
-  <div class="avatar">ز</div>
-  <h1>Zahidul Islam Alam</h1>
+  <div class="avatar"><img src="avatar.jpg" alt="زاهد الاسلام"></div>
+  <h1>زاهد الاسلام</h1>
   <p class="title">مدير مكتبة النسيم المركزية</p>
 
   <div class="actions">
@@ -72,10 +76,27 @@
       <span>واتساب</span>
       <span class="num">0533382179</span>
     </a>
+    <button type="button" class="action-btn imo" id="imoBtn" style="cursor:pointer;">
+      <div class="ic"><img src="imo-icon.png" alt="imo"></div>
+      <span>imo (نسخ الرقم)</span>
+      <span class="num">0509769496</span>
+    </button>
   </div>
 
   <footer>بطاقة تعريف رقمية — <a href="index.html">عُدّة</a></footer>
 </div>
+
+<script>
+document.getElementById('imoBtn').addEventListener('click', ()=>{
+  navigator.clipboard.writeText('0509769496').then(()=>{
+    const btn = document.getElementById('imoBtn');
+    const span = btn.querySelector('span');
+    const original = span.textContent;
+    span.textContent = 'تم نسخ الرقم ✓';
+    setTimeout(()=>{ span.textContent = original; }, 1800);
+  });
+});
+</script>
 
 </body>
 </html>
