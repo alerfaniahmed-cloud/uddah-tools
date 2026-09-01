@@ -838,6 +838,60 @@
       <p class="note">الختم يُضاف بالكامل داخل متصفحك — لا تُرفع صورة الختم أو ملفك لأي سيرفر خارجي.</p>
     </div>
 
+    <div class="card">
+      <h2>إضافة نص على PDF</h2>
+      <p class="hint">اكتب أي نص، اختر حجمه ولونه والصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
+      <div class="field">
+        <input type="file" id="text-file" accept="application/pdf">
+        <div class="file-list" id="text-file-list"></div>
+      </div>
+
+      <div class="field">
+        <label for="text-content">النص</label>
+        <textarea id="text-content" rows="3" placeholder="اكتب النص هنا..." style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="text-size">حجم الخط (نقطة PDF)</label>
+          <input type="number" id="text-size" min="8" max="120" value="24">
+        </div>
+        <div class="field">
+          <label for="text-color">اللون</label>
+          <input type="color" id="text-color" value="#2B2A28" style="width:100%;height:44px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:4px;">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="text-page">رقم الصفحة</label>
+          <input type="number" id="text-page" min="1" value="1" placeholder="آخر صفحة افتراضياً">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="text-x">الموضع الأفقي: <span id="text-x-val">50</span>٪ (من اليسار)</label>
+          <input type="range" id="text-x" min="0" max="100" value="50" style="width:100%;">
+        </div>
+        <div class="field">
+          <label for="text-y">الموضع الرأسي: <span id="text-y-val">50</span>٪ (من الأسفل)</label>
+          <input type="range" id="text-y" min="0" max="100" value="50" style="width:100%;">
+        </div>
+      </div>
+
+      <div class="field" id="text-preview-wrap" style="display:none;">
+        <label>معاينة الموضع على الصفحة</label>
+        <div style="position:relative;display:inline-block;border:1px solid var(--border);border-radius:8px;overflow:hidden;line-height:0;background:#fff;">
+          <canvas id="text-preview-page"></canvas>
+          <img id="text-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
+        </div>
+      </div>
+
+      <button class="btn" id="text-btn" style="margin-top:14px;">إضافة النص وتنزيل</button>
+      <div id="text-status"></div>
+      <p class="note">النص يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو نصك لأي سيرفر خارجي.</p>
+    </div>
+
     <p class="note">جميع أدوات PDF تعمل بالكامل داخل متصفحك — لا تُرفع ملفاتك لأي سيرفر، وتحويل الصيغ إلى Word أو Excel بدقة عالية يحتاج معالجة خارج المتصفح وسيُضاف لاحقاً كخدمة منفصلة.</p>
   </section>
 </div>
@@ -1849,6 +1903,7 @@ setupFilePicker('compress-file', 'compress-file-list', false);
 setupFilePicker('sign-file', 'sign-file-list', false);
 setupFilePicker('stamp-file', 'stamp-file-list', false);
 setupFilePicker('stamp-image', 'stamp-image-list', false);
+setupFilePicker('text-file', 'text-file-list', false);
 
 /* --- Merge --- */
 document.getElementById('merge-btn').addEventListener('click', async ()=>{
@@ -2277,6 +2332,153 @@ document.getElementById('stamp-btn').addEventListener('click', async ()=>{
     setStatus('stamp-status','تعذر إضافة الختم — تأكد أن الملف PDF وصورة الختم صحيحين.','err');
   }
   setBusy(btn, false, '', 'إضافة الختم وتنزيل');
+});
+
+/* --- Add Text to PDF --- */
+function renderTextToCanvas(text, fontSizePt, color){
+  const scale = 4; // render at higher resolution for crispness
+  const fontPx = fontSizePt * scale;
+  const lineHeight = fontPx * 1.35;
+  const lines = text.split('\n');
+
+  const measureCanvas = document.createElement('canvas');
+  const mctx = measureCanvas.getContext('2d');
+  mctx.font = `600 ${fontPx}px 'IBM Plex Sans Arabic', sans-serif`;
+  let maxWidth = 10;
+  lines.forEach(line=>{
+    const w = mctx.measureText(line).width;
+    if(w > maxWidth) maxWidth = w;
+  });
+
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.ceil(maxWidth) + 8;
+  canvas.height = Math.ceil(lineHeight * lines.length) + 8;
+  const ctx = canvas.getContext('2d');
+  ctx.font = `600 ${fontPx}px 'IBM Plex Sans Arabic', sans-serif`;
+  ctx.fillStyle = color;
+  ctx.textBaseline = 'top';
+  ctx.direction = 'rtl';
+  ctx.textAlign = 'right';
+  lines.forEach((line, i)=>{
+    ctx.fillText(line, canvas.width - 4, 4 + i*lineHeight);
+  });
+
+  return { canvas, widthPt: canvas.width/scale, heightPt: canvas.height/scale };
+}
+
+let textCanvasData = null;
+
+async function refreshTextCanvas(){
+  const content = document.getElementById('text-content').value;
+  if(!content.trim()){ textCanvasData = null; updateTextPreview(); return; }
+  await document.fonts.ready;
+  const fontSize = parseFloat(document.getElementById('text-size').value) || 24;
+  const color = document.getElementById('text-color').value;
+  textCanvasData = renderTextToCanvas(content, fontSize, color);
+  updateTextPreview();
+}
+document.getElementById('text-content').addEventListener('input', refreshTextCanvas);
+document.getElementById('text-size').addEventListener('input', refreshTextCanvas);
+document.getElementById('text-color').addEventListener('input', refreshTextCanvas);
+
+const textXInput = document.getElementById('text-x');
+const textYInput = document.getElementById('text-y');
+textXInput.addEventListener('input', ()=>{ document.getElementById('text-x-val').textContent = textXInput.value; updateTextPreview(); });
+textYInput.addEventListener('input', ()=>{ document.getElementById('text-y-val').textContent = textYInput.value; updateTextPreview(); });
+document.getElementById('text-page').addEventListener('input', updateTextPreview);
+
+let textPreviewPdfDoc = null;
+let textPreviewFileRef = null;
+
+async function loadTextPreviewPdf(file){
+  if(textPreviewFileRef === file && textPreviewPdfDoc) return textPreviewPdfDoc;
+  const bytes = await file.arrayBuffer();
+  textPreviewPdfDoc = await pdfjsLib.getDocument({data: bytes}).promise;
+  textPreviewFileRef = file;
+  return textPreviewPdfDoc;
+}
+
+async function updateTextPreview(){
+  const file = document.getElementById('text-file').files[0];
+  const wrap = document.getElementById('text-preview-wrap');
+  if(!file || !textCanvasData){ wrap.style.display = 'none'; return; }
+
+  try{
+    const pdf = await loadTextPreviewPdf(file);
+    let pageNum = parseInt(document.getElementById('text-page').value, 10);
+    if(!pageNum || pageNum < 1 || pageNum > pdf.numPages) pageNum = pdf.numPages;
+    const page = await pdf.getPage(pageNum);
+    const baseViewport = page.getViewport({scale:1});
+    const previewWidth = 320;
+    const scale = previewWidth / baseViewport.width;
+    const viewport = page.getViewport({scale});
+
+    const canvas = document.getElementById('text-preview-page');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const ctx = canvas.getContext('2d');
+    await page.render({canvasContext: ctx, viewport}).promise;
+
+    const pw = baseViewport.width, ph = baseViewport.height;
+    const txtWidthPt = textCanvasData.widthPt;
+    const txtHeightPt = textCanvasData.heightPt;
+    const xPct = parseFloat(textXInput.value)/100;
+    const yPct = parseFloat(textYInput.value)/100;
+    const x = xPct * (pw - txtWidthPt);
+    const y = yPct * (ph - txtHeightPt);
+
+    const overlay = document.getElementById('text-preview-overlay');
+    overlay.src = textCanvasData.canvas.toDataURL('image/png');
+    overlay.style.left = (x*scale) + 'px';
+    overlay.style.top = ((ph - y - txtHeightPt)*scale) + 'px';
+    overlay.style.width = (txtWidthPt*scale) + 'px';
+    overlay.style.height = (txtHeightPt*scale) + 'px';
+
+    wrap.style.display = 'block';
+  }catch(e){
+    wrap.style.display = 'none';
+  }
+}
+
+document.getElementById('text-file').addEventListener('change', ()=>{ textPreviewPdfDoc = null; textPreviewFileRef = null; updateTextPreview(); });
+
+document.getElementById('text-btn').addEventListener('click', async ()=>{
+  const file = document.getElementById('text-file').files[0];
+  const btn = document.getElementById('text-btn');
+  if(!file){ setStatus('text-status','اختر ملف PDF أولاً.','err'); return; }
+  if(!textCanvasData){ setStatus('text-status','اكتب النص أولاً.','err'); return; }
+
+  setBusy(btn, true, 'جارٍ الإضافة...', 'إضافة النص وتنزيل');
+  try{
+    const pdfBytes = await file.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const pages = pdfDoc.getPages();
+
+    let pageNum = parseInt(document.getElementById('text-page').value, 10);
+    if(!pageNum || pageNum < 1 || pageNum > pages.length) pageNum = pages.length;
+    const targetPage = pages[pageNum - 1];
+    const { width: pw, height: ph } = targetPage.getSize();
+
+    const textPngDataUrl = textCanvasData.canvas.toDataURL('image/png');
+    const textBytes = await (await fetch(textPngDataUrl)).arrayBuffer();
+    const textImage = await pdfDoc.embedPng(textBytes);
+
+    const txtWidthPt = textCanvasData.widthPt;
+    const txtHeightPt = textCanvasData.heightPt;
+    const xPct = parseFloat(textXInput.value) / 100;
+    const yPct = parseFloat(textYInput.value) / 100;
+    const x = xPct * (pw - txtWidthPt);
+    const y = yPct * (ph - txtHeightPt);
+
+    targetPage.drawImage(textImage, { x, y, width: txtWidthPt, height: txtHeightPt });
+
+    const outBytes = await pdfDoc.save();
+    downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'نص_مضاف.pdf');
+    setStatus('text-status', `تم إضافة النص بنجاح على الصفحة ${pageNum}.`, 'ok');
+  }catch(e){
+    setStatus('text-status','تعذر إضافة النص — تأكد أن الملف PDF صحيح.','err');
+  }
+  setBusy(btn, false, '', 'إضافة النص وتنزيل');
 });
 </script>
 </body>
