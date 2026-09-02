@@ -737,6 +737,24 @@
     </div>
 
     <div class="card">
+      <h2>دمج كل صفحتين في صفحة واحدة</h2>
+      <p class="hint">مفيدة لو محتوى الملف أصله صفحة واحدة لكن انزاح جزء صغير منه لصفحة ثانية — تجمع كل صفحتين متتاليتين بصفحة واحدة مصغّرة.</p>
+      <div class="field">
+        <input type="file" id="mergepairs-file" accept="application/pdf">
+        <div class="file-list" id="mergepairs-file-list"></div>
+      </div>
+      <div class="field">
+        <label for="mergepairs-layout">اتجاه الدمج</label>
+        <select id="mergepairs-layout">
+          <option value="vertical">عمودي (فوق وتحت) — للصفحات الطولية</option>
+          <option value="horizontal">أفقي (جنب بعض) — للصفحات العريضة</option>
+        </select>
+      </div>
+      <button class="btn" id="mergepairs-btn">دمج وتنزيل</button>
+      <div id="mergepairs-status"></div>
+    </div>
+
+    <div class="card">
       <h2>استخراج صفحات محددة</h2>
       <p class="hint">اختر ملف PDF وحدد أرقام الصفحات المطلوبة (مثال: 1-3,5,8).</p>
       <div class="field">
@@ -1946,6 +1964,7 @@ function setupFilePicker(inputId, listId, multiple){
   });
 }
 setupFilePicker('merge-files', 'merge-files-list', true);
+setupFilePicker('mergepairs-file', 'mergepairs-file-list', false);
 setupFilePicker('extract-file', 'extract-file-list', false);
 setupFilePicker('img2pdf-files', 'img2pdf-files-list', true);
 setupFilePicker('pdf2img-file', 'pdf2img-file-list', false);
@@ -1976,6 +1995,76 @@ document.getElementById('merge-btn').addEventListener('click', async ()=>{
     setStatus('merge-status','تعذر دمج الملفات — تأكد أنها ملفات PDF صحيحة.','err');
   }
   setBusy(btn, false, '', 'دمج الملفات وتنزيلها');
+});
+
+/* --- Merge every 2 pages into 1 --- */
+async function renderPageToBox(pdfjsDoc, pageNum, outDoc, outPage, boxX, boxY, boxW, boxH){
+  const page = await pdfjsDoc.getPage(pageNum);
+  const baseViewport = page.getViewport({scale:1});
+  const pageWidthPt = baseViewport.width;
+  const pageHeightPt = baseViewport.height;
+
+  const renderScale = 2.2;
+  const viewport = page.getViewport({scale: renderScale});
+  const canvas = document.createElement('canvas');
+  canvas.width = viewport.width; canvas.height = viewport.height;
+  const ctx = canvas.getContext('2d');
+  await page.render({canvasContext: ctx, viewport}).promise;
+  const imgDataUrl = canvas.toDataURL('image/png');
+  const imgBytes = await (await fetch(imgDataUrl)).arrayBuffer();
+  const img = await outDoc.embedPng(imgBytes);
+
+  const scaleFit = Math.min(boxW / pageWidthPt, boxH / pageHeightPt);
+  const drawW = pageWidthPt * scaleFit;
+  const drawH = pageHeightPt * scaleFit;
+  const drawX = boxX + (boxW - drawW) / 2;
+  const drawY = boxY + (boxH - drawH) / 2;
+  outPage.drawImage(img, { x: drawX, y: drawY, width: drawW, height: drawH });
+}
+
+document.getElementById('mergepairs-btn').addEventListener('click', async ()=>{
+  const file = document.getElementById('mergepairs-file').files[0];
+  const layout = document.getElementById('mergepairs-layout').value;
+  const btn = document.getElementById('mergepairs-btn');
+  if(!file){ setStatus('mergepairs-status','اختر ملف PDF أولاً.','err'); return; }
+
+  setBusy(btn, true, 'جارٍ الدمج...', 'دمج وتنزيل');
+  try{
+    const bytes = await file.arrayBuffer();
+    const pdfjsDoc = await pdfjsLib.getDocument({data: bytes}).promise;
+    const outDoc = await PDFDocument.create();
+
+    const firstPage = await pdfjsDoc.getPage(1);
+    const firstViewport = firstPage.getViewport({scale:1});
+    const outWidth = firstViewport.width;
+    const outHeight = firstViewport.height;
+    const margin = 12;
+
+    for(let i=1; i<=pdfjsDoc.numPages; i+=2){
+      const outPage = outDoc.addPage([outWidth, outHeight]);
+      if(layout === 'vertical'){
+        const halfHeight = (outHeight - margin) / 2;
+        await renderPageToBox(pdfjsDoc, i, outDoc, outPage, 0, halfHeight + margin, outWidth, halfHeight);
+        if(i+1 <= pdfjsDoc.numPages){
+          await renderPageToBox(pdfjsDoc, i+1, outDoc, outPage, 0, 0, outWidth, halfHeight);
+        }
+      } else {
+        const halfWidth = (outWidth - margin) / 2;
+        await renderPageToBox(pdfjsDoc, i, outDoc, outPage, 0, 0, halfWidth, outHeight);
+        if(i+1 <= pdfjsDoc.numPages){
+          await renderPageToBox(pdfjsDoc, i+1, outDoc, outPage, halfWidth + margin, 0, halfWidth, outHeight);
+        }
+      }
+    }
+
+    const outBytes = await outDoc.save();
+    downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مدمج_صفحتين_في_واحدة.pdf');
+    const newCount = outDoc.getPageCount();
+    setStatus('mergepairs-status', `تم الدمج بنجاح — الملف الأصلي ${pdfjsDoc.numPages} صفحة، صار ${newCount} صفحة.`, 'ok');
+  }catch(e){
+    setStatus('mergepairs-status','تعذر الدمج — تأكد أن الملف PDF صحيح.','err');
+  }
+  setBusy(btn, false, '', 'دمج وتنزيل');
 });
 
 /* --- Extract pages --- */
