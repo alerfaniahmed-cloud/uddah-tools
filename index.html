@@ -671,6 +671,34 @@
       </div>
       <div class="msg err" id="pw-err" style="display:none;"></div>
     </div>
+
+    <div class="card">
+      <h2>مدقق رقم الهوية / الإقامة</h2>
+      <p class="hint">تحقق فوراً هل رقم الهوية الوطنية أو الإقامة صحيح رياضياً (١٠ أرقام، يبدأ بـ١ للسعودي أو ٢ للمقيم).</p>
+      <div class="field">
+        <label for="id-input">رقم الهوية / الإقامة</label>
+        <input type="text" id="id-input" inputmode="numeric" maxlength="10" placeholder="مثال: 1234567890">
+      </div>
+      <button class="btn" id="id-btn">تحقق</button>
+      <div class="result" id="id-result" style="display:none;">
+        <div class="big" id="id-out"></div>
+        <p class="note" id="id-sub"></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>مدقق رقم الآيبان السعودي (IBAN)</h2>
+      <p class="hint">تحقق هل رقم الآيبان السعودي صحيح شكلياً ورياضياً قبل استخدامه بأي تحويل.</p>
+      <div class="field">
+        <label for="iban-input">رقم الآيبان</label>
+        <input type="text" id="iban-input" placeholder="مثال: SA0380000000608010167519" style="font-family:var(--font-mono);direction:ltr;text-align:left;">
+      </div>
+      <button class="btn" id="iban-btn">تحقق</button>
+      <div class="result" id="iban-result" style="display:none;">
+        <div class="big" id="iban-out"></div>
+        <p class="note" id="iban-sub"></p>
+      </div>
+    </div>
   </section>
 
   <!-- ===================== TAB: VOICE (STT + TTS) ===================== -->
@@ -2732,6 +2760,91 @@ document.getElementById('tts-play-btn').addEventListener('click', ()=>{
 
 document.getElementById('tts-stop-btn').addEventListener('click', ()=>{
   speechSynthesis.cancel();
+});
+
+/* ============================================================
+   SAUDI ID / IQAMA VALIDATOR
+   ============================================================ */
+function validateSaudiID(idStr){
+  if(!/^[12]\d{9}$/.test(idStr)){
+    return { valid:false, reason:'الرقم يجب أن يتكون من 10 أرقام بالضبط، ويبدأ بـ1 (سعودي) أو 2 (مقيم).' };
+  }
+  let sum = 0;
+  for(let i=0; i<10; i++){
+    let d = parseInt(idStr[i], 10);
+    if(i % 2 === 0){
+      d *= 2;
+      if(d > 9) d -= 9;
+    }
+    sum += d;
+  }
+  const valid = sum % 10 === 0;
+  const type = idStr[0] === '1' ? 'مواطن سعودي' : 'مقيم (إقامة)';
+  return { valid, type };
+}
+
+document.getElementById('id-btn').addEventListener('click', ()=>{
+  const idInput = document.getElementById('id-input').value.trim();
+  const resultBox = document.getElementById('id-result');
+  const out = document.getElementById('id-out');
+  const sub = document.getElementById('id-sub');
+
+  const check = validateSaudiID(idInput);
+  if(check.valid === undefined || (!check.valid && check.reason)){
+    out.textContent = '❌ رقم غير صحيح';
+    sub.textContent = check.reason || 'الرقم لا يطابق صيغة الهوية أو الإقامة السعودية.';
+  } else if(check.valid){
+    out.textContent = '✅ رقم صحيح';
+    sub.textContent = `النوع: ${check.type}`;
+  } else {
+    out.textContent = '❌ رقم غير صحيح';
+    sub.textContent = 'صيغة الرقم صحيحة (10 أرقام) لكن رقم التحقق النهائي غير مطابق — تأكد من الأرقام.';
+  }
+  resultBox.style.display = 'block';
+});
+
+/* ============================================================
+   SAUDI IBAN VALIDATOR
+   ============================================================ */
+function validateSaudiIBAN(ibanRaw){
+  const iban = ibanRaw.replace(/\s|-/g, '').toUpperCase();
+  if(!/^SA\d{22}$/.test(iban)){
+    return { valid:false, reason:'رقم الآيبان السعودي يجب أن يبدأ بـSA ويتكون من 24 خانة بالضبط (SA + 22 رقم).' };
+  }
+  const rearranged = iban.slice(4) + iban.slice(0, 4);
+  let numeric = '';
+  for(const ch of rearranged){
+    if(/[A-Z]/.test(ch)){
+      numeric += (ch.charCodeAt(0) - 55).toString();
+    } else {
+      numeric += ch;
+    }
+  }
+  const remainder = BigInt(numeric) % 97n;
+  const valid = remainder === 1n;
+  const bankCode = iban.slice(4, 6);
+  const accountNumber = iban.slice(6);
+  return { valid, bankCode, accountNumber };
+}
+
+document.getElementById('iban-btn').addEventListener('click', ()=>{
+  const ibanInput = document.getElementById('iban-input').value.trim();
+  const resultBox = document.getElementById('iban-result');
+  const out = document.getElementById('iban-out');
+  const sub = document.getElementById('iban-sub');
+
+  const check = validateSaudiIBAN(ibanInput);
+  if(check.reason){
+    out.textContent = '❌ آيبان غير صحيح';
+    sub.textContent = check.reason;
+  } else if(check.valid){
+    out.textContent = '✅ آيبان صحيح';
+    sub.textContent = `كود البنك: ${check.bankCode}  —  رقم الحساب: ${check.accountNumber}`;
+  } else {
+    out.textContent = '❌ آيبان غير صحيح';
+    sub.textContent = 'الصيغة صحيحة لكن رقم التحقق (checksum) غير مطابق — تأكد من الأرقام.';
+  }
+  resultBox.style.display = 'block';
 });
 </script>
 </body>
