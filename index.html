@@ -1911,7 +1911,7 @@ async function exportPDF(title, rows, note, filename){
   document.body.appendChild(wrapper);
   try{
     await document.fonts.ready;
-    const canvas = await html2canvas(wrapper, {scale:3, backgroundColor:'#ffffff', useCORS:true, imageTimeout:0});
+    const canvas = await html2canvas(wrapper, {scale:4, backgroundColor:'#ffffff', useCORS:true, imageTimeout:0});
     const imgData = canvas.toDataURL('image/png', 1.0);
     const pdfDoc = await PDFDocument.create();
     const pngImage = await pdfDoc.embedPng(imgData);
