@@ -1899,7 +1899,7 @@ function buildPrintableHTML(title, rows, note){
       </div>
       <div style="font-size:14px;color:#6B6559;margin-bottom:26px;">${title} — ${todayStr}</div>
       <table style="width:100%;border-collapse:collapse;border-top:2px solid #B8863B;">${rowsHTML}</table>
-      ${note ? `<p style="font-size:13px;color:#6B6559;margin-top:22px;line-height:1.8;">${note}</p>` : ''}
+      ${note ? `<div style="margin-top:22px;">${note.split('\n').map(line => `<p style="font-size:13px;color:#6B6559;margin:6px 0 0;line-height:1.8;">${line}</p>`).join('')}</div>` : ''}
       <div style="margin-top:30px;padding-top:14px;border-top:1px solid #E3DDCF;font-size:12px;color:#B7AF9F;text-align:center;">تم إنشاؤه بواسطة موقع عُدّة — uddah-tools</div>
     </div>`;
 }
@@ -1988,10 +1988,15 @@ function collectRowsFor(exportKey){
         label: s.label,
         value: `${s.fraction.toFractionString()}  —  ${(s.fraction.toNumber()*lastInheritanceResult.estate).toLocaleString('en-US',{maximumFractionDigits:2})} ${lastInheritanceResult.unit}`
       })) : [];
-      const blockedText = document.getElementById('inh-blocked-list').textContent.trim();
-      let note = document.getElementById('inh-adjustment-note').textContent;
-      if(blockedText) note += (note ? ' | ' : '') + 'ورثة محجوبون: ' + blockedText;
-      return { title:'حاسبة المواريث', rows, note };
+      const blockedItems = Array.from(document.querySelectorAll('#inh-blocked-list li')).map(li => li.textContent.trim());
+      const noteLines = [];
+      const adjNote = document.getElementById('inh-adjustment-note').textContent.trim();
+      if(adjNote) noteLines.push(adjNote);
+      if(blockedItems.length){
+        noteLines.push('ورثة محجوبون:');
+        blockedItems.forEach(item => noteLines.push('• ' + item));
+      }
+      return { title:'حاسبة المواريث', rows, note: noteLines.join('\n') };
     }
     default: return null;
   }
