@@ -241,6 +241,17 @@
         <div class="val" id="stampHijri">—</div>
       </div>
     </div>
+    <div class="stamp" style="margin-top:10px;">
+      <div class="side">
+        <div class="lbl">اليوم</div>
+        <div class="val" id="stampDayName">—</div>
+      </div>
+      <div class="div"></div>
+      <div class="side">
+        <div class="lbl">المنزلة (النجم)</div>
+        <div class="val" id="stampManzila" style="font-size:.9rem;">—</div>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -1250,11 +1261,60 @@ function formatHijri(h){
   return `${h.day} ${HIJRI_MONTHS[h.month-1]} ${h.year}هـ`;
 }
 
+/* Traditional Arabian "منازل/أنواء" star calendar (28 periods across the solar year) */
+const MANAZIL_YEAR = [
+  {name:'الشرطين', star:'الثريا', season:'الصيف', start:[5,12], end:[5,24]},
+  {name:'البطين', star:'الثريا', season:'الصيف', start:[5,25], end:[6,6]},
+  {name:'الثريا', star:'الثريا', season:'الصيف', start:[6,7], end:[6,19]},
+  {name:'الدبران', star:'التويبع', season:'الصيف', start:[6,20], end:[7,2]},
+  {name:'الهقعة', star:'الجوزاء', season:'الصيف', start:[7,3], end:[7,15]},
+  {name:'الهنعة', star:'الجوزاء', season:'الصيف', start:[7,16], end:[7,28]},
+  {name:'الذراع', star:'المرزم (الشعرى اليمانية)', season:'الصيف', start:[7,29], end:[8,10]},
+  {name:'النثرة', star:'الكليبين', season:'الصيف', start:[8,11], end:[8,23]},
+  {name:'الطرفة', star:'سهيل', season:'الصيف', start:[8,24], end:[9,5]},
+  {name:'الجبهة', star:'سهيل', season:'الخريف', start:[9,6], end:[9,19]},
+  {name:'الزبرة', star:'سهيل', season:'الخريف', start:[9,20], end:[10,2]},
+  {name:'الصرفة', star:'سهيل', season:'الخريف', start:[10,3], end:[10,15]},
+  {name:'العواء', star:'الوسم', season:'الخريف', start:[10,16], end:[10,28]},
+  {name:'السماك', star:'الوسم', season:'الخريف', start:[10,29], end:[11,10]},
+  {name:'الغفر', star:'الوسم', season:'الخريف', start:[11,11], end:[11,23]},
+  {name:'الزبانا', star:'الوسم', season:'الخريف', start:[11,24], end:[12,6]},
+  {name:'الإكليل', star:'المربعانية', season:'الشتاء', start:[12,7], end:[12,19]},
+  {name:'القلب', star:'المربعانية', season:'الشتاء', start:[12,20], end:[1,1]},
+  {name:'الشولة', star:'المربعانية', season:'الشتاء', start:[1,2], end:[1,14]},
+  {name:'النعايم', star:'الشبط', season:'الشتاء', start:[1,15], end:[1,27]},
+  {name:'البلدة', star:'الشبط', season:'الشتاء', start:[1,28], end:[2,9]},
+  {name:'سعد الذابح', star:'العقارب', season:'الشتاء', start:[2,10], end:[2,22]},
+  {name:'سعد بلع', star:'العقارب', season:'الشتاء', start:[2,23], end:[3,7]},
+  {name:'سعد السعود', star:'العقارب', season:'الشتاء', start:[3,8], end:[3,20]},
+  {name:'سعد الأخبية', star:'الحميمين', season:'الربيع', start:[3,21], end:[4,2]},
+  {name:'المقدم', star:'الحميمين', season:'الربيع', start:[4,3], end:[4,15]},
+  {name:'المؤخر', star:'الذراعين', season:'الربيع', start:[4,16], end:[4,28]},
+  {name:'الرشاء', star:'الذراعين', season:'الربيع', start:[4,29], end:[5,11]},
+];
+
+function findCurrentManzila(date){
+  const val = (date.getMonth()+1)*100 + date.getDate();
+  for(const item of MANAZIL_YEAR){
+    const startVal = item.start[0]*100 + item.start[1];
+    const endVal = item.end[0]*100 + item.end[1];
+    if(startVal <= endVal){
+      if(val >= startVal && val <= endVal) return item;
+    } else {
+      if(val >= startVal || val <= endVal) return item;
+    }
+  }
+  return null;
+}
+
 /* Live stamp in header */
 function paintStamp(){
   const now = new Date();
   document.getElementById('stampGreg').textContent = now.toLocaleDateString('ar-SA-u-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit'});
   document.getElementById('stampHijri').textContent = formatHijri(gregorianToHijri(now));
+  document.getElementById('stampDayName').textContent = now.toLocaleDateString('ar-SA',{weekday:'long'});
+  const manzila = findCurrentManzila(now);
+  document.getElementById('stampManzila').textContent = manzila ? `${manzila.name} (نجم ${manzila.star})` : '—';
 }
 paintStamp();
 
