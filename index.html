@@ -12,6 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/adhan@4.4.3/lib/bundles/adhan.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root{
@@ -246,6 +247,7 @@
 <div class="wrap">
   <nav class="tabs" id="tabs">
     <button data-tab="convert" class="active">تحويل التاريخ</button>
+    <button data-tab="prayer">أوقات الصلاة</button>
     <button data-tab="diffage">الفرق بين تاريخين والعمر</button>
     <button data-tab="units">تحويل الوحدات</button>
     <button data-tab="money">العملات والزكاة والضريبة</button>
@@ -305,6 +307,161 @@
     </div>
 
     <p class="note">يعتمد التحويل على تقويم أم القرى المدمج في متصفحك (نفس التقويم الرسمي المعتمد في السعودية)، وهو مدعوم في أغلب المتصفحات الحديثة على الجوال والحاسوب.</p>
+  </section>
+
+  <!-- ===================== TAB: PRAYER TIMES ===================== -->
+  <section class="panel" id="panel-prayer">
+
+    <div class="card">
+      <h2>أوقات الصلاة اليوم — المدن الرئيسية</h2>
+      <p class="hint">جدول سريع بأوقات صلوات اليوم لأبرز مدن المملكة، يُحسب تلقائياً بمجرد فتح الصفحة.</p>
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:.88rem;white-space:nowrap;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border);">
+              <th style="text-align:right;padding:8px 6px;color:var(--bone-dim);font-weight:600;">المدينة</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;">الفجر</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;">الشروق</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;">الظهر</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;">العصر</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;">المغرب</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;">العشاء</th>
+            </tr>
+          </thead>
+          <tbody id="prayer-overview-body"></tbody>
+        </table>
+      </div>
+      <p class="note">الأوقات بتوقيت الرياض (توقيت السعودية)، حسب طريقة أم القرى.</p>
+    </div>
+
+    <div class="card">
+      <h2>أوقات الصلاة</h2>
+      <p class="hint">احسب أوقات الصلوات الخمس بدقة لأي مدينة سعودية أو موقعك الحالي، بحساب فلكي كامل داخل متصفحك.</p>
+      <div class="field">
+        <label for="prayer-location">الموقع</label>
+        <select id="prayer-location">
+          <option value="geo">📍 استخدام موقعي الحالي</option>
+          <optgroup label="منطقة الرياض">
+            <option value="24.7136,46.6753">الرياض</option>
+            <option value="24.1556,47.3350">الخرج</option>
+            <option value="24.5079,44.3963">الدوادمي</option>
+            <option value="25.9022,45.3411">المجمعة</option>
+            <option value="26.2939,44.8134">الزلفي</option>
+            <option value="20.4998,44.9010">وادي الدواسر</option>
+            <option value="23.9081,42.9265">عفيف</option>
+            <option value="24.0587,45.2670">القويعية</option>
+            <option value="25.2400,45.2540">شقراء</option>
+          </optgroup>
+          <optgroup label="منطقة مكة المكرمة">
+            <option value="21.4858,39.1925">جدة</option>
+            <option value="21.3891,39.8579">مكة المكرمة</option>
+            <option value="21.2703,40.4158">الطائف</option>
+            <option value="22.7986,39.0349">رابغ</option>
+            <option value="19.1264,41.0784">القنفذة</option>
+            <option value="20.1500,40.2667">الليث</option>
+            <option value="21.6167,39.6333">الجموم</option>
+          </optgroup>
+          <optgroup label="منطقة المدينة المنورة">
+            <option value="24.5247,39.5692">المدينة المنورة</option>
+            <option value="24.0895,38.0618">ينبع</option>
+            <option value="26.6089,37.9247">العلا</option>
+            <option value="23.7753,38.7893">بدر</option>
+            <option value="25.6939,39.2867">خيبر</option>
+          </optgroup>
+          <optgroup label="المنطقة الشرقية">
+            <option value="26.4207,50.0888">الدمام</option>
+            <option value="26.2172,50.1971">الخبر</option>
+            <option value="26.2361,50.1046">الظهران</option>
+            <option value="25.3838,49.5871">الأحساء (الهفوف)</option>
+            <option value="27.0046,49.6605">الجبيل</option>
+            <option value="26.5196,49.9998">القطيف</option>
+            <option value="28.4342,45.9601">حفر الباطن</option>
+            <option value="26.6444,50.1611">رأس تنورة</option>
+          </optgroup>
+          <optgroup label="منطقة عسير">
+            <option value="18.2164,42.5053">أبها</option>
+            <option value="18.3000,42.7333">خميس مشيط</option>
+            <option value="20.0000,42.6000">بيشة</option>
+            <option value="19.1500,42.1500">النماص</option>
+            <option value="18.5556,42.0333">محايل عسير</option>
+          </optgroup>
+          <optgroup label="منطقة تبوك">
+            <option value="28.3998,36.5715">تبوك</option>
+            <option value="26.2417,36.4711">الوجه</option>
+            <option value="27.3500,35.7000">ضباء</option>
+            <option value="27.6293,38.4854">تيماء</option>
+            <option value="25.0393,37.2687">أملج</option>
+          </optgroup>
+          <optgroup label="منطقة حائل">
+            <option value="27.5114,41.6900">حائل</option>
+            <option value="27.9756,43.0575">بقعاء</option>
+          </optgroup>
+          <optgroup label="الحدود الشمالية">
+            <option value="30.9754,41.0381">عرعر</option>
+            <option value="29.6255,43.4939">رفحاء</option>
+            <option value="31.6725,38.6633">طريف</option>
+          </optgroup>
+          <optgroup label="منطقة جازان">
+            <option value="16.8892,42.5511">جازان</option>
+            <option value="17.1500,42.6250">صبيا</option>
+            <option value="16.9736,42.8306">أبو عريش</option>
+            <option value="16.6011,42.9422">صامطة</option>
+          </optgroup>
+          <optgroup label="منطقة نجران">
+            <option value="17.4933,44.1277">نجران</option>
+            <option value="17.4839,47.1122">شرورة</option>
+          </optgroup>
+          <optgroup label="منطقة الباحة">
+            <option value="20.0129,41.4677">الباحة</option>
+            <option value="19.8631,41.5578">بلجرشي</option>
+          </optgroup>
+          <optgroup label="منطقة الجوف">
+            <option value="29.9697,40.2064">سكاكا</option>
+            <option value="31.3318,37.3427">القريات</option>
+            <option value="29.8125,39.8681">دومة الجندل</option>
+          </optgroup>
+          <optgroup label="منطقة القصيم">
+            <option value="26.3260,43.9750">بريدة</option>
+            <option value="26.0836,43.9944">عنيزة</option>
+            <option value="25.8693,43.4988">الرس</option>
+            <option value="25.8608,44.2308">المذنب</option>
+            <option value="26.1447,43.6656">البكيرية</option>
+          </optgroup>
+          <option value="manual">إحداثيات يدوية (لأي مكان آخر)</option>
+        </select>
+      </div>
+      <div class="row" id="prayer-manual-wrap" style="display:none;">
+        <div class="field">
+          <label for="prayer-lat">خط العرض (Latitude)</label>
+          <input type="number" id="prayer-lat" step="0.0001" placeholder="مثال: 24.7136">
+        </div>
+        <div class="field">
+          <label for="prayer-lng">خط الطول (Longitude)</label>
+          <input type="number" id="prayer-lng" step="0.0001" placeholder="مثال: 46.6753">
+        </div>
+      </div>
+      <div class="field">
+        <label for="prayer-date">التاريخ</label>
+        <input type="date" id="prayer-date">
+      </div>
+      <button class="btn" id="prayer-btn">احسب أوقات الصلاة</button>
+      <div class="result" id="prayer-result" style="display:none;">
+        <div class="grid3">
+          <div><div class="n" id="prayer-fajr">--:--</div><div class="l">الفجر</div></div>
+          <div><div class="n" id="prayer-sunrise">--:--</div><div class="l">الشروق</div></div>
+          <div><div class="n" id="prayer-dhuhr">--:--</div><div class="l">الظهر</div></div>
+        </div>
+        <div class="grid3" style="margin-top:10px;">
+          <div><div class="n" id="prayer-asr">--:--</div><div class="l">العصر</div></div>
+          <div><div class="n" id="prayer-maghrib">--:--</div><div class="l">المغرب</div></div>
+          <div><div class="n" id="prayer-isha">--:--</div><div class="l">العشاء</div></div>
+        </div>
+        <p class="note" id="prayer-note"></p>
+        <button type="button" class="pdf-export-btn" data-export="prayer">تنزيل PDF</button>
+      </div>
+      <div class="msg err" id="prayer-err" style="display:none;"></div>
+      <p class="note">الحساب حسب طريقة أم القرى المعتمدة بالسعودية (زاوية الفجر ١٨.٥°، والعشاء بعد المغرب بـ٩٠ دقيقة). عند اختيار مدينة سعودية يُعرض الوقت بتوقيت الرياض دائماً؛ عند استخدام الموقع الحالي أو إحداثيات يدوية يُعرض بتوقيت جهازك.</p>
+    </div>
   </section>
 
   <!-- ===================== TAB 2: DIFF & AGE ===================== -->
@@ -1138,6 +1295,118 @@ document.getElementById('h2g-btn').addEventListener('click', ()=>{
 });
 
 /* ============================================================
+   PRAYER TIMES
+   ============================================================ */
+/* --- Prayer times overview table for major cities --- */
+const PRAYER_MAJOR_CITIES = [
+  {name:'الرياض', lat:24.7136, lng:46.6753},
+  {name:'مكة المكرمة', lat:21.3891, lng:39.8579},
+  {name:'المدينة المنورة', lat:24.5247, lng:39.5692},
+  {name:'جدة', lat:21.4858, lng:39.1925},
+  {name:'الدمام', lat:26.4207, lng:50.0888},
+  {name:'الطائف', lat:21.2703, lng:40.4158},
+  {name:'أبها', lat:18.2164, lng:42.5053},
+  {name:'تبوك', lat:28.3998, lng:36.5715},
+  {name:'بريدة', lat:26.3260, lng:43.9750},
+  {name:'حائل', lat:27.5114, lng:41.6900}
+];
+
+function renderPrayerOverview(){
+  const tbody = document.getElementById('prayer-overview-body');
+  if(!tbody || typeof adhan === 'undefined') return;
+  const today = new Date();
+  const params = adhan.CalculationMethod.UmmAlQura();
+  params.madhab = adhan.Madhab.Shafi;
+  const fmt = (d) => d.toLocaleTimeString('ar-SA-u-nu-latn', {hour:'2-digit', minute:'2-digit', hour12:true, timeZone:'Asia/Riyadh'});
+
+  tbody.innerHTML = '';
+  PRAYER_MAJOR_CITIES.forEach(city=>{
+    const coordinates = new adhan.Coordinates(city.lat, city.lng);
+    const pt = new adhan.PrayerTimes(coordinates, today, params);
+    const tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid var(--border)';
+    tr.innerHTML = `
+      <td style="padding:8px 6px;font-weight:600;">${city.name}</td>
+      <td style="padding:8px 6px;text-align:center;font-family:var(--font-mono);">${fmt(pt.fajr)}</td>
+      <td style="padding:8px 6px;text-align:center;font-family:var(--font-mono);">${fmt(pt.sunrise)}</td>
+      <td style="padding:8px 6px;text-align:center;font-family:var(--font-mono);">${fmt(pt.dhuhr)}</td>
+      <td style="padding:8px 6px;text-align:center;font-family:var(--font-mono);">${fmt(pt.asr)}</td>
+      <td style="padding:8px 6px;text-align:center;font-family:var(--font-mono);">${fmt(pt.maghrib)}</td>
+      <td style="padding:8px 6px;text-align:center;font-family:var(--font-mono);">${fmt(pt.isha)}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+renderPrayerOverview();
+
+document.getElementById('prayer-location').addEventListener('change', ()=>{
+  const val = document.getElementById('prayer-location').value;
+  document.getElementById('prayer-manual-wrap').style.display = val === 'manual' ? 'flex' : 'none';
+});
+
+async function getPrayerCoordinates(){
+  const val = document.getElementById('prayer-location').value;
+  if(val === 'geo'){
+    return new Promise((resolve, reject)=>{
+      if(!navigator.geolocation){ reject(new Error('geo not supported')); return; }
+      navigator.geolocation.getCurrentPosition(
+        pos => resolve({lat: pos.coords.latitude, lng: pos.coords.longitude, isSaudiCity:false}),
+        () => reject(new Error('geo denied'))
+      );
+    });
+  } else if(val === 'manual'){
+    const lat = parseFloat(document.getElementById('prayer-lat').value);
+    const lng = parseFloat(document.getElementById('prayer-lng').value);
+    if(isNaN(lat) || isNaN(lng)) throw new Error('invalid manual coords');
+    return {lat, lng, isSaudiCity:false};
+  } else {
+    const [lat, lng] = val.split(',').map(Number);
+    return {lat, lng, isSaudiCity:true};
+  }
+}
+
+document.getElementById('prayer-btn').addEventListener('click', async ()=>{
+  const btn = document.getElementById('prayer-btn');
+  const errBox = document.getElementById('prayer-err');
+  const resultBox = document.getElementById('prayer-result');
+  errBox.style.display = 'none';
+  resultBox.style.display = 'none';
+
+  setBusy(btn, true, 'جارٍ الحساب...', 'احسب أوقات الصلاة');
+  try{
+    const coords = await getPrayerCoordinates();
+    const dateInput = document.getElementById('prayer-date').value;
+    let dateObj;
+    if(dateInput){
+      const [y,m,d] = dateInput.split('-').map(Number);
+      dateObj = new Date(y, m-1, d);
+    } else {
+      dateObj = new Date();
+    }
+
+    const coordinates = new adhan.Coordinates(coords.lat, coords.lng);
+    const params = adhan.CalculationMethod.UmmAlQura();
+    params.madhab = adhan.Madhab.Shafi;
+    const prayerTimes = new adhan.PrayerTimes(coordinates, dateObj, params);
+
+    const tzOptions = coords.isSaudiCity ? {timeZone:'Asia/Riyadh'} : {};
+    const fmt = (d) => d.toLocaleTimeString('ar-SA-u-nu-latn', {hour:'2-digit', minute:'2-digit', hour12:true, ...tzOptions});
+
+    document.getElementById('prayer-fajr').textContent = fmt(prayerTimes.fajr);
+    document.getElementById('prayer-sunrise').textContent = fmt(prayerTimes.sunrise);
+    document.getElementById('prayer-dhuhr').textContent = fmt(prayerTimes.dhuhr);
+    document.getElementById('prayer-asr').textContent = fmt(prayerTimes.asr);
+    document.getElementById('prayer-maghrib').textContent = fmt(prayerTimes.maghrib);
+    document.getElementById('prayer-isha').textContent = fmt(prayerTimes.isha);
+    document.getElementById('prayer-note').textContent = coords.isSaudiCity ? 'بتوقيت الرياض (توقيت السعودية)' : 'بتوقيت جهازك المحلي';
+    resultBox.style.display = 'block';
+  }catch(e){
+    errBox.textContent = 'تعذر حساب أوقات الصلاة — تأكد من اختيار الموقع، أو اسمح للمتصفح بالوصول لموقعك الجغرافي إذا اخترت "موقعي الحالي".';
+    errBox.style.display = 'block';
+  }
+  setBusy(btn, false, '', 'احسب أوقات الصلاة');
+});
+
+/* ============================================================
    TAB 2: DIFF & AGE
    ============================================================ */
 function calendarDiff(d1, d2){
@@ -1937,6 +2206,14 @@ function collectRowsFor(exportKey){
       {label:'التاريخ الهجري', value: `${document.getElementById('h2g-day').value}/${document.getElementById('h2g-month').selectedOptions[0].textContent}/${document.getElementById('h2g-year').value}`},
       {label:'التاريخ الميلادي', value: document.getElementById('h2g-out').textContent}
     ]};
+    case 'prayer': return { title:'أوقات الصلاة', rows:[
+      {label:'الفجر', value: document.getElementById('prayer-fajr').textContent},
+      {label:'الشروق', value: document.getElementById('prayer-sunrise').textContent},
+      {label:'الظهر', value: document.getElementById('prayer-dhuhr').textContent},
+      {label:'العصر', value: document.getElementById('prayer-asr').textContent},
+      {label:'المغرب', value: document.getElementById('prayer-maghrib').textContent},
+      {label:'العشاء', value: document.getElementById('prayer-isha').textContent}
+    ], note: document.getElementById('prayer-note').textContent };
     case 'diff': return { title:'الفرق بين تاريخين', rows:[
       {label:'التاريخ الأول', value: document.getElementById('diff-a').value},
       {label:'التاريخ الثاني', value: document.getElementById('diff-b').value},
