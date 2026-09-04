@@ -265,6 +265,7 @@
     <button data-tab="inheritance">حاسبة المواريث</button>
     <button data-tab="tools">أدوات متنوعة</button>
     <button data-tab="voice">الصوت والنص</button>
+    <button data-tab="sectors">حاسبات القطاعات</button>
     <button data-tab="pdf">أدوات PDF</button>
   </nav>
 
@@ -946,6 +947,188 @@
         <button class="btn secondary" id="tts-stop-btn" style="padding:11px 22px;">إيقاف ⏹</button>
       </div>
       <p class="note">الأصوات المتاحة تعتمد على جهازك ومتصفحك — لو ما وجدت صوتاً عربياً بالقائمة، معناه جهازك لا يحتوي حزمة صوت عربية مثبتة.</p>
+    </div>
+  </section>
+
+  <!-- ===================== TAB: SECTOR CALCULATORS ===================== -->
+  <section class="panel" id="panel-sectors">
+
+    <div class="card">
+      <h2>حاسبات القطاعات</h2>
+      <p class="hint">اختر الحاسبة المطلوبة من القائمة.</p>
+      <div class="field">
+        <label for="sector-select">نوع الحاسبة</label>
+        <select id="sector-select">
+          <option value="insurance">تقدير قسط التأمين الطبي الإجمالي</option>
+          <option value="mortgage">التمويل العقاري</option>
+          <option value="gpa">المعدل التراكمي (GPA)</option>
+          <option value="health">اللياقة الصحية (BMI والسعرات)</option>
+          <option value="fuel">تكلفة الوقود للرحلة</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Insurance -->
+    <div class="card sector-card" id="sector-insurance">
+      <h2>تقدير قسط التأمين الطبي الإجمالي</h2>
+      <p class="hint">أدخل متوسط قسط الفرد (من عرض سعر فعلي لديك) وعدد الأفراد، لحساب الإجمالي شامل الضريبة.</p>
+      <div class="row">
+        <div class="field">
+          <label for="ins-adults-count">عدد الكبار</label>
+          <input type="number" id="ins-adults-count" min="0" value="0">
+        </div>
+        <div class="field">
+          <label for="ins-adults-premium">متوسط قسط الكبير (ريال)</label>
+          <input type="number" id="ins-adults-premium" min="0" placeholder="مثال: 1200">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="ins-kids-count">عدد الأطفال</label>
+          <input type="number" id="ins-kids-count" min="0" value="0">
+        </div>
+        <div class="field">
+          <label for="ins-kids-premium">متوسط قسط الطفل (ريال)</label>
+          <input type="number" id="ins-kids-premium" min="0" placeholder="مثال: 800">
+        </div>
+      </div>
+      <div class="field">
+        <label for="ins-fees">رسوم إصدار إضافية (ريال، اختياري)</label>
+        <input type="number" id="ins-fees" min="0" value="0">
+      </div>
+      <button class="btn" id="ins-btn">احسب الإجمالي</button>
+      <div class="result" id="ins-result" style="display:none;">
+        <div class="grid3">
+          <div><div class="n" id="ins-base">0</div><div class="l">قبل الضريبة</div></div>
+          <div><div class="n" id="ins-tax">0</div><div class="l">الضريبة (١٥٪)</div></div>
+          <div><div class="n" id="ins-total">0</div><div class="l">الإجمالي</div></div>
+        </div>
+      </div>
+      <p class="note">هذه الأداة تجمع الأرقام التي تدخلها فقط (من عروض أسعار حقيقية لديك) ولا تعرض أي تسعير رسمي أو تقديري خاص بها.</p>
+    </div>
+
+    <!-- Mortgage -->
+    <div class="card sector-card" id="sector-mortgage">
+      <h2>حاسبة التمويل العقاري</h2>
+      <p class="hint">أدخل مبلغ التمويل ونسبة الفائدة السنوية ومدة السداد، لحساب القسط الشهري وإجمالي الفائدة.</p>
+      <div class="row">
+        <div class="field">
+          <label for="mort-amount">مبلغ التمويل (ريال)</label>
+          <input type="number" id="mort-amount" min="0" placeholder="مثال: 500000">
+        </div>
+        <div class="field">
+          <label for="mort-rate">نسبة الفائدة السنوية (٪)</label>
+          <input type="number" id="mort-rate" min="0" step="0.01" placeholder="مثال: 4.5">
+        </div>
+      </div>
+      <div class="field">
+        <label for="mort-years">مدة التمويل (سنوات)</label>
+        <input type="number" id="mort-years" min="1" placeholder="مثال: 20">
+      </div>
+      <button class="btn" id="mort-btn">احسب القسط</button>
+      <div class="result" id="mort-result" style="display:none;">
+        <div class="grid3">
+          <div><div class="n" id="mort-monthly">0</div><div class="l">القسط الشهري</div></div>
+          <div><div class="n" id="mort-totalpaid">0</div><div class="l">إجمالي المدفوع</div></div>
+          <div><div class="n" id="mort-totalinterest">0</div><div class="l">إجمالي الفائدة</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GPA -->
+    <div class="card sector-card" id="sector-gpa">
+      <h2>حاسبة المعدل التراكمي (GPA)</h2>
+      <p class="hint">تحويل تقريبي عام للنسبة المئوية إلى معدل تراكمي — كل جامعة سعودية لها جدول تحويل رسمي خاص بها قد يختلف قليلاً، فاستخدم هذي كتقدير سريع فقط.</p>
+      <div class="row">
+        <div class="field">
+          <label for="gpa-percent">النسبة المئوية</label>
+          <input type="number" id="gpa-percent" min="0" max="100" placeholder="مثال: 88">
+        </div>
+        <div class="field">
+          <label for="gpa-scale">النظام</label>
+          <select id="gpa-scale">
+            <option value="5">من 5</option>
+            <option value="4">من 4</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn" id="gpa-btn">احسب المعدل</button>
+      <div class="result" id="gpa-result" style="display:none;">
+        <div class="big" id="gpa-out"></div>
+      </div>
+    </div>
+
+    <!-- Health -->
+    <div class="card sector-card" id="sector-health">
+      <h2>اللياقة الصحية (BMI والسعرات)</h2>
+      <p class="hint">معلومات عامة تقريبية، وليست استشارة طبية شخصية.</p>
+      <div class="row">
+        <div class="field">
+          <label for="health-weight">الوزن (كجم)</label>
+          <input type="number" id="health-weight" min="0" placeholder="مثال: 75">
+        </div>
+        <div class="field">
+          <label for="health-height">الطول (سم)</label>
+          <input type="number" id="health-height" min="0" placeholder="مثال: 175">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="health-age">العمر</label>
+          <input type="number" id="health-age" min="0" placeholder="مثال: 30">
+        </div>
+        <div class="field">
+          <label for="health-gender">الجنس</label>
+          <select id="health-gender">
+            <option value="male">ذكر</option>
+            <option value="female">أنثى</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="health-activity">مستوى النشاط</label>
+        <select id="health-activity">
+          <option value="1.2">قليل الحركة (عمل مكتبي)</option>
+          <option value="1.375">نشاط خفيف (١-٣ أيام رياضة أسبوعياً)</option>
+          <option value="1.55">نشاط متوسط (٣-٥ أيام رياضة أسبوعياً)</option>
+          <option value="1.725">نشاط عالٍ (٦-٧ أيام رياضة أسبوعياً)</option>
+        </select>
+      </div>
+      <button class="btn" id="health-btn">احسب</button>
+      <div class="result" id="health-result" style="display:none;">
+        <div class="grid3">
+          <div><div class="n" id="health-bmi">0</div><div class="l">مؤشر كتلة الجسم</div></div>
+          <div><div class="n" id="health-bmi-cat">—</div><div class="l">التصنيف</div></div>
+          <div><div class="n" id="health-calories">0</div><div class="l">سعرات الحفاظ يومياً</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fuel -->
+    <div class="card sector-card" id="sector-fuel">
+      <h2>حاسبة تكلفة الوقود للرحلة</h2>
+      <p class="hint">أدخل مسافة الرحلة ومعدل استهلاك سيارتك وسعر اللتر، لحساب التكلفة التقريبية.</p>
+      <div class="row">
+        <div class="field">
+          <label for="fuel-distance">مسافة الرحلة (كم)</label>
+          <input type="number" id="fuel-distance" min="0" placeholder="مثال: 500">
+        </div>
+        <div class="field">
+          <label for="fuel-consumption">استهلاك السيارة (كم لكل لتر)</label>
+          <input type="number" id="fuel-consumption" min="0.1" step="0.1" placeholder="مثال: 12">
+        </div>
+      </div>
+      <div class="field">
+        <label for="fuel-price">سعر لتر الوقود (ريال)</label>
+        <input type="number" id="fuel-price" min="0" step="0.01" placeholder="مثال: 2.33">
+      </div>
+      <button class="btn" id="fuel-btn">احسب التكلفة</button>
+      <div class="result" id="fuel-result" style="display:none;">
+        <div class="grid3">
+          <div><div class="n" id="fuel-liters">0</div><div class="l">اللترات المطلوبة</div></div>
+          <div><div class="n" id="fuel-cost">0</div><div class="l">التكلفة (ريال)</div></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -3251,6 +3434,116 @@ document.getElementById('iban-btn').addEventListener('click', ()=>{
     sub.textContent = 'الصيغة صحيحة لكن رقم التحقق (checksum) غير مطابق — تأكد من الأرقام.';
   }
   resultBox.style.display = 'block';
+});
+
+/* ============================================================
+   SECTOR CALCULATORS (sub-tab select + 5 tools)
+   ============================================================ */
+function switchSectorCard(){
+  const val = document.getElementById('sector-select').value;
+  document.querySelectorAll('.sector-card').forEach(card=>{
+    card.style.display = (card.id === 'sector-' + val) ? 'block' : 'none';
+  });
+}
+document.getElementById('sector-select').addEventListener('change', switchSectorCard);
+switchSectorCard();
+
+/* --- Insurance premium aggregator --- */
+document.getElementById('ins-btn').addEventListener('click', ()=>{
+  const adultsCount = parseFloat(document.getElementById('ins-adults-count').value) || 0;
+  const adultsPremium = parseFloat(document.getElementById('ins-adults-premium').value) || 0;
+  const kidsCount = parseFloat(document.getElementById('ins-kids-count').value) || 0;
+  const kidsPremium = parseFloat(document.getElementById('ins-kids-premium').value) || 0;
+  const fees = parseFloat(document.getElementById('ins-fees').value) || 0;
+
+  const base = (adultsCount*adultsPremium) + (kidsCount*kidsPremium) + fees;
+  const tax = base * 0.15;
+  const total = base + tax;
+
+  document.getElementById('ins-base').textContent = base.toLocaleString('en-US',{maximumFractionDigits:2});
+  document.getElementById('ins-tax').textContent = tax.toLocaleString('en-US',{maximumFractionDigits:2});
+  document.getElementById('ins-total').textContent = total.toLocaleString('en-US',{maximumFractionDigits:2});
+  document.getElementById('ins-result').style.display = 'block';
+});
+
+/* --- Mortgage / financing calculator --- */
+document.getElementById('mort-btn').addEventListener('click', ()=>{
+  const principal = parseFloat(document.getElementById('mort-amount').value) || 0;
+  const annualRate = parseFloat(document.getElementById('mort-rate').value) || 0;
+  const years = parseFloat(document.getElementById('mort-years').value) || 0;
+  if(principal <= 0 || years <= 0) return;
+
+  const months = years * 12;
+  const monthlyRate = (annualRate/100) / 12;
+  let monthly;
+  if(monthlyRate === 0){
+    monthly = principal / months;
+  } else {
+    monthly = principal * monthlyRate * Math.pow(1+monthlyRate, months) / (Math.pow(1+monthlyRate, months) - 1);
+  }
+  const totalPaid = monthly * months;
+  const totalInterest = totalPaid - principal;
+
+  document.getElementById('mort-monthly').textContent = monthly.toLocaleString('en-US',{maximumFractionDigits:2});
+  document.getElementById('mort-totalpaid').textContent = totalPaid.toLocaleString('en-US',{maximumFractionDigits:2});
+  document.getElementById('mort-totalinterest').textContent = totalInterest.toLocaleString('en-US',{maximumFractionDigits:2});
+  document.getElementById('mort-result').style.display = 'block';
+});
+
+/* --- GPA converter --- */
+document.getElementById('gpa-btn').addEventListener('click', ()=>{
+  const percent = parseFloat(document.getElementById('gpa-percent').value);
+  const scale = parseFloat(document.getElementById('gpa-scale').value);
+  if(isNaN(percent)) return;
+  const gpa = (percent/100) * scale;
+  document.getElementById('gpa-out').textContent = `${gpa.toLocaleString('en-US',{maximumFractionDigits:2})} من ${scale}`;
+  document.getElementById('gpa-result').style.display = 'block';
+});
+
+/* --- Health: BMI + calories --- */
+document.getElementById('health-btn').addEventListener('click', ()=>{
+  const weight = parseFloat(document.getElementById('health-weight').value);
+  const heightCm = parseFloat(document.getElementById('health-height').value);
+  const age = parseFloat(document.getElementById('health-age').value);
+  const gender = document.getElementById('health-gender').value;
+  const activity = parseFloat(document.getElementById('health-activity').value);
+  if(!weight || !heightCm || !age) return;
+
+  const heightM = heightCm / 100;
+  const bmi = weight / (heightM*heightM);
+  let category;
+  if(bmi < 18.5) category = 'نقص وزن';
+  else if(bmi < 25) category = 'وزن طبيعي';
+  else if(bmi < 30) category = 'زيادة وزن';
+  else category = 'سمنة';
+
+  let bmr;
+  if(gender === 'male'){
+    bmr = 10*weight + 6.25*heightCm - 5*age + 5;
+  } else {
+    bmr = 10*weight + 6.25*heightCm - 5*age - 161;
+  }
+  const calories = bmr * activity;
+
+  document.getElementById('health-bmi').textContent = bmi.toLocaleString('en-US',{maximumFractionDigits:1});
+  document.getElementById('health-bmi-cat').textContent = category;
+  document.getElementById('health-calories').textContent = Math.round(calories).toLocaleString('en-US');
+  document.getElementById('health-result').style.display = 'block';
+});
+
+/* --- Fuel cost calculator --- */
+document.getElementById('fuel-btn').addEventListener('click', ()=>{
+  const distance = parseFloat(document.getElementById('fuel-distance').value) || 0;
+  const consumption = parseFloat(document.getElementById('fuel-consumption').value) || 0;
+  const price = parseFloat(document.getElementById('fuel-price').value) || 0;
+  if(distance <= 0 || consumption <= 0) return;
+
+  const liters = distance / consumption;
+  const cost = liters * price;
+
+  document.getElementById('fuel-liters').textContent = liters.toLocaleString('en-US',{maximumFractionDigits:2});
+  document.getElementById('fuel-cost').textContent = cost.toLocaleString('en-US',{maximumFractionDigits:2});
+  document.getElementById('fuel-result').style.display = 'block';
 });
 </script>
 </body>
