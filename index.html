@@ -839,6 +839,68 @@
     </div>
 
     <div class="card">
+      <h2>مولد الأختام</h2>
+      <p class="hint">اختر قالباً جاهزاً أو اكتب نصك الخاص، واختر الشكل والزخرفة ولون الحبر، لتوليد ختم فوري تقدر تنزّله وتستخدمه مباشرة بأداة "إضافة ختم على PDF".</p>
+      <div class="field">
+        <label for="stampgen-template">قالب جاهز</label>
+        <select id="stampgen-template">
+          <option value="custom">مخصص (اكتب نصك بنفسك)</option>
+          <option value="organization">ختم مؤسسة</option>
+          <option value="approved">موافق عليه</option>
+          <option value="paid">تم السداد</option>
+          <option value="dateStamp">ختم تاريخ اليوم</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="stampgen-main">النص الرئيسي (الاسم)</label>
+        <input type="text" id="stampgen-main" placeholder="مثال: أحمد العرفاني">
+      </div>
+      <div class="field">
+        <label for="stampgen-sub">نص إضافي (اختياري)</label>
+        <input type="text" id="stampgen-sub" placeholder="مثال: الرياض - السعودية">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="stampgen-shape">الشكل</label>
+          <select id="stampgen-shape">
+            <option value="circle">دائري</option>
+            <option value="square">مربع</option>
+            <option value="rectangle">مستطيل</option>
+            <option value="oval">بيضاوي</option>
+          </select>
+        </div>
+        <div class="field" id="stampgen-decor-wrap">
+          <label for="stampgen-decor">نمط الزخرفة</label>
+          <select id="stampgen-decor">
+            <option value="normal">عادي (إطار مزدوج ونجمة)</option>
+            <option value="decorated">مزخرف (إطار ثلاثي)</option>
+            <option value="plain">بسيط (بدون زخرفة)</option>
+            <option value="dotted">منقّط (إطار متقطع)</option>
+            <option value="multistar">نجوم متعددة حول الإطار</option>
+            <option value="crescent">هلال ونجمة بالمنتصف</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="stampgen-color">لون الحبر</label>
+        <select id="stampgen-color">
+          <option value="#1E3A5F">كحلي</option>
+          <option value="#1F4D3D">أخضر داكن</option>
+          <option value="#2B2A28">أسود</option>
+          <option value="#8B2020">أحمر داكن</option>
+        </select>
+      </div>
+      <button class="btn" id="stampgen-btn">توليد الختم</button>
+      <div id="stampgen-output-wrap" style="display:none;margin-top:18px;text-align:center;">
+        <canvas id="stampgen-canvas" width="400" height="400" style="max-width:260px;width:100%;height:auto;"></canvas>
+        <div style="margin-top:14px;">
+          <button class="btn secondary" id="stampgen-download-btn">تنزيل كصورة PNG</button>
+        </div>
+      </div>
+      <p class="note">الختم يُرسم بالكامل داخل متصفحك — لا يُرفع أي نص تكتبه لأي سيرفر خارجي.</p>
+    </div>
+
+    <div class="card">
       <h2>مولد كلمات المرور</h2>
       <p class="hint">اختر الطول والخصائص، وولّد كلمة مرور عشوائية قوية فوراً.</p>
       <div class="field">
@@ -2257,6 +2319,289 @@ document.getElementById('qr-download-btn').addEventListener('click', ()=>{
   const a = document.createElement('a');
   a.href = src;
   a.download = 'qr-code.png';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+});
+
+/* ============================================================
+   STAMP GENERATOR
+   ============================================================ */
+function renderTextStrip(text, fontPx, color){
+  const measureCanvas = document.createElement('canvas');
+  const mctx = measureCanvas.getContext('2d');
+  mctx.font = `bold ${fontPx}px 'IBM Plex Sans Arabic', sans-serif`;
+  const textWidth = Math.max(mctx.measureText(text).width, 10);
+
+  const off = document.createElement('canvas');
+  off.width = Math.ceil(textWidth) + 16;
+  off.height = Math.ceil(fontPx * 1.5);
+  const octx = off.getContext('2d');
+  octx.font = `bold ${fontPx}px 'IBM Plex Sans Arabic', sans-serif`;
+  octx.fillStyle = color;
+  octx.textAlign = 'center';
+  octx.textBaseline = 'middle';
+  octx.fillText(text, off.width/2, off.height/2);
+  return off;
+}
+
+/* Wraps a straight-rendered text strip around an arc of the given radius, preserving
+   correct Arabic letter shaping (shaping happens once, before warping pixels). */
+function warpTextOntoArc(destCtx, cx, cy, radius, bandHalfHeight, centerAngle, textCanvas, flipV, flipH){
+  const angleRange = Math.min(textCanvas.width / radius, 2.7);
+  const angleStart = centerAngle - angleRange/2;
+  const angleEnd = centerAngle + angleRange/2;
+
+  const srcCtx = textCanvas.getContext('2d');
+  const srcData = srcCtx.getImageData(0, 0, textCanvas.width, textCanvas.height);
+
+  const rMin = radius - bandHalfHeight, rMax = radius + bandHalfHeight;
+  const boxMinX = Math.max(0, Math.floor(cx - rMax));
+  const boxMaxX = Math.ceil(cx + rMax);
+  const boxMinY = Math.max(0, Math.floor(cy - rMax));
+  const boxMaxY = Math.ceil(cy + rMax);
+  const boxW = boxMaxX - boxMinX, boxH = boxMaxY - boxMinY;
+  if(boxW <= 0 || boxH <= 0) return;
+
+  const destImg = destCtx.getImageData(boxMinX, boxMinY, boxW, boxH);
+
+  for(let py=0; py<boxH; py++){
+    for(let px=0; px<boxW; px++){
+      const dx = (boxMinX+px) - cx;
+      const dy = (boxMinY+py) - cy;
+      const r = Math.sqrt(dx*dx + dy*dy);
+      if(r < rMin || r > rMax) continue;
+      const theta = Math.atan2(dy, dx);
+      if(theta < angleStart || theta > angleEnd) continue;
+
+      const u0 = (theta - angleStart) / angleRange;
+      const u = flipH ? (1-u0) : u0;
+      const vRatio = (r - rMin) / (rMax - rMin);
+      const vSrc = flipV ? (1-vRatio) : vRatio;
+      const srcX = Math.min(textCanvas.width-1, Math.max(0, Math.floor(u * (textCanvas.width-1))));
+      const srcY = Math.min(textCanvas.height-1, Math.max(0, Math.floor(vSrc * (textCanvas.height-1))));
+
+      const srcIdx = (srcY*textCanvas.width + srcX) * 4;
+      const alpha = srcData.data[srcIdx+3];
+      if(alpha === 0) continue;
+      const destIdx = (py*boxW + px) * 4;
+      destImg.data[destIdx] = srcData.data[srcIdx];
+      destImg.data[destIdx+1] = srcData.data[srcIdx+1];
+      destImg.data[destIdx+2] = srcData.data[srcIdx+2];
+      destImg.data[destIdx+3] = alpha;
+    }
+  }
+  destCtx.putImageData(destImg, boxMinX, boxMinY);
+}
+
+function wrapTextLines(ctx, text, maxWidth){
+  const words = text.split(' ');
+  const lines = [];
+  let current = '';
+  words.forEach(word=>{
+    const test = current ? current + ' ' + word : word;
+    if(ctx.measureText(test).width > maxWidth && current){
+      lines.push(current);
+      current = word;
+    } else {
+      current = test;
+    }
+  });
+  if(current) lines.push(current);
+  return lines;
+}
+
+function drawShapeBorder(ctx, shape, cx, cy, size, decor){
+  const dashed = decor === 'dotted';
+  if(shape === 'circle'){
+    ctx.setLineDash([]);
+    ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.arc(cx, cy, size*0.46, 0, Math.PI*2); ctx.stroke();
+    if(decor !== 'plain'){
+      ctx.lineWidth = 2;
+      ctx.setLineDash(dashed ? [6,5] : []);
+      ctx.beginPath(); ctx.arc(cx, cy, size*0.40, 0, Math.PI*2); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    if(decor === 'decorated'){
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(cx, cy, size*0.43, 0, Math.PI*2); ctx.stroke();
+    }
+  } else if(shape === 'square'){
+    const half = size*0.34;
+    ctx.setLineDash([]);
+    ctx.lineWidth = 5;
+    ctx.strokeRect(cx-half, cy-half, half*2, half*2);
+    if(decor !== 'plain'){
+      ctx.lineWidth = 2;
+      ctx.setLineDash(dashed ? [6,5] : []);
+      const half2 = half - size*0.035;
+      ctx.strokeRect(cx-half2, cy-half2, half2*2, half2*2);
+      ctx.setLineDash([]);
+    }
+    if(decor === 'decorated') drawCornerDiamonds(ctx, cx, cy, half, half, size);
+  } else if(shape === 'rectangle'){
+    const halfW = size*0.44, halfH = size*0.26;
+    ctx.setLineDash([]);
+    ctx.lineWidth = 5;
+    ctx.strokeRect(cx-halfW, cy-halfH, halfW*2, halfH*2);
+    if(decor !== 'plain'){
+      ctx.lineWidth = 2;
+      ctx.setLineDash(dashed ? [6,5] : []);
+      const pad = size*0.035;
+      ctx.strokeRect(cx-halfW+pad, cy-halfH+pad, (halfW-pad)*2, (halfH-pad)*2);
+      ctx.setLineDash([]);
+    }
+    if(decor === 'decorated') drawCornerDiamonds(ctx, cx, cy, halfW, halfH, size);
+  } else if(shape === 'oval'){
+    ctx.setLineDash([]);
+    ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.ellipse(cx, cy, size*0.46, size*0.29, 0, 0, Math.PI*2); ctx.stroke();
+    if(decor !== 'plain'){
+      ctx.lineWidth = 2;
+      ctx.setLineDash(dashed ? [6,5] : []);
+      ctx.beginPath(); ctx.ellipse(cx, cy, size*0.40, size*0.24, 0, 0, Math.PI*2); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+}
+
+function drawCornerDiamonds(ctx, cx, cy, halfW, halfH, size){
+  const d = size*0.018;
+  const corners = [
+    [cx-halfW, cy-halfH], [cx+halfW, cy-halfH],
+    [cx-halfW, cy+halfH], [cx+halfW, cy+halfH]
+  ];
+  corners.forEach(([x,y])=>{
+    ctx.save();
+    ctx.translate(x,y);
+    ctx.rotate(Math.PI/4);
+    ctx.fillRect(-d, -d, d*2, d*2);
+    ctx.restore();
+  });
+}
+
+function drawNonCircleDecorIcon(ctx, shape, cx, cy, size, decor, halfW, halfH){
+  if(decor === 'crescent'){
+    ctx.font = `${size*0.06}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('☪', cx, cy - halfH - size*0.06);
+  } else if(decor === 'multistar'){
+    ctx.font = `${size*0.03}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('★', cx-halfW, cy-halfH);
+    ctx.fillText('★', cx+halfW, cy-halfH);
+    ctx.fillText('★', cx-halfW, cy+halfH);
+    ctx.fillText('★', cx+halfW, cy+halfH);
+  }
+}
+
+function drawGeneratedStamp(){
+  const canvas = document.getElementById('stampgen-canvas');
+  const ctx = canvas.getContext('2d');
+  const size = canvas.width;
+  const cx = size/2, cy = size/2;
+  const color = document.getElementById('stampgen-color').value;
+  const shape = document.getElementById('stampgen-shape').value;
+  const decor = document.getElementById('stampgen-decor').value;
+  const mainText = document.getElementById('stampgen-main').value.trim() || 'اسم الختم';
+  const subText = document.getElementById('stampgen-sub').value.trim();
+
+  ctx.clearRect(0,0,size,size);
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+
+  drawShapeBorder(ctx, shape, cx, cy, size, decor);
+
+  if(shape === 'circle'){
+    if(decor === 'crescent'){
+      ctx.font = `${size*0.06}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('☪', cx, cy);
+    } else if(decor === 'multistar'){
+      ctx.font = `${size*0.03}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const starCount = 8;
+      for(let i=0;i<starCount;i++){
+        const angle = (i/starCount)*Math.PI*2;
+        ctx.fillText('★', cx + size*0.435*Math.cos(angle), cy + size*0.435*Math.sin(angle));
+      }
+    } else if(decor !== 'plain'){
+      ctx.font = `${size*0.05}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('★', cx, cy);
+    }
+    const mainFontPx = size*0.09;
+    const mainStrip = renderTextStrip(mainText, mainFontPx, color);
+    warpTextOntoArc(ctx, cx, cy, size*0.30, mainFontPx*0.6, -Math.PI/2, mainStrip, true, false);
+    if(subText){
+      const subFontPx = size*0.055;
+      const subStrip = renderTextStrip(subText, subFontPx, color);
+      warpTextOntoArc(ctx, cx, cy, size*0.30, subFontPx*0.6, Math.PI/2, subStrip, false, true);
+    }
+  } else {
+    const halfW = shape === 'square' ? size*0.34 : shape === 'rectangle' ? size*0.44 : size*0.40;
+    const halfH = shape === 'square' ? size*0.34 : shape === 'rectangle' ? size*0.26 : size*0.24;
+    if(decor === 'multistar' || decor === 'crescent'){
+      drawNonCircleDecorIcon(ctx, shape, cx, cy, size, decor, halfW, halfH);
+    }
+    const maxWidth = shape === 'rectangle' ? size*0.8 : shape === 'oval' ? size*0.75 : size*0.58;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const mainFontPx = size*0.09;
+    ctx.font = `bold ${mainFontPx}px 'IBM Plex Sans Arabic', sans-serif`;
+    let lines = wrapTextLines(ctx, mainText, maxWidth);
+    if(lines.length > 3) lines = [lines[0], lines[1], lines.slice(2).join(' ')];
+    const lineHeight = mainFontPx*1.15;
+    const subHeight = subText ? size*0.09 : 0;
+    const totalHeight = lines.length*lineHeight + subHeight;
+    let curY = cy - totalHeight/2 + lineHeight/2;
+    lines.forEach(line=>{
+      ctx.fillText(line, cx, curY);
+      curY += lineHeight;
+    });
+    if(subText){
+      ctx.font = `${size*0.05}px 'IBM Plex Sans Arabic', sans-serif`;
+      ctx.fillText(subText, cx, curY + size*0.02);
+    }
+  }
+}
+
+const STAMP_TEMPLATES = {
+  custom: {main:'', sub:''},
+  organization: {main:'اسم المؤسسة', sub:'الرياض - السعودية'},
+  approved: {main:'موافق عليه', sub:''},
+  paid: {main:'تم السداد', sub:''},
+  dateStamp: {main:'', sub:'تم الاستلام بتاريخ'}
+};
+document.getElementById('stampgen-template').addEventListener('change', ()=>{
+  const key = document.getElementById('stampgen-template').value;
+  const tpl = STAMP_TEMPLATES[key];
+  if(!tpl) return;
+  if(key === 'dateStamp'){
+    document.getElementById('stampgen-main').value = new Date().toLocaleDateString('ar-SA-u-nu-latn',{year:'numeric',month:'long',day:'numeric'});
+  } else {
+    document.getElementById('stampgen-main').value = tpl.main;
+  }
+  document.getElementById('stampgen-sub').value = tpl.sub;
+});
+
+document.getElementById('stampgen-btn').addEventListener('click', async ()=>{
+  await document.fonts.ready;
+  drawGeneratedStamp();
+  document.getElementById('stampgen-output-wrap').style.display = 'block';
+});
+
+document.getElementById('stampgen-download-btn').addEventListener('click', ()=>{
+  const canvas = document.getElementById('stampgen-canvas');
+  const a = document.createElement('a');
+  a.href = canvas.toDataURL('image/png');
+  a.download = 'ختم.png';
   document.body.appendChild(a);
   a.click();
   a.remove();
