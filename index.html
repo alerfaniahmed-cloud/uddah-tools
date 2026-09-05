@@ -878,6 +878,9 @@
             <option value="dotted">منقّط (إطار متقطع)</option>
             <option value="multistar">نجوم متعددة حول الإطار</option>
             <option value="crescent">هلال ونجمة بالمنتصف</option>
+            <option value="diamond">معين بالمنتصف</option>
+            <option value="beaded">لؤلؤي (نقاط حول الإطار)</option>
+            <option value="notched">مسنّن (خطوط شعاعية) — توثيق رسمي</option>
           </select>
         </div>
       </div>
@@ -2411,6 +2414,29 @@ function wrapTextLines(ctx, text, maxWidth){
   return lines;
 }
 
+function drawBeadedRing(ctx, cx, cy, rx, ry, dotRadius, count){
+  for(let i=0;i<count;i++){
+    const angle = (i/count)*Math.PI*2;
+    const x = cx + rx*Math.cos(angle);
+    const y = cy + ry*Math.sin(angle);
+    ctx.beginPath();
+    ctx.arc(x, y, dotRadius, 0, Math.PI*2);
+    ctx.fill();
+  }
+}
+
+function drawTickRing(ctx, cx, cy, rx1, ry1, rx2, ry2, count){
+  for(let i=0;i<count;i++){
+    const angle = (i/count)*Math.PI*2;
+    const x1 = cx + rx1*Math.cos(angle), y1 = cy + ry1*Math.sin(angle);
+    const x2 = cx + rx2*Math.cos(angle), y2 = cy + ry2*Math.sin(angle);
+    ctx.beginPath();
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.stroke();
+  }
+}
+
 function drawShapeBorder(ctx, shape, cx, cy, size, decor){
   const dashed = decor === 'dotted';
   if(shape === 'circle'){
@@ -2426,6 +2452,11 @@ function drawShapeBorder(ctx, shape, cx, cy, size, decor){
     if(decor === 'decorated'){
       ctx.lineWidth = 1;
       ctx.beginPath(); ctx.arc(cx, cy, size*0.43, 0, Math.PI*2); ctx.stroke();
+    } else if(decor === 'beaded'){
+      ctx.fillStyle = ctx.strokeStyle;
+      drawBeadedRing(ctx, cx, cy, size*0.43, size*0.43, size*0.007, 36);
+    } else if(decor === 'notched'){
+      drawTickRing(ctx, cx, cy, size*0.395, size*0.395, size*0.415, size*0.415, 36);
     }
   } else if(shape === 'square'){
     const half = size*0.34;
@@ -2456,14 +2487,28 @@ function drawShapeBorder(ctx, shape, cx, cy, size, decor){
   } else if(shape === 'oval'){
     ctx.setLineDash([]);
     ctx.lineWidth = 5;
-    ctx.beginPath(); ctx.ellipse(cx, cy, size*0.46, size*0.29, 0, 0, Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(cx, cy, size*0.48, size*0.36, 0, 0, Math.PI*2); ctx.stroke();
     if(decor !== 'plain'){
       ctx.lineWidth = 2;
       ctx.setLineDash(dashed ? [6,5] : []);
-      ctx.beginPath(); ctx.ellipse(cx, cy, size*0.40, size*0.24, 0, 0, Math.PI*2); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(cx, cy, size*0.42, size*0.31, 0, 0, Math.PI*2); ctx.stroke();
       ctx.setLineDash([]);
     }
+    if(decor === 'beaded'){
+      ctx.fillStyle = ctx.strokeStyle;
+      drawBeadedRing(ctx, cx, cy, size*0.45, size*0.335, size*0.007, 36);
+    } else if(decor === 'notched'){
+      drawTickRing(ctx, cx, cy, size*0.415, size*0.305, size*0.435, size*0.325, 36);
+    }
   }
+}
+
+function drawDiamond(ctx, x, y, r){
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(Math.PI/4);
+  ctx.fillRect(-r, -r, r*2, r*2);
+  ctx.restore();
 }
 
 function drawCornerDiamonds(ctx, cx, cy, halfW, halfH, size){
@@ -2495,6 +2540,8 @@ function drawNonCircleDecorIcon(ctx, shape, cx, cy, size, decor, halfW, halfH){
     ctx.fillText('★', cx+halfW, cy-halfH);
     ctx.fillText('★', cx-halfW, cy+halfH);
     ctx.fillText('★', cx+halfW, cy+halfH);
+  } else if(decor === 'diamond'){
+    drawDiamond(ctx, cx, cy - halfH - size*0.055, size*0.025);
   }
 }
 
@@ -2530,6 +2577,8 @@ function drawGeneratedStamp(){
         const angle = (i/starCount)*Math.PI*2;
         ctx.fillText('★', cx + size*0.435*Math.cos(angle), cy + size*0.435*Math.sin(angle));
       }
+    } else if(decor === 'diamond'){
+      drawDiamond(ctx, cx, cy, size*0.035);
     } else if(decor !== 'plain'){
       ctx.font = `${size*0.05}px sans-serif`;
       ctx.textAlign = 'center';
@@ -2545,12 +2594,12 @@ function drawGeneratedStamp(){
       warpTextOntoArc(ctx, cx, cy, size*0.30, subFontPx*0.6, Math.PI/2, subStrip, false, true);
     }
   } else {
-    const halfW = shape === 'square' ? size*0.34 : shape === 'rectangle' ? size*0.44 : size*0.40;
-    const halfH = shape === 'square' ? size*0.34 : shape === 'rectangle' ? size*0.26 : size*0.24;
-    if(decor === 'multistar' || decor === 'crescent'){
+    const halfW = shape === 'square' ? size*0.34 : shape === 'rectangle' ? size*0.44 : size*0.42;
+    const halfH = shape === 'square' ? size*0.34 : shape === 'rectangle' ? size*0.26 : size*0.31;
+    if(decor === 'multistar' || decor === 'crescent' || decor === 'diamond'){
       drawNonCircleDecorIcon(ctx, shape, cx, cy, size, decor, halfW, halfH);
     }
-    const maxWidth = shape === 'rectangle' ? size*0.8 : shape === 'oval' ? size*0.75 : size*0.58;
+    const maxWidth = shape === 'rectangle' ? size*0.8 : shape === 'oval' ? size*0.68 : size*0.58;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     const mainFontPx = size*0.09;
