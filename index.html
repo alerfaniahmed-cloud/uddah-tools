@@ -914,6 +914,57 @@
     </div>
 
     <div class="card">
+      <h2>تحويل صورة إلى ختم</h2>
+      <p class="hint">ارفع أي صورة — ختم حقيقي مصوّر على ورق، شعار، أو أي رسمة — وهذي الأداة تشيل الخلفية وتحوّلها لصورة PNG بخلفية شفافة جاهزة للاستخدام كختم، تقدر ترفعها مباشرة بأداة "إضافة ختم على PDF" بالأسفل.</p>
+
+      <div class="field">
+        <label for="img2stamp-input">الصورة</label>
+        <input type="file" id="img2stamp-input" accept="image/png,image/jpeg,image/webp">
+        <div class="file-list" id="img2stamp-input-list"></div>
+      </div>
+
+      <div class="field">
+        <label for="img2stamp-mode">طريقة التحويل</label>
+        <select id="img2stamp-mode">
+          <option value="recolor">لون واحد موحّد (محاكاة حبر الختم)</option>
+          <option value="transparent">إزالة الخلفية فقط (مع الاحتفاظ بالألوان الأصلية)</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="field" id="img2stamp-color-wrap">
+          <label for="img2stamp-color">لون الحبر</label>
+          <input type="color" id="img2stamp-color" value="#1b3a6b" style="width:100%;height:42px;padding:4px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);cursor:pointer;">
+        </div>
+        <div class="field" style="justify-content:center;display:flex;">
+          <label style="display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--bone);margin-top:26px;">
+            <input type="checkbox" id="img2stamp-invert"> عكس الفاتح والداكن (لو الحبر فاتح والخلفية داكنة)
+          </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="img2stamp-threshold">حساسية إزالة الخلفية: <span id="img2stamp-threshold-val">150</span></label>
+          <input type="range" id="img2stamp-threshold" min="10" max="245" value="150" style="width:100%;">
+        </div>
+        <div class="field">
+          <label for="img2stamp-feather">نعومة الحواف: <span id="img2stamp-feather-val">30</span></label>
+          <input type="range" id="img2stamp-feather" min="0" max="80" value="30" style="width:100%;">
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:10px;">
+        <canvas id="img2stamp-canvas" style="max-width:100%;width:320px;height:auto;border:1px solid var(--border);border-radius:8px;background-image:linear-gradient(45deg,#00000010 25%,transparent 25%),linear-gradient(-45deg,#00000010 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#00000010 75%),linear-gradient(-45deg,transparent 75%,#00000010 75%);background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0;"></canvas>
+      </div>
+
+      <div style="text-align:center;margin-top:16px;">
+        <button class="btn" id="img2stamp-download-btn" disabled>تنزيل الختم PNG (خلفية شفافة)</button>
+      </div>
+      <p class="note" id="img2stamp-note">ارفع صورة أولاً لتبدأ المعاينة، ثم حرّك "حساسية إزالة الخلفية" حتى تختفي الخلفية بالكامل ويبقى الحبر فقط. كل المعالجة تتم داخل متصفحك — لا تُرفع صورتك لأي سيرفر خارجي.</p>
+    </div>
+
+    <div class="card">
       <h2>مولد كلمات المرور</h2>
       <p class="hint">اختر الطول والخصائص، وولّد كلمة مرور عشوائية قوية فوراً.</p>
       <div class="field">
@@ -2644,6 +2695,119 @@ document.getElementById('seal-download-btn').addEventListener('click', ()=>{
   const a = document.createElement('a');
   a.href = url;
   a.download = 'ختم.png';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+});
+
+/* ============================================================
+   IMAGE TO STAMP CONVERTER
+   ============================================================ */
+let img2stampSourceImage = null;
+const img2stampCanvas = document.getElementById('img2stamp-canvas');
+const img2stampCtx = img2stampCanvas.getContext('2d');
+setupFilePicker('img2stamp-input', 'img2stamp-input-list', false);
+
+function renderImg2Stamp(){
+  if(!img2stampSourceImage) return;
+  const img = img2stampSourceImage;
+  const maxDim = 1000;
+  let w = img.naturalWidth, h = img.naturalHeight;
+  if(Math.max(w,h) > maxDim){
+    const scale = maxDim / Math.max(w,h);
+    w = Math.round(w*scale); h = Math.round(h*scale);
+  }
+  img2stampCanvas.width = w;
+  img2stampCanvas.height = h;
+
+  const off = document.createElement('canvas');
+  off.width = w; off.height = h;
+  const offCtx = off.getContext('2d');
+  offCtx.drawImage(img, 0, 0, w, h);
+  const imageData = offCtx.getImageData(0, 0, w, h);
+  const data = imageData.data;
+
+  const mode = document.getElementById('img2stamp-mode').value;
+  const invert = document.getElementById('img2stamp-invert').checked;
+  const threshold = parseInt(document.getElementById('img2stamp-threshold').value, 10);
+  const feather = Math.max(1, parseInt(document.getElementById('img2stamp-feather').value, 10) || 1);
+  const inkColor = document.getElementById('img2stamp-color').value;
+  const inkR = parseInt(inkColor.slice(1,3),16);
+  const inkG = parseInt(inkColor.slice(3,5),16);
+  const inkB = parseInt(inkColor.slice(5,7),16);
+
+  const lowBound = threshold - feather;
+  const highBound = threshold + feather;
+
+  for(let i=0;i<data.length;i+=4){
+    const r = data[i], g = data[i+1], b = data[i+2];
+    const lum = 0.299*r + 0.587*g + 0.114*b;
+    let alpha;
+    if(!invert){
+      if(lum <= lowBound) alpha = 255;
+      else if(lum >= highBound) alpha = 0;
+      else alpha = Math.round(255 * (highBound - lum) / (highBound - lowBound));
+    } else {
+      if(lum >= highBound) alpha = 255;
+      else if(lum <= lowBound) alpha = 0;
+      else alpha = Math.round(255 * (lum - lowBound) / (highBound - lowBound));
+    }
+    if(mode === 'recolor'){
+      data[i] = inkR; data[i+1] = inkG; data[i+2] = inkB;
+    }
+    data[i+3] = alpha;
+  }
+
+  offCtx.putImageData(imageData, 0, 0);
+  img2stampCtx.clearRect(0,0,w,h);
+  img2stampCtx.drawImage(off, 0, 0);
+}
+
+document.getElementById('img2stamp-input').addEventListener('change', ()=>{
+  const file = document.getElementById('img2stamp-input').files[0];
+  const downloadBtn = document.getElementById('img2stamp-download-btn');
+  const note = document.getElementById('img2stamp-note');
+  if(!file){
+    img2stampSourceImage = null;
+    downloadBtn.disabled = true;
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const img = new Image();
+    img.onload = ()=>{
+      img2stampSourceImage = img;
+      renderImg2Stamp();
+      downloadBtn.disabled = false;
+      note.textContent = 'اضبط الإعدادات أدناه حتى تختفي الخلفية بالكامل ويبقى الحبر فقط، ثم نزّل الصورة.';
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('img2stamp-mode').addEventListener('change', ()=>{
+  document.getElementById('img2stamp-color-wrap').style.display =
+    document.getElementById('img2stamp-mode').value === 'recolor' ? 'block' : 'none';
+  renderImg2Stamp();
+});
+document.getElementById('img2stamp-invert').addEventListener('change', renderImg2Stamp);
+document.getElementById('img2stamp-color').addEventListener('input', renderImg2Stamp);
+document.getElementById('img2stamp-threshold').addEventListener('input', ()=>{
+  document.getElementById('img2stamp-threshold-val').textContent = document.getElementById('img2stamp-threshold').value;
+  renderImg2Stamp();
+});
+document.getElementById('img2stamp-feather').addEventListener('input', ()=>{
+  document.getElementById('img2stamp-feather-val').textContent = document.getElementById('img2stamp-feather').value;
+  renderImg2Stamp();
+});
+
+document.getElementById('img2stamp-download-btn').addEventListener('click', ()=>{
+  if(!img2stampSourceImage) return;
+  const url = img2stampCanvas.toDataURL('image/png');
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'ختم_من_صورة.png';
   document.body.appendChild(a);
   a.click();
   a.remove();
