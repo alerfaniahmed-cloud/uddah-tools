@@ -2054,11 +2054,11 @@ function calcInheritance(input){
 
   // Grandfather blocked by living father
   if(fatherPresent && input.grandfatherAlive){
-    blocked.push({label:'الجد لأب', reason:'الأب'});
+    blocked.push({label:'الجد لأب', reason:'الأب', word:'محجوب'});
   }
   // Grandmother(s) blocked by living mother
   if(motherPresent && input.grandmothers > 0){
-    blocked.push({label: input.grandmothers>1 ? 'الجدات' : 'الجدة', reason:'الأم'});
+    blocked.push({label: input.grandmothers>1 ? 'الجدات' : 'الجدة', reason:'الأم', word: input.grandmothers>1 ? 'محجوبات' : 'محجوبة'});
   }
 
   let effFullBrothers = fullOrPaternalSiblingsBlocked ? 0 : input.fullBrothers;
@@ -2068,20 +2068,20 @@ function calcInheritance(input){
 
   if(fullOrPaternalSiblingsBlocked){
     const reason = hasSon ? 'الابن' : (fatherPresent ? 'الأب' : 'الجد لأب');
-    if(input.fullBrothers>0) blocked.push({label: input.fullBrothers>1?`الإخوة الأشقاء (${input.fullBrothers})`:'الأخ الشقيق', reason});
-    if(input.fullSisters>0) blocked.push({label: input.fullSisters>1?`الأخوات الشقيقات (${input.fullSisters})`:'الأخت الشقيقة', reason});
-    if(input.paternalBrothers>0) blocked.push({label: input.paternalBrothers>1?`الإخوة لأب (${input.paternalBrothers})`:'الأخ لأب', reason});
-    if(input.paternalSisters>0) blocked.push({label: input.paternalSisters>1?`الأخوات لأب (${input.paternalSisters})`:'الأخت لأب', reason});
+    if(input.fullBrothers>0) blocked.push({label: input.fullBrothers>1?`الإخوة الأشقاء (${input.fullBrothers})`:'الأخ الشقيق', reason, word: input.fullBrothers>1?'محجوبون':'محجوب'});
+    if(input.fullSisters>0) blocked.push({label: input.fullSisters>1?`الأخوات الشقيقات (${input.fullSisters})`:'الأخت الشقيقة', reason, word: input.fullSisters>1?'محجوبات':'محجوبة'});
+    if(input.paternalBrothers>0) blocked.push({label: input.paternalBrothers>1?`الإخوة لأب (${input.paternalBrothers})`:'الأخ لأب', reason, word: input.paternalBrothers>1?'محجوبون':'محجوب'});
+    if(input.paternalSisters>0) blocked.push({label: input.paternalSisters>1?`الأخوات لأب (${input.paternalSisters})`:'الأخت لأب', reason, word: input.paternalSisters>1?'محجوبات':'محجوبة'});
   } else if((effFullBrothers > 0 || effFullSisters > 0)){
-    if(input.paternalBrothers>0) blocked.push({label: input.paternalBrothers>1?`الإخوة لأب (${input.paternalBrothers})`:'الأخ لأب', reason:'وجود إخوة/أخوات أشقاء'});
-    if(input.paternalSisters>0) blocked.push({label: input.paternalSisters>1?`الأخوات لأب (${input.paternalSisters})`:'الأخت لأب', reason:'وجود إخوة/أخوات أشقاء'});
+    if(input.paternalBrothers>0) blocked.push({label: input.paternalBrothers>1?`الإخوة لأب (${input.paternalBrothers})`:'الأخ لأب', reason:'وجود إخوة/أخوات أشقاء', word: input.paternalBrothers>1?'محجوبون':'محجوب'});
+    if(input.paternalSisters>0) blocked.push({label: input.paternalSisters>1?`الأخوات لأب (${input.paternalSisters})`:'الأخت لأب', reason:'وجود إخوة/أخوات أشقاء', word: input.paternalSisters>1?'محجوبات':'محجوبة'});
   }
   if(effFullBrothers > 0 || effFullSisters > 0){ effPaternalBrothers = 0; effPaternalSisters = 0; }
 
   let effMaternalSiblings = maternalSiblingsBlocked ? 0 : input.maternalSiblings;
   if(maternalSiblingsBlocked && input.maternalSiblings > 0){
     const reason = hasChild ? 'وجود فرع وارث (أبناء/بنات)' : (fatherPresent ? 'الأب' : 'الجد لأب');
-    blocked.push({label: input.maternalSiblings>1?`الإخوة/الأخوات لأم (${input.maternalSiblings})`:'الأخ/الأخت لأم', reason});
+    blocked.push({label: input.maternalSiblings>1?`الإخوة/الأخوات لأم (${input.maternalSiblings})`:'الأخ/الأخت لأم', reason, word: input.maternalSiblings>1?'محجوبون':'محجوب'});
   }
 
   const shares = [];
@@ -2293,7 +2293,7 @@ document.getElementById('inh-btn').addEventListener('click', ()=>{
   const blockedBox = document.getElementById('inh-blocked-box');
   const blockedList = document.getElementById('inh-blocked-list');
   if(blocked.length > 0){
-    blockedList.innerHTML = blocked.map(b => `<li>${b.label} — محجوب بـ${b.reason}</li>`).join('');
+    blockedList.innerHTML = blocked.map(b => `<li>${b.label} — ${b.word || 'محجوب'} بـ${b.reason}</li>`).join('');
     blockedBox.style.display = 'block';
   } else {
     blockedBox.style.display = 'none';
