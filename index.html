@@ -1080,6 +1080,57 @@
     </div>
 
     <div class="card">
+      <h2>قص عدة صور دفعة واحدة</h2>
+      <p class="hint">ارفع عدة صور بنفس المقاس تقريباً (مثل صفحات كتاب مصوّرة فيها هوامش سوداء تبي تشيلها)، حدد مقدار القص من كل جهة مرة وحدة على صورة مرجعية، وطبّقه على كل الصور دفعة واحدة مع معاينة قبل التنزيل.</p>
+
+      <div class="field">
+        <label for="bulkcrop-files">الصور (اختر عدة صور مرة واحدة)</label>
+        <input type="file" id="bulkcrop-files" accept="image/png,image/jpeg,image/webp" multiple>
+        <div class="file-list" id="bulkcrop-files-list"></div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="bulkcrop-top">قص من الأعلى: <span id="bulkcrop-top-val">0</span>٪</label>
+          <input type="range" id="bulkcrop-top" min="0" max="49" value="0" style="width:100%;">
+        </div>
+        <div class="field">
+          <label for="bulkcrop-bottom">قص من الأسفل: <span id="bulkcrop-bottom-val">0</span>٪</label>
+          <input type="range" id="bulkcrop-bottom" min="0" max="49" value="0" style="width:100%;">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="bulkcrop-left">قص من اليسار: <span id="bulkcrop-left-val">0</span>٪</label>
+          <input type="range" id="bulkcrop-left" min="0" max="49" value="0" style="width:100%;">
+        </div>
+        <div class="field">
+          <label for="bulkcrop-right">قص من اليمين: <span id="bulkcrop-right-val">0</span>٪</label>
+          <input type="range" id="bulkcrop-right" min="0" max="49" value="0" style="width:100%;">
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:10px;">
+        <p class="hint" style="margin-bottom:6px;">معاينة على أول صورة (المناطق المظلّلة بتنحذف)</p>
+        <canvas id="bulkcrop-preview-canvas" style="max-width:100%;width:280px;height:auto;border:1px solid var(--border);border-radius:8px;"></canvas>
+      </div>
+
+      <div style="text-align:center;margin-top:16px;">
+        <button class="btn" id="bulkcrop-apply-btn" disabled>تطبيق القص على كل الصور</button>
+      </div>
+
+      <div id="bulkcrop-results-wrap" style="display:none;margin-top:18px;">
+        <p class="hint" style="margin-bottom:10px;">معاينة النتائج (<span id="bulkcrop-count">0</span> صورة)</p>
+        <div id="bulkcrop-thumbs" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;"></div>
+        <div style="text-align:center;margin-top:16px;">
+          <button class="btn" id="bulkcrop-download-btn">تنزيل الكل (ZIP)</button>
+        </div>
+      </div>
+      <div id="bulkcrop-status"></div>
+      <p class="note">كل المعالجة تتم داخل متصفحك — الصور ما تُرفع لأي سيرفر خارجي.</p>
+    </div>
+
+    <div class="card">
       <h2>مولد كلمات المرور</h2>
       <p class="hint">اختر الطول والخصائص، وولّد كلمة مرور عشوائية قوية فوراً.</p>
       <div class="field">
@@ -3289,6 +3340,150 @@ document.getElementById('card2s-print-btn').addEventListener('click', ()=>{
     printWindow.print();
   };
 });
+
+/* ============================================================
+   BULK IMAGE CROPPER
+   ============================================================ */
+let bulkcropFiles = [];
+let bulkcropReferenceImage = null;
+let bulkcropResults = [];
+
+setupFilePicker('bulkcrop-files', 'bulkcrop-files-list', true);
+
+document.getElementById('bulkcrop-files').addEventListener('change', ()=>{
+  const files = Array.from(document.getElementById('bulkcrop-files').files);
+  bulkcropFiles = files;
+  document.getElementById('bulkcrop-apply-btn').disabled = files.length === 0;
+  document.getElementById('bulkcrop-results-wrap').style.display = 'none';
+  document.getElementById('bulkcrop-status').innerHTML = '';
+  if(files.length === 0){ bulkcropReferenceImage = null; renderBulkcropPreview(); return; }
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const img = new Image();
+    img.onload = ()=>{ bulkcropReferenceImage = img; renderBulkcropPreview(); };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(files[0]);
+});
+
+function bulkcropGetPercents(){
+  return {
+    top: parseFloat(document.getElementById('bulkcrop-top').value) || 0,
+    bottom: parseFloat(document.getElementById('bulkcrop-bottom').value) || 0,
+    left: parseFloat(document.getElementById('bulkcrop-left').value) || 0,
+    right: parseFloat(document.getElementById('bulkcrop-right').value) || 0
+  };
+}
+
+function renderBulkcropPreview(){
+  const canvas = document.getElementById('bulkcrop-preview-canvas');
+  const ctx = canvas.getContext('2d');
+  if(!bulkcropReferenceImage){
+    canvas.width = 280; canvas.height = 160;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    return;
+  }
+  const img = bulkcropReferenceImage;
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  ctx.drawImage(img, 0, 0);
+  const pct = bulkcropGetPercents();
+  const w = canvas.width, h = canvas.height;
+  const topPx = h * (pct.top/100);
+  const bottomPx = h * (pct.bottom/100);
+  const leftPx = w * (pct.left/100);
+  const rightPx = w * (pct.right/100);
+  ctx.fillStyle = 'rgba(0,0,0,0.55)';
+  if(topPx > 0) ctx.fillRect(0, 0, w, topPx);
+  if(bottomPx > 0) ctx.fillRect(0, h-bottomPx, w, bottomPx);
+  if(leftPx > 0) ctx.fillRect(0, topPx, leftPx, h-topPx-bottomPx);
+  if(rightPx > 0) ctx.fillRect(w-rightPx, topPx, rightPx, h-topPx-bottomPx);
+}
+
+['bulkcrop-top','bulkcrop-bottom','bulkcrop-left','bulkcrop-right'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', ()=>{
+    document.getElementById(id+'-val').textContent = document.getElementById(id).value;
+    renderBulkcropPreview();
+  });
+});
+
+function bulkcropImageFromFile(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onload = ()=>resolve(img);
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+document.getElementById('bulkcrop-apply-btn').addEventListener('click', async ()=>{
+  const btn = document.getElementById('bulkcrop-apply-btn');
+  if(!bulkcropFiles.length) return;
+  setBusy(btn, true, 'جارٍ المعالجة...', 'تطبيق القص على كل الصور');
+  const pct = bulkcropGetPercents();
+  const thumbsWrap = document.getElementById('bulkcrop-thumbs');
+  thumbsWrap.innerHTML = '';
+  bulkcropResults = [];
+  try{
+    for(const file of bulkcropFiles){
+      const img = await bulkcropImageFromFile(file);
+      const w = img.naturalWidth, h = img.naturalHeight;
+      const topPx = Math.round(h * (pct.top/100));
+      const bottomPx = Math.round(h * (pct.bottom/100));
+      const leftPx = Math.round(w * (pct.left/100));
+      const rightPx = Math.round(w * (pct.right/100));
+      const cropW = Math.max(1, w - leftPx - rightPx);
+      const cropH = Math.max(1, h - topPx - bottomPx);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = cropW; canvas.height = cropH;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, leftPx, topPx, cropW, cropH, 0, 0, cropW, cropH);
+
+      const dataUrl = canvas.toDataURL('image/png');
+      const baseName = file.name.replace(/\.[^.]+$/, '');
+      const outName = baseName + '-cropped.png';
+      bulkcropResults.push({ name: outName, dataUrl });
+
+      const thumb = document.createElement('img');
+      thumb.src = dataUrl;
+      thumb.title = outName;
+      thumb.style.cssText = 'width:100px;height:auto;border:1px solid var(--border);border-radius:6px;';
+      thumbsWrap.appendChild(thumb);
+    }
+    document.getElementById('bulkcrop-count').textContent = bulkcropResults.length;
+    document.getElementById('bulkcrop-results-wrap').style.display = 'block';
+    setStatus('bulkcrop-status', `تم قص ${bulkcropResults.length} صورة بنجاح — راجع المعاينة تحت ثم نزّلها.`, 'ok');
+  }catch(e){
+    setStatus('bulkcrop-status', 'تعذرت معالجة بعض الصور — تأكد إنها ملفات صور صحيحة.', 'err');
+  }
+  setBusy(btn, false, '', 'تطبيق القص على كل الصور');
+});
+
+document.getElementById('bulkcrop-download-btn').addEventListener('click', async ()=>{
+  if(!bulkcropResults.length) return;
+  const btn = document.getElementById('bulkcrop-download-btn');
+  setBusy(btn, true, 'جارٍ التجهيز...', 'تنزيل الكل (ZIP)');
+  try{
+    const zip = new JSZip();
+    for(const r of bulkcropResults){
+      const blob = await (await fetch(r.dataUrl)).blob();
+      zip.file(r.name, blob);
+    }
+    const zipBlob = await zip.generateAsync({type:'blob'});
+    downloadBlob(zipBlob, 'صور-مقصوصة.zip');
+  }catch(e){
+    setStatus('bulkcrop-status', 'تعذر إنشاء ملف ZIP.', 'err');
+  }
+  setBusy(btn, false, '', 'تنزيل الكل (ZIP)');
+});
+
+renderBulkcropPreview();
 
 /* ============================================================
    PASSWORD GENERATOR
