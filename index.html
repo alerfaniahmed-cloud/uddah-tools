@@ -1004,6 +1004,10 @@
         </div>
       </div>
 
+      <div style="text-align:center;margin:2px 0 14px;">
+        <button type="button" class="btn secondary" id="card2s-orientation-btn" style="padding:8px 16px;font-size:.85rem;">تبديل الاتجاه (أفقي ⇄ عامودي)</button>
+      </div>
+
       <div class="field">
         <label for="card2s-image">صورة (شعار أو ختم) — اختياري</label>
         <input type="file" id="card2s-image" accept="image/png,image/jpeg,image/webp">
@@ -3087,6 +3091,18 @@ function card2sSyncDimension(mmId, cmId){
 }
 card2sSyncDimension('card2s-width', 'card2s-width-cm');
 card2sSyncDimension('card2s-height', 'card2s-height-cm');
+
+document.getElementById('card2s-orientation-btn').addEventListener('click', ()=>{
+  const wEl = document.getElementById('card2s-width');
+  const hEl = document.getElementById('card2s-height');
+  const wCmEl = document.getElementById('card2s-width-cm');
+  const hCmEl = document.getElementById('card2s-height-cm');
+  const wVal = wEl.value, hVal = hEl.value;
+  const wCmVal = wCmEl.value, hCmVal = hCmEl.value;
+  wEl.value = hVal; hEl.value = wVal;
+  wCmEl.value = hCmVal; hCmEl.value = wCmVal;
+  renderCard2SBoth();
+});
 
 document.getElementById('card2s-font-family').addEventListener('change', async ()=>{
   const fam = document.getElementById('card2s-font-family').value;
