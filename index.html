@@ -923,12 +923,22 @@
         <div class="file-list" id="img2stamp-input-list"></div>
       </div>
 
-      <div class="field">
-        <label for="img2stamp-mode">طريقة التحويل</label>
-        <select id="img2stamp-mode">
-          <option value="recolor">لون واحد موحّد (محاكاة حبر الختم)</option>
-          <option value="transparent">إزالة الخلفية فقط (مع الاحتفاظ بالألوان الأصلية)</option>
-        </select>
+      <div class="row">
+        <div class="field">
+          <label for="img2stamp-mode">طريقة التحويل</label>
+          <select id="img2stamp-mode">
+            <option value="recolor">لون واحد موحّد (محاكاة حبر الختم)</option>
+            <option value="transparent">إزالة الخلفية فقط (مع الاحتفاظ بالألوان الأصلية)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="img2stamp-shape">قص الناتج بشكل</label>
+          <select id="img2stamp-shape">
+            <option value="original">بدون قص (الشكل الأصلي)</option>
+            <option value="circle">دائري</option>
+            <option value="square">مربع</option>
+          </select>
+        </div>
       </div>
 
       <div class="row">
@@ -952,6 +962,10 @@
           <label for="img2stamp-feather">نعومة الحواف: <span id="img2stamp-feather-val">30</span></label>
           <input type="range" id="img2stamp-feather" min="0" max="80" value="30" style="width:100%;">
         </div>
+      </div>
+
+      <div style="text-align:center;margin-top:4px;">
+        <button type="button" class="btn secondary" id="img2stamp-auto-btn" style="padding:8px 18px;font-size:.85rem;">اكتشاف الخلفية تلقائياً من زوايا الصورة</button>
       </div>
 
       <div style="text-align:center;margin-top:10px;">
@@ -2755,12 +2769,39 @@ function renderImg2Stamp(){
     if(mode === 'recolor'){
       data[i] = inkR; data[i+1] = inkG; data[i+2] = inkB;
     }
-    data[i+3] = alpha;
+    const originalAlpha = data[i+3];
+    data[i+3] = Math.round((alpha * originalAlpha) / 255);
   }
 
   offCtx.putImageData(imageData, 0, 0);
   img2stampCtx.clearRect(0,0,w,h);
   img2stampCtx.drawImage(off, 0, 0);
+
+  const shape = document.getElementById('img2stamp-shape').value;
+  applyImg2StampShapeMask(img2stampCtx, w, h, shape);
+}
+
+function applyImg2StampShapeMask(ctx, w, h, shape){
+  if(shape === 'original') return;
+  const maskCanvas = document.createElement('canvas');
+  maskCanvas.width = w;
+  maskCanvas.height = h;
+  const maskCtx = maskCanvas.getContext('2d');
+  maskCtx.fillStyle = '#000';
+  const cx = w/2, cy = h/2;
+  if(shape === 'circle'){
+    const r = Math.min(w,h)/2;
+    maskCtx.beginPath();
+    maskCtx.arc(cx, cy, r, 0, Math.PI*2);
+    maskCtx.fill();
+  } else { // square
+    const s = Math.min(w,h);
+    maskCtx.fillRect(cx-s/2, cy-s/2, s, s);
+  }
+  ctx.save();
+  ctx.globalCompositeOperation = 'destination-in';
+  ctx.drawImage(maskCanvas, 0, 0);
+  ctx.restore();
 }
 
 document.getElementById('img2stamp-input').addEventListener('change', ()=>{
@@ -2791,6 +2832,7 @@ document.getElementById('img2stamp-mode').addEventListener('change', ()=>{
     document.getElementById('img2stamp-mode').value === 'recolor' ? 'block' : 'none';
   renderImg2Stamp();
 });
+document.getElementById('img2stamp-shape').addEventListener('change', renderImg2Stamp);
 document.getElementById('img2stamp-invert').addEventListener('change', renderImg2Stamp);
 document.getElementById('img2stamp-color').addEventListener('input', renderImg2Stamp);
 document.getElementById('img2stamp-threshold').addEventListener('input', ()=>{
@@ -2800,6 +2842,40 @@ document.getElementById('img2stamp-threshold').addEventListener('input', ()=>{
 document.getElementById('img2stamp-feather').addEventListener('input', ()=>{
   document.getElementById('img2stamp-feather-val').textContent = document.getElementById('img2stamp-feather').value;
   renderImg2Stamp();
+});
+
+document.getElementById('img2stamp-auto-btn').addEventListener('click', ()=>{
+  if(!img2stampSourceImage) return;
+  const img = img2stampSourceImage;
+  const off = document.createElement('canvas');
+  off.width = img.naturalWidth;
+  off.height = img.naturalHeight;
+  const offCtx = off.getContext('2d');
+  offCtx.drawImage(img, 0, 0);
+  const w = off.width, h = off.height;
+  const patch = Math.max(4, Math.round(Math.min(w,h)*0.04));
+  const samples = [
+    offCtx.getImageData(0, 0, patch, patch),
+    offCtx.getImageData(w-patch, 0, patch, patch),
+    offCtx.getImageData(0, h-patch, patch, patch),
+    offCtx.getImageData(w-patch, h-patch, patch, patch)
+  ];
+  let sum = 0, count = 0;
+  samples.forEach(d=>{
+    const arr = d.data;
+    for(let i=0; i<arr.length; i+=4){
+      sum += 0.299*arr[i] + 0.587*arr[i+1] + 0.114*arr[i+2];
+      count++;
+    }
+  });
+  const avgBackgroundLum = sum / count;
+  const feather = parseInt(document.getElementById('img2stamp-feather').value, 10) || 30;
+  let newThreshold = Math.round(avgBackgroundLum - feather - 5);
+  newThreshold = Math.max(10, Math.min(245, newThreshold));
+  document.getElementById('img2stamp-threshold').value = newThreshold;
+  document.getElementById('img2stamp-threshold-val').textContent = newThreshold;
+  renderImg2Stamp();
+  document.getElementById('img2stamp-note').textContent = 'تم ضبط الحساسية تلقائياً بناءً على لون زوايا الصورة. لو النتيجة مو مثالية، حرّك السلايدرات يدوياً.';
 });
 
 document.getElementById('img2stamp-download-btn').addEventListener('click', ()=>{
