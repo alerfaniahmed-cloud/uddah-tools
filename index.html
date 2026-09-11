@@ -1064,6 +1064,11 @@
         </div>
       </div>
 
+      <div class="field">
+        <label for="card2s-text-y">موضع النص عمودياً: <span id="card2s-text-y-val">60</span>٪ (٠ = أعلى الكرت، ١٠٠ = أسفله)</label>
+        <input type="range" id="card2s-text-y" min="0" max="100" value="60" style="width:100%;">
+      </div>
+
       <div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-top:14px;">
         <div style="text-align:center;">
           <p class="hint" style="margin-bottom:6px;">الوجه</p>
@@ -3043,14 +3048,10 @@ function renderCard2SSide(canvas, isFront){
     ctx.textBaseline = 'middle';
     const lineHeight = fontPx * 1.4;
     const totalTextHeight = lineHeight * lines.length;
-    let startY;
-    if(showImage){
-      const availableTop = imgBottom + h*0.06;
-      const availableHeight = h - availableTop;
-      startY = availableTop + (availableHeight - totalTextHeight)/2 + lineHeight/2;
-    } else {
-      startY = (h - totalTextHeight)/2 + lineHeight/2;
-    }
+    const textYPct = parseFloat(document.getElementById('card2s-text-y').value);
+    const textYPercent = isNaN(textYPct) ? 60 : textYPct;
+    const textCenterY = h * (textYPercent/100);
+    const startY = textCenterY - totalTextHeight/2 + lineHeight/2;
     lines.forEach((line,i)=>{
       ctx.fillText(line, w/2, startY + i*lineHeight);
     });
@@ -3110,12 +3111,13 @@ document.getElementById('card2s-font-family').addEventListener('change', async (
   renderCard2SBoth();
 });
 
-['card2s-image-side','card2s-image-size','card2s-front-text','card2s-back-text','card2s-text-color','card2s-font-size'].forEach(id=>{
+['card2s-image-side','card2s-image-size','card2s-front-text','card2s-back-text','card2s-text-color','card2s-font-size','card2s-text-y'].forEach(id=>{
   const el = document.getElementById(id);
   const evt = (el.tagName === 'SELECT' || el.type === 'color') ? 'change' : 'input';
   el.addEventListener(evt, ()=>{
     if(id === 'card2s-image-size') document.getElementById('card2s-image-size-val').textContent = el.value;
     if(id === 'card2s-font-size') document.getElementById('card2s-font-size-val').textContent = el.value;
+    if(id === 'card2s-text-y') document.getElementById('card2s-text-y-val').textContent = el.value;
     renderCard2SBoth();
   });
 });
