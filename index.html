@@ -1077,7 +1077,7 @@
         <button class="btn secondary" id="card2s-download-back-btn" style="padding:9px 16px;font-size:.85rem;">تنزيل الظهر PNG</button>
         <button class="btn secondary" id="card2s-download-pdf-btn" style="padding:9px 16px;font-size:.85rem;">تنزيل PDF (الوجهين)</button>
       </div>
-      <p class="note">زر "طباعة مباشرة" يطبع الكرت على ورقة A4 عادية مع إطار قص (خط متقطع) بالمقاس الحقيقي بالضبط حوالين كل وجه — قصّه بالمقص أو قاطع الورق وتطلع لك بالحجم الصحيح تماماً بدون الاعتماد على إعدادات مقاس الورق بالطابعة (اللي تختلف من طابعة لثانية).</p>
+      <p class="note">كل صيغ التنزيل (PNG للوجه، PNG للظهر، PDF، والطباعة المباشرة) تتضمن الآن إطار قص (خط متقطع) بالمقاس الحقيقي بالضبط حوالين الكرت، مع هامش أبيض بسيط حوله — قصّه بالمقص أو قاطع الورق وتطلع لك بالحجم الصحيح تماماً، بغض النظر عن كيف أو من وين تطبعها.</p>
       <p class="note">تُصمَّم البطاقة بدقة طباعة ٣٠٠ نقطة/إنش وخلفية بيضاء ثابتة، جاهزة للإرسال مباشرة لأي مطبعة. كل شي يتم داخل متصفحك.</p>
     </div>
 
@@ -3109,16 +3109,38 @@ if(document.fonts && document.fonts.ready){
 }
 renderCard2SBoth();
 
+const CARD2S_BLEED_MM = 6;
+
+function buildCard2SExportCanvas(sourceCanvas){
+  const bleedPx = card2sMmToPx(CARD2S_BLEED_MM);
+  const cardWpx = sourceCanvas.width, cardHpx = sourceCanvas.height;
+  const outCanvas = document.createElement('canvas');
+  outCanvas.width = cardWpx + bleedPx*2;
+  outCanvas.height = cardHpx + bleedPx*2;
+  const ctx = outCanvas.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, outCanvas.width, outCanvas.height);
+  ctx.drawImage(sourceCanvas, bleedPx, bleedPx);
+  ctx.save();
+  ctx.strokeStyle = '#999999';
+  ctx.lineWidth = Math.max(1, card2sMmToPx(0.35));
+  const dash = card2sMmToPx(2);
+  ctx.setLineDash([dash, dash*0.6]);
+  ctx.strokeRect(bleedPx, bleedPx, cardWpx, cardHpx);
+  ctx.restore();
+  return outCanvas;
+}
+
 document.getElementById('card2s-download-front-btn').addEventListener('click', ()=>{
-  const canvas = document.getElementById('card2s-front-canvas');
-  const url = canvas.toDataURL('image/png');
+  const exportCanvas = buildCard2SExportCanvas(document.getElementById('card2s-front-canvas'));
+  const url = exportCanvas.toDataURL('image/png');
   const a = document.createElement('a');
   a.href = url; a.download = 'كرت-الوجه.png';
   document.body.appendChild(a); a.click(); a.remove();
 });
 document.getElementById('card2s-download-back-btn').addEventListener('click', ()=>{
-  const canvas = document.getElementById('card2s-back-canvas');
-  const url = canvas.toDataURL('image/png');
+  const exportCanvas = buildCard2SExportCanvas(document.getElementById('card2s-back-canvas'));
+  const url = exportCanvas.toDataURL('image/png');
   const a = document.createElement('a');
   a.href = url; a.download = 'كرت-الظهر.png';
   document.body.appendChild(a); a.click(); a.remove();
@@ -3128,20 +3150,20 @@ document.getElementById('card2s-download-pdf-btn').addEventListener('click', asy
   const btn = document.getElementById('card2s-download-pdf-btn');
   setBusy(btn, true, 'جارٍ التجهيز...', 'تنزيل PDF (الوجهين)');
   try{
-    const widthMm = parseFloat(document.getElementById('card2s-width').value) || 90;
-    const heightMm = parseFloat(document.getElementById('card2s-height').value) || 50;
+    const widthMm = (parseFloat(document.getElementById('card2s-width').value) || 90) + CARD2S_BLEED_MM*2;
+    const heightMm = (parseFloat(document.getElementById('card2s-height').value) || 50) + CARD2S_BLEED_MM*2;
     const widthPt = widthMm * 2.83465;
     const heightPt = heightMm * 2.83465;
 
     const pdfDoc = await PDFDocument.create();
-    const frontCanvas = document.getElementById('card2s-front-canvas');
-    const backCanvas = document.getElementById('card2s-back-canvas');
+    const frontExport = buildCard2SExportCanvas(document.getElementById('card2s-front-canvas'));
+    const backExport = buildCard2SExportCanvas(document.getElementById('card2s-back-canvas'));
 
-    const frontImg = await pdfDoc.embedPng(frontCanvas.toDataURL('image/png'));
+    const frontImg = await pdfDoc.embedPng(frontExport.toDataURL('image/png'));
     const page1 = pdfDoc.addPage([widthPt, heightPt]);
     page1.drawImage(frontImg, {x:0, y:0, width:widthPt, height:heightPt});
 
-    const backImg = await pdfDoc.embedPng(backCanvas.toDataURL('image/png'));
+    const backImg = await pdfDoc.embedPng(backExport.toDataURL('image/png'));
     const page2 = pdfDoc.addPage([widthPt, heightPt]);
     page2.drawImage(backImg, {x:0, y:0, width:widthPt, height:heightPt});
 
@@ -3156,10 +3178,12 @@ document.getElementById('card2s-download-pdf-btn').addEventListener('click', asy
 document.getElementById('card2s-print-btn').addEventListener('click', ()=>{
   const widthMm = parseFloat(document.getElementById('card2s-width').value) || 90;
   const heightMm = parseFloat(document.getElementById('card2s-height').value) || 50;
-  const frontCanvas = document.getElementById('card2s-front-canvas');
-  const backCanvas = document.getElementById('card2s-back-canvas');
-  const frontUrl = frontCanvas.toDataURL('image/png');
-  const backUrl = backCanvas.toDataURL('image/png');
+  const frontExport = buildCard2SExportCanvas(document.getElementById('card2s-front-canvas'));
+  const backExport = buildCard2SExportCanvas(document.getElementById('card2s-back-canvas'));
+  const frontUrl = frontExport.toDataURL('image/png');
+  const backUrl = backExport.toDataURL('image/png');
+  const printW = widthMm + CARD2S_BLEED_MM*2;
+  const printH = heightMm + CARD2S_BLEED_MM*2;
   const sizeLabel = widthMm + '×' + heightMm + ' مم';
 
   const printWindow = window.open('', '_blank', 'width=600,height=700');
@@ -3175,15 +3199,14 @@ document.getElementById('card2s-print-btn').addEventListener('click', ()=>{
     'html,body{ margin:0; padding:0; background:#fff; font-family:sans-serif; direction:rtl; }' +
     '.sheet{ display:flex; flex-wrap:wrap; align-items:flex-start; gap:10mm; }' +
     '.piece{ text-align:center; }' +
-    '.frame{ box-sizing:border-box; width:' + widthMm + 'mm; height:' + heightMm + 'mm; border:0.4mm dashed #999; overflow:hidden; }' +
-    '.frame img{ display:block; width:100%; height:100%; }' +
+    '.piece img{ display:block; width:' + printW + 'mm; height:' + printH + 'mm; }' +
     '.cap{ margin-top:2mm; font-size:9pt; color:#666; }' +
     '.instructions{ font-size:9pt; color:#666; margin-bottom:8mm; }' +
     '</style></head><body>' +
     '<p class="instructions">قص على الخط المتقطع حوالين كل وجه للحصول على المقاس الحقيقي (' + sizeLabel + ').</p>' +
     '<div class="sheet">' +
-    '<div class="piece"><div class="frame"><img src="' + frontUrl + '"></div><div class="cap">الوجه — ' + sizeLabel + '</div></div>' +
-    '<div class="piece"><div class="frame"><img src="' + backUrl + '"></div><div class="cap">الظهر — ' + sizeLabel + '</div></div>' +
+    '<div class="piece"><img src="' + frontUrl + '"><div class="cap">الوجه — ' + sizeLabel + '</div></div>' +
+    '<div class="piece"><img src="' + backUrl + '"><div class="cap">الظهر — ' + sizeLabel + '</div></div>' +
     '</div>' +
     '</body></html>'
   );
