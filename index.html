@@ -1072,10 +1072,12 @@
       </div>
 
       <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px;">
+        <button class="btn" id="card2s-print-btn">طباعة مباشرة (بالحجم الحقيقي)</button>
         <button class="btn secondary" id="card2s-download-front-btn" style="padding:9px 16px;font-size:.85rem;">تنزيل الوجه PNG</button>
         <button class="btn secondary" id="card2s-download-back-btn" style="padding:9px 16px;font-size:.85rem;">تنزيل الظهر PNG</button>
-        <button class="btn" id="card2s-download-pdf-btn">تنزيل PDF (الوجهين)</button>
+        <button class="btn secondary" id="card2s-download-pdf-btn" style="padding:9px 16px;font-size:.85rem;">تنزيل PDF (الوجهين)</button>
       </div>
+      <p class="note">زر "طباعة مباشرة" يفتح نافذة طباعة ويضبط حجم الورقة تلقائياً على مقاس الكرت نفسه (بدون تكبير). لو ظهرت بنافذة الطباعة خيارات مثل "المقياس" أو "احتواء الصفحة"، اختر <b>الحجم الفعلي (100%)</b> وليس "احتواء الصفحة" حتى يطبع بالمقاس الصحيح تماماً.</p>
       <p class="note">تُصمَّم البطاقة بدقة طباعة ٣٠٠ نقطة/إنش وخلفية بيضاء ثابتة، جاهزة للإرسال مباشرة لأي مطبعة. كل شي يتم داخل متصفحك.</p>
     </div>
 
@@ -3149,6 +3151,39 @@ document.getElementById('card2s-download-pdf-btn').addEventListener('click', asy
     alert('تعذر إنشاء ملف PDF، حاول مرة أخرى.');
   }
   setBusy(btn, false, '', 'تنزيل PDF (الوجهين)');
+});
+
+document.getElementById('card2s-print-btn').addEventListener('click', ()=>{
+  const widthMm = parseFloat(document.getElementById('card2s-width').value) || 90;
+  const heightMm = parseFloat(document.getElementById('card2s-height').value) || 50;
+  const frontCanvas = document.getElementById('card2s-front-canvas');
+  const backCanvas = document.getElementById('card2s-back-canvas');
+  const frontUrl = frontCanvas.toDataURL('image/png');
+  const backUrl = backCanvas.toDataURL('image/png');
+
+  const printWindow = window.open('', '_blank', 'width=500,height=500');
+  if(!printWindow){
+    alert('تعذر فتح نافذة الطباعة — تأكد إن المتصفح ما يمنع النوافذ المنبثقة لهذا الموقع، وحاول مرة أخرى.');
+    return;
+  }
+  printWindow.document.open();
+  printWindow.document.write(
+    '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>طباعة الكرت</title>' +
+    '<style>' +
+    '@page{ size:' + widthMm + 'mm ' + heightMm + 'mm; margin:0; }' +
+    'html,body{ margin:0; padding:0; background:#fff; }' +
+    'img{ display:block; width:' + widthMm + 'mm; height:' + heightMm + 'mm; page-break-after:always; }' +
+    'img:last-child{ page-break-after:auto; }' +
+    '</style></head><body>' +
+    '<img src="' + frontUrl + '">' +
+    '<img src="' + backUrl + '">' +
+    '</body></html>'
+  );
+  printWindow.document.close();
+  printWindow.onload = ()=>{
+    printWindow.focus();
+    printWindow.print();
+  };
 });
 
 /* ============================================================
