@@ -1009,25 +1009,23 @@
       </div>
 
       <div class="field">
-        <label for="card2s-image">صورة (شعار أو ختم) — اختياري</label>
-        <input type="file" id="card2s-image" accept="image/png,image/jpeg,image/webp">
-        <div class="file-list" id="card2s-image-list"></div>
+        <label for="card2s-front-image">صورة الوجه (شعار أو ختم) — اختياري</label>
+        <input type="file" id="card2s-front-image" accept="image/png,image/jpeg,image/webp">
+        <div class="file-list" id="card2s-front-image-list"></div>
+      </div>
+      <div class="field">
+        <label for="card2s-front-image-size">حجم صورة الوجه: <span id="card2s-front-image-size-val">30</span>٪ من عرض الكرت</label>
+        <input type="range" id="card2s-front-image-size" min="10" max="80" value="30" style="width:100%;">
       </div>
 
-      <div class="row">
-        <div class="field">
-          <label for="card2s-image-side">الصورة تظهر في</label>
-          <select id="card2s-image-side">
-            <option value="front">الوجه فقط</option>
-            <option value="back">الظهر فقط</option>
-            <option value="both">الوجهين</option>
-            <option value="none">بدون صورة</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="card2s-image-size">حجم الصورة: <span id="card2s-image-size-val">30</span>٪ من عرض الكرت</label>
-          <input type="range" id="card2s-image-size" min="10" max="80" value="30" style="width:100%;">
-        </div>
+      <div class="field">
+        <label for="card2s-back-image">صورة الظهر (شعار أو ختم) — اختياري</label>
+        <input type="file" id="card2s-back-image" accept="image/png,image/jpeg,image/webp">
+        <div class="file-list" id="card2s-back-image-list"></div>
+      </div>
+      <div class="field">
+        <label for="card2s-back-image-size">حجم صورة الظهر: <span id="card2s-back-image-size-val">30</span>٪ من عرض الكرت</label>
+        <input type="range" id="card2s-back-image-size" min="10" max="80" value="30" style="width:100%;">
       </div>
 
       <div class="field">
@@ -2996,7 +2994,8 @@ document.getElementById('img2stamp-download-btn').addEventListener('click', ()=>
    TWO-SIDED CARD MAKER
    ============================================================ */
 const CARD2S_DPI = 300;
-let card2sImage = null;
+let card2sFrontImage = null;
+let card2sBackImage = null;
 
 function card2sMmToPx(mm){ return Math.round(mm * CARD2S_DPI / 25.4); }
 
@@ -3009,17 +3008,16 @@ function renderCard2SSide(canvas, isFront){
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, w, h);
 
-  const imageSide = document.getElementById('card2s-image-side').value;
-  const showImage = card2sImage && (imageSide === 'both' || (isFront && imageSide === 'front') || (!isFront && imageSide === 'back'));
-
-  if(showImage){
-    const imgSizePct = parseFloat(document.getElementById('card2s-image-size').value) || 30;
+  const sideImage = isFront ? card2sFrontImage : card2sBackImage;
+  if(sideImage){
+    const sizeInputId = isFront ? 'card2s-front-image-size' : 'card2s-back-image-size';
+    const imgSizePct = parseFloat(document.getElementById(sizeInputId).value) || 30;
     const imgW = w * (imgSizePct/100);
-    const ratio = card2sImage.naturalHeight / card2sImage.naturalWidth;
+    const ratio = sideImage.naturalHeight / sideImage.naturalWidth;
     const imgH = imgW * ratio;
     const imgX = (w - imgW)/2;
     const imgY = h*0.12;
-    ctx.drawImage(card2sImage, imgX, imgY, imgW, imgH);
+    ctx.drawImage(sideImage, imgX, imgY, imgW, imgH);
   }
 
   const textColor = document.getElementById('card2s-text-color').value;
@@ -3044,18 +3042,33 @@ function renderCard2SBoth(){
   renderCard2SSide(document.getElementById('card2s-back-canvas'), false);
 }
 
-setupFilePicker('card2s-image', 'card2s-image-list', false);
-document.getElementById('card2s-image').addEventListener('change', ()=>{
-  const file = document.getElementById('card2s-image').files[0];
-  if(!file){ card2sImage = null; renderCard2SBoth(); return; }
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    const img = new Image();
-    img.onload = ()=>{ card2sImage = img; renderCard2SBoth(); };
-    img.src = reader.result;
-  };
-  reader.readAsDataURL(file);
-});
+function card2sSetupImageInput(inputId, listId, sizeInputId, sizeValId, isFront){
+  setupFilePicker(inputId, listId, false);
+  document.getElementById(inputId).addEventListener('change', ()=>{
+    const file = document.getElementById(inputId).files[0];
+    if(!file){
+      if(isFront) card2sFrontImage = null; else card2sBackImage = null;
+      renderCard2SBoth();
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onload = ()=>{
+        if(isFront) card2sFrontImage = img; else card2sBackImage = img;
+        renderCard2SBoth();
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  document.getElementById(sizeInputId).addEventListener('input', ()=>{
+    document.getElementById(sizeValId).textContent = document.getElementById(sizeInputId).value;
+    renderCard2SBoth();
+  });
+}
+card2sSetupImageInput('card2s-front-image', 'card2s-front-image-list', 'card2s-front-image-size', 'card2s-front-image-size-val', true);
+card2sSetupImageInput('card2s-back-image', 'card2s-back-image-list', 'card2s-back-image-size', 'card2s-back-image-size-val', false);
 
 function card2sSyncDimension(mmId, cmId){
   const mmEl = document.getElementById(mmId);
@@ -3156,11 +3169,10 @@ document.getElementById('card2s-back-add-btn').addEventListener('click', ()=>{
 card2sRenderLineList('front');
 card2sRenderLineList('back');
 
-['card2s-image-side','card2s-image-size','card2s-text-color'].forEach(id=>{
+['card2s-text-color'].forEach(id=>{
   const el = document.getElementById(id);
   const evt = (el.tagName === 'SELECT' || el.type === 'color') ? 'change' : 'input';
   el.addEventListener(evt, ()=>{
-    if(id === 'card2s-image-size') document.getElementById('card2s-image-size-val').textContent = el.value;
     renderCard2SBoth();
   });
 });
