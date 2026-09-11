@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Aref+Ruqaa+Ink&family=Rakkas&family=Lalezar&family=Jomhuria&family=Katibeh&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -988,8 +989,18 @@
           <input type="number" id="card2s-width" min="20" max="300" value="90">
         </div>
         <div class="field">
+          <label for="card2s-width-cm">العرض (سم)</label>
+          <input type="number" id="card2s-width-cm" min="2" max="30" step="0.1" value="9">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
           <label for="card2s-height">الارتفاع (مم)</label>
           <input type="number" id="card2s-height" min="20" max="300" value="50">
+        </div>
+        <div class="field">
+          <label for="card2s-height-cm">الارتفاع (سم)</label>
+          <input type="number" id="card2s-height-cm" min="2" max="30" step="0.1" value="5">
         </div>
       </div>
 
@@ -1023,6 +1034,19 @@
       <div class="field">
         <label for="card2s-back-text">نص الظهر (سطر لكل معلومة)</label>
         <textarea id="card2s-back-text" rows="4" placeholder="مثال:&#10;جوال: 05xxxxxxxx&#10;الرياض - السعودية" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="card2s-font-family">خط الكتابة</label>
+        <select id="card2s-font-family">
+          <option value="'IBM Plex Sans Arabic', sans-serif">عادي (افتراضي)</option>
+          <option value="'Aref Ruqaa', serif">رقعة كلاسيكي</option>
+          <option value="'Aref Ruqaa Ink', serif">رقعة حبر (بارز)</option>
+          <option value="'Rakkas', cursive">خط احتفالي مزخرف</option>
+          <option value="'Lalezar', cursive">خط عريض مزخرف</option>
+          <option value="'Katibeh', cursive">خط كتابة بارز</option>
+          <option value="'Jomhuria', cursive">خط طويل أنيق (للعناوين)</option>
+        </select>
       </div>
 
       <div class="row">
@@ -3006,7 +3030,9 @@ function renderCard2SSide(canvas, isFront){
 
   if(lines.length){
     ctx.fillStyle = textColor;
-    ctx.font = `600 ${fontPx}px 'IBM Plex Sans Arabic', sans-serif`;
+    const fontFamily = document.getElementById('card2s-font-family').value;
+    const fontWeight = fontFamily.indexOf('IBM Plex') !== -1 ? '600' : '400';
+    ctx.font = `${fontWeight} ${fontPx}px ${fontFamily}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     const lineHeight = fontPx * 1.4;
@@ -3043,7 +3069,30 @@ document.getElementById('card2s-image').addEventListener('change', ()=>{
   reader.readAsDataURL(file);
 });
 
-['card2s-width','card2s-height','card2s-image-side','card2s-image-size','card2s-front-text','card2s-back-text','card2s-text-color','card2s-font-size'].forEach(id=>{
+function card2sSyncDimension(mmId, cmId){
+  const mmEl = document.getElementById(mmId);
+  const cmEl = document.getElementById(cmId);
+  mmEl.addEventListener('input', ()=>{
+    const mm = parseFloat(mmEl.value);
+    if(!isNaN(mm) && mm > 0) cmEl.value = parseFloat((mm/10).toFixed(2));
+    renderCard2SBoth();
+  });
+  cmEl.addEventListener('input', ()=>{
+    const cm = parseFloat(cmEl.value);
+    if(!isNaN(cm) && cm > 0) mmEl.value = Math.round(cm*10);
+    renderCard2SBoth();
+  });
+}
+card2sSyncDimension('card2s-width', 'card2s-width-cm');
+card2sSyncDimension('card2s-height', 'card2s-height-cm');
+
+document.getElementById('card2s-font-family').addEventListener('change', async ()=>{
+  const fam = document.getElementById('card2s-font-family').value;
+  try{ await document.fonts.load(`40px ${fam}`); }catch(e){}
+  renderCard2SBoth();
+});
+
+['card2s-image-side','card2s-image-size','card2s-front-text','card2s-back-text','card2s-text-color','card2s-font-size'].forEach(id=>{
   const el = document.getElementById(id);
   const evt = (el.tagName === 'SELECT' || el.type === 'color') ? 'change' : 'input';
   el.addEventListener(evt, ()=>{
@@ -3052,6 +3101,10 @@ document.getElementById('card2s-image').addEventListener('change', ()=>{
     renderCard2SBoth();
   });
 });
+
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(()=>renderCard2SBoth());
+}
 renderCard2SBoth();
 
 document.getElementById('card2s-download-front-btn').addEventListener('click', ()=>{
