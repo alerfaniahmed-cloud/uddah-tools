@@ -1058,6 +1058,34 @@
         <input type="color" id="card2s-text-color" value="#1b3a6b" style="width:100%;height:42px;padding:4px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);cursor:pointer;">
       </div>
 
+      <div class="row">
+        <div class="field">
+          <label for="card2s-decor-style">زخرفة الكرت</label>
+          <select id="card2s-decor-style">
+            <option value="none">بدون</option>
+            <option value="hearts-corners">قلوب في الزوايا</option>
+            <option value="hearts-sides">قلوب في الجوانب</option>
+            <option value="hearts-border">إطار قلوب حوالين الكرت</option>
+            <option value="flowers-corners">زهور في الزوايا</option>
+            <option value="flowers-border">إطار زهور حوالين الكرت</option>
+            <option value="stars-corners">نجوم في الزوايا</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="card2s-decor-color">لون الزخرفة</label>
+          <input type="color" id="card2s-decor-color" value="#d94f70" style="width:100%;height:42px;padding:4px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);cursor:pointer;">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="card2s-decor-side">الزخرفة تظهر في</label>
+        <select id="card2s-decor-side">
+          <option value="both">الوجهين</option>
+          <option value="front">الوجه فقط</option>
+          <option value="back">الظهر فقط</option>
+        </select>
+      </div>
+
       <div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-top:14px;">
         <div style="text-align:center;">
           <p class="hint" style="margin-bottom:6px;">الوجه</p>
@@ -3050,6 +3078,104 @@ let card2sBackImage = null;
 
 function card2sMmToPx(mm){ return Math.round(mm * CARD2S_DPI / 25.4); }
 
+function card2sDrawHeart(ctx, cx, cy, size, color){
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  const topCurveHeight = size * 0.3;
+  ctx.moveTo(cx, cy + topCurveHeight);
+  ctx.bezierCurveTo(cx - size/2, cy - topCurveHeight, cx - size, cy + size/3, cx, cy + size*0.9);
+  ctx.bezierCurveTo(cx + size, cy + size/3, cx + size/2, cy - topCurveHeight, cx, cy + topCurveHeight);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+function card2sDrawFlower(ctx, cx, cy, size, color){
+  ctx.save();
+  ctx.fillStyle = color;
+  const petals = 5;
+  const petalDist = size * 0.4;
+  for(let i=0; i<petals; i++){
+    const angle = (i/petals) * Math.PI * 2;
+    const px = cx + Math.cos(angle) * petalDist;
+    const py = cy + Math.sin(angle) * petalDist;
+    ctx.beginPath();
+    ctx.ellipse(px, py, size*0.32, size*0.22, angle, 0, Math.PI*2);
+    ctx.fill();
+  }
+  ctx.beginPath();
+  ctx.fillStyle = '#F5B942';
+  ctx.arc(cx, cy, size*0.2, 0, Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function card2sDrawStar(ctx, cx, cy, size, color){
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  const spikes = 5, outerR = size/2, innerR = size/4;
+  let rot = Math.PI/2*3;
+  const step = Math.PI/spikes;
+  ctx.moveTo(cx, cy-outerR);
+  for(let i=0; i<spikes; i++){
+    let x = cx + Math.cos(rot)*outerR, y = cy + Math.sin(rot)*outerR;
+    ctx.lineTo(x, y); rot += step;
+    x = cx + Math.cos(rot)*innerR; y = cy + Math.sin(rot)*innerR;
+    ctx.lineTo(x, y); rot += step;
+  }
+  ctx.lineTo(cx, cy-outerR);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+function card2sRectPerimeterPoint(t, cx, cy, rx, ry){
+  const half = rx;
+  const segs = [half, ry*2, rx*2, ry*2, half];
+  const total = segs.reduce((a,b)=>a+b, 0);
+  let d = ((t % 1) + 1) % 1 * total;
+  let x, y;
+  if(d < segs[0]){ x = cx + d; y = cy - ry; }
+  else if(d < segs[0]+segs[1]){ d -= segs[0]; x = cx+rx; y = cy-ry+d; }
+  else if(d < segs[0]+segs[1]+segs[2]){ d -= (segs[0]+segs[1]); x = cx+rx-d; y = cy+ry; }
+  else if(d < segs[0]+segs[1]+segs[2]+segs[3]){ d -= (segs[0]+segs[1]+segs[2]); x = cx-rx; y = cy+ry-d; }
+  else { d -= (segs[0]+segs[1]+segs[2]+segs[3]); x = cx-rx+d; y = cy-ry; }
+  return { x, y };
+}
+
+function card2sApplyDecoration(ctx, w, h){
+  const style = document.getElementById('card2s-decor-style').value;
+  if(style === 'none') return;
+  const color = document.getElementById('card2s-decor-color').value;
+  const margin = Math.min(w, h) * 0.1;
+  const size = Math.min(w, h) * 0.11;
+  const drawFn = style.indexOf('hearts') === 0 ? card2sDrawHeart
+               : style.indexOf('flowers') === 0 ? card2sDrawFlower
+               : card2sDrawStar;
+
+  if(style.endsWith('-corners')){
+    drawFn(ctx, margin, margin, size, color);
+    drawFn(ctx, w-margin, margin, size, color);
+    drawFn(ctx, margin, h-margin, size, color);
+    drawFn(ctx, w-margin, h-margin, size, color);
+  } else if(style === 'hearts-sides'){
+    drawFn(ctx, margin*0.8, h/2, size, color);
+    drawFn(ctx, w-margin*0.8, h/2, size, color);
+  } else if(style.endsWith('-border')){
+    const rx = w/2 - margin*0.6, ry = h/2 - margin*0.6;
+    const cx = w/2, cy = h/2;
+    const perimeter = 2*(rx*2 + ry*2);
+    const spacing = size * 2.4;
+    const count = Math.max(8, Math.round(perimeter/spacing));
+    for(let i=0; i<count; i++){
+      const p = card2sRectPerimeterPoint(i/count, cx, cy, rx, ry);
+      drawFn(ctx, p.x, p.y, size*0.65, color);
+    }
+  }
+}
+
 function renderCard2SSide(canvas, isFront){
   const widthMm = parseFloat(document.getElementById('card2s-width').value) || 90;
   const heightMm = parseFloat(document.getElementById('card2s-height').value) || 50;
@@ -3058,6 +3184,10 @@ function renderCard2SSide(canvas, isFront){
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, w, h);
+
+  const decorSide = document.getElementById('card2s-decor-side').value;
+  const showDecor = decorSide === 'both' || (isFront && decorSide === 'front') || (!isFront && decorSide === 'back');
+  if(showDecor) card2sApplyDecoration(ctx, w, h);
 
   const sideImage = isFront ? card2sFrontImage : card2sBackImage;
   if(sideImage){
@@ -3226,7 +3356,7 @@ document.getElementById('card2s-back-add-btn').addEventListener('click', ()=>{
 card2sRenderLineList('front');
 card2sRenderLineList('back');
 
-['card2s-text-color'].forEach(id=>{
+['card2s-text-color','card2s-decor-style','card2s-decor-color','card2s-decor-side'].forEach(id=>{
   const el = document.getElementById(id);
   const evt = (el.tagName === 'SELECT' || el.type === 'color') ? 'change' : 'input';
   el.addEventListener(evt, ()=>{
