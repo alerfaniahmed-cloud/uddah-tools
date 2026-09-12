@@ -3083,8 +3083,9 @@ function renderCard2SSide(canvas, isFront){
     if(!line.text || !line.text.trim()) return;
     const fontPx = Math.round((line.size || 20) * (CARD2S_DPI/96));
     ctx.font = `${fontWeight} ${fontPx}px ${fontFamily}`;
+    const x = w * ((line.x != null ? line.x : 50)/100);
     const y = h * ((line.y != null ? line.y : 50)/100);
-    ctx.fillText(line.text.trim(), w/2, y);
+    ctx.fillText(line.text.trim(), x, y);
   });
 }
 
@@ -3156,8 +3157,8 @@ document.getElementById('card2s-font-family').addEventListener('change', async (
   renderCard2SBoth();
 });
 
-let card2sFrontLines = [{ text:'', size:20, y:35 }];
-let card2sBackLines = [{ text:'', size:16, y:50 }];
+let card2sFrontLines = [{ text:'', size:20, x:50, y:35 }];
+let card2sBackLines = [{ text:'', size:16, x:50, y:50 }];
 
 function card2sCreateLineRow(line, index, side){
   const row = document.createElement('div');
@@ -3168,11 +3169,13 @@ function card2sCreateLineRow(line, index, side){
     '<input type="text" class="card2s-line-text" placeholder="اكتب النص هنا" style="flex:1;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:9px 10px;font-family:var(--font-display);font-size:.9rem;">' +
     '<button type="button" class="card2s-line-remove" title="حذف السطر" style="flex:0 0 auto;width:28px;height:28px;border-radius:50%;border:none;background:var(--rust);color:#fff;cursor:pointer;font-size:.9rem;">×</button>' +
     '</div>' +
-    '<div style="display:flex;gap:10px;margin-top:8px;">' +
-    '<div style="flex:1;"><label style="font-size:.75rem;color:var(--bone-dim);">الحجم: <span class="card2s-line-size-val">' + line.size + '</span></label>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
+    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">الحجم: <span class="card2s-line-size-val">' + line.size + '</span></label>' +
     '<input type="range" class="card2s-line-size" min="8" max="60" value="' + line.size + '" style="width:100%;"></div>' +
-    '<div style="flex:1;"><label style="font-size:.75rem;color:var(--bone-dim);">الموضع العمودي: <span class="card2s-line-y-val">' + line.y + '</span>٪</label>' +
+    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">الموضع العمودي: <span class="card2s-line-y-val">' + line.y + '</span>٪</label>' +
     '<input type="range" class="card2s-line-y" min="0" max="100" value="' + line.y + '" style="width:100%;"></div>' +
+    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">الموضع الأفقي: <span class="card2s-line-x-val">' + (line.x != null ? line.x : 50) + '</span>٪</label>' +
+    '<input type="range" class="card2s-line-x" min="0" max="100" value="' + (line.x != null ? line.x : 50) + '" style="width:100%;"></div>' +
     '</div>';
 
   const textInput = row.querySelector('.card2s-line-text');
@@ -3181,12 +3184,15 @@ function card2sCreateLineRow(line, index, side){
   const sizeVal = row.querySelector('.card2s-line-size-val');
   const yInput = row.querySelector('.card2s-line-y');
   const yVal = row.querySelector('.card2s-line-y-val');
+  const xInput = row.querySelector('.card2s-line-x');
+  const xVal = row.querySelector('.card2s-line-x-val');
   const removeBtn = row.querySelector('.card2s-line-remove');
   const linesArr = side === 'front' ? card2sFrontLines : card2sBackLines;
 
   textInput.addEventListener('input', ()=>{ linesArr[index].text = textInput.value; renderCard2SBoth(); });
   sizeInput.addEventListener('input', ()=>{ linesArr[index].size = parseInt(sizeInput.value,10); sizeVal.textContent = sizeInput.value; renderCard2SBoth(); });
   yInput.addEventListener('input', ()=>{ linesArr[index].y = parseInt(yInput.value,10); yVal.textContent = yInput.value; renderCard2SBoth(); });
+  xInput.addEventListener('input', ()=>{ linesArr[index].x = parseInt(xInput.value,10); xVal.textContent = xInput.value; renderCard2SBoth(); });
   removeBtn.addEventListener('click', ()=>{
     linesArr.splice(index, 1);
     card2sRenderLineList(side);
@@ -3207,12 +3213,12 @@ function card2sRenderLineList(side){
 }
 
 document.getElementById('card2s-front-add-btn').addEventListener('click', ()=>{
-  card2sFrontLines.push({ text:'', size:20, y:50 });
+  card2sFrontLines.push({ text:'', size:20, x:50, y:50 });
   card2sRenderLineList('front');
   renderCard2SBoth();
 });
 document.getElementById('card2s-back-add-btn').addEventListener('click', ()=>{
-  card2sBackLines.push({ text:'', size:16, y:50 });
+  card2sBackLines.push({ text:'', size:16, x:50, y:50 });
   card2sRenderLineList('back');
   renderCard2SBoth();
 });
