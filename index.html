@@ -328,154 +328,154 @@
   <section class="panel" id="panel-prayer">
 
     <div class="card">
-      <h2>أوقات الصلاة اليوم — المدن الرئيسية</h2>
-      <p class="hint">جدول سريع بأوقات صلوات اليوم لأبرز مدن المملكة، يُحسب تلقائياً بمجرد فتح الصفحة.</p>
+      <h2 data-i18n="prayerOverviewTitle">أوقات الصلاة اليوم — المدن الرئيسية</h2>
+      <p class="hint" data-i18n="prayerOverviewHint">جدول سريع بأوقات صلوات اليوم لأبرز مدن المملكة، يُحسب تلقائياً بمجرد فتح الصفحة.</p>
       <div style="overflow-x:auto;">
         <table style="width:100%;border-collapse:collapse;font-size:.88rem;white-space:nowrap;">
           <thead>
             <tr style="border-bottom:1px solid var(--border);">
-              <th style="text-align:right;padding:8px 6px;color:var(--bone-dim);font-weight:600;">المدينة</th>
-              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;">الفجر</th>
-              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;">الشروق</th>
-              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;">الظهر</th>
-              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;">العصر</th>
-              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;">المغرب</th>
-              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;">العشاء</th>
+              <th style="text-align:right;padding:8px 6px;color:var(--bone-dim);font-weight:600;" data-i18n="prayerCityCol">المدينة</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;" data-i18n="prayerFajr">الفجر</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;" data-i18n="prayerSunrise">الشروق</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;" data-i18n="prayerDhuhr">الظهر</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;" data-i18n="prayerAsr">العصر</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;" data-i18n="prayerMaghrib">المغرب</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--bone-dim);font-weight:600;" data-i18n="prayerIsha">العشاء</th>
             </tr>
           </thead>
           <tbody id="prayer-overview-body"></tbody>
         </table>
       </div>
-      <p class="note">الأوقات بتوقيت الرياض (توقيت السعودية)، حسب طريقة أم القرى.</p>
+      <p class="note" data-i18n="prayerOverviewNote">الأوقات بتوقيت الرياض (توقيت السعودية)، حسب طريقة أم القرى.</p>
     </div>
 
     <div class="card">
-      <h2>أوقات الصلاة</h2>
-      <p class="hint">احسب أوقات الصلوات الخمس بدقة لأي مدينة سعودية أو موقعك الحالي، بحساب فلكي كامل داخل متصفحك.</p>
+      <h2 data-i18n="prayerCalcTitle">أوقات الصلاة</h2>
+      <p class="hint" data-i18n="prayerCalcHint">احسب أوقات الصلوات الخمس بدقة لأي مدينة سعودية أو موقعك الحالي، بحساب فلكي كامل داخل متصفحك.</p>
       <div class="field">
-        <label for="prayer-location">الموقع</label>
+        <label for="prayer-location" data-i18n="prayerLocationLabel">الموقع</label>
         <select id="prayer-location">
-          <option value="geo">📍 استخدام موقعي الحالي</option>
-          <optgroup label="منطقة الرياض">
-            <option value="24.7136,46.6753">الرياض</option>
-            <option value="24.1556,47.3350">الخرج</option>
-            <option value="24.5079,44.3963">الدوادمي</option>
-            <option value="25.9022,45.3411">المجمعة</option>
-            <option value="26.2939,44.8134">الزلفي</option>
-            <option value="20.4998,44.9010">وادي الدواسر</option>
-            <option value="23.9081,42.9265">عفيف</option>
-            <option value="24.0587,45.2670">القويعية</option>
-            <option value="25.2400,45.2540">شقراء</option>
+          <option value="geo" data-i18n="prayerGeoOpt">📍 استخدام موقعي الحالي</option>
+          <optgroup label="منطقة الرياض" data-i18n-label="region_riyadhregion">
+            <option value="24.7136,46.6753" data-i18n="city_riyadh">الرياض</option>
+            <option value="24.1556,47.3350" data-i18n="city_alkharj">الخرج</option>
+            <option value="24.5079,44.3963" data-i18n="city_addawadimi">الدوادمي</option>
+            <option value="25.9022,45.3411" data-i18n="city_almajmaah">المجمعة</option>
+            <option value="26.2939,44.8134" data-i18n="city_azzulfi">الزلفي</option>
+            <option value="20.4998,44.9010" data-i18n="city_wadiaddawasir">وادي الدواسر</option>
+            <option value="23.9081,42.9265" data-i18n="city_afif">عفيف</option>
+            <option value="24.0587,45.2670" data-i18n="city_alquwayiyah">القويعية</option>
+            <option value="25.2400,45.2540" data-i18n="city_shaqra">شقراء</option>
           </optgroup>
-          <optgroup label="منطقة مكة المكرمة">
-            <option value="21.4858,39.1925">جدة</option>
-            <option value="21.3891,39.8579">مكة المكرمة</option>
-            <option value="21.2703,40.4158">الطائف</option>
-            <option value="22.7986,39.0349">رابغ</option>
-            <option value="19.1264,41.0784">القنفذة</option>
-            <option value="20.1500,40.2667">الليث</option>
-            <option value="21.6167,39.6333">الجموم</option>
+          <optgroup label="منطقة مكة المكرمة" data-i18n-label="region_makkahregion">
+            <option value="21.4858,39.1925" data-i18n="city_jeddah">جدة</option>
+            <option value="21.3891,39.8579" data-i18n="city_makkah">مكة المكرمة</option>
+            <option value="21.2703,40.4158" data-i18n="city_taif">الطائف</option>
+            <option value="22.7986,39.0349" data-i18n="city_rabigh">رابغ</option>
+            <option value="19.1264,41.0784" data-i18n="city_alqunfudhah">القنفذة</option>
+            <option value="20.1500,40.2667" data-i18n="city_allith">الليث</option>
+            <option value="21.6167,39.6333" data-i18n="city_aljumum">الجموم</option>
           </optgroup>
-          <optgroup label="منطقة المدينة المنورة">
-            <option value="24.5247,39.5692">المدينة المنورة</option>
-            <option value="24.0895,38.0618">ينبع</option>
-            <option value="26.6089,37.9247">العلا</option>
-            <option value="23.7753,38.7893">بدر</option>
-            <option value="25.6939,39.2867">خيبر</option>
+          <optgroup label="منطقة المدينة المنورة" data-i18n-label="region_madinahregion">
+            <option value="24.5247,39.5692" data-i18n="city_madinah">المدينة المنورة</option>
+            <option value="24.0895,38.0618" data-i18n="city_yanbu">ينبع</option>
+            <option value="26.6089,37.9247" data-i18n="city_alula">العلا</option>
+            <option value="23.7753,38.7893" data-i18n="city_badr">بدر</option>
+            <option value="25.6939,39.2867" data-i18n="city_khaybar">خيبر</option>
           </optgroup>
-          <optgroup label="المنطقة الشرقية">
-            <option value="26.4207,50.0888">الدمام</option>
-            <option value="26.2172,50.1971">الخبر</option>
-            <option value="26.2361,50.1046">الظهران</option>
-            <option value="25.3838,49.5871">الأحساء (الهفوف)</option>
-            <option value="27.0046,49.6605">الجبيل</option>
-            <option value="26.5196,49.9998">القطيف</option>
-            <option value="28.4342,45.9601">حفر الباطن</option>
-            <option value="26.6444,50.1611">رأس تنورة</option>
+          <optgroup label="المنطقة الشرقية" data-i18n-label="region_easternregion">
+            <option value="26.4207,50.0888" data-i18n="city_dammam">الدمام</option>
+            <option value="26.2172,50.1971" data-i18n="city_khobar">الخبر</option>
+            <option value="26.2361,50.1046" data-i18n="city_dhahran">الظهران</option>
+            <option value="25.3838,49.5871" data-i18n="city_alahsahofuf">الأحساء (الهفوف)</option>
+            <option value="27.0046,49.6605" data-i18n="city_jubail">الجبيل</option>
+            <option value="26.5196,49.9998" data-i18n="city_qatif">القطيف</option>
+            <option value="28.4342,45.9601" data-i18n="city_hafaralbatin">حفر الباطن</option>
+            <option value="26.6444,50.1611" data-i18n="city_rastanura">رأس تنورة</option>
           </optgroup>
-          <optgroup label="منطقة عسير">
-            <option value="18.2164,42.5053">أبها</option>
-            <option value="18.3000,42.7333">خميس مشيط</option>
-            <option value="20.0000,42.6000">بيشة</option>
-            <option value="19.1500,42.1500">النماص</option>
-            <option value="18.5556,42.0333">محايل عسير</option>
+          <optgroup label="منطقة عسير" data-i18n-label="region_asirregion">
+            <option value="18.2164,42.5053" data-i18n="city_abha">أبها</option>
+            <option value="18.3000,42.7333" data-i18n="city_khamismushait">خميس مشيط</option>
+            <option value="20.0000,42.6000" data-i18n="city_bisha">بيشة</option>
+            <option value="19.1500,42.1500" data-i18n="city_annamas">النماص</option>
+            <option value="18.5556,42.0333" data-i18n="city_muhayilasir">محايل عسير</option>
           </optgroup>
-          <optgroup label="منطقة تبوك">
-            <option value="28.3998,36.5715">تبوك</option>
-            <option value="26.2417,36.4711">الوجه</option>
-            <option value="27.3500,35.7000">ضباء</option>
-            <option value="27.6293,38.4854">تيماء</option>
-            <option value="25.0393,37.2687">أملج</option>
+          <optgroup label="منطقة تبوك" data-i18n-label="region_tabukregion">
+            <option value="28.3998,36.5715" data-i18n="city_tabuk">تبوك</option>
+            <option value="26.2417,36.4711" data-i18n="city_alwajh">الوجه</option>
+            <option value="27.3500,35.7000" data-i18n="city_duba">ضباء</option>
+            <option value="27.6293,38.4854" data-i18n="city_tayma">تيماء</option>
+            <option value="25.0393,37.2687" data-i18n="city_umluj">أملج</option>
           </optgroup>
-          <optgroup label="منطقة حائل">
-            <option value="27.5114,41.6900">حائل</option>
-            <option value="27.9756,43.0575">بقعاء</option>
+          <optgroup label="منطقة حائل" data-i18n-label="region_hailregion">
+            <option value="27.5114,41.6900" data-i18n="city_hail">حائل</option>
+            <option value="27.9756,43.0575" data-i18n="city_baqaa">بقعاء</option>
           </optgroup>
-          <optgroup label="الحدود الشمالية">
-            <option value="30.9754,41.0381">عرعر</option>
-            <option value="29.6255,43.4939">رفحاء</option>
-            <option value="31.6725,38.6633">طريف</option>
+          <optgroup label="الحدود الشمالية" data-i18n-label="region_northernbordersregion">
+            <option value="30.9754,41.0381" data-i18n="city_arar">عرعر</option>
+            <option value="29.6255,43.4939" data-i18n="city_rafha">رفحاء</option>
+            <option value="31.6725,38.6633" data-i18n="city_turaif">طريف</option>
           </optgroup>
-          <optgroup label="منطقة جازان">
-            <option value="16.8892,42.5511">جازان</option>
-            <option value="17.1500,42.6250">صبيا</option>
-            <option value="16.9736,42.8306">أبو عريش</option>
-            <option value="16.6011,42.9422">صامطة</option>
+          <optgroup label="منطقة جازان" data-i18n-label="region_jazanregion">
+            <option value="16.8892,42.5511" data-i18n="city_jazan">جازان</option>
+            <option value="17.1500,42.6250" data-i18n="city_sabya">صبيا</option>
+            <option value="16.9736,42.8306" data-i18n="city_abuarish">أبو عريش</option>
+            <option value="16.6011,42.9422" data-i18n="city_samtah">صامطة</option>
           </optgroup>
-          <optgroup label="منطقة نجران">
-            <option value="17.4933,44.1277">نجران</option>
-            <option value="17.4839,47.1122">شرورة</option>
+          <optgroup label="منطقة نجران" data-i18n-label="region_najranregion">
+            <option value="17.4933,44.1277" data-i18n="city_najran">نجران</option>
+            <option value="17.4839,47.1122" data-i18n="city_sharurah">شرورة</option>
           </optgroup>
-          <optgroup label="منطقة الباحة">
-            <option value="20.0129,41.4677">الباحة</option>
-            <option value="19.8631,41.5578">بلجرشي</option>
+          <optgroup label="منطقة الباحة" data-i18n-label="region_albaharegion">
+            <option value="20.0129,41.4677" data-i18n="city_albaha">الباحة</option>
+            <option value="19.8631,41.5578" data-i18n="city_baljurashi">بلجرشي</option>
           </optgroup>
-          <optgroup label="منطقة الجوف">
-            <option value="29.9697,40.2064">سكاكا</option>
-            <option value="31.3318,37.3427">القريات</option>
-            <option value="29.8125,39.8681">دومة الجندل</option>
+          <optgroup label="منطقة الجوف" data-i18n-label="region_aljoufregion">
+            <option value="29.9697,40.2064" data-i18n="city_sakaka">سكاكا</option>
+            <option value="31.3318,37.3427" data-i18n="city_alqurayyat">القريات</option>
+            <option value="29.8125,39.8681" data-i18n="city_dumataljandal">دومة الجندل</option>
           </optgroup>
-          <optgroup label="منطقة القصيم">
-            <option value="26.3260,43.9750">بريدة</option>
-            <option value="26.0836,43.9944">عنيزة</option>
-            <option value="25.8693,43.4988">الرس</option>
-            <option value="25.8608,44.2308">المذنب</option>
-            <option value="26.1447,43.6656">البكيرية</option>
+          <optgroup label="منطقة القصيم" data-i18n-label="region_qassimregion">
+            <option value="26.3260,43.9750" data-i18n="city_buraidah">بريدة</option>
+            <option value="26.0836,43.9944" data-i18n="city_unaizah">عنيزة</option>
+            <option value="25.8693,43.4988" data-i18n="city_arrass">الرس</option>
+            <option value="25.8608,44.2308" data-i18n="city_almithnab">المذنب</option>
+            <option value="26.1447,43.6656" data-i18n="city_albukayriyah">البكيرية</option>
           </optgroup>
-          <option value="manual">إحداثيات يدوية (لأي مكان آخر)</option>
+          <option value="manual" data-i18n="prayerManualOpt">إحداثيات يدوية (لأي مكان آخر)</option>
         </select>
       </div>
       <div class="row" id="prayer-manual-wrap" style="display:none;">
         <div class="field">
-          <label for="prayer-lat">خط العرض (Latitude)</label>
-          <input type="number" id="prayer-lat" step="0.0001" placeholder="مثال: 24.7136">
+          <label for="prayer-lat" data-i18n="prayerLatLabel">خط العرض (Latitude)</label>
+          <input type="number" id="prayer-lat" step="0.0001" placeholder="مثال: 24.7136" data-i18n-ph="prayerLatPh">
         </div>
         <div class="field">
-          <label for="prayer-lng">خط الطول (Longitude)</label>
-          <input type="number" id="prayer-lng" step="0.0001" placeholder="مثال: 46.6753">
+          <label for="prayer-lng" data-i18n="prayerLngLabel">خط الطول (Longitude)</label>
+          <input type="number" id="prayer-lng" step="0.0001" placeholder="مثال: 46.6753" data-i18n-ph="prayerLngPh">
         </div>
       </div>
       <div class="field">
-        <label for="prayer-date">التاريخ</label>
+        <label for="prayer-date" data-i18n="prayerDateLabel">التاريخ</label>
         <input type="date" id="prayer-date">
       </div>
-      <button class="btn" id="prayer-btn">احسب أوقات الصلاة</button>
+      <button class="btn" id="prayer-btn" data-i18n="prayerBtn">احسب أوقات الصلاة</button>
       <div class="result" id="prayer-result" style="display:none;">
         <div class="grid3">
-          <div><div class="n" id="prayer-fajr">--:--</div><div class="l">الفجر</div></div>
-          <div><div class="n" id="prayer-sunrise">--:--</div><div class="l">الشروق</div></div>
-          <div><div class="n" id="prayer-dhuhr">--:--</div><div class="l">الظهر</div></div>
+          <div><div class="n" id="prayer-fajr">--:--</div><div class="l" data-i18n="prayerFajr">الفجر</div></div>
+          <div><div class="n" id="prayer-sunrise">--:--</div><div class="l" data-i18n="prayerSunrise">الشروق</div></div>
+          <div><div class="n" id="prayer-dhuhr">--:--</div><div class="l" data-i18n="prayerDhuhr">الظهر</div></div>
         </div>
         <div class="grid3" style="margin-top:10px;">
-          <div><div class="n" id="prayer-asr">--:--</div><div class="l">العصر</div></div>
-          <div><div class="n" id="prayer-maghrib">--:--</div><div class="l">المغرب</div></div>
-          <div><div class="n" id="prayer-isha">--:--</div><div class="l">العشاء</div></div>
+          <div><div class="n" id="prayer-asr">--:--</div><div class="l" data-i18n="prayerAsr">العصر</div></div>
+          <div><div class="n" id="prayer-maghrib">--:--</div><div class="l" data-i18n="prayerMaghrib">المغرب</div></div>
+          <div><div class="n" id="prayer-isha">--:--</div><div class="l" data-i18n="prayerIsha">العشاء</div></div>
         </div>
         <p class="note" id="prayer-note"></p>
-        <button type="button" class="pdf-export-btn" data-export="prayer">تنزيل PDF</button>
+        <button type="button" class="pdf-export-btn" data-export="prayer" data-i18n="downloadPdf">تنزيل PDF</button>
       </div>
       <div class="msg err" id="prayer-err" style="display:none;"></div>
-      <p class="note">الحساب حسب طريقة أم القرى المعتمدة بالسعودية (زاوية الفجر ١٨.٥°، والعشاء بعد المغرب بـ٩٠ دقيقة). عند اختيار مدينة سعودية يُعرض الوقت بتوقيت الرياض دائماً؛ عند استخدام الموقع الحالي أو إحداثيات يدوية يُعرض بتوقيت جهازك.</p>
+      <p class="note" data-i18n="prayerBottomNote">الحساب حسب طريقة أم القرى المعتمدة بالسعودية (زاوية الفجر ١٨.٥°، والعشاء بعد المغرب بـ٩٠ دقيقة). عند اختيار مدينة سعودية يُعرض الوقت بتوقيت الرياض دائماً؛ عند استخدام الموقع الحالي أو إحداثيات يدوية يُعرض بتوقيت جهازك.</p>
     </div>
   </section>
 
@@ -483,68 +483,68 @@
   <section class="panel" id="panel-diffage">
 
     <div class="card">
-      <h2>الفرق بين تاريخين</h2>
-      <p class="hint">أدخل تاريخين ميلاديين لمعرفة الفرق بينهما بالسنوات والأشهر والأيام.</p>
+      <h2 data-i18n="diffTitle">الفرق بين تاريخين</h2>
+      <p class="hint" data-i18n="diffHint">أدخل تاريخين ميلاديين لمعرفة الفرق بينهما بالسنوات والأشهر والأيام.</p>
       <div class="row">
         <div class="field">
-          <label for="diff-a">التاريخ الأول</label>
+          <label for="diff-a" data-i18n="diffALabel">التاريخ الأول</label>
           <input type="date" id="diff-a">
         </div>
         <div class="field">
-          <label for="diff-b">التاريخ الثاني</label>
+          <label for="diff-b" data-i18n="diffBLabel">التاريخ الثاني</label>
           <input type="date" id="diff-b">
         </div>
       </div>
-      <button class="btn" id="diff-btn">احسب الفرق</button>
+      <button class="btn" id="diff-btn" data-i18n="diffBtn">احسب الفرق</button>
       <div class="result" id="diff-result" style="display:none;">
         <div class="grid3">
-          <div><div class="n" id="diff-y">0</div><div class="l">سنة</div></div>
-          <div><div class="n" id="diff-m">0</div><div class="l">شهر</div></div>
-          <div><div class="n" id="diff-d">0</div><div class="l">يوم</div></div>
+          <div><div class="n" id="diff-y">0</div><div class="l" data-i18n="unitYear">سنة</div></div>
+          <div><div class="n" id="diff-m">0</div><div class="l" data-i18n="unitMonth">شهر</div></div>
+          <div><div class="n" id="diff-d">0</div><div class="l" data-i18n="unitDay">يوم</div></div>
         </div>
         <p class="note" id="diff-total"></p>
-        <button type="button" class="pdf-export-btn" data-export="diff">تنزيل PDF</button>
+        <button type="button" class="pdf-export-btn" data-export="diff" data-i18n="downloadPdf">تنزيل PDF</button>
       </div>
     </div>
 
     <div class="card">
-      <h2>عدد الأيام من تاريخ إلى اليوم</h2>
-      <p class="hint">أدخل أي تاريخ ميلادي (بالماضي أو المستقبل) لمعرفة عدد الأيام الفاصلة بينه وبين اليوم.</p>
+      <h2 data-i18n="fromtodayTitle">عدد الأيام من تاريخ إلى اليوم</h2>
+      <p class="hint" data-i18n="fromtodayHint">أدخل أي تاريخ ميلادي (بالماضي أو المستقبل) لمعرفة عدد الأيام الفاصلة بينه وبين اليوم.</p>
       <div class="field">
-        <label for="fromtoday-input">التاريخ</label>
+        <label for="fromtoday-input" data-i18n="fromtodayLabel">التاريخ</label>
         <input type="date" id="fromtoday-input">
       </div>
-      <button class="btn" id="fromtoday-btn">احسب عدد الأيام</button>
+      <button class="btn" id="fromtoday-btn" data-i18n="fromtodayBtn">احسب عدد الأيام</button>
       <div class="result" id="fromtoday-result" style="display:none;">
         <div class="big" id="fromtoday-out"></div>
         <p class="note" id="fromtoday-sub"></p>
-        <button type="button" class="pdf-export-btn" data-export="fromtoday">تنزيل PDF</button>
+        <button type="button" class="pdf-export-btn" data-export="fromtoday" data-i18n="downloadPdf">تنزيل PDF</button>
       </div>
     </div>
 
     <div class="card">
-      <h2>حساب العمر</h2>
-      <p class="hint">أدخل تاريخ الميلاد وسيُحسب العمر بالتقويمين الميلادي والهجري حتى اليوم.</p>
+      <h2 data-i18n="ageTitle">حساب العمر</h2>
+      <p class="hint" data-i18n="ageHint">أدخل تاريخ الميلاد وسيُحسب العمر بالتقويمين الميلادي والهجري حتى اليوم.</p>
       <div class="field">
-        <label for="age-input">تاريخ الميلاد (ميلادي)</label>
+        <label for="age-input" data-i18n="ageInputLabel">تاريخ الميلاد (ميلادي)</label>
         <input type="date" id="age-input">
       </div>
-      <button class="btn" id="age-btn">احسب العمر</button>
+      <button class="btn" id="age-btn" data-i18n="ageBtn">احسب العمر</button>
       <div class="result" id="age-result" style="display:none;">
-        <p class="hint" style="margin-bottom:6px;">بالتقويم الميلادي</p>
+        <p class="hint" style="margin-bottom:6px;" data-i18n="ageGregLabel">بالتقويم الميلادي</p>
         <div class="grid3">
-          <div><div class="n" id="age-gy">0</div><div class="l">سنة</div></div>
-          <div><div class="n" id="age-gm">0</div><div class="l">شهر</div></div>
-          <div><div class="n" id="age-gd">0</div><div class="l">يوم</div></div>
+          <div><div class="n" id="age-gy">0</div><div class="l" data-i18n="unitYear">سنة</div></div>
+          <div><div class="n" id="age-gm">0</div><div class="l" data-i18n="unitMonth">شهر</div></div>
+          <div><div class="n" id="age-gd">0</div><div class="l" data-i18n="unitDay">يوم</div></div>
         </div>
-        <p class="hint" style="margin:16px 0 6px;">بالتقويم الهجري</p>
+        <p class="hint" style="margin:16px 0 6px;" data-i18n="ageHijriLabel">بالتقويم الهجري</p>
         <div class="grid3">
-          <div><div class="n" id="age-hy">0</div><div class="l">سنة</div></div>
-          <div><div class="n" id="age-hm">0</div><div class="l">شهر</div></div>
-          <div><div class="n" id="age-hd">0</div><div class="l">يوم</div></div>
+          <div><div class="n" id="age-hy">0</div><div class="l" data-i18n="unitYear">سنة</div></div>
+          <div><div class="n" id="age-hm">0</div><div class="l" data-i18n="unitMonth">شهر</div></div>
+          <div><div class="n" id="age-hd">0</div><div class="l" data-i18n="unitDay">يوم</div></div>
         </div>
         <p class="note" id="age-total"></p>
-        <button type="button" class="pdf-export-btn" data-export="age">تنزيل PDF</button>
+        <button type="button" class="pdf-export-btn" data-export="age" data-i18n="downloadPdf">تنزيل PDF</button>
       </div>
     </div>
   </section>
@@ -1860,16 +1860,16 @@ document.getElementById('h2g-btn').addEventListener('click', ()=>{
    ============================================================ */
 /* --- Prayer times overview table for major cities --- */
 const PRAYER_MAJOR_CITIES = [
-  {name:'الرياض', lat:24.7136, lng:46.6753},
-  {name:'مكة المكرمة', lat:21.3891, lng:39.8579},
-  {name:'المدينة المنورة', lat:24.5247, lng:39.5692},
-  {name:'جدة', lat:21.4858, lng:39.1925},
-  {name:'الدمام', lat:26.4207, lng:50.0888},
-  {name:'الطائف', lat:21.2703, lng:40.4158},
-  {name:'أبها', lat:18.2164, lng:42.5053},
-  {name:'تبوك', lat:28.3998, lng:36.5715},
-  {name:'بريدة', lat:26.3260, lng:43.9750},
-  {name:'حائل', lat:27.5114, lng:41.6900}
+  {name:{ar:'الرياض', en:'Riyadh'}, lat:24.7136, lng:46.6753},
+  {name:{ar:'مكة المكرمة', en:'Makkah'}, lat:21.3891, lng:39.8579},
+  {name:{ar:'المدينة المنورة', en:'Madinah'}, lat:24.5247, lng:39.5692},
+  {name:{ar:'جدة', en:'Jeddah'}, lat:21.4858, lng:39.1925},
+  {name:{ar:'الدمام', en:'Dammam'}, lat:26.4207, lng:50.0888},
+  {name:{ar:'الطائف', en:'Taif'}, lat:21.2703, lng:40.4158},
+  {name:{ar:'أبها', en:'Abha'}, lat:18.2164, lng:42.5053},
+  {name:{ar:'تبوك', en:'Tabuk'}, lat:28.3998, lng:36.5715},
+  {name:{ar:'بريدة', en:'Buraidah'}, lat:26.3260, lng:43.9750},
+  {name:{ar:'حائل', en:'Hail'}, lat:27.5114, lng:41.6900}
 ];
 
 function renderPrayerOverview(){
@@ -1878,7 +1878,8 @@ function renderPrayerOverview(){
   const today = new Date();
   const params = adhan.CalculationMethod.UmmAlQura();
   params.madhab = adhan.Madhab.Shafi;
-  const fmt = (d) => d.toLocaleTimeString('ar-SA-u-nu-latn', {hour:'2-digit', minute:'2-digit', hour12:true, timeZone:'Asia/Riyadh'});
+  const locale = currentLang === 'en' ? 'en-US' : 'ar-SA-u-nu-latn';
+  const fmt = (d) => d.toLocaleTimeString(locale, {hour:'2-digit', minute:'2-digit', hour12:true, timeZone:'Asia/Riyadh'});
 
   tbody.innerHTML = '';
   PRAYER_MAJOR_CITIES.forEach(city=>{
@@ -1887,7 +1888,7 @@ function renderPrayerOverview(){
     const tr = document.createElement('tr');
     tr.style.borderBottom = '1px solid var(--border)';
     tr.innerHTML = `
-      <td style="padding:8px 6px;font-weight:600;">${city.name}</td>
+      <td style="padding:8px 6px;font-weight:600;">${city.name[currentLang]}</td>
       <td style="padding:8px 6px;text-align:center;font-family:var(--font-mono);">${fmt(pt.fajr)}</td>
       <td style="padding:8px 6px;text-align:center;font-family:var(--font-mono);">${fmt(pt.sunrise)}</td>
       <td style="padding:8px 6px;text-align:center;font-family:var(--font-mono);">${fmt(pt.dhuhr)}</td>
@@ -1932,7 +1933,7 @@ document.getElementById('prayer-btn').addEventListener('click', async ()=>{
   errBox.style.display = 'none';
   resultBox.style.display = 'none';
 
-  setBusy(btn, true, 'جارٍ الحساب...', 'احسب أوقات الصلاة');
+  setBusy(btn, true, I18N[currentLang].prayerBusy, I18N[currentLang].prayerBtn);
   try{
     const coords = await getPrayerCoordinates();
     const dateInput = document.getElementById('prayer-date').value;
@@ -1950,7 +1951,8 @@ document.getElementById('prayer-btn').addEventListener('click', async ()=>{
     const prayerTimes = new adhan.PrayerTimes(coordinates, dateObj, params);
 
     const tzOptions = coords.isSaudiCity ? {timeZone:'Asia/Riyadh'} : {};
-    const fmt = (d) => d.toLocaleTimeString('ar-SA-u-nu-latn', {hour:'2-digit', minute:'2-digit', hour12:true, ...tzOptions});
+    const locale = currentLang === 'en' ? 'en-US' : 'ar-SA-u-nu-latn';
+    const fmt = (d) => d.toLocaleTimeString(locale, {hour:'2-digit', minute:'2-digit', hour12:true, ...tzOptions});
 
     document.getElementById('prayer-fajr').textContent = fmt(prayerTimes.fajr);
     document.getElementById('prayer-sunrise').textContent = fmt(prayerTimes.sunrise);
@@ -1958,13 +1960,13 @@ document.getElementById('prayer-btn').addEventListener('click', async ()=>{
     document.getElementById('prayer-asr').textContent = fmt(prayerTimes.asr);
     document.getElementById('prayer-maghrib').textContent = fmt(prayerTimes.maghrib);
     document.getElementById('prayer-isha').textContent = fmt(prayerTimes.isha);
-    document.getElementById('prayer-note').textContent = coords.isSaudiCity ? 'بتوقيت الرياض (توقيت السعودية)' : 'بتوقيت جهازك المحلي';
+    document.getElementById('prayer-note').textContent = coords.isSaudiCity ? I18N[currentLang].prayerNoteRiyadhTz : I18N[currentLang].prayerNoteLocalTz;
     resultBox.style.display = 'block';
   }catch(e){
-    errBox.textContent = 'تعذر حساب أوقات الصلاة — تأكد من اختيار الموقع، أو اسمح للمتصفح بالوصول لموقعك الجغرافي إذا اخترت "موقعي الحالي".';
+    errBox.textContent = I18N[currentLang].prayerErr;
     errBox.style.display = 'block';
   }
-  setBusy(btn, false, '', 'احسب أوقات الصلاة');
+  setBusy(btn, false, '', I18N[currentLang].prayerBtn);
 });
 
 /* ============================================================
@@ -2009,7 +2011,7 @@ document.getElementById('diff-btn').addEventListener('click', ()=>{
   document.getElementById('diff-m').textContent = diff.months;
   document.getElementById('diff-d').textContent = diff.days;
   const totalDays = Math.round(Math.abs(db-da)/DAY_MS);
-  document.getElementById('diff-total').textContent = `إجمالي الأيام: ${totalDays.toLocaleString('en-US')} يوم`;
+  document.getElementById('diff-total').textContent = `${I18N[currentLang].totalDaysLabel} ${totalDays.toLocaleString('en-US')} ${I18N[currentLang].unitDay}`;
   document.getElementById('diff-result').style.display = 'block';
 });
 
@@ -2023,14 +2025,14 @@ document.getElementById('fromtoday-btn').addEventListener('click', ()=>{
   const out = document.getElementById('fromtoday-out');
   const sub = document.getElementById('fromtoday-sub');
   if(totalDays === 0){
-    out.textContent = 'هذا التاريخ هو اليوم';
+    out.textContent = I18N[currentLang].fromtodayIsToday;
     sub.textContent = '';
   } else if(totalDays > 0){
-    out.textContent = `${totalDays.toLocaleString('en-US')} يوم`;
-    sub.textContent = 'متبقٍ حتى هذا التاريخ (لم يأتِ بعد)';
+    out.textContent = `${totalDays.toLocaleString('en-US')} ${I18N[currentLang].unitDay}`;
+    sub.textContent = I18N[currentLang].fromtodayFuture;
   } else {
-    out.textContent = `${Math.abs(totalDays).toLocaleString('en-US')} يوم`;
-    sub.textContent = 'مضى منذ هذا التاريخ';
+    out.textContent = `${Math.abs(totalDays).toLocaleString('en-US')} ${I18N[currentLang].unitDay}`;
+    sub.textContent = I18N[currentLang].fromtodayPast;
   }
   document.getElementById('fromtoday-result').style.display = 'block';
 });
@@ -2055,7 +2057,7 @@ document.getElementById('age-btn').addEventListener('click', ()=>{
   document.getElementById('age-hd').textContent = hDiff.days;
 
   const totalDays = Math.round((today-birth)/DAY_MS);
-  document.getElementById('age-total').textContent = `إجمالي الأيام منذ الميلاد: ${totalDays.toLocaleString('en-US')} يوم`;
+  document.getElementById('age-total').textContent = `${I18N[currentLang].totalDaysSinceBirth} ${totalDays.toLocaleString('en-US')} ${I18N[currentLang].unitDay}`;
   document.getElementById('age-result').style.display = 'block';
 });
 
@@ -2177,7 +2179,119 @@ const I18N = {
     goldzakatGold: 'ذهب (النصاب: ٨٥ جرام)', goldzakatSilver: 'فضة (النصاب: ٥٩٥ جرام)',
     goldzakatWeightLabel: 'الوزن الذي تملكه (جرام)', goldzakatWeightPh: 'مثال: 100',
     goldzakatPriceLabel: 'سعر الجرام الحالي (ريال)', goldzakatPricePh: 'مثال: 320',
-    goldzakatNote: 'هذه الأداة للمساعدة الحسابية فقط بناءً على السعر الذي تدخله، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.'
+    goldzakatNote: 'هذه الأداة للمساعدة الحسابية فقط بناءً على السعر الذي تدخله، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.',
+    region_riyadhregion: 'منطقة الرياض',
+    region_makkahregion: 'منطقة مكة المكرمة',
+    region_madinahregion: 'منطقة المدينة المنورة',
+    region_easternregion: 'المنطقة الشرقية',
+    region_asirregion: 'منطقة عسير',
+    region_tabukregion: 'منطقة تبوك',
+    region_hailregion: 'منطقة حائل',
+    region_northernbordersregion: 'الحدود الشمالية',
+    region_jazanregion: 'منطقة جازان',
+    region_najranregion: 'منطقة نجران',
+    region_albaharegion: 'منطقة الباحة',
+    region_aljoufregion: 'منطقة الجوف',
+    region_qassimregion: 'منطقة القصيم',
+    city_riyadh: 'الرياض',
+    city_alkharj: 'الخرج',
+    city_addawadimi: 'الدوادمي',
+    city_almajmaah: 'المجمعة',
+    city_azzulfi: 'الزلفي',
+    city_wadiaddawasir: 'وادي الدواسر',
+    city_afif: 'عفيف',
+    city_alquwayiyah: 'القويعية',
+    city_shaqra: 'شقراء',
+    city_jeddah: 'جدة',
+    city_makkah: 'مكة المكرمة',
+    city_taif: 'الطائف',
+    city_rabigh: 'رابغ',
+    city_alqunfudhah: 'القنفذة',
+    city_allith: 'الليث',
+    city_aljumum: 'الجموم',
+    city_madinah: 'المدينة المنورة',
+    city_yanbu: 'ينبع',
+    city_alula: 'العلا',
+    city_badr: 'بدر',
+    city_khaybar: 'خيبر',
+    city_dammam: 'الدمام',
+    city_khobar: 'الخبر',
+    city_dhahran: 'الظهران',
+    city_alahsahofuf: 'الأحساء (الهفوف)',
+    city_jubail: 'الجبيل',
+    city_qatif: 'القطيف',
+    city_hafaralbatin: 'حفر الباطن',
+    city_rastanura: 'رأس تنورة',
+    city_abha: 'أبها',
+    city_khamismushait: 'خميس مشيط',
+    city_bisha: 'بيشة',
+    city_annamas: 'النماص',
+    city_muhayilasir: 'محايل عسير',
+    city_tabuk: 'تبوك',
+    city_alwajh: 'الوجه',
+    city_duba: 'ضباء',
+    city_tayma: 'تيماء',
+    city_umluj: 'أملج',
+    city_hail: 'حائل',
+    city_baqaa: 'بقعاء',
+    city_arar: 'عرعر',
+    city_rafha: 'رفحاء',
+    city_turaif: 'طريف',
+    city_jazan: 'جازان',
+    city_sabya: 'صبيا',
+    city_abuarish: 'أبو عريش',
+    city_samtah: 'صامطة',
+    city_najran: 'نجران',
+    city_sharurah: 'شرورة',
+    city_albaha: 'الباحة',
+    city_baljurashi: 'بلجرشي',
+    city_sakaka: 'سكاكا',
+    city_alqurayyat: 'القريات',
+    city_dumataljandal: 'دومة الجندل',
+    city_buraidah: 'بريدة',
+    city_unaizah: 'عنيزة',
+    city_arrass: 'الرس',
+    city_almithnab: 'المذنب',
+    city_albukayriyah: 'البكيرية',
+    prayerGeoOpt: '📍 استخدام موقعي الحالي',
+    prayerManualOpt: 'إحداثيات يدوية (لأي مكان آخر)',
+    prayerOverviewTitle: 'أوقات الصلاة اليوم — المدن الرئيسية',
+    prayerOverviewHint: 'جدول سريع بأوقات صلوات اليوم لأبرز مدن المملكة، يُحسب تلقائياً بمجرد فتح الصفحة.',
+    prayerCityCol: 'المدينة',
+    prayerFajr: 'الفجر', prayerSunrise: 'الشروق', prayerDhuhr: 'الظهر',
+    prayerAsr: 'العصر', prayerMaghrib: 'المغرب', prayerIsha: 'العشاء',
+    prayerOverviewNote: 'الأوقات بتوقيت الرياض (توقيت السعودية)، حسب طريقة أم القرى.',
+    prayerCalcTitle: 'أوقات الصلاة',
+    prayerCalcHint: 'احسب أوقات الصلوات الخمس بدقة لأي مدينة سعودية أو موقعك الحالي، بحساب فلكي كامل داخل متصفحك.',
+    prayerLocationLabel: 'الموقع',
+    prayerLatLabel: 'خط العرض (Latitude)', prayerLatPh: 'مثال: 24.7136',
+    prayerLngLabel: 'خط الطول (Longitude)', prayerLngPh: 'مثال: 46.6753',
+    prayerDateLabel: 'التاريخ',
+    prayerBtn: 'احسب أوقات الصلاة',
+    prayerBusy: 'جارٍ الحساب...',
+    prayerNoteRiyadhTz: 'بتوقيت الرياض (توقيت السعودية)',
+    prayerNoteLocalTz: 'بتوقيت جهازك المحلي',
+    prayerErr: 'تعذر حساب أوقات الصلاة — تأكد من اختيار الموقع، أو اسمح للمتصفح بالوصول لموقعك الجغرافي إذا اخترت "موقعي الحالي".',
+    prayerBottomNote: 'الحساب حسب طريقة أم القرى المعتمدة بالسعودية (زاوية الفجر ١٨.٥°، والعشاء بعد المغرب بـ٩٠ دقيقة). عند اختيار مدينة سعودية يُعرض الوقت بتوقيت الرياض دائماً؛ عند استخدام الموقع الحالي أو إحداثيات يدوية يُعرض بتوقيت جهازك.',
+    diffTitle: 'الفرق بين تاريخين',
+    diffHint: 'أدخل تاريخين ميلاديين لمعرفة الفرق بينهما بالسنوات والأشهر والأيام.',
+    diffALabel: 'التاريخ الأول', diffBLabel: 'التاريخ الثاني',
+    diffBtn: 'احسب الفرق',
+    unitYear: 'سنة', unitMonth: 'شهر', unitDay: 'يوم',
+    totalDaysLabel: 'إجمالي الأيام:',
+    fromtodayTitle: 'عدد الأيام من تاريخ إلى اليوم',
+    fromtodayHint: 'أدخل أي تاريخ ميلادي (بالماضي أو المستقبل) لمعرفة عدد الأيام الفاصلة بينه وبين اليوم.',
+    fromtodayLabel: 'التاريخ',
+    fromtodayBtn: 'احسب عدد الأيام',
+    fromtodayIsToday: 'هذا التاريخ هو اليوم',
+    fromtodayFuture: 'متبقٍ حتى هذا التاريخ (لم يأتِ بعد)',
+    fromtodayPast: 'مضى منذ هذا التاريخ',
+    ageTitle: 'حساب العمر',
+    ageHint: 'أدخل تاريخ الميلاد وسيُحسب العمر بالتقويمين الميلادي والهجري حتى اليوم.',
+    ageInputLabel: 'تاريخ الميلاد (ميلادي)',
+    ageBtn: 'احسب العمر',
+    ageGregLabel: 'بالتقويم الميلادي', ageHijriLabel: 'بالتقويم الهجري',
+    totalDaysSinceBirth: 'إجمالي الأيام منذ الميلاد:'
   },
   en: {
     siteName: 'Uddah',
@@ -2256,7 +2370,119 @@ const I18N = {
     goldzakatGold: 'Gold (nisab: 85 g)', goldzakatSilver: 'Silver (nisab: 595 g)',
     goldzakatWeightLabel: 'Weight you own (g)', goldzakatWeightPh: 'e.g. 100',
     goldzakatPriceLabel: 'Current price per gram (SAR)', goldzakatPricePh: 'e.g. 320',
-    goldzakatNote: 'This tool is for calculation help only, based on the price you enter — please confirm your specific situation with a trusted religious authority.'
+    goldzakatNote: 'This tool is for calculation help only, based on the price you enter — please confirm your specific situation with a trusted religious authority.',
+    region_riyadhregion: 'Riyadh Region',
+    region_makkahregion: 'Makkah Region',
+    region_madinahregion: 'Madinah Region',
+    region_easternregion: 'Eastern Region',
+    region_asirregion: 'Asir Region',
+    region_tabukregion: 'Tabuk Region',
+    region_hailregion: 'Hail Region',
+    region_northernbordersregion: 'Northern Borders Region',
+    region_jazanregion: 'Jazan Region',
+    region_najranregion: 'Najran Region',
+    region_albaharegion: 'Al Baha Region',
+    region_aljoufregion: 'Al Jouf Region',
+    region_qassimregion: 'Qassim Region',
+    city_riyadh: 'Riyadh',
+    city_alkharj: 'Al Kharj',
+    city_addawadimi: 'Ad Dawadimi',
+    city_almajmaah: 'Al Majmaah',
+    city_azzulfi: 'Az Zulfi',
+    city_wadiaddawasir: 'Wadi ad-Dawasir',
+    city_afif: 'Afif',
+    city_alquwayiyah: 'Al Quwayiyah',
+    city_shaqra: 'Shaqra',
+    city_jeddah: 'Jeddah',
+    city_makkah: 'Makkah',
+    city_taif: 'Taif',
+    city_rabigh: 'Rabigh',
+    city_alqunfudhah: 'Al Qunfudhah',
+    city_allith: 'Al Lith',
+    city_aljumum: 'Al Jumum',
+    city_madinah: 'Madinah',
+    city_yanbu: 'Yanbu',
+    city_alula: 'AlUla',
+    city_badr: 'Badr',
+    city_khaybar: 'Khaybar',
+    city_dammam: 'Dammam',
+    city_khobar: 'Khobar',
+    city_dhahran: 'Dhahran',
+    city_alahsahofuf: 'Al Ahsa (Hofuf)',
+    city_jubail: 'Jubail',
+    city_qatif: 'Qatif',
+    city_hafaralbatin: 'Hafar Al-Batin',
+    city_rastanura: 'Ras Tanura',
+    city_abha: 'Abha',
+    city_khamismushait: 'Khamis Mushait',
+    city_bisha: 'Bisha',
+    city_annamas: 'An Namas',
+    city_muhayilasir: 'Muhayil Asir',
+    city_tabuk: 'Tabuk',
+    city_alwajh: 'Al Wajh',
+    city_duba: 'Duba',
+    city_tayma: 'Tayma',
+    city_umluj: 'Umluj',
+    city_hail: 'Hail',
+    city_baqaa: 'Baqaa',
+    city_arar: 'Arar',
+    city_rafha: 'Rafha',
+    city_turaif: 'Turaif',
+    city_jazan: 'Jazan',
+    city_sabya: 'Sabya',
+    city_abuarish: 'Abu Arish',
+    city_samtah: 'Samtah',
+    city_najran: 'Najran',
+    city_sharurah: 'Sharurah',
+    city_albaha: 'Al Baha',
+    city_baljurashi: 'Baljurashi',
+    city_sakaka: 'Sakaka',
+    city_alqurayyat: 'Al Qurayyat',
+    city_dumataljandal: 'Dumat al-Jandal',
+    city_buraidah: 'Buraidah',
+    city_unaizah: 'Unaizah',
+    city_arrass: 'Ar Rass',
+    city_almithnab: 'Al Mithnab',
+    city_albukayriyah: 'Al Bukayriyah',
+    prayerGeoOpt: '📍 Use my current location',
+    prayerManualOpt: 'Manual coordinates (for any other place)',
+    prayerOverviewTitle: "Today's Prayer Times — Major Cities",
+    prayerOverviewHint: "A quick table of today's prayer times for the Kingdom's major cities, calculated automatically as soon as the page loads.",
+    prayerCityCol: 'City',
+    prayerFajr: 'Fajr', prayerSunrise: 'Sunrise', prayerDhuhr: 'Dhuhr',
+    prayerAsr: 'Asr', prayerMaghrib: 'Maghrib', prayerIsha: 'Isha',
+    prayerOverviewNote: 'Times are in Riyadh time (Saudi Arabia time), using the Umm al-Qura method.',
+    prayerCalcTitle: 'Prayer Times',
+    prayerCalcHint: 'Calculate the five daily prayer times precisely for any Saudi city or your current location, with full astronomical calculation right in your browser.',
+    prayerLocationLabel: 'Location',
+    prayerLatLabel: 'Latitude', prayerLatPh: 'e.g. 24.7136',
+    prayerLngLabel: 'Longitude', prayerLngPh: 'e.g. 46.6753',
+    prayerDateLabel: 'Date',
+    prayerBtn: 'Calculate Prayer Times',
+    prayerBusy: 'Calculating...',
+    prayerNoteRiyadhTz: 'In Riyadh time (Saudi Arabia time)',
+    prayerNoteLocalTz: "In your device's local time",
+    prayerErr: 'Could not calculate prayer times — make sure a location is selected, or allow the browser access to your location if you picked "current location".',
+    prayerBottomNote: "Calculated using the Umm al-Qura method used in Saudi Arabia (Fajr angle 18.5°, Isha 90 minutes after Maghrib). When a Saudi city is selected, times are always shown in Riyadh time; when using your current location or manual coordinates, times are shown in your device's local time.",
+    diffTitle: 'Difference Between Two Dates',
+    diffHint: 'Enter two Gregorian dates to find the difference between them in years, months, and days.',
+    diffALabel: 'First date', diffBLabel: 'Second date',
+    diffBtn: 'Calculate Difference',
+    unitYear: 'years', unitMonth: 'months', unitDay: 'days',
+    totalDaysLabel: 'Total days:',
+    fromtodayTitle: 'Days From a Date to Today',
+    fromtodayHint: 'Enter any Gregorian date (past or future) to find the number of days between it and today.',
+    fromtodayLabel: 'Date',
+    fromtodayBtn: 'Calculate Days',
+    fromtodayIsToday: 'This date is today',
+    fromtodayFuture: "Remaining until this date (hasn't arrived yet)",
+    fromtodayPast: 'Has passed since this date',
+    ageTitle: 'Age Calculator',
+    ageHint: 'Enter a birth date to calculate the age in both Gregorian and Hijri calendars up to today.',
+    ageInputLabel: 'Birth date (Gregorian)',
+    ageBtn: 'Calculate Age',
+    ageGregLabel: 'In the Gregorian calendar', ageHijriLabel: 'In the Hijri calendar',
+    totalDaysSinceBirth: 'Total days since birth:'
   }
 };
 
@@ -2270,6 +2496,10 @@ function applyLanguage(lang){
     const key = el.getAttribute('data-i18n-ph');
     if(I18N[lang][key] !== undefined) el.setAttribute('placeholder', I18N[lang][key]);
   });
+  document.querySelectorAll('[data-i18n-label]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-label');
+    if(I18N[lang][key] !== undefined) el.setAttribute('label', I18N[lang][key]);
+  });
   document.documentElement.setAttribute('lang', lang === 'ar' ? 'ar' : 'en');
   document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
   document.getElementById('langToggle').textContent = lang === 'ar' ? 'EN' : 'AR';
@@ -2277,6 +2507,7 @@ function applyLanguage(lang){
   paintStamp();
   if(typeof populateUnitSelects === 'function') populateUnitSelects();
   if(typeof populateCurrencySelects === 'function') populateCurrencySelects();
+  if(typeof renderPrayerOverview === 'function') renderPrayerOverview();
 }
 document.getElementById('langToggle').addEventListener('click', ()=>{
   const current = document.documentElement.getAttribute('lang') === 'ar' ? 'ar' : 'en';
