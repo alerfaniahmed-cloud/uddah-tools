@@ -227,24 +227,25 @@
 
 <header class="top" style="position:relative;">
   <button class="theme-toggle" id="themeToggle" title="تبديل الوضع الليلي/النهاري" aria-label="تبديل الوضع الليلي/النهاري">🌙</button>
+  <button class="theme-toggle" id="langToggle" style="left:64px;font-size:.85rem;font-weight:700;" title="Switch language / تبديل اللغة" aria-label="Switch language">EN</button>
   <div class="wrap">
-    <div class="logo"><span class="mark">ع</span> عُدّة</div>
-    <p class="tagline">أدوات يومية عملية — تواريخ، وحدات، عملات، وملفات PDF — كلها تشتغل داخل متصفحك</p>
+    <div class="logo"><span class="mark">ع</span> <span data-i18n="siteName">عُدّة</span></div>
+    <p class="tagline" data-i18n="tagline">أدوات يومية عملية — تواريخ، وحدات، عملات، وملفات PDF — كلها تشتغل داخل متصفحك</p>
 
     <div class="stamp">
       <div class="side">
-        <div class="lbl">اليوم ميلادي</div>
+        <div class="lbl" data-i18n="lblGregToday">اليوم ميلادي</div>
         <div class="val" id="stampGreg">—</div>
       </div>
       <div class="div"></div>
       <div class="side">
-        <div class="lbl">اليوم هجري</div>
+        <div class="lbl" data-i18n="lblHijriToday">اليوم هجري</div>
         <div class="val" id="stampHijri">—</div>
       </div>
     </div>
     <div class="stamp" style="margin-top:10px;">
       <div class="side">
-        <div class="lbl">اليوم</div>
+        <div class="lbl" data-i18n="lblToday">اليوم</div>
         <div class="val" id="stampDayName">—</div>
       </div>
       <div class="div"></div>
@@ -258,68 +259,69 @@
 
 <div class="wrap">
   <nav class="tabs" id="tabs">
-    <button data-tab="convert" class="active">تحويل التاريخ</button>
-    <button data-tab="prayer">أوقات الصلاة</button>
-    <button data-tab="diffage">الفرق بين تاريخين والعمر</button>
-    <button data-tab="units">تحويل الوحدات</button>
-    <button data-tab="money">العملات والزكاة والضريبة</button>
-    <button data-tab="inheritance">حاسبة المواريث</button>
-    <button data-tab="tools">أدوات متنوعة</button>
-    <button data-tab="voice">الصوت والنص</button>
-    <button data-tab="sectors">حاسبات متنوعة</button>
-    <button data-tab="pdf">أدوات PDF</button>
+    <button data-tab="convert" class="active" data-i18n="tabConvert">تحويل التاريخ</button>
+    <button data-tab="prayer" data-i18n="tabPrayer">أوقات الصلاة</button>
+    <button data-tab="diffage" data-i18n="tabDiffage">الفرق بين تاريخين والعمر</button>
+    <button data-tab="units" data-i18n="tabUnits">تحويل الوحدات</button>
+    <button data-tab="money" data-i18n="tabMoney">العملات والزكاة والضريبة</button>
+    <button data-tab="inheritance" data-i18n="tabInheritance">حاسبة المواريث</button>
+    <button data-tab="tools" data-i18n="tabTools">أدوات متنوعة</button>
+    <button data-tab="student" data-i18n="tabStudent">أدوات الطلاب</button>
+    <button data-tab="voice" data-i18n="tabVoice">الصوت والنص</button>
+    <button data-tab="sectors" data-i18n="tabSectors">حاسبات متنوعة</button>
+    <button data-tab="pdf" data-i18n="tabPdf">أدوات PDF</button>
   </nav>
 
   <!-- ===================== TAB 1: DATE CONVERTER ===================== -->
   <section class="panel active" id="panel-convert">
 
     <div class="card">
-      <h2>ميلادي ← هجري</h2>
-      <p class="hint">اختر تاريخاً ميلادياً وسيظهر مقابله بتقويم أم القرى الهجري.</p>
+      <h2 data-i18n="g2hTitle">ميلادي ← هجري</h2>
+      <p class="hint" data-i18n="g2hHint">اختر تاريخاً ميلادياً وسيظهر مقابله بتقويم أم القرى الهجري.</p>
       <div class="field">
-        <label for="g2h-input">التاريخ الميلادي</label>
+        <label for="g2h-input" data-i18n="g2hLabel">التاريخ الميلادي</label>
         <input type="date" id="g2h-input">
       </div>
-      <button class="btn" id="g2h-btn">حوّل إلى هجري</button>
+      <button class="btn" id="g2h-btn" data-i18n="g2hBtn">حوّل إلى هجري</button>
       <div class="result" id="g2h-result" style="display:none;">
         <div class="big" id="g2h-out"></div>
-        <button type="button" class="pdf-export-btn" data-export="g2h">تنزيل PDF</button>
+        <button type="button" class="pdf-export-btn" data-export="g2h" data-i18n="downloadPdf">تنزيل PDF</button>
       </div>
     </div>
 
     <div class="card">
-      <h2>هجري ← ميلادي</h2>
-      <p class="hint">أدخل التاريخ الهجري (يوم / شهر / سنة) وسيظهر مقابله الميلادي.</p>
+      <h2 data-i18n="h2gTitle">هجري ← ميلادي</h2>
+      <p class="hint" data-i18n="h2gHint">أدخل التاريخ الهجري (يوم / شهر / سنة) وسيظهر مقابله الميلادي.</p>
       <div class="row">
         <div class="field">
-          <label for="h2g-day">اليوم</label>
-          <input type="number" id="h2g-day" min="1" max="30" placeholder="مثال: 15">
+          <label for="h2g-day" data-i18n="lblDay">اليوم</label>
+          <input type="number" id="h2g-day" min="1" max="30" data-i18n-ph="h2gDayPh" placeholder="مثال: 15">
         </div>
         <div class="field">
-          <label for="h2g-month">الشهر</label>
+          <label for="h2g-month" data-i18n="lblMonth">الشهر</label>
           <select id="h2g-month">
-            <option value="1">محرم</option><option value="2">صفر</option>
-            <option value="3">ربيع الأول</option><option value="4">ربيع الآخر</option>
-            <option value="5">جمادى الأولى</option><option value="6">جمادى الآخرة</option>
-            <option value="7">رجب</option><option value="8">شعبان</option>
-            <option value="9">رمضان</option><option value="10">شوال</option>
-            <option value="11">ذو القعدة</option><option value="12">ذو الحجة</option>
+            <option value="1" data-i18n="hm1">محرم</option><option value="2" data-i18n="hm2">صفر</option>
+            <option value="3" data-i18n="hm3">ربيع الأول</option><option value="4" data-i18n="hm4">ربيع الآخر</option>
+            <option value="5" data-i18n="hm5">جمادى الأولى</option><option value="6" data-i18n="hm6">جمادى الآخرة</option>
+            <option value="7" data-i18n="hm7">رجب</option><option value="8" data-i18n="hm8">شعبان</option>
+            <option value="9" data-i18n="hm9">رمضان</option><option value="10" data-i18n="hm10">شوال</option>
+            <option value="11" data-i18n="hm11">ذو القعدة</option><option value="12" data-i18n="hm12">ذو الحجة</option>
           </select>
         </div>
         <div class="field">
-          <label for="h2g-year">السنة</label>
-          <input type="number" id="h2g-year" placeholder="مثال: 1446">
+          <label for="h2g-year" data-i18n="lblYear">السنة</label>
+          <input type="number" id="h2g-year" data-i18n-ph="h2gYearPh" placeholder="مثال: 1446">
         </div>
       </div>
-      <button class="btn" id="h2g-btn">حوّل إلى ميلادي</button>
+      <button class="btn" id="h2g-btn" data-i18n="h2gBtn">حوّل إلى ميلادي</button>
       <div class="result" id="h2g-result" style="display:none;">
         <div class="big" id="h2g-out"></div>
-        <button type="button" class="pdf-export-btn" data-export="h2g">تنزيل PDF</button>
+        <button type="button" class="pdf-export-btn" data-export="h2g" data-i18n="downloadPdf">تنزيل PDF</button>
       </div>
       <div class="msg err" id="h2g-err" style="display:none;"></div>
     </div>
 
-    <p class="note">يعتمد التحويل على تقويم أم القرى المدمج في متصفحك (نفس التقويم الرسمي المعتمد في السعودية)، وهو مدعوم في أغلب المتصفحات الحديثة على الجوال والحاسوب.</p>
+    <p class="note" data-i18n="convertNote">يعتمد التحويل على تقويم أم القرى المدمج في متصفحك (نفس التقويم الرسمي المعتمد في السعودية)، وهو مدعوم في أغلب المتصفحات الحديثة على الجوال والحاسوب.</p>
   </section>
 
   <!-- ===================== TAB: PRAYER TIMES ===================== -->
@@ -551,35 +553,35 @@
   <section class="panel" id="panel-units">
 
     <div class="card">
-      <h2>تحويل الوحدات</h2>
-      <p class="hint">اختر نوع القياس والوحدتين، وأدخل القيمة لتحويلها فوراً.</p>
+      <h2 data-i18n="unitTitle">تحويل الوحدات</h2>
+      <p class="hint" data-i18n="unitHint">اختر نوع القياس والوحدتين، وأدخل القيمة لتحويلها فوراً.</p>
       <div class="field">
-        <label for="unit-category">نوع القياس</label>
+        <label for="unit-category" data-i18n="unitCategoryLabel">نوع القياس</label>
         <select id="unit-category">
-          <option value="length">الطول</option>
-          <option value="weight">الوزن</option>
-          <option value="temperature">الحرارة</option>
-          <option value="volume">الحجم</option>
+          <option value="length" data-i18n="catLength">الطول</option>
+          <option value="weight" data-i18n="catWeight">الوزن</option>
+          <option value="temperature" data-i18n="catTemp">الحرارة</option>
+          <option value="volume" data-i18n="catVolume">الحجم</option>
         </select>
       </div>
       <div class="row">
         <div class="field">
-          <label for="unit-value">القيمة</label>
-          <input type="number" id="unit-value" placeholder="مثال: 10">
+          <label for="unit-value" data-i18n="unitValueLabel">القيمة</label>
+          <input type="number" id="unit-value" data-i18n-ph="unitValuePh" placeholder="مثال: 10">
         </div>
         <div class="field">
-          <label for="unit-from">من وحدة</label>
+          <label for="unit-from" data-i18n="unitFromLabel">من وحدة</label>
           <select id="unit-from"></select>
         </div>
         <div class="field">
-          <label for="unit-to">إلى وحدة</label>
+          <label for="unit-to" data-i18n="unitToLabel">إلى وحدة</label>
           <select id="unit-to"></select>
         </div>
       </div>
-      <button class="btn" id="unit-btn">حوّل</button>
+      <button class="btn" id="unit-btn" data-i18n="btnConvert">حوّل</button>
       <div class="result" id="unit-result" style="display:none;">
         <div class="big" id="unit-out"></div>
-        <button type="button" class="pdf-export-btn" data-export="unit">تنزيل PDF</button>
+        <button type="button" class="pdf-export-btn" data-export="unit" data-i18n="downloadPdf">تنزيل PDF</button>
       </div>
     </div>
   </section>
@@ -588,110 +590,110 @@
   <section class="panel" id="panel-money">
 
     <div class="card">
-      <h2>حاسبة العملات</h2>
-      <p class="hint">أدخل المبلغ واختر العملتين — الأسعار تُجلب مباشرة من مصدر أسعار صرف مفتوح ومجاني.</p>
+      <h2 data-i18n="fxTitle">حاسبة العملات</h2>
+      <p class="hint" data-i18n="fxHint">أدخل المبلغ واختر العملتين — الأسعار تُجلب مباشرة من مصدر أسعار صرف مفتوح ومجاني.</p>
       <div class="row">
         <div class="field">
-          <label for="fx-amount">المبلغ</label>
+          <label for="fx-amount" data-i18n="fxAmountLabel">المبلغ</label>
           <input type="number" id="fx-amount" value="1" min="0">
         </div>
         <div class="field">
-          <label for="fx-from">من عملة</label>
+          <label for="fx-from" data-i18n="fxFromLabel">من عملة</label>
           <select id="fx-from"></select>
         </div>
         <div class="field">
-          <label for="fx-to">إلى عملة</label>
+          <label for="fx-to" data-i18n="fxToLabel">إلى عملة</label>
           <select id="fx-to"></select>
         </div>
       </div>
-      <button class="btn" id="fx-btn">حوّل</button>
+      <button class="btn" id="fx-btn" data-i18n="btnConvert">حوّل</button>
       <div class="result" id="fx-result" style="display:none;">
         <div class="big" id="fx-out"></div>
         <p class="note" id="fx-updated"></p>
-        <button type="button" class="pdf-export-btn" data-export="fx">تنزيل PDF</button>
+        <button type="button" class="pdf-export-btn" data-export="fx" data-i18n="downloadPdf">تنزيل PDF</button>
       </div>
       <div class="msg err" id="fx-err" style="display:none;"></div>
     </div>
 
     <div class="card">
-      <h2>حاسبة القيمة المضافة (VAT)</h2>
-      <p class="hint">أدخل المبلغ واختر الاتجاه — إضافة الضريبة على مبلغ غير شامل، أو استخراجها من مبلغ شامل الضريبة.</p>
+      <h2 data-i18n="vatTitle">حاسبة القيمة المضافة (VAT)</h2>
+      <p class="hint" data-i18n="vatHint">أدخل المبلغ واختر الاتجاه — إضافة الضريبة على مبلغ غير شامل، أو استخراجها من مبلغ شامل الضريبة.</p>
       <div class="row">
         <div class="field">
-          <label for="vat-amount">المبلغ (ريال)</label>
-          <input type="number" id="vat-amount" min="0" placeholder="مثال: 1000">
+          <label for="vat-amount" data-i18n="vatAmountLabel">المبلغ (ريال)</label>
+          <input type="number" id="vat-amount" min="0" data-i18n-ph="vatAmountPh" placeholder="مثال: 1000">
         </div>
         <div class="field">
-          <label for="vat-rate">نسبة الضريبة (٪)</label>
+          <label for="vat-rate" data-i18n="vatRateLabel">نسبة الضريبة (٪)</label>
           <input type="number" id="vat-rate" min="0" value="15">
         </div>
       </div>
       <div class="field">
-        <label for="vat-mode">الاتجاه</label>
+        <label for="vat-mode" data-i18n="vatModeLabel">الاتجاه</label>
         <select id="vat-mode">
-          <option value="add">إضافة الضريبة (المبلغ غير شامل الضريبة)</option>
-          <option value="extract">استخراج الضريبة (المبلغ شامل الضريبة)</option>
+          <option value="add" data-i18n="vatModeAdd">إضافة الضريبة (المبلغ غير شامل الضريبة)</option>
+          <option value="extract" data-i18n="vatModeExtract">استخراج الضريبة (المبلغ شامل الضريبة)</option>
         </select>
       </div>
-      <button class="btn" id="vat-btn">احسب</button>
+      <button class="btn" id="vat-btn" data-i18n="btnCalc">احسب</button>
       <div class="result" id="vat-result" style="display:none;">
         <div class="grid3">
-          <div><div class="n" id="vat-base">0</div><div class="l">قبل الضريبة</div></div>
-          <div><div class="n" id="vat-tax">0</div><div class="l">قيمة الضريبة</div></div>
-          <div><div class="n" id="vat-total">0</div><div class="l">شامل الضريبة</div></div>
+          <div><div class="n" id="vat-base">0</div><div class="l" data-i18n="vatBase">قبل الضريبة</div></div>
+          <div><div class="n" id="vat-tax">0</div><div class="l" data-i18n="vatTax">قيمة الضريبة</div></div>
+          <div><div class="n" id="vat-total">0</div><div class="l" data-i18n="vatTotal">شامل الضريبة</div></div>
         </div>
-        <button type="button" class="pdf-export-btn" data-export="vat">تنزيل PDF</button>
+        <button type="button" class="pdf-export-btn" data-export="vat" data-i18n="downloadPdf">تنزيل PDF</button>
       </div>
     </div>
 
     <div class="card">
-      <h2>حاسبة الزكاة</h2>
-      <p class="hint">أدخل إجمالي المال الذي حال عليه الحول (نقد ومدخرات) والديون المستحقة عليك، لحساب مقدار الزكاة الواجبة (٢.٥٪).</p>
+      <h2 data-i18n="zakatTitle">حاسبة الزكاة</h2>
+      <p class="hint" data-i18n="zakatHint">أدخل إجمالي المال الذي حال عليه الحول (نقد ومدخرات) والديون المستحقة عليك، لحساب مقدار الزكاة الواجبة (٢.٥٪).</p>
       <div class="row">
         <div class="field">
-          <label for="zakat-total">إجمالي المال (ريال)</label>
-          <input type="number" id="zakat-total" min="0" placeholder="مثال: 50000">
+          <label for="zakat-total" data-i18n="zakatTotalLabel">إجمالي المال (ريال)</label>
+          <input type="number" id="zakat-total" min="0" data-i18n-ph="zakatTotalPh" placeholder="مثال: 50000">
         </div>
         <div class="field">
-          <label for="zakat-debts">الديون المستحقة عليك (ريال)</label>
-          <input type="number" id="zakat-debts" min="0" placeholder="مثال: 0">
+          <label for="zakat-debts" data-i18n="zakatDebtsLabel">الديون المستحقة عليك (ريال)</label>
+          <input type="number" id="zakat-debts" min="0" data-i18n-ph="zakatDebtsPh" placeholder="مثال: 0">
         </div>
       </div>
-      <button class="btn" id="zakat-btn">احسب الزكاة</button>
+      <button class="btn" id="zakat-btn" data-i18n="zakatBtn">احسب الزكاة</button>
       <div class="result" id="zakat-result" style="display:none;">
         <div class="big" id="zakat-out"></div>
-        <button type="button" class="pdf-export-btn" data-export="zakat">تنزيل PDF</button>
+        <button type="button" class="pdf-export-btn" data-export="zakat" data-i18n="downloadPdf">تنزيل PDF</button>
       </div>
-      <p class="note">تجب الزكاة إذا بلغ المال النصاب (ما يعادل قيمة ٨٥ جراماً من الذهب تقريباً) ومرّ عليه حول هجري كامل. هذه الأداة للمساعدة الحسابية فقط، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.</p>
+      <p class="note" data-i18n="zakatNote">تجب الزكاة إذا بلغ المال النصاب (ما يعادل قيمة ٨٥ جراماً من الذهب تقريباً) ومرّ عليه حول هجري كامل. هذه الأداة للمساعدة الحسابية فقط، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.</p>
     </div>
 
     <div class="card">
-      <h2>حاسبة زكاة الذهب والفضة</h2>
-      <p class="hint">اختر النوع، وأدخل الوزن الذي تملكه وسعر الجرام الحالي (تقدر تعرفه من أي محل ذهب أو موقع أسعار يومي)، لحساب النصاب والزكاة الواجبة.</p>
+      <h2 data-i18n="goldzakatTitle">حاسبة زكاة الذهب والفضة</h2>
+      <p class="hint" data-i18n="goldzakatHint">اختر النوع، وأدخل الوزن الذي تملكه وسعر الجرام الحالي (تقدر تعرفه من أي محل ذهب أو موقع أسعار يومي)، لحساب النصاب والزكاة الواجبة.</p>
       <div class="field">
-        <label for="goldzakat-type">النوع</label>
+        <label for="goldzakat-type" data-i18n="goldzakatTypeLabel">النوع</label>
         <select id="goldzakat-type">
-          <option value="gold">ذهب (النصاب: ٨٥ جرام)</option>
-          <option value="silver">فضة (النصاب: ٥٩٥ جرام)</option>
+          <option value="gold" data-i18n="goldzakatGold">ذهب (النصاب: ٨٥ جرام)</option>
+          <option value="silver" data-i18n="goldzakatSilver">فضة (النصاب: ٥٩٥ جرام)</option>
         </select>
       </div>
       <div class="row">
         <div class="field">
-          <label for="goldzakat-weight">الوزن الذي تملكه (جرام)</label>
-          <input type="number" id="goldzakat-weight" min="0" placeholder="مثال: 100">
+          <label for="goldzakat-weight" data-i18n="goldzakatWeightLabel">الوزن الذي تملكه (جرام)</label>
+          <input type="number" id="goldzakat-weight" min="0" data-i18n-ph="goldzakatWeightPh" placeholder="مثال: 100">
         </div>
         <div class="field">
-          <label for="goldzakat-price">سعر الجرام الحالي (ريال)</label>
-          <input type="number" id="goldzakat-price" min="0" placeholder="مثال: 320">
+          <label for="goldzakat-price" data-i18n="goldzakatPriceLabel">سعر الجرام الحالي (ريال)</label>
+          <input type="number" id="goldzakat-price" min="0" data-i18n-ph="goldzakatPricePh" placeholder="مثال: 320">
         </div>
       </div>
-      <button class="btn" id="goldzakat-btn">احسب الزكاة</button>
+      <button class="btn" id="goldzakat-btn" data-i18n="zakatBtn">احسب الزكاة</button>
       <div class="result" id="goldzakat-result" style="display:none;">
         <div class="big" id="goldzakat-out"></div>
         <p class="note" id="goldzakat-sub"></p>
-        <button type="button" class="pdf-export-btn" data-export="goldzakat">تنزيل PDF</button>
+        <button type="button" class="pdf-export-btn" data-export="goldzakat" data-i18n="downloadPdf">تنزيل PDF</button>
       </div>
-      <p class="note">هذه الأداة للمساعدة الحسابية فقط بناءً على السعر الذي تدخله، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.</p>
+      <p class="note" data-i18n="goldzakatNote">هذه الأداة للمساعدة الحسابية فقط بناءً على السعر الذي تدخله، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.</p>
     </div>
   </section>
 
@@ -1221,6 +1223,34 @@
     </div>
   </section>
 
+  <!-- ===================== TAB: STUDENT TOOLS ===================== -->
+  <section class="panel" id="panel-student">
+
+    <div class="card">
+      <h2 data-i18n="wcTitle">عداد الكلمات والأحرف</h2>
+      <p class="hint" data-i18n="wcHint">الصق أو اكتب نصك (مقالة، بحث، واجب) وشوف عدد الكلمات والأحرف والجمل والفقرات فوراً — مفيد لضبط حدود الكلمات بالواجبات والمقالات.</p>
+      <div class="field">
+        <label for="wc-input" data-i18n="wcLabel">النص</label>
+        <textarea id="wc-input" rows="8" data-i18n-ph="wcPlaceholder" placeholder="الصق نصك هنا..." style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
+      </div>
+      <div class="result" style="display:block;">
+        <div class="grid3">
+          <div><div class="n" id="wc-words">0</div><div class="l" data-i18n="wcWords">كلمة</div></div>
+          <div><div class="n" id="wc-chars">0</div><div class="l" data-i18n="wcChars">حرف</div></div>
+          <div><div class="n" id="wc-charsNoSpace">0</div><div class="l" data-i18n="wcCharsNoSpace">حرف (بدون مسافات)</div></div>
+        </div>
+        <div class="grid3" style="margin-top:14px;">
+          <div><div class="n" id="wc-sentences">0</div><div class="l" data-i18n="wcSentences">جملة</div></div>
+          <div><div class="n" id="wc-paragraphs">0</div><div class="l" data-i18n="wcParagraphs">فقرة</div></div>
+          <div><div class="n" id="wc-readtime">0</div><div class="l" data-i18n="wcReadTime">دقيقة قراءة</div></div>
+        </div>
+      </div>
+      <p class="note" data-i18n="wcNote">كل الحساب يتم داخل متصفحك فوراً أثناء الكتابة — نصك ما يُرفع لأي سيرفر.</p>
+    </div>
+
+    <p class="note" data-i18n="studentMoreNote">المزيد من أدوات الطلاب (حاسبة الدرجة المطلوبة، مولّد الاقتباسات الأكاديمية APA/MLA) قادمة قريباً.</p>
+  </section>
+
   <!-- ===================== TAB: VOICE (STT + TTS) ===================== -->
   <section class="panel" id="panel-voice">
 
@@ -1679,8 +1709,12 @@ document.querySelectorAll('#tabs button').forEach(btn=>{
 /* ============================================================
    HIJRI <-> GREGORIAN CORE (Umm al-Qura via Intl, native ICU)
    ============================================================ */
+let currentLang = localStorage.getItem('uddah-lang') || 'ar';
 const HIJRI_FMT = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', {year:'numeric', month:'numeric', day:'numeric'});
-const HIJRI_MONTHS = ["محرم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة"];
+const HIJRI_MONTHS = {
+  ar: ["محرم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة"],
+  en: ["Muharram","Safar","Rabi' al-Awwal","Rabi' al-Thani","Jumada al-Awwal","Jumada al-Thani","Rajab","Sha'ban","Ramadan","Shawwal","Dhu al-Qi'dah","Dhu al-Hijjah"]
+};
 
 function gregorianToHijri(date){
   const parts = HIJRI_FMT.formatToParts(date);
@@ -1721,7 +1755,8 @@ function hijriMonthLength(y, m){
 }
 
 function formatHijri(h){
-  return `${h.day} ${HIJRI_MONTHS[h.month-1]} ${h.year}هـ`;
+  if(currentLang === 'en') return `${h.day} ${HIJRI_MONTHS.en[h.month-1]}, ${h.year} AH`;
+  return `${h.day} ${HIJRI_MONTHS.ar[h.month-1]} ${h.year}هـ`;
 }
 
 /* Traditional Arabian "منازل/أنواء" star calendar (28 periods across the solar year) */
@@ -1773,11 +1808,13 @@ function findCurrentManzila(date){
 /* Live stamp in header */
 function paintStamp(){
   const now = new Date();
-  document.getElementById('stampGreg').textContent = now.toLocaleDateString('ar-SA-u-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit'});
+  const locale = currentLang === 'en' ? 'en-US' : 'ar-SA-u-nu-latn';
+  document.getElementById('stampGreg').textContent = now.toLocaleDateString(locale,{year:'numeric',month:'2-digit',day:'2-digit'});
   document.getElementById('stampHijri').textContent = formatHijri(gregorianToHijri(now));
-  document.getElementById('stampDayName').textContent = now.toLocaleDateString('ar-SA',{weekday:'long'});
+  document.getElementById('stampDayName').textContent = now.toLocaleDateString(currentLang === 'en' ? 'en-US' : 'ar-SA',{weekday:'long'});
   const manzila = findCurrentManzila(now);
-  document.getElementById('stampManzila').textContent = manzila ? `${manzila.name} (نجم ${manzila.star})` : '—';
+  const manzilaLbl = currentLang === 'en' ? `${manzila.name} (star: ${manzila.star})` : `${manzila.name} (نجم ${manzila.star})`;
+  document.getElementById('stampManzila').textContent = manzila ? manzilaLbl : '—';
 }
 paintStamp();
 
@@ -1803,17 +1840,18 @@ document.getElementById('h2g-btn').addEventListener('click', ()=>{
   errBox.style.display = 'none';
   resBox.style.display = 'none';
   if(!day || !month || !year || day<1 || day>30){
-    errBox.textContent = 'تأكد من إدخال اليوم والشهر والسنة بشكل صحيح.';
+    errBox.textContent = I18N[currentLang].h2gErrInput;
     errBox.style.display = 'block';
     return;
   }
   const g = hijriToGregorian(year, month, day);
   if(!g){
-    errBox.textContent = 'لم يتم إيجاد تاريخ مطابق — تأكد من صحة الأرقام المدخلة.';
+    errBox.textContent = I18N[currentLang].h2gErrNotFound;
     errBox.style.display = 'block';
     return;
   }
-  document.getElementById('h2g-out').textContent = g.toLocaleDateString('ar-SA-u-nu-latn',{year:'numeric',month:'long',day:'numeric', timeZone:'UTC'});
+  const locale = currentLang === 'en' ? 'en-US' : 'ar-SA-u-nu-latn';
+  document.getElementById('h2g-out').textContent = g.toLocaleDateString(locale,{year:'numeric',month:'long',day:'numeric', timeZone:'UTC'});
   resBox.style.display = 'block';
 });
 
@@ -2059,27 +2097,245 @@ themeToggleBtn.addEventListener('click', ()=>{
 });
 
 /* ============================================================
+   LANGUAGE TOGGLE (AR / EN)
+   ============================================================ */
+const I18N = {
+  ar: {
+    siteName: 'عُدّة',
+    tagline: 'أدوات يومية عملية — تواريخ، وحدات، عملات، وملفات PDF — كلها تشتغل داخل متصفحك',
+    lblGregToday: 'اليوم ميلادي',
+    lblHijriToday: 'اليوم هجري',
+    lblToday: 'اليوم',
+    tabConvert: 'تحويل التاريخ',
+    tabPrayer: 'أوقات الصلاة',
+    tabDiffage: 'الفرق بين تاريخين والعمر',
+    tabUnits: 'تحويل الوحدات',
+    tabMoney: 'العملات والزكاة والضريبة',
+    tabInheritance: 'حاسبة المواريث',
+    tabTools: 'أدوات متنوعة',
+    tabStudent: 'أدوات الطلاب',
+    tabVoice: 'الصوت والنص',
+    tabSectors: 'حاسبات متنوعة',
+    tabPdf: 'أدوات PDF',
+    wcTitle: 'عداد الكلمات والأحرف',
+    wcHint: 'الصق أو اكتب نصك (مقالة، بحث، واجب) وشوف عدد الكلمات والأحرف والجمل والفقرات فوراً — مفيد لضبط حدود الكلمات بالواجبات والمقالات.',
+    wcLabel: 'النص',
+    wcPlaceholder: 'الصق نصك هنا...',
+    wcWords: 'كلمة',
+    wcChars: 'حرف',
+    wcCharsNoSpace: 'حرف (بدون مسافات)',
+    wcSentences: 'جملة',
+    wcParagraphs: 'فقرة',
+    wcReadTime: 'دقيقة قراءة',
+    wcNote: 'كل الحساب يتم داخل متصفحك فوراً أثناء الكتابة — نصك ما يُرفع لأي سيرفر.',
+    studentMoreNote: 'المزيد من أدوات الطلاب (حاسبة الدرجة المطلوبة، مولّد الاقتباسات الأكاديمية APA/MLA) قادمة قريباً.',
+    g2hTitle: 'ميلادي ← هجري',
+    g2hHint: 'اختر تاريخاً ميلادياً وسيظهر مقابله بتقويم أم القرى الهجري.',
+    g2hLabel: 'التاريخ الميلادي',
+    g2hBtn: 'حوّل إلى هجري',
+    downloadPdf: 'تنزيل PDF',
+    h2gTitle: 'هجري ← ميلادي',
+    h2gHint: 'أدخل التاريخ الهجري (يوم / شهر / سنة) وسيظهر مقابله الميلادي.',
+    lblDay: 'اليوم', lblMonth: 'الشهر', lblYear: 'السنة',
+    h2gDayPh: 'مثال: 15', h2gYearPh: 'مثال: 1446',
+    hm1:'محرم', hm2:'صفر', hm3:'ربيع الأول', hm4:'ربيع الآخر', hm5:'جمادى الأولى', hm6:'جمادى الآخرة',
+    hm7:'رجب', hm8:'شعبان', hm9:'رمضان', hm10:'شوال', hm11:'ذو القعدة', hm12:'ذو الحجة',
+    h2gBtn: 'حوّل إلى ميلادي',
+    convertNote: 'يعتمد التحويل على تقويم أم القرى المدمج في متصفحك (نفس التقويم الرسمي المعتمد في السعودية)، وهو مدعوم في أغلب المتصفحات الحديثة على الجوال والحاسوب.',
+    h2gErrInput: 'تأكد من إدخال اليوم والشهر والسنة بشكل صحيح.',
+    h2gErrNotFound: 'لم يتم إيجاد تاريخ مطابق — تأكد من صحة الأرقام المدخلة.',
+    unitTitle: 'تحويل الوحدات',
+    unitHint: 'اختر نوع القياس والوحدتين، وأدخل القيمة لتحويلها فوراً.',
+    unitCategoryLabel: 'نوع القياس',
+    catLength: 'الطول', catWeight: 'الوزن', catTemp: 'الحرارة', catVolume: 'الحجم',
+    unitValueLabel: 'القيمة', unitValuePh: 'مثال: 10',
+    unitFromLabel: 'من وحدة', unitToLabel: 'إلى وحدة',
+    btnConvert: 'حوّل', btnCalc: 'احسب',
+    fxTitle: 'حاسبة العملات',
+    fxHint: 'أدخل المبلغ واختر العملتين — الأسعار تُجلب مباشرة من مصدر أسعار صرف مفتوح ومجاني.',
+    fxAmountLabel: 'المبلغ', fxFromLabel: 'من عملة', fxToLabel: 'إلى عملة',
+    fxFetching: 'جارٍ الجلب...',
+    fxUpdated: 'تاريخ آخر تحديث للأسعار:',
+    fxErr: 'تعذر جلب أسعار الصرف الحالية — تأكد من اتصالك بالإنترنت وحاول مرة أخرى.',
+    vatTitle: 'حاسبة القيمة المضافة (VAT)',
+    vatHint: 'أدخل المبلغ واختر الاتجاه — إضافة الضريبة على مبلغ غير شامل، أو استخراجها من مبلغ شامل الضريبة.',
+    vatAmountLabel: 'المبلغ (ريال)', vatAmountPh: 'مثال: 1000',
+    vatRateLabel: 'نسبة الضريبة (٪)',
+    vatModeLabel: 'الاتجاه',
+    vatModeAdd: 'إضافة الضريبة (المبلغ غير شامل الضريبة)',
+    vatModeExtract: 'استخراج الضريبة (المبلغ شامل الضريبة)',
+    vatBase: 'قبل الضريبة', vatTax: 'قيمة الضريبة', vatTotal: 'شامل الضريبة',
+    zakatTitle: 'حاسبة الزكاة',
+    zakatHint: 'أدخل إجمالي المال الذي حال عليه الحول (نقد ومدخرات) والديون المستحقة عليك، لحساب مقدار الزكاة الواجبة (٢.٥٪).',
+    zakatTotalLabel: 'إجمالي المال (ريال)', zakatTotalPh: 'مثال: 50000',
+    zakatDebtsLabel: 'الديون المستحقة عليك (ريال)', zakatDebtsPh: 'مثال: 0',
+    zakatBtn: 'احسب الزكاة',
+    zakatNote: 'تجب الزكاة إذا بلغ المال النصاب (ما يعادل قيمة ٨٥ جراماً من الذهب تقريباً) ومرّ عليه حول هجري كامل. هذه الأداة للمساعدة الحسابية فقط، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.',
+    goldzakatTitle: 'حاسبة زكاة الذهب والفضة',
+    goldzakatHint: 'اختر النوع، وأدخل الوزن الذي تملكه وسعر الجرام الحالي (تقدر تعرفه من أي محل ذهب أو موقع أسعار يومي)، لحساب النصاب والزكاة الواجبة.',
+    goldzakatTypeLabel: 'النوع',
+    goldzakatGold: 'ذهب (النصاب: ٨٥ جرام)', goldzakatSilver: 'فضة (النصاب: ٥٩٥ جرام)',
+    goldzakatWeightLabel: 'الوزن الذي تملكه (جرام)', goldzakatWeightPh: 'مثال: 100',
+    goldzakatPriceLabel: 'سعر الجرام الحالي (ريال)', goldzakatPricePh: 'مثال: 320',
+    goldzakatNote: 'هذه الأداة للمساعدة الحسابية فقط بناءً على السعر الذي تدخله، ويُفضّل التأكد من حالتك الخاصة عبر جهة شرعية موثوقة.'
+  },
+  en: {
+    siteName: 'Uddah',
+    tagline: 'Practical everyday tools — dates, units, currencies, and PDF files — all running right in your browser',
+    lblGregToday: 'Today (Gregorian)',
+    lblHijriToday: 'Today (Hijri)',
+    lblToday: 'Today',
+    tabConvert: 'Date Converter',
+    tabPrayer: 'Prayer Times',
+    tabDiffage: 'Date Difference & Age',
+    tabUnits: 'Unit Converter',
+    tabMoney: 'Currency, Zakat & VAT',
+    tabInheritance: 'Inheritance Calculator',
+    tabTools: 'Misc Tools',
+    tabStudent: 'Student Tools',
+    tabVoice: 'Voice & Text',
+    tabSectors: 'More Calculators',
+    tabPdf: 'PDF Tools',
+    wcTitle: 'Word & Character Counter',
+    wcHint: 'Paste or type your text (essay, research, homework) and instantly see word, character, sentence, and paragraph counts — handy for hitting word-count limits on assignments and essays.',
+    wcLabel: 'Text',
+    wcPlaceholder: 'Paste your text here...',
+    wcWords: 'words',
+    wcChars: 'characters',
+    wcCharsNoSpace: 'characters (no spaces)',
+    wcSentences: 'sentences',
+    wcParagraphs: 'paragraphs',
+    wcReadTime: 'min read',
+    wcNote: 'Everything is calculated instantly in your browser as you type — your text is never uploaded to any server.',
+    studentMoreNote: 'More student tools (required-final-grade calculator, APA/MLA citation generator) coming soon.',
+    g2hTitle: 'Gregorian → Hijri',
+    g2hHint: 'Pick a Gregorian date to see its Umm al-Qura Hijri equivalent.',
+    g2hLabel: 'Gregorian date',
+    g2hBtn: 'Convert to Hijri',
+    downloadPdf: 'Download PDF',
+    h2gTitle: 'Hijri → Gregorian',
+    h2gHint: 'Enter a Hijri date (day / month / year) to see its Gregorian equivalent.',
+    lblDay: 'Day', lblMonth: 'Month', lblYear: 'Year',
+    h2gDayPh: 'e.g. 15', h2gYearPh: 'e.g. 1446',
+    hm1:'Muharram', hm2:'Safar', hm3:"Rabi' al-Awwal", hm4:"Rabi' al-Thani", hm5:'Jumada al-Awwal', hm6:'Jumada al-Thani',
+    hm7:'Rajab', hm8:"Sha'ban", hm9:'Ramadan', hm10:'Shawwal', hm11:"Dhu al-Qi'dah", hm12:'Dhu al-Hijjah',
+    h2gBtn: 'Convert to Gregorian',
+    convertNote: 'Conversion relies on the Umm al-Qura calendar built into your browser (the same official calendar used in Saudi Arabia), supported on most modern mobile and desktop browsers.',
+    h2gErrInput: 'Make sure you entered a valid day, month, and year.',
+    h2gErrNotFound: 'No matching date was found — check that the numbers you entered are correct.',
+    unitTitle: 'Unit Converter',
+    unitHint: 'Pick a measurement type and two units, then enter a value to convert it instantly.',
+    unitCategoryLabel: 'Measurement type',
+    catLength: 'Length', catWeight: 'Weight', catTemp: 'Temperature', catVolume: 'Volume',
+    unitValueLabel: 'Value', unitValuePh: 'e.g. 10',
+    unitFromLabel: 'From unit', unitToLabel: 'To unit',
+    btnConvert: 'Convert', btnCalc: 'Calculate',
+    fxTitle: 'Currency Calculator',
+    fxHint: 'Enter an amount and pick two currencies — rates are fetched live from a free, open exchange-rate source.',
+    fxAmountLabel: 'Amount', fxFromLabel: 'From currency', fxToLabel: 'To currency',
+    fxFetching: 'Fetching...',
+    fxUpdated: 'Rates last updated:',
+    fxErr: 'Could not fetch current exchange rates — check your internet connection and try again.',
+    vatTitle: 'VAT Calculator',
+    vatHint: 'Enter an amount and pick a direction — add tax to a tax-exclusive amount, or extract it from a tax-inclusive amount.',
+    vatAmountLabel: 'Amount (SAR)', vatAmountPh: 'e.g. 1000',
+    vatRateLabel: 'Tax rate (%)',
+    vatModeLabel: 'Direction',
+    vatModeAdd: 'Add tax (amount excludes tax)',
+    vatModeExtract: 'Extract tax (amount includes tax)',
+    vatBase: 'Before tax', vatTax: 'Tax amount', vatTotal: 'Including tax',
+    zakatTitle: 'Zakat Calculator',
+    zakatHint: 'Enter the total money that has completed a full year in your possession (cash and savings) and any debts owed by you, to calculate the zakat due (2.5%).',
+    zakatTotalLabel: 'Total money (SAR)', zakatTotalPh: 'e.g. 50000',
+    zakatDebtsLabel: 'Debts owed by you (SAR)', zakatDebtsPh: 'e.g. 0',
+    zakatBtn: 'Calculate Zakat',
+    zakatNote: 'Zakat is due once the money reaches the nisab threshold (roughly the value of 85 grams of gold) and a full Hijri year has passed on it. This tool is for calculation help only — please confirm your specific situation with a trusted religious authority.',
+    goldzakatTitle: 'Gold & Silver Zakat Calculator',
+    goldzakatHint: 'Pick the type, then enter the weight you own and the current price per gram (from any gold shop or daily price site) to calculate the nisab and the zakat due.',
+    goldzakatTypeLabel: 'Type',
+    goldzakatGold: 'Gold (nisab: 85 g)', goldzakatSilver: 'Silver (nisab: 595 g)',
+    goldzakatWeightLabel: 'Weight you own (g)', goldzakatWeightPh: 'e.g. 100',
+    goldzakatPriceLabel: 'Current price per gram (SAR)', goldzakatPricePh: 'e.g. 320',
+    goldzakatNote: 'This tool is for calculation help only, based on the price you enter — please confirm your specific situation with a trusted religious authority.'
+  }
+};
+
+function applyLanguage(lang){
+  currentLang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(I18N[lang][key] !== undefined) el.textContent = I18N[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-ph');
+    if(I18N[lang][key] !== undefined) el.setAttribute('placeholder', I18N[lang][key]);
+  });
+  document.documentElement.setAttribute('lang', lang === 'ar' ? 'ar' : 'en');
+  document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.getElementById('langToggle').textContent = lang === 'ar' ? 'EN' : 'AR';
+  localStorage.setItem('uddah-lang', lang);
+  paintStamp();
+  if(typeof populateUnitSelects === 'function') populateUnitSelects();
+  if(typeof populateCurrencySelects === 'function') populateCurrencySelects();
+}
+document.getElementById('langToggle').addEventListener('click', ()=>{
+  const current = document.documentElement.getAttribute('lang') === 'ar' ? 'ar' : 'en';
+  applyLanguage(current === 'ar' ? 'en' : 'ar');
+});
+
+/* ============================================================
+   WORD & CHARACTER COUNTER
+   ============================================================ */
+function updateWordCounter(){
+  const text = document.getElementById('wc-input').value;
+  const trimmed = text.trim();
+  const words = trimmed ? (trimmed.match(/[\p{L}\p{N}'’-]+/gu) || []).length : 0;
+  const chars = text.length;
+  const charsNoSpace = text.replace(/\s/g, '').length;
+  const sentences = trimmed ? (trimmed.match(/[^.!?؟。]+[.!?؟。]*/gu) || []).filter(s=>s.trim().length>0).length : 0;
+  const paragraphs = trimmed ? trimmed.split(/\n\s*\n/).filter(p=>p.trim().length>0).length : 0;
+  const readTime = Math.max(0, Math.ceil(words / 200));
+
+  document.getElementById('wc-words').textContent = words.toLocaleString('en-US');
+  document.getElementById('wc-chars').textContent = chars.toLocaleString('en-US');
+  document.getElementById('wc-charsNoSpace').textContent = charsNoSpace.toLocaleString('en-US');
+  document.getElementById('wc-sentences').textContent = sentences.toLocaleString('en-US');
+  document.getElementById('wc-paragraphs').textContent = paragraphs.toLocaleString('en-US');
+  document.getElementById('wc-readtime').textContent = readTime.toLocaleString('en-US');
+}
+document.getElementById('wc-input').addEventListener('input', updateWordCounter);
+updateWordCounter();
+
+/* ============================================================
    UNIT CONVERTER
    ============================================================ */
 const UNIT_DATA = {
   length: {
-    label: 'الطول',
-    units: {m:'متر', km:'كيلومتر', cm:'سنتيمتر', mm:'مليمتر', mile:'ميل', yard:'ياردة', foot:'قدم', inch:'إنش'},
+    units: {
+      ar: {m:'متر', km:'كيلومتر', cm:'سنتيمتر', mm:'مليمتر', mile:'ميل', yard:'ياردة', foot:'قدم', inch:'إنش'},
+      en: {m:'Meter', km:'Kilometer', cm:'Centimeter', mm:'Millimeter', mile:'Mile', yard:'Yard', foot:'Foot', inch:'Inch'}
+    },
     toBase: {m:1, km:1000, cm:0.01, mm:0.001, mile:1609.344, yard:0.9144, foot:0.3048, inch:0.0254}
   },
   weight: {
-    label: 'الوزن',
-    units: {kg:'كيلوجرام', g:'جرام', mg:'مليجرام', lb:'رطل', oz:'أونصة'},
+    units: {
+      ar: {kg:'كيلوجرام', g:'جرام', mg:'مليجرام', lb:'رطل', oz:'أونصة'},
+      en: {kg:'Kilogram', g:'Gram', mg:'Milligram', lb:'Pound', oz:'Ounce'}
+    },
     toBase: {kg:1, g:0.001, mg:0.000001, lb:0.45359237, oz:0.028349523}
   },
   volume: {
-    label: 'الحجم',
-    units: {l:'لتر', ml:'مليلتر', gal:'جالون', cup:'كوب'},
+    units: {
+      ar: {l:'لتر', ml:'مليلتر', gal:'جالون', cup:'كوب'},
+      en: {l:'Liter', ml:'Milliliter', gal:'Gallon', cup:'Cup'}
+    },
     toBase: {l:1, ml:0.001, gal:3.785411784, cup:0.24}
   },
   temperature: {
-    label: 'الحرارة',
-    units: {c:'مئوية', f:'فهرنهايت', k:'كلفن'}
+    units: {
+      ar: {c:'مئوية', f:'فهرنهايت', k:'كلفن'},
+      en: {c:'Celsius', f:'Fahrenheit', k:'Kelvin'}
+    }
   }
 };
 
@@ -2089,7 +2345,7 @@ function populateUnitSelects(){
   const toSel = document.getElementById('unit-to');
   fromSel.innerHTML = '';
   toSel.innerHTML = '';
-  const units = UNIT_DATA[cat].units;
+  const units = UNIT_DATA[cat].units[currentLang];
   Object.keys(units).forEach((key, idx)=>{
     const opt1 = document.createElement('option');
     opt1.value = key; opt1.textContent = units[key];
@@ -2132,7 +2388,7 @@ document.getElementById('unit-btn').addEventListener('click', ()=>{
     result = baseValue / data.toBase[to];
   }
   const rounded = Math.round(result * 10000) / 10000;
-  out.textContent = `${rounded.toLocaleString('en-US')} ${UNIT_DATA[cat].units[to]}`;
+  out.textContent = `${rounded.toLocaleString('en-US')} ${UNIT_DATA[cat].units[currentLang][to]}`;
   resultBox.style.display = 'block';
 });
 
@@ -2140,23 +2396,36 @@ document.getElementById('unit-btn').addEventListener('click', ()=>{
    CURRENCY CONVERTER
    ============================================================ */
 const CURRENCY_LIST = {
-  sar:'ريال سعودي', usd:'دولار أمريكي', eur:'يورو', gbp:'جنيه إسترليني',
-  aed:'درهم إماراتي', kwd:'دينار كويتي', qar:'ريال قطري', bhd:'دينار بحريني',
-  omr:'ريال عماني', egp:'جنيه مصري', jod:'دينار أردني', try:'ليرة تركية',
-  inr:'روبية هندية', pkr:'روبية باكستانية', cny:'يوان صيني', jpy:'ين ياباني'
+  ar: {
+    sar:'ريال سعودي', usd:'دولار أمريكي', eur:'يورو', gbp:'جنيه إسترليني',
+    aed:'درهم إماراتي', kwd:'دينار كويتي', qar:'ريال قطري', bhd:'دينار بحريني',
+    omr:'ريال عماني', egp:'جنيه مصري', jod:'دينار أردني', try:'ليرة تركية',
+    inr:'روبية هندية', pkr:'روبية باكستانية', cny:'يوان صيني', jpy:'ين ياباني'
+  },
+  en: {
+    sar:'Saudi Riyal', usd:'US Dollar', eur:'Euro', gbp:'British Pound',
+    aed:'UAE Dirham', kwd:'Kuwaiti Dinar', qar:'Qatari Riyal', bhd:'Bahraini Dinar',
+    omr:'Omani Rial', egp:'Egyptian Pound', jod:'Jordanian Dinar', try:'Turkish Lira',
+    inr:'Indian Rupee', pkr:'Pakistani Rupee', cny:'Chinese Yuan', jpy:'Japanese Yen'
+  }
 };
 function populateCurrencySelects(){
   const fromSel = document.getElementById('fx-from');
   const toSel = document.getElementById('fx-to');
-  Object.keys(CURRENCY_LIST).forEach(code=>{
+  const prevFrom = fromSel.value || 'sar';
+  const prevTo = toSel.value || 'usd';
+  fromSel.innerHTML = '';
+  toSel.innerHTML = '';
+  const list = CURRENCY_LIST[currentLang];
+  Object.keys(list).forEach(code=>{
     const o1 = document.createElement('option');
-    o1.value = code; o1.textContent = `${CURRENCY_LIST[code]} (${code.toUpperCase()})`;
+    o1.value = code; o1.textContent = `${list[code]} (${code.toUpperCase()})`;
     const o2 = o1.cloneNode(true);
     fromSel.appendChild(o1);
     toSel.appendChild(o2);
   });
-  fromSel.value = 'sar';
-  toSel.value = 'usd';
+  fromSel.value = prevFrom;
+  toSel.value = prevTo;
 }
 populateCurrencySelects();
 
@@ -2186,7 +2455,7 @@ document.getElementById('fx-btn').addEventListener('click', async ()=>{
   errBox.style.display = 'none';
   resultBox.style.display = 'none';
   if(isNaN(amount)) return;
-  setBusy(btn, true, 'جارٍ الجلب...', 'حوّل');
+  setBusy(btn, true, I18N[currentLang].fxFetching, I18N[currentLang].btnConvert);
   try{
     const data = await fetchRate(from);
     const rates = data[from];
@@ -2195,13 +2464,13 @@ document.getElementById('fx-btn').addEventListener('click', async ()=>{
     const converted = amount * rate;
     document.getElementById('fx-out').textContent =
       `${amount.toLocaleString('en-US')} ${from.toUpperCase()} = ${converted.toLocaleString('en-US',{maximumFractionDigits:4})} ${to.toUpperCase()}`;
-    document.getElementById('fx-updated').textContent = `تاريخ آخر تحديث للأسعار: ${data.date || '—'}`;
+    document.getElementById('fx-updated').textContent = `${I18N[currentLang].fxUpdated} ${data.date || '—'}`;
     resultBox.style.display = 'block';
   }catch(e){
-    errBox.textContent = 'تعذر جلب أسعار الصرف الحالية — تأكد من اتصالك بالإنترنت وحاول مرة أخرى.';
+    errBox.textContent = I18N[currentLang].fxErr;
     errBox.style.display = 'block';
   }
-  setBusy(btn, false, '', 'حوّل');
+  setBusy(btn, false, '', I18N[currentLang].btnConvert);
 });
 
 /* ============================================================
@@ -2238,7 +2507,7 @@ document.getElementById('zakat-btn').addEventListener('click', ()=>{
   const net = Math.max(0, total - debts);
   const zakat = net * 0.025;
   document.getElementById('zakat-out').textContent =
-    `${zakat.toLocaleString('en-US',{maximumFractionDigits:2})} ريال`;
+    `${zakat.toLocaleString('en-US',{maximumFractionDigits:2})} ${currentLang === 'en' ? 'SAR' : 'ريال'}`;
   document.getElementById('zakat-result').style.display = 'block';
 });
 
@@ -3700,14 +3969,25 @@ document.getElementById('goldzakat-btn').addEventListener('click', ()=>{
   const value = weight * price;
   const out = document.getElementById('goldzakat-out');
   const sub = document.getElementById('goldzakat-sub');
+  const currencyUnit = currentLang === 'en' ? 'SAR' : 'ريال';
+  const gramUnit = currentLang === 'en' ? 'g' : 'جرام';
 
   if(weight < nisab){
-    out.textContent = 'لا زكاة عليك حالياً';
-    sub.textContent = `الوزن الذي تملكه (${weight.toLocaleString('en-US')} جرام) أقل من النصاب (${nisab} جرام لـ${type === 'gold' ? 'الذهب' : 'الفضة'}).`;
+    if(currentLang === 'en'){
+      out.textContent = 'No zakat is currently due';
+      sub.textContent = `Your weight (${weight.toLocaleString('en-US')} ${gramUnit}) is below the nisab threshold (${nisab} ${gramUnit} for ${type === 'gold' ? 'gold' : 'silver'}).`;
+    } else {
+      out.textContent = 'لا زكاة عليك حالياً';
+      sub.textContent = `الوزن الذي تملكه (${weight.toLocaleString('en-US')} جرام) أقل من النصاب (${nisab} جرام لـ${type === 'gold' ? 'الذهب' : 'الفضة'}).`;
+    }
   } else {
     const zakat = value * 0.025;
-    out.textContent = `${zakat.toLocaleString('en-US',{maximumFractionDigits:2})} ريال`;
-    sub.textContent = `القيمة الإجمالية: ${value.toLocaleString('en-US',{maximumFractionDigits:2})} ريال — بلغ النصاب، والزكاة الواجبة ٢.٥٪.`;
+    out.textContent = `${zakat.toLocaleString('en-US',{maximumFractionDigits:2})} ${currencyUnit}`;
+    if(currentLang === 'en'){
+      sub.textContent = `Total value: ${value.toLocaleString('en-US',{maximumFractionDigits:2})} ${currencyUnit} — nisab reached, zakat due is 2.5%.`;
+    } else {
+      sub.textContent = `القيمة الإجمالية: ${value.toLocaleString('en-US',{maximumFractionDigits:2})} ريال — بلغ النصاب، والزكاة الواجبة ٢.٥٪.`;
+    }
   }
   document.getElementById('goldzakat-result').style.display = 'block';
 });
@@ -4846,6 +5126,8 @@ document.getElementById('fuel-btn').addEventListener('click', ()=>{
   document.getElementById('fuel-cost').textContent = cost.toLocaleString('en-US',{maximumFractionDigits:2});
   document.getElementById('fuel-result').style.display = 'block';
 });
+
+applyLanguage(localStorage.getItem('uddah-lang') || 'ar');
 </script>
 </body>
 </html>
