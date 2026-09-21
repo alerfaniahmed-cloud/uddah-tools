@@ -1255,48 +1255,48 @@
   <section class="panel" id="panel-voice">
 
     <div class="card">
-      <h2>تحويل الصوت إلى نص</h2>
-      <p class="hint">اضغط "ابدأ التسجيل" وتكلم — النص يظهر مباشرة أثناء الكلام، وتقدر تعدّله أو تنسخه بعدها.</p>
+      <h2 data-i18n="sttTitle">تحويل الصوت إلى نص</h2>
+      <p class="hint" data-i18n="sttHint">اضغط "ابدأ التسجيل" وتكلم — النص يظهر مباشرة أثناء الكلام، وتقدر تعدّله أو تنسخه بعدها.</p>
       <div class="field">
-        <label for="stt-lang">اللغة</label>
+        <label for="stt-lang" data-i18n="sttLangLabel">اللغة</label>
         <select id="stt-lang">
-          <option value="ar-SA">العربية</option>
-          <option value="en-US">الإنجليزية</option>
+          <option value="ar-SA" data-i18n="langArabic">العربية</option>
+          <option value="en-US" data-i18n="langEnglish">الإنجليزية</option>
         </select>
       </div>
-      <button class="btn" id="stt-btn">ابدأ التسجيل 🎙️</button>
+      <button class="btn" id="stt-btn" data-i18n="sttBtnStart">ابدأ التسجيل 🎙️</button>
       <div class="field" style="margin-top:16px;">
-        <label for="stt-output">النص</label>
-        <textarea id="stt-output" rows="6" placeholder="سيظهر النص هنا أثناء الكلام..." style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
+        <label for="stt-output" data-i18n="sttOutputLabel">النص</label>
+        <textarea id="stt-output" rows="6" data-i18n-ph="sttOutputPh" placeholder="سيظهر النص هنا أثناء الكلام..." style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
       </div>
       <div class="row">
-        <button class="btn secondary" id="stt-copy-btn" style="padding:9px 18px;font-size:.85rem;">نسخ النص</button>
-        <button class="btn secondary" id="stt-clear-btn" style="padding:9px 18px;font-size:.85rem;">مسح</button>
+        <button class="btn secondary" id="stt-copy-btn" style="padding:9px 18px;font-size:.85rem;" data-i18n="sttCopyBtn">نسخ النص</button>
+        <button class="btn secondary" id="stt-clear-btn" style="padding:9px 18px;font-size:.85rem;" data-i18n="sttClearBtn">مسح</button>
       </div>
-      <div class="msg err" id="stt-support-msg" style="display:none;">هذه الميزة غير مدعومة بالكامل بمتصفحك الحالي — جرّب Chrome أو Edge للحصول على أفضل دعم.</div>
-      <p class="note">التسجيل والتفريغ يتمّان داخل متصفحك مباشرة عبر خدمة تعرّف الصوت المدمجة به — لا نُخزّن أي تسجيل صوتي على أي سيرفر.</p>
+      <div class="msg err" id="stt-support-msg" style="display:none;" data-i18n="sttSupportMsg">هذه الميزة غير مدعومة بالكامل بمتصفحك الحالي — جرّب Chrome أو Edge للحصول على أفضل دعم.</div>
+      <p class="note" data-i18n="sttNote">التسجيل والتفريغ يتمّان داخل متصفحك مباشرة عبر خدمة تعرّف الصوت المدمجة به — لا نُخزّن أي تسجيل صوتي على أي سيرفر.</p>
     </div>
 
     <div class="card">
-      <h2>تحويل النص إلى صوت</h2>
-      <p class="hint">الصق أو اكتب أي نص، اختر الصوت والسرعة، واضغط تشغيل لسماعه.</p>
+      <h2 data-i18n="ttsTitle">تحويل النص إلى صوت</h2>
+      <p class="hint" data-i18n="ttsHint">الصق أو اكتب أي نص، اختر الصوت والسرعة، واضغط تشغيل لسماعه.</p>
       <div class="field">
-        <label for="tts-text">النص</label>
-        <textarea id="tts-text" rows="5" placeholder="اكتب أو الصق النص هنا..." style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
+        <label for="tts-text" data-i18n="ttsTextLabel">النص</label>
+        <textarea id="tts-text" rows="5" data-i18n-ph="ttsTextPh" placeholder="اكتب أو الصق النص هنا..." style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
       </div>
       <div class="field">
-        <label for="tts-voice">الصوت</label>
+        <label for="tts-voice" data-i18n="ttsVoiceLabel">الصوت</label>
         <select id="tts-voice"></select>
       </div>
       <div class="field">
-        <label for="tts-rate">سرعة القراءة: <span id="tts-rate-val">1</span>x</label>
+        <label for="tts-rate"><span data-i18n="ttsRateLabel">سرعة القراءة:</span> <span id="tts-rate-val">1</span>x</label>
         <input type="range" id="tts-rate" min="0.5" max="2" step="0.1" value="1" style="width:100%;">
       </div>
       <div class="row">
-        <button class="btn" id="tts-play-btn">تشغيل ▶</button>
-        <button class="btn secondary" id="tts-stop-btn" style="padding:11px 22px;">إيقاف ⏹</button>
+        <button class="btn" id="tts-play-btn" data-i18n="ttsPlayBtn">تشغيل ▶</button>
+        <button class="btn secondary" id="tts-stop-btn" style="padding:11px 22px;" data-i18n="ttsStopBtn">إيقاف ⏹</button>
       </div>
-      <p class="note">الأصوات المتاحة تعتمد على جهازك ومتصفحك — لو ما وجدت صوتاً عربياً بالقائمة، معناه جهازك لا يحتوي حزمة صوت عربية مثبتة.</p>
+      <p class="note" data-i18n="ttsNote">الأصوات المتاحة تعتمد على جهازك ومتصفحك — لو ما وجدت صوتاً عربياً بالقائمة، معناه جهازك لا يحتوي حزمة صوت عربية مثبتة.</p>
     </div>
   </section>
 
@@ -1304,65 +1304,65 @@
   <section class="panel" id="panel-sectors">
 
     <div class="card">
-      <h2>حاسبات متنوعة</h2>
-      <p class="hint">اختر الحاسبة المطلوبة من القائمة.</p>
+      <h2 data-i18n="sectorsTitle">حاسبات متنوعة</h2>
+      <p class="hint" data-i18n="sectorsHint">اختر الحاسبة المطلوبة من القائمة.</p>
       <div class="field">
-        <label for="sector-select">نوع الحاسبة</label>
+        <label for="sector-select" data-i18n="sectorSelectLabel">نوع الحاسبة</label>
         <select id="sector-select">
-          <option value="mortgage">التمويل العقاري</option>
-          <option value="gpa">المعدل التراكمي (GPA)</option>
-          <option value="health">اللياقة الصحية (BMI والسعرات)</option>
-          <option value="fuel">تكلفة الوقود للرحلة</option>
+          <option value="mortgage" data-i18n="sectorMortgage">التمويل العقاري</option>
+          <option value="gpa" data-i18n="sectorGpa">المعدل التراكمي (GPA)</option>
+          <option value="health" data-i18n="sectorHealth">اللياقة الصحية (BMI والسعرات)</option>
+          <option value="fuel" data-i18n="sectorFuel">تكلفة الوقود للرحلة</option>
         </select>
       </div>
     </div>
 
     <!-- Mortgage -->
     <div class="card sector-card" id="sector-mortgage">
-      <h2>حاسبة التمويل العقاري</h2>
-      <p class="hint">أدخل مبلغ التمويل ونسبة الفائدة السنوية ومدة السداد، لحساب القسط الشهري وإجمالي الفائدة.</p>
+      <h2 data-i18n="mortTitle">حاسبة التمويل العقاري</h2>
+      <p class="hint" data-i18n="mortHint">أدخل مبلغ التمويل ونسبة الفائدة السنوية ومدة السداد، لحساب القسط الشهري وإجمالي الفائدة.</p>
       <div class="row">
         <div class="field">
-          <label for="mort-amount">مبلغ التمويل (ريال)</label>
-          <input type="number" id="mort-amount" min="0" placeholder="مثال: 500000">
+          <label for="mort-amount" data-i18n="mortAmountLabel">مبلغ التمويل (ريال)</label>
+          <input type="number" id="mort-amount" min="0" placeholder="مثال: 500000" data-i18n-ph="mortAmountPh">
         </div>
         <div class="field">
-          <label for="mort-rate">نسبة الفائدة السنوية (٪)</label>
-          <input type="number" id="mort-rate" min="0" step="0.01" placeholder="مثال: 4.5">
+          <label for="mort-rate" data-i18n="mortRateLabel">نسبة الفائدة السنوية (٪)</label>
+          <input type="number" id="mort-rate" min="0" step="0.01" placeholder="مثال: 4.5" data-i18n-ph="mortRatePh">
         </div>
       </div>
       <div class="field">
-        <label for="mort-years">مدة التمويل (سنوات)</label>
-        <input type="number" id="mort-years" min="1" placeholder="مثال: 20">
+        <label for="mort-years" data-i18n="mortYearsLabel">مدة التمويل (سنوات)</label>
+        <input type="number" id="mort-years" min="1" placeholder="مثال: 20" data-i18n-ph="mortYearsPh">
       </div>
-      <button class="btn" id="mort-btn">احسب القسط</button>
+      <button class="btn" id="mort-btn" data-i18n="mortBtn">احسب القسط</button>
       <div class="result" id="mort-result" style="display:none;">
         <div class="grid3">
-          <div><div class="n" id="mort-monthly">0</div><div class="l">القسط الشهري</div></div>
-          <div><div class="n" id="mort-totalpaid">0</div><div class="l">إجمالي المدفوع</div></div>
-          <div><div class="n" id="mort-totalinterest">0</div><div class="l">إجمالي الفائدة</div></div>
+          <div><div class="n" id="mort-monthly">0</div><div class="l" data-i18n="mortMonthly">القسط الشهري</div></div>
+          <div><div class="n" id="mort-totalpaid">0</div><div class="l" data-i18n="mortTotalPaid">إجمالي المدفوع</div></div>
+          <div><div class="n" id="mort-totalinterest">0</div><div class="l" data-i18n="mortTotalInterest">إجمالي الفائدة</div></div>
         </div>
       </div>
     </div>
 
     <!-- GPA -->
     <div class="card sector-card" id="sector-gpa">
-      <h2>حاسبة المعدل التراكمي (GPA)</h2>
-      <p class="hint">تحويل تقريبي عام للنسبة المئوية إلى معدل تراكمي — كل جامعة سعودية لها جدول تحويل رسمي خاص بها قد يختلف قليلاً، فاستخدم هذي كتقدير سريع فقط.</p>
+      <h2 data-i18n="gpaTitle">حاسبة المعدل التراكمي (GPA)</h2>
+      <p class="hint" data-i18n="gpaHint">تحويل تقريبي عام للنسبة المئوية إلى معدل تراكمي — كل جامعة سعودية لها جدول تحويل رسمي خاص بها قد يختلف قليلاً، فاستخدم هذي كتقدير سريع فقط.</p>
       <div class="row">
         <div class="field">
-          <label for="gpa-percent">النسبة المئوية</label>
-          <input type="number" id="gpa-percent" min="0" max="100" placeholder="مثال: 88">
+          <label for="gpa-percent" data-i18n="gpaPercentLabel">النسبة المئوية</label>
+          <input type="number" id="gpa-percent" min="0" max="100" placeholder="مثال: 88" data-i18n-ph="gpaPercentPh">
         </div>
         <div class="field">
-          <label for="gpa-scale">النظام</label>
+          <label for="gpa-scale" data-i18n="gpaScaleLabel">النظام</label>
           <select id="gpa-scale">
-            <option value="5">من 5</option>
-            <option value="4">من 4</option>
+            <option value="5" data-i18n="gpaScale5">من 5</option>
+            <option value="4" data-i18n="gpaScale4">من 4</option>
           </select>
         </div>
       </div>
-      <button class="btn" id="gpa-btn">احسب المعدل</button>
+      <button class="btn" id="gpa-btn" data-i18n="gpaBtn">احسب المعدل</button>
       <div class="result" id="gpa-result" style="display:none;">
         <div class="big" id="gpa-out"></div>
       </div>
@@ -1370,73 +1370,73 @@
 
     <!-- Health -->
     <div class="card sector-card" id="sector-health">
-      <h2>اللياقة الصحية (BMI والسعرات)</h2>
-      <p class="hint">معلومات عامة تقريبية، وليست استشارة طبية شخصية.</p>
+      <h2 data-i18n="healthTitle">اللياقة الصحية (BMI والسعرات)</h2>
+      <p class="hint" data-i18n="healthHint">معلومات عامة تقريبية، وليست استشارة طبية شخصية.</p>
       <div class="row">
         <div class="field">
-          <label for="health-weight">الوزن (كجم)</label>
-          <input type="number" id="health-weight" min="0" placeholder="مثال: 75">
+          <label for="health-weight" data-i18n="healthWeightLabel">الوزن (كجم)</label>
+          <input type="number" id="health-weight" min="0" placeholder="مثال: 75" data-i18n-ph="healthWeightPh">
         </div>
         <div class="field">
-          <label for="health-height">الطول (سم)</label>
-          <input type="number" id="health-height" min="0" placeholder="مثال: 175">
+          <label for="health-height" data-i18n="healthHeightLabel">الطول (سم)</label>
+          <input type="number" id="health-height" min="0" placeholder="مثال: 175" data-i18n-ph="healthHeightPh">
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label for="health-age">العمر</label>
-          <input type="number" id="health-age" min="0" placeholder="مثال: 30">
+          <label for="health-age" data-i18n="healthAgeLabel">العمر</label>
+          <input type="number" id="health-age" min="0" placeholder="مثال: 30" data-i18n-ph="healthAgePh">
         </div>
         <div class="field">
-          <label for="health-gender">الجنس</label>
+          <label for="health-gender" data-i18n="healthGenderLabel">الجنس</label>
           <select id="health-gender">
-            <option value="male">ذكر</option>
-            <option value="female">أنثى</option>
+            <option value="male" data-i18n="genderMale">ذكر</option>
+            <option value="female" data-i18n="genderFemale">أنثى</option>
           </select>
         </div>
       </div>
       <div class="field">
-        <label for="health-activity">مستوى النشاط</label>
+        <label for="health-activity" data-i18n="healthActivityLabel">مستوى النشاط</label>
         <select id="health-activity">
-          <option value="1.2">قليل الحركة (عمل مكتبي)</option>
-          <option value="1.375">نشاط خفيف (١-٣ أيام رياضة أسبوعياً)</option>
-          <option value="1.55">نشاط متوسط (٣-٥ أيام رياضة أسبوعياً)</option>
-          <option value="1.725">نشاط عالٍ (٦-٧ أيام رياضة أسبوعياً)</option>
+          <option value="1.2" data-i18n="activitySedentary">قليل الحركة (عمل مكتبي)</option>
+          <option value="1.375" data-i18n="activityLight">نشاط خفيف (١-٣ أيام رياضة أسبوعياً)</option>
+          <option value="1.55" data-i18n="activityModerate">نشاط متوسط (٣-٥ أيام رياضة أسبوعياً)</option>
+          <option value="1.725" data-i18n="activityHigh">نشاط عالٍ (٦-٧ أيام رياضة أسبوعياً)</option>
         </select>
       </div>
-      <button class="btn" id="health-btn">احسب</button>
+      <button class="btn" id="health-btn" data-i18n="btnCalc">احسب</button>
       <div class="result" id="health-result" style="display:none;">
         <div class="grid3">
-          <div><div class="n" id="health-bmi">0</div><div class="l">مؤشر كتلة الجسم</div></div>
-          <div><div class="n" id="health-bmi-cat">—</div><div class="l">التصنيف</div></div>
-          <div><div class="n" id="health-calories">0</div><div class="l">سعرات الحفاظ يومياً</div></div>
+          <div><div class="n" id="health-bmi">0</div><div class="l" data-i18n="healthBmiLabel">مؤشر كتلة الجسم</div></div>
+          <div><div class="n" id="health-bmi-cat">—</div><div class="l" data-i18n="healthCatLabel">التصنيف</div></div>
+          <div><div class="n" id="health-calories">0</div><div class="l" data-i18n="healthCaloriesLabel">سعرات الحفاظ يومياً</div></div>
         </div>
       </div>
     </div>
 
     <!-- Fuel -->
     <div class="card sector-card" id="sector-fuel">
-      <h2>حاسبة تكلفة الوقود للرحلة</h2>
-      <p class="hint">أدخل مسافة الرحلة ومعدل استهلاك سيارتك وسعر اللتر، لحساب التكلفة التقريبية.</p>
+      <h2 data-i18n="fuelTitle">حاسبة تكلفة الوقود للرحلة</h2>
+      <p class="hint" data-i18n="fuelHint">أدخل مسافة الرحلة ومعدل استهلاك سيارتك وسعر اللتر، لحساب التكلفة التقريبية.</p>
       <div class="row">
         <div class="field">
-          <label for="fuel-distance">مسافة الرحلة (كم)</label>
-          <input type="number" id="fuel-distance" min="0" placeholder="مثال: 500">
+          <label for="fuel-distance" data-i18n="fuelDistanceLabel">مسافة الرحلة (كم)</label>
+          <input type="number" id="fuel-distance" min="0" placeholder="مثال: 500" data-i18n-ph="fuelDistancePh">
         </div>
         <div class="field">
-          <label for="fuel-consumption">استهلاك السيارة (كم لكل لتر)</label>
-          <input type="number" id="fuel-consumption" min="0.1" step="0.1" placeholder="مثال: 12">
+          <label for="fuel-consumption" data-i18n="fuelConsumptionLabel">استهلاك السيارة (كم لكل لتر)</label>
+          <input type="number" id="fuel-consumption" min="0.1" step="0.1" placeholder="مثال: 12" data-i18n-ph="fuelConsumptionPh">
         </div>
       </div>
       <div class="field">
-        <label for="fuel-price">سعر لتر الوقود (ريال)</label>
-        <input type="number" id="fuel-price" min="0" step="0.01" placeholder="مثال: 2.33">
+        <label for="fuel-price" data-i18n="fuelPriceLabel">سعر لتر الوقود (ريال)</label>
+        <input type="number" id="fuel-price" min="0" step="0.01" placeholder="مثال: 2.33" data-i18n-ph="fuelPricePh">
       </div>
-      <button class="btn" id="fuel-btn">احسب التكلفة</button>
+      <button class="btn" id="fuel-btn" data-i18n="fuelBtn">احسب التكلفة</button>
       <div class="result" id="fuel-result" style="display:none;">
         <div class="grid3">
-          <div><div class="n" id="fuel-liters">0</div><div class="l">اللترات المطلوبة</div></div>
-          <div><div class="n" id="fuel-cost">0</div><div class="l">التكلفة (ريال)</div></div>
+          <div><div class="n" id="fuel-liters">0</div><div class="l" data-i18n="fuelLitersLabel">اللترات المطلوبة</div></div>
+          <div><div class="n" id="fuel-cost">0</div><div class="l" data-i18n="fuelCostLabel">التكلفة (ريال)</div></div>
         </div>
       </div>
     </div>
@@ -2291,7 +2291,85 @@ const I18N = {
     ageInputLabel: 'تاريخ الميلاد (ميلادي)',
     ageBtn: 'احسب العمر',
     ageGregLabel: 'بالتقويم الميلادي', ageHijriLabel: 'بالتقويم الهجري',
-    totalDaysSinceBirth: 'إجمالي الأيام منذ الميلاد:'
+    totalDaysSinceBirth: 'إجمالي الأيام منذ الميلاد:',
+    sttTitle: 'تحويل الصوت إلى نص',
+    sttHint: 'اضغط "ابدأ التسجيل" وتكلم — النص يظهر مباشرة أثناء الكلام، وتقدر تعدّله أو تنسخه بعدها.',
+    sttLangLabel: 'اللغة', langArabic: 'العربية', langEnglish: 'الإنجليزية',
+    sttBtnStart: 'ابدأ التسجيل 🎙️', sttBtnStop: 'إيقاف التسجيل ⏹️',
+    sttOutputLabel: 'النص', sttOutputPh: 'سيظهر النص هنا أثناء الكلام...',
+    sttCopyBtn: 'نسخ النص', sttClearBtn: 'مسح',
+    copiedConfirm: 'تم النسخ ✓',
+    sttSupportMsg: 'هذه الميزة غير مدعومة بالكامل بمتصفحك الحالي — جرّب Chrome أو Edge للحصول على أفضل دعم.',
+    sttNote: 'التسجيل والتفريغ يتمّان داخل متصفحك مباشرة عبر خدمة تعرّف الصوت المدمجة به — لا نُخزّن أي تسجيل صوتي على أي سيرفر.',
+    ttsTitle: 'تحويل النص إلى صوت',
+    ttsHint: 'الصق أو اكتب أي نص، اختر الصوت والسرعة، واضغط تشغيل لسماعه.',
+    ttsTextLabel: 'النص', ttsTextPh: 'اكتب أو الصق النص هنا...',
+    ttsVoiceLabel: 'الصوت',
+    ttsRateLabel: 'سرعة القراءة:',
+    ttsPlayBtn: 'تشغيل ▶', ttsStopBtn: 'إيقاف ⏹',
+    ttsNote: 'الأصوات المتاحة تعتمد على جهازك ومتصفحك — لو ما وجدت صوتاً عربياً بالقائمة، معناه جهازك لا يحتوي حزمة صوت عربية مثبتة.',
+    sectorsTitle: 'حاسبات متنوعة',
+    sectorsHint: 'اختر الحاسبة المطلوبة من القائمة.',
+    sectorSelectLabel: 'نوع الحاسبة',
+    sectorMortgage: 'التمويل العقاري',
+    sectorGpa: 'المعدل التراكمي (GPA)',
+    sectorHealth: 'اللياقة الصحية (BMI والسعرات)',
+    sectorFuel: 'تكلفة الوقود للرحلة',
+    mortTitle: 'حاسبة التمويل العقاري',
+    mortHint: 'أدخل مبلغ التمويل ونسبة الفائدة السنوية ومدة السداد، لحساب القسط الشهري وإجمالي الفائدة.',
+    mortAmountLabel: 'مبلغ التمويل (ريال)',
+    mortAmountPh: 'مثال: 500000',
+    mortRateLabel: 'نسبة الفائدة السنوية (٪)',
+    mortRatePh: 'مثال: 4.5',
+    mortYearsLabel: 'مدة التمويل (سنوات)',
+    mortYearsPh: 'مثال: 20',
+    mortBtn: 'احسب القسط',
+    mortMonthly: 'القسط الشهري',
+    mortTotalPaid: 'إجمالي المدفوع',
+    mortTotalInterest: 'إجمالي الفائدة',
+    gpaTitle: 'حاسبة المعدل التراكمي (GPA)',
+    gpaHint: 'تحويل تقريبي عام للنسبة المئوية إلى معدل تراكمي — كل جامعة سعودية لها جدول تحويل رسمي خاص بها قد يختلف قليلاً، فاستخدم هذي كتقدير سريع فقط.',
+    gpaPercentLabel: 'النسبة المئوية',
+    gpaPercentPh: 'مثال: 88',
+    gpaScaleLabel: 'النظام',
+    gpaScale5: 'من 5',
+    gpaScale4: 'من 4',
+    gpaBtn: 'احسب المعدل',
+    gpaOutOf: 'من',
+    healthTitle: 'اللياقة الصحية (BMI والسعرات)',
+    healthHint: 'معلومات عامة تقريبية، وليست استشارة طبية شخصية.',
+    healthWeightLabel: 'الوزن (كجم)',
+    healthWeightPh: 'مثال: 75',
+    healthHeightLabel: 'الطول (سم)',
+    healthHeightPh: 'مثال: 175',
+    healthAgeLabel: 'العمر',
+    healthAgePh: 'مثال: 30',
+    healthGenderLabel: 'الجنس',
+    genderMale: 'ذكر',
+    genderFemale: 'أنثى',
+    healthActivityLabel: 'مستوى النشاط',
+    activitySedentary: 'قليل الحركة (عمل مكتبي)',
+    activityLight: 'نشاط خفيف (١-٣ أيام رياضة أسبوعياً)',
+    activityModerate: 'نشاط متوسط (٣-٥ أيام رياضة أسبوعياً)',
+    activityHigh: 'نشاط عالٍ (٦-٧ أيام رياضة أسبوعياً)',
+    healthBmiLabel: 'مؤشر كتلة الجسم',
+    healthCatLabel: 'التصنيف',
+    healthCaloriesLabel: 'سعرات الحفاظ يومياً',
+    bmiUnder: 'نقص وزن',
+    bmiNormal: 'وزن طبيعي',
+    bmiOver: 'زيادة وزن',
+    bmiObese: 'سمنة',
+    fuelTitle: 'حاسبة تكلفة الوقود للرحلة',
+    fuelHint: 'أدخل مسافة الرحلة ومعدل استهلاك سيارتك وسعر اللتر، لحساب التكلفة التقريبية.',
+    fuelDistanceLabel: 'مسافة الرحلة (كم)',
+    fuelDistancePh: 'مثال: 500',
+    fuelConsumptionLabel: 'استهلاك السيارة (كم لكل لتر)',
+    fuelConsumptionPh: 'مثال: 12',
+    fuelPriceLabel: 'سعر لتر الوقود (ريال)',
+    fuelPricePh: 'مثال: 2.33',
+    fuelBtn: 'احسب التكلفة',
+    fuelLitersLabel: 'اللترات المطلوبة',
+    fuelCostLabel: 'التكلفة (ريال)',
   },
   en: {
     siteName: 'Uddah',
@@ -2482,7 +2560,85 @@ const I18N = {
     ageInputLabel: 'Birth date (Gregorian)',
     ageBtn: 'Calculate Age',
     ageGregLabel: 'In the Gregorian calendar', ageHijriLabel: 'In the Hijri calendar',
-    totalDaysSinceBirth: 'Total days since birth:'
+    totalDaysSinceBirth: 'Total days since birth:',
+    sttTitle: 'Speech to Text',
+    sttHint: 'Press "Start Recording" and speak — the text appears live as you talk, and you can edit or copy it afterward.',
+    sttLangLabel: 'Language', langArabic: 'Arabic', langEnglish: 'English',
+    sttBtnStart: 'Start Recording 🎙️', sttBtnStop: 'Stop Recording ⏹️',
+    sttOutputLabel: 'Text', sttOutputPh: 'The text will appear here as you speak...',
+    sttCopyBtn: 'Copy Text', sttClearBtn: 'Clear',
+    copiedConfirm: 'Copied ✓',
+    sttSupportMsg: 'This feature is not fully supported in your current browser — try Chrome or Edge for the best support.',
+    sttNote: "Recording and transcription happen right in your browser via its built-in speech recognition service — no audio recording is ever stored on any server.",
+    ttsTitle: 'Text to Speech',
+    ttsHint: 'Paste or type any text, choose a voice and speed, and press play to hear it.',
+    ttsTextLabel: 'Text', ttsTextPh: 'Type or paste your text here...',
+    ttsVoiceLabel: 'Voice',
+    ttsRateLabel: 'Reading speed:',
+    ttsPlayBtn: 'Play ▶', ttsStopBtn: 'Stop ⏹',
+    ttsNote: "Available voices depend on your device and browser — if you don't see an Arabic voice in the list, your device doesn't have an Arabic voice pack installed.",
+    sectorsTitle: 'More Calculators',
+    sectorsHint: 'Pick a calculator from the list.',
+    sectorSelectLabel: 'Calculator type',
+    sectorMortgage: 'Mortgage / Financing',
+    sectorGpa: 'GPA Converter',
+    sectorHealth: 'Fitness (BMI & Calories)',
+    sectorFuel: 'Trip Fuel Cost',
+    mortTitle: 'Mortgage / Financing Calculator',
+    mortHint: 'Enter the financing amount, annual interest rate, and repayment term to calculate the monthly installment and total interest.',
+    mortAmountLabel: 'Financing amount (SAR)',
+    mortAmountPh: 'e.g. 500000',
+    mortRateLabel: 'Annual interest rate (%)',
+    mortRatePh: 'e.g. 4.5',
+    mortYearsLabel: 'Financing term (years)',
+    mortYearsPh: 'e.g. 20',
+    mortBtn: 'Calculate Installment',
+    mortMonthly: 'Monthly installment',
+    mortTotalPaid: 'Total paid',
+    mortTotalInterest: 'Total interest',
+    gpaTitle: 'GPA Converter',
+    gpaHint: 'A general approximate conversion from percentage to GPA — every Saudi university has its own official conversion table that may differ slightly, so use this as a quick estimate only.',
+    gpaPercentLabel: 'Percentage',
+    gpaPercentPh: 'e.g. 88',
+    gpaScaleLabel: 'Scale',
+    gpaScale5: 'Out of 5',
+    gpaScale4: 'Out of 4',
+    gpaBtn: 'Calculate GPA',
+    gpaOutOf: 'out of',
+    healthTitle: 'Fitness (BMI & Calories)',
+    healthHint: 'General approximate information, not personal medical advice.',
+    healthWeightLabel: 'Weight (kg)',
+    healthWeightPh: 'e.g. 75',
+    healthHeightLabel: 'Height (cm)',
+    healthHeightPh: 'e.g. 175',
+    healthAgeLabel: 'Age',
+    healthAgePh: 'e.g. 30',
+    healthGenderLabel: 'Gender',
+    genderMale: 'Male',
+    genderFemale: 'Female',
+    healthActivityLabel: 'Activity level',
+    activitySedentary: 'Sedentary (desk job)',
+    activityLight: 'Light activity (1-3 workout days/week)',
+    activityModerate: 'Moderate activity (3-5 workout days/week)',
+    activityHigh: 'High activity (6-7 workout days/week)',
+    healthBmiLabel: 'BMI',
+    healthCatLabel: 'Category',
+    healthCaloriesLabel: 'Daily maintenance calories',
+    bmiUnder: 'Underweight',
+    bmiNormal: 'Normal weight',
+    bmiOver: 'Overweight',
+    bmiObese: 'Obese',
+    fuelTitle: 'Trip Fuel Cost Calculator',
+    fuelHint: 'Enter the trip distance, your car\'s fuel consumption rate, and the price per liter to calculate the approximate cost.',
+    fuelDistanceLabel: 'Trip distance (km)',
+    fuelDistancePh: 'e.g. 500',
+    fuelConsumptionLabel: 'Car consumption (km per liter)',
+    fuelConsumptionPh: 'e.g. 12',
+    fuelPriceLabel: 'Fuel price per liter (SAR)',
+    fuelPricePh: 'e.g. 2.33',
+    fuelBtn: 'Calculate Cost',
+    fuelLitersLabel: 'Liters needed',
+    fuelCostLabel: 'Cost (SAR)',
   }
 };
 
@@ -5108,16 +5264,16 @@ sttBtn.addEventListener('click', ()=>{
   };
   sttRecognition.onerror = ()=>{
     sttRecognizing = false;
-    sttBtn.textContent = 'ابدأ التسجيل 🎙️';
+    sttBtn.textContent = I18N[currentLang].sttBtnStart;
   };
   sttRecognition.onend = ()=>{
     sttRecognizing = false;
-    sttBtn.textContent = 'ابدأ التسجيل 🎙️';
+    sttBtn.textContent = I18N[currentLang].sttBtnStart;
   };
 
   sttRecognition.start();
   sttRecognizing = true;
-  sttBtn.textContent = 'إيقاف التسجيل ⏹️';
+  sttBtn.textContent = I18N[currentLang].sttBtnStop;
 });
 
 document.getElementById('stt-clear-btn').addEventListener('click', ()=>{
@@ -5130,7 +5286,7 @@ document.getElementById('stt-copy-btn').addEventListener('click', ()=>{
   navigator.clipboard.writeText(sttOutput.value).then(()=>{
     const btn = document.getElementById('stt-copy-btn');
     const original = btn.textContent;
-    btn.textContent = 'تم النسخ ✓';
+    btn.textContent = I18N[currentLang].copiedConfirm;
     setTimeout(()=>{ btn.textContent = original; }, 1500);
   });
 });
@@ -5308,7 +5464,7 @@ document.getElementById('gpa-btn').addEventListener('click', ()=>{
   const scale = parseFloat(document.getElementById('gpa-scale').value);
   if(isNaN(percent)) return;
   const gpa = (percent/100) * scale;
-  document.getElementById('gpa-out').textContent = `${gpa.toLocaleString('en-US',{maximumFractionDigits:2})} من ${scale}`;
+  document.getElementById('gpa-out').textContent = `${gpa.toLocaleString('en-US',{maximumFractionDigits:2})} ${I18N[currentLang].gpaOutOf} ${scale}`;
   document.getElementById('gpa-result').style.display = 'block';
 });
 
@@ -5324,10 +5480,10 @@ document.getElementById('health-btn').addEventListener('click', ()=>{
   const heightM = heightCm / 100;
   const bmi = weight / (heightM*heightM);
   let category;
-  if(bmi < 18.5) category = 'نقص وزن';
-  else if(bmi < 25) category = 'وزن طبيعي';
-  else if(bmi < 30) category = 'زيادة وزن';
-  else category = 'سمنة';
+  if(bmi < 18.5) category = I18N[currentLang].bmiUnder;
+  else if(bmi < 25) category = I18N[currentLang].bmiNormal;
+  else if(bmi < 30) category = I18N[currentLang].bmiOver;
+  else category = I18N[currentLang].bmiObese;
 
   let bmr;
   if(gender === 'male'){
