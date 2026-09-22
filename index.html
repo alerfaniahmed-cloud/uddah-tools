@@ -701,109 +701,109 @@
   <section class="panel" id="panel-inheritance">
 
     <div class="card">
-      <h2>حاسبة المواريث</h2>
-      <p class="hint">أدخل الورثة الموجودين وقيمة التركة الصافية (بعد سداد الديون وتنفيذ الوصية إن وجدت) لحساب نصيب كل وارث حسب أحكام الفرائض.</p>
+      <h2 data-i18n="inhTitle">حاسبة المواريث</h2>
+      <p class="hint" data-i18n="inhHint">أدخل الورثة الموجودين وقيمة التركة الصافية (بعد سداد الديون وتنفيذ الوصية إن وجدت) لحساب نصيب كل وارث حسب أحكام الفرائض.</p>
 
       <div class="field">
-        <label for="inh-estate-type">نوع التركة</label>
+        <label for="inh-estate-type" data-i18n="inhEstateTypeLabel">نوع التركة</label>
         <select id="inh-estate-type">
-          <option value="ريال">نقد (ريال)</option>
-          <option value="م²">عقار / أرض (متر مربع)</option>
-          <option value="سهم">أسهم (عدد الأسهم)</option>
-          <option value="custom">نوع آخر</option>
+          <option value="ريال" data-i18n="inhEstateCash">نقد (ريال)</option>
+          <option value="م²" data-i18n="inhEstateRealEstate">عقار / أرض (متر مربع)</option>
+          <option value="سهم" data-i18n="inhEstateShares">أسهم (عدد الأسهم)</option>
+          <option value="custom" data-i18n="inhEstateOther">نوع آخر</option>
         </select>
       </div>
       <div class="field" id="inh-estate-custom-wrap" style="display:none;">
-        <label for="inh-estate-custom">اسم الوحدة</label>
-        <input type="text" id="inh-estate-custom" placeholder="مثال: كيلوجرام ذهب">
+        <label for="inh-estate-custom" data-i18n="inhEstateCustomLabel">اسم الوحدة</label>
+        <input type="text" id="inh-estate-custom" placeholder="مثال: كيلوجرام ذهب" data-i18n-ph="inhEstateCustomPh">
       </div>
       <div class="field">
-        <label for="inh-estate" id="inh-estate-label">القيمة الصافية (ريال)</label>
-        <input type="number" id="inh-estate" min="0" placeholder="مثال: 1000000">
+        <label for="inh-estate" id="inh-estate-label" data-i18n="inhEstateValueWithUnit">القيمة الصافية (ريال)</label>
+        <input type="number" id="inh-estate" min="0" placeholder="مثال: 1000000" data-i18n-ph="inhEstatePh">
       </div>
 
       <div class="field">
-        <label for="inh-spouse">الحالة الزوجية للمتوفى/المتوفاة</label>
+        <label for="inh-spouse" data-i18n="inhSpouseLabel">الحالة الزوجية للمتوفى/المتوفاة</label>
         <select id="inh-spouse">
-          <option value="none">لا يوجد زوج/زوجة وارث</option>
-          <option value="husband">يوجد زوج</option>
-          <option value="wife">توجد زوجة أو أكثر</option>
+          <option value="none" data-i18n="inhSpouseNone">لا يوجد زوج/زوجة وارث</option>
+          <option value="husband" data-i18n="inhSpouseHusband">يوجد زوج</option>
+          <option value="wife" data-i18n="inhSpouseWife">توجد زوجة أو أكثر</option>
         </select>
       </div>
       <div class="field" id="inh-wives-count-wrap" style="display:none;">
-        <label for="inh-wives-count">عدد الزوجات</label>
+        <label for="inh-wives-count" data-i18n="inhWivesCountLabel">عدد الزوجات</label>
         <input type="number" id="inh-wives-count" min="1" max="4" value="1">
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="inh-sons">عدد الأبناء</label>
+          <label for="inh-sons" data-i18n="inhSonsLabel">عدد الأبناء</label>
           <input type="number" id="inh-sons" min="0" value="0">
         </div>
         <div class="field">
-          <label for="inh-daughters">عدد البنات</label>
+          <label for="inh-daughters" data-i18n="inhDaughtersLabel">عدد البنات</label>
           <input type="number" id="inh-daughters" min="0" value="0">
         </div>
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="inh-father">الأب</label>
-          <select id="inh-father"><option value="no">متوفى</option><option value="yes">على قيد الحياة</option></select>
+          <label for="inh-father" data-i18n="inhFatherLabel">الأب</label>
+          <select id="inh-father"><option value="no" data-i18n="inhDeceased">متوفى</option><option value="yes" data-i18n="inhAlive">على قيد الحياة</option></select>
         </div>
         <div class="field">
-          <label for="inh-grandfather">الجد لأب (أب الأب)</label>
-          <select id="inh-grandfather"><option value="no">متوفى</option><option value="yes">على قيد الحياة</option></select>
+          <label for="inh-grandfather" data-i18n="inhGrandfatherLabel">الجد لأب (أب الأب)</label>
+          <select id="inh-grandfather"><option value="no" data-i18n="inhDeceased">متوفى</option><option value="yes" data-i18n="inhAlive">على قيد الحياة</option></select>
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label for="inh-mother">الأم</label>
-          <select id="inh-mother"><option value="no">متوفاة</option><option value="yes">على قيد الحياة</option></select>
+          <label for="inh-mother" data-i18n="inhMotherLabel">الأم</label>
+          <select id="inh-mother"><option value="no" data-i18n="inhDeceasedF">متوفاة</option><option value="yes" data-i18n="inhAlive">على قيد الحياة</option></select>
         </div>
         <div class="field">
-          <label for="inh-grandmothers">عدد الجدات الوارثات (لأب أو لأم)</label>
+          <label for="inh-grandmothers" data-i18n="inhGrandmothersLabel">عدد الجدات الوارثات (لأب أو لأم)</label>
           <input type="number" id="inh-grandmothers" min="0" max="2" value="0">
         </div>
       </div>
 
-      <p class="hint" style="margin-top:18px;">الإخوة والأخوات (تُحسب فقط إذا لم يوجد ابن أو أب أو جد وارث)</p>
+      <p class="hint" style="margin-top:18px;" data-i18n="inhSiblingsHint">الإخوة والأخوات (تُحسب فقط إذا لم يوجد ابن أو أب أو جد وارث)</p>
       <div class="row">
         <div class="field">
-          <label for="inh-full-b">الإخوة الأشقاء</label>
+          <label for="inh-full-b" data-i18n="inhFullBLabel">الإخوة الأشقاء</label>
           <input type="number" id="inh-full-b" min="0" value="0">
         </div>
         <div class="field">
-          <label for="inh-full-s">الأخوات الشقيقات</label>
+          <label for="inh-full-s" data-i18n="inhFullSLabel">الأخوات الشقيقات</label>
           <input type="number" id="inh-full-s" min="0" value="0">
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label for="inh-paternal-b">الإخوة لأب</label>
+          <label for="inh-paternal-b" data-i18n="inhPaternalBLabel">الإخوة لأب</label>
           <input type="number" id="inh-paternal-b" min="0" value="0">
         </div>
         <div class="field">
-          <label for="inh-paternal-s">الأخوات لأب</label>
+          <label for="inh-paternal-s" data-i18n="inhPaternalSLabel">الأخوات لأب</label>
           <input type="number" id="inh-paternal-s" min="0" value="0">
         </div>
       </div>
       <div class="field">
-        <label for="inh-maternal">الإخوة والأخوات لأم (المجموع)</label>
+        <label for="inh-maternal" data-i18n="inhMaternalLabel">الإخوة والأخوات لأم (المجموع)</label>
         <input type="number" id="inh-maternal" min="0" value="0">
       </div>
 
-      <button class="btn" id="inh-btn">احسب الأنصبة</button>
+      <button class="btn" id="inh-btn" data-i18n="inhBtn">احسب الأنصبة</button>
 
       <div class="result" id="inh-result" style="display:none;">
         <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
-          <button type="button" class="btn secondary" id="inh-format-toggle" style="padding:7px 16px;font-size:.82rem;">عرض كنسبة عشرية</button>
+          <button type="button" class="btn secondary" id="inh-format-toggle" style="padding:7px 16px;font-size:.82rem;" data-i18n="inhShowPercent">عرض كنسبة عشرية</button>
         </div>
         <table style="width:100%;border-collapse:collapse;font-size:.9rem;">
           <thead>
             <tr style="border-bottom:1px solid var(--border);">
-              <th style="text-align:right;padding:8px 4px;color:var(--bone-dim);font-weight:600;">الوارث</th>
-              <th style="text-align:right;padding:8px 4px;color:var(--bone-dim);font-weight:600;">النسبة</th>
+              <th style="text-align:right;padding:8px 4px;color:var(--bone-dim);font-weight:600;" data-i18n="inhHeirCol">الوارث</th>
+              <th style="text-align:right;padding:8px 4px;color:var(--bone-dim);font-weight:600;" data-i18n="inhShareCol">النسبة</th>
               <th style="text-align:right;padding:8px 4px;color:var(--bone-dim);font-weight:600;" id="inh-amount-header">المبلغ (ريال)</th>
             </tr>
           </thead>
@@ -811,14 +811,14 @@
         </table>
         <p class="note" id="inh-adjustment-note"></p>
         <div id="inh-blocked-box" style="display:none;margin-top:14px;padding:14px 16px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:8px;">
-          <p style="margin:0 0 8px;font-weight:600;font-size:.88rem;color:var(--bone);">ورثة محجوبون (لا يرثون في هذه الحالة)</p>
+          <p style="margin:0 0 8px;font-weight:600;font-size:.88rem;color:var(--bone);" data-i18n="inhBlockedTitle">ورثة محجوبون (لا يرثون في هذه الحالة)</p>
           <ul id="inh-blocked-list" style="margin:0;padding-inline-start:20px;font-size:.85rem;color:var(--bone-dim);"></ul>
         </div>
-        <button type="button" class="pdf-export-btn" data-export="inheritance" style="margin-top:14px;">تنزيل PDF</button>
+        <button type="button" class="pdf-export-btn" data-export="inheritance" style="margin-top:14px;" data-i18n="downloadPdf">تنزيل PDF</button>
       </div>
       <div class="msg err" id="inh-err" style="display:none;"></div>
 
-      <p class="note">تغطي هذه الأداة الحالات الشائعة والمركّبة وفق الرأي الراجح عند جمهور الفقهاء (بما في ذلك العول والرد)، ولا تشمل حالات نادرة مثل أبناء الابن كبديل عن ابن متوفى، أو بعض تفصيلات الخلاف الفقهي النادرة (كحالة الجد مع الإخوة عند بعض المذاهب). لتوزيع تركة حقيقية، يُنصح بشدة بمراجعة جهة شرعية مختصة أو كتابة العدل قبل اتخاذ أي إجراء، خصوصاً أن الموضوع يمس حقوقاً مالية حقيقية.</p>
+      <p class="note" data-i18n="inhBottomNote">تغطي هذه الأداة الحالات الشائعة والمركّبة وفق الرأي الراجح عند جمهور الفقهاء (بما في ذلك العول والرد)، ولا تشمل حالات نادرة مثل أبناء الابن كبديل عن ابن متوفى، أو بعض تفصيلات الخلاف الفقهي النادرة (كحالة الجد مع الإخوة عند بعض المذاهب). لتوزيع تركة حقيقية، يُنصح بشدة بمراجعة جهة شرعية مختصة أو كتابة العدل قبل اتخاذ أي إجراء، خصوصاً أن الموضوع يمس حقوقاً مالية حقيقية.</p>
     </div>
   </section>
 
@@ -2370,6 +2370,49 @@ const I18N = {
     fuelBtn: 'احسب التكلفة',
     fuelLitersLabel: 'اللترات المطلوبة',
     fuelCostLabel: 'التكلفة (ريال)',
+    inhTitle: 'حاسبة المواريث',
+    inhHint: 'أدخل الورثة الموجودين وقيمة التركة الصافية (بعد سداد الديون وتنفيذ الوصية إن وجدت) لحساب نصيب كل وارث حسب أحكام الفرائض.',
+    inhEstateTypeLabel: 'نوع التركة',
+    inhEstateCash: 'نقد (ريال)',
+    inhEstateRealEstate: 'عقار / أرض (متر مربع)',
+    inhEstateShares: 'أسهم (عدد الأسهم)',
+    inhEstateOther: 'نوع آخر',
+    inhEstateCustomLabel: 'اسم الوحدة',
+    inhEstateCustomPh: 'مثال: كيلوجرام ذهب',
+    inhEstateValueWithUnit: 'القيمة الصافية (ريال)',
+    inhEstateValueLabel: 'القيمة الصافية',
+    inhEstatePh: 'مثال: 1000000',
+    inhUnitDefault: 'وحدة',
+    inhSpouseLabel: 'الحالة الزوجية للمتوفى/المتوفاة',
+    inhSpouseNone: 'لا يوجد زوج/زوجة وارث',
+    inhSpouseHusband: 'يوجد زوج',
+    inhSpouseWife: 'توجد زوجة أو أكثر',
+    inhWivesCountLabel: 'عدد الزوجات',
+    inhSonsLabel: 'عدد الأبناء',
+    inhDaughtersLabel: 'عدد البنات',
+    inhFatherLabel: 'الأب',
+    inhGrandfatherLabel: 'الجد لأب (أب الأب)',
+    inhDeceased: 'متوفى',
+    inhDeceasedF: 'متوفاة',
+    inhAlive: 'على قيد الحياة',
+    inhMotherLabel: 'الأم',
+    inhGrandmothersLabel: 'عدد الجدات الوارثات (لأب أو لأم)',
+    inhSiblingsHint: 'الإخوة والأخوات (تُحسب فقط إذا لم يوجد ابن أو أب أو جد وارث)',
+    inhFullBLabel: 'الإخوة الأشقاء',
+    inhFullSLabel: 'الأخوات الشقيقات',
+    inhPaternalBLabel: 'الإخوة لأب',
+    inhPaternalSLabel: 'الأخوات لأب',
+    inhMaternalLabel: 'الإخوة والأخوات لأم (المجموع)',
+    inhBtn: 'احسب الأنصبة',
+    inhShowPercent: 'عرض كنسبة عشرية',
+    inhShowFraction: 'عرض ككسر',
+    inhHeirCol: 'الوارث',
+    inhShareCol: 'النسبة',
+    inhAmountCol: 'المبلغ',
+    inhBlockedTitle: 'ورثة محجوبون (لا يرثون في هذه الحالة)',
+    inhErrEstate: 'أدخل قيمة صحيحة للتركة الصافية.',
+    inhErrNoHeirs: 'لم يتم إدخال أي وارث. أدخل بيانات الورثة أولاً.',
+    inhBottomNote: 'تغطي هذه الأداة الحالات الشائعة والمركّبة وفق الرأي الراجح عند جمهور الفقهاء (بما في ذلك العول والرد)، ولا تشمل حالات نادرة مثل أبناء الابن كبديل عن ابن متوفى، أو بعض تفصيلات الخلاف الفقهي النادرة (كحالة الجد مع الإخوة عند بعض المذاهب). لتوزيع تركة حقيقية، يُنصح بشدة بمراجعة جهة شرعية مختصة أو كتابة العدل قبل اتخاذ أي إجراء، خصوصاً أن الموضوع يمس حقوقاً مالية حقيقية.',
   },
   en: {
     siteName: 'Uddah',
@@ -2639,6 +2682,49 @@ const I18N = {
     fuelBtn: 'Calculate Cost',
     fuelLitersLabel: 'Liters needed',
     fuelCostLabel: 'Cost (SAR)',
+    inhTitle: 'Inheritance Calculator',
+    inhHint: 'Enter the surviving heirs and the net estate value (after paying debts and executing a will, if any) to calculate each heir\'s share under Islamic inheritance rules.',
+    inhEstateTypeLabel: 'Estate type',
+    inhEstateCash: 'Cash (SAR)',
+    inhEstateRealEstate: 'Real estate / land (square meters)',
+    inhEstateShares: 'Shares (number of shares)',
+    inhEstateOther: 'Other type',
+    inhEstateCustomLabel: 'Unit name',
+    inhEstateCustomPh: 'e.g. kilograms of gold',
+    inhEstateValueWithUnit: 'Net value (SAR)',
+    inhEstateValueLabel: 'Net value',
+    inhEstatePh: 'e.g. 1000000',
+    inhUnitDefault: 'unit',
+    inhSpouseLabel: 'Deceased\'s marital status',
+    inhSpouseNone: 'No surviving spouse',
+    inhSpouseHusband: 'Husband survives',
+    inhSpouseWife: 'One or more wives survive',
+    inhWivesCountLabel: 'Number of wives',
+    inhSonsLabel: 'Number of sons',
+    inhDaughtersLabel: 'Number of daughters',
+    inhFatherLabel: 'Father',
+    inhGrandfatherLabel: 'Paternal grandfather (father\'s father)',
+    inhDeceased: 'Deceased',
+    inhDeceasedF: 'Deceased',
+    inhAlive: 'Alive',
+    inhMotherLabel: 'Mother',
+    inhGrandmothersLabel: 'Number of inheriting grandmothers (paternal or maternal)',
+    inhSiblingsHint: 'Siblings (only counted if there is no inheriting son, father, or grandfather)',
+    inhFullBLabel: 'Full brothers',
+    inhFullSLabel: 'Full sisters',
+    inhPaternalBLabel: 'Paternal brothers',
+    inhPaternalSLabel: 'Paternal sisters',
+    inhMaternalLabel: 'Maternal siblings (total)',
+    inhBtn: 'Calculate Shares',
+    inhShowPercent: 'Show as percentage',
+    inhShowFraction: 'Show as fraction',
+    inhHeirCol: 'Heir',
+    inhShareCol: 'Share',
+    inhAmountCol: 'Amount',
+    inhBlockedTitle: 'Excluded heirs (don\'t inherit in this case)',
+    inhErrEstate: 'Enter a valid net estate value.',
+    inhErrNoHeirs: 'No heirs were entered. Enter the heirs\' information first.',
+    inhBottomNote: 'This tool covers common and compound cases according to the predominant view among the majority of jurists (including Awl and Radd), and does not cover rare cases such as grandsons substituting for a deceased son, or some rare points of juristic disagreement (such as the grandfather-with-siblings case in some schools). For an actual estate distribution, it is strongly recommended to consult a qualified religious authority or notary before taking any action, especially since this involves real financial rights.',
   }
 };
 
@@ -2664,6 +2750,8 @@ function applyLanguage(lang){
   if(typeof populateUnitSelects === 'function') populateUnitSelects();
   if(typeof populateCurrencySelects === 'function') populateCurrencySelects();
   if(typeof renderPrayerOverview === 'function') renderPrayerOverview();
+  const inhEstateType = document.getElementById('inh-estate-type');
+  if(inhEstateType) inhEstateType.dispatchEvent(new Event('change'));
 }
 document.getElementById('langToggle').addEventListener('click', ()=>{
   const current = document.documentElement.getAttribute('lang') === 'ar' ? 'ar' : 'en';
@@ -2908,8 +2996,8 @@ document.getElementById('inh-estate-type').addEventListener('change', ()=>{
   const customWrap = document.getElementById('inh-estate-custom-wrap');
   const label = document.getElementById('inh-estate-label');
   customWrap.style.display = type === 'custom' ? 'block' : 'none';
-  const unit = type === 'custom' ? (document.getElementById('inh-estate-custom').value || 'وحدة') : type;
-  label.textContent = `القيمة الصافية (${unit})`;
+  const unit = type === 'custom' ? (document.getElementById('inh-estate-custom').value || I18N[currentLang].inhUnitDefault) : translateInheritanceUnit(type);
+  label.textContent = `${I18N[currentLang].inhEstateValueLabel} (${unit})`;
 });
 document.getElementById('inh-estate-custom').addEventListener('input', ()=>{
   document.getElementById('inh-estate-type').dispatchEvent(new Event('change'));
@@ -3125,10 +3213,90 @@ function calcInheritance(input){
 let lastInheritanceResult = null;
 let inhShowFraction = true;
 
+function translateInheritanceUnit(u){
+  if(currentLang !== 'en') return u;
+  const map = { 'ريال':'SAR', 'م²':'m²', 'سهم':'share(s)' };
+  return map[u] || u;
+}
+
+function translateInheritanceLabel(s){
+  if(currentLang !== 'en') return s;
+  const rules = [
+    [/^الجد لأب \(فاضل\)$/, ()=>'Paternal grandfather (residuary)'],
+    [/^الأب \(فاضل\)$/, ()=>'Father (residuary)'],
+    [/^الجد لأب$/, ()=>'Paternal grandfather'],
+    [/^الأب$/, ()=>'Father'],
+    [/^الأم$/, ()=>'Mother'],
+    [/^الزوج$/, ()=>'Husband'],
+    [/^الزوجة$/, ()=>'Wife'],
+    [/^الزوجات \((\d+)\)$/, (m)=>`Wives (${m[1]})`],
+    [/^الجدة$/, ()=>'Grandmother'],
+    [/^الجدات$/, ()=>'Grandmothers'],
+    [/^الابن$/, ()=>'Son'],
+    [/^الأبناء \((\d+)\)$/, (m)=>`Sons (${m[1]})`],
+    [/^البنت$/, ()=>'Daughter'],
+    [/^البنات \((\d+)\)$/, (m)=>`Daughters (${m[1]})`],
+    [/^البنت \(نصيبها الكامل، نصف نصيب الابن\)$/, ()=>"Daughter (full share, half a son's share)"],
+    [/^البنات \(نصيبهن الكامل، نصف نصيب كل ابن\)$/, ()=>"Daughters (full share, half each son's share)"],
+    [/^الأخ الشقيق$/, ()=>'Full brother'],
+    [/^الإخوة الأشقاء \((\d+)\)$/, (m)=>`Full brothers (${m[1]})`],
+    [/^الأخت الشقيقة$/, ()=>'Full sister'],
+    [/^الأخوات الشقيقات \((\d+)\)$/, (m)=>`Full sisters (${m[1]})`],
+    [/^الأخت الشقيقة \(نصيبها الكامل، نصف نصيب الأخ\)$/, ()=>"Full sister (full share, half a brother's share)"],
+    [/^الأخوات الشقيقات \(نصيبهن الكامل، نصف نصيب كل أخ\)$/, ()=>"Full sisters (full share, half each brother's share)"],
+    [/^الأخت الشقيقة مع البنات \(نصيبها الكامل\)$/, ()=>'Full sister with daughters (full share as residuary)'],
+    [/^الأخوات الشقيقات مع البنات \((\d+)\)$/, (m)=>`Full sisters with daughters (${m[1]})`],
+    [/^الأخ لأب$/, ()=>'Paternal brother'],
+    [/^الإخوة لأب \((\d+)\)$/, (m)=>`Paternal brothers (${m[1]})`],
+    [/^الأخت لأب$/, ()=>'Paternal sister'],
+    [/^الأخوات لأب \((\d+)\)$/, (m)=>`Paternal sisters (${m[1]})`],
+    [/^الأخت لأب \(نصيبها الكامل، نصف نصيب الأخ\)$/, ()=>"Paternal sister (full share, half a brother's share)"],
+    [/^الأخوات لأب \(نصيبهن الكامل، نصف نصيب كل أخ\)$/, ()=>"Paternal sisters (full share, half each brother's share)"],
+    [/^الأخت لأب مع البنات \(نصيبها الكامل\)$/, ()=>'Paternal sister with daughters (full share as residuary)'],
+    [/^الأخوات لأب مع البنات \((\d+)\)$/, (m)=>`Paternal sisters with daughters (${m[1]})`],
+    [/^الأخ\/الأخت لأم$/, ()=>'Maternal sibling'],
+    [/^الإخوة\/الأخوات لأم \((\d+)\)$/, (m)=>`Maternal siblings (${m[1]})`]
+  ];
+  for(const [re, fn] of rules){
+    const m = s.match(re);
+    if(m) return fn(m);
+  }
+  return s;
+}
+
+function translateInheritanceReason(s){
+  if(currentLang !== 'en') return s;
+  const map = {
+    'الأب':'the father',
+    'الأم':'the mother',
+    'الابن':'the son',
+    'الجد لأب':'the paternal grandfather',
+    'وجود إخوة/أخوات أشقاء':'the presence of full siblings',
+    'وجود فرع وارث (أبناء/بنات)':'the presence of an inheriting descendant (sons/daughters)'
+  };
+  return map[s] || s;
+}
+
+function translateInheritanceNote(s){
+  if(currentLang !== 'en' || !s) return s;
+  const map = {
+    'الأنصبة الظاهرة أعلاه للذكور والإناث الوارثين معاً هي أنصبتهم الكاملة والنهائية (بعد اقتسام الباقي من التركة بينهم، حيث يأخذ كل ذكر ضعف نصيب كل أنثى) — وليست أجزاءً ناقصة يتبقى منها شيء آخر.':
+      "The shares shown above for male and female heirs sharing the residue together are their full and final shares (after dividing the remainder among them, where each male gets double each female's share) — not partial amounts with something left over.",
+    'تم تطبيق "العول" — مجموع الأنصبة المقررة تجاوز التركة، فتم تخفيضها جميعاً بنفس النسبة.':
+      '"Awl" (proportional reduction) was applied — the total of the fixed shares exceeded the estate, so they were all reduced by the same proportion.',
+    'تم تطبيق "الرد" — بقي جزء من التركة بعد الأنصبة المقررة بدون عاصب، فتمت إعادته على الورثة أصحاب الفروض بنسبة أنصبتهم.':
+      '"Radd" (return) was applied — part of the estate remained after the fixed shares with no residuary heir, so it was returned to the fixed-share heirs in proportion to their shares.',
+    'لا يوجد وارث آخر، فآل باقي التركة للزوج/الزوجة.':
+      'No other heir exists, so the remainder of the estate goes to the spouse.'
+  };
+  return map[s] || s;
+}
+
 function renderInheritanceTable(){
   if(!lastInheritanceResult) return;
   const { shares, estate, unit } = lastInheritanceResult;
-  document.getElementById('inh-amount-header').textContent = `الكمية (${unit})`;
+  const displayUnit = translateInheritanceUnit(unit);
+  document.getElementById('inh-amount-header').textContent = `${I18N[currentLang].inhAmountCol} (${displayUnit})`;
   const tbody = document.getElementById('inh-table-body');
   tbody.innerHTML = '';
   shares.forEach(s=>{
@@ -3136,14 +3304,14 @@ function renderInheritanceTable(){
     tr.style.borderBottom = '1px solid var(--border)';
     const shareDisplay = inhShowFraction ? s.fraction.toFractionString() : `${(s.fraction.toNumber()*100).toLocaleString('en-US',{maximumFractionDigits:2})}%`;
     const amount = (s.fraction.toNumber()*estate).toLocaleString('en-US',{maximumFractionDigits:2});
-    tr.innerHTML = `<td style="padding:8px 4px;">${s.label}</td><td style="padding:8px 4px;font-family:var(--font-mono);">${shareDisplay}</td><td style="padding:8px 4px;font-family:var(--font-mono);">${amount} ${unit}</td>`;
+    tr.innerHTML = `<td style="padding:8px 4px;">${translateInheritanceLabel(s.label)}</td><td style="padding:8px 4px;font-family:var(--font-mono);">${shareDisplay}</td><td style="padding:8px 4px;font-family:var(--font-mono);">${amount} ${displayUnit}</td>`;
     tbody.appendChild(tr);
   });
 }
 
 document.getElementById('inh-format-toggle').addEventListener('click', ()=>{
   inhShowFraction = !inhShowFraction;
-  document.getElementById('inh-format-toggle').textContent = inhShowFraction ? 'عرض كنسبة عشرية' : 'عرض ككسر';
+  document.getElementById('inh-format-toggle').textContent = inhShowFraction ? I18N[currentLang].inhShowPercent : I18N[currentLang].inhShowFraction;
   renderInheritanceTable();
 });
 
@@ -3174,7 +3342,7 @@ document.getElementById('inh-btn').addEventListener('click', ()=>{
   resultBox.style.display = 'none';
 
   if(estate <= 0){
-    errBox.textContent = 'أدخل قيمة صحيحة للتركة الصافية.';
+    errBox.textContent = I18N[currentLang].inhErrEstate;
     errBox.style.display = 'block';
     return;
   }
@@ -3182,19 +3350,23 @@ document.getElementById('inh-btn').addEventListener('click', ()=>{
   const { shares, note, blocked } = calcInheritance(input);
 
   if(shares.length === 0){
-    errBox.textContent = 'لم يتم إدخال أي وارث. أدخل بيانات الورثة أولاً.';
+    errBox.textContent = I18N[currentLang].inhErrNoHeirs;
     errBox.style.display = 'block';
     return;
   }
 
   lastInheritanceResult = { shares, estate, unit };
   renderInheritanceTable();
-  document.getElementById('inh-adjustment-note').textContent = note;
+  document.getElementById('inh-adjustment-note').textContent = translateInheritanceNote(note);
 
   const blockedBox = document.getElementById('inh-blocked-box');
   const blockedList = document.getElementById('inh-blocked-list');
   if(blocked.length > 0){
-    blockedList.innerHTML = blocked.map(b => `<li>${b.label} — ${b.word || 'محجوب'} بـ${b.reason}</li>`).join('');
+    if(currentLang === 'en'){
+      blockedList.innerHTML = blocked.map(b => `<li>${translateInheritanceLabel(b.label)} — excluded due to ${translateInheritanceReason(b.reason)}</li>`).join('');
+    } else {
+      blockedList.innerHTML = blocked.map(b => `<li>${b.label} — ${b.word || 'محجوب'} بـ${b.reason}</li>`).join('');
+    }
     blockedBox.style.display = 'block';
   } else {
     blockedBox.style.display = 'none';
@@ -4491,18 +4663,18 @@ function collectRowsFor(exportKey){
     ]};
     case 'inheritance': {
       const rows = lastInheritanceResult ? lastInheritanceResult.shares.map(s=>({
-        label: s.label,
-        value: `${s.fraction.toFractionString()}  —  ${(s.fraction.toNumber()*lastInheritanceResult.estate).toLocaleString('en-US',{maximumFractionDigits:2})} ${lastInheritanceResult.unit}`
+        label: translateInheritanceLabel(s.label),
+        value: `${s.fraction.toFractionString()}  —  ${(s.fraction.toNumber()*lastInheritanceResult.estate).toLocaleString('en-US',{maximumFractionDigits:2})} ${translateInheritanceUnit(lastInheritanceResult.unit)}`
       })) : [];
       const blockedItems = Array.from(document.querySelectorAll('#inh-blocked-list li')).map(li => li.textContent.trim());
       const noteLines = [];
       const adjNote = document.getElementById('inh-adjustment-note').textContent.trim();
       if(adjNote) noteLines.push(adjNote);
       if(blockedItems.length){
-        noteLines.push('ورثة محجوبون:');
+        noteLines.push(I18N[currentLang].inhBlockedTitle + ':');
         blockedItems.forEach(item => noteLines.push('• ' + item));
       }
-      return { title:'حاسبة المواريث', rows, note: noteLines.join('\n') };
+      return { title:I18N[currentLang].inhTitle, rows, note: noteLines.join('\n') };
     }
     default: return null;
   }
