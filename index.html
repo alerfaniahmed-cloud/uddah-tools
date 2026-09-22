@@ -1446,241 +1446,241 @@
   <section class="panel" id="panel-pdf">
 
     <div class="card">
-      <h2>دمج ملفات PDF</h2>
-      <p class="hint">اختر عدة ملفات PDF بالترتيب المطلوب وسيتم دمجها في ملف واحد.</p>
+      <h2 data-i18n="mergeTitle">دمج ملفات PDF</h2>
+      <p class="hint" data-i18n="mergeHint">اختر عدة ملفات PDF بالترتيب المطلوب وسيتم دمجها في ملف واحد.</p>
       <div class="field">
         <input type="file" id="merge-files" accept="application/pdf" multiple>
         <div class="file-list" id="merge-files-list"></div>
       </div>
-      <button class="btn" id="merge-btn">دمج الملفات وتنزيلها</button>
+      <button class="btn" id="merge-btn" data-i18n="mergeBtn">دمج الملفات وتنزيلها</button>
       <div id="merge-status"></div>
     </div>
 
     <div class="card">
-      <h2>دمج كل صفحتين في صفحة واحدة</h2>
-      <p class="hint">مفيدة لو محتوى الملف أصله صفحة واحدة لكن انزاح جزء صغير منه لصفحة ثانية — تجمع كل صفحتين متتاليتين بصفحة واحدة مصغّرة.</p>
+      <h2 data-i18n="mergepairsTitle">دمج كل صفحتين في صفحة واحدة</h2>
+      <p class="hint" data-i18n="mergepairsHint">مفيدة لو محتوى الملف أصله صفحة واحدة لكن انزاح جزء صغير منه لصفحة ثانية — تجمع كل صفحتين متتاليتين بصفحة واحدة مصغّرة.</p>
       <div class="field">
         <input type="file" id="mergepairs-file" accept="application/pdf">
         <div class="file-list" id="mergepairs-file-list"></div>
       </div>
       <div class="field">
-        <label for="mergepairs-layout">اتجاه الدمج</label>
+        <label for="mergepairs-layout" data-i18n="mergepairsLayoutLabel">اتجاه الدمج</label>
         <select id="mergepairs-layout">
-          <option value="vertical">عمودي (فوق وتحت) — للصفحات الطولية</option>
-          <option value="horizontal">أفقي (جنب بعض) — للصفحات العريضة</option>
+          <option value="vertical" data-i18n="layoutVertical">عمودي (فوق وتحت) — للصفحات الطولية</option>
+          <option value="horizontal" data-i18n="layoutHorizontal">أفقي (جنب بعض) — للصفحات العريضة</option>
         </select>
       </div>
-      <button class="btn" id="mergepairs-btn">دمج وتنزيل</button>
+      <button class="btn" id="mergepairs-btn" data-i18n="mergeAndDownloadBtn">دمج وتنزيل</button>
       <div id="mergepairs-status"></div>
     </div>
 
     <div class="card">
-      <h2>استخراج صفحات محددة</h2>
-      <p class="hint">اختر ملف PDF وحدد أرقام الصفحات المطلوبة (مثال: 1-3,5,8).</p>
+      <h2 data-i18n="extractTitle">استخراج صفحات محددة</h2>
+      <p class="hint" data-i18n="extractHint">اختر ملف PDF وحدد أرقام الصفحات المطلوبة (مثال: 1-3,5,8).</p>
       <div class="field">
         <input type="file" id="extract-file" accept="application/pdf">
         <div class="file-list" id="extract-file-list"></div>
       </div>
       <div class="field">
-        <label for="extract-range">أرقام الصفحات</label>
-        <input type="text" id="extract-range" placeholder="مثال: 1-3,5,8">
+        <label for="extract-range" data-i18n="extractRangeLabel">أرقام الصفحات</label>
+        <input type="text" id="extract-range" placeholder="مثال: 1-3,5,8" data-i18n-ph="extractRangePh">
       </div>
-      <button class="btn" id="extract-btn">استخراج وتنزيل</button>
+      <button class="btn" id="extract-btn" data-i18n="extractBtn">استخراج وتنزيل</button>
       <div id="extract-status"></div>
     </div>
 
     <div class="card">
-      <h2>تحويل صور إلى PDF</h2>
-      <p class="hint">اختر صورة أو أكثر (JPG أو PNG) وسيتم وضع كل صورة في صفحة داخل ملف PDF واحد.</p>
+      <h2 data-i18n="img2pdfTitle">تحويل صور إلى PDF</h2>
+      <p class="hint" data-i18n="img2pdfHint">اختر صورة أو أكثر (JPG أو PNG) وسيتم وضع كل صورة في صفحة داخل ملف PDF واحد.</p>
       <div class="field">
         <input type="file" id="img2pdf-files" accept="image/png,image/jpeg" multiple>
         <div class="file-list" id="img2pdf-files-list"></div>
       </div>
-      <button class="btn" id="img2pdf-btn">تحويل إلى PDF وتنزيل</button>
+      <button class="btn" id="img2pdf-btn" data-i18n="img2pdfBtn">تحويل إلى PDF وتنزيل</button>
       <div id="img2pdf-status"></div>
     </div>
 
     <div class="card">
-      <h2>تحويل PDF إلى صور</h2>
-      <p class="hint">اختر ملف PDF وسيتم تحويل كل صفحة إلى صورة PNG، وتنزيلها كلها داخل ملف مضغوط (ZIP) واحد.</p>
+      <h2 data-i18n="pdf2imgTitle">تحويل PDF إلى صور</h2>
+      <p class="hint" data-i18n="pdf2imgHint">اختر ملف PDF وسيتم تحويل كل صفحة إلى صورة PNG، وتنزيلها كلها داخل ملف مضغوط (ZIP) واحد.</p>
       <div class="field">
         <input type="file" id="pdf2img-file" accept="application/pdf">
         <div class="file-list" id="pdf2img-file-list"></div>
       </div>
-      <button class="btn" id="pdf2img-btn">تحويل وتنزيل الصور</button>
+      <button class="btn" id="pdf2img-btn" data-i18n="pdf2imgBtn">تحويل وتنزيل الصور</button>
       <div id="pdf2img-status"></div>
     </div>
 
     <div class="card">
-      <h2>ضغط ملف PDF</h2>
-      <p class="hint">يعيد هذا الخيار رسم صفحات الملف بجودة أقل لتقليل الحجم — مناسب للمستندات النصية والصور، وقد يقلل وضوح النصوص الدقيقة جداً.</p>
+      <h2 data-i18n="compressTitle">ضغط ملف PDF</h2>
+      <p class="hint" data-i18n="compressHint">يعيد هذا الخيار رسم صفحات الملف بجودة أقل لتقليل الحجم — مناسب للمستندات النصية والصور، وقد يقلل وضوح النصوص الدقيقة جداً.</p>
       <div class="field">
         <input type="file" id="compress-file" accept="application/pdf">
         <div class="file-list" id="compress-file-list"></div>
       </div>
       <div class="field">
-        <label for="compress-quality">مستوى الضغط</label>
+        <label for="compress-quality" data-i18n="compressQualityLabel">مستوى الضغط</label>
         <select id="compress-quality">
-          <option value="0.85">خفيف (جودة أعلى، حجم أكبر)</option>
-          <option value="0.6" selected>متوسط</option>
-          <option value="0.35">قوي (حجم أصغر، جودة أقل)</option>
+          <option value="0.85" data-i18n="compressLight">خفيف (جودة أعلى، حجم أكبر)</option>
+          <option value="0.6" selected data-i18n="compressMedium">متوسط</option>
+          <option value="0.35" data-i18n="compressStrong">قوي (حجم أصغر، جودة أقل)</option>
         </select>
       </div>
-      <button class="btn" id="compress-btn">ضغط وتنزيل</button>
+      <button class="btn" id="compress-btn" data-i18n="compressBtn">ضغط وتنزيل</button>
       <div id="compress-status"></div>
     </div>
 
     <div class="card">
-      <h2>توقيع إلكتروني على PDF</h2>
-      <p class="hint">ارسم توقيعك بإصبعك أو الماوس، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
+      <h2 data-i18n="signTitle">توقيع إلكتروني على PDF</h2>
+      <p class="hint" data-i18n="signHint">ارسم توقيعك بإصبعك أو الماوس، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
       <div class="field">
         <input type="file" id="sign-file" accept="application/pdf">
         <div class="file-list" id="sign-file-list"></div>
       </div>
 
       <div class="field">
-        <label>ارسم توقيعك هنا</label>
+        <label data-i18n="signDrawLabel">ارسم توقيعك هنا</label>
         <canvas id="sign-canvas" width="600" height="180" style="width:100%;max-width:500px;height:150px;background:var(--bg-elev-2);border:1px dashed var(--steel);border-radius:8px;touch-action:none;cursor:crosshair;display:block;"></canvas>
-        <button type="button" class="btn secondary" id="sign-clear-btn" style="margin-top:8px;padding:8px 16px;font-size:.82rem;">مسح التوقيع</button>
+        <button type="button" class="btn secondary" id="sign-clear-btn" style="margin-top:8px;padding:8px 16px;font-size:.82rem;" data-i18n="signClearBtn">مسح التوقيع</button>
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="sign-page">رقم الصفحة</label>
-          <input type="number" id="sign-page" min="1" value="1" placeholder="آخر صفحة افتراضياً">
+          <label for="sign-page" data-i18n="pageNumLabel">رقم الصفحة</label>
+          <input type="number" id="sign-page" min="1" value="1" placeholder="آخر صفحة افتراضياً" data-i18n-ph="lastPageDefaultPh">
         </div>
         <div class="field">
-          <label for="sign-size">حجم التوقيع (نقطة PDF)</label>
+          <label for="sign-size" data-i18n="signSizeLabel">حجم التوقيع (نقطة PDF)</label>
           <input type="number" id="sign-size" min="40" max="400" value="150">
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label for="sign-x">الموضع الأفقي: <span id="sign-x-val">70</span>٪ (من اليسار)</label>
+          <label for="sign-x"><span data-i18n="posXLabel">الموضع الأفقي:</span> <span id="sign-x-val">70</span><span data-i18n="pctFromLeft">٪ (من اليسار)</span></label>
           <input type="range" id="sign-x" min="0" max="100" value="70" style="width:100%;">
         </div>
         <div class="field">
-          <label for="sign-y">الموضع الرأسي: <span id="sign-y-val">10</span>٪ (من الأسفل)</label>
+          <label for="sign-y"><span data-i18n="posYLabel">الموضع الرأسي:</span> <span id="sign-y-val">10</span><span data-i18n="pctFromBottom">٪ (من الأسفل)</span></label>
           <input type="range" id="sign-y" min="0" max="100" value="10" style="width:100%;">
         </div>
       </div>
 
       <div class="field" id="sign-preview-wrap" style="display:none;">
-        <label>معاينة الموضع على الصفحة</label>
+        <label data-i18n="posPreviewLabel">معاينة الموضع على الصفحة</label>
         <div style="position:relative;display:inline-block;border:1px solid var(--border);border-radius:8px;overflow:hidden;line-height:0;background:#fff;">
           <canvas id="sign-preview-page"></canvas>
           <img id="sign-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
         </div>
       </div>
 
-      <button class="btn" id="sign-btn" style="margin-top:14px;">إضافة التوقيع وتنزيل</button>
+      <button class="btn" id="sign-btn" style="margin-top:14px;" data-i18n="signBtn">إضافة التوقيع وتنزيل</button>
       <div id="sign-status"></div>
-      <p class="note">التوقيع يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو توقيعك لأي سيرفر خارجي.</p>
+      <p class="note" data-i18n="signNote">التوقيع يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو توقيعك لأي سيرفر خارجي.</p>
     </div>
 
     <div class="card">
-      <h2>إضافة ختم على PDF</h2>
-      <p class="hint">ارفع صورة ختمك (PNG بخلفية شفافة أفضل)، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
+      <h2 data-i18n="pdfStampTitle">إضافة ختم على PDF</h2>
+      <p class="hint" data-i18n="pdfStampHint">ارفع صورة ختمك (PNG بخلفية شفافة أفضل)، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
       <div class="field">
         <input type="file" id="stamp-file" accept="application/pdf">
         <div class="file-list" id="stamp-file-list"></div>
       </div>
 
       <div class="field">
-        <label for="stamp-image">صورة الختم</label>
+        <label for="stamp-image" data-i18n="stampImageLabel">صورة الختم</label>
         <input type="file" id="stamp-image" accept="image/png,image/jpeg">
         <div class="file-list" id="stamp-image-list"></div>
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="stamp-page">رقم الصفحة</label>
-          <input type="number" id="stamp-page" min="1" value="1" placeholder="آخر صفحة افتراضياً">
+          <label for="stamp-page" data-i18n="pageNumLabel">رقم الصفحة</label>
+          <input type="number" id="stamp-page" min="1" value="1" placeholder="آخر صفحة افتراضياً" data-i18n-ph="lastPageDefaultPh">
         </div>
         <div class="field">
-          <label for="stamp-size">حجم الختم (نقطة PDF)</label>
+          <label for="stamp-size" data-i18n="stampSizeLabel">حجم الختم (نقطة PDF)</label>
           <input type="number" id="stamp-size" min="40" max="400" value="120">
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label for="stamp-x">الموضع الأفقي: <span id="stamp-x-val">70</span>٪ (من اليسار)</label>
+          <label for="stamp-x"><span data-i18n="posXLabel">الموضع الأفقي:</span> <span id="stamp-x-val">70</span><span data-i18n="pctFromLeft">٪ (من اليسار)</span></label>
           <input type="range" id="stamp-x" min="0" max="100" value="70" style="width:100%;">
         </div>
         <div class="field">
-          <label for="stamp-y">الموضع الرأسي: <span id="stamp-y-val">10</span>٪ (من الأسفل)</label>
+          <label for="stamp-y"><span data-i18n="posYLabel">الموضع الرأسي:</span> <span id="stamp-y-val">10</span><span data-i18n="pctFromBottom">٪ (من الأسفل)</span></label>
           <input type="range" id="stamp-y" min="0" max="100" value="10" style="width:100%;">
         </div>
       </div>
 
       <div class="field" id="stamp-preview-wrap" style="display:none;">
-        <label>معاينة الموضع على الصفحة</label>
+        <label data-i18n="posPreviewLabel">معاينة الموضع على الصفحة</label>
         <div style="position:relative;display:inline-block;border:1px solid var(--border);border-radius:8px;overflow:hidden;line-height:0;background:#fff;">
           <canvas id="stamp-preview-page"></canvas>
           <img id="stamp-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
         </div>
       </div>
 
-      <button class="btn" id="stamp-btn" style="margin-top:14px;">إضافة الختم وتنزيل</button>
+      <button class="btn" id="stamp-btn" style="margin-top:14px;" data-i18n="pdfStampBtn">إضافة الختم وتنزيل</button>
       <div id="stamp-status"></div>
-      <p class="note">الختم يُضاف بالكامل داخل متصفحك — لا تُرفع صورة الختم أو ملفك لأي سيرفر خارجي.</p>
+      <p class="note" data-i18n="pdfStampNote">الختم يُضاف بالكامل داخل متصفحك — لا تُرفع صورة الختم أو ملفك لأي سيرفر خارجي.</p>
     </div>
 
     <div class="card">
-      <h2>إضافة نص على PDF</h2>
-      <p class="hint">اكتب أي نص، اختر حجمه ولونه والصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
+      <h2 data-i18n="pdfTextTitle">إضافة نص على PDF</h2>
+      <p class="hint" data-i18n="pdfTextHint">اكتب أي نص، اختر حجمه ولونه والصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
       <div class="field">
         <input type="file" id="text-file" accept="application/pdf">
         <div class="file-list" id="text-file-list"></div>
       </div>
 
       <div class="field">
-        <label for="text-content">النص</label>
-        <textarea id="text-content" rows="3" placeholder="اكتب النص هنا..." style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
+        <label for="text-content" data-i18n="textContentLabel">النص</label>
+        <textarea id="text-content" rows="3" placeholder="اكتب النص هنا..." data-i18n-ph="writeTextPh" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="text-size">حجم الخط (نقطة PDF)</label>
+          <label for="text-size" data-i18n="textSizeLabel">حجم الخط (نقطة PDF)</label>
           <input type="number" id="text-size" min="8" max="120" value="24">
         </div>
         <div class="field">
-          <label for="text-color">اللون</label>
+          <label for="text-color" data-i18n="colorLabel">اللون</label>
           <input type="color" id="text-color" value="#2B2A28" style="width:100%;height:44px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:4px;">
         </div>
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="text-page">رقم الصفحة</label>
-          <input type="number" id="text-page" min="1" value="1" placeholder="آخر صفحة افتراضياً">
+          <label for="text-page" data-i18n="pageNumLabel">رقم الصفحة</label>
+          <input type="number" id="text-page" min="1" value="1" placeholder="آخر صفحة افتراضياً" data-i18n-ph="lastPageDefaultPh">
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label for="text-x">الموضع الأفقي: <span id="text-x-val">50</span>٪ (من اليسار)</label>
+          <label for="text-x"><span data-i18n="posXLabel">الموضع الأفقي:</span> <span id="text-x-val">50</span><span data-i18n="pctFromLeft">٪ (من اليسار)</span></label>
           <input type="range" id="text-x" min="0" max="100" value="50" style="width:100%;">
         </div>
         <div class="field">
-          <label for="text-y">الموضع الرأسي: <span id="text-y-val">50</span>٪ (من الأسفل)</label>
+          <label for="text-y"><span data-i18n="posYLabel">الموضع الرأسي:</span> <span id="text-y-val">50</span><span data-i18n="pctFromBottom">٪ (من الأسفل)</span></label>
           <input type="range" id="text-y" min="0" max="100" value="50" style="width:100%;">
         </div>
       </div>
 
       <div class="field" id="text-preview-wrap" style="display:none;">
-        <label>معاينة الموضع على الصفحة</label>
+        <label data-i18n="posPreviewLabel">معاينة الموضع على الصفحة</label>
         <div style="position:relative;display:inline-block;border:1px solid var(--border);border-radius:8px;overflow:hidden;line-height:0;background:#fff;">
           <canvas id="text-preview-page"></canvas>
           <img id="text-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
         </div>
       </div>
 
-      <button class="btn" id="text-btn" style="margin-top:14px;">إضافة النص وتنزيل</button>
+      <button class="btn" id="text-btn" style="margin-top:14px;" data-i18n="pdfTextBtn">إضافة النص وتنزيل</button>
       <div id="text-status"></div>
-      <p class="note">النص يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو نصك لأي سيرفر خارجي.</p>
+      <p class="note" data-i18n="pdfTextNote">النص يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو نصك لأي سيرفر خارجي.</p>
     </div>
 
-    <p class="note">جميع أدوات PDF تعمل بالكامل داخل متصفحك — لا تُرفع ملفاتك لأي سيرفر، وتحويل الصيغ إلى Word أو Excel بدقة عالية يحتاج معالجة خارج المتصفح وسيُضاف لاحقاً كخدمة منفصلة.</p>
+    <p class="note" data-i18n="pdfBottomNote">جميع أدوات PDF تعمل بالكامل داخل متصفحك — لا تُرفع ملفاتك لأي سيرفر، وتحويل الصيغ إلى Word أو Excel بدقة عالية يحتاج معالجة خارج المتصفح وسيُضاف لاحقاً كخدمة منفصلة.</p>
   </section>
 </div>
 
@@ -2565,6 +2565,95 @@ const I18N = {
     ibanBankCodeLabel: 'كود البنك:',
     ibanAccountLabel: 'رقم الحساب:',
     ibanErrChecksum: 'الصيغة صحيحة لكن رقم التحقق (checksum) غير مطابق — تأكد من الأرقام.',
+    mergeTitle: 'دمج ملفات PDF',
+    mergeHint: 'اختر عدة ملفات PDF بالترتيب المطلوب وسيتم دمجها في ملف واحد.',
+    mergeBtn: 'دمج الملفات وتنزيلها',
+    mergepairsTitle: 'دمج كل صفحتين في صفحة واحدة',
+    mergepairsHint: 'مفيدة لو محتوى الملف أصله صفحة واحدة لكن انزاح جزء صغير منه لصفحة ثانية — تجمع كل صفحتين متتاليتين بصفحة واحدة مصغّرة.',
+    mergepairsLayoutLabel: 'اتجاه الدمج',
+    layoutVertical: 'عمودي (فوق وتحت) — للصفحات الطولية',
+    layoutHorizontal: 'أفقي (جنب بعض) — للصفحات العريضة',
+    mergeAndDownloadBtn: 'دمج وتنزيل',
+    extractTitle: 'استخراج صفحات محددة',
+    extractHint: 'اختر ملف PDF وحدد أرقام الصفحات المطلوبة (مثال: 1-3,5,8).',
+    extractRangeLabel: 'أرقام الصفحات',
+    extractRangePh: 'مثال: 1-3,5,8',
+    extractBtn: 'استخراج وتنزيل',
+    img2pdfTitle: 'تحويل صور إلى PDF',
+    img2pdfHint: 'اختر صورة أو أكثر (JPG أو PNG) وسيتم وضع كل صورة في صفحة داخل ملف PDF واحد.',
+    img2pdfBtn: 'تحويل إلى PDF وتنزيل',
+    pdf2imgTitle: 'تحويل PDF إلى صور',
+    pdf2imgHint: 'اختر ملف PDF وسيتم تحويل كل صفحة إلى صورة PNG، وتنزيلها كلها داخل ملف مضغوط (ZIP) واحد.',
+    pdf2imgBtn: 'تحويل وتنزيل الصور',
+    compressTitle: 'ضغط ملف PDF',
+    compressHint: 'يعيد هذا الخيار رسم صفحات الملف بجودة أقل لتقليل الحجم — مناسب للمستندات النصية والصور، وقد يقلل وضوح النصوص الدقيقة جداً.',
+    compressQualityLabel: 'مستوى الضغط',
+    compressLight: 'خفيف (جودة أعلى، حجم أكبر)',
+    compressMedium: 'متوسط',
+    compressStrong: 'قوي (حجم أصغر، جودة أقل)',
+    compressBtn: 'ضغط وتنزيل',
+    signTitle: 'توقيع إلكتروني على PDF',
+    signHint: 'ارسم توقيعك بإصبعك أو الماوس، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.',
+    signDrawLabel: 'ارسم توقيعك هنا',
+    signClearBtn: 'مسح التوقيع',
+    pageNumLabel: 'رقم الصفحة',
+    signSizeLabel: 'حجم التوقيع (نقطة PDF)',
+    signBtn: 'إضافة التوقيع وتنزيل',
+    signNote: 'التوقيع يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو توقيعك لأي سيرفر خارجي.',
+    pdfStampTitle: 'إضافة ختم على PDF',
+    pdfStampHint: 'ارفع صورة ختمك (PNG بخلفية شفافة أفضل)، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.',
+    stampImageLabel: 'صورة الختم',
+    stampSizeLabel: 'حجم الختم (نقطة PDF)',
+    pdfStampBtn: 'إضافة الختم وتنزيل',
+    pdfStampNote: 'الختم يُضاف بالكامل داخل متصفحك — لا تُرفع صورة الختم أو ملفك لأي سيرفر خارجي.',
+    pdfTextTitle: 'إضافة نص على PDF',
+    pdfTextHint: 'اكتب أي نص، اختر حجمه ولونه والصفحة والموضع، ثم أضفه مباشرة على ملف PDF.',
+    textContentLabel: 'النص',
+    writeTextPh: 'اكتب النص هنا...',
+    textSizeLabel: 'حجم الخط (نقطة PDF)',
+    colorLabel: 'اللون',
+    pdfTextBtn: 'إضافة النص وتنزيل',
+    pdfTextNote: 'النص يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو نصك لأي سيرفر خارجي.',
+    pdfBottomNote: 'جميع أدوات PDF تعمل بالكامل داخل متصفحك — لا تُرفع ملفاتك لأي سيرفر، وتحويل الصيغ إلى Word أو Excel بدقة عالية يحتاج معالجة خارج المتصفح وسيُضاف لاحقاً كخدمة منفصلة.',
+    posXLabel: 'الموضع الأفقي:',
+    pctFromLeft: '٪ (من اليسار)',
+    posYLabel: 'الموضع الرأسي:',
+    pctFromBottom: '٪ (من الأسفل)',
+    posPreviewLabel: 'معاينة الموضع على الصفحة',
+    lastPageDefaultPh: 'آخر صفحة افتراضياً',
+    mergeErrMin: 'اختر ملفين على الأقل.',
+    mergingBusy: 'جارٍ الدمج...',
+    mergeSuccess: 'تم الدمج بنجاح.',
+    mergeErr: 'تعذر دمج الملفات — تأكد أنها ملفات PDF صحيحة.',
+    selectPdfFirst: 'اختر ملف PDF أولاً.',
+    mergepairsSuccessPrefix: 'تم الدمج بنجاح — الملف الأصلي',
+    mergepairsSuccessMiddle: 'صفحة، صار',
+    mergepairsSuccessSuffix: 'صفحة.',
+    mergepairsErr: 'تعذر الدمج — تأكد أن الملف PDF صحيح.',
+    extractErrMissing: 'اختر ملفاً وأدخل أرقام الصفحات.',
+    extractingBusy: 'جارٍ الاستخراج...',
+    extractSuccess: 'تم الاستخراج بنجاح.',
+    extractErr: 'تعذر الاستخراج — تحقق من أرقام الصفحات والملف.',
+    img2pdfErrMin: 'اختر صورة واحدة على الأقل.',
+    convertingBusy: 'جارٍ التحويل...',
+    convertSuccess: 'تم التحويل بنجاح.',
+    img2pdfErr: 'تعذر التحويل — تأكد أن الملفات صور JPG أو PNG صحيحة.',
+    pdf2imgSuccessPrefix: 'تم تحويل',
+    pdf2imgSuccessSuffix: 'صفحة بنجاح داخل ملف مضغوط واحد.',
+    pdfConvertErr: 'تعذر تحويل الملف — تأكد أنه PDF صحيح.',
+    compressingBusy: 'جارٍ الضغط...',
+    compressSuccessPrefix: 'تم الضغط — تقليل الحجم بنسبة تقريبية',
+    compressErr: 'تعذر ضغط الملف — تأكد أنه PDF صحيح.',
+    addingBusy: 'جارٍ الإضافة...',
+    signErrDraw: 'ارسم توقيعك أولاً بالمربع بالأعلى.',
+    signSuccessPrefix: 'تم إضافة التوقيع بنجاح على الصفحة',
+    signErr: 'تعذر إضافة التوقيع — تأكد أن الملف PDF صحيح.',
+    stampErrUpload: 'ارفع صورة الختم أولاً.',
+    stampSuccessPrefix: 'تم إضافة الختم بنجاح على الصفحة',
+    stampErr: 'تعذر إضافة الختم — تأكد أن الملف PDF وصورة الختم صحيحين.',
+    textErrWrite: 'اكتب النص أولاً.',
+    textSuccessPrefix: 'تم إضافة النص بنجاح على الصفحة',
+    textErr: 'تعذر إضافة النص — تأكد أن الملف PDF صحيح.',
   },
   en: {
     siteName: 'Uddah',
@@ -3029,6 +3118,95 @@ const I18N = {
     ibanBankCodeLabel: 'Bank code:',
     ibanAccountLabel: 'Account number:',
     ibanErrChecksum: 'The format is correct but the checksum does not match — verify the digits.',
+    mergeTitle: 'Merge PDF Files',
+    mergeHint: 'Choose several PDF files in the order you want, and they will be merged into one file.',
+    mergeBtn: 'Merge and Download Files',
+    mergepairsTitle: 'Merge Every 2 Pages into 1',
+    mergepairsHint: 'Useful when a file\'s content was originally one page but a small part shifted onto a second page — combines every two consecutive pages into one shrunk page.',
+    mergepairsLayoutLabel: 'Merge direction',
+    layoutVertical: 'Vertical (top and bottom) — for tall pages',
+    layoutHorizontal: 'Horizontal (side by side) — for wide pages',
+    mergeAndDownloadBtn: 'Merge and Download',
+    extractTitle: 'Extract Specific Pages',
+    extractHint: 'Choose a PDF file and specify the page numbers you want (e.g. 1-3,5,8).',
+    extractRangeLabel: 'Page numbers',
+    extractRangePh: 'e.g. 1-3,5,8',
+    extractBtn: 'Extract and Download',
+    img2pdfTitle: 'Convert Images to PDF',
+    img2pdfHint: 'Choose one or more images (JPG or PNG) and each image will be placed on a page inside one PDF file.',
+    img2pdfBtn: 'Convert to PDF and Download',
+    pdf2imgTitle: 'Convert PDF to Images',
+    pdf2imgHint: 'Choose a PDF file and every page will be converted to a PNG image, all downloaded inside one ZIP file.',
+    pdf2imgBtn: 'Convert and Download Images',
+    compressTitle: 'Compress a PDF File',
+    compressHint: 'This option re-renders the file\'s pages at a lower quality to reduce size — suitable for text documents and images, and may reduce the sharpness of very fine text.',
+    compressQualityLabel: 'Compression level',
+    compressLight: 'Light (higher quality, larger size)',
+    compressMedium: 'Medium',
+    compressStrong: 'Strong (smaller size, lower quality)',
+    compressBtn: 'Compress and Download',
+    signTitle: 'Electronic Signature on PDF',
+    signHint: 'Draw your signature with your finger or mouse, choose the page and position, then add it directly to a PDF file.',
+    signDrawLabel: 'Draw your signature here',
+    signClearBtn: 'Clear Signature',
+    pageNumLabel: 'Page number',
+    signSizeLabel: 'Signature size (PDF points)',
+    signBtn: 'Add Signature and Download',
+    signNote: 'The signature is drawn and added entirely in your browser — neither your file nor your signature is uploaded to any external server.',
+    pdfStampTitle: 'Add Stamp to PDF',
+    pdfStampHint: 'Upload your stamp image (PNG with a transparent background is best), choose the page and position, then add it directly to a PDF file.',
+    stampImageLabel: 'Stamp image',
+    stampSizeLabel: 'Stamp size (PDF points)',
+    pdfStampBtn: 'Add Stamp and Download',
+    pdfStampNote: 'The stamp is added entirely in your browser — neither the stamp image nor your file is uploaded to any external server.',
+    pdfTextTitle: 'Add Text to PDF',
+    pdfTextHint: 'Write any text, choose its size, color, page, and position, then add it directly to a PDF file.',
+    textContentLabel: 'Text',
+    writeTextPh: 'Write your text here...',
+    textSizeLabel: 'Font size (PDF points)',
+    colorLabel: 'Color',
+    pdfTextBtn: 'Add Text and Download',
+    pdfTextNote: 'The text is drawn and added entirely in your browser — neither your file nor your text is uploaded to any external server.',
+    pdfBottomNote: 'All PDF tools work entirely inside your browser — your files are never uploaded to any server. High-fidelity conversion to Word or Excel requires processing outside the browser and will be added later as a separate service.',
+    posXLabel: 'Horizontal position:',
+    pctFromLeft: '% (from the left)',
+    posYLabel: 'Vertical position:',
+    pctFromBottom: '% (from the bottom)',
+    posPreviewLabel: 'Position preview on the page',
+    lastPageDefaultPh: 'Last page by default',
+    mergeErrMin: 'Choose at least two files.',
+    mergingBusy: 'Merging...',
+    mergeSuccess: 'Merged successfully.',
+    mergeErr: 'Could not merge the files — make sure they are valid PDF files.',
+    selectPdfFirst: 'Select a PDF file first.',
+    mergepairsSuccessPrefix: 'Merged successfully — the original file had',
+    mergepairsSuccessMiddle: 'pages, now it has',
+    mergepairsSuccessSuffix: 'pages.',
+    mergepairsErr: 'Could not merge — make sure the PDF file is valid.',
+    extractErrMissing: 'Choose a file and enter the page numbers.',
+    extractingBusy: 'Extracting...',
+    extractSuccess: 'Extracted successfully.',
+    extractErr: 'Could not extract — check the page numbers and the file.',
+    img2pdfErrMin: 'Choose at least one image.',
+    convertingBusy: 'Converting...',
+    convertSuccess: 'Converted successfully.',
+    img2pdfErr: 'Could not convert — make sure the files are valid JPG or PNG images.',
+    pdf2imgSuccessPrefix: 'Successfully converted',
+    pdf2imgSuccessSuffix: 'pages into one ZIP file.',
+    pdfConvertErr: 'Could not convert the file — make sure it is a valid PDF.',
+    compressingBusy: 'Compressing...',
+    compressSuccessPrefix: 'Compressed — size reduced by approximately',
+    compressErr: 'Could not compress the file — make sure it is a valid PDF.',
+    addingBusy: 'Adding...',
+    signErrDraw: 'Draw your signature first in the box above.',
+    signSuccessPrefix: 'Signature added successfully to page',
+    signErr: 'Could not add the signature — make sure the PDF file is valid.',
+    stampErrUpload: 'Upload the stamp image first.',
+    stampSuccessPrefix: 'Stamp added successfully to page',
+    stampErr: 'Could not add the stamp — make sure the PDF file and stamp image are valid.',
+    textErrWrite: 'Write the text first.',
+    textSuccessPrefix: 'Text added successfully to page',
+    textErr: 'Could not add the text — make sure the PDF file is valid.',
   }
 };
 
@@ -5057,8 +5235,8 @@ setupFilePicker('text-file', 'text-file-list', false);
 document.getElementById('merge-btn').addEventListener('click', async ()=>{
   const files = document.getElementById('merge-files').files;
   const btn = document.getElementById('merge-btn');
-  if(!files.length){ setStatus('merge-status','اختر ملفين على الأقل.','err'); return; }
-  setBusy(btn, true, 'جارٍ الدمج...', 'دمج الملفات وتنزيلها');
+  if(!files.length){ setStatus('merge-status', I18N[currentLang].mergeErrMin, 'err'); return; }
+  setBusy(btn, true, I18N[currentLang].mergingBusy, I18N[currentLang].mergeBtn);
   try{
     const merged = await PDFDocument.create();
     for(const file of files){
@@ -5069,11 +5247,11 @@ document.getElementById('merge-btn').addEventListener('click', async ()=>{
     }
     const outBytes = await merged.save();
     downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مدمج.pdf');
-    setStatus('merge-status','تم الدمج بنجاح.','ok');
+    setStatus('merge-status', I18N[currentLang].mergeSuccess, 'ok');
   }catch(e){
-    setStatus('merge-status','تعذر دمج الملفات — تأكد أنها ملفات PDF صحيحة.','err');
+    setStatus('merge-status', I18N[currentLang].mergeErr, 'err');
   }
-  setBusy(btn, false, '', 'دمج الملفات وتنزيلها');
+  setBusy(btn, false, '', I18N[currentLang].mergeBtn);
 });
 
 /* --- Merge every 2 pages into 1 --- */
@@ -5105,9 +5283,9 @@ document.getElementById('mergepairs-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('mergepairs-file').files[0];
   const layout = document.getElementById('mergepairs-layout').value;
   const btn = document.getElementById('mergepairs-btn');
-  if(!file){ setStatus('mergepairs-status','اختر ملف PDF أولاً.','err'); return; }
+  if(!file){ setStatus('mergepairs-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
 
-  setBusy(btn, true, 'جارٍ الدمج...', 'دمج وتنزيل');
+  setBusy(btn, true, I18N[currentLang].mergingBusy, I18N[currentLang].mergeAndDownloadBtn);
   try{
     const bytes = await file.arrayBuffer();
     const pdfjsDoc = await pdfjsLib.getDocument({data: bytes}).promise;
@@ -5139,11 +5317,11 @@ document.getElementById('mergepairs-btn').addEventListener('click', async ()=>{
     const outBytes = await outDoc.save();
     downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مدمج_صفحتين_في_واحدة.pdf');
     const newCount = outDoc.getPageCount();
-    setStatus('mergepairs-status', `تم الدمج بنجاح — الملف الأصلي ${pdfjsDoc.numPages} صفحة، صار ${newCount} صفحة.`, 'ok');
+    setStatus('mergepairs-status', `${I18N[currentLang].mergepairsSuccessPrefix} ${pdfjsDoc.numPages} ${I18N[currentLang].mergepairsSuccessMiddle} ${newCount} ${I18N[currentLang].mergepairsSuccessSuffix}`, 'ok');
   }catch(e){
-    setStatus('mergepairs-status','تعذر الدمج — تأكد أن الملف PDF صحيح.','err');
+    setStatus('mergepairs-status', I18N[currentLang].mergepairsErr, 'err');
   }
-  setBusy(btn, false, '', 'دمج وتنزيل');
+  setBusy(btn, false, '', I18N[currentLang].mergeAndDownloadBtn);
 });
 
 /* --- Extract pages --- */
@@ -5167,8 +5345,8 @@ document.getElementById('extract-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('extract-file').files[0];
   const range = document.getElementById('extract-range').value;
   const btn = document.getElementById('extract-btn');
-  if(!file || !range){ setStatus('extract-status','اختر ملفاً وأدخل أرقام الصفحات.','err'); return; }
-  setBusy(btn, true, 'جارٍ الاستخراج...', 'استخراج وتنزيل');
+  if(!file || !range){ setStatus('extract-status', I18N[currentLang].extractErrMissing, 'err'); return; }
+  setBusy(btn, true, I18N[currentLang].extractingBusy, I18N[currentLang].extractBtn);
   try{
     const bytes = await file.arrayBuffer();
     const src = await PDFDocument.load(bytes);
@@ -5179,19 +5357,19 @@ document.getElementById('extract-btn').addEventListener('click', async ()=>{
     pages.forEach(p=>out.addPage(p));
     const outBytes = await out.save();
     downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'صفحات_مستخرجة.pdf');
-    setStatus('extract-status','تم الاستخراج بنجاح.','ok');
+    setStatus('extract-status', I18N[currentLang].extractSuccess, 'ok');
   }catch(e){
-    setStatus('extract-status','تعذر الاستخراج — تحقق من أرقام الصفحات والملف.','err');
+    setStatus('extract-status', I18N[currentLang].extractErr, 'err');
   }
-  setBusy(btn, false, '', 'استخراج وتنزيل');
+  setBusy(btn, false, '', I18N[currentLang].extractBtn);
 });
 
 /* --- Images to PDF --- */
 document.getElementById('img2pdf-btn').addEventListener('click', async ()=>{
   const files = document.getElementById('img2pdf-files').files;
   const btn = document.getElementById('img2pdf-btn');
-  if(!files.length){ setStatus('img2pdf-status','اختر صورة واحدة على الأقل.','err'); return; }
-  setBusy(btn, true, 'جارٍ التحويل...', 'تحويل إلى PDF وتنزيل');
+  if(!files.length){ setStatus('img2pdf-status', I18N[currentLang].img2pdfErrMin, 'err'); return; }
+  setBusy(btn, true, I18N[currentLang].convertingBusy, I18N[currentLang].img2pdfBtn);
   try{
     const doc = await PDFDocument.create();
     for(const file of files){
@@ -5204,19 +5382,19 @@ document.getElementById('img2pdf-btn').addEventListener('click', async ()=>{
     }
     const outBytes = await doc.save();
     downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'صور_إلى_pdf.pdf');
-    setStatus('img2pdf-status','تم التحويل بنجاح.','ok');
+    setStatus('img2pdf-status', I18N[currentLang].convertSuccess, 'ok');
   }catch(e){
-    setStatus('img2pdf-status','تعذر التحويل — تأكد أن الملفات صور JPG أو PNG صحيحة.','err');
+    setStatus('img2pdf-status', I18N[currentLang].img2pdfErr, 'err');
   }
-  setBusy(btn, false, '', 'تحويل إلى PDF وتنزيل');
+  setBusy(btn, false, '', I18N[currentLang].img2pdfBtn);
 });
 
 /* --- PDF to images --- */
 document.getElementById('pdf2img-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('pdf2img-file').files[0];
   const btn = document.getElementById('pdf2img-btn');
-  if(!file){ setStatus('pdf2img-status','اختر ملف PDF أولاً.','err'); return; }
-  setBusy(btn, true, 'جارٍ التحويل...', 'تحويل وتنزيل الصور');
+  if(!file){ setStatus('pdf2img-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
+  setBusy(btn, true, I18N[currentLang].convertingBusy, I18N[currentLang].pdf2imgBtn);
   try{
     const bytes = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({data: bytes}).promise;
@@ -5229,15 +5407,15 @@ document.getElementById('pdf2img-btn').addEventListener('click', async ()=>{
       const ctx = canvas.getContext('2d');
       await page.render({canvasContext: ctx, viewport}).promise;
       const blob = await new Promise(res=>canvas.toBlob(res, 'image/png'));
-      zip.file(`صفحة_${i}.png`, blob);
+      zip.file(`page_${i}.png`, blob);
     }
     const zipBlob = await zip.generateAsync({type:'blob'});
     downloadBlob(zipBlob, 'صفحات_PDF.zip');
-    setStatus('pdf2img-status',`تم تحويل ${pdf.numPages} صفحة بنجاح داخل ملف مضغوط واحد.`,'ok');
+    setStatus('pdf2img-status', `${I18N[currentLang].pdf2imgSuccessPrefix} ${pdf.numPages} ${I18N[currentLang].pdf2imgSuccessSuffix}`, 'ok');
   }catch(e){
-    setStatus('pdf2img-status','تعذر تحويل الملف — تأكد أنه PDF صحيح.','err');
+    setStatus('pdf2img-status', I18N[currentLang].pdfConvertErr, 'err');
   }
-  setBusy(btn, false, '', 'تحويل وتنزيل الصور');
+  setBusy(btn, false, '', I18N[currentLang].pdf2imgBtn);
 });
 
 /* --- Compress --- */
@@ -5245,8 +5423,8 @@ document.getElementById('compress-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('compress-file').files[0];
   const quality = parseFloat(document.getElementById('compress-quality').value);
   const btn = document.getElementById('compress-btn');
-  if(!file){ setStatus('compress-status','اختر ملف PDF أولاً.','err'); return; }
-  setBusy(btn, true, 'جارٍ الضغط...', 'ضغط وتنزيل');
+  if(!file){ setStatus('compress-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
+  setBusy(btn, true, I18N[currentLang].compressingBusy, I18N[currentLang].compressBtn);
   try{
     const bytes = await file.arrayBuffer();
     const originalSize = bytes.byteLength;
@@ -5269,11 +5447,11 @@ document.getElementById('compress-btn').addEventListener('click', async ()=>{
     const newSize = outBytes.byteLength;
     downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مضغوط.pdf');
     const pct = Math.max(0, Math.round((1 - newSize/originalSize)*100));
-    setStatus('compress-status', `تم الضغط — تقليل الحجم بنسبة تقريبية ${pct}%.`, 'ok');
+    setStatus('compress-status', `${I18N[currentLang].compressSuccessPrefix} ${pct}%.`, 'ok');
   }catch(e){
-    setStatus('compress-status','تعذر ضغط الملف — تأكد أنه PDF صحيح.','err');
+    setStatus('compress-status', I18N[currentLang].compressErr, 'err');
   }
-  setBusy(btn, false, '', 'ضغط وتنزيل');
+  setBusy(btn, false, '', I18N[currentLang].compressBtn);
 });
 
 /* --- Electronic Signature --- */
@@ -5390,10 +5568,10 @@ document.getElementById('sign-size').addEventListener('input', updateSignPreview
 document.getElementById('sign-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('sign-file').files[0];
   const btn = document.getElementById('sign-btn');
-  if(!file){ setStatus('sign-status','اختر ملف PDF أولاً.','err'); return; }
-  if(!signHasContent){ setStatus('sign-status','ارسم توقيعك أولاً بالمربع بالأعلى.','err'); return; }
+  if(!file){ setStatus('sign-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
+  if(!signHasContent){ setStatus('sign-status', I18N[currentLang].signErrDraw, 'err'); return; }
 
-  setBusy(btn, true, 'جارٍ الإضافة...', 'إضافة التوقيع وتنزيل');
+  setBusy(btn, true, I18N[currentLang].addingBusy, I18N[currentLang].signBtn);
   try{
     const pdfBytes = await file.arrayBuffer();
     const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -5420,11 +5598,11 @@ document.getElementById('sign-btn').addEventListener('click', async ()=>{
 
     const outBytes = await pdfDoc.save();
     downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'موقّع.pdf');
-    setStatus('sign-status', `تم إضافة التوقيع بنجاح على الصفحة ${pageNum}.`, 'ok');
+    setStatus('sign-status', `${I18N[currentLang].signSuccessPrefix} ${pageNum}.`, 'ok');
   }catch(e){
-    setStatus('sign-status','تعذر إضافة التوقيع — تأكد أن الملف PDF صحيح.','err');
+    setStatus('sign-status', I18N[currentLang].signErr, 'err');
   }
-  setBusy(btn, false, '', 'إضافة التوقيع وتنزيل');
+  setBusy(btn, false, '', I18N[currentLang].signBtn);
 });
 
 /* --- Stamp (uploaded image) --- */
@@ -5513,10 +5691,10 @@ document.getElementById('stamp-file').addEventListener('change', ()=>{ stampPrev
 document.getElementById('stamp-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('stamp-file').files[0];
   const btn = document.getElementById('stamp-btn');
-  if(!file){ setStatus('stamp-status','اختر ملف PDF أولاً.','err'); return; }
-  if(!stampImageDataUrl){ setStatus('stamp-status','ارفع صورة الختم أولاً.','err'); return; }
+  if(!file){ setStatus('stamp-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
+  if(!stampImageDataUrl){ setStatus('stamp-status', I18N[currentLang].stampErrUpload, 'err'); return; }
 
-  setBusy(btn, true, 'جارٍ الإضافة...', 'إضافة الختم وتنزيل');
+  setBusy(btn, true, I18N[currentLang].addingBusy, I18N[currentLang].pdfStampBtn);
   try{
     const pdfBytes = await file.arrayBuffer();
     const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -5545,11 +5723,11 @@ document.getElementById('stamp-btn').addEventListener('click', async ()=>{
 
     const outBytes = await pdfDoc.save();
     downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مختوم.pdf');
-    setStatus('stamp-status', `تم إضافة الختم بنجاح على الصفحة ${pageNum}.`, 'ok');
+    setStatus('stamp-status', `${I18N[currentLang].stampSuccessPrefix} ${pageNum}.`, 'ok');
   }catch(e){
-    setStatus('stamp-status','تعذر إضافة الختم — تأكد أن الملف PDF وصورة الختم صحيحين.','err');
+    setStatus('stamp-status', I18N[currentLang].stampErr, 'err');
   }
-  setBusy(btn, false, '', 'إضافة الختم وتنزيل');
+  setBusy(btn, false, '', I18N[currentLang].pdfStampBtn);
 });
 
 /* --- Add Text to PDF --- */
@@ -5663,10 +5841,10 @@ document.getElementById('text-file').addEventListener('change', ()=>{ textPrevie
 document.getElementById('text-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('text-file').files[0];
   const btn = document.getElementById('text-btn');
-  if(!file){ setStatus('text-status','اختر ملف PDF أولاً.','err'); return; }
-  if(!textCanvasData){ setStatus('text-status','اكتب النص أولاً.','err'); return; }
+  if(!file){ setStatus('text-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
+  if(!textCanvasData){ setStatus('text-status', I18N[currentLang].textErrWrite, 'err'); return; }
 
-  setBusy(btn, true, 'جارٍ الإضافة...', 'إضافة النص وتنزيل');
+  setBusy(btn, true, I18N[currentLang].addingBusy, I18N[currentLang].pdfTextBtn);
   try{
     const pdfBytes = await file.arrayBuffer();
     const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -5692,11 +5870,11 @@ document.getElementById('text-btn').addEventListener('click', async ()=>{
 
     const outBytes = await pdfDoc.save();
     downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'نص_مضاف.pdf');
-    setStatus('text-status', `تم إضافة النص بنجاح على الصفحة ${pageNum}.`, 'ok');
+    setStatus('text-status', `${I18N[currentLang].textSuccessPrefix} ${pageNum}.`, 'ok');
   }catch(e){
-    setStatus('text-status','تعذر إضافة النص — تأكد أن الملف PDF صحيح.','err');
+    setStatus('text-status', I18N[currentLang].textErr, 'err');
   }
-  setBusy(btn, false, '', 'إضافة النص وتنزيل');
+  setBusy(btn, false, '', I18N[currentLang].pdfTextBtn);
 });
 
 /* ============================================================
