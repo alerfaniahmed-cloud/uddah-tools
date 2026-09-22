@@ -863,6 +863,24 @@
   <section class="panel" id="panel-tools">
 
     <div class="card">
+      <h2 data-i18n="toolsPickerTitle">أدوات متنوعة</h2>
+      <p class="hint" data-i18n="toolsPickerHint">اختر الأداة اللي تبيها من القائمة.</p>
+      <div class="field">
+        <label for="tools-select" data-i18n="toolsPickerLabel">الأداة</label>
+        <select id="tools-select">
+          <option value="qr" data-i18n="toolsOptQr">🔗 مولد رمز QR</option>
+          <option value="seal" data-i18n="toolsOptSeal">🖋️ مولد الأختام</option>
+          <option value="img2stamp" data-i18n="toolsOptImg2stamp">🖼️ تحويل صورة إلى ختم</option>
+          <option value="card2s" data-i18n="toolsOptCard2s">🪪 مولد كرت الوجهين</option>
+          <option value="bulkcrop" data-i18n="toolsOptBulkcrop">✂️ قص عدة صور دفعة واحدة</option>
+          <option value="pw" data-i18n="toolsOptPw">🔑 مولد كلمات المرور</option>
+          <option value="id" data-i18n="toolsOptId">🪪 مدقق رقم الهوية / الإقامة</option>
+          <option value="iban" data-i18n="toolsOptIban">🏦 مدقق رقم الآيبان السعودي (IBAN)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card tools-card" id="tools-qr">
       <h2 data-i18n="qrTitle">مولد رمز QR</h2>
       <p class="hint" data-i18n="qrHint">أدخل أي نص أو رابط، وسيتولّد رمز QR فوري تقدر تنزّله كصورة.</p>
       <div class="field">
@@ -878,7 +896,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card tools-card" id="tools-seal">
       <h2 data-i18n="sealTitle">مولد الأختام</h2>
       <p class="hint" data-i18n="sealHint">صمّم ختماً بالشكل والزخرفة اللي تناسبك، أضف النص العلوي والسفلي المنحني ونص المنتصف، ثم نزّله كصورة PNG بخلفية شفافة — تقدر ترفعه مباشرة بأداة "إضافة ختم على PDF" بالأسفل.</p>
 
@@ -953,7 +971,7 @@
       <p class="note" data-i18n="sealNote">يُنشأ الختم بالكامل داخل متصفحك — لا يُرفع أي نص تكتبه لأي سيرفر. بعد التنزيل، تقدر ترفع الصورة بأداة "إضافة ختم على PDF" أسفل هذه الصفحة لدمجها مباشرة على أي مستند PDF.</p>
     </div>
 
-    <div class="card">
+    <div class="card tools-card" id="tools-img2stamp">
       <h2 data-i18n="img2stampTitle">تحويل صورة إلى ختم</h2>
       <p class="hint" data-i18n="img2stampHint">ارفع أي صورة — ختم حقيقي مصوّر على ورق، شعار، أو أي رسمة — وهذي الأداة تشيل الخلفية وتحوّلها لصورة PNG بخلفية شفافة جاهزة للاستخدام كختم، تقدر ترفعها مباشرة بأداة "إضافة ختم على PDF" بالأسفل.</p>
 
@@ -1018,7 +1036,7 @@
       <p class="note" id="img2stamp-note" data-i18n="img2stampNote">ارفع صورة أولاً لتبدأ المعاينة، ثم حرّك "حساسية إزالة الخلفية" حتى تختفي الخلفية بالكامل ويبقى الحبر فقط. كل المعالجة تتم داخل متصفحك — لا تُرفع صورتك لأي سيرفر خارجي.</p>
     </div>
 
-    <div class="card">
+    <div class="card tools-card" id="tools-card2s">
       <h2 data-i18n="card2sTitle">مولد كرت الوجهين</h2>
       <p class="hint" data-i18n="card2sHint">اصنع بطاقة بيضاء بوجهين (أمامي وخلفي) بالمقاس اللي تحدده بنفسك، أضف شعارك أو صورة ختمك، واكتب النص المطلوب على كل وجه، ثم نزّلها.</p>
 
@@ -1146,7 +1164,7 @@
       <p class="note" data-i18n="card2sPrintNote">تُصمَّم البطاقة بدقة طباعة ٣٠٠ نقطة/إنش وخلفية بيضاء ثابتة، جاهزة للإرسال مباشرة لأي مطبعة. كل شي يتم داخل متصفحك.</p>
     </div>
 
-    <div class="card">
+    <div class="card tools-card" id="tools-bulkcrop">
       <h2 data-i18n="bulkcropTitle">قص عدة صور دفعة واحدة</h2>
       <p class="hint" data-i18n="bulkcropHint">ارفع عدة صور بنفس المقاس تقريباً (مثل صفحات كتاب مصوّرة فيها هوامش سوداء تبي تشيلها)، حدد مقدار القص من كل جهة مرة وحدة على صورة مرجعية، وطبّقه على كل الصور دفعة واحدة مع معاينة قبل التنزيل.</p>
 
@@ -1197,7 +1215,7 @@
       <p class="note" data-i18n="bulkcropNote">كل المعالجة تتم داخل متصفحك — الصور ما تُرفع لأي سيرفر خارجي.</p>
     </div>
 
-    <div class="card">
+    <div class="card tools-card" id="tools-pw">
       <h2 data-i18n="pwTitle">مولد كلمات المرور</h2>
       <p class="hint" data-i18n="pwHint">اختر الطول والخصائص، وولّد كلمة مرور عشوائية قوية فوراً.</p>
       <div class="field">
@@ -1231,7 +1249,7 @@
       <div class="msg err" id="pw-err" style="display:none;"></div>
     </div>
 
-    <div class="card">
+    <div class="card tools-card" id="tools-id">
       <h2 data-i18n="idTitle">مدقق رقم الهوية / الإقامة</h2>
       <p class="hint" data-i18n="idHint">تحقق فوراً هل رقم الهوية الوطنية أو الإقامة صحيح رياضياً (١٠ أرقام، يبدأ بـ١ للسعودي أو ٢ للمقيم).</p>
       <div class="field">
@@ -1245,7 +1263,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card tools-card" id="tools-iban">
       <h2 data-i18n="ibanTitle">مدقق رقم الآيبان السعودي (IBAN)</h2>
       <p class="hint" data-i18n="ibanHint">تحقق هل رقم الآيبان السعودي صحيح شكلياً ورياضياً قبل استخدامه بأي تحويل.</p>
       <div class="field">
@@ -1483,6 +1501,25 @@
   <section class="panel" id="panel-pdf">
 
     <div class="card">
+      <h2 data-i18n="pdfPickerTitle">أدوات PDF</h2>
+      <p class="hint" data-i18n="pdfPickerHint">اختر الأداة اللي تبيها من القائمة.</p>
+      <div class="field">
+        <label for="pdftool-select" data-i18n="toolsPickerLabel">الأداة</label>
+        <select id="pdftool-select">
+          <option value="merge" data-i18n="pdfOptMerge">📎 دمج ملفات PDF</option>
+          <option value="mergepairs" data-i18n="pdfOptMergepairs">📑 دمج كل صفحتين في صفحة واحدة</option>
+          <option value="extract" data-i18n="pdfOptExtract">✂️ استخراج صفحات محددة</option>
+          <option value="img2pdf" data-i18n="pdfOptImg2pdf">🖼️ تحويل صور إلى PDF</option>
+          <option value="pdf2img" data-i18n="pdfOptPdf2img">🗂️ تحويل PDF إلى صور</option>
+          <option value="compress" data-i18n="pdfOptCompress">🗜️ ضغط ملف PDF</option>
+          <option value="sign" data-i18n="pdfOptSign">✍️ توقيع إلكتروني على PDF</option>
+          <option value="stamp" data-i18n="pdfOptStamp">🖋️ إضافة ختم على PDF</option>
+          <option value="text" data-i18n="pdfOptText">🔤 إضافة نص على PDF</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card pdf-card" id="pdftool-merge">
       <h2 data-i18n="mergeTitle">دمج ملفات PDF</h2>
       <p class="hint" data-i18n="mergeHint">اختر عدة ملفات PDF بالترتيب المطلوب وسيتم دمجها في ملف واحد.</p>
       <div class="field">
@@ -1493,7 +1530,7 @@
       <div id="merge-status"></div>
     </div>
 
-    <div class="card">
+    <div class="card pdf-card" id="pdftool-mergepairs">
       <h2 data-i18n="mergepairsTitle">دمج كل صفحتين في صفحة واحدة</h2>
       <p class="hint" data-i18n="mergepairsHint">مفيدة لو محتوى الملف أصله صفحة واحدة لكن انزاح جزء صغير منه لصفحة ثانية — تجمع كل صفحتين متتاليتين بصفحة واحدة مصغّرة.</p>
       <div class="field">
@@ -1511,7 +1548,7 @@
       <div id="mergepairs-status"></div>
     </div>
 
-    <div class="card">
+    <div class="card pdf-card" id="pdftool-extract">
       <h2 data-i18n="extractTitle">استخراج صفحات محددة</h2>
       <p class="hint" data-i18n="extractHint">اختر ملف PDF وحدد أرقام الصفحات المطلوبة (مثال: 1-3,5,8).</p>
       <div class="field">
@@ -1526,7 +1563,7 @@
       <div id="extract-status"></div>
     </div>
 
-    <div class="card">
+    <div class="card pdf-card" id="pdftool-img2pdf">
       <h2 data-i18n="img2pdfTitle">تحويل صور إلى PDF</h2>
       <p class="hint" data-i18n="img2pdfHint">اختر صورة أو أكثر (JPG أو PNG) وسيتم وضع كل صورة في صفحة داخل ملف PDF واحد.</p>
       <div class="field">
@@ -1537,7 +1574,7 @@
       <div id="img2pdf-status"></div>
     </div>
 
-    <div class="card">
+    <div class="card pdf-card" id="pdftool-pdf2img">
       <h2 data-i18n="pdf2imgTitle">تحويل PDF إلى صور</h2>
       <p class="hint" data-i18n="pdf2imgHint">اختر ملف PDF وسيتم تحويل كل صفحة إلى صورة PNG، وتنزيلها كلها داخل ملف مضغوط (ZIP) واحد.</p>
       <div class="field">
@@ -1548,7 +1585,7 @@
       <div id="pdf2img-status"></div>
     </div>
 
-    <div class="card">
+    <div class="card pdf-card" id="pdftool-compress">
       <h2 data-i18n="compressTitle">ضغط ملف PDF</h2>
       <p class="hint" data-i18n="compressHint">يعيد هذا الخيار رسم صفحات الملف بجودة أقل لتقليل الحجم — مناسب للمستندات النصية والصور، وقد يقلل وضوح النصوص الدقيقة جداً.</p>
       <div class="field">
@@ -1567,7 +1604,7 @@
       <div id="compress-status"></div>
     </div>
 
-    <div class="card">
+    <div class="card pdf-card" id="pdftool-sign">
       <h2 data-i18n="signTitle">توقيع إلكتروني على PDF</h2>
       <p class="hint" data-i18n="signHint">ارسم توقيعك بإصبعك أو الماوس، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
       <div class="field">
@@ -1615,7 +1652,7 @@
       <p class="note" data-i18n="signNote">التوقيع يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو توقيعك لأي سيرفر خارجي.</p>
     </div>
 
-    <div class="card">
+    <div class="card pdf-card" id="pdftool-stamp">
       <h2 data-i18n="pdfStampTitle">إضافة ختم على PDF</h2>
       <p class="hint" data-i18n="pdfStampHint">ارفع صورة ختمك (PNG بخلفية شفافة أفضل)، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
       <div class="field">
@@ -1663,7 +1700,7 @@
       <p class="note" data-i18n="pdfStampNote">الختم يُضاف بالكامل داخل متصفحك — لا تُرفع صورة الختم أو ملفك لأي سيرفر خارجي.</p>
     </div>
 
-    <div class="card">
+    <div class="card pdf-card" id="pdftool-text">
       <h2 data-i18n="pdfTextTitle">إضافة نص على PDF</h2>
       <p class="hint" data-i18n="pdfTextHint">اكتب أي نص، اختر حجمه ولونه والصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
       <div class="field">
@@ -2608,6 +2645,28 @@ const I18N = {
     ibanAccountLabel: 'رقم الحساب:',
     ibanErrChecksum: 'الصيغة صحيحة لكن رقم التحقق (checksum) غير مطابق — تأكد من الأرقام.',
     noFileChosen: 'لم يتم اختيار أي ملف',
+    toolsPickerTitle: 'أدوات متنوعة',
+    toolsPickerHint: 'اختر الأداة اللي تبيها من القائمة.',
+    toolsPickerLabel: 'الأداة',
+    toolsOptQr: '🔗 مولد رمز QR',
+    toolsOptSeal: '🖋️ مولد الأختام',
+    toolsOptImg2stamp: '🖼️ تحويل صورة إلى ختم',
+    toolsOptCard2s: '🪪 مولد كرت الوجهين',
+    toolsOptBulkcrop: '✂️ قص عدة صور دفعة واحدة',
+    toolsOptPw: '🔑 مولد كلمات المرور',
+    toolsOptId: '🪪 مدقق رقم الهوية / الإقامة',
+    toolsOptIban: '🏦 مدقق رقم الآيبان السعودي (IBAN)',
+    pdfPickerTitle: 'أدوات PDF',
+    pdfPickerHint: 'اختر الأداة اللي تبيها من القائمة.',
+    pdfOptMerge: '📎 دمج ملفات PDF',
+    pdfOptMergepairs: '📑 دمج كل صفحتين في صفحة واحدة',
+    pdfOptExtract: '✂️ استخراج صفحات محددة',
+    pdfOptImg2pdf: '🖼️ تحويل صور إلى PDF',
+    pdfOptPdf2img: '🗂️ تحويل PDF إلى صور',
+    pdfOptCompress: '🗜️ ضغط ملف PDF',
+    pdfOptSign: '✍️ توقيع إلكتروني على PDF',
+    pdfOptStamp: '🖋️ إضافة ختم على PDF',
+    pdfOptText: '🔤 إضافة نص على PDF',
     filesSelectedSuffix: 'ملفات محددة',
     mergeTitle: 'دمج ملفات PDF',
     mergeHint: 'اختر عدة ملفات PDF بالترتيب المطلوب وسيتم دمجها في ملف واحد.',
@@ -3163,6 +3222,28 @@ const I18N = {
     ibanAccountLabel: 'Account number:',
     ibanErrChecksum: 'The format is correct but the checksum does not match — verify the digits.',
     noFileChosen: 'No file chosen',
+    toolsPickerTitle: 'Misc Tools',
+    toolsPickerHint: 'Pick the tool you want from the list.',
+    toolsPickerLabel: 'Tool',
+    toolsOptQr: '🔗 QR Code Generator',
+    toolsOptSeal: '🖋️ Seal / Stamp Generator',
+    toolsOptImg2stamp: '🖼️ Convert Image to Stamp',
+    toolsOptCard2s: '🪪 Two-Sided Card Maker',
+    toolsOptBulkcrop: '✂️ Batch Crop Multiple Images',
+    toolsOptPw: '🔑 Password Generator',
+    toolsOptId: '🪪 National ID / Iqama Validator',
+    toolsOptIban: '🏦 Saudi IBAN Validator',
+    pdfPickerTitle: 'PDF Tools',
+    pdfPickerHint: 'Pick the tool you want from the list.',
+    pdfOptMerge: '📎 Merge PDF Files',
+    pdfOptMergepairs: '📑 Merge Every 2 Pages into 1',
+    pdfOptExtract: '✂️ Extract Specific Pages',
+    pdfOptImg2pdf: '🖼️ Convert Images to PDF',
+    pdfOptPdf2img: '🗂️ Convert PDF to Images',
+    pdfOptCompress: '🗜️ Compress a PDF File',
+    pdfOptSign: '✍️ Electronic Signature on PDF',
+    pdfOptStamp: '🖋️ Add Stamp to PDF',
+    pdfOptText: '🔤 Add Text to PDF',
     filesSelectedSuffix: 'files selected',
     mergeTitle: 'Merge PDF Files',
     mergeHint: 'Choose several PDF files in the order you want, and they will be merged into one file.',
@@ -6178,6 +6259,30 @@ function switchSectorCard(){
 }
 document.getElementById('sector-select').addEventListener('change', switchSectorCard);
 switchSectorCard();
+
+/* ============================================================
+   MISC TOOLS PICKER (sub-tab select + 8 tools)
+   ============================================================ */
+function switchToolsCard(){
+  const val = document.getElementById('tools-select').value;
+  document.querySelectorAll('.tools-card').forEach(card=>{
+    card.style.display = (card.id === 'tools-' + val) ? 'block' : 'none';
+  });
+}
+document.getElementById('tools-select').addEventListener('change', switchToolsCard);
+switchToolsCard();
+
+/* ============================================================
+   PDF TOOLS PICKER (sub-tab select + 9 tools)
+   ============================================================ */
+function switchPdfCard(){
+  const val = document.getElementById('pdftool-select').value;
+  document.querySelectorAll('.pdf-card').forEach(card=>{
+    card.style.display = (card.id === 'pdftool-' + val) ? 'block' : 'none';
+  });
+}
+document.getElementById('pdftool-select').addEventListener('change', switchPdfCard);
+switchPdfCard();
 
 /* --- Mortgage / financing calculator --- */
 document.getElementById('mort-btn').addEventListener('click', ()=>{
