@@ -826,82 +826,82 @@
   <section class="panel" id="panel-tools">
 
     <div class="card">
-      <h2>مولد رمز QR</h2>
-      <p class="hint">أدخل أي نص أو رابط، وسيتولّد رمز QR فوري تقدر تنزّله كصورة.</p>
+      <h2 data-i18n="qrTitle">مولد رمز QR</h2>
+      <p class="hint" data-i18n="qrHint">أدخل أي نص أو رابط، وسيتولّد رمز QR فوري تقدر تنزّله كصورة.</p>
       <div class="field">
-        <label for="qr-input">النص أو الرابط</label>
-        <input type="text" id="qr-input" placeholder="مثال: https://example.com">
+        <label for="qr-input" data-i18n="qrInputLabel">النص أو الرابط</label>
+        <input type="text" id="qr-input" placeholder="مثال: https://example.com" data-i18n-ph="qrInputPh">
       </div>
-      <button class="btn" id="qr-btn">توليد الرمز</button>
+      <button class="btn" id="qr-btn" data-i18n="qrBtn">توليد الرمز</button>
       <div id="qr-output-wrap" style="display:none;margin-top:18px;text-align:center;">
         <div id="qr-canvas-holder" style="display:inline-block;padding:16px;background:#fff;border-radius:8px;border:1px solid var(--border);"></div>
         <div style="margin-top:14px;">
-          <button class="btn secondary" id="qr-download-btn">تنزيل كصورة PNG</button>
+          <button class="btn secondary" id="qr-download-btn" data-i18n="qrDownloadBtn">تنزيل كصورة PNG</button>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <h2>مولد الأختام</h2>
-      <p class="hint">صمّم ختماً بالشكل والزخرفة اللي تناسبك، أضف النص العلوي والسفلي المنحني ونص المنتصف، ثم نزّله كصورة PNG بخلفية شفافة — تقدر ترفعه مباشرة بأداة "إضافة ختم على PDF" بالأسفل.</p>
+      <h2 data-i18n="sealTitle">مولد الأختام</h2>
+      <p class="hint" data-i18n="sealHint">صمّم ختماً بالشكل والزخرفة اللي تناسبك، أضف النص العلوي والسفلي المنحني ونص المنتصف، ثم نزّله كصورة PNG بخلفية شفافة — تقدر ترفعه مباشرة بأداة "إضافة ختم على PDF" بالأسفل.</p>
 
       <div class="row">
         <div class="field">
-          <label for="seal-shape">شكل الختم</label>
+          <label for="seal-shape" data-i18n="sealShapeLabel">شكل الختم</label>
           <select id="seal-shape">
-            <option value="circle">دائري</option>
-            <option value="oval">بيضاوي</option>
-            <option value="square">مربع</option>
-            <option value="rectangle">مستطيل</option>
+            <option value="circle" data-i18n="shapeCircle">دائري</option>
+            <option value="oval" data-i18n="shapeOval">بيضاوي</option>
+            <option value="square" data-i18n="shapeSquare">مربع</option>
+            <option value="rectangle" data-i18n="shapeRectangle">مستطيل</option>
           </select>
         </div>
         <div class="field">
-          <label for="seal-style">نمط الزخرفة</label>
+          <label for="seal-style" data-i18n="sealStyleLabel">نمط الزخرفة</label>
           <select id="seal-style">
-            <option value="plain">عادي</option>
-            <option value="simple">بسيط</option>
-            <option value="ornate">مزخرف</option>
-            <option value="dotted">منقّط</option>
-            <option value="stars">نجوم متعددة</option>
-            <option value="crescent">هلال ونجمة</option>
-            <option value="diamond">معين</option>
-            <option value="pearl">لؤلؤي</option>
-            <option value="jagged">مسنّن</option>
-            <option value="wavy">مموّج</option>
-            <option value="gear">مسنن كالترس</option>
+            <option value="plain" data-i18n="sealStylePlain">عادي</option>
+            <option value="simple" data-i18n="sealStyleSimple">بسيط</option>
+            <option value="ornate" data-i18n="sealStyleOrnate">مزخرف</option>
+            <option value="dotted" data-i18n="sealStyleDotted">منقّط</option>
+            <option value="stars" data-i18n="sealStyleStars">نجوم متعددة</option>
+            <option value="crescent" data-i18n="sealStyleCrescent">هلال ونجمة</option>
+            <option value="diamond" data-i18n="sealStyleDiamond">معين</option>
+            <option value="pearl" data-i18n="sealStylePearl">لؤلؤي</option>
+            <option value="jagged" data-i18n="sealStyleJagged">مسنّن</option>
+            <option value="wavy" data-i18n="sealStyleWavy">مموّج</option>
+            <option value="gear" data-i18n="sealStyleGear">مسنن كالترس</option>
           </select>
         </div>
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="seal-top-text">النص العلوي (منحني أعلى الختم)</label>
-          <input type="text" id="seal-top-text" placeholder="مثال: مؤسسة النحلة الطيبة للتجارة" maxlength="60">
+          <label for="seal-top-text" data-i18n="sealTopTextLabel">النص العلوي (منحني أعلى الختم)</label>
+          <input type="text" id="seal-top-text" placeholder="مثال: مؤسسة النحلة الطيبة للتجارة" maxlength="60" data-i18n-ph="sealTopTextPh">
         </div>
         <div class="field">
-          <label for="seal-bottom-text">النص السفلي (منحني أسفل الختم)</label>
-          <input type="text" id="seal-bottom-text" placeholder="مثال: الرياض - المملكة العربية السعودية" maxlength="60">
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="field">
-          <label for="seal-center-line1">السطر الأول بالمنتصف</label>
-          <input type="text" id="seal-center-line1" placeholder="مثال: معتمد" maxlength="24">
-        </div>
-        <div class="field">
-          <label for="seal-center-line2">السطر الثاني بالمنتصف (اختياري)</label>
-          <input type="text" id="seal-center-line2" placeholder="مثال: ٢٠٢٦" maxlength="24">
+          <label for="seal-bottom-text" data-i18n="sealBottomTextLabel">النص السفلي (منحني أسفل الختم)</label>
+          <input type="text" id="seal-bottom-text" placeholder="مثال: الرياض - المملكة العربية السعودية" maxlength="60" data-i18n-ph="sealBottomTextPh">
         </div>
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="seal-color">لون الحبر</label>
+          <label for="seal-center-line1" data-i18n="sealCenter1Label">السطر الأول بالمنتصف</label>
+          <input type="text" id="seal-center-line1" placeholder="مثال: معتمد" maxlength="24" data-i18n-ph="sealCenter1Ph">
+        </div>
+        <div class="field">
+          <label for="seal-center-line2" data-i18n="sealCenter2Label">السطر الثاني بالمنتصف (اختياري)</label>
+          <input type="text" id="seal-center-line2" placeholder="مثال: ٢٠٢٦" maxlength="24" data-i18n-ph="sealCenter2Ph">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="seal-color" data-i18n="sealColorLabel">لون الحبر</label>
           <input type="color" id="seal-color" value="#1b3a6b" style="width:100%;height:42px;padding:4px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);cursor:pointer;">
         </div>
         <div class="field">
-          <label for="seal-border-width">سُمك الإطار: <span id="seal-border-width-val">6</span></label>
+          <label for="seal-border-width"><span data-i18n="sealBorderWidthLabel">سُمك الإطار:</span> <span id="seal-border-width-val">6</span></label>
           <input type="range" id="seal-border-width" min="2" max="14" value="6" style="width:100%;">
         </div>
       </div>
@@ -911,33 +911,33 @@
       </div>
 
       <div style="text-align:center;margin-top:16px;">
-        <button class="btn" id="seal-download-btn">تنزيل الختم PNG (خلفية شفافة)</button>
+        <button class="btn" id="seal-download-btn" data-i18n="sealDownloadBtn">تنزيل الختم PNG (خلفية شفافة)</button>
       </div>
-      <p class="note">يُنشأ الختم بالكامل داخل متصفحك — لا يُرفع أي نص تكتبه لأي سيرفر. بعد التنزيل، تقدر ترفع الصورة بأداة "إضافة ختم على PDF" أسفل هذه الصفحة لدمجها مباشرة على أي مستند PDF.</p>
+      <p class="note" data-i18n="sealNote">يُنشأ الختم بالكامل داخل متصفحك — لا يُرفع أي نص تكتبه لأي سيرفر. بعد التنزيل، تقدر ترفع الصورة بأداة "إضافة ختم على PDF" أسفل هذه الصفحة لدمجها مباشرة على أي مستند PDF.</p>
     </div>
 
     <div class="card">
-      <h2>تحويل صورة إلى ختم</h2>
-      <p class="hint">ارفع أي صورة — ختم حقيقي مصوّر على ورق، شعار، أو أي رسمة — وهذي الأداة تشيل الخلفية وتحوّلها لصورة PNG بخلفية شفافة جاهزة للاستخدام كختم، تقدر ترفعها مباشرة بأداة "إضافة ختم على PDF" بالأسفل.</p>
+      <h2 data-i18n="img2stampTitle">تحويل صورة إلى ختم</h2>
+      <p class="hint" data-i18n="img2stampHint">ارفع أي صورة — ختم حقيقي مصوّر على ورق، شعار، أو أي رسمة — وهذي الأداة تشيل الخلفية وتحوّلها لصورة PNG بخلفية شفافة جاهزة للاستخدام كختم، تقدر ترفعها مباشرة بأداة "إضافة ختم على PDF" بالأسفل.</p>
 
       <div class="field">
-        <label for="img2stamp-input">الصورة</label>
+        <label for="img2stamp-input" data-i18n="imageLabel">الصورة</label>
         <input type="file" id="img2stamp-input" accept="image/png,image/jpeg,image/webp">
         <div class="file-list" id="img2stamp-input-list"></div>
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="img2stamp-mode">طريقة التحويل</label>
+          <label for="img2stamp-mode" data-i18n="img2stampModeLabel">طريقة التحويل</label>
           <select id="img2stamp-mode">
-            <option value="recolor">لون واحد موحّد (محاكاة حبر الختم)</option>
-            <option value="transparent">إزالة الخلفية فقط (مع الاحتفاظ بالألوان الأصلية)</option>
+            <option value="recolor" data-i18n="img2stampModeRecolor">لون واحد موحّد (محاكاة حبر الختم)</option>
+            <option value="transparent" data-i18n="img2stampModeTransparent">إزالة الخلفية فقط (مع الاحتفاظ بالألوان الأصلية)</option>
           </select>
         </div>
         <div class="field">
-          <label for="img2stamp-shape">قص الناتج بشكل</label>
+          <label for="img2stamp-shape" data-i18n="cropShapeLabel">قص الناتج بشكل</label>
           <select id="img2stamp-shape">
-            <option value="original">بدون قص (الشكل الأصلي)</option>
+            <option value="original" data-i18n="cropShapeOriginal">بدون قص (الشكل الأصلي)</option>
             <option value="circle">دائري</option>
             <option value="square">مربع</option>
           </select>
@@ -946,29 +946,29 @@
 
       <div class="row">
         <div class="field" id="img2stamp-color-wrap">
-          <label for="img2stamp-color">لون الحبر</label>
+          <label for="img2stamp-color" data-i18n="sealColorLabel">لون الحبر</label>
           <input type="color" id="img2stamp-color" value="#1b3a6b" style="width:100%;height:42px;padding:4px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);cursor:pointer;">
         </div>
         <div class="field" style="justify-content:center;display:flex;">
           <label style="display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--bone);margin-top:26px;">
-            <input type="checkbox" id="img2stamp-invert"> عكس الفاتح والداكن (لو الحبر فاتح والخلفية داكنة)
+            <input type="checkbox" id="img2stamp-invert"> <span data-i18n="img2stampInvertLabel">عكس الفاتح والداكن (لو الحبر فاتح والخلفية داكنة)</span>
           </label>
         </div>
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="img2stamp-threshold">حساسية إزالة الخلفية: <span id="img2stamp-threshold-val">150</span></label>
+          <label for="img2stamp-threshold"><span data-i18n="img2stampThresholdLabel">حساسية إزالة الخلفية:</span> <span id="img2stamp-threshold-val">150</span></label>
           <input type="range" id="img2stamp-threshold" min="10" max="245" value="150" style="width:100%;">
         </div>
         <div class="field">
-          <label for="img2stamp-feather">نعومة الحواف: <span id="img2stamp-feather-val">30</span></label>
+          <label for="img2stamp-feather"><span data-i18n="img2stampFeatherLabel">نعومة الحواف:</span> <span id="img2stamp-feather-val">30</span></label>
           <input type="range" id="img2stamp-feather" min="0" max="80" value="30" style="width:100%;">
         </div>
       </div>
 
       <div style="text-align:center;margin-top:4px;">
-        <button type="button" class="btn secondary" id="img2stamp-auto-btn" style="padding:8px 18px;font-size:.85rem;">اكتشاف الخلفية تلقائياً من زوايا الصورة</button>
+        <button type="button" class="btn secondary" id="img2stamp-auto-btn" style="padding:8px 18px;font-size:.85rem;" data-i18n="img2stampAutoBtn">اكتشاف الخلفية تلقائياً من زوايا الصورة</button>
       </div>
 
       <div style="text-align:center;margin-top:10px;">
@@ -976,218 +976,218 @@
       </div>
 
       <div style="text-align:center;margin-top:16px;">
-        <button class="btn" id="img2stamp-download-btn" disabled>تنزيل الختم PNG (خلفية شفافة)</button>
+        <button class="btn" id="img2stamp-download-btn" disabled data-i18n="sealDownloadBtn">تنزيل الختم PNG (خلفية شفافة)</button>
       </div>
-      <p class="note" id="img2stamp-note">ارفع صورة أولاً لتبدأ المعاينة، ثم حرّك "حساسية إزالة الخلفية" حتى تختفي الخلفية بالكامل ويبقى الحبر فقط. كل المعالجة تتم داخل متصفحك — لا تُرفع صورتك لأي سيرفر خارجي.</p>
+      <p class="note" id="img2stamp-note" data-i18n="img2stampNote">ارفع صورة أولاً لتبدأ المعاينة، ثم حرّك "حساسية إزالة الخلفية" حتى تختفي الخلفية بالكامل ويبقى الحبر فقط. كل المعالجة تتم داخل متصفحك — لا تُرفع صورتك لأي سيرفر خارجي.</p>
     </div>
 
     <div class="card">
-      <h2>مولد كرت الوجهين</h2>
-      <p class="hint">اصنع بطاقة بيضاء بوجهين (أمامي وخلفي) بالمقاس اللي تحدده بنفسك، أضف شعارك أو صورة ختمك، واكتب النص المطلوب على كل وجه، ثم نزّلها.</p>
+      <h2 data-i18n="card2sTitle">مولد كرت الوجهين</h2>
+      <p class="hint" data-i18n="card2sHint">اصنع بطاقة بيضاء بوجهين (أمامي وخلفي) بالمقاس اللي تحدده بنفسك، أضف شعارك أو صورة ختمك، واكتب النص المطلوب على كل وجه، ثم نزّلها.</p>
 
       <div class="row">
         <div class="field">
-          <label for="card2s-width">العرض (مم)</label>
+          <label for="card2s-width" data-i18n="widthMmLabel">العرض (مم)</label>
           <input type="number" id="card2s-width" min="20" max="300" value="90">
         </div>
         <div class="field">
-          <label for="card2s-width-cm">العرض (سم)</label>
+          <label for="card2s-width-cm" data-i18n="widthCmLabel">العرض (سم)</label>
           <input type="number" id="card2s-width-cm" min="2" max="30" step="0.1" value="9">
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label for="card2s-height">الارتفاع (مم)</label>
+          <label for="card2s-height" data-i18n="heightMmLabel">الارتفاع (مم)</label>
           <input type="number" id="card2s-height" min="20" max="300" value="50">
         </div>
         <div class="field">
-          <label for="card2s-height-cm">الارتفاع (سم)</label>
+          <label for="card2s-height-cm" data-i18n="heightCmLabel">الارتفاع (سم)</label>
           <input type="number" id="card2s-height-cm" min="2" max="30" step="0.1" value="5">
         </div>
       </div>
 
       <div style="text-align:center;margin:2px 0 14px;">
-        <button type="button" class="btn secondary" id="card2s-orientation-btn" style="padding:8px 16px;font-size:.85rem;">تبديل الاتجاه (أفقي ⇄ عامودي)</button>
+        <button type="button" class="btn secondary" id="card2s-orientation-btn" style="padding:8px 16px;font-size:.85rem;" data-i18n="orientationBtn">تبديل الاتجاه (أفقي ⇄ عامودي)</button>
       </div>
 
       <div class="field">
-        <label for="card2s-front-image">صورة الوجه (شعار أو ختم) — اختياري</label>
+        <label for="card2s-front-image" data-i18n="frontImageLabel">صورة الوجه (شعار أو ختم) — اختياري</label>
         <input type="file" id="card2s-front-image" accept="image/png,image/jpeg,image/webp">
         <div class="file-list" id="card2s-front-image-list"></div>
       </div>
       <div class="field">
-        <label for="card2s-front-image-size">حجم صورة الوجه: <span id="card2s-front-image-size-val">30</span>٪ من عرض الكرت</label>
+        <label for="card2s-front-image-size"><span data-i18n="frontImageSizeLabel">حجم صورة الوجه:</span> <span id="card2s-front-image-size-val">30</span><span data-i18n="pctOfCardWidth">٪ من عرض الكرت</span></label>
         <input type="range" id="card2s-front-image-size" min="10" max="80" value="30" style="width:100%;">
       </div>
 
       <div class="field">
-        <label for="card2s-back-image">صورة الظهر (شعار أو ختم) — اختياري</label>
+        <label for="card2s-back-image" data-i18n="backImageLabel">صورة الظهر (شعار أو ختم) — اختياري</label>
         <input type="file" id="card2s-back-image" accept="image/png,image/jpeg,image/webp">
         <div class="file-list" id="card2s-back-image-list"></div>
       </div>
       <div class="field">
-        <label for="card2s-back-image-size">حجم صورة الظهر: <span id="card2s-back-image-size-val">30</span>٪ من عرض الكرت</label>
+        <label for="card2s-back-image-size"><span data-i18n="backImageSizeLabel">حجم صورة الظهر:</span> <span id="card2s-back-image-size-val">30</span><span data-i18n="pctOfCardWidth">٪ من عرض الكرت</span></label>
         <input type="range" id="card2s-back-image-size" min="10" max="80" value="30" style="width:100%;">
       </div>
 
       <div class="field">
-        <label>نص الوجه (كل سطر مستقل بحجمه وموضعه)</label>
+        <label data-i18n="frontLinesLabel">نص الوجه (كل سطر مستقل بحجمه وموضعه)</label>
         <div id="card2s-front-lines"></div>
-        <button type="button" class="btn secondary" id="card2s-front-add-btn" style="margin-top:2px;padding:7px 14px;font-size:.82rem;">+ إضافة سطر</button>
+        <button type="button" class="btn secondary" id="card2s-front-add-btn" style="margin-top:2px;padding:7px 14px;font-size:.82rem;" data-i18n="addLineBtn">+ إضافة سطر</button>
       </div>
 
       <div class="field">
-        <label>نص الظهر (كل سطر مستقل بحجمه وموضعه)</label>
+        <label data-i18n="backLinesLabel">نص الظهر (كل سطر مستقل بحجمه وموضعه)</label>
         <div id="card2s-back-lines"></div>
-        <button type="button" class="btn secondary" id="card2s-back-add-btn" style="margin-top:2px;padding:7px 14px;font-size:.82rem;">+ إضافة سطر</button>
+        <button type="button" class="btn secondary" id="card2s-back-add-btn" style="margin-top:2px;padding:7px 14px;font-size:.82rem;" data-i18n="addLineBtn">+ إضافة سطر</button>
       </div>
 
       <div class="field">
-        <label for="card2s-font-family">خط الكتابة (لكل الأسطر)</label>
+        <label for="card2s-font-family" data-i18n="fontFamilyLabel">خط الكتابة (لكل الأسطر)</label>
         <select id="card2s-font-family">
-          <option value="'IBM Plex Sans Arabic', sans-serif">عادي (افتراضي)</option>
-          <option value="'Aref Ruqaa', serif">رقعة كلاسيكي</option>
-          <option value="'Aref Ruqaa Ink', serif">رقعة حبر (بارز)</option>
-          <option value="'Rakkas', cursive">خط احتفالي مزخرف</option>
-          <option value="'Lalezar', cursive">خط عريض مزخرف</option>
-          <option value="'Katibeh', cursive">خط كتابة بارز</option>
-          <option value="'Jomhuria', cursive">خط طويل أنيق (للعناوين)</option>
+          <option value="'IBM Plex Sans Arabic', sans-serif" data-i18n="fontDefault">عادي (افتراضي)</option>
+          <option value="'Aref Ruqaa', serif" data-i18n="fontRuqaaClassic">رقعة كلاسيكي</option>
+          <option value="'Aref Ruqaa Ink', serif" data-i18n="fontRuqaaInk">رقعة حبر (بارز)</option>
+          <option value="'Rakkas', cursive" data-i18n="fontFestive">خط احتفالي مزخرف</option>
+          <option value="'Lalezar', cursive" data-i18n="fontBoldDecorative">خط عريض مزخرف</option>
+          <option value="'Katibeh', cursive" data-i18n="fontBoldScript">خط كتابة بارز</option>
+          <option value="'Jomhuria', cursive" data-i18n="fontTallElegant">خط طويل أنيق (للعناوين)</option>
         </select>
       </div>
 
       <div class="field">
-        <label for="card2s-text-color">لون النص (لكل الأسطر)</label>
+        <label for="card2s-text-color" data-i18n="textColorAllLabel">لون النص (لكل الأسطر)</label>
         <input type="color" id="card2s-text-color" value="#1b3a6b" style="width:100%;height:42px;padding:4px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);cursor:pointer;">
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="card2s-decor-style">زخرفة الكرت</label>
+          <label for="card2s-decor-style" data-i18n="decorStyleLabel">زخرفة الكرت</label>
           <select id="card2s-decor-style">
-            <option value="none">بدون</option>
-            <option value="hearts-corners">قلوب في الزوايا</option>
-            <option value="hearts-sides">قلوب في الجوانب</option>
-            <option value="hearts-border">إطار قلوب حوالين الكرت</option>
-            <option value="flowers-corners">زهور في الزوايا</option>
-            <option value="flowers-border">إطار زهور حوالين الكرت</option>
-            <option value="stars-corners">نجوم في الزوايا</option>
+            <option value="none" data-i18n="decorNone">بدون</option>
+            <option value="hearts-corners" data-i18n="decorHeartsCorners">قلوب في الزوايا</option>
+            <option value="hearts-sides" data-i18n="decorHeartsSides">قلوب في الجوانب</option>
+            <option value="hearts-border" data-i18n="decorHeartsBorder">إطار قلوب حوالين الكرت</option>
+            <option value="flowers-corners" data-i18n="decorFlowersCorners">زهور في الزوايا</option>
+            <option value="flowers-border" data-i18n="decorFlowersBorder">إطار زهور حوالين الكرت</option>
+            <option value="stars-corners" data-i18n="decorStarsCorners">نجوم في الزوايا</option>
           </select>
         </div>
         <div class="field">
-          <label for="card2s-decor-color">لون الزخرفة</label>
+          <label for="card2s-decor-color" data-i18n="decorColorLabel">لون الزخرفة</label>
           <input type="color" id="card2s-decor-color" value="#d94f70" style="width:100%;height:42px;padding:4px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);cursor:pointer;">
         </div>
       </div>
 
       <div class="field">
-        <label for="card2s-decor-side">الزخرفة تظهر في</label>
+        <label for="card2s-decor-side" data-i18n="decorSideLabel">الزخرفة تظهر في</label>
         <select id="card2s-decor-side">
-          <option value="both">الوجهين</option>
-          <option value="front">الوجه فقط</option>
-          <option value="back">الظهر فقط</option>
+          <option value="both" data-i18n="bothSides">الوجهين</option>
+          <option value="front" data-i18n="frontOnly">الوجه فقط</option>
+          <option value="back" data-i18n="backOnly">الظهر فقط</option>
         </select>
       </div>
 
       <div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-top:14px;">
         <div style="text-align:center;">
-          <p class="hint" style="margin-bottom:6px;">الوجه</p>
+          <p class="hint" style="margin-bottom:6px;" data-i18n="frontSide">الوجه</p>
           <canvas id="card2s-front-canvas" style="max-width:100%;width:260px;height:auto;border:1px solid var(--border);border-radius:8px;background:#fff;"></canvas>
         </div>
         <div style="text-align:center;">
-          <p class="hint" style="margin-bottom:6px;">الظهر</p>
+          <p class="hint" style="margin-bottom:6px;" data-i18n="backSide">الظهر</p>
           <canvas id="card2s-back-canvas" style="max-width:100%;width:260px;height:auto;border:1px solid var(--border);border-radius:8px;background:#fff;"></canvas>
         </div>
       </div>
 
       <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px;">
-        <button class="btn" id="card2s-print-btn">طباعة مباشرة (بالحجم الحقيقي)</button>
-        <button class="btn secondary" id="card2s-download-front-btn" style="padding:9px 16px;font-size:.85rem;">تنزيل الوجه PNG</button>
-        <button class="btn secondary" id="card2s-download-back-btn" style="padding:9px 16px;font-size:.85rem;">تنزيل الظهر PNG</button>
-        <button class="btn secondary" id="card2s-download-pdf-btn" style="padding:9px 16px;font-size:.85rem;">تنزيل PDF (الوجهين)</button>
+        <button class="btn" id="card2s-print-btn" data-i18n="printDirectBtn">طباعة مباشرة (بالحجم الحقيقي)</button>
+        <button class="btn secondary" id="card2s-download-front-btn" style="padding:9px 16px;font-size:.85rem;" data-i18n="downloadFrontPng">تنزيل الوجه PNG</button>
+        <button class="btn secondary" id="card2s-download-back-btn" style="padding:9px 16px;font-size:.85rem;" data-i18n="downloadBackPng">تنزيل الظهر PNG</button>
+        <button class="btn secondary" id="card2s-download-pdf-btn" style="padding:9px 16px;font-size:.85rem;" data-i18n="downloadBothPdf">تنزيل PDF (الوجهين)</button>
       </div>
-      <p class="note">كل صيغ التنزيل (PNG للوجه، PNG للظهر، PDF، والطباعة المباشرة) تتضمن الآن إطار قص (خط متقطع) بالمقاس الحقيقي بالضبط حوالين الكرت، مع هامش أبيض بسيط حوله — قصّه بالمقص أو قاطع الورق وتطلع لك بالحجم الصحيح تماماً، بغض النظر عن كيف أو من وين تطبعها.</p>
-      <p class="note">تُصمَّم البطاقة بدقة طباعة ٣٠٠ نقطة/إنش وخلفية بيضاء ثابتة، جاهزة للإرسال مباشرة لأي مطبعة. كل شي يتم داخل متصفحك.</p>
+      <p class="note" data-i18n="card2sCutNote">كل صيغ التنزيل (PNG للوجه، PNG للظهر، PDF، والطباعة المباشرة) تتضمن الآن إطار قص (خط متقطع) بالمقاس الحقيقي بالضبط حوالين الكرت، مع هامش أبيض بسيط حوله — قصّه بالمقص أو قاطع الورق وتطلع لك بالحجم الصحيح تماماً، بغض النظر عن كيف أو من وين تطبعها.</p>
+      <p class="note" data-i18n="card2sPrintNote">تُصمَّم البطاقة بدقة طباعة ٣٠٠ نقطة/إنش وخلفية بيضاء ثابتة، جاهزة للإرسال مباشرة لأي مطبعة. كل شي يتم داخل متصفحك.</p>
     </div>
 
     <div class="card">
-      <h2>قص عدة صور دفعة واحدة</h2>
-      <p class="hint">ارفع عدة صور بنفس المقاس تقريباً (مثل صفحات كتاب مصوّرة فيها هوامش سوداء تبي تشيلها)، حدد مقدار القص من كل جهة مرة وحدة على صورة مرجعية، وطبّقه على كل الصور دفعة واحدة مع معاينة قبل التنزيل.</p>
+      <h2 data-i18n="bulkcropTitle">قص عدة صور دفعة واحدة</h2>
+      <p class="hint" data-i18n="bulkcropHint">ارفع عدة صور بنفس المقاس تقريباً (مثل صفحات كتاب مصوّرة فيها هوامش سوداء تبي تشيلها)، حدد مقدار القص من كل جهة مرة وحدة على صورة مرجعية، وطبّقه على كل الصور دفعة واحدة مع معاينة قبل التنزيل.</p>
 
       <div class="field">
-        <label for="bulkcrop-files">الصور (اختر عدة صور مرة واحدة)</label>
+        <label for="bulkcrop-files" data-i18n="bulkcropFilesLabel">الصور (اختر عدة صور مرة واحدة)</label>
         <input type="file" id="bulkcrop-files" accept="image/png,image/jpeg,image/webp" multiple>
         <div class="file-list" id="bulkcrop-files-list"></div>
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="bulkcrop-top">قص من الأعلى: <span id="bulkcrop-top-val">0</span>٪</label>
+          <label for="bulkcrop-top"><span data-i18n="cropTop">قص من الأعلى:</span> <span id="bulkcrop-top-val">0</span>٪</label>
           <input type="range" id="bulkcrop-top" min="0" max="49" value="0" style="width:100%;">
         </div>
         <div class="field">
-          <label for="bulkcrop-bottom">قص من الأسفل: <span id="bulkcrop-bottom-val">0</span>٪</label>
+          <label for="bulkcrop-bottom"><span data-i18n="cropBottom">قص من الأسفل:</span> <span id="bulkcrop-bottom-val">0</span>٪</label>
           <input type="range" id="bulkcrop-bottom" min="0" max="49" value="0" style="width:100%;">
         </div>
       </div>
       <div class="row">
         <div class="field">
-          <label for="bulkcrop-left">قص من اليسار: <span id="bulkcrop-left-val">0</span>٪</label>
+          <label for="bulkcrop-left"><span data-i18n="cropLeft">قص من اليسار:</span> <span id="bulkcrop-left-val">0</span>٪</label>
           <input type="range" id="bulkcrop-left" min="0" max="49" value="0" style="width:100%;">
         </div>
         <div class="field">
-          <label for="bulkcrop-right">قص من اليمين: <span id="bulkcrop-right-val">0</span>٪</label>
+          <label for="bulkcrop-right"><span data-i18n="cropRight">قص من اليمين:</span> <span id="bulkcrop-right-val">0</span>٪</label>
           <input type="range" id="bulkcrop-right" min="0" max="49" value="0" style="width:100%;">
         </div>
       </div>
 
       <div style="text-align:center;margin-top:10px;">
-        <p class="hint" style="margin-bottom:6px;">معاينة على أول صورة (المناطق المظلّلة بتنحذف)</p>
+        <p class="hint" style="margin-bottom:6px;" data-i18n="bulkcropPreviewHint">معاينة على أول صورة (المناطق المظلّلة بتنحذف)</p>
         <canvas id="bulkcrop-preview-canvas" style="max-width:100%;width:280px;height:auto;border:1px solid var(--border);border-radius:8px;"></canvas>
       </div>
 
       <div style="text-align:center;margin-top:16px;">
-        <button class="btn" id="bulkcrop-apply-btn" disabled>تطبيق القص على كل الصور</button>
+        <button class="btn" id="bulkcrop-apply-btn" disabled data-i18n="bulkcropApplyBtn">تطبيق القص على كل الصور</button>
       </div>
 
       <div id="bulkcrop-results-wrap" style="display:none;margin-top:18px;">
-        <p class="hint" style="margin-bottom:10px;">معاينة النتائج (<span id="bulkcrop-count">0</span> صورة)</p>
+        <p class="hint" style="margin-bottom:10px;"><span data-i18n="bulkcropResultsPreview">معاينة النتائج</span> (<span id="bulkcrop-count">0</span> <span data-i18n="bulkcropImagesUnit">صورة</span>)</p>
         <div id="bulkcrop-thumbs" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;"></div>
         <div style="text-align:center;margin-top:16px;">
-          <button class="btn" id="bulkcrop-download-btn">تنزيل الكل (ZIP)</button>
+          <button class="btn" id="bulkcrop-download-btn" data-i18n="bulkcropDownloadBtn">تنزيل الكل (ZIP)</button>
         </div>
       </div>
       <div id="bulkcrop-status"></div>
-      <p class="note">كل المعالجة تتم داخل متصفحك — الصور ما تُرفع لأي سيرفر خارجي.</p>
+      <p class="note" data-i18n="bulkcropNote">كل المعالجة تتم داخل متصفحك — الصور ما تُرفع لأي سيرفر خارجي.</p>
     </div>
 
     <div class="card">
-      <h2>مولد كلمات المرور</h2>
-      <p class="hint">اختر الطول والخصائص، وولّد كلمة مرور عشوائية قوية فوراً.</p>
+      <h2 data-i18n="pwTitle">مولد كلمات المرور</h2>
+      <p class="hint" data-i18n="pwHint">اختر الطول والخصائص، وولّد كلمة مرور عشوائية قوية فوراً.</p>
       <div class="field">
-        <label for="pw-length">طول الكلمة: <span id="pw-length-val">16</span></label>
+        <label for="pw-length"><span data-i18n="pwLengthLabel">طول الكلمة:</span> <span id="pw-length-val">16</span></label>
         <input type="range" id="pw-length" min="6" max="48" value="16" style="width:100%;">
       </div>
       <div class="row">
         <label style="display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--bone);">
-          <input type="checkbox" id="pw-upper" checked> أحرف كبيرة (A-Z)
+          <input type="checkbox" id="pw-upper" checked> <span data-i18n="pwUpper">أحرف كبيرة (A-Z)</span>
         </label>
         <label style="display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--bone);">
-          <input type="checkbox" id="pw-lower" checked> أحرف صغيرة (a-z)
+          <input type="checkbox" id="pw-lower" checked> <span data-i18n="pwLower">أحرف صغيرة (a-z)</span>
         </label>
       </div>
       <div class="row" style="margin-top:10px;">
         <label style="display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--bone);">
-          <input type="checkbox" id="pw-numbers" checked> أرقام (0-9)
+          <input type="checkbox" id="pw-numbers" checked> <span data-i18n="pwNumbers">أرقام (0-9)</span>
         </label>
         <label style="display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--bone);">
-          <input type="checkbox" id="pw-symbols" checked> رموز (!@#$...)
+          <input type="checkbox" id="pw-symbols" checked> <span data-i18n="pwSymbols">رموز (!@#$...)</span>
         </label>
       </div>
-      <button class="btn" id="pw-btn" style="margin-top:16px;">توليد كلمة مرور</button>
+      <button class="btn" id="pw-btn" style="margin-top:16px;" data-i18n="pwBtn">توليد كلمة مرور</button>
       <div class="result" id="pw-result" style="display:none;">
         <div style="display:flex;align-items:center;gap:10px;">
           <div class="big" id="pw-out" style="word-break:break-all;flex:1;"></div>
-          <button class="btn secondary" id="pw-copy-btn" style="flex:0 0 auto;padding:8px 14px;font-size:.82rem;">نسخ</button>
+          <button class="btn secondary" id="pw-copy-btn" style="flex:0 0 auto;padding:8px 14px;font-size:.82rem;" data-i18n="copyBtn">نسخ</button>
         </div>
         <p class="note" id="pw-strength"></p>
       </div>
@@ -1195,13 +1195,13 @@
     </div>
 
     <div class="card">
-      <h2>مدقق رقم الهوية / الإقامة</h2>
-      <p class="hint">تحقق فوراً هل رقم الهوية الوطنية أو الإقامة صحيح رياضياً (١٠ أرقام، يبدأ بـ١ للسعودي أو ٢ للمقيم).</p>
+      <h2 data-i18n="idTitle">مدقق رقم الهوية / الإقامة</h2>
+      <p class="hint" data-i18n="idHint">تحقق فوراً هل رقم الهوية الوطنية أو الإقامة صحيح رياضياً (١٠ أرقام، يبدأ بـ١ للسعودي أو ٢ للمقيم).</p>
       <div class="field">
-        <label for="id-input">رقم الهوية / الإقامة</label>
-        <input type="text" id="id-input" inputmode="numeric" maxlength="10" placeholder="مثال: 1234567890">
+        <label for="id-input" data-i18n="idInputLabel">رقم الهوية / الإقامة</label>
+        <input type="text" id="id-input" inputmode="numeric" maxlength="10" placeholder="مثال: 1234567890" data-i18n-ph="idInputPh">
       </div>
-      <button class="btn" id="id-btn">تحقق</button>
+      <button class="btn" id="id-btn" data-i18n="checkBtn">تحقق</button>
       <div class="result" id="id-result" style="display:none;">
         <div class="big" id="id-out"></div>
         <p class="note" id="id-sub"></p>
@@ -1209,13 +1209,13 @@
     </div>
 
     <div class="card">
-      <h2>مدقق رقم الآيبان السعودي (IBAN)</h2>
-      <p class="hint">تحقق هل رقم الآيبان السعودي صحيح شكلياً ورياضياً قبل استخدامه بأي تحويل.</p>
+      <h2 data-i18n="ibanTitle">مدقق رقم الآيبان السعودي (IBAN)</h2>
+      <p class="hint" data-i18n="ibanHint">تحقق هل رقم الآيبان السعودي صحيح شكلياً ورياضياً قبل استخدامه بأي تحويل.</p>
       <div class="field">
-        <label for="iban-input">رقم الآيبان</label>
-        <input type="text" id="iban-input" placeholder="مثال: SA0380000000608010167519" style="font-family:var(--font-mono);direction:ltr;text-align:left;">
+        <label for="iban-input" data-i18n="ibanInputLabel">رقم الآيبان</label>
+        <input type="text" id="iban-input" placeholder="مثال: SA0380000000608010167519" style="font-family:var(--font-mono);direction:ltr;text-align:left;" data-i18n-ph="ibanInputPh">
       </div>
-      <button class="btn" id="iban-btn">تحقق</button>
+      <button class="btn" id="iban-btn" data-i18n="checkBtn">تحقق</button>
       <div class="result" id="iban-result" style="display:none;">
         <div class="big" id="iban-out"></div>
         <p class="note" id="iban-sub"></p>
@@ -2413,6 +2413,158 @@ const I18N = {
     inhErrEstate: 'أدخل قيمة صحيحة للتركة الصافية.',
     inhErrNoHeirs: 'لم يتم إدخال أي وارث. أدخل بيانات الورثة أولاً.',
     inhBottomNote: 'تغطي هذه الأداة الحالات الشائعة والمركّبة وفق الرأي الراجح عند جمهور الفقهاء (بما في ذلك العول والرد)، ولا تشمل حالات نادرة مثل أبناء الابن كبديل عن ابن متوفى، أو بعض تفصيلات الخلاف الفقهي النادرة (كحالة الجد مع الإخوة عند بعض المذاهب). لتوزيع تركة حقيقية، يُنصح بشدة بمراجعة جهة شرعية مختصة أو كتابة العدل قبل اتخاذ أي إجراء، خصوصاً أن الموضوع يمس حقوقاً مالية حقيقية.',
+    qrTitle: 'مولد رمز QR',
+    qrHint: 'أدخل أي نص أو رابط، وسيتولّد رمز QR فوري تقدر تنزّله كصورة.',
+    qrInputLabel: 'النص أو الرابط',
+    qrInputPh: 'مثال: https://example.com',
+    qrBtn: 'توليد الرمز',
+    qrDownloadBtn: 'تنزيل كصورة PNG',
+    sealTitle: 'مولد الأختام',
+    sealHint: 'صمّم ختماً بالشكل والزخرفة اللي تناسبك، أضف النص العلوي والسفلي المنحني ونص المنتصف، ثم نزّله كصورة PNG بخلفية شفافة — تقدر ترفعه مباشرة بأداة "إضافة ختم على PDF" بالأسفل.',
+    sealShapeLabel: 'شكل الختم',
+    shapeCircle: 'دائري',
+    shapeOval: 'بيضاوي',
+    shapeSquare: 'مربع',
+    shapeRectangle: 'مستطيل',
+    sealStyleLabel: 'نمط الزخرفة',
+    sealStylePlain: 'عادي',
+    sealStyleSimple: 'بسيط',
+    sealStyleOrnate: 'مزخرف',
+    sealStyleDotted: 'منقّط',
+    sealStyleStars: 'نجوم متعددة',
+    sealStyleCrescent: 'هلال ونجمة',
+    sealStyleDiamond: 'معين',
+    sealStylePearl: 'لؤلؤي',
+    sealStyleJagged: 'مسنّن',
+    sealStyleWavy: 'مموّج',
+    sealStyleGear: 'مسنن كالترس',
+    sealTopTextLabel: 'النص العلوي (منحني أعلى الختم)',
+    sealTopTextPh: 'مثال: مؤسسة النحلة الطيبة للتجارة',
+    sealBottomTextLabel: 'النص السفلي (منحني أسفل الختم)',
+    sealBottomTextPh: 'مثال: الرياض - المملكة العربية السعودية',
+    sealCenter1Label: 'السطر الأول بالمنتصف',
+    sealCenter1Ph: 'مثال: معتمد',
+    sealCenter2Label: 'السطر الثاني بالمنتصف (اختياري)',
+    sealCenter2Ph: 'مثال: ٢٠٢٦',
+    sealColorLabel: 'لون الحبر',
+    sealBorderWidthLabel: 'سُمك الإطار:',
+    sealDownloadBtn: 'تنزيل الختم PNG (خلفية شفافة)',
+    sealNote: 'يُنشأ الختم بالكامل داخل متصفحك — لا يُرفع أي نص تكتبه لأي سيرفر. بعد التنزيل، تقدر ترفع الصورة بأداة "إضافة ختم على PDF" أسفل هذه الصفحة لدمجها مباشرة على أي مستند PDF.',
+    img2stampTitle: 'تحويل صورة إلى ختم',
+    img2stampHint: 'ارفع أي صورة — ختم حقيقي مصوّر على ورق، شعار، أو أي رسمة — وهذي الأداة تشيل الخلفية وتحوّلها لصورة PNG بخلفية شفافة جاهزة للاستخدام كختم، تقدر ترفعها مباشرة بأداة "إضافة ختم على PDF" بالأسفل.',
+    imageLabel: 'الصورة',
+    img2stampModeLabel: 'طريقة التحويل',
+    img2stampModeRecolor: 'لون واحد موحّد (محاكاة حبر الختم)',
+    img2stampModeTransparent: 'إزالة الخلفية فقط (مع الاحتفاظ بالألوان الأصلية)',
+    cropShapeLabel: 'قص الناتج بشكل',
+    cropShapeOriginal: 'بدون قص (الشكل الأصلي)',
+    img2stampInvertLabel: 'عكس الفاتح والداكن (لو الحبر فاتح والخلفية داكنة)',
+    img2stampThresholdLabel: 'حساسية إزالة الخلفية:',
+    img2stampFeatherLabel: 'نعومة الحواف:',
+    img2stampAutoBtn: 'اكتشاف الخلفية تلقائياً من زوايا الصورة',
+    img2stampNote: 'ارفع صورة أولاً لتبدأ المعاينة، ثم حرّك "حساسية إزالة الخلفية" حتى تختفي الخلفية بالكامل ويبقى الحبر فقط. كل المعالجة تتم داخل متصفحك — لا تُرفع صورتك لأي سيرفر خارجي.',
+    card2sTitle: 'مولد كرت الوجهين',
+    card2sHint: 'اصنع بطاقة بيضاء بوجهين (أمامي وخلفي) بالمقاس اللي تحدده بنفسك، أضف شعارك أو صورة ختمك، واكتب النص المطلوب على كل وجه، ثم نزّلها.',
+    widthMmLabel: 'العرض (مم)',
+    widthCmLabel: 'العرض (سم)',
+    heightMmLabel: 'الارتفاع (مم)',
+    heightCmLabel: 'الارتفاع (سم)',
+    orientationBtn: 'تبديل الاتجاه (أفقي ⇄ عامودي)',
+    frontImageLabel: 'صورة الوجه (شعار أو ختم) — اختياري',
+    frontImageSizeLabel: 'حجم صورة الوجه:',
+    pctOfCardWidth: '٪ من عرض الكرت',
+    backImageLabel: 'صورة الظهر (شعار أو ختم) — اختياري',
+    backImageSizeLabel: 'حجم صورة الظهر:',
+    frontLinesLabel: 'نص الوجه (كل سطر مستقل بحجمه وموضعه)',
+    addLineBtn: '+ إضافة سطر',
+    backLinesLabel: 'نص الظهر (كل سطر مستقل بحجمه وموضعه)',
+    fontFamilyLabel: 'خط الكتابة (لكل الأسطر)',
+    fontDefault: 'عادي (افتراضي)',
+    fontRuqaaClassic: 'رقعة كلاسيكي',
+    fontRuqaaInk: 'رقعة حبر (بارز)',
+    fontFestive: 'خط احتفالي مزخرف',
+    fontBoldDecorative: 'خط عريض مزخرف',
+    fontBoldScript: 'خط كتابة بارز',
+    fontTallElegant: 'خط طويل أنيق (للعناوين)',
+    textColorAllLabel: 'لون النص (لكل الأسطر)',
+    decorStyleLabel: 'زخرفة الكرت',
+    decorNone: 'بدون',
+    decorHeartsCorners: 'قلوب في الزوايا',
+    decorHeartsSides: 'قلوب في الجوانب',
+    decorHeartsBorder: 'إطار قلوب حوالين الكرت',
+    decorFlowersCorners: 'زهور في الزوايا',
+    decorFlowersBorder: 'إطار زهور حوالين الكرت',
+    decorStarsCorners: 'نجوم في الزوايا',
+    decorColorLabel: 'لون الزخرفة',
+    decorSideLabel: 'الزخرفة تظهر في',
+    bothSides: 'الوجهين',
+    frontOnly: 'الوجه فقط',
+    backOnly: 'الظهر فقط',
+    frontSide: 'الوجه',
+    backSide: 'الظهر',
+    printDirectBtn: 'طباعة مباشرة (بالحجم الحقيقي)',
+    downloadFrontPng: 'تنزيل الوجه PNG',
+    downloadBackPng: 'تنزيل الظهر PNG',
+    downloadBothPdf: 'تنزيل PDF (الوجهين)',
+    card2sCutNote: 'كل صيغ التنزيل (PNG للوجه، PNG للظهر، PDF، والطباعة المباشرة) تتضمن الآن إطار قص (خط متقطع) بالمقاس الحقيقي بالضبط حوالين الكرت، مع هامش أبيض بسيط حوله — قصّه بالمقص أو قاطع الورق وتطلع لك بالحجم الصحيح تماماً، بغض النظر عن كيف أو من وين تطبعها.',
+    card2sPrintNote: 'تُصمَّم البطاقة بدقة طباعة ٣٠٠ نقطة/إنش وخلفية بيضاء ثابتة، جاهزة للإرسال مباشرة لأي مطبعة. كل شي يتم داخل متصفحك.',
+    bulkcropTitle: 'قص عدة صور دفعة واحدة',
+    bulkcropHint: 'ارفع عدة صور بنفس المقاس تقريباً (مثل صفحات كتاب مصوّرة فيها هوامش سوداء تبي تشيلها)، حدد مقدار القص من كل جهة مرة وحدة على صورة مرجعية، وطبّقه على كل الصور دفعة واحدة مع معاينة قبل التنزيل.',
+    bulkcropFilesLabel: 'الصور (اختر عدة صور مرة واحدة)',
+    cropTop: 'قص من الأعلى:',
+    cropBottom: 'قص من الأسفل:',
+    cropLeft: 'قص من اليسار:',
+    cropRight: 'قص من اليمين:',
+    bulkcropPreviewHint: 'معاينة على أول صورة (المناطق المظلّلة بتنحذف)',
+    bulkcropApplyBtn: 'تطبيق القص على كل الصور',
+    bulkcropResultsPreview: 'معاينة النتائج',
+    bulkcropImagesUnit: 'صورة',
+    bulkcropDownloadBtn: 'تنزيل الكل (ZIP)',
+    bulkcropNote: 'كل المعالجة تتم داخل متصفحك — الصور ما تُرفع لأي سيرفر خارجي.',
+    bulkcropBusy: 'جارٍ المعالجة...',
+    bulkcropSuccessPrefix: 'تم قص',
+    bulkcropSuccessSuffix: 'صورة بنجاح — راجع المعاينة تحت ثم نزّلها.',
+    bulkcropErr: 'تعذرت معالجة بعض الصور — تأكد إنها ملفات صور صحيحة.',
+    preparingBusy: 'جارٍ التجهيز...',
+    bulkcropZipErr: 'تعذر إنشاء ملف ZIP.',
+    pwTitle: 'مولد كلمات المرور',
+    pwHint: 'اختر الطول والخصائص، وولّد كلمة مرور عشوائية قوية فوراً.',
+    pwLengthLabel: 'طول الكلمة:',
+    pwUpper: 'أحرف كبيرة (A-Z)',
+    pwLower: 'أحرف صغيرة (a-z)',
+    pwNumbers: 'أرقام (0-9)',
+    pwSymbols: 'رموز (!@#$...)',
+    pwBtn: 'توليد كلمة مرور',
+    copyBtn: 'نسخ',
+    pwErrNoOptions: 'اختر خاصية واحدة على الأقل (أحرف كبيرة، صغيرة، أرقام، أو رموز).',
+    pwWeak: 'ضعيفة',
+    pwVeryStrong: 'قوية جداً',
+    pwStrong: 'قوية',
+    pwMedium: 'متوسطة',
+    pwStrengthLabel: 'قوة الكلمة:',
+    idTitle: 'مدقق رقم الهوية / الإقامة',
+    idHint: 'تحقق فوراً هل رقم الهوية الوطنية أو الإقامة صحيح رياضياً (١٠ أرقام، يبدأ بـ١ للسعودي أو ٢ للمقيم).',
+    idInputLabel: 'رقم الهوية / الإقامة',
+    idInputPh: 'مثال: 1234567890',
+    checkBtn: 'تحقق',
+    idErrFormat: 'الرقم يجب أن يتكون من 10 أرقام بالضبط، ويبدأ بـ1 (سعودي) أو 2 (مقيم).',
+    idTypeCitizen: 'مواطن سعودي',
+    idTypeResident: 'مقيم (إقامة)',
+    idInvalid: '❌ رقم غير صحيح',
+    idErrNoMatch: 'الرقم لا يطابق صيغة الهوية أو الإقامة السعودية.',
+    idValid: '✅ رقم صحيح',
+    idTypeLabel: 'النوع:',
+    idErrChecksum: 'صيغة الرقم صحيحة (10 أرقام) لكن رقم التحقق النهائي غير مطابق — تأكد من الأرقام.',
+    ibanTitle: 'مدقق رقم الآيبان السعودي (IBAN)',
+    ibanHint: 'تحقق هل رقم الآيبان السعودي صحيح شكلياً ورياضياً قبل استخدامه بأي تحويل.',
+    ibanInputLabel: 'رقم الآيبان',
+    ibanInputPh: 'مثال: SA0380000000608010167519',
+    ibanErrFormat: 'رقم الآيبان السعودي يجب أن يبدأ بـSA ويتكون من 24 خانة بالضبط (SA + 22 رقم).',
+    ibanInvalid: '❌ آيبان غير صحيح',
+    ibanValid: '✅ آيبان صحيح',
+    ibanBankCodeLabel: 'كود البنك:',
+    ibanAccountLabel: 'رقم الحساب:',
+    ibanErrChecksum: 'الصيغة صحيحة لكن رقم التحقق (checksum) غير مطابق — تأكد من الأرقام.',
   },
   en: {
     siteName: 'Uddah',
@@ -2725,6 +2877,158 @@ const I18N = {
     inhErrEstate: 'Enter a valid net estate value.',
     inhErrNoHeirs: 'No heirs were entered. Enter the heirs\' information first.',
     inhBottomNote: 'This tool covers common and compound cases according to the predominant view among the majority of jurists (including Awl and Radd), and does not cover rare cases such as grandsons substituting for a deceased son, or some rare points of juristic disagreement (such as the grandfather-with-siblings case in some schools). For an actual estate distribution, it is strongly recommended to consult a qualified religious authority or notary before taking any action, especially since this involves real financial rights.',
+    qrTitle: 'QR Code Generator',
+    qrHint: 'Enter any text or link, and a QR code will be generated instantly for you to download as an image.',
+    qrInputLabel: 'Text or link',
+    qrInputPh: 'e.g. https://example.com',
+    qrBtn: 'Generate Code',
+    qrDownloadBtn: 'Download as PNG',
+    sealTitle: 'Seal / Stamp Generator',
+    sealHint: 'Design a seal in the shape and style you like, add curved top and bottom text plus center text, then download it as a transparent PNG — you can upload it directly to the "Add Stamp to PDF" tool below.',
+    sealShapeLabel: 'Seal shape',
+    shapeCircle: 'Circle',
+    shapeOval: 'Oval',
+    shapeSquare: 'Square',
+    shapeRectangle: 'Rectangle',
+    sealStyleLabel: 'Decoration style',
+    sealStylePlain: 'Plain',
+    sealStyleSimple: 'Simple',
+    sealStyleOrnate: 'Ornate',
+    sealStyleDotted: 'Dotted',
+    sealStyleStars: 'Multiple stars',
+    sealStyleCrescent: 'Crescent & star',
+    sealStyleDiamond: 'Diamond',
+    sealStylePearl: 'Pearl',
+    sealStyleJagged: 'Jagged',
+    sealStyleWavy: 'Wavy',
+    sealStyleGear: 'Gear-tooth',
+    sealTopTextLabel: 'Top text (curved along the top)',
+    sealTopTextPh: 'e.g. Al-Nahla Al-Tayyeba Trading Est.',
+    sealBottomTextLabel: 'Bottom text (curved along the bottom)',
+    sealBottomTextPh: 'e.g. Riyadh - Saudi Arabia',
+    sealCenter1Label: 'First center line',
+    sealCenter1Ph: 'e.g. Approved',
+    sealCenter2Label: 'Second center line (optional)',
+    sealCenter2Ph: 'e.g. 2026',
+    sealColorLabel: 'Ink color',
+    sealBorderWidthLabel: 'Border thickness:',
+    sealDownloadBtn: 'Download Seal PNG (transparent background)',
+    sealNote: 'The seal is generated entirely in your browser — no text you type is uploaded to any server. After downloading, you can upload the image to the "Add Stamp to PDF" tool further down this page to merge it directly onto any PDF document.',
+    img2stampTitle: 'Convert Image to Stamp',
+    img2stampHint: 'Upload any image — a real stamp photographed on paper, a logo, or any drawing — and this tool removes the background and turns it into a transparent-background PNG ready to use as a stamp, which you can upload directly to the "Add Stamp to PDF" tool below.',
+    imageLabel: 'Image',
+    img2stampModeLabel: 'Conversion method',
+    img2stampModeRecolor: 'Single unified color (simulate stamp ink)',
+    img2stampModeTransparent: 'Remove background only (keep original colors)',
+    cropShapeLabel: 'Crop the result to shape',
+    cropShapeOriginal: 'No crop (original shape)',
+    img2stampInvertLabel: 'Invert light and dark (if the ink is light and the background is dark)',
+    img2stampThresholdLabel: 'Background removal sensitivity:',
+    img2stampFeatherLabel: 'Edge softness:',
+    img2stampAutoBtn: 'Auto-detect background from image corners',
+    img2stampNote: 'Upload an image first to start the preview, then move "background removal sensitivity" until the background fully disappears and only the ink remains. All processing happens in your browser — your image is never uploaded to any external server.',
+    card2sTitle: 'Two-Sided Card Maker',
+    card2sHint: 'Create a white two-sided card (front and back) at the size you set yourself, add your logo or stamp image, write the text you want on each side, then download it.',
+    widthMmLabel: 'Width (mm)',
+    widthCmLabel: 'Width (cm)',
+    heightMmLabel: 'Height (mm)',
+    heightCmLabel: 'Height (cm)',
+    orientationBtn: 'Switch orientation (landscape ⇄ portrait)',
+    frontImageLabel: 'Front image (logo or stamp) — optional',
+    frontImageSizeLabel: 'Front image size:',
+    pctOfCardWidth: '% of card width',
+    backImageLabel: 'Back image (logo or stamp) — optional',
+    backImageSizeLabel: 'Back image size:',
+    frontLinesLabel: 'Front text (each line independent in size and position)',
+    addLineBtn: '+ Add line',
+    backLinesLabel: 'Back text (each line independent in size and position)',
+    fontFamilyLabel: 'Font (applies to all lines)',
+    fontDefault: 'Default',
+    fontRuqaaClassic: 'Classic Ruqaa',
+    fontRuqaaInk: 'Ruqaa Ink (bold)',
+    fontFestive: 'Festive decorative script',
+    fontBoldDecorative: 'Bold decorative',
+    fontBoldScript: 'Bold script',
+    fontTallElegant: 'Tall elegant (for headings)',
+    textColorAllLabel: 'Text color (all lines)',
+    decorStyleLabel: 'Card decoration',
+    decorNone: 'None',
+    decorHeartsCorners: 'Hearts at corners',
+    decorHeartsSides: 'Hearts on the sides',
+    decorHeartsBorder: 'Heart border around the card',
+    decorFlowersCorners: 'Flowers at corners',
+    decorFlowersBorder: 'Flower border around the card',
+    decorStarsCorners: 'Stars at corners',
+    decorColorLabel: 'Decoration color',
+    decorSideLabel: 'Decoration appears on',
+    bothSides: 'Both sides',
+    frontOnly: 'Front only',
+    backOnly: 'Back only',
+    frontSide: 'Front',
+    backSide: 'Back',
+    printDirectBtn: 'Print Directly (true size)',
+    downloadFrontPng: 'Download Front PNG',
+    downloadBackPng: 'Download Back PNG',
+    downloadBothPdf: 'Download PDF (both sides)',
+    card2sCutNote: 'All download formats (front PNG, back PNG, PDF, and direct printing) now include a cut guide (dashed line) at the exact true size around the card, with a simple white margin around it — cut along it with scissors or a paper cutter to get the exact correct size, regardless of how or where you print it.',
+    card2sPrintNote: 'The card is designed at 300 DPI print resolution with a fixed white background, ready to send directly to any print shop. Everything happens in your browser.',
+    bulkcropTitle: 'Batch Crop Multiple Images',
+    bulkcropHint: 'Upload several images of roughly the same size (like scanned book pages with black margins you want to remove), set the crop amount from each side once on a reference image, then apply it to all images at once with a preview before downloading.',
+    bulkcropFilesLabel: 'Images (select multiple at once)',
+    cropTop: 'Crop from top:',
+    cropBottom: 'Crop from bottom:',
+    cropLeft: 'Crop from left:',
+    cropRight: 'Crop from right:',
+    bulkcropPreviewHint: 'Preview on the first image (shaded areas will be removed)',
+    bulkcropApplyBtn: 'Apply Crop to All Images',
+    bulkcropResultsPreview: 'Results preview',
+    bulkcropImagesUnit: 'images',
+    bulkcropDownloadBtn: 'Download All (ZIP)',
+    bulkcropNote: 'All processing happens in your browser — images are never uploaded to any external server.',
+    bulkcropBusy: 'Processing...',
+    bulkcropSuccessPrefix: 'Successfully cropped',
+    bulkcropSuccessSuffix: 'images — check the preview below then download them.',
+    bulkcropErr: 'Couldn\'t process some images — make sure they are valid image files.',
+    preparingBusy: 'Preparing...',
+    bulkcropZipErr: 'Could not create the ZIP file.',
+    pwTitle: 'Password Generator',
+    pwHint: 'Choose the length and characteristics, and instantly generate a strong random password.',
+    pwLengthLabel: 'Password length:',
+    pwUpper: 'Uppercase (A-Z)',
+    pwLower: 'Lowercase (a-z)',
+    pwNumbers: 'Numbers (0-9)',
+    pwSymbols: 'Symbols (!@#$...)',
+    pwBtn: 'Generate Password',
+    copyBtn: 'Copy',
+    pwErrNoOptions: 'Choose at least one option (uppercase, lowercase, numbers, or symbols).',
+    pwWeak: 'Weak',
+    pwVeryStrong: 'Very strong',
+    pwStrong: 'Strong',
+    pwMedium: 'Medium',
+    pwStrengthLabel: 'Password strength:',
+    idTitle: 'National ID / Iqama Number Validator',
+    idHint: 'Instantly check whether a Saudi national ID or Iqama (residency) number is mathematically valid (10 digits, starting with 1 for citizens or 2 for residents).',
+    idInputLabel: 'ID / Iqama number',
+    idInputPh: 'e.g. 1234567890',
+    checkBtn: 'Check',
+    idErrFormat: 'The number must be exactly 10 digits and start with 1 (citizen) or 2 (resident).',
+    idTypeCitizen: 'Saudi citizen',
+    idTypeResident: 'Resident (Iqama)',
+    idInvalid: '❌ Invalid number',
+    idErrNoMatch: 'The number doesn\'t match the Saudi ID or Iqama format.',
+    idValid: '✅ Valid number',
+    idTypeLabel: 'Type:',
+    idErrChecksum: 'The format is correct (10 digits), but the final check digit does not match — verify the digits.',
+    ibanTitle: 'Saudi IBAN Validator',
+    ibanHint: 'Check whether a Saudi IBAN is formally and mathematically valid before using it in any transfer.',
+    ibanInputLabel: 'IBAN',
+    ibanInputPh: 'e.g. SA0380000000608010167519',
+    ibanErrFormat: 'A Saudi IBAN must start with SA and be exactly 24 characters long (SA + 22 digits).',
+    ibanInvalid: '❌ Invalid IBAN',
+    ibanValid: '✅ Valid IBAN',
+    ibanBankCodeLabel: 'Bank code:',
+    ibanAccountLabel: 'Account number:',
+    ibanErrChecksum: 'The format is correct but the checksum does not match — verify the digits.',
   }
 };
 
@@ -4388,7 +4692,7 @@ function bulkcropImageFromFile(file){
 document.getElementById('bulkcrop-apply-btn').addEventListener('click', async ()=>{
   const btn = document.getElementById('bulkcrop-apply-btn');
   if(!bulkcropFiles.length) return;
-  setBusy(btn, true, 'جارٍ المعالجة...', 'تطبيق القص على كل الصور');
+  setBusy(btn, true, I18N[currentLang].bulkcropBusy, I18N[currentLang].bulkcropApplyBtn);
   const pct = bulkcropGetPercents();
   const thumbsWrap = document.getElementById('bulkcrop-thumbs');
   thumbsWrap.innerHTML = '';
@@ -4422,17 +4726,17 @@ document.getElementById('bulkcrop-apply-btn').addEventListener('click', async ()
     }
     document.getElementById('bulkcrop-count').textContent = bulkcropResults.length;
     document.getElementById('bulkcrop-results-wrap').style.display = 'block';
-    setStatus('bulkcrop-status', `تم قص ${bulkcropResults.length} صورة بنجاح — راجع المعاينة تحت ثم نزّلها.`, 'ok');
+    setStatus('bulkcrop-status', `${I18N[currentLang].bulkcropSuccessPrefix} ${bulkcropResults.length} ${I18N[currentLang].bulkcropSuccessSuffix}`, 'ok');
   }catch(e){
-    setStatus('bulkcrop-status', 'تعذرت معالجة بعض الصور — تأكد إنها ملفات صور صحيحة.', 'err');
+    setStatus('bulkcrop-status', I18N[currentLang].bulkcropErr, 'err');
   }
-  setBusy(btn, false, '', 'تطبيق القص على كل الصور');
+  setBusy(btn, false, '', I18N[currentLang].bulkcropApplyBtn);
 });
 
 document.getElementById('bulkcrop-download-btn').addEventListener('click', async ()=>{
   if(!bulkcropResults.length) return;
   const btn = document.getElementById('bulkcrop-download-btn');
-  setBusy(btn, true, 'جارٍ التجهيز...', 'تنزيل الكل (ZIP)');
+  setBusy(btn, true, I18N[currentLang].preparingBusy, I18N[currentLang].bulkcropDownloadBtn);
   try{
     const zip = new JSZip();
     for(const r of bulkcropResults){
@@ -4442,9 +4746,9 @@ document.getElementById('bulkcrop-download-btn').addEventListener('click', async
     const zipBlob = await zip.generateAsync({type:'blob'});
     downloadBlob(zipBlob, 'صور-مقصوصة.zip');
   }catch(e){
-    setStatus('bulkcrop-status', 'تعذر إنشاء ملف ZIP.', 'err');
+    setStatus('bulkcrop-status', I18N[currentLang].bulkcropZipErr, 'err');
   }
-  setBusy(btn, false, '', 'تنزيل الكل (ZIP)');
+  setBusy(btn, false, '', I18N[currentLang].bulkcropDownloadBtn);
 });
 
 renderBulkcropPreview();
@@ -4492,18 +4796,18 @@ document.getElementById('pw-btn').addEventListener('click', ()=>{
 
   const pw = generatePassword(length, useUpper, useLower, useNumbers, useSymbols);
   if(!pw){
-    errBox.textContent = 'اختر خاصية واحدة على الأقل (أحرف كبيرة، صغيرة، أرقام، أو رموز).';
+    errBox.textContent = I18N[currentLang].pwErrNoOptions;
     errBox.style.display = 'block';
     resultBox.style.display = 'none';
     return;
   }
   document.getElementById('pw-out').textContent = pw;
-  let strength = 'ضعيفة';
+  let strength = I18N[currentLang].pwWeak;
   let setsUsed = [useUpper,useLower,useNumbers,useSymbols].filter(Boolean).length;
-  if(length >= 12 && setsUsed >= 3) strength = 'قوية جداً';
-  else if(length >= 10 && setsUsed >= 2) strength = 'قوية';
-  else if(length >= 8) strength = 'متوسطة';
-  document.getElementById('pw-strength').textContent = `قوة الكلمة: ${strength}`;
+  if(length >= 12 && setsUsed >= 3) strength = I18N[currentLang].pwVeryStrong;
+  else if(length >= 10 && setsUsed >= 2) strength = I18N[currentLang].pwStrong;
+  else if(length >= 8) strength = I18N[currentLang].pwMedium;
+  document.getElementById('pw-strength').textContent = `${I18N[currentLang].pwStrengthLabel} ${strength}`;
   resultBox.style.display = 'block';
 });
 
@@ -4513,7 +4817,7 @@ document.getElementById('pw-copy-btn').addEventListener('click', ()=>{
   navigator.clipboard.writeText(pw).then(()=>{
     const btn = document.getElementById('pw-copy-btn');
     const original = btn.textContent;
-    btn.textContent = 'تم النسخ ✓';
+    btn.textContent = I18N[currentLang].copiedConfirm;
     setTimeout(()=>{ btn.textContent = original; }, 1500);
   });
 });
@@ -5514,7 +5818,7 @@ document.getElementById('tts-stop-btn').addEventListener('click', ()=>{
    ============================================================ */
 function validateSaudiID(idStr){
   if(!/^[12]\d{9}$/.test(idStr)){
-    return { valid:false, reason:'الرقم يجب أن يتكون من 10 أرقام بالضبط، ويبدأ بـ1 (سعودي) أو 2 (مقيم).' };
+    return { valid:false, reason: I18N[currentLang].idErrFormat };
   }
   let sum = 0;
   for(let i=0; i<10; i++){
@@ -5526,7 +5830,7 @@ function validateSaudiID(idStr){
     sum += d;
   }
   const valid = sum % 10 === 0;
-  const type = idStr[0] === '1' ? 'مواطن سعودي' : 'مقيم (إقامة)';
+  const type = idStr[0] === '1' ? I18N[currentLang].idTypeCitizen : I18N[currentLang].idTypeResident;
   return { valid, type };
 }
 
@@ -5538,14 +5842,14 @@ document.getElementById('id-btn').addEventListener('click', ()=>{
 
   const check = validateSaudiID(idInput);
   if(check.valid === undefined || (!check.valid && check.reason)){
-    out.textContent = '❌ رقم غير صحيح';
-    sub.textContent = check.reason || 'الرقم لا يطابق صيغة الهوية أو الإقامة السعودية.';
+    out.textContent = I18N[currentLang].idInvalid;
+    sub.textContent = check.reason || I18N[currentLang].idErrNoMatch;
   } else if(check.valid){
-    out.textContent = '✅ رقم صحيح';
-    sub.textContent = `النوع: ${check.type}`;
+    out.textContent = I18N[currentLang].idValid;
+    sub.textContent = `${I18N[currentLang].idTypeLabel} ${check.type}`;
   } else {
-    out.textContent = '❌ رقم غير صحيح';
-    sub.textContent = 'صيغة الرقم صحيحة (10 أرقام) لكن رقم التحقق النهائي غير مطابق — تأكد من الأرقام.';
+    out.textContent = I18N[currentLang].idInvalid;
+    sub.textContent = I18N[currentLang].idErrChecksum;
   }
   resultBox.style.display = 'block';
 });
@@ -5556,7 +5860,7 @@ document.getElementById('id-btn').addEventListener('click', ()=>{
 function validateSaudiIBAN(ibanRaw){
   const iban = ibanRaw.replace(/\s|-/g, '').toUpperCase();
   if(!/^SA\d{22}$/.test(iban)){
-    return { valid:false, reason:'رقم الآيبان السعودي يجب أن يبدأ بـSA ويتكون من 24 خانة بالضبط (SA + 22 رقم).' };
+    return { valid:false, reason: I18N[currentLang].ibanErrFormat };
   }
   const rearranged = iban.slice(4) + iban.slice(0, 4);
   let numeric = '';
@@ -5582,14 +5886,14 @@ document.getElementById('iban-btn').addEventListener('click', ()=>{
 
   const check = validateSaudiIBAN(ibanInput);
   if(check.reason){
-    out.textContent = '❌ آيبان غير صحيح';
+    out.textContent = I18N[currentLang].ibanInvalid;
     sub.textContent = check.reason;
   } else if(check.valid){
-    out.textContent = '✅ آيبان صحيح';
-    sub.textContent = `كود البنك: ${check.bankCode}  —  رقم الحساب: ${check.accountNumber}`;
+    out.textContent = I18N[currentLang].ibanValid;
+    sub.textContent = `${I18N[currentLang].ibanBankCodeLabel} ${check.bankCode}  —  ${I18N[currentLang].ibanAccountLabel} ${check.accountNumber}`;
   } else {
-    out.textContent = '❌ آيبان غير صحيح';
-    sub.textContent = 'الصيغة صحيحة لكن رقم التحقق (checksum) غير مطابق — تأكد من الأرقام.';
+    out.textContent = I18N[currentLang].ibanInvalid;
+    sub.textContent = I18N[currentLang].ibanErrChecksum;
   }
   resultBox.style.display = 'block';
 });
