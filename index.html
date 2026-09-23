@@ -1928,6 +1928,21 @@
           <input type="number" id="pagesize-custom-height" min="20" max="2000" value="297">
         </div>
       </div>
+
+      <div class="field" id="pagesize-preview-wrap" style="display:none;">
+        <label data-i18n="pagesizePreviewLabel">معاينة قبل وبعد (الصفحة الأولى)</label>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:flex-end;">
+          <div style="text-align:center;">
+            <p class="hint" style="margin-bottom:4px;" data-i18n="pagesizeBeforeLabel">قبل</p>
+            <canvas id="pagesize-preview-before" style="border:1px solid var(--border);border-radius:6px;max-width:100%;background:#fff;"></canvas>
+          </div>
+          <div style="text-align:center;">
+            <p class="hint" style="margin-bottom:4px;" data-i18n="pagesizeAfterLabel">بعد</p>
+            <canvas id="pagesize-preview-after" style="border:1px solid var(--brass);border-radius:6px;max-width:100%;background:#fff;"></canvas>
+          </div>
+        </div>
+      </div>
+
       <button class="btn" id="pagesize-btn" style="margin-top:14px;" data-i18n="pagesizeBtn">تغيير المقاس وتنزيل</button>
       <div id="pagesize-status"></div>
       <p class="note" data-i18n="pagesizeNote">يُعاد تحجيم كل صفحات الملف بالكامل داخل متصفحك — لا يُرفع ملفك لأي سيرفر خارجي.</p>
@@ -2937,6 +2952,8 @@ const I18N = {
     pagesizeBusy: 'جارٍ تغيير المقاس...',
     pagesizeSuccess: 'تم تغيير مقاس كل الصفحات بنجاح.',
     pagesizeErr: 'تعذر تغيير المقاس — تأكد أن الملف PDF صحيح.',
+    pagesizePreviewLabel: 'معاينة قبل وبعد (الصفحة الأولى)',
+    pagesizeBeforeLabel: 'قبل', pagesizeAfterLabel: 'بعد',
     pdfStampBtn: 'إضافة الختم وتنزيل',
     pdfStampNote: 'الختم يُضاف بالكامل داخل متصفحك — لا تُرفع صورة الختم أو ملفك لأي سيرفر خارجي.',
     pdfTextTitle: 'إضافة نص على PDF',
@@ -3565,6 +3582,8 @@ const I18N = {
     pagesizeBusy: 'Changing size...',
     pagesizeSuccess: 'Successfully changed the size of all pages.',
     pagesizeErr: 'Could not change the size — make sure the PDF file is valid.',
+    pagesizePreviewLabel: 'Before/after preview (first page)',
+    pagesizeBeforeLabel: 'Before', pagesizeAfterLabel: 'After',
     pdfStampBtn: 'Add Stamp and Download',
     pdfStampNote: 'The stamp is added entirely in your browser — neither the stamp image nor your file is uploaded to any external server.',
     pdfTextTitle: 'Add Text to PDF',
@@ -6909,10 +6928,81 @@ const PAGESIZE_PRESETS_MM = {
   legal: [215.9, 355.6]
 };
 
+function pagesizeGetTargetMm(){
+  const preset = document.getElementById('pagesize-preset').value;
+  if(preset === 'custom'){
+    return [
+      parseFloat(document.getElementById('pagesize-custom-width').value) || 210,
+      parseFloat(document.getElementById('pagesize-custom-height').value) || 297
+    ];
+  }
+  return PAGESIZE_PRESETS_MM[preset];
+}
+
+let pagesizePreviewPdfDoc = null;
+let pagesizePreviewFileRef = null;
+
+async function loadPagesizePreviewPdf(file){
+  if(pagesizePreviewFileRef === file && pagesizePreviewPdfDoc) return pagesizePreviewPdfDoc;
+  const bytes = await file.arrayBuffer();
+  pagesizePreviewPdfDoc = await pdfjsLib.getDocument({data: bytes}).promise;
+  pagesizePreviewFileRef = file;
+  return pagesizePreviewPdfDoc;
+}
+
+async function updatePagesizePreview(){
+  const file = document.getElementById('pagesize-file').files[0];
+  const wrap = document.getElementById('pagesize-preview-wrap');
+  if(!file){ wrap.style.display = 'none'; return; }
+
+  try{
+    const pdf = await loadPagesizePreviewPdf(file);
+    const page = await pdf.getPage(1);
+    const baseViewport = page.getViewport({scale:1});
+    const previewMaxWidth = 150;
+    const beforeScale = previewMaxWidth / baseViewport.width;
+    const beforeViewport = page.getViewport({scale: beforeScale});
+
+    const beforeCanvas = document.getElementById('pagesize-preview-before');
+    beforeCanvas.width = beforeViewport.width;
+    beforeCanvas.height = beforeViewport.height;
+    const beforeCtx = beforeCanvas.getContext('2d');
+    await page.render({canvasContext: beforeCtx, viewport: beforeViewport}).promise;
+
+    const [wMm, hMm] = pagesizeGetTargetMm();
+    const newWidthPt = wMm * 2.83465;
+    const newHeightPt = hMm * 2.83465;
+    const afterWidthPx = previewMaxWidth;
+    const afterHeightPx = previewMaxWidth * (newHeightPt / newWidthPt);
+
+    const afterCanvas = document.getElementById('pagesize-preview-after');
+    afterCanvas.width = afterWidthPx;
+    afterCanvas.height = afterHeightPx;
+    const afterCtx = afterCanvas.getContext('2d');
+    afterCtx.imageSmoothingEnabled = true;
+    afterCtx.imageSmoothingQuality = 'high';
+    afterCtx.fillStyle = '#ffffff';
+    afterCtx.fillRect(0, 0, afterWidthPx, afterHeightPx);
+    afterCtx.drawImage(beforeCanvas, 0, 0, afterWidthPx, afterHeightPx);
+
+    wrap.style.display = 'block';
+  }catch(e){
+    wrap.style.display = 'none';
+  }
+}
+
+document.getElementById('pagesize-file').addEventListener('change', ()=>{
+  pagesizePreviewPdfDoc = null;
+  pagesizePreviewFileRef = null;
+  updatePagesizePreview();
+});
 document.getElementById('pagesize-preset').addEventListener('change', ()=>{
   const val = document.getElementById('pagesize-preset').value;
   document.getElementById('pagesize-custom-wrap').style.display = val === 'custom' ? 'flex' : 'none';
+  updatePagesizePreview();
 });
+document.getElementById('pagesize-custom-width').addEventListener('input', updatePagesizePreview);
+document.getElementById('pagesize-custom-height').addEventListener('input', updatePagesizePreview);
 
 document.getElementById('pagesize-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('pagesize-file').files[0];
