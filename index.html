@@ -7023,18 +7023,16 @@ document.getElementById('pagesize-btn').addEventListener('click', async ()=>{
     const newHeightPt = heightMm * 2.83465;
 
     const pdfBytes = await file.arrayBuffer();
-    const pdfDoc = await PDFDocument.load(pdfBytes);
-    const pages = pdfDoc.getPages();
+    const srcDoc = await PDFDocument.load(pdfBytes);
+    const outDoc = await PDFDocument.create();
+    const embeddedPages = await outDoc.embedPages(srcDoc.getPages());
 
-    pages.forEach(page=>{
-      const { width: ow, height: oh } = page.getSize();
-      const scaleX = newWidthPt / ow;
-      const scaleY = newHeightPt / oh;
-      page.scaleContent(scaleX, scaleY);
-      page.setSize(newWidthPt, newHeightPt);
+    embeddedPages.forEach(embedded=>{
+      const newPage = outDoc.addPage([newWidthPt, newHeightPt]);
+      newPage.drawPage(embedded, { x:0, y:0, width:newWidthPt, height:newHeightPt });
     });
 
-    const outBytes = await pdfDoc.save();
+    const outBytes = await outDoc.save();
     downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مقاس_معدّل.pdf');
     setStatus('pagesize-status', I18N[currentLang].pagesizeSuccess, 'ok');
   }catch(e){
