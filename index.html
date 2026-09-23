@@ -1199,7 +1199,7 @@
 
     <div class="card tools-card" id="tools-resize">
       <h2 data-i18n="resizeTitle">تغيير حجم الصورة</h2>
-      <p class="hint" data-i18n="resizeHint">ارفع أي صورة، وكبّرها أو صغّرها بالعرض والطول (كل واحد لحاله أو مع بعض)، وشوف المعاينة قبل التنزيل.</p>
+      <p class="hint" data-i18n="resizeHint">ارفع أي صورة، وكبّرها أو صغّرها بالعرض والطول (كل واحد لحاله أو مع بعض)، بمعالجة عالية الجودة تحافظ على وضوح الصورة، وشوف المعاينة قبل التنزيل.</p>
       <div class="field">
         <input type="file" id="resize-image" accept="image/png,image/jpeg,image/webp">
         <div class="file-list" id="resize-image-list"></div>
@@ -2913,7 +2913,7 @@ const I18N = {
     resizeHandleNote: 'اسحب الختم لتحريكه، أو اسحب المقبض الذهبي بزاويته لتكبيره أو تصغيره.',
     toolsOptResize: '📐 تغيير حجم الصورة',
     resizeTitle: 'تغيير حجم الصورة',
-    resizeHint: 'ارفع أي صورة، وكبّرها أو صغّرها بالعرض والطول (كل واحد لحاله أو مع بعض)، وشوف المعاينة قبل التنزيل.',
+    resizeHint: 'ارفع أي صورة، وكبّرها أو صغّرها بالعرض والطول (كل واحد لحاله أو مع بعض)، بمعالجة عالية الجودة تحافظ على وضوح الصورة، وشوف المعاينة قبل التنزيل.',
     resizeWidthLabelPx: 'العرض (بكسل)', resizeHeightLabelPx: 'الارتفاع (بكسل)',
     resizeWidthLabelCm: 'العرض (سم)', resizeHeightLabelCm: 'الارتفاع (سم)',
     resizeUnitLabel: 'وحدة القياس', unitPx: 'بكسل (px)', unitCm: 'سنتيمتر (cm)',
@@ -3541,7 +3541,7 @@ const I18N = {
     resizeHandleNote: 'Drag the stamp to move it, or drag the gold handle at its corner to resize it.',
     toolsOptResize: '📐 Resize Image',
     resizeTitle: 'Resize Image',
-    resizeHint: 'Upload any image, and enlarge or shrink it by width and height (independently or together), with a preview before downloading.',
+    resizeHint: 'Upload any image, and enlarge or shrink it by width and height (independently or together) with high-quality processing that keeps it sharp, with a preview before downloading.',
     resizeWidthLabelPx: 'Width (px)', resizeHeightLabelPx: 'Height (px)',
     resizeWidthLabelCm: 'Width (cm)', resizeHeightLabelCm: 'Height (cm)',
     resizeUnitLabel: 'Unit', unitPx: 'Pixels (px)', unitCm: 'Centimeters (cm)',
@@ -5370,6 +5370,52 @@ function resizeSyncInputsFromPx(){
   }
 }
 
+function drawImageHighQuality(sourceImg, destCanvas, destWidth, destHeight){
+  const srcWidth = sourceImg.naturalWidth || sourceImg.width;
+  const srcHeight = sourceImg.naturalHeight || sourceImg.height;
+  const scaleRatio = Math.min(destWidth/srcWidth, destHeight/srcHeight);
+
+  destCanvas.width = destWidth;
+  destCanvas.height = destHeight;
+  const destCtx = destCanvas.getContext('2d');
+  destCtx.imageSmoothingEnabled = true;
+  destCtx.imageSmoothingQuality = 'high';
+  destCtx.clearRect(0, 0, destWidth, destHeight);
+
+  if(scaleRatio >= 0.5 || !isFinite(scaleRatio)){
+    // Enlarging or mild shrink: a single high-quality draw is sharp enough
+    destCtx.drawImage(sourceImg, 0, 0, destWidth, destHeight);
+    return;
+  }
+
+  // Significant shrink: step down by half repeatedly to avoid aliasing/moiré,
+  // then do a final precise draw to the exact target size — much cleaner than
+  // one giant downscale in a single step.
+  let curCanvas = document.createElement('canvas');
+  curCanvas.width = srcWidth;
+  curCanvas.height = srcHeight;
+  let curCtx = curCanvas.getContext('2d');
+  curCtx.imageSmoothingEnabled = true;
+  curCtx.imageSmoothingQuality = 'high';
+  curCtx.drawImage(sourceImg, 0, 0);
+
+  let curW = srcWidth, curH = srcHeight;
+  while(curW*0.5 > destWidth && curH*0.5 > destHeight){
+    const nextW = Math.max(1, Math.round(curW*0.5));
+    const nextH = Math.max(1, Math.round(curH*0.5));
+    const nextCanvas = document.createElement('canvas');
+    nextCanvas.width = nextW;
+    nextCanvas.height = nextH;
+    const nextCtx = nextCanvas.getContext('2d');
+    nextCtx.imageSmoothingEnabled = true;
+    nextCtx.imageSmoothingQuality = 'high';
+    nextCtx.drawImage(curCanvas, 0, 0, nextW, nextH);
+    curCanvas = nextCanvas;
+    curW = nextW; curH = nextH;
+  }
+  destCtx.drawImage(curCanvas, 0, 0, destWidth, destHeight);
+}
+
 function renderResizePreview(){
   const canvas = document.getElementById('resize-preview-canvas');
   const caption = document.getElementById('resize-preview-caption');
@@ -5380,11 +5426,7 @@ function renderResizePreview(){
   }
   const w = Math.max(1, Math.round(resizeCurrentWidthPx));
   const h = Math.max(1, Math.round(resizeCurrentHeightPx));
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, w, h);
-  ctx.drawImage(resizeSourceImage, 0, 0, w, h);
+  drawImageHighQuality(resizeSourceImage, canvas, w, h);
   const maxDisplayWidth = 320;
   canvas.style.width = Math.min(maxDisplayWidth, w) + 'px';
   canvas.style.height = 'auto';
@@ -5499,10 +5541,12 @@ document.getElementById('resize-download-btn').addEventListener('click', async (
     const jpegCanvas = document.createElement('canvas');
     jpegCanvas.width = canvas.width; jpegCanvas.height = canvas.height;
     const jctx = jpegCanvas.getContext('2d');
+    jctx.imageSmoothingEnabled = true;
+    jctx.imageSmoothingQuality = 'high';
     jctx.fillStyle = '#ffffff';
     jctx.fillRect(0, 0, jpegCanvas.width, jpegCanvas.height);
     jctx.drawImage(canvas, 0, 0);
-    const url = jpegCanvas.toDataURL('image/jpeg', 0.92);
+    const url = jpegCanvas.toDataURL('image/jpeg', 0.98);
     const a = document.createElement('a');
     a.href = url; a.download = 'صورة-معدّلة-الحجم.jpg';
     document.body.appendChild(a); a.click(); a.remove();
@@ -5512,17 +5556,19 @@ document.getElementById('resize-download-btn').addEventListener('click', async (
   if(format === 'pdf'){
     setBusy(btn, true, I18N[currentLang].preparingBusy, I18N[currentLang].resizeDownloadBtn);
     try{
-      const jpegCanvas = document.createElement('canvas');
-      jpegCanvas.width = canvas.width; jpegCanvas.height = canvas.height;
-      const jctx = jpegCanvas.getContext('2d');
-      jctx.fillStyle = '#ffffff';
-      jctx.fillRect(0, 0, jpegCanvas.width, jpegCanvas.height);
-      jctx.drawImage(canvas, 0, 0);
-      const dataUrl = jpegCanvas.toDataURL('image/jpeg', 0.95);
+      const pngCanvas = document.createElement('canvas');
+      pngCanvas.width = canvas.width; pngCanvas.height = canvas.height;
+      const pctx = pngCanvas.getContext('2d');
+      pctx.imageSmoothingEnabled = true;
+      pctx.imageSmoothingQuality = 'high';
+      pctx.fillStyle = '#ffffff';
+      pctx.fillRect(0, 0, pngCanvas.width, pngCanvas.height);
+      pctx.drawImage(canvas, 0, 0);
+      const dataUrl = pngCanvas.toDataURL('image/png');
       const imgBytes = await (await fetch(dataUrl)).arrayBuffer();
 
       const pdfDoc = await PDFDocument.create();
-      const embeddedImg = await pdfDoc.embedJpg(imgBytes);
+      const embeddedImg = await pdfDoc.embedPng(imgBytes);
       const page = pdfDoc.addPage([canvas.width, canvas.height]);
       page.drawImage(embeddedImg, {x:0, y:0, width:canvas.width, height:canvas.height});
       const outBytes = await pdfDoc.save();
