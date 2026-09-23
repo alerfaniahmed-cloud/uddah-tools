@@ -1639,7 +1639,7 @@
 
     <div class="card pdf-card" id="pdftool-sign">
       <h2 data-i18n="signTitle">توقيع إلكتروني على PDF</h2>
-      <p class="hint" data-i18n="signHint">ارسم توقيعك بإصبعك أو الماوس، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
+      <p class="hint" data-i18n="signHint">ارسم توقيعك بإصبعك أو الماوس، اختر الصفحة، وحدد الموضع بسحب التوقيع مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.</p>
       <div class="field">
         <input type="file" id="sign-file" accept="application/pdf">
         <div class="file-list" id="sign-file-list"></div>
@@ -1687,7 +1687,7 @@
 
     <div class="card pdf-card" id="pdftool-stamp">
       <h2 data-i18n="pdfStampTitle">إضافة ختم على PDF</h2>
-      <p class="hint" data-i18n="pdfStampHint">ارفع صورة ختمك (PNG بخلفية شفافة أفضل)، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
+      <p class="hint" data-i18n="pdfStampHint">ارفع صورة ختمك (PNG بخلفية شفافة أفضل)، اختر الصفحة، وحدد الموضع بسحب الختم مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.</p>
       <div class="field">
         <input type="file" id="stamp-file" accept="application/pdf">
         <div class="file-list" id="stamp-file-list"></div>
@@ -1735,7 +1735,7 @@
 
     <div class="card pdf-card" id="pdftool-text">
       <h2 data-i18n="pdfTextTitle">إضافة نص على PDF</h2>
-      <p class="hint" data-i18n="pdfTextHint">اكتب أي نص، اختر حجمه ولونه والصفحة والموضع، ثم أضفه مباشرة على ملف PDF.</p>
+      <p class="hint" data-i18n="pdfTextHint">اكتب أي نص، اختر حجمه ولونه والصفحة، وحدد الموضع بسحب النص مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.</p>
       <div class="field">
         <input type="file" id="text-file" accept="application/pdf">
         <div class="file-list" id="text-file-list"></div>
@@ -2780,7 +2780,7 @@ const I18N = {
     compressStrong: 'قوي (حجم أصغر، جودة أقل)',
     compressBtn: 'ضغط وتنزيل',
     signTitle: 'توقيع إلكتروني على PDF',
-    signHint: 'ارسم توقيعك بإصبعك أو الماوس، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.',
+    signHint: 'ارسم توقيعك بإصبعك أو الماوس، اختر الصفحة، وحدد الموضع بسحب التوقيع مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.',
     signDrawLabel: 'ارسم توقيعك هنا',
     signClearBtn: 'مسح التوقيع',
     pageNumLabel: 'رقم الصفحة',
@@ -2788,13 +2788,13 @@ const I18N = {
     signBtn: 'إضافة التوقيع وتنزيل',
     signNote: 'التوقيع يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو توقيعك لأي سيرفر خارجي.',
     pdfStampTitle: 'إضافة ختم على PDF',
-    pdfStampHint: 'ارفع صورة ختمك (PNG بخلفية شفافة أفضل)، اختر الصفحة والموضع، ثم أضفه مباشرة على ملف PDF.',
+    pdfStampHint: 'ارفع صورة ختمك (PNG بخلفية شفافة أفضل)، اختر الصفحة، وحدد الموضع بسحب الختم مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.',
     stampImageLabel: 'صورة الختم',
     stampSizeLabel: 'حجم الختم (نقطة PDF)',
     pdfStampBtn: 'إضافة الختم وتنزيل',
     pdfStampNote: 'الختم يُضاف بالكامل داخل متصفحك — لا تُرفع صورة الختم أو ملفك لأي سيرفر خارجي.',
     pdfTextTitle: 'إضافة نص على PDF',
-    pdfTextHint: 'اكتب أي نص، اختر حجمه ولونه والصفحة والموضع، ثم أضفه مباشرة على ملف PDF.',
+    pdfTextHint: 'اكتب أي نص، اختر حجمه ولونه والصفحة، وحدد الموضع بسحب النص مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.',
     textContentLabel: 'النص',
     writeTextPh: 'اكتب النص هنا...',
     textSizeLabel: 'حجم الخط (نقطة PDF)',
@@ -3378,7 +3378,7 @@ const I18N = {
     compressStrong: 'Strong (smaller size, lower quality)',
     compressBtn: 'Compress and Download',
     signTitle: 'Electronic Signature on PDF',
-    signHint: 'Draw your signature with your finger or mouse, choose the page and position, then add it directly to a PDF file.',
+    signHint: 'Draw your signature with your finger or mouse, choose the page, drag the signature directly on the page preview to position it, then add it to a PDF file.',
     signDrawLabel: 'Draw your signature here',
     signClearBtn: 'Clear Signature',
     pageNumLabel: 'Page number',
@@ -3386,13 +3386,13 @@ const I18N = {
     signBtn: 'Add Signature and Download',
     signNote: 'The signature is drawn and added entirely in your browser — neither your file nor your signature is uploaded to any external server.',
     pdfStampTitle: 'Add Stamp to PDF',
-    pdfStampHint: 'Upload your stamp image (PNG with a transparent background is best), choose the page and position, then add it directly to a PDF file.',
+    pdfStampHint: 'Upload your stamp image (PNG with a transparent background is best), choose the page, drag the stamp directly on the page preview to position it, then add it to a PDF file.',
     stampImageLabel: 'Stamp image',
     stampSizeLabel: 'Stamp size (PDF points)',
     pdfStampBtn: 'Add Stamp and Download',
     pdfStampNote: 'The stamp is added entirely in your browser — neither the stamp image nor your file is uploaded to any external server.',
     pdfTextTitle: 'Add Text to PDF',
-    pdfTextHint: 'Write any text, choose its size, color, page, and position, then add it directly to a PDF file.',
+    pdfTextHint: 'Write any text, choose its size, color, and page, drag it directly on the page preview to position it, then add it to a PDF file.',
     textContentLabel: 'Text',
     writeTextPh: 'Write your text here...',
     textSizeLabel: 'Font size (PDF points)',
@@ -5907,10 +5907,57 @@ document.getElementById('sign-clear-btn').addEventListener('click', ()=>{
   updateSignPreview();
 });
 
+function makeOverlayDraggable(overlayId, xInput, yInput, xValId, yValId, updateFn){
+  const overlay = document.getElementById(overlayId);
+  overlay.style.pointerEvents = 'auto';
+  overlay.style.cursor = 'grab';
+  overlay.style.touchAction = 'none';
+  let dragging = false;
+
+  function clientToPct(clientX, clientY){
+    const container = overlay.parentElement;
+    const rect = container.getBoundingClientRect();
+    const ow = overlay.offsetWidth, oh = overlay.offsetHeight;
+    let x = clientX - rect.left - ow/2;
+    let y = clientY - rect.top - oh/2;
+    const maxX = Math.max(1, rect.width - ow);
+    const maxY = Math.max(1, rect.height - oh);
+    x = Math.max(0, Math.min(maxX, x));
+    y = Math.max(0, Math.min(maxY, y));
+    const xPct = Math.round((x / maxX) * 100);
+    const yPctFromTop = (y / maxY) * 100;
+    const yPct = Math.round(100 - yPctFromTop);
+    return { xPct, yPct };
+  }
+
+  function apply(clientX, clientY){
+    const { xPct, yPct } = clientToPct(clientX, clientY);
+    xInput.value = Math.max(0, Math.min(100, xPct));
+    yInput.value = Math.max(0, Math.min(100, yPct));
+    document.getElementById(xValId).textContent = xInput.value;
+    document.getElementById(yValId).textContent = yInput.value;
+    updateFn();
+  }
+
+  overlay.addEventListener('mousedown', (e)=>{ dragging = true; overlay.style.cursor = 'grabbing'; e.preventDefault(); });
+  window.addEventListener('mousemove', (e)=>{ if(dragging) apply(e.clientX, e.clientY); });
+  window.addEventListener('mouseup', ()=>{ dragging = false; overlay.style.cursor = 'grab'; });
+
+  overlay.addEventListener('touchstart', (e)=>{ dragging = true; e.preventDefault(); }, {passive:false});
+  window.addEventListener('touchmove', (e)=>{
+    if(!dragging) return;
+    e.preventDefault();
+    const t = e.touches[0];
+    apply(t.clientX, t.clientY);
+  }, {passive:false});
+  window.addEventListener('touchend', ()=>{ dragging = false; });
+}
+
 const signXInput = document.getElementById('sign-x');
 const signYInput = document.getElementById('sign-y');
 signXInput.addEventListener('input', ()=>{ document.getElementById('sign-x-val').textContent = signXInput.value; updateSignPreview(); });
 signYInput.addEventListener('input', ()=>{ document.getElementById('sign-y-val').textContent = signYInput.value; updateSignPreview(); });
+makeOverlayDraggable('sign-preview-overlay', signXInput, signYInput, 'sign-x-val', 'sign-y-val', updateSignPreview);
 
 /* --- Live position preview --- */
 let signPreviewPdfDoc = null;
@@ -6035,6 +6082,7 @@ const stampXInput = document.getElementById('stamp-x');
 const stampYInput = document.getElementById('stamp-y');
 stampXInput.addEventListener('input', ()=>{ document.getElementById('stamp-x-val').textContent = stampXInput.value; updateStampPreview(); });
 stampYInput.addEventListener('input', ()=>{ document.getElementById('stamp-y-val').textContent = stampYInput.value; updateStampPreview(); });
+makeOverlayDraggable('stamp-preview-overlay', stampXInput, stampYInput, 'stamp-x-val', 'stamp-y-val', updateStampPreview);
 document.getElementById('stamp-page').addEventListener('input', updateStampPreview);
 document.getElementById('stamp-size').addEventListener('input', updateStampPreview);
 
@@ -6186,6 +6234,7 @@ const textXInput = document.getElementById('text-x');
 const textYInput = document.getElementById('text-y');
 textXInput.addEventListener('input', ()=>{ document.getElementById('text-x-val').textContent = textXInput.value; updateTextPreview(); });
 textYInput.addEventListener('input', ()=>{ document.getElementById('text-y-val').textContent = textYInput.value; updateTextPreview(); });
+makeOverlayDraggable('text-preview-overlay', textXInput, textYInput, 'text-x-val', 'text-y-val', updateTextPreview);
 document.getElementById('text-page').addEventListener('input', updateTextPreview);
 
 let textPreviewPdfDoc = null;
