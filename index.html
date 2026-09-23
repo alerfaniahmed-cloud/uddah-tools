@@ -881,6 +881,7 @@
           <option value="seal" data-i18n="toolsOptSeal">🖋️ مولد الأختام</option>
           <option value="img2stamp" data-i18n="toolsOptImg2stamp">🖼️ تحويل صورة إلى ختم</option>
           <option value="card2s" data-i18n="toolsOptCard2s">🪪 مولد كرت الوجهين</option>
+          <option value="resize" data-i18n="toolsOptResize">📐 تغيير حجم الصورة</option>
           <option value="bulkcrop" data-i18n="toolsOptBulkcrop">✂️ قص عدة صور دفعة واحدة</option>
           <option value="pw" data-i18n="toolsOptPw">🔑 مولد كلمات المرور</option>
           <option value="id" data-i18n="toolsOptId">🪪 مدقق رقم الهوية / الإقامة</option>
@@ -1194,6 +1195,59 @@
       </div>
       <p class="note" data-i18n="card2sCutNote">كل صيغ التنزيل (PNG للوجه، PNG للظهر، PDF، والطباعة المباشرة) تتضمن الآن إطار قص (خط متقطع) بالمقاس الحقيقي بالضبط حوالين الكرت، مع هامش أبيض بسيط حوله — قصّه بالمقص أو قاطع الورق وتطلع لك بالحجم الصحيح تماماً، بغض النظر عن كيف أو من وين تطبعها.</p>
       <p class="note" data-i18n="card2sPrintNote">تُصمَّم البطاقة بدقة طباعة ٣٠٠ نقطة/إنش وخلفية بيضاء ثابتة، جاهزة للإرسال مباشرة لأي مطبعة. كل شي يتم داخل متصفحك.</p>
+    </div>
+
+    <div class="card tools-card" id="tools-resize">
+      <h2 data-i18n="resizeTitle">تغيير حجم الصورة</h2>
+      <p class="hint" data-i18n="resizeHint">ارفع أي صورة، وكبّرها أو صغّرها بالعرض والطول (كل واحد لحاله أو مع بعض)، وشوف المعاينة قبل التنزيل.</p>
+      <div class="field">
+        <input type="file" id="resize-image" accept="image/png,image/jpeg,image/webp">
+        <div class="file-list" id="resize-image-list"></div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="resize-width" data-i18n="resizeWidthLabel">العرض (بكسل)</label>
+          <input type="number" id="resize-width" min="1" max="10000" disabled>
+        </div>
+        <div class="field">
+          <label for="resize-height" data-i18n="resizeHeightLabel">الارتفاع (بكسل)</label>
+          <input type="number" id="resize-height" min="1" max="10000" disabled>
+        </div>
+      </div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--bone);">
+          <input type="checkbox" id="resize-lock-ratio" checked> <span data-i18n="lockRatioLabel">قفل نسبة الأبعاد (تكبير متناسب)</span>
+        </label>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 14px;">
+        <button type="button" class="btn secondary" data-resize-pct="25" style="padding:7px 14px;font-size:.82rem;">25%</button>
+        <button type="button" class="btn secondary" data-resize-pct="50" style="padding:7px 14px;font-size:.82rem;">50%</button>
+        <button type="button" class="btn secondary" data-resize-pct="75" style="padding:7px 14px;font-size:.82rem;">75%</button>
+        <button type="button" class="btn secondary" data-resize-pct="100" style="padding:7px 14px;font-size:.82rem;">100%</button>
+        <button type="button" class="btn secondary" data-resize-pct="150" style="padding:7px 14px;font-size:.82rem;">150%</button>
+        <button type="button" class="btn secondary" data-resize-pct="200" style="padding:7px 14px;font-size:.82rem;">200%</button>
+      </div>
+
+      <div style="text-align:center;">
+        <p class="hint" style="margin-bottom:6px;" id="resize-preview-caption"></p>
+        <canvas id="resize-preview-canvas" style="max-width:100%;border:1px solid var(--border);border-radius:8px;background-image:linear-gradient(45deg,#00000010 25%,transparent 25%),linear-gradient(-45deg,#00000010 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#00000010 75%),linear-gradient(-45deg,transparent 75%,#00000010 75%);background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0;"></canvas>
+      </div>
+
+      <div class="field" style="margin-top:14px;">
+        <label for="resize-format" data-i18n="resizeFormatLabel">صيغة التنزيل</label>
+        <select id="resize-format">
+          <option value="png" data-i18n="formatPng">PNG (بخلفية شفافة)</option>
+          <option value="jpeg" data-i18n="formatJpeg">JPEG</option>
+          <option value="pdf" data-i18n="formatPdf">PDF</option>
+        </select>
+      </div>
+
+      <div style="text-align:center;margin-top:16px;">
+        <button class="btn" id="resize-download-btn" disabled data-i18n="resizeDownloadBtn">تنزيل الصورة بالحجم الجديد</button>
+      </div>
+      <p class="note" data-i18n="resizeNote">كل المعالجة تتم داخل متصفحك — الصورة ما تُرفع لأي سيرفر خارجي.</p>
     </div>
 
     <div class="card tools-card" id="tools-bulkcrop">
@@ -1548,6 +1602,7 @@
           <option value="stamp" data-i18n="pdfOptStamp">🖋️ إضافة ختم على PDF</option>
           <option value="text" data-i18n="pdfOptText">🔤 إضافة نص على PDF</option>
           <option value="watermark" data-i18n="pdfOptWatermark">💧 إضافة علامة مائية (Watermark)</option>
+          <option value="pagesize" data-i18n="pdfOptPagesize">📏 تغيير مقاس صفحة PDF</option>
         </select>
       </div>
     </div>
@@ -1704,10 +1759,21 @@
           <label for="stamp-page" data-i18n="pageNumLabel">رقم الصفحة</label>
           <input type="number" id="stamp-page" min="1" value="1" placeholder="آخر صفحة افتراضياً" data-i18n-ph="lastPageDefaultPh">
         </div>
+      </div>
+      <div class="row">
         <div class="field">
-          <label for="stamp-size" data-i18n="stampSizeLabel">حجم الختم (نقطة PDF)</label>
-          <input type="number" id="stamp-size" min="40" max="400" value="120">
+          <label for="stamp-width" data-i18n="stampWidthLabel">العرض (نقطة PDF)</label>
+          <input type="number" id="stamp-width" min="10" max="600" value="120">
         </div>
+        <div class="field">
+          <label for="stamp-height" data-i18n="stampHeightLabel">الارتفاع (نقطة PDF)</label>
+          <input type="number" id="stamp-height" min="10" max="600" value="120">
+        </div>
+      </div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--bone);">
+          <input type="checkbox" id="stamp-lock-ratio" checked> <span data-i18n="lockRatioLabel">قفل نسبة الأبعاد (تكبير متناسب)</span>
+        </label>
       </div>
       <div class="row">
         <div class="field">
@@ -1722,9 +1788,11 @@
 
       <div class="field" id="stamp-preview-wrap" style="display:none;">
         <label data-i18n="posPreviewLabel">معاينة الموضع على الصفحة</label>
+        <p class="note" style="margin-top:2px;" data-i18n="resizeHandleNote">اسحب الختم لتحريكه، أو اسحب المقبض الذهبي بزاويته لتكبيره أو تصغيره.</p>
         <div style="position:relative;display:inline-block;border:1px solid var(--border);border-radius:8px;overflow:hidden;line-height:0;background:#fff;">
           <canvas id="stamp-preview-page"></canvas>
           <img id="stamp-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
+          <div id="stamp-resize-handle" style="position:absolute;width:14px;height:14px;background:var(--brass);border:2px solid #fff;border-radius:3px;cursor:nwse-resize;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>
         </div>
       </div>
 
@@ -1815,6 +1883,39 @@
       <button class="btn" id="watermark-btn" style="margin-top:14px;" data-i18n="watermarkBtn">إضافة العلامة المائية وتنزيل</button>
       <div id="watermark-status"></div>
       <p class="note" data-i18n="watermarkNote">تُضاف العلامة المائية بشكل مائل ومكررة عبر كل صفحات الملف بالكامل داخل متصفحك — لا يُرفع ملفك لأي سيرفر خارجي.</p>
+    </div>
+
+    <div class="card pdf-card" id="pdftool-pagesize">
+      <h2 data-i18n="pagesizeTitle">تغيير مقاس صفحة PDF</h2>
+      <p class="hint" data-i18n="pagesizeHint">غيّر مقاس صفحات الملف الفعلي (زي تحويله من A4 إلى Letter، أو أي مقاس تحدده بنفسك) — المحتوى يتمدد تلقائياً ليملأ المقاس الجديد.</p>
+      <div class="field">
+        <input type="file" id="pagesize-file" accept="application/pdf">
+        <div class="file-list" id="pagesize-file-list"></div>
+      </div>
+      <div class="field">
+        <label for="pagesize-preset" data-i18n="pagesizePresetLabel">المقاس الجديد</label>
+        <select id="pagesize-preset">
+          <option value="a4" data-i18n="pagesizeA4">A4 (210 × 297 مم)</option>
+          <option value="letter" data-i18n="pagesizeLetter">Letter (216 × 279 مم)</option>
+          <option value="a3" data-i18n="pagesizeA3">A3 (297 × 420 مم)</option>
+          <option value="a5" data-i18n="pagesizeA5">A5 (148 × 210 مم)</option>
+          <option value="legal" data-i18n="pagesizeLegal">Legal (216 × 356 مم)</option>
+          <option value="custom" data-i18n="pagesizeCustom">مقاس مخصص</option>
+        </select>
+      </div>
+      <div class="row" id="pagesize-custom-wrap" style="display:none;">
+        <div class="field">
+          <label for="pagesize-custom-width" data-i18n="widthMmLabel">العرض (مم)</label>
+          <input type="number" id="pagesize-custom-width" min="20" max="2000" value="210">
+        </div>
+        <div class="field">
+          <label for="pagesize-custom-height" data-i18n="heightMmLabel">الارتفاع (مم)</label>
+          <input type="number" id="pagesize-custom-height" min="20" max="2000" value="297">
+        </div>
+      </div>
+      <button class="btn" id="pagesize-btn" style="margin-top:14px;" data-i18n="pagesizeBtn">تغيير المقاس وتنزيل</button>
+      <div id="pagesize-status"></div>
+      <p class="note" data-i18n="pagesizeNote">يُعاد تحجيم كل صفحات الملف بالكامل داخل متصفحك — لا يُرفع ملفك لأي سيرفر خارجي.</p>
     </div>
 
     <p class="note" data-i18n="pdfBottomNote">جميع أدوات PDF تعمل بالكامل داخل متصفحك — لا تُرفع ملفاتك لأي سيرفر، وتحويل الصيغ إلى Word أو Excel بدقة عالية يحتاج معالجة خارج المتصفح وسيُضاف لاحقاً كخدمة منفصلة.</p>
@@ -2791,6 +2892,31 @@ const I18N = {
     pdfStampHint: 'ارفع صورة ختمك (PNG بخلفية شفافة أفضل)، اختر الصفحة، وحدد الموضع بسحب الختم مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.',
     stampImageLabel: 'صورة الختم',
     stampSizeLabel: 'حجم الختم (نقطة PDF)',
+    stampWidthLabel: 'العرض (نقطة PDF)',
+    stampHeightLabel: 'الارتفاع (نقطة PDF)',
+    lockRatioLabel: 'قفل نسبة الأبعاد (تكبير متناسب)',
+    resizeHandleNote: 'اسحب الختم لتحريكه، أو اسحب المقبض الذهبي بزاويته لتكبيره أو تصغيره.',
+    toolsOptResize: '📐 تغيير حجم الصورة',
+    resizeTitle: 'تغيير حجم الصورة',
+    resizeHint: 'ارفع أي صورة، وكبّرها أو صغّرها بالعرض والطول (كل واحد لحاله أو مع بعض)، وشوف المعاينة قبل التنزيل.',
+    resizeWidthLabel: 'العرض (بكسل)', resizeHeightLabel: 'الارتفاع (بكسل)',
+    resizeDownloadBtn: 'تنزيل الصورة بالحجم الجديد',
+    resizeNote: 'كل المعالجة تتم داخل متصفحك — الصورة ما تُرفع لأي سيرفر خارجي.',
+    resizeFormatLabel: 'صيغة التنزيل',
+    formatPng: 'PNG (بخلفية شفافة)', formatJpeg: 'JPEG', formatPdf: 'PDF',
+    resizePdfErr: 'تعذر إنشاء ملف PDF، حاول مرة أخرى.',
+    pdfOptPagesize: '📏 تغيير مقاس صفحة PDF',
+    pagesizeTitle: 'تغيير مقاس صفحة PDF',
+    pagesizeHint: 'غيّر مقاس صفحات الملف الفعلي (زي تحويله من A4 إلى Letter، أو أي مقاس تحدده بنفسك) — المحتوى يتمدد تلقائياً ليملأ المقاس الجديد.',
+    pagesizePresetLabel: 'المقاس الجديد',
+    pagesizeA4: 'A4 (210 × 297 مم)', pagesizeLetter: 'Letter (216 × 279 مم)',
+    pagesizeA3: 'A3 (297 × 420 مم)', pagesizeA5: 'A5 (148 × 210 مم)',
+    pagesizeLegal: 'Legal (216 × 356 مم)', pagesizeCustom: 'مقاس مخصص',
+    pagesizeBtn: 'تغيير المقاس وتنزيل',
+    pagesizeNote: 'يُعاد تحجيم كل صفحات الملف بالكامل داخل متصفحك — لا يُرفع ملفك لأي سيرفر خارجي.',
+    pagesizeBusy: 'جارٍ تغيير المقاس...',
+    pagesizeSuccess: 'تم تغيير مقاس كل الصفحات بنجاح.',
+    pagesizeErr: 'تعذر تغيير المقاس — تأكد أن الملف PDF صحيح.',
     pdfStampBtn: 'إضافة الختم وتنزيل',
     pdfStampNote: 'الختم يُضاف بالكامل داخل متصفحك — لا تُرفع صورة الختم أو ملفك لأي سيرفر خارجي.',
     pdfTextTitle: 'إضافة نص على PDF',
@@ -3389,6 +3515,31 @@ const I18N = {
     pdfStampHint: 'Upload your stamp image (PNG with a transparent background is best), choose the page, drag the stamp directly on the page preview to position it, then add it to a PDF file.',
     stampImageLabel: 'Stamp image',
     stampSizeLabel: 'Stamp size (PDF points)',
+    stampWidthLabel: 'Width (PDF points)',
+    stampHeightLabel: 'Height (PDF points)',
+    lockRatioLabel: 'Lock aspect ratio (proportional resize)',
+    resizeHandleNote: 'Drag the stamp to move it, or drag the gold handle at its corner to resize it.',
+    toolsOptResize: '📐 Resize Image',
+    resizeTitle: 'Resize Image',
+    resizeHint: 'Upload any image, and enlarge or shrink it by width and height (independently or together), with a preview before downloading.',
+    resizeWidthLabel: 'Width (px)', resizeHeightLabel: 'Height (px)',
+    resizeDownloadBtn: 'Download Resized Image',
+    resizeNote: 'All processing happens in your browser — the image is never uploaded to any external server.',
+    resizeFormatLabel: 'Download format',
+    formatPng: 'PNG (transparent background)', formatJpeg: 'JPEG', formatPdf: 'PDF',
+    resizePdfErr: 'Could not create the PDF file, please try again.',
+    pdfOptPagesize: '📏 Change PDF Page Size',
+    pagesizeTitle: 'Change PDF Page Size',
+    pagesizeHint: "Change the file's actual page size (like converting it from A4 to Letter, or any size you set yourself) — the content automatically stretches to fill the new size.",
+    pagesizePresetLabel: 'New size',
+    pagesizeA4: 'A4 (210 × 297 mm)', pagesizeLetter: 'Letter (216 × 279 mm)',
+    pagesizeA3: 'A3 (297 × 420 mm)', pagesizeA5: 'A5 (148 × 210 mm)',
+    pagesizeLegal: 'Legal (216 × 356 mm)', pagesizeCustom: 'Custom size',
+    pagesizeBtn: 'Change Size and Download',
+    pagesizeNote: 'All pages of the file are resized entirely in your browser — your file is never uploaded to any external server.',
+    pagesizeBusy: 'Changing size...',
+    pagesizeSuccess: 'Successfully changed the size of all pages.',
+    pagesizeErr: 'Could not change the size — make sure the PDF file is valid.',
     pdfStampBtn: 'Add Stamp and Download',
     pdfStampNote: 'The stamp is added entirely in your browser — neither the stamp image nor your file is uploaded to any external server.',
     pdfTextTitle: 'Add Text to PDF',
@@ -5168,6 +5319,144 @@ document.getElementById('card2s-print-btn').addEventListener('click', ()=>{
 });
 
 /* ============================================================
+   IMAGE RESIZE TOOL
+   ============================================================ */
+let resizeSourceImage = null;
+let resizeOriginalRatio = 1;
+
+setupFilePicker('resize-image', 'resize-image-list', false);
+
+function renderResizePreview(){
+  const canvas = document.getElementById('resize-preview-canvas');
+  const caption = document.getElementById('resize-preview-caption');
+  if(!resizeSourceImage){
+    canvas.width = 0; canvas.height = 0;
+    caption.textContent = '';
+    return;
+  }
+  const w = Math.max(1, parseInt(document.getElementById('resize-width').value, 10) || 1);
+  const h = Math.max(1, parseInt(document.getElementById('resize-height').value, 10) || 1);
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, w, h);
+  ctx.drawImage(resizeSourceImage, 0, 0, w, h);
+  const maxDisplayWidth = 320;
+  canvas.style.width = Math.min(maxDisplayWidth, w) + 'px';
+  canvas.style.height = 'auto';
+  caption.textContent = `${w} × ${h} px`;
+}
+
+document.getElementById('resize-image').addEventListener('change', ()=>{
+  const file = document.getElementById('resize-image').files[0];
+  const downloadBtn = document.getElementById('resize-download-btn');
+  const widthInput = document.getElementById('resize-width');
+  const heightInput = document.getElementById('resize-height');
+  if(!file){
+    resizeSourceImage = null;
+    widthInput.disabled = true;
+    heightInput.disabled = true;
+    downloadBtn.disabled = true;
+    renderResizePreview();
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const img = new Image();
+    img.onload = ()=>{
+      resizeSourceImage = img;
+      resizeOriginalRatio = img.naturalHeight / img.naturalWidth;
+      widthInput.value = img.naturalWidth;
+      heightInput.value = img.naturalHeight;
+      widthInput.disabled = false;
+      heightInput.disabled = false;
+      downloadBtn.disabled = false;
+      renderResizePreview();
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('resize-width').addEventListener('input', ()=>{
+  if(document.getElementById('resize-lock-ratio').checked){
+    const w = parseFloat(document.getElementById('resize-width').value) || 1;
+    document.getElementById('resize-height').value = Math.round(w * resizeOriginalRatio);
+  }
+  renderResizePreview();
+});
+document.getElementById('resize-height').addEventListener('input', ()=>{
+  if(document.getElementById('resize-lock-ratio').checked && resizeOriginalRatio > 0){
+    const h = parseFloat(document.getElementById('resize-height').value) || 1;
+    document.getElementById('resize-width').value = Math.round(h / resizeOriginalRatio);
+  }
+  renderResizePreview();
+});
+
+document.querySelectorAll('[data-resize-pct]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    if(!resizeSourceImage) return;
+    const pct = parseFloat(btn.getAttribute('data-resize-pct')) / 100;
+    document.getElementById('resize-width').value = Math.max(1, Math.round(resizeSourceImage.naturalWidth * pct));
+    document.getElementById('resize-height').value = Math.max(1, Math.round(resizeSourceImage.naturalHeight * pct));
+    renderResizePreview();
+  });
+});
+
+document.getElementById('resize-download-btn').addEventListener('click', async ()=>{
+  if(!resizeSourceImage) return;
+  const canvas = document.getElementById('resize-preview-canvas');
+  const format = document.getElementById('resize-format').value;
+  const btn = document.getElementById('resize-download-btn');
+
+  if(format === 'png'){
+    const url = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = url; a.download = 'صورة-معدّلة-الحجم.png';
+    document.body.appendChild(a); a.click(); a.remove();
+    return;
+  }
+
+  if(format === 'jpeg'){
+    const jpegCanvas = document.createElement('canvas');
+    jpegCanvas.width = canvas.width; jpegCanvas.height = canvas.height;
+    const jctx = jpegCanvas.getContext('2d');
+    jctx.fillStyle = '#ffffff';
+    jctx.fillRect(0, 0, jpegCanvas.width, jpegCanvas.height);
+    jctx.drawImage(canvas, 0, 0);
+    const url = jpegCanvas.toDataURL('image/jpeg', 0.92);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'صورة-معدّلة-الحجم.jpg';
+    document.body.appendChild(a); a.click(); a.remove();
+    return;
+  }
+
+  if(format === 'pdf'){
+    setBusy(btn, true, I18N[currentLang].preparingBusy, I18N[currentLang].resizeDownloadBtn);
+    try{
+      const jpegCanvas = document.createElement('canvas');
+      jpegCanvas.width = canvas.width; jpegCanvas.height = canvas.height;
+      const jctx = jpegCanvas.getContext('2d');
+      jctx.fillStyle = '#ffffff';
+      jctx.fillRect(0, 0, jpegCanvas.width, jpegCanvas.height);
+      jctx.drawImage(canvas, 0, 0);
+      const dataUrl = jpegCanvas.toDataURL('image/jpeg', 0.95);
+      const imgBytes = await (await fetch(dataUrl)).arrayBuffer();
+
+      const pdfDoc = await PDFDocument.create();
+      const embeddedImg = await pdfDoc.embedJpg(imgBytes);
+      const page = pdfDoc.addPage([canvas.width, canvas.height]);
+      page.drawImage(embeddedImg, {x:0, y:0, width:canvas.width, height:canvas.height});
+      const outBytes = await pdfDoc.save();
+      downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'صورة-معدّلة-الحجم.pdf');
+    }catch(e){
+      alert(I18N[currentLang].resizePdfErr);
+    }
+    setBusy(btn, false, '', I18N[currentLang].resizeDownloadBtn);
+  }
+});
+
+/* ============================================================
    BULK IMAGE CROPPER
    ============================================================ */
 let bulkcropFiles = [];
@@ -6060,6 +6349,7 @@ document.getElementById('sign-btn').addEventListener('click', async ()=>{
 /* --- Stamp (uploaded image) --- */
 let stampImageDataUrl = null;
 let stampImageRatio = 1; // height/width of the uploaded stamp image
+let stampPreviewScale = 1; // points-to-preview-pixels factor, updated on each render
 
 document.getElementById('stamp-image').addEventListener('change', async ()=>{
   const file = document.getElementById('stamp-image').files[0];
@@ -6073,6 +6363,10 @@ document.getElementById('stamp-image').addEventListener('change', async ()=>{
   img.onload = ()=>{
     stampImageRatio = img.height / img.width;
     stampImageDataUrl = dataUrl;
+    const widthInput = document.getElementById('stamp-width');
+    const heightInput = document.getElementById('stamp-height');
+    widthInput.value = 120;
+    heightInput.value = Math.round(120 * stampImageRatio);
     updateStampPreview();
   };
   img.src = dataUrl;
@@ -6080,11 +6374,25 @@ document.getElementById('stamp-image').addEventListener('change', async ()=>{
 
 const stampXInput = document.getElementById('stamp-x');
 const stampYInput = document.getElementById('stamp-y');
+const stampWidthInput = document.getElementById('stamp-width');
+const stampHeightInput = document.getElementById('stamp-height');
+const stampLockRatio = document.getElementById('stamp-lock-ratio');
 stampXInput.addEventListener('input', ()=>{ document.getElementById('stamp-x-val').textContent = stampXInput.value; updateStampPreview(); });
 stampYInput.addEventListener('input', ()=>{ document.getElementById('stamp-y-val').textContent = stampYInput.value; updateStampPreview(); });
 makeOverlayDraggable('stamp-preview-overlay', stampXInput, stampYInput, 'stamp-x-val', 'stamp-y-val', updateStampPreview);
 document.getElementById('stamp-page').addEventListener('input', updateStampPreview);
-document.getElementById('stamp-size').addEventListener('input', updateStampPreview);
+stampWidthInput.addEventListener('input', ()=>{
+  if(stampLockRatio.checked){
+    stampHeightInput.value = Math.round((parseFloat(stampWidthInput.value)||1) * stampImageRatio);
+  }
+  updateStampPreview();
+});
+stampHeightInput.addEventListener('input', ()=>{
+  if(stampLockRatio.checked && stampImageRatio > 0){
+    stampWidthInput.value = Math.round((parseFloat(stampHeightInput.value)||1) / stampImageRatio);
+  }
+  updateStampPreview();
+});
 
 let stampPreviewPdfDoc = null;
 let stampPreviewFileRef = null;
@@ -6095,6 +6403,12 @@ async function loadStampPreviewPdf(file){
   stampPreviewPdfDoc = await pdfjsLib.getDocument({data: bytes}).promise;
   stampPreviewFileRef = file;
   return stampPreviewPdfDoc;
+}
+
+function positionStampResizeHandle(overlayLeft, overlayTop, overlayWidth, overlayHeight){
+  const handle = document.getElementById('stamp-resize-handle');
+  handle.style.left = (overlayLeft + overlayWidth - 7) + 'px';
+  handle.style.top = (overlayTop + overlayHeight - 7) + 'px';
 }
 
 async function updateStampPreview(){
@@ -6110,6 +6424,7 @@ async function updateStampPreview(){
     const baseViewport = page.getViewport({scale:1});
     const previewWidth = 320;
     const scale = previewWidth / baseViewport.width;
+    stampPreviewScale = scale;
     const viewport = page.getViewport({scale});
 
     const canvas = document.getElementById('stamp-preview-page');
@@ -6119,8 +6434,8 @@ async function updateStampPreview(){
     await page.render({canvasContext: ctx, viewport}).promise;
 
     const pw = baseViewport.width, ph = baseViewport.height;
-    const stWidth = parseFloat(document.getElementById('stamp-size').value) || 120;
-    const stHeight = stWidth * stampImageRatio;
+    const stWidth = parseFloat(stampWidthInput.value) || 120;
+    const stHeight = parseFloat(stampHeightInput.value) || 120;
     const xPct = parseFloat(stampXInput.value)/100;
     const yPct = parseFloat(stampYInput.value)/100;
     const x = xPct * (pw - stWidth);
@@ -6128,16 +6443,66 @@ async function updateStampPreview(){
 
     const overlay = document.getElementById('stamp-preview-overlay');
     overlay.src = stampImageDataUrl;
-    overlay.style.left = (x*scale) + 'px';
-    overlay.style.top = ((ph - y - stHeight)*scale) + 'px';
-    overlay.style.width = (stWidth*scale) + 'px';
-    overlay.style.height = (stHeight*scale) + 'px';
+    const overlayLeft = x*scale, overlayTop = (ph - y - stHeight)*scale;
+    const overlayWidth = stWidth*scale, overlayHeight = stHeight*scale;
+    overlay.style.left = overlayLeft + 'px';
+    overlay.style.top = overlayTop + 'px';
+    overlay.style.width = overlayWidth + 'px';
+    overlay.style.height = overlayHeight + 'px';
+    positionStampResizeHandle(overlayLeft, overlayTop, overlayWidth, overlayHeight);
 
     wrap.style.display = 'block';
   }catch(e){
     wrap.style.display = 'none';
   }
 }
+
+(function setupStampResizeHandle(){
+  const handle = document.getElementById('stamp-resize-handle');
+  let dragging = false;
+  let startClientX, startClientY, startWidthPt, startHeightPt;
+
+  handle.addEventListener('mousedown', (e)=>{
+    dragging = true;
+    startClientX = e.clientX; startClientY = e.clientY;
+    startWidthPt = parseFloat(stampWidthInput.value) || 120;
+    startHeightPt = parseFloat(stampHeightInput.value) || 120;
+    e.preventDefault();
+    e.stopPropagation();
+  });
+  function onMove(clientX, clientY){
+    const dxPt = (clientX - startClientX) / (stampPreviewScale || 1);
+    const dyPt = (clientY - startClientY) / (stampPreviewScale || 1);
+    let newWidth = Math.max(10, Math.round(startWidthPt + dxPt));
+    let newHeight;
+    if(stampLockRatio.checked && stampImageRatio > 0){
+      newHeight = Math.round(newWidth * stampImageRatio);
+    } else {
+      newHeight = Math.max(10, Math.round(startHeightPt + dyPt));
+    }
+    stampWidthInput.value = newWidth;
+    stampHeightInput.value = newHeight;
+    updateStampPreview();
+  }
+  window.addEventListener('mousemove', (e)=>{ if(dragging) onMove(e.clientX, e.clientY); });
+  window.addEventListener('mouseup', ()=>{ dragging = false; });
+  handle.addEventListener('touchstart', (e)=>{
+    dragging = true;
+    const t = e.touches[0];
+    startClientX = t.clientX; startClientY = t.clientY;
+    startWidthPt = parseFloat(stampWidthInput.value) || 120;
+    startHeightPt = parseFloat(stampHeightInput.value) || 120;
+    e.preventDefault();
+    e.stopPropagation();
+  }, {passive:false});
+  window.addEventListener('touchmove', (e)=>{
+    if(!dragging) return;
+    e.preventDefault();
+    const t = e.touches[0];
+    onMove(t.clientX, t.clientY);
+  }, {passive:false});
+  window.addEventListener('touchend', ()=>{ dragging = false; });
+})();
 
 document.getElementById('stamp-file').addEventListener('change', ()=>{ stampPreviewPdfDoc = null; stampPreviewFileRef = null; updateStampPreview(); });
 
@@ -6164,8 +6529,8 @@ document.getElementById('stamp-btn').addEventListener('click', async ()=>{
       ? await pdfDoc.embedPng(stampBytes)
       : await pdfDoc.embedJpg(stampBytes);
 
-    const stWidth = parseFloat(document.getElementById('stamp-size').value) || 120;
-    const stHeight = stWidth * stampImageRatio;
+    const stWidth = parseFloat(stampWidthInput.value) || 120;
+    const stHeight = parseFloat(stampHeightInput.value) || 120;
 
     const xPct = parseFloat(stampXInput.value) / 100;
     const yPct = parseFloat(stampYInput.value) / 100;
@@ -6405,6 +6770,63 @@ document.getElementById('watermark-btn').addEventListener('click', async ()=>{
     setStatus('watermark-status', I18N[currentLang].watermarkErr, 'err');
   }
   setBusy(btn, false, '', I18N[currentLang].watermarkBtn);
+});
+
+/* ============================================================
+   PDF PAGE SIZE CHANGER
+   ============================================================ */
+setupFilePicker('pagesize-file', 'pagesize-file-list', false);
+
+const PAGESIZE_PRESETS_MM = {
+  a4: [210, 297],
+  letter: [215.9, 279.4],
+  a3: [297, 420],
+  a5: [148, 210],
+  legal: [215.9, 355.6]
+};
+
+document.getElementById('pagesize-preset').addEventListener('change', ()=>{
+  const val = document.getElementById('pagesize-preset').value;
+  document.getElementById('pagesize-custom-wrap').style.display = val === 'custom' ? 'flex' : 'none';
+});
+
+document.getElementById('pagesize-btn').addEventListener('click', async ()=>{
+  const file = document.getElementById('pagesize-file').files[0];
+  const btn = document.getElementById('pagesize-btn');
+  if(!file){ setStatus('pagesize-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
+
+  setBusy(btn, true, I18N[currentLang].pagesizeBusy, I18N[currentLang].pagesizeBtn);
+  try{
+    const preset = document.getElementById('pagesize-preset').value;
+    let widthMm, heightMm;
+    if(preset === 'custom'){
+      widthMm = parseFloat(document.getElementById('pagesize-custom-width').value) || 210;
+      heightMm = parseFloat(document.getElementById('pagesize-custom-height').value) || 297;
+    } else {
+      [widthMm, heightMm] = PAGESIZE_PRESETS_MM[preset];
+    }
+    const newWidthPt = widthMm * 2.83465;
+    const newHeightPt = heightMm * 2.83465;
+
+    const pdfBytes = await file.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const pages = pdfDoc.getPages();
+
+    pages.forEach(page=>{
+      const { width: ow, height: oh } = page.getSize();
+      const scaleX = newWidthPt / ow;
+      const scaleY = newHeightPt / oh;
+      page.scaleContent(scaleX, scaleY);
+      page.setSize(newWidthPt, newHeightPt);
+    });
+
+    const outBytes = await pdfDoc.save();
+    downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مقاس_معدّل.pdf');
+    setStatus('pagesize-status', I18N[currentLang].pagesizeSuccess, 'ok');
+  }catch(e){
+    setStatus('pagesize-status', I18N[currentLang].pagesizeErr, 'err');
+  }
+  setBusy(btn, false, '', I18N[currentLang].pagesizeBtn);
 });
 
 /* ============================================================
