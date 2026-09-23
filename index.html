@@ -1778,11 +1778,11 @@
       <div class="row">
         <div class="field">
           <label for="stamp-width" data-i18n="stampWidthLabel">العرض (نقطة PDF)</label>
-          <input type="number" id="stamp-width" min="10" max="600" value="120">
+          <input type="text" inputmode="decimal" id="stamp-width" value="120">
         </div>
         <div class="field">
           <label for="stamp-height" data-i18n="stampHeightLabel">الارتفاع (نقطة PDF)</label>
-          <input type="number" id="stamp-height" min="10" max="600" value="120">
+          <input type="text" inputmode="decimal" id="stamp-height" value="120">
         </div>
       </div>
       <div class="field">
@@ -1803,11 +1803,13 @@
 
       <div class="field" id="stamp-preview-wrap" style="display:none;">
         <label data-i18n="posPreviewLabel">معاينة الموضع على الصفحة</label>
-        <p class="note" style="margin-top:2px;" data-i18n="resizeHandleNote">اسحب الختم لتحريكه، أو اسحب المقبض الذهبي بزاويته لتكبيره أو تصغيره.</p>
+        <p class="note" style="margin-top:2px;" data-i18n="resizeHandleNoteFull">اسحب الختم لتحريكه. المقبض الذهبي بالزاوية يكبّر/يصغّر العرض والارتفاع معاً، والمقبض بمنتصف الحافة اليمنى يضبط العرض بس، وبمنتصف الحافة السفلى يضبط الارتفاع بس.</p>
         <div style="position:relative;display:inline-block;border:1px solid var(--border);border-radius:8px;overflow:hidden;line-height:0;background:#fff;">
           <canvas id="stamp-preview-page"></canvas>
           <img id="stamp-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
           <div id="stamp-resize-handle" style="position:absolute;width:14px;height:14px;background:var(--brass);border:2px solid #fff;border-radius:3px;cursor:nwse-resize;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>
+          <div id="stamp-resize-handle-right" style="position:absolute;width:12px;height:12px;background:var(--patina);border:2px solid #fff;border-radius:50%;cursor:ew-resize;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>
+          <div id="stamp-resize-handle-bottom" style="position:absolute;width:12px;height:12px;background:var(--patina);border:2px solid #fff;border-radius:50%;cursor:ns-resize;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>
         </div>
       </div>
 
@@ -2926,6 +2928,7 @@ const I18N = {
     stampHeightLabel: 'الارتفاع (نقطة PDF)',
     lockRatioLabel: 'قفل نسبة الأبعاد (تكبير متناسب)',
     resizeHandleNote: 'اسحب الختم لتحريكه، أو اسحب المقبض الذهبي بزاويته لتكبيره أو تصغيره.',
+    resizeHandleNoteFull: 'اسحب الختم لتحريكه. المقبض الذهبي بالزاوية يكبّر/يصغّر العرض والارتفاع معاً، والمقبض بمنتصف الحافة اليمنى يضبط العرض بس، وبمنتصف الحافة السفلى يضبط الارتفاع بس.',
     toolsOptResize: '📐 تغيير حجم الصورة',
     resizeTitle: 'تغيير حجم الصورة',
     resizeHint: 'ارفع أي صورة، وكبّرها أو صغّرها بالعرض والطول (كل واحد لحاله أو مع بعض)، بمعالجة عالية الجودة تحافظ على وضوح الصورة، وشوف المعاينة قبل التنزيل.',
@@ -3556,6 +3559,7 @@ const I18N = {
     stampHeightLabel: 'Height (PDF points)',
     lockRatioLabel: 'Lock aspect ratio (proportional resize)',
     resizeHandleNote: 'Drag the stamp to move it, or drag the gold handle at its corner to resize it.',
+    resizeHandleNoteFull: 'Drag the stamp to move it. The gold corner handle resizes width and height together; the handle on the right edge adjusts width only, and the one on the bottom edge adjusts height only.',
     toolsOptResize: '📐 Resize Image',
     resizeTitle: 'Resize Image',
     resizeHint: 'Upload any image, and enlarge or shrink it by width and height (independently or together) with high-quality processing that keeps it sharp, with a preview before downloading.',
@@ -6549,9 +6553,17 @@ async function loadStampPreviewPdf(file){
 }
 
 function positionStampResizeHandle(overlayLeft, overlayTop, overlayWidth, overlayHeight){
-  const handle = document.getElementById('stamp-resize-handle');
-  handle.style.left = (overlayLeft + overlayWidth - 7) + 'px';
-  handle.style.top = (overlayTop + overlayHeight - 7) + 'px';
+  const corner = document.getElementById('stamp-resize-handle');
+  corner.style.left = (overlayLeft + overlayWidth - 7) + 'px';
+  corner.style.top = (overlayTop + overlayHeight - 7) + 'px';
+
+  const right = document.getElementById('stamp-resize-handle-right');
+  right.style.left = (overlayLeft + overlayWidth - 6) + 'px';
+  right.style.top = (overlayTop + overlayHeight/2 - 6) + 'px';
+
+  const bottom = document.getElementById('stamp-resize-handle-bottom');
+  bottom.style.left = (overlayLeft + overlayWidth/2 - 6) + 'px';
+  bottom.style.top = (overlayTop + overlayHeight - 6) + 'px';
 }
 
 async function updateStampPreview(){
@@ -6600,41 +6612,45 @@ async function updateStampPreview(){
   }
 }
 
-(function setupStampResizeHandle(){
-  const handle = document.getElementById('stamp-resize-handle');
+function setupStampResizeHandle(handleId, axis){
+  // axis: 'both' (corner, respects lock-ratio), 'width' or 'height' (edge, always independent)
+  const handle = document.getElementById(handleId);
   let dragging = false;
   let startClientX, startClientY, startWidthPt, startHeightPt;
 
-  handle.addEventListener('mousedown', (e)=>{
+  function begin(clientX, clientY){
     dragging = true;
-    startClientX = e.clientX; startClientY = e.clientY;
+    startClientX = clientX; startClientY = clientY;
     startWidthPt = parseFloat(stampWidthInput.value) || 120;
     startHeightPt = parseFloat(stampHeightInput.value) || 120;
-    e.preventDefault();
-    e.stopPropagation();
-  });
+  }
   function onMove(clientX, clientY){
     const dxPt = (clientX - startClientX) / (stampPreviewScale || 1);
     const dyPt = (clientY - startClientY) / (stampPreviewScale || 1);
-    let newWidth = Math.max(10, Math.round(startWidthPt + dxPt));
-    let newHeight;
-    if(stampLockRatio.checked && stampImageRatio > 0){
-      newHeight = Math.round(newWidth * stampImageRatio);
-    } else {
+    let newWidth = startWidthPt, newHeight = startHeightPt;
+    if(axis === 'width'){
+      newWidth = Math.max(10, Math.round(startWidthPt + dxPt));
+    } else if(axis === 'height'){
       newHeight = Math.max(10, Math.round(startHeightPt + dyPt));
+    } else {
+      newWidth = Math.max(10, Math.round(startWidthPt + dxPt));
+      if(stampLockRatio.checked && stampImageRatio > 0){
+        newHeight = Math.round(newWidth * stampImageRatio);
+      } else {
+        newHeight = Math.max(10, Math.round(startHeightPt + dyPt));
+      }
     }
     stampWidthInput.value = newWidth;
     stampHeightInput.value = newHeight;
     updateStampPreview();
   }
+
+  handle.addEventListener('mousedown', (e)=>{ begin(e.clientX, e.clientY); e.preventDefault(); e.stopPropagation(); });
   window.addEventListener('mousemove', (e)=>{ if(dragging) onMove(e.clientX, e.clientY); });
   window.addEventListener('mouseup', ()=>{ dragging = false; });
   handle.addEventListener('touchstart', (e)=>{
-    dragging = true;
     const t = e.touches[0];
-    startClientX = t.clientX; startClientY = t.clientY;
-    startWidthPt = parseFloat(stampWidthInput.value) || 120;
-    startHeightPt = parseFloat(stampHeightInput.value) || 120;
+    begin(t.clientX, t.clientY);
     e.preventDefault();
     e.stopPropagation();
   }, {passive:false});
@@ -6645,7 +6661,10 @@ async function updateStampPreview(){
     onMove(t.clientX, t.clientY);
   }, {passive:false});
   window.addEventListener('touchend', ()=>{ dragging = false; });
-})();
+}
+setupStampResizeHandle('stamp-resize-handle', 'both');
+setupStampResizeHandle('stamp-resize-handle-right', 'width');
+setupStampResizeHandle('stamp-resize-handle-bottom', 'height');
 
 document.getElementById('stamp-file').addEventListener('change', ()=>{ stampPreviewPdfDoc = null; stampPreviewFileRef = null; updateStampPreview(); });
 
