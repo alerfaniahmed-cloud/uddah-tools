@@ -6959,31 +6959,49 @@ async function updatePagesizePreview(){
     const pdf = await loadPagesizePreviewPdf(file);
     const page = await pdf.getPage(1);
     const baseViewport = page.getViewport({scale:1});
-    const previewMaxWidth = 150;
-    const beforeScale = previewMaxWidth / baseViewport.width;
-    const beforeViewport = page.getViewport({scale: beforeScale});
+    const frameSize = 160;
 
+    // Render the original page once at good resolution into an offscreen canvas
+    const renderScale = frameSize / Math.min(baseViewport.width, baseViewport.height);
+    const renderViewport = page.getViewport({scale: renderScale});
+    const sourceCanvas = document.createElement('canvas');
+    sourceCanvas.width = renderViewport.width;
+    sourceCanvas.height = renderViewport.height;
+    const sourceCtx = sourceCanvas.getContext('2d');
+    await page.render({canvasContext: sourceCtx, viewport: renderViewport}).promise;
+
+    function drawLetterboxed(canvas, contentAspect){
+      canvas.width = frameSize;
+      canvas.height = frameSize;
+      const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.fillStyle = '#e9e5da';
+      ctx.fillRect(0, 0, frameSize, frameSize);
+      let fitW, fitH;
+      if(contentAspect >= 1){ fitW = frameSize; fitH = frameSize / contentAspect; }
+      else { fitH = frameSize; fitW = frameSize * contentAspect; }
+      const offsetX = (frameSize - fitW) / 2;
+      const offsetY = (frameSize - fitH) / 2;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(offsetX, offsetY, fitW, fitH);
+      ctx.drawImage(sourceCanvas, offsetX, offsetY, fitW, fitH);
+      ctx.strokeStyle = '#b0a890';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(offsetX+0.5, offsetY+0.5, fitW-1, fitH-1);
+    }
+
+    // BEFORE: the page's true original aspect ratio, fitted (letterboxed) inside a fixed frame
     const beforeCanvas = document.getElementById('pagesize-preview-before');
-    beforeCanvas.width = beforeViewport.width;
-    beforeCanvas.height = beforeViewport.height;
-    const beforeCtx = beforeCanvas.getContext('2d');
-    await page.render({canvasContext: beforeCtx, viewport: beforeViewport}).promise;
+    drawLetterboxed(beforeCanvas, baseViewport.width / baseViewport.height);
 
+    // AFTER: the SAME content, but now shown at the new target aspect ratio (stretched),
+    // fitted inside a frame of the exact same fixed size — so only the shape of the
+    // content changes as you edit width/height, never the size of the preview boxes.
     const [wMm, hMm] = pagesizeGetTargetMm();
-    const newWidthPt = wMm * 2.83465;
-    const newHeightPt = hMm * 2.83465;
-    const afterWidthPx = previewMaxWidth;
-    const afterHeightPx = previewMaxWidth * (newHeightPt / newWidthPt);
-
+    const newAspect = wMm / hMm;
     const afterCanvas = document.getElementById('pagesize-preview-after');
-    afterCanvas.width = afterWidthPx;
-    afterCanvas.height = afterHeightPx;
-    const afterCtx = afterCanvas.getContext('2d');
-    afterCtx.imageSmoothingEnabled = true;
-    afterCtx.imageSmoothingQuality = 'high';
-    afterCtx.fillStyle = '#ffffff';
-    afterCtx.fillRect(0, 0, afterWidthPx, afterHeightPx);
-    afterCtx.drawImage(beforeCanvas, 0, 0, afterWidthPx, afterHeightPx);
+    drawLetterboxed(afterCanvas, newAspect);
 
     wrap.style.display = 'block';
   }catch(e){
