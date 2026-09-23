@@ -1204,15 +1204,30 @@
         <input type="file" id="resize-image" accept="image/png,image/jpeg,image/webp">
         <div class="file-list" id="resize-image-list"></div>
       </div>
+      <p class="note" id="resize-original-info" style="display:none;"></p>
 
       <div class="row">
         <div class="field">
-          <label for="resize-width" data-i18n="resizeWidthLabel">العرض (بكسل)</label>
-          <input type="number" id="resize-width" min="1" max="10000" disabled>
+          <label for="resize-unit" data-i18n="resizeUnitLabel">وحدة القياس</label>
+          <select id="resize-unit">
+            <option value="px" data-i18n="unitPx">بكسل (px)</option>
+            <option value="cm" data-i18n="unitCm">سنتيمتر (cm)</option>
+          </select>
+        </div>
+        <div class="field" id="resize-dpi-wrap" style="display:none;">
+          <label for="resize-dpi" data-i18n="resizeDpiLabel">الدقة (DPI)</label>
+          <input type="number" id="resize-dpi" min="72" max="600" value="96">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="resize-width" id="resize-width-label" data-i18n="resizeWidthLabelPx">العرض (بكسل)</label>
+          <input type="number" id="resize-width" min="0.1" max="10000" step="any" disabled>
         </div>
         <div class="field">
-          <label for="resize-height" data-i18n="resizeHeightLabel">الارتفاع (بكسل)</label>
-          <input type="number" id="resize-height" min="1" max="10000" disabled>
+          <label for="resize-height" id="resize-height-label" data-i18n="resizeHeightLabelPx">الارتفاع (بكسل)</label>
+          <input type="number" id="resize-height" min="0.1" max="10000" step="any" disabled>
         </div>
       </div>
       <div class="field">
@@ -1231,7 +1246,7 @@
       </div>
 
       <div style="text-align:center;">
-        <p class="hint" style="margin-bottom:6px;" id="resize-preview-caption"></p>
+        <p class="hint" style="margin-bottom:6px;font-weight:600;" id="resize-preview-caption" data-i18n="resizeNoImageYet">ارفع صورة لتبدأ المعاينة</p>
         <canvas id="resize-preview-canvas" style="max-width:100%;border:1px solid var(--border);border-radius:8px;background-image:linear-gradient(45deg,#00000010 25%,transparent 25%),linear-gradient(-45deg,#00000010 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#00000010 75%),linear-gradient(-45deg,transparent 75%,#00000010 75%);background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0;"></canvas>
       </div>
 
@@ -2899,7 +2914,12 @@ const I18N = {
     toolsOptResize: '📐 تغيير حجم الصورة',
     resizeTitle: 'تغيير حجم الصورة',
     resizeHint: 'ارفع أي صورة، وكبّرها أو صغّرها بالعرض والطول (كل واحد لحاله أو مع بعض)، وشوف المعاينة قبل التنزيل.',
-    resizeWidthLabel: 'العرض (بكسل)', resizeHeightLabel: 'الارتفاع (بكسل)',
+    resizeWidthLabelPx: 'العرض (بكسل)', resizeHeightLabelPx: 'الارتفاع (بكسل)',
+    resizeWidthLabelCm: 'العرض (سم)', resizeHeightLabelCm: 'الارتفاع (سم)',
+    resizeUnitLabel: 'وحدة القياس', unitPx: 'بكسل (px)', unitCm: 'سنتيمتر (cm)',
+    resizeDpiLabel: 'الدقة (DPI)',
+    resizeOriginalSizeLabel: 'المقاس الأصلي:',
+    resizeNoImageYet: 'ارفع صورة لتبدأ المعاينة',
     resizeDownloadBtn: 'تنزيل الصورة بالحجم الجديد',
     resizeNote: 'كل المعالجة تتم داخل متصفحك — الصورة ما تُرفع لأي سيرفر خارجي.',
     resizeFormatLabel: 'صيغة التنزيل',
@@ -3522,7 +3542,12 @@ const I18N = {
     toolsOptResize: '📐 Resize Image',
     resizeTitle: 'Resize Image',
     resizeHint: 'Upload any image, and enlarge or shrink it by width and height (independently or together), with a preview before downloading.',
-    resizeWidthLabel: 'Width (px)', resizeHeightLabel: 'Height (px)',
+    resizeWidthLabelPx: 'Width (px)', resizeHeightLabelPx: 'Height (px)',
+    resizeWidthLabelCm: 'Width (cm)', resizeHeightLabelCm: 'Height (cm)',
+    resizeUnitLabel: 'Unit', unitPx: 'Pixels (px)', unitCm: 'Centimeters (cm)',
+    resizeDpiLabel: 'Resolution (DPI)',
+    resizeOriginalSizeLabel: 'Original size:',
+    resizeNoImageYet: 'Upload an image to start the preview',
     resizeDownloadBtn: 'Download Resized Image',
     resizeNote: 'All processing happens in your browser — the image is never uploaded to any external server.',
     resizeFormatLabel: 'Download format',
@@ -5323,19 +5348,38 @@ document.getElementById('card2s-print-btn').addEventListener('click', ()=>{
    ============================================================ */
 let resizeSourceImage = null;
 let resizeOriginalRatio = 1;
+let resizeCurrentWidthPx = 1;
+let resizeCurrentHeightPx = 1;
 
 setupFilePicker('resize-image', 'resize-image-list', false);
+
+function resizeGetUnit(){ return document.getElementById('resize-unit').value; }
+function resizeGetDpi(){ return parseFloat(document.getElementById('resize-dpi').value) || 96; }
+function resizePxToCm(px){ return px * 2.54 / resizeGetDpi(); }
+function resizeCmToPx(cm){ return cm * resizeGetDpi() / 2.54; }
+
+function resizeSyncInputsFromPx(){
+  const widthInput = document.getElementById('resize-width');
+  const heightInput = document.getElementById('resize-height');
+  if(resizeGetUnit() === 'cm'){
+    widthInput.value = resizePxToCm(resizeCurrentWidthPx).toFixed(2);
+    heightInput.value = resizePxToCm(resizeCurrentHeightPx).toFixed(2);
+  } else {
+    widthInput.value = Math.round(resizeCurrentWidthPx);
+    heightInput.value = Math.round(resizeCurrentHeightPx);
+  }
+}
 
 function renderResizePreview(){
   const canvas = document.getElementById('resize-preview-canvas');
   const caption = document.getElementById('resize-preview-caption');
   if(!resizeSourceImage){
     canvas.width = 0; canvas.height = 0;
-    caption.textContent = '';
+    caption.textContent = I18N[currentLang].resizeNoImageYet;
     return;
   }
-  const w = Math.max(1, parseInt(document.getElementById('resize-width').value, 10) || 1);
-  const h = Math.max(1, parseInt(document.getElementById('resize-height').value, 10) || 1);
+  const w = Math.max(1, Math.round(resizeCurrentWidthPx));
+  const h = Math.max(1, Math.round(resizeCurrentHeightPx));
   canvas.width = w;
   canvas.height = h;
   const ctx = canvas.getContext('2d');
@@ -5344,7 +5388,8 @@ function renderResizePreview(){
   const maxDisplayWidth = 320;
   canvas.style.width = Math.min(maxDisplayWidth, w) + 'px';
   canvas.style.height = 'auto';
-  caption.textContent = `${w} × ${h} px`;
+  const cmW = resizePxToCm(w).toFixed(2), cmH = resizePxToCm(h).toFixed(2);
+  caption.textContent = `${w} × ${h} px  (${cmW} × ${cmH} cm)`;
 }
 
 document.getElementById('resize-image').addEventListener('change', ()=>{
@@ -5352,11 +5397,13 @@ document.getElementById('resize-image').addEventListener('change', ()=>{
   const downloadBtn = document.getElementById('resize-download-btn');
   const widthInput = document.getElementById('resize-width');
   const heightInput = document.getElementById('resize-height');
+  const infoLine = document.getElementById('resize-original-info');
   if(!file){
     resizeSourceImage = null;
     widthInput.disabled = true;
     heightInput.disabled = true;
     downloadBtn.disabled = true;
+    infoLine.style.display = 'none';
     renderResizePreview();
     return;
   }
@@ -5366,11 +5413,15 @@ document.getElementById('resize-image').addEventListener('change', ()=>{
     img.onload = ()=>{
       resizeSourceImage = img;
       resizeOriginalRatio = img.naturalHeight / img.naturalWidth;
-      widthInput.value = img.naturalWidth;
-      heightInput.value = img.naturalHeight;
+      resizeCurrentWidthPx = img.naturalWidth;
+      resizeCurrentHeightPx = img.naturalHeight;
       widthInput.disabled = false;
       heightInput.disabled = false;
       downloadBtn.disabled = false;
+      const cmW = resizePxToCm(img.naturalWidth).toFixed(2), cmH = resizePxToCm(img.naturalHeight).toFixed(2);
+      infoLine.textContent = `${I18N[currentLang].resizeOriginalSizeLabel} ${img.naturalWidth} × ${img.naturalHeight} px (${cmW} × ${cmH} cm)`;
+      infoLine.style.display = 'block';
+      resizeSyncInputsFromPx();
       renderResizePreview();
     };
     img.src = reader.result;
@@ -5378,17 +5429,43 @@ document.getElementById('resize-image').addEventListener('change', ()=>{
   reader.readAsDataURL(file);
 });
 
+document.getElementById('resize-unit').addEventListener('change', ()=>{
+  const isCm = resizeGetUnit() === 'cm';
+  document.getElementById('resize-dpi-wrap').style.display = isCm ? 'block' : 'none';
+  document.getElementById('resize-width-label').textContent = isCm ? I18N[currentLang].resizeWidthLabelCm : I18N[currentLang].resizeWidthLabelPx;
+  document.getElementById('resize-height-label').textContent = isCm ? I18N[currentLang].resizeHeightLabelCm : I18N[currentLang].resizeHeightLabelPx;
+  resizeSyncInputsFromPx();
+});
+
+document.getElementById('resize-dpi').addEventListener('input', ()=>{
+  // Keep the currently-displayed cm values fixed; recompute the underlying pixel size for the new DPI
+  if(!resizeSourceImage) return;
+  const w = parseFloat(document.getElementById('resize-width').value) || 1;
+  const h = parseFloat(document.getElementById('resize-height').value) || 1;
+  resizeCurrentWidthPx = resizeCmToPx(w);
+  resizeCurrentHeightPx = resizeCmToPx(h);
+  renderResizePreview();
+});
+
 document.getElementById('resize-width').addEventListener('input', ()=>{
+  const raw = parseFloat(document.getElementById('resize-width').value) || 0.1;
+  const px = resizeGetUnit() === 'cm' ? resizeCmToPx(raw) : raw;
+  resizeCurrentWidthPx = Math.max(1, px);
   if(document.getElementById('resize-lock-ratio').checked){
-    const w = parseFloat(document.getElementById('resize-width').value) || 1;
-    document.getElementById('resize-height').value = Math.round(w * resizeOriginalRatio);
+    resizeCurrentHeightPx = Math.max(1, resizeCurrentWidthPx * resizeOriginalRatio);
+    const heightInput = document.getElementById('resize-height');
+    heightInput.value = resizeGetUnit() === 'cm' ? resizePxToCm(resizeCurrentHeightPx).toFixed(2) : Math.round(resizeCurrentHeightPx);
   }
   renderResizePreview();
 });
 document.getElementById('resize-height').addEventListener('input', ()=>{
+  const raw = parseFloat(document.getElementById('resize-height').value) || 0.1;
+  const px = resizeGetUnit() === 'cm' ? resizeCmToPx(raw) : raw;
+  resizeCurrentHeightPx = Math.max(1, px);
   if(document.getElementById('resize-lock-ratio').checked && resizeOriginalRatio > 0){
-    const h = parseFloat(document.getElementById('resize-height').value) || 1;
-    document.getElementById('resize-width').value = Math.round(h / resizeOriginalRatio);
+    resizeCurrentWidthPx = Math.max(1, resizeCurrentHeightPx / resizeOriginalRatio);
+    const widthInput = document.getElementById('resize-width');
+    widthInput.value = resizeGetUnit() === 'cm' ? resizePxToCm(resizeCurrentWidthPx).toFixed(2) : Math.round(resizeCurrentWidthPx);
   }
   renderResizePreview();
 });
@@ -5397,8 +5474,9 @@ document.querySelectorAll('[data-resize-pct]').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     if(!resizeSourceImage) return;
     const pct = parseFloat(btn.getAttribute('data-resize-pct')) / 100;
-    document.getElementById('resize-width').value = Math.max(1, Math.round(resizeSourceImage.naturalWidth * pct));
-    document.getElementById('resize-height').value = Math.max(1, Math.round(resizeSourceImage.naturalHeight * pct));
+    resizeCurrentWidthPx = Math.max(1, resizeSourceImage.naturalWidth * pct);
+    resizeCurrentHeightPx = Math.max(1, resizeSourceImage.naturalHeight * pct);
+    resizeSyncInputsFromPx();
     renderResizePreview();
   });
 });
