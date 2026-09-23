@@ -165,6 +165,15 @@
   button:focus-visible{
     outline:2px solid var(--brass-light);outline-offset:1px;
   }
+  input[type=date]{ color:transparent; position:relative; }
+  .date-input-wrap{ position:relative; }
+  .date-input-overlay-label{
+    position:absolute;inset:0;display:flex;align-items:center;
+    padding-inline-start:13px;padding-inline-end:34px;pointer-events:none;
+    color:var(--bone);font-family:var(--font-mono);font-size:.95rem;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .date-input-overlay-label.placeholder{ color:var(--bone-dim); }
   input[type=file]{
     width:100%;background:var(--bg-elev-2);border:1px dashed var(--steel);
     color:transparent;border-radius:8px;padding:16px 12px;font-size:.85rem;
@@ -2699,6 +2708,7 @@ const I18N = {
     ibanAccountLabel: 'رقم الحساب:',
     ibanErrChecksum: 'الصيغة صحيحة لكن رقم التحقق (checksum) غير مطابق — تأكد من الأرقام.',
     noFileChosen: 'لم يتم اختيار أي ملف',
+    dateInputPlaceholder: 'يوم/شهر/سنة',
     toolsPickerTitle: 'أدوات متنوعة',
     toolsPickerHint: 'اختر الأداة اللي تبيها من القائمة.',
     toolsPickerLabel: 'الأداة',
@@ -3296,6 +3306,7 @@ const I18N = {
     ibanAccountLabel: 'Account number:',
     ibanErrChecksum: 'The format is correct but the checksum does not match — verify the digits.',
     noFileChosen: 'No file chosen',
+    dateInputPlaceholder: 'dd/mm/yyyy',
     toolsPickerTitle: 'Misc Tools',
     toolsPickerHint: 'Pick the tool you want from the list.',
     toolsPickerLabel: 'Tool',
@@ -3464,6 +3475,12 @@ function applyLanguage(lang){
     if(input._fileLabelUpdate) input._fileLabelUpdate();
   });
 
+  // Refresh custom date-input overlay labels (native "day/month/year" hint can't be translated)
+  styleDateInputs();
+  document.querySelectorAll('input[type="date"]').forEach(input=>{
+    if(input._dateLabelUpdate) input._dateLabelUpdate();
+  });
+
   paintStamp();
   if(typeof populateUnitSelects === 'function') populateUnitSelects();
   if(typeof populateCurrencySelects === 'function') populateCurrencySelects();
@@ -3497,6 +3514,40 @@ function styleFileInputs(){
       };
       input.addEventListener('change', update);
       input._fileLabelUpdate = update;
+      update();
+    }
+  });
+}
+
+function styleDateInputs(){
+  document.querySelectorAll('input[type="date"]').forEach(input=>{
+    let wrap = input.parentElement;
+    if(!wrap || !wrap.classList.contains('date-input-wrap')){
+      wrap = document.createElement('div');
+      wrap.className = 'date-input-wrap';
+      input.parentNode.insertBefore(wrap, input);
+      wrap.appendChild(input);
+    }
+    let label = wrap.querySelector('.date-input-overlay-label');
+    if(!label){
+      label = document.createElement('div');
+      label.className = 'date-input-overlay-label';
+      wrap.appendChild(label);
+      const update = ()=>{
+        if(input.value){
+          const [y,m,d] = input.value.split('-').map(Number);
+          const dateObj = new Date(Date.UTC(y, m-1, d));
+          const locale = currentLang === 'en' ? 'en-US' : 'ar-SA-u-nu-latn';
+          label.textContent = dateObj.toLocaleDateString(locale, {year:'numeric', month:'2-digit', day:'2-digit', timeZone:'UTC'});
+          label.classList.remove('placeholder');
+        } else {
+          label.textContent = I18N[currentLang].dateInputPlaceholder;
+          label.classList.add('placeholder');
+        }
+      };
+      input.addEventListener('input', update);
+      input.addEventListener('change', update);
+      input._dateLabelUpdate = update;
       update();
     }
   });
