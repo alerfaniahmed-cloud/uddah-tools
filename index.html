@@ -900,6 +900,19 @@
       <h2 data-i18n="sealTitle">مولد الأختام</h2>
       <p class="hint" data-i18n="sealHint">صمّم ختماً بالشكل والزخرفة اللي تناسبك، أضف النص العلوي والسفلي المنحني ونص المنتصف، ثم نزّله كصورة PNG بخلفية شفافة — تقدر ترفعه مباشرة بأداة "إضافة ختم على PDF" بالأسفل.</p>
 
+      <div class="field">
+        <label for="seal-template" data-i18n="sealTemplateLabel">قالب جاهز (اختياري)</label>
+        <select id="seal-template">
+          <option value="" data-i18n="sealTemplateNone">— بدون قالب —</option>
+          <option value="company" data-i18n="sealTemplateCompany">🏢 مؤسسة تجارية</option>
+          <option value="clinic" data-i18n="sealTemplateClinic">🏥 عيادة / مركز طبي</option>
+          <option value="lawfirm" data-i18n="sealTemplateLawfirm">⚖️ مكتب محاماة</option>
+          <option value="school" data-i18n="sealTemplateSchool">🎓 مدرسة / معهد</option>
+          <option value="approved" data-i18n="sealTemplateApproved">✅ ختم "معتمد"</option>
+          <option value="received" data-i18n="sealTemplateReceived">📥 ختم "مستلم"</option>
+        </select>
+      </div>
+
       <div class="row">
         <div class="field">
           <label for="seal-shape" data-i18n="sealShapeLabel">شكل الختم</label>
@@ -950,6 +963,16 @@
         </div>
       </div>
 
+      <div class="field">
+        <label for="seal-logo" data-i18n="sealLogoLabel">شعار صغير بالمنتصف (اختياري)</label>
+        <input type="file" id="seal-logo" accept="image/png,image/jpeg,image/webp">
+        <div class="file-list" id="seal-logo-list"></div>
+      </div>
+      <div class="field" id="seal-logo-size-wrap" style="display:none;">
+        <label for="seal-logo-size"><span data-i18n="sealLogoSizeLabel">حجم الشعار:</span> <span id="seal-logo-size-val">30</span>%</label>
+        <input type="range" id="seal-logo-size" min="10" max="60" value="30" style="width:100%;">
+      </div>
+
       <div class="row">
         <div class="field">
           <label for="seal-color" data-i18n="sealColorLabel">لون الحبر</label>
@@ -962,7 +985,7 @@
       </div>
 
       <div style="text-align:center;margin-top:6px;">
-        <canvas id="seal-canvas" width="440" height="440" style="max-width:100%;width:320px;height:320px;border:1px solid var(--border);border-radius:8px;background-image:linear-gradient(45deg,#00000010 25%,transparent 25%),linear-gradient(-45deg,#00000010 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#00000010 75%),linear-gradient(-45deg,transparent 75%,#00000010 75%);background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0;"></canvas>
+        <canvas id="seal-canvas" width="900" height="900" style="max-width:100%;width:320px;height:320px;border:1px solid var(--border);border-radius:8px;background-image:linear-gradient(45deg,#00000010 25%,transparent 25%),linear-gradient(-45deg,#00000010 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#00000010 75%),linear-gradient(-45deg,transparent 75%,#00000010 75%);background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0;"></canvas>
       </div>
 
       <div style="text-align:center;margin-top:16px;">
@@ -1515,13 +1538,14 @@
           <option value="sign" data-i18n="pdfOptSign">✍️ توقيع إلكتروني على PDF</option>
           <option value="stamp" data-i18n="pdfOptStamp">🖋️ إضافة ختم على PDF</option>
           <option value="text" data-i18n="pdfOptText">🔤 إضافة نص على PDF</option>
+          <option value="watermark" data-i18n="pdfOptWatermark">💧 إضافة علامة مائية (Watermark)</option>
         </select>
       </div>
     </div>
 
     <div class="card pdf-card" id="pdftool-merge">
       <h2 data-i18n="mergeTitle">دمج ملفات PDF</h2>
-      <p class="hint" data-i18n="mergeHint">اختر عدة ملفات PDF بالترتيب المطلوب وسيتم دمجها في ملف واحد.</p>
+      <p class="hint" data-i18n="mergeHint">اختر عدة ملفات PDF، ورتّبها بالسحب والإفلات (⠿) بالترتيب اللي تبيه، وسيتم دمجها في ملف واحد.</p>
       <div class="field">
         <input type="file" id="merge-files" accept="application/pdf" multiple>
         <div class="file-list" id="merge-files-list"></div>
@@ -1752,6 +1776,36 @@
       <button class="btn" id="text-btn" style="margin-top:14px;" data-i18n="pdfTextBtn">إضافة النص وتنزيل</button>
       <div id="text-status"></div>
       <p class="note" data-i18n="pdfTextNote">النص يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو نصك لأي سيرفر خارجي.</p>
+    </div>
+
+    <div class="card pdf-card" id="pdftool-watermark">
+      <h2 data-i18n="watermarkTitle">إضافة علامة مائية (Watermark)</h2>
+      <p class="hint" data-i18n="watermarkHint">اكتب نص العلامة المائية (مثل "نسخة" أو اسم شركتك)، واختر لونها وحجمها وشفافيتها، وستُضاف بشكل مائل خفيف على كل صفحات الملف.</p>
+      <div class="field">
+        <input type="file" id="watermark-file" accept="application/pdf">
+        <div class="file-list" id="watermark-file-list"></div>
+      </div>
+      <div class="field">
+        <label for="watermark-text" data-i18n="watermarkTextLabel">نص العلامة المائية</label>
+        <input type="text" id="watermark-text" placeholder="مثال: نسخة - سري" data-i18n-ph="watermarkTextPh" maxlength="60">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="watermark-size" data-i18n="textSizeLabel">حجم الخط (نقطة PDF)</label>
+          <input type="number" id="watermark-size" min="10" max="200" value="60">
+        </div>
+        <div class="field">
+          <label for="watermark-color" data-i18n="colorLabel">اللون</label>
+          <input type="color" id="watermark-color" value="#999999" style="width:100%;height:44px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:4px;">
+        </div>
+      </div>
+      <div class="field">
+        <label for="watermark-opacity"><span data-i18n="watermarkOpacityLabel">الشفافية:</span> <span id="watermark-opacity-val">25</span>%</label>
+        <input type="range" id="watermark-opacity" min="5" max="80" value="25" style="width:100%;">
+      </div>
+      <button class="btn" id="watermark-btn" style="margin-top:14px;" data-i18n="watermarkBtn">إضافة العلامة المائية وتنزيل</button>
+      <div id="watermark-status"></div>
+      <p class="note" data-i18n="watermarkNote">تُضاف العلامة المائية بشكل مائل ومكررة عبر كل صفحات الملف بالكامل داخل متصفحك — لا يُرفع ملفك لأي سيرفر خارجي.</p>
     </div>
 
     <p class="note" data-i18n="pdfBottomNote">جميع أدوات PDF تعمل بالكامل داخل متصفحك — لا تُرفع ملفاتك لأي سيرفر، وتحويل الصيغ إلى Word أو Excel بدقة عالية يحتاج معالجة خارج المتصفح وسيُضاف لاحقاً كخدمة منفصلة.</p>
@@ -2667,9 +2721,29 @@ const I18N = {
     pdfOptSign: '✍️ توقيع إلكتروني على PDF',
     pdfOptStamp: '🖋️ إضافة ختم على PDF',
     pdfOptText: '🔤 إضافة نص على PDF',
+    sealTemplateLabel: 'قالب جاهز (اختياري)',
+    sealTemplateNone: '— بدون قالب —',
+    sealTemplateCompany: '🏢 مؤسسة تجارية',
+    sealTemplateClinic: '🏥 عيادة / مركز طبي',
+    sealTemplateLawfirm: '⚖️ مكتب محاماة',
+    sealTemplateSchool: '🎓 مدرسة / معهد',
+    sealTemplateApproved: '✅ ختم "معتمد"',
+    sealTemplateReceived: '📥 ختم "مستلم"',
+    sealLogoLabel: 'شعار صغير بالمنتصف (اختياري)',
+    sealLogoSizeLabel: 'حجم الشعار:',
+    pdfOptWatermark: '💧 إضافة علامة مائية (Watermark)',
+    watermarkTitle: 'إضافة علامة مائية (Watermark)',
+    watermarkHint: 'اكتب نص العلامة المائية (مثل "نسخة" أو اسم شركتك)، واختر لونها وحجمها وشفافيتها، وستُضاف بشكل مائل خفيف على كل صفحات الملف.',
+    watermarkTextLabel: 'نص العلامة المائية', watermarkTextPh: 'مثال: نسخة - سري',
+    watermarkOpacityLabel: 'الشفافية:',
+    watermarkBtn: 'إضافة العلامة المائية وتنزيل',
+    watermarkNote: 'تُضاف العلامة المائية بشكل مائل ومكررة عبر كل صفحات الملف بالكامل داخل متصفحك — لا يُرفع ملفك لأي سيرفر خارجي.',
+    watermarkErrText: 'اكتب نص العلامة المائية أولاً.',
+    watermarkSuccess: 'تمت إضافة العلامة المائية بنجاح على كل الصفحات.',
+    watermarkErr: 'تعذرت إضافة العلامة المائية — تأكد أن الملف PDF صحيح.',
     filesSelectedSuffix: 'ملفات محددة',
     mergeTitle: 'دمج ملفات PDF',
-    mergeHint: 'اختر عدة ملفات PDF بالترتيب المطلوب وسيتم دمجها في ملف واحد.',
+    mergeHint: 'اختر عدة ملفات PDF، ورتّبها بالسحب والإفلات (⠿) بالترتيب اللي تبيه، وسيتم دمجها في ملف واحد.',
     mergeBtn: 'دمج الملفات وتنزيلها',
     mergepairsTitle: 'دمج كل صفحتين في صفحة واحدة',
     mergepairsHint: 'مفيدة لو محتوى الملف أصله صفحة واحدة لكن انزاح جزء صغير منه لصفحة ثانية — تجمع كل صفحتين متتاليتين بصفحة واحدة مصغّرة.',
@@ -3244,9 +3318,29 @@ const I18N = {
     pdfOptSign: '✍️ Electronic Signature on PDF',
     pdfOptStamp: '🖋️ Add Stamp to PDF',
     pdfOptText: '🔤 Add Text to PDF',
+    sealTemplateLabel: 'Ready-made template (optional)',
+    sealTemplateNone: '— No template —',
+    sealTemplateCompany: '🏢 Business',
+    sealTemplateClinic: '🏥 Clinic / Medical Center',
+    sealTemplateLawfirm: '⚖️ Law Firm',
+    sealTemplateSchool: '🎓 School / Institute',
+    sealTemplateApproved: '✅ "Approved" Stamp',
+    sealTemplateReceived: '📥 "Received" Stamp',
+    sealLogoLabel: 'Small logo in the center (optional)',
+    sealLogoSizeLabel: 'Logo size:',
+    pdfOptWatermark: '💧 Add Watermark',
+    watermarkTitle: 'Add Watermark',
+    watermarkHint: 'Type your watermark text (like "Copy" or your company name), choose its color, size, and opacity, and it will be added diagonally and lightly across every page of the file.',
+    watermarkTextLabel: 'Watermark text', watermarkTextPh: 'e.g. Copy - Confidential',
+    watermarkOpacityLabel: 'Opacity:',
+    watermarkBtn: 'Add Watermark and Download',
+    watermarkNote: 'The watermark is added diagonally, repeated across every page of the file, entirely in your browser — your file is never uploaded to any external server.',
+    watermarkErrText: 'Write the watermark text first.',
+    watermarkSuccess: 'Watermark added successfully to all pages.',
+    watermarkErr: 'Could not add the watermark — make sure the PDF file is valid.',
     filesSelectedSuffix: 'files selected',
     mergeTitle: 'Merge PDF Files',
-    mergeHint: 'Choose several PDF files in the order you want, and they will be merged into one file.',
+    mergeHint: 'Choose several PDF files, drag to reorder them (⠿) the way you want, and they will be merged into one file.',
     mergeBtn: 'Merge and Download Files',
     mergepairsTitle: 'Merge Every 2 Pages into 1',
     mergepairsHint: 'Useful when a file\'s content was originally one page but a small part shifted onto a second page — combines every two consecutive pages into one shrunk page.',
@@ -4069,6 +4163,7 @@ document.getElementById('qr-download-btn').addEventListener('click', ()=>{
    ============================================================ */
 const sealCanvas = document.getElementById('seal-canvas');
 const sealCtx = sealCanvas.getContext('2d');
+let sealLogoImage = null;
 
 function sealShapeGeometry(shape, cw, ch, margin){
   const cx = cw/2, cy = ch/2;
@@ -4344,27 +4439,89 @@ function renderSeal(){
   const cw = sealCanvas.width, ch = sealCanvas.height;
   sealCtx.clearRect(0,0,cw,ch);
 
-  const margin = 24;
+  const margin = cw * (24/440); // keep the same visual proportions at the new higher canvas resolution
   const {cx, cy, rx, ry} = sealShapeGeometry(shape, cw, ch, margin);
 
-  drawSealBorder(sealCtx, shape, style, cx, cy, rx, ry, color, borderWidth);
+  drawSealBorder(sealCtx, shape, style, cx, cy, rx, ry, color, borderWidth * (cw/440));
 
+  const scaledBorderWidth = borderWidth * (cw/440);
   const fontPx = Math.max(13, Math.round(Math.min(rx,ry)*0.135));
-  const textInset = borderWidth*2.2 + fontPx*1.05;
+  const textInset = scaledBorderWidth*2.2 + fontPx*1.05;
   drawSealTopBottomText(sealCtx, topText, shape, cx, cy, rx, ry, 'top', color, fontPx, textInset);
   drawSealTopBottomText(sealCtx, bottomText, shape, cx, cy, rx, ry, 'bottom', color, fontPx, textInset);
-  drawSealCenterText(sealCtx, [centerLine1, centerLine2], cx, cy, color, Math.round(fontPx*1.15));
+
+  const hasCenterText = !!(centerLine1 || centerLine2);
+  if(sealLogoImage){
+    const logoSizePct = parseFloat(document.getElementById('seal-logo-size').value) || 30;
+    const logoDiameter = Math.min(rx, ry) * 2 * (logoSizePct/100);
+    const ratio = sealLogoImage.naturalHeight / sealLogoImage.naturalWidth;
+    const logoW = logoDiameter;
+    const logoH = logoDiameter * ratio;
+    const logoY = hasCenterText ? cy - logoH*0.68 : cy - logoH/2;
+    sealCtx.drawImage(sealLogoImage, cx - logoW/2, logoY, logoW, logoH);
+    if(hasCenterText){
+      drawSealCenterText(sealCtx, [centerLine1, centerLine2], cx, cy + logoH*0.42, color, Math.round(fontPx*1.05));
+    }
+  } else {
+    drawSealCenterText(sealCtx, [centerLine1, centerLine2], cx, cy, color, Math.round(fontPx*1.15));
+  }
 }
 
-['seal-shape','seal-style','seal-color','seal-border-width','seal-top-text','seal-bottom-text','seal-center-line1','seal-center-line2'].forEach(id=>{
+['seal-shape','seal-style','seal-color','seal-border-width','seal-top-text','seal-bottom-text','seal-center-line1','seal-center-line2','seal-logo-size'].forEach(id=>{
   const el = document.getElementById(id);
   const evt = (el.tagName === 'SELECT' || el.type === 'color') ? 'change' : 'input';
   el.addEventListener(evt, ()=>{
     if(id === 'seal-border-width') document.getElementById('seal-border-width-val').textContent = el.value;
+    if(id === 'seal-logo-size') document.getElementById('seal-logo-size-val').textContent = el.value;
     renderSeal();
   });
 });
 renderSeal();
+
+setupFilePicker('seal-logo', 'seal-logo-list', false);
+document.getElementById('seal-logo').addEventListener('change', ()=>{
+  const file = document.getElementById('seal-logo').files[0];
+  const sizeWrap = document.getElementById('seal-logo-size-wrap');
+  if(!file){
+    sealLogoImage = null;
+    sizeWrap.style.display = 'none';
+    renderSeal();
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const img = new Image();
+    img.onload = ()=>{
+      sealLogoImage = img;
+      sizeWrap.style.display = 'block';
+      renderSeal();
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+const SEAL_TEMPLATES = {
+  company: { shape:'circle', style:'ornate', color:'#1b3a6b', top:'اسم المؤسسة التجارية', bottom:'المملكة العربية السعودية', c1:'س.ت: 1234567890', c2:'' },
+  clinic: { shape:'circle', style:'plain', color:'#1f6e4d', top:'اسم العيادة الطبية', bottom:'مرخصة من وزارة الصحة', c1:'طبيب معتمد', c2:'' },
+  lawfirm: { shape:'circle', style:'simple', color:'#2b2a28', top:'مكتب المحاماة والاستشارات', bottom:'المملكة العربية السعودية', c1:'محامٍ ومستشار قانوني', c2:'' },
+  school: { shape:'circle', style:'stars', color:'#8a1f34', top:'اسم المدرسة / المعهد', bottom:'وزارة التعليم', c1:'إدارة المدرسة', c2:'' },
+  approved: { shape:'circle', style:'plain', color:'#1f7a3d', top:'', bottom:'', c1:'معتمد', c2:'' },
+  received: { shape:'rectangle', style:'simple', color:'#1b3a6b', top:'', bottom:'', c1:'مستلم', c2:'' }
+};
+document.getElementById('seal-template').addEventListener('change', ()=>{
+  const key = document.getElementById('seal-template').value;
+  if(!key || !SEAL_TEMPLATES[key]) return;
+  const t = SEAL_TEMPLATES[key];
+  document.getElementById('seal-shape').value = t.shape;
+  document.getElementById('seal-style').value = t.style;
+  document.getElementById('seal-color').value = t.color;
+  document.getElementById('seal-top-text').value = t.top;
+  document.getElementById('seal-bottom-text').value = t.bottom;
+  document.getElementById('seal-center-line1').value = t.c1;
+  document.getElementById('seal-center-line2').value = t.c2;
+  renderSeal();
+});
 
 document.getElementById('seal-download-btn').addEventListener('click', ()=>{
   const url = sealCanvas.toDataURL('image/png');
@@ -5353,10 +5510,11 @@ document.querySelectorAll('.pdf-export-btn').forEach(btn=>{
 });
 
 /* --- File pickers with removable chips --- */
-function setupFilePicker(inputId, listId, multiple){
+function setupFilePicker(inputId, listId, multiple, reorderable){
   const input = document.getElementById(inputId);
   const list = document.getElementById(listId);
   let filesArr = [];
+  let dragIndex = null;
 
   function syncInput(){
     const dt = new DataTransfer();
@@ -5368,6 +5526,30 @@ function setupFilePicker(inputId, listId, multiple){
     filesArr.forEach((f, idx)=>{
       const chip = document.createElement('div');
       chip.className = 'file-chip';
+      if(reorderable && filesArr.length > 1){
+        chip.draggable = true;
+        chip.style.cursor = 'grab';
+        const handle = document.createElement('span');
+        handle.textContent = '⠿';
+        handle.setAttribute('aria-hidden', 'true');
+        handle.style.cssText = 'color:var(--bone-dim);font-size:.9rem;';
+        chip.insertBefore(handle, chip.firstChild);
+        chip.addEventListener('dragstart', ()=>{
+          dragIndex = idx;
+          chip.style.opacity = '.4';
+        });
+        chip.addEventListener('dragend', ()=>{ chip.style.opacity = '1'; });
+        chip.addEventListener('dragover', (e)=>{ e.preventDefault(); });
+        chip.addEventListener('drop', (e)=>{
+          e.preventDefault();
+          if(dragIndex === null || dragIndex === idx) return;
+          const moved = filesArr.splice(dragIndex, 1)[0];
+          filesArr.splice(idx, 0, moved);
+          dragIndex = null;
+          syncInput();
+          render();
+        });
+      }
       const nameSpan = document.createElement('span');
       nameSpan.textContent = f.name;
       const removeBtn = document.createElement('button');
@@ -5392,10 +5574,10 @@ function setupFilePicker(inputId, listId, multiple){
     render();
   });
 }
-setupFilePicker('merge-files', 'merge-files-list', true);
+setupFilePicker('merge-files', 'merge-files-list', true, true);
 setupFilePicker('mergepairs-file', 'mergepairs-file-list', false);
 setupFilePicker('extract-file', 'extract-file-list', false);
-setupFilePicker('img2pdf-files', 'img2pdf-files-list', true);
+setupFilePicker('img2pdf-files', 'img2pdf-files-list', true, true);
 setupFilePicker('pdf2img-file', 'pdf2img-file-list', false);
 setupFilePicker('compress-file', 'compress-file-list', false);
 setupFilePicker('sign-file', 'sign-file-list', false);
@@ -6047,6 +6229,82 @@ document.getElementById('text-btn').addEventListener('click', async ()=>{
     setStatus('text-status', I18N[currentLang].textErr, 'err');
   }
   setBusy(btn, false, '', I18N[currentLang].pdfTextBtn);
+});
+
+/* ============================================================
+   PDF WATERMARK
+   ============================================================ */
+setupFilePicker('watermark-file', 'watermark-file-list', false);
+
+document.getElementById('watermark-opacity').addEventListener('input', ()=>{
+  document.getElementById('watermark-opacity-val').textContent = document.getElementById('watermark-opacity').value;
+});
+
+function buildWatermarkCanvas(pageWidthPt, pageHeightPt, text, color, opacity, fontSizePt){
+  const scale = 2;
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.max(1, Math.round(pageWidthPt * scale));
+  canvas.height = Math.max(1, Math.round(pageHeightPt * scale));
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.save();
+  ctx.translate(canvas.width/2, canvas.height/2);
+  ctx.rotate(-Math.PI/4);
+  ctx.globalAlpha = opacity;
+  ctx.fillStyle = color;
+  ctx.font = `700 ${fontSizePt*scale}px 'IBM Plex Sans Arabic', sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const diag = Math.sqrt(canvas.width*canvas.width + canvas.height*canvas.height);
+  const textWidth = Math.max(1, ctx.measureText(text).width);
+  const gap = fontSizePt * scale * 3;
+  const step = textWidth + gap;
+  const count = Math.ceil(diag / step) + 2;
+  const startOffset = -Math.floor(count/2) * step;
+  for(let i=0; i<count; i++){
+    ctx.fillText(text, startOffset + i*step, 0);
+  }
+  ctx.restore();
+  return canvas;
+}
+
+document.getElementById('watermark-btn').addEventListener('click', async ()=>{
+  const file = document.getElementById('watermark-file').files[0];
+  const btn = document.getElementById('watermark-btn');
+  const text = document.getElementById('watermark-text').value.trim();
+  if(!file){ setStatus('watermark-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
+  if(!text){ setStatus('watermark-status', I18N[currentLang].watermarkErrText, 'err'); return; }
+
+  setBusy(btn, true, I18N[currentLang].addingBusy, I18N[currentLang].watermarkBtn);
+  try{
+    const fontSizePt = parseFloat(document.getElementById('watermark-size').value) || 60;
+    const color = document.getElementById('watermark-color').value;
+    const opacity = (parseFloat(document.getElementById('watermark-opacity').value) || 25) / 100;
+
+    const pdfBytes = await file.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const pages = pdfDoc.getPages();
+
+    const imageCache = {};
+    for(const page of pages){
+      const { width: pw, height: ph } = page.getSize();
+      const key = `${Math.round(pw)}x${Math.round(ph)}`;
+      if(!imageCache[key]){
+        const canvas = buildWatermarkCanvas(pw, ph, text, color, opacity, fontSizePt);
+        const dataUrl = canvas.toDataURL('image/png');
+        const bytes = await (await fetch(dataUrl)).arrayBuffer();
+        imageCache[key] = await pdfDoc.embedPng(bytes);
+      }
+      page.drawImage(imageCache[key], { x:0, y:0, width:pw, height:ph });
+    }
+
+    const outBytes = await pdfDoc.save();
+    downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'علامة_مائية.pdf');
+    setStatus('watermark-status', I18N[currentLang].watermarkSuccess, 'ok');
+  }catch(e){
+    setStatus('watermark-status', I18N[currentLang].watermarkErr, 'err');
+  }
+  setBusy(btn, false, '', I18N[currentLang].watermarkBtn);
 });
 
 /* ============================================================
