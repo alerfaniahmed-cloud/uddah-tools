@@ -1298,7 +1298,19 @@
 
       <div style="text-align:center;margin-top:10px;">
         <p class="hint" style="margin-bottom:6px;" data-i18n="bulkcropPreviewHint">معاينة على أول صورة (المناطق المظلّلة بتنحذف)</p>
-        <canvas id="bulkcrop-preview-canvas" style="max-width:100%;width:280px;height:auto;border:1px solid var(--border);border-radius:8px;"></canvas>
+        <div class="row" style="align-items:center;margin-bottom:8px;">
+          <div class="field" style="flex:2;margin-bottom:0;">
+            <label for="bulkcrop-zoom"><span data-i18n="zoomLabel">تكبير المعاينة:</span> <span id="bulkcrop-zoom-val">100</span>٪</label>
+            <input type="range" id="bulkcrop-zoom" min="50" max="250" step="10" value="100" style="width:100%;">
+          </div>
+          <div style="flex:0 0 auto;display:flex;gap:6px;">
+            <button type="button" class="btn secondary" id="bulkcrop-zoom-out" style="padding:7px 12px;font-size:1rem;line-height:1;">−</button>
+            <button type="button" class="btn secondary" id="bulkcrop-zoom-in" style="padding:7px 12px;font-size:1rem;line-height:1;">+</button>
+          </div>
+        </div>
+        <div style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;display:inline-block;">
+          <canvas id="bulkcrop-preview-canvas" style="display:block;width:280px;height:auto;"></canvas>
+        </div>
       </div>
 
       <div style="text-align:center;margin-top:16px;">
@@ -1745,9 +1757,21 @@
 
       <div class="field" id="sign-preview-wrap" style="display:none;">
         <label data-i18n="posPreviewLabel">معاينة الموضع على الصفحة</label>
-        <div style="position:relative;display:inline-block;border:1px solid var(--border);border-radius:8px;overflow:hidden;line-height:0;background:#fff;">
-          <canvas id="sign-preview-page"></canvas>
-          <img id="sign-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
+        <div class="row" style="align-items:center;margin:8px 0;">
+          <div class="field" style="flex:2;margin-bottom:0;">
+            <label for="sign-zoom"><span data-i18n="zoomLabel">تكبير المعاينة:</span> <span id="sign-zoom-val">100</span>٪</label>
+            <input type="range" id="sign-zoom" min="50" max="250" step="10" value="100" style="width:100%;">
+          </div>
+          <div style="flex:0 0 auto;display:flex;gap:6px;">
+            <button type="button" class="btn secondary" id="sign-zoom-out" style="padding:7px 12px;font-size:1rem;line-height:1;">−</button>
+            <button type="button" class="btn secondary" id="sign-zoom-in" style="padding:7px 12px;font-size:1rem;line-height:1;">+</button>
+          </div>
+        </div>
+        <div style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;">
+          <div style="position:relative;display:inline-block;line-height:0;background:#fff;">
+            <canvas id="sign-preview-page"></canvas>
+            <img id="sign-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
+          </div>
         </div>
       </div>
 
@@ -1805,12 +1829,24 @@
       <div class="field" id="stamp-preview-wrap" style="display:none;">
         <label data-i18n="posPreviewLabel">معاينة الموضع على الصفحة</label>
         <p class="note" style="margin-top:2px;" data-i18n="resizeHandleNoteFull">اسحب الختم لتحريكه. المقبض الذهبي بالزاوية يكبّر/يصغّر العرض والارتفاع معاً، والمقبض بمنتصف الحافة اليمنى يضبط العرض بس، وبمنتصف الحافة السفلى يضبط الارتفاع بس.</p>
-        <div style="position:relative;display:inline-block;border:1px solid var(--border);border-radius:8px;overflow:hidden;line-height:0;background:#fff;">
-          <canvas id="stamp-preview-page"></canvas>
-          <img id="stamp-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
-          <div id="stamp-resize-handle" style="position:absolute;width:14px;height:14px;background:var(--brass);border:2px solid #fff;border-radius:3px;cursor:nwse-resize;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>
-          <div id="stamp-resize-handle-right" style="position:absolute;width:12px;height:12px;background:var(--patina);border:2px solid #fff;border-radius:50%;cursor:ew-resize;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>
-          <div id="stamp-resize-handle-bottom" style="position:absolute;width:12px;height:12px;background:var(--patina);border:2px solid #fff;border-radius:50%;cursor:ns-resize;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>
+        <div class="row" style="align-items:center;margin:8px 0;">
+          <div class="field" style="flex:2;margin-bottom:0;">
+            <label for="stamp-zoom"><span data-i18n="zoomLabel">تكبير المعاينة:</span> <span id="stamp-zoom-val">100</span>٪</label>
+            <input type="range" id="stamp-zoom" min="50" max="250" step="10" value="100" style="width:100%;">
+          </div>
+          <div style="flex:0 0 auto;display:flex;gap:6px;">
+            <button type="button" class="btn secondary" id="stamp-zoom-out" style="padding:7px 12px;font-size:1rem;line-height:1;">−</button>
+            <button type="button" class="btn secondary" id="stamp-zoom-in" style="padding:7px 12px;font-size:1rem;line-height:1;">+</button>
+          </div>
+        </div>
+        <div style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;">
+          <div style="position:relative;display:inline-block;line-height:0;background:#fff;">
+            <canvas id="stamp-preview-page"></canvas>
+            <img id="stamp-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
+            <div id="stamp-resize-handle" style="position:absolute;width:14px;height:14px;background:var(--brass);border:2px solid #fff;border-radius:3px;cursor:nwse-resize;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>
+            <div id="stamp-resize-handle-right" style="position:absolute;width:12px;height:12px;background:var(--patina);border:2px solid #fff;border-radius:50%;cursor:ew-resize;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>
+            <div id="stamp-resize-handle-bottom" style="position:absolute;width:12px;height:12px;background:var(--patina);border:2px solid #fff;border-radius:50%;cursor:ns-resize;box-shadow:0 1px 3px rgba(0,0,0,0.4);"></div>
+          </div>
         </div>
       </div>
 
@@ -1862,9 +1898,21 @@
 
       <div class="field" id="text-preview-wrap" style="display:none;">
         <label data-i18n="posPreviewLabel">معاينة الموضع على الصفحة</label>
-        <div style="position:relative;display:inline-block;border:1px solid var(--border);border-radius:8px;overflow:hidden;line-height:0;background:#fff;">
-          <canvas id="text-preview-page"></canvas>
-          <img id="text-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
+        <div class="row" style="align-items:center;margin:8px 0;">
+          <div class="field" style="flex:2;margin-bottom:0;">
+            <label for="text-zoom"><span data-i18n="zoomLabel">تكبير المعاينة:</span> <span id="text-zoom-val">100</span>٪</label>
+            <input type="range" id="text-zoom" min="50" max="250" step="10" value="100" style="width:100%;">
+          </div>
+          <div style="flex:0 0 auto;display:flex;gap:6px;">
+            <button type="button" class="btn secondary" id="text-zoom-out" style="padding:7px 12px;font-size:1rem;line-height:1;">−</button>
+            <button type="button" class="btn secondary" id="text-zoom-in" style="padding:7px 12px;font-size:1rem;line-height:1;">+</button>
+          </div>
+        </div>
+        <div style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;">
+          <div style="position:relative;display:inline-block;line-height:0;background:#fff;">
+            <canvas id="text-preview-page"></canvas>
+            <img id="text-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
+          </div>
         </div>
       </div>
 
@@ -1893,8 +1941,20 @@
 
       <div class="field" id="erase-preview-wrap" style="display:none;">
         <label data-i18n="erasePreviewLabel">معاينة الصفحة</label>
-        <div style="position:relative;display:inline-block;border:1px solid var(--border);border-radius:8px;overflow:hidden;line-height:0;background:#fff;">
-          <canvas id="erase-preview-page"></canvas>
+        <div class="row" style="align-items:center;margin-bottom:8px;">
+          <div class="field" style="flex:2;margin-bottom:0;">
+            <label for="erase-zoom"><span data-i18n="zoomLabel">تكبير المعاينة:</span> <span id="erase-zoom-val">100</span>٪</label>
+            <input type="range" id="erase-zoom" min="50" max="250" step="10" value="100" style="width:100%;">
+          </div>
+          <div style="flex:0 0 auto;display:flex;gap:6px;">
+            <button type="button" class="btn secondary" id="erase-zoom-out" style="padding:7px 12px;font-size:1rem;line-height:1;">−</button>
+            <button type="button" class="btn secondary" id="erase-zoom-in" style="padding:7px 12px;font-size:1rem;line-height:1;">+</button>
+          </div>
+        </div>
+        <div style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;">
+          <div style="position:relative;display:inline-block;line-height:0;background:#fff;">
+            <canvas id="erase-preview-page"></canvas>
+          </div>
         </div>
       </div>
 
@@ -2999,6 +3059,7 @@ const I18N = {
     eraseErrNoEdits: 'أضف تعديل واحد على الأقل قبل التطبيق.',
     eraseSuccessPrefix: 'تم تطبيق التعديلات بنجاح على الصفحة',
     eraseErr: 'تعذر تطبيق التعديلات — تأكد أن الملف PDF صحيح.',
+    zoomLabel: 'تكبير المعاينة:',
     pdfStampBtn: 'إضافة الختم وتنزيل',
     pdfStampNote: 'الختم يُضاف بالكامل داخل متصفحك — لا تُرفع صورة الختم أو ملفك لأي سيرفر خارجي.',
     pdfTextTitle: 'إضافة نص على PDF',
@@ -3641,6 +3702,7 @@ const I18N = {
     eraseErrNoEdits: 'Add at least one edit before applying.',
     eraseSuccessPrefix: 'Edits applied successfully to page',
     eraseErr: 'Could not apply the edits — make sure the PDF file is valid.',
+    zoomLabel: 'Preview zoom:',
     pdfStampBtn: 'Add Stamp and Download',
     pdfStampNote: 'The stamp is added entirely in your browser — neither the stamp image nor your file is uploaded to any external server.',
     pdfTextTitle: 'Add Text to PDF',
@@ -5693,6 +5755,8 @@ function bulkcropGetPercents(){
 function renderBulkcropPreview(){
   const canvas = document.getElementById('bulkcrop-preview-canvas');
   const ctx = canvas.getContext('2d');
+  const zoomPct = parseFloat(document.getElementById('bulkcrop-zoom').value) || 100;
+  canvas.style.width = Math.round(280 * (zoomPct/100)) + 'px';
   if(!bulkcropReferenceImage){
     canvas.width = 280; canvas.height = 160;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -5714,6 +5778,23 @@ function renderBulkcropPreview(){
   if(leftPx > 0) ctx.fillRect(0, topPx, leftPx, h-topPx-bottomPx);
   if(rightPx > 0) ctx.fillRect(w-rightPx, topPx, rightPx, h-topPx-bottomPx);
 }
+
+document.getElementById('bulkcrop-zoom').addEventListener('input', ()=>{
+  document.getElementById('bulkcrop-zoom-val').textContent = document.getElementById('bulkcrop-zoom').value;
+  renderBulkcropPreview();
+});
+document.getElementById('bulkcrop-zoom-in').addEventListener('click', ()=>{
+  const zoomInput = document.getElementById('bulkcrop-zoom');
+  zoomInput.value = Math.min(250, (parseFloat(zoomInput.value) || 100) + 20);
+  document.getElementById('bulkcrop-zoom-val').textContent = zoomInput.value;
+  renderBulkcropPreview();
+});
+document.getElementById('bulkcrop-zoom-out').addEventListener('click', ()=>{
+  const zoomInput = document.getElementById('bulkcrop-zoom');
+  zoomInput.value = Math.max(50, (parseFloat(zoomInput.value) || 100) - 20);
+  document.getElementById('bulkcrop-zoom-val').textContent = zoomInput.value;
+  renderBulkcropPreview();
+});
 
 ['bulkcrop-top','bulkcrop-bottom','bulkcrop-left','bulkcrop-right'].forEach(id=>{
   document.getElementById(id).addEventListener('input', ()=>{
@@ -6471,7 +6552,8 @@ async function updateSignPreview(){
     if(!pageNum || pageNum < 1 || pageNum > pdf.numPages) pageNum = pdf.numPages;
     const page = await pdf.getPage(pageNum);
     const baseViewport = page.getViewport({scale:1});
-    const previewWidth = 320;
+    const zoomPct = parseFloat(document.getElementById('sign-zoom').value) || 100;
+    const previewWidth = 320 * (zoomPct/100);
     const scale = previewWidth / baseViewport.width;
     const viewport = page.getViewport({scale});
 
@@ -6504,6 +6586,22 @@ async function updateSignPreview(){
 
 document.getElementById('sign-file').addEventListener('change', ()=>{ signPreviewPdfDoc = null; signPreviewFileRef = null; updateSignPreview(); });
 document.getElementById('sign-page').addEventListener('input', updateSignPreview);
+document.getElementById('sign-zoom').addEventListener('input', ()=>{
+  document.getElementById('sign-zoom-val').textContent = document.getElementById('sign-zoom').value;
+  updateSignPreview();
+});
+document.getElementById('sign-zoom-in').addEventListener('click', ()=>{
+  const zoomInput = document.getElementById('sign-zoom');
+  zoomInput.value = Math.min(250, (parseFloat(zoomInput.value) || 100) + 20);
+  document.getElementById('sign-zoom-val').textContent = zoomInput.value;
+  updateSignPreview();
+});
+document.getElementById('sign-zoom-out').addEventListener('click', ()=>{
+  const zoomInput = document.getElementById('sign-zoom');
+  zoomInput.value = Math.max(50, (parseFloat(zoomInput.value) || 100) - 20);
+  document.getElementById('sign-zoom-val').textContent = zoomInput.value;
+  updateSignPreview();
+});
 document.getElementById('sign-size').addEventListener('input', updateSignPreview);
 
 document.getElementById('sign-btn').addEventListener('click', async ()=>{
@@ -6581,6 +6679,22 @@ stampXInput.addEventListener('input', ()=>{ document.getElementById('stamp-x-val
 stampYInput.addEventListener('input', ()=>{ document.getElementById('stamp-y-val').textContent = stampYInput.value; updateStampPreview(); });
 makeOverlayDraggable('stamp-preview-overlay', stampXInput, stampYInput, 'stamp-x-val', 'stamp-y-val', updateStampPreview);
 document.getElementById('stamp-page').addEventListener('input', updateStampPreview);
+document.getElementById('stamp-zoom').addEventListener('input', ()=>{
+  document.getElementById('stamp-zoom-val').textContent = document.getElementById('stamp-zoom').value;
+  updateStampPreview();
+});
+document.getElementById('stamp-zoom-in').addEventListener('click', ()=>{
+  const zoomInput = document.getElementById('stamp-zoom');
+  zoomInput.value = Math.min(250, (parseFloat(zoomInput.value) || 100) + 20);
+  document.getElementById('stamp-zoom-val').textContent = zoomInput.value;
+  updateStampPreview();
+});
+document.getElementById('stamp-zoom-out').addEventListener('click', ()=>{
+  const zoomInput = document.getElementById('stamp-zoom');
+  zoomInput.value = Math.max(50, (parseFloat(zoomInput.value) || 100) - 20);
+  document.getElementById('stamp-zoom-val').textContent = zoomInput.value;
+  updateStampPreview();
+});
 stampWidthInput.addEventListener('input', ()=>{
   if(stampLockRatio.checked){
     stampHeightInput.value = Math.round((parseFloat(stampWidthInput.value)||1) * stampImageRatio);
@@ -6630,7 +6744,8 @@ async function updateStampPreview(){
     if(!pageNum || pageNum < 1 || pageNum > pdf.numPages) pageNum = pdf.numPages;
     const page = await pdf.getPage(pageNum);
     const baseViewport = page.getViewport({scale:1});
-    const previewWidth = 320;
+    const zoomPct = parseFloat(document.getElementById('stamp-zoom').value) || 100;
+    const previewWidth = 320 * (zoomPct/100);
     const scale = previewWidth / baseViewport.width;
     stampPreviewScale = scale;
     const viewport = page.getViewport({scale});
@@ -6816,6 +6931,22 @@ textXInput.addEventListener('input', ()=>{ document.getElementById('text-x-val')
 textYInput.addEventListener('input', ()=>{ document.getElementById('text-y-val').textContent = textYInput.value; updateTextPreview(); });
 makeOverlayDraggable('text-preview-overlay', textXInput, textYInput, 'text-x-val', 'text-y-val', updateTextPreview);
 document.getElementById('text-page').addEventListener('input', updateTextPreview);
+document.getElementById('text-zoom').addEventListener('input', ()=>{
+  document.getElementById('text-zoom-val').textContent = document.getElementById('text-zoom').value;
+  updateTextPreview();
+});
+document.getElementById('text-zoom-in').addEventListener('click', ()=>{
+  const zoomInput = document.getElementById('text-zoom');
+  zoomInput.value = Math.min(250, (parseFloat(zoomInput.value) || 100) + 20);
+  document.getElementById('text-zoom-val').textContent = zoomInput.value;
+  updateTextPreview();
+});
+document.getElementById('text-zoom-out').addEventListener('click', ()=>{
+  const zoomInput = document.getElementById('text-zoom');
+  zoomInput.value = Math.max(50, (parseFloat(zoomInput.value) || 100) - 20);
+  document.getElementById('text-zoom-val').textContent = zoomInput.value;
+  updateTextPreview();
+});
 
 let textPreviewPdfDoc = null;
 let textPreviewFileRef = null;
@@ -6839,7 +6970,8 @@ async function updateTextPreview(){
     if(!pageNum || pageNum < 1 || pageNum > pdf.numPages) pageNum = pdf.numPages;
     const page = await pdf.getPage(pageNum);
     const baseViewport = page.getViewport({scale:1});
-    const previewWidth = 320;
+    const zoomPct = parseFloat(document.getElementById('text-zoom').value) || 100;
+    const previewWidth = 320 * (zoomPct/100);
     const scale = previewWidth / baseViewport.width;
     const viewport = page.getViewport({scale});
 
@@ -7015,7 +7147,8 @@ async function renderErasePreview(){
     if(!pageNum || pageNum < 1 || pageNum > pdf.numPages) pageNum = pdf.numPages;
     const page = await pdf.getPage(pageNum);
     const baseViewport = page.getViewport({scale:1});
-    const previewWidth = 320;
+    const zoomPct = parseFloat(document.getElementById('erase-zoom').value) || 100;
+    const previewWidth = 320 * (zoomPct/100);
     const scale = previewWidth / baseViewport.width;
     const viewport = page.getViewport({scale});
 
@@ -7051,6 +7184,23 @@ async function renderErasePreview(){
 
 document.getElementById('erase-file').addEventListener('change', ()=>{ erasePreviewPdfDoc = null; erasePreviewFileRef = null; renderErasePreview(); });
 document.getElementById('erase-page').addEventListener('input', renderErasePreview);
+
+document.getElementById('erase-zoom').addEventListener('input', ()=>{
+  document.getElementById('erase-zoom-val').textContent = document.getElementById('erase-zoom').value;
+  renderErasePreview();
+});
+document.getElementById('erase-zoom-in').addEventListener('click', ()=>{
+  const zoomInput = document.getElementById('erase-zoom');
+  zoomInput.value = Math.min(250, (parseFloat(zoomInput.value) || 100) + 20);
+  document.getElementById('erase-zoom-val').textContent = zoomInput.value;
+  renderErasePreview();
+});
+document.getElementById('erase-zoom-out').addEventListener('click', ()=>{
+  const zoomInput = document.getElementById('erase-zoom');
+  zoomInput.value = Math.max(50, (parseFloat(zoomInput.value) || 100) - 20);
+  document.getElementById('erase-zoom-val').textContent = zoomInput.value;
+  renderErasePreview();
+});
 
 document.getElementById('erase-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('erase-file').files[0];
