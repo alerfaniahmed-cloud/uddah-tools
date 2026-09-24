@@ -1616,6 +1616,7 @@
           <option value="sign" data-i18n="pdfOptSign">✍️ توقيع إلكتروني على PDF</option>
           <option value="stamp" data-i18n="pdfOptStamp">🖋️ إضافة ختم على PDF</option>
           <option value="text" data-i18n="pdfOptText">🔤 إضافة نص على PDF</option>
+          <option value="erase" data-i18n="pdfOptErase">🧽 مسح وإضافة نص على PDF</option>
           <option value="watermark" data-i18n="pdfOptWatermark">💧 إضافة علامة مائية (Watermark)</option>
           <option value="pagesize" data-i18n="pdfOptPagesize">📏 تغيير مقاس صفحة PDF</option>
         </select>
@@ -1870,6 +1871,36 @@
       <button class="btn" id="text-btn" style="margin-top:14px;" data-i18n="pdfTextBtn">إضافة النص وتنزيل</button>
       <div id="text-status"></div>
       <p class="note" data-i18n="pdfTextNote">النص يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو نصك لأي سيرفر خارجي.</p>
+    </div>
+
+    <div class="card pdf-card" id="pdftool-erase">
+      <h2 data-i18n="eraseTitle">مسح وإضافة نص على PDF</h2>
+      <p class="hint" data-i18n="eraseHint">ارسم مستطيل يغطي النص القديم اللي تبي تشيله (بلون يطابق خلفية الصفحة، غالباً أبيض)، ثم أضف النص الجديد فوقه بنفس المكان — تقدر تضيف أكثر من تعديل بنفس الصفحة.</p>
+      <div class="field">
+        <input type="file" id="erase-file" accept="application/pdf">
+        <div class="file-list" id="erase-file-list"></div>
+      </div>
+      <div class="field">
+        <label for="erase-page" data-i18n="pageNumLabel">رقم الصفحة</label>
+        <input type="number" id="erase-page" min="1" value="1" placeholder="آخر صفحة افتراضياً" data-i18n-ph="lastPageDefaultPh">
+      </div>
+
+      <div class="field">
+        <label data-i18n="eraseEditsLabel">التعديلات (كل تعديل = منطقة مسح + نص جديد)</label>
+        <div id="erase-edits-list"></div>
+        <button type="button" class="btn secondary" id="erase-add-edit-btn" style="margin-top:2px;padding:7px 14px;font-size:.82rem;" data-i18n="eraseAddEditBtn">+ إضافة تعديل</button>
+      </div>
+
+      <div class="field" id="erase-preview-wrap" style="display:none;">
+        <label data-i18n="erasePreviewLabel">معاينة الصفحة</label>
+        <div style="position:relative;display:inline-block;border:1px solid var(--border);border-radius:8px;overflow:hidden;line-height:0;background:#fff;">
+          <canvas id="erase-preview-page"></canvas>
+        </div>
+      </div>
+
+      <button class="btn" id="erase-btn" style="margin-top:14px;" data-i18n="eraseBtn">تطبيق التعديلات وتنزيل</button>
+      <div id="erase-status"></div>
+      <p class="note" data-i18n="eraseNote">هذي الأداة تغطي النص القديم بمستطيل وتضيف النص الجديد فوقه — مو تعديل حقيقي للنص الأصلي داخل الملف (PDF أصلاً ما يخزن النص كنص قابل للتعديل المباشر بكل الحالات). كل شي يتم داخل متصفحك — لا يُرفع ملفك لأي سيرفر خارجي.</p>
     </div>
 
     <div class="card pdf-card" id="pdftool-watermark">
@@ -2957,6 +2988,17 @@ const I18N = {
     pagesizeErr: 'تعذر تغيير المقاس — تأكد أن الملف PDF صحيح.',
     pagesizePreviewLabel: 'معاينة قبل وبعد (الصفحة الأولى)',
     pagesizeBeforeLabel: 'قبل', pagesizeAfterLabel: 'بعد',
+    pdfOptErase: '🧽 مسح وإضافة نص على PDF',
+    eraseTitle: 'مسح وإضافة نص على PDF',
+    eraseHint: 'ارسم مستطيل يغطي النص القديم اللي تبي تشيله (بلون يطابق خلفية الصفحة، غالباً أبيض)، ثم أضف النص الجديد فوقه بنفس المكان — تقدر تضيف أكثر من تعديل بنفس الصفحة.',
+    eraseEditsLabel: 'التعديلات (كل تعديل = منطقة مسح + نص جديد)',
+    eraseAddEditBtn: '+ إضافة تعديل',
+    erasePreviewLabel: 'معاينة الصفحة',
+    eraseBtn: 'تطبيق التعديلات وتنزيل',
+    eraseNote: 'هذي الأداة تغطي النص القديم بمستطيل وتضيف النص الجديد فوقه — مو تعديل حقيقي للنص الأصلي داخل الملف (PDF أصلاً ما يخزن النص كنص قابل للتعديل المباشر بكل الحالات). كل شي يتم داخل متصفحك — لا يُرفع ملفك لأي سيرفر خارجي.',
+    eraseErrNoEdits: 'أضف تعديل واحد على الأقل قبل التطبيق.',
+    eraseSuccessPrefix: 'تم تطبيق التعديلات بنجاح على الصفحة',
+    eraseErr: 'تعذر تطبيق التعديلات — تأكد أن الملف PDF صحيح.',
     pdfStampBtn: 'إضافة الختم وتنزيل',
     pdfStampNote: 'الختم يُضاف بالكامل داخل متصفحك — لا تُرفع صورة الختم أو ملفك لأي سيرفر خارجي.',
     pdfTextTitle: 'إضافة نص على PDF',
@@ -3588,6 +3630,17 @@ const I18N = {
     pagesizeErr: 'Could not change the size — make sure the PDF file is valid.',
     pagesizePreviewLabel: 'Before/after preview (first page)',
     pagesizeBeforeLabel: 'Before', pagesizeAfterLabel: 'After',
+    pdfOptErase: '🧽 Erase & Replace Text on PDF',
+    eraseTitle: 'Erase & Replace Text on PDF',
+    eraseHint: "Draw a rectangle over the old text you want to remove (in a color matching the page background, usually white), then add the new text on top in the same spot — you can add more than one edit on the same page.",
+    eraseEditsLabel: 'Edits (each edit = an erase area + new text)',
+    eraseAddEditBtn: '+ Add Edit',
+    erasePreviewLabel: 'Page Preview',
+    eraseBtn: 'Apply Edits and Download',
+    eraseNote: "This tool covers the old text with a rectangle and adds the new text on top — it isn't a real edit of the original text inside the file (a PDF doesn't always store text as directly editable text). Everything happens in your browser — your file is never uploaded to any external server.",
+    eraseErrNoEdits: 'Add at least one edit before applying.',
+    eraseSuccessPrefix: 'Edits applied successfully to page',
+    eraseErr: 'Could not apply the edits — make sure the PDF file is valid.',
     pdfStampBtn: 'Add Stamp and Download',
     pdfStampNote: 'The stamp is added entirely in your browser — neither the stamp image nor your file is uploaded to any external server.',
     pdfTextTitle: 'Add Text to PDF',
@@ -6856,6 +6909,190 @@ document.getElementById('text-btn').addEventListener('click', async ()=>{
     setStatus('text-status', I18N[currentLang].textErr, 'err');
   }
   setBusy(btn, false, '', I18N[currentLang].pdfTextBtn);
+});
+
+/* ============================================================
+   PDF ERASE & REPLACE TEXT
+   ============================================================ */
+let eraseEdits = [{ text:'', xPct:10, yPct:80, widthPt:150, heightPt:22, fontSize:14, textColor:'#000000', eraseColor:'#ffffff' }];
+
+setupFilePicker('erase-file', 'erase-file-list', false);
+
+function eraseCreateEditRow(edit, index){
+  const row = document.createElement('div');
+  row.className = 'erase-edit-row';
+  row.style.cssText = 'border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;background:var(--bg-elev-2);';
+  row.innerHTML =
+    '<div style="display:flex;gap:8px;align-items:center;">' +
+    '<input type="text" class="erase-edit-text" placeholder="النص الجديد" style="flex:1;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:9px 10px;font-family:var(--font-display);font-size:.9rem;">' +
+    '<button type="button" class="erase-edit-remove" title="حذف التعديل" style="flex:0 0 auto;width:28px;height:28px;border-radius:50%;border:none;background:var(--rust);color:#fff;cursor:pointer;font-size:.9rem;">×</button>' +
+    '</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
+    '<div style="flex:1;min-width:130px;"><label style="font-size:.75rem;color:var(--bone-dim);">الموضع الأفقي: <span class="erase-edit-x-val">' + edit.xPct + '</span>٪</label>' +
+    '<input type="range" class="erase-edit-x" min="0" max="100" value="' + edit.xPct + '" style="width:100%;"></div>' +
+    '<div style="flex:1;min-width:130px;"><label style="font-size:.75rem;color:var(--bone-dim);">الموضع الرأسي: <span class="erase-edit-y-val">' + edit.yPct + '</span>٪</label>' +
+    '<input type="range" class="erase-edit-y" min="0" max="100" value="' + edit.yPct + '" style="width:100%;"></div>' +
+    '</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
+    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">عرض منطقة المسح (نقطة)</label>' +
+    '<input type="text" inputmode="decimal" class="erase-edit-width" value="' + edit.widthPt + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
+    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">ارتفاع منطقة المسح (نقطة)</label>' +
+    '<input type="text" inputmode="decimal" class="erase-edit-height" value="' + edit.heightPt + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
+    '<div style="flex:1;min-width:90px;"><label style="font-size:.75rem;color:var(--bone-dim);">حجم الخط</label>' +
+    '<input type="text" inputmode="decimal" class="erase-edit-fontsize" value="' + edit.fontSize + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
+    '</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
+    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">لون النص الجديد</label>' +
+    '<input type="color" class="erase-edit-textcolor" value="' + edit.textColor + '" style="width:100%;height:38px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev);padding:3px;cursor:pointer;"></div>' +
+    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">لون منطقة المسح</label>' +
+    '<input type="color" class="erase-edit-erasecolor" value="' + edit.eraseColor + '" style="width:100%;height:38px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev);padding:3px;cursor:pointer;"></div>' +
+    '</div>';
+
+  const textInput = row.querySelector('.erase-edit-text');
+  textInput.value = edit.text;
+  const xInput = row.querySelector('.erase-edit-x');
+  const xVal = row.querySelector('.erase-edit-x-val');
+  const yInput = row.querySelector('.erase-edit-y');
+  const yVal = row.querySelector('.erase-edit-y-val');
+  const widthInput = row.querySelector('.erase-edit-width');
+  const heightInput = row.querySelector('.erase-edit-height');
+  const fontSizeInput = row.querySelector('.erase-edit-fontsize');
+  const textColorInput = row.querySelector('.erase-edit-textcolor');
+  const eraseColorInput = row.querySelector('.erase-edit-erasecolor');
+  const removeBtn = row.querySelector('.erase-edit-remove');
+
+  textInput.addEventListener('input', ()=>{ eraseEdits[index].text = textInput.value; renderErasePreview(); });
+  xInput.addEventListener('input', ()=>{ eraseEdits[index].xPct = parseInt(xInput.value,10); xVal.textContent = xInput.value; renderErasePreview(); });
+  yInput.addEventListener('input', ()=>{ eraseEdits[index].yPct = parseInt(yInput.value,10); yVal.textContent = yInput.value; renderErasePreview(); });
+  widthInput.addEventListener('input', ()=>{ eraseEdits[index].widthPt = parseFloat(widthInput.value) || 150; renderErasePreview(); });
+  heightInput.addEventListener('input', ()=>{ eraseEdits[index].heightPt = parseFloat(heightInput.value) || 22; renderErasePreview(); });
+  fontSizeInput.addEventListener('input', ()=>{ eraseEdits[index].fontSize = parseFloat(fontSizeInput.value) || 14; renderErasePreview(); });
+  textColorInput.addEventListener('input', ()=>{ eraseEdits[index].textColor = textColorInput.value; renderErasePreview(); });
+  eraseColorInput.addEventListener('input', ()=>{ eraseEdits[index].eraseColor = eraseColorInput.value; renderErasePreview(); });
+  removeBtn.addEventListener('click', ()=>{
+    eraseEdits.splice(index, 1);
+    eraseRenderEditsList();
+    renderErasePreview();
+  });
+
+  return row;
+}
+
+function eraseRenderEditsList(){
+  const container = document.getElementById('erase-edits-list');
+  container.innerHTML = '';
+  eraseEdits.forEach((edit, idx)=>{
+    container.appendChild(eraseCreateEditRow(edit, idx));
+  });
+}
+
+document.getElementById('erase-add-edit-btn').addEventListener('click', ()=>{
+  eraseEdits.push({ text:'', xPct:10, yPct:60, widthPt:150, heightPt:22, fontSize:14, textColor:'#000000', eraseColor:'#ffffff' });
+  eraseRenderEditsList();
+  renderErasePreview();
+});
+eraseRenderEditsList();
+
+let erasePreviewPdfDoc = null;
+let erasePreviewFileRef = null;
+
+async function loadErasePreviewPdf(file){
+  if(erasePreviewFileRef === file && erasePreviewPdfDoc) return erasePreviewPdfDoc;
+  const bytes = await file.arrayBuffer();
+  erasePreviewPdfDoc = await pdfjsLib.getDocument({data: bytes}).promise;
+  erasePreviewFileRef = file;
+  return erasePreviewPdfDoc;
+}
+
+async function renderErasePreview(){
+  const file = document.getElementById('erase-file').files[0];
+  const wrap = document.getElementById('erase-preview-wrap');
+  if(!file){ wrap.style.display = 'none'; return; }
+
+  try{
+    const pdf = await loadErasePreviewPdf(file);
+    let pageNum = parseInt(document.getElementById('erase-page').value, 10);
+    if(!pageNum || pageNum < 1 || pageNum > pdf.numPages) pageNum = pdf.numPages;
+    const page = await pdf.getPage(pageNum);
+    const baseViewport = page.getViewport({scale:1});
+    const previewWidth = 320;
+    const scale = previewWidth / baseViewport.width;
+    const viewport = page.getViewport({scale});
+
+    const canvas = document.getElementById('erase-preview-page');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const ctx = canvas.getContext('2d');
+    await page.render({canvasContext: ctx, viewport}).promise;
+
+    const pw = baseViewport.width, ph = baseViewport.height;
+    eraseEdits.forEach(edit=>{
+      const x = (edit.xPct/100) * (pw - edit.widthPt);
+      const y = (edit.yPct/100) * (ph - edit.heightPt);
+      const px = x*scale, py = (ph - y - edit.heightPt)*scale;
+      const pxW = edit.widthPt*scale, pxH = edit.heightPt*scale;
+      ctx.fillStyle = edit.eraseColor;
+      ctx.fillRect(px, py, pxW, pxH);
+      if(edit.text.trim()){
+        ctx.fillStyle = edit.textColor;
+        ctx.font = `600 ${Math.max(6, edit.fontSize*scale)}px 'IBM Plex Sans Arabic', sans-serif`;
+        ctx.direction = 'rtl';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(edit.text, px + pxW - 3, py + pxH/2);
+      }
+    });
+
+    wrap.style.display = 'block';
+  }catch(e){
+    wrap.style.display = 'none';
+  }
+}
+
+document.getElementById('erase-file').addEventListener('change', ()=>{ erasePreviewPdfDoc = null; erasePreviewFileRef = null; renderErasePreview(); });
+document.getElementById('erase-page').addEventListener('input', renderErasePreview);
+
+document.getElementById('erase-btn').addEventListener('click', async ()=>{
+  const file = document.getElementById('erase-file').files[0];
+  const btn = document.getElementById('erase-btn');
+  if(!file){ setStatus('erase-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
+  if(!eraseEdits.length){ setStatus('erase-status', I18N[currentLang].eraseErrNoEdits, 'err'); return; }
+
+  setBusy(btn, true, I18N[currentLang].addingBusy, I18N[currentLang].eraseBtn);
+  try{
+    const pdfBytes = await file.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const pages = pdfDoc.getPages();
+
+    let pageNum = parseInt(document.getElementById('erase-page').value, 10);
+    if(!pageNum || pageNum < 1 || pageNum > pages.length) pageNum = pages.length;
+    const targetPage = pages[pageNum - 1];
+    const { width: pw, height: ph } = targetPage.getSize();
+
+    for(const edit of eraseEdits){
+      const x = (edit.xPct/100) * (pw - edit.widthPt);
+      const y = (edit.yPct/100) * (ph - edit.heightPt);
+      const c = edit.eraseColor;
+      const r = parseInt(c.slice(1,3),16)/255, g = parseInt(c.slice(3,5),16)/255, b = parseInt(c.slice(5,7),16)/255;
+      targetPage.drawRectangle({ x, y, width: edit.widthPt, height: edit.heightPt, color: PDFLib.rgb(r,g,b) });
+
+      if(edit.text.trim()){
+        const rendered = renderTextToCanvas(edit.text, edit.fontSize, edit.textColor);
+        const dataUrl = rendered.canvas.toDataURL('image/png');
+        const imgBytes = await (await fetch(dataUrl)).arrayBuffer();
+        const embeddedImg = await pdfDoc.embedPng(imgBytes);
+        const txtY = y + (edit.heightPt - rendered.heightPt)/2;
+        targetPage.drawImage(embeddedImg, { x, y: txtY, width: rendered.widthPt, height: rendered.heightPt });
+      }
+    }
+
+    const outBytes = await pdfDoc.save();
+    downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'معدّل.pdf');
+    setStatus('erase-status', `${I18N[currentLang].eraseSuccessPrefix} ${pageNum}.`, 'ok');
+  }catch(e){
+    setStatus('erase-status', I18N[currentLang].eraseErr, 'err');
+  }
+  setBusy(btn, false, '', I18N[currentLang].eraseBtn);
 });
 
 /* ============================================================
