@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Aref+Ruqaa+Ink&family=Rakkas&family=Lalezar&family=Jomhuria&family=Katibeh&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&family=Almarai:wght@400;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -6885,7 +6886,8 @@ document.getElementById('stamp-btn').addEventListener('click', async ()=>{
 });
 
 /* --- Add Text to PDF --- */
-function renderTextToCanvas(text, fontSizePt, color){
+function renderTextToCanvas(text, fontSizePt, color, fontFamily){
+  fontFamily = fontFamily || "'IBM Plex Sans Arabic', sans-serif";
   const scale = 4; // render at higher resolution for crispness
   const fontPx = fontSizePt * scale;
   const lineHeight = fontPx * 1.35;
@@ -6893,7 +6895,7 @@ function renderTextToCanvas(text, fontSizePt, color){
 
   const measureCanvas = document.createElement('canvas');
   const mctx = measureCanvas.getContext('2d');
-  mctx.font = `600 ${fontPx}px 'IBM Plex Sans Arabic', sans-serif`;
+  mctx.font = `600 ${fontPx}px ${fontFamily}`;
   let maxWidth = 10;
   lines.forEach(line=>{
     const w = mctx.measureText(line).width;
@@ -6904,7 +6906,7 @@ function renderTextToCanvas(text, fontSizePt, color){
   canvas.width = Math.ceil(maxWidth) + 8;
   canvas.height = Math.ceil(lineHeight * lines.length) + 8;
   const ctx = canvas.getContext('2d');
-  ctx.font = `600 ${fontPx}px 'IBM Plex Sans Arabic', sans-serif`;
+  ctx.font = `600 ${fontPx}px ${fontFamily}`;
   ctx.fillStyle = color;
   ctx.textBaseline = 'top';
   ctx.direction = 'rtl';
@@ -7052,14 +7054,39 @@ document.getElementById('text-btn').addEventListener('click', async ()=>{
 /* ============================================================
    PDF ERASE & REPLACE TEXT
    ============================================================ */
-let eraseEdits = [{ text:'', xPct:10, yPct:80, widthPt:150, heightPt:22, fontSize:14, textColor:'#000000', eraseColor:'#ffffff' }];
+let eraseEdits = [{ text:'', xPct:10, yPct:80, widthPt:150, heightPt:22, fontSize:14, textColor:'#000000', eraseColor:'#ffffff', fontFamily:"'IBM Plex Sans Arabic', sans-serif", textAlign:'right', offsetX:0, offsetY:0 }];
 
 setupFilePicker('erase-file', 'erase-file-list', false);
+
+const ERASE_FONT_OPTIONS = [
+  { v:"'IBM Plex Sans Arabic', sans-serif", l:'افتراضي (Plex Sans)' },
+  { v:"'Cairo', sans-serif", l:'Cairo (عربي حديث)' },
+  { v:"'Tajawal', sans-serif", l:'Tajawal (عربي حديث)' },
+  { v:"'Almarai', sans-serif", l:'Almarai (عربي حديث)' },
+  { v:"'Noto Naskh Arabic', serif", l:'نسخ تقليدي (Naskh)' },
+  { v:"'Amiri', serif", l:'أميري (نسخ كلاسيكي)' },
+  { v:"'Aref Ruqaa', serif", l:'رقعة كلاسيكي' },
+  { v:"'Aref Ruqaa Ink', serif", l:'رقعة حبر (بارز)' },
+  { v:"'Rakkas', cursive", l:'خط احتفالي مزخرف' },
+  { v:"'Lalezar', cursive", l:'خط عريض مزخرف' },
+  { v:"'Katibeh', cursive", l:'خط كتابة بارز' },
+  { v:"'Jomhuria', cursive", l:'خط طويل أنيق' },
+  { v:"Arial, sans-serif", l:'Arial (إنجليزي)' },
+  { v:"'Times New Roman', serif", l:'Times New Roman (إنجليزي)' },
+  { v:"'Roboto', sans-serif", l:'Roboto (إنجليزي)' },
+  { v:"'Open Sans', sans-serif", l:'Open Sans (إنجليزي)' },
+  { v:"'Lato', sans-serif", l:'Lato (إنجليزي)' },
+  { v:"'Montserrat', sans-serif", l:'Montserrat (إنجليزي)' },
+  { v:"'Courier New', monospace", l:'Courier New (أحادي المسافة)' }
+];
 
 function eraseCreateEditRow(edit, index){
   const row = document.createElement('div');
   row.className = 'erase-edit-row';
   row.style.cssText = 'border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;background:var(--bg-elev-2);';
+  const fontOptionsHtml = ERASE_FONT_OPTIONS.map(f=>
+    '<option value="' + f.v.replace(/"/g,'&quot;') + '"' + (f.v === edit.fontFamily ? ' selected' : '') + '>' + f.l + '</option>'
+  ).join('');
   row.innerHTML =
     '<div style="display:flex;gap:8px;align-items:center;">' +
     '<input type="text" class="erase-edit-text" placeholder="النص الجديد" style="flex:1;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:9px 10px;font-family:var(--font-display);font-size:.9rem;">' +
@@ -7079,6 +7106,20 @@ function eraseCreateEditRow(edit, index){
     '<div style="flex:1;min-width:90px;"><label style="font-size:.75rem;color:var(--bone-dim);">حجم الخط</label>' +
     '<input type="text" inputmode="decimal" class="erase-edit-fontsize" value="' + edit.fontSize + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
     '</div>' +
+    '<div style="margin-top:8px;"><label style="font-size:.75rem;color:var(--bone-dim);">نوع الخط</label>' +
+    '<select class="erase-edit-font" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-size:.85rem;">' + fontOptionsHtml + '</select></div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
+    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">محاذاة النص</label>' +
+    '<select class="erase-edit-align" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-size:.85rem;">' +
+    '<option value="right"' + (edit.textAlign==='right'?' selected':'') + '>يمين</option>' +
+    '<option value="center"' + (edit.textAlign==='center'?' selected':'') + '>وسط</option>' +
+    '<option value="left"' + (edit.textAlign==='left'?' selected':'') + '>يسار</option>' +
+    '</select></div>' +
+    '<div style="flex:1;min-width:90px;"><label style="font-size:.75rem;color:var(--bone-dim);">إزاحة أفقية (نقطة)</label>' +
+    '<input type="text" inputmode="decimal" class="erase-edit-offsetx" value="' + edit.offsetX + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
+    '<div style="flex:1;min-width:90px;"><label style="font-size:.75rem;color:var(--bone-dim);">إزاحة رأسية (نقطة)</label>' +
+    '<input type="text" inputmode="decimal" class="erase-edit-offsety" value="' + edit.offsetY + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
+    '</div>' +
     '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
     '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">لون النص الجديد</label>' +
     '<input type="color" class="erase-edit-textcolor" value="' + edit.textColor + '" style="width:100%;height:38px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev);padding:3px;cursor:pointer;"></div>' +
@@ -7095,6 +7136,10 @@ function eraseCreateEditRow(edit, index){
   const widthInput = row.querySelector('.erase-edit-width');
   const heightInput = row.querySelector('.erase-edit-height');
   const fontSizeInput = row.querySelector('.erase-edit-fontsize');
+  const fontInput = row.querySelector('.erase-edit-font');
+  const alignInput = row.querySelector('.erase-edit-align');
+  const offsetXInput = row.querySelector('.erase-edit-offsetx');
+  const offsetYInput = row.querySelector('.erase-edit-offsety');
   const textColorInput = row.querySelector('.erase-edit-textcolor');
   const eraseColorInput = row.querySelector('.erase-edit-erasecolor');
   const removeBtn = row.querySelector('.erase-edit-remove');
@@ -7105,6 +7150,10 @@ function eraseCreateEditRow(edit, index){
   widthInput.addEventListener('input', ()=>{ eraseEdits[index].widthPt = parseFloat(widthInput.value) || 150; renderErasePreview(); });
   heightInput.addEventListener('input', ()=>{ eraseEdits[index].heightPt = parseFloat(heightInput.value) || 22; renderErasePreview(); });
   fontSizeInput.addEventListener('input', ()=>{ eraseEdits[index].fontSize = parseFloat(fontSizeInput.value) || 14; renderErasePreview(); });
+  fontInput.addEventListener('change', ()=>{ eraseEdits[index].fontFamily = fontInput.value; renderErasePreview(); });
+  alignInput.addEventListener('change', ()=>{ eraseEdits[index].textAlign = alignInput.value; renderErasePreview(); });
+  offsetXInput.addEventListener('input', ()=>{ eraseEdits[index].offsetX = parseFloat(offsetXInput.value) || 0; renderErasePreview(); });
+  offsetYInput.addEventListener('input', ()=>{ eraseEdits[index].offsetY = parseFloat(offsetYInput.value) || 0; renderErasePreview(); });
   textColorInput.addEventListener('input', ()=>{ eraseEdits[index].textColor = textColorInput.value; renderErasePreview(); });
   eraseColorInput.addEventListener('input', ()=>{ eraseEdits[index].eraseColor = eraseColorInput.value; renderErasePreview(); });
   removeBtn.addEventListener('click', ()=>{
@@ -7125,7 +7174,7 @@ function eraseRenderEditsList(){
 }
 
 document.getElementById('erase-add-edit-btn').addEventListener('click', ()=>{
-  eraseEdits.push({ text:'', xPct:10, yPct:60, widthPt:150, heightPt:22, fontSize:14, textColor:'#000000', eraseColor:'#ffffff' });
+  eraseEdits.push({ text:'', xPct:10, yPct:60, widthPt:150, heightPt:22, fontSize:14, textColor:'#000000', eraseColor:'#ffffff', fontFamily:"'IBM Plex Sans Arabic', sans-serif", textAlign:'right', offsetX:0, offsetY:0 });
   eraseRenderEditsList();
   renderErasePreview();
 });
@@ -7165,11 +7214,16 @@ function eraseDrawEditsOnCanvas(ctx, pw, ph, scale, liveBox){
     ctx.restore();
     if(edit.text.trim()){
       ctx.fillStyle = edit.textColor;
-      ctx.font = `600 ${Math.max(6, edit.fontSize*scale)}px 'IBM Plex Sans Arabic', sans-serif`;
+      ctx.font = `600 ${Math.max(6, edit.fontSize*scale)}px ${edit.fontFamily || "'IBM Plex Sans Arabic', sans-serif"}`;
       ctx.direction = 'rtl';
-      ctx.textAlign = 'right';
+      const align = edit.textAlign || 'right';
+      let anchorX;
+      if(align === 'left'){ ctx.textAlign = 'left'; anchorX = px + 3; }
+      else if(align === 'center'){ ctx.textAlign = 'center'; anchorX = px + pxW/2; }
+      else { ctx.textAlign = 'right'; anchorX = px + pxW - 3; }
       ctx.textBaseline = 'middle';
-      ctx.fillText(edit.text, px + pxW - 3, py + pxH/2);
+      const offX = (edit.offsetX || 0) * scale, offY = (edit.offsetY || 0) * scale;
+      ctx.fillText(edit.text, anchorX + offX, py + pxH/2 - offY);
     }
   });
   if(liveBox){
@@ -7277,7 +7331,7 @@ document.getElementById('erase-page').addEventListener('input', renderErasePrevi
     const xPct = Math.max(0, Math.min(100, Math.round((xPt / Math.max(1, pw - widthPt)) * 100)));
     const yPct = Math.max(0, Math.min(100, Math.round((yPt / Math.max(1, ph - heightPt)) * 100)));
 
-    eraseEdits.push({ text:'', xPct, yPct, widthPt, heightPt, fontSize:14, textColor:'#000000', eraseColor:'#ffffff' });
+    eraseEdits.push({ text:'', xPct, yPct, widthPt, heightPt, fontSize:14, textColor:'#000000', eraseColor:'#ffffff', fontFamily:"'IBM Plex Sans Arabic', sans-serif", textAlign:'right', offsetX:0, offsetY:0 });
     eraseRenderEditsList();
     renderErasePreview();
   }
@@ -7346,12 +7400,17 @@ document.getElementById('erase-btn').addEventListener('click', async ()=>{
       targetPage.drawRectangle({ x, y, width: edit.widthPt, height: edit.heightPt, color: PDFLib.rgb(r,g,b) });
 
       if(edit.text.trim()){
-        const rendered = renderTextToCanvas(edit.text, edit.fontSize, edit.textColor);
+        const rendered = renderTextToCanvas(edit.text, edit.fontSize, edit.textColor, edit.fontFamily);
         const dataUrl = rendered.canvas.toDataURL('image/png');
         const imgBytes = await (await fetch(dataUrl)).arrayBuffer();
         const embeddedImg = await pdfDoc.embedPng(imgBytes);
-        const txtY = y + (edit.heightPt - rendered.heightPt)/2;
-        targetPage.drawImage(embeddedImg, { x, y: txtY, width: rendered.widthPt, height: rendered.heightPt });
+        const align = edit.textAlign || 'right';
+        let txtX;
+        if(align === 'left') txtX = x + 3;
+        else if(align === 'center') txtX = x + (edit.widthPt - rendered.widthPt)/2;
+        else txtX = x + edit.widthPt - rendered.widthPt - 3;
+        const txtY = y + (edit.heightPt - rendered.heightPt)/2 + (edit.offsetY || 0);
+        targetPage.drawImage(embeddedImg, { x: txtX + (edit.offsetX || 0), y: txtY, width: rendered.widthPt, height: rendered.heightPt });
       }
     }
 
