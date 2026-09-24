@@ -1923,7 +1923,7 @@
 
     <div class="card pdf-card" id="pdftool-erase">
       <h2 data-i18n="eraseTitle">مسح وإضافة نص على PDF</h2>
-      <p class="hint" data-i18n="eraseHint">ارسم مستطيل يغطي النص القديم اللي تبي تشيله (بلون يطابق خلفية الصفحة، غالباً أبيض)، ثم أضف النص الجديد فوقه بنفس المكان — تقدر تضيف أكثر من تعديل بنفس الصفحة.</p>
+      <p class="hint" data-i18n="eraseHint">ارفع الملف، وارسم بالسحب مباشرة فوق معاينة الصفحة بالأسفل مستطيلاً فوق النص القديم اللي تبي تشيله — يضاف تلقائياً كتعديل جديد بالقائمة، وتقدر تكتب فيه النص الجديد وتظبط لونه ومكانه.</p>
       <div class="field">
         <input type="file" id="erase-file" accept="application/pdf">
         <div class="file-list" id="erase-file-list"></div>
@@ -1941,6 +1941,7 @@
 
       <div class="field" id="erase-preview-wrap" style="display:none;">
         <label data-i18n="erasePreviewLabel">معاينة الصفحة</label>
+        <p class="note" style="margin-top:2px;font-weight:600;" data-i18n="eraseDrawNote">🖊️ اسحب بالماوس أو إصبعك فوق الصورة تحت لترسم منطقة مسح جديدة مباشرة.</p>
         <p class="note" style="margin-top:2px;" data-i18n="eraseDashNote">الخط المتقطع البرتقالي حوالين كل منطقة مسح يظهر بالمعاينة بس عشان تشوف مكانها بوضوح — ما يظهر إطلاقاً بالملف النهائي.</p>
         <div class="row" style="align-items:center;margin-bottom:8px;">
           <div class="field" style="flex:2;margin-bottom:0;">
@@ -3051,7 +3052,8 @@ const I18N = {
     pagesizeBeforeLabel: 'قبل', pagesizeAfterLabel: 'بعد',
     pdfOptErase: '🧽 مسح وإضافة نص على PDF',
     eraseTitle: 'مسح وإضافة نص على PDF',
-    eraseHint: 'ارسم مستطيل يغطي النص القديم اللي تبي تشيله (بلون يطابق خلفية الصفحة، غالباً أبيض)، ثم أضف النص الجديد فوقه بنفس المكان — تقدر تضيف أكثر من تعديل بنفس الصفحة.',
+    eraseHint: 'ارفع الملف، وارسم بالسحب مباشرة فوق معاينة الصفحة بالأسفل مستطيلاً فوق النص القديم اللي تبي تشيله — يضاف تلقائياً كتعديل جديد بالقائمة، وتقدر تكتب فيه النص الجديد وتظبط لونه ومكانه.',
+    eraseDrawNote: '🖊️ اسحب بالماوس أو إصبعك فوق الصورة تحت لترسم منطقة مسح جديدة مباشرة.',
     eraseEditsLabel: 'التعديلات (كل تعديل = منطقة مسح + نص جديد)',
     eraseAddEditBtn: '+ إضافة تعديل',
     erasePreviewLabel: 'معاينة الصفحة',
@@ -3695,7 +3697,8 @@ const I18N = {
     pagesizeBeforeLabel: 'Before', pagesizeAfterLabel: 'After',
     pdfOptErase: '🧽 Erase & Replace Text on PDF',
     eraseTitle: 'Erase & Replace Text on PDF',
-    eraseHint: "Draw a rectangle over the old text you want to remove (in a color matching the page background, usually white), then add the new text on top in the same spot — you can add more than one edit on the same page.",
+    eraseHint: "Upload the file, then drag directly on the page preview below to draw a rectangle over the old text you want to remove — it's automatically added as a new edit in the list, where you can type the new text and adjust its color and position.",
+    eraseDrawNote: '🖊️ Drag with your mouse or finger over the image below to draw a new erase area directly.',
     eraseEditsLabel: 'Edits (each edit = an erase area + new text)',
     eraseAddEditBtn: '+ Add Edit',
     erasePreviewLabel: 'Page Preview',
@@ -7139,6 +7142,48 @@ async function loadErasePreviewPdf(file){
   return erasePreviewPdfDoc;
 }
 
+let eraseBaseCanvas = null;
+let eraseCurrentScale = 1;
+let eraseCurrentPw = 0, eraseCurrentPh = 0;
+
+function eraseDrawEditsOnCanvas(ctx, pw, ph, scale, liveBox){
+  eraseEdits.forEach(edit=>{
+    const x = (edit.xPct/100) * (pw - edit.widthPt);
+    const y = (edit.yPct/100) * (ph - edit.heightPt);
+    const px = x*scale, py = (ph - y - edit.heightPt)*scale;
+    const pxW = edit.widthPt*scale, pxH = edit.heightPt*scale;
+    ctx.fillStyle = edit.eraseColor;
+    ctx.fillRect(px, py, pxW, pxH);
+    // Preview-only marker: a dashed outline so the erase area stays visible even
+    // when its fill color matches the page background (it will NOT appear in the
+    // final downloaded PDF — only the solid fill is applied there).
+    ctx.save();
+    ctx.strokeStyle = '#d9662f';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 3]);
+    ctx.strokeRect(px + 0.75, py + 0.75, Math.max(0, pxW - 1.5), Math.max(0, pxH - 1.5));
+    ctx.restore();
+    if(edit.text.trim()){
+      ctx.fillStyle = edit.textColor;
+      ctx.font = `600 ${Math.max(6, edit.fontSize*scale)}px 'IBM Plex Sans Arabic', sans-serif`;
+      ctx.direction = 'rtl';
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(edit.text, px + pxW - 3, py + pxH/2);
+    }
+  });
+  if(liveBox){
+    ctx.save();
+    ctx.strokeStyle = '#2b6cb0';
+    ctx.fillStyle = 'rgba(43,108,176,0.15)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([5, 3]);
+    ctx.fillRect(liveBox.x, liveBox.y, liveBox.w, liveBox.h);
+    ctx.strokeRect(liveBox.x, liveBox.y, liveBox.w, liveBox.h);
+    ctx.restore();
+  }
+}
+
 async function renderErasePreview(){
   const file = document.getElementById('erase-file').files[0];
   const wrap = document.getElementById('erase-preview-wrap');
@@ -7161,32 +7206,17 @@ async function renderErasePreview(){
     const ctx = canvas.getContext('2d');
     await page.render({canvasContext: ctx, viewport}).promise;
 
+    eraseBaseCanvas = document.createElement('canvas');
+    eraseBaseCanvas.width = canvas.width;
+    eraseBaseCanvas.height = canvas.height;
+    eraseBaseCanvas.getContext('2d').drawImage(canvas, 0, 0);
+
     const pw = baseViewport.width, ph = baseViewport.height;
-    eraseEdits.forEach(edit=>{
-      const x = (edit.xPct/100) * (pw - edit.widthPt);
-      const y = (edit.yPct/100) * (ph - edit.heightPt);
-      const px = x*scale, py = (ph - y - edit.heightPt)*scale;
-      const pxW = edit.widthPt*scale, pxH = edit.heightPt*scale;
-      ctx.fillStyle = edit.eraseColor;
-      ctx.fillRect(px, py, pxW, pxH);
-      // Preview-only marker: a dashed outline so the erase area stays visible even
-      // when its fill color matches the page background (it will NOT appear in the
-      // final downloaded PDF — only the solid fill is applied there).
-      ctx.save();
-      ctx.strokeStyle = '#d9662f';
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([4, 3]);
-      ctx.strokeRect(px + 0.75, py + 0.75, Math.max(0, pxW - 1.5), Math.max(0, pxH - 1.5));
-      ctx.restore();
-      if(edit.text.trim()){
-        ctx.fillStyle = edit.textColor;
-        ctx.font = `600 ${Math.max(6, edit.fontSize*scale)}px 'IBM Plex Sans Arabic', sans-serif`;
-        ctx.direction = 'rtl';
-        ctx.textAlign = 'right';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(edit.text, px + pxW - 3, py + pxH/2);
-      }
-    });
+    eraseCurrentScale = scale;
+    eraseCurrentPw = pw;
+    eraseCurrentPh = ph;
+
+    eraseDrawEditsOnCanvas(ctx, pw, ph, scale, null);
 
     wrap.style.display = 'block';
   }catch(e){
@@ -7196,6 +7226,83 @@ async function renderErasePreview(){
 
 document.getElementById('erase-file').addEventListener('change', ()=>{ erasePreviewPdfDoc = null; erasePreviewFileRef = null; renderErasePreview(); });
 document.getElementById('erase-page').addEventListener('input', renderErasePreview);
+
+(function setupEraseCanvasDrawing(){
+  const canvas = document.getElementById('erase-preview-page');
+  canvas.style.cursor = 'crosshair';
+  let drawing = false;
+  let startPx, startPy;
+
+  function getCanvasPos(clientX, clientY){
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+  }
+
+  function begin(clientX, clientY){
+    if(!eraseBaseCanvas) return;
+    drawing = true;
+    const pos = getCanvasPos(clientX, clientY);
+    startPx = pos.x; startPy = pos.y;
+  }
+  function move(clientX, clientY){
+    if(!drawing) return;
+    const pos = getCanvasPos(clientX, clientY);
+    const box = {
+      x: Math.min(startPx, pos.x), y: Math.min(startPy, pos.y),
+      w: Math.abs(pos.x - startPx), h: Math.abs(pos.y - startPy)
+    };
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(eraseBaseCanvas, 0, 0);
+    eraseDrawEditsOnCanvas(ctx, eraseCurrentPw, eraseCurrentPh, eraseCurrentScale, box);
+  }
+  function finish(clientX, clientY){
+    if(!drawing) return;
+    drawing = false;
+    const pos = getCanvasPos(clientX, clientY);
+    const leftPx = Math.min(startPx, pos.x), topPx = Math.min(startPy, pos.y);
+    const boxWpx = Math.abs(pos.x - startPx), boxHpx = Math.abs(pos.y - startPy);
+
+    if(boxWpx < 6 || boxHpx < 6){ renderErasePreview(); return; }
+
+    const scale = eraseCurrentScale, pw = eraseCurrentPw, ph = eraseCurrentPh;
+    const widthPt = Math.round(boxWpx / scale);
+    const heightPt = Math.round(boxHpx / scale);
+    const xPt = leftPx / scale;
+    const yPtFromTop = topPx / scale;
+    const yPt = ph - yPtFromTop - heightPt;
+
+    const xPct = Math.max(0, Math.min(100, Math.round((xPt / Math.max(1, pw - widthPt)) * 100)));
+    const yPct = Math.max(0, Math.min(100, Math.round((yPt / Math.max(1, ph - heightPt)) * 100)));
+
+    eraseEdits.push({ text:'', xPct, yPct, widthPt, heightPt, fontSize:14, textColor:'#000000', eraseColor:'#ffffff' });
+    eraseRenderEditsList();
+    renderErasePreview();
+  }
+
+  canvas.addEventListener('mousedown', (e)=>{ begin(e.clientX, e.clientY); e.preventDefault(); });
+  window.addEventListener('mousemove', (e)=>{ if(drawing) move(e.clientX, e.clientY); });
+  window.addEventListener('mouseup', (e)=>{ if(drawing) finish(e.clientX, e.clientY); });
+
+  canvas.addEventListener('touchstart', (e)=>{
+    const t = e.touches[0];
+    begin(t.clientX, t.clientY);
+    e.preventDefault();
+  }, {passive:false});
+  window.addEventListener('touchmove', (e)=>{
+    if(!drawing) return;
+    e.preventDefault();
+    const t = e.touches[0];
+    move(t.clientX, t.clientY);
+  }, {passive:false});
+  window.addEventListener('touchend', (e)=>{
+    if(!drawing) return;
+    const t = e.changedTouches[0];
+    finish(t.clientX, t.clientY);
+  });
+})();
 
 document.getElementById('erase-zoom').addEventListener('input', ()=>{
   document.getElementById('erase-zoom-val').textContent = document.getElementById('erase-zoom').value;
