@@ -1941,6 +1941,7 @@
 
       <div class="field" id="erase-preview-wrap" style="display:none;">
         <label data-i18n="erasePreviewLabel">معاينة الصفحة</label>
+        <p class="note" style="margin-top:2px;" data-i18n="eraseDashNote">الخط المتقطع البرتقالي حوالين كل منطقة مسح يظهر بالمعاينة بس عشان تشوف مكانها بوضوح — ما يظهر إطلاقاً بالملف النهائي.</p>
         <div class="row" style="align-items:center;margin-bottom:8px;">
           <div class="field" style="flex:2;margin-bottom:0;">
             <label for="erase-zoom"><span data-i18n="zoomLabel">تكبير المعاينة:</span> <span id="erase-zoom-val">100</span>٪</label>
@@ -3054,6 +3055,7 @@ const I18N = {
     eraseEditsLabel: 'التعديلات (كل تعديل = منطقة مسح + نص جديد)',
     eraseAddEditBtn: '+ إضافة تعديل',
     erasePreviewLabel: 'معاينة الصفحة',
+    eraseDashNote: 'الخط المتقطع البرتقالي حوالين كل منطقة مسح يظهر بالمعاينة بس عشان تشوف مكانها بوضوح — ما يظهر إطلاقاً بالملف النهائي.',
     eraseBtn: 'تطبيق التعديلات وتنزيل',
     eraseNote: 'هذي الأداة تغطي النص القديم بمستطيل وتضيف النص الجديد فوقه — مو تعديل حقيقي للنص الأصلي داخل الملف (PDF أصلاً ما يخزن النص كنص قابل للتعديل المباشر بكل الحالات). كل شي يتم داخل متصفحك — لا يُرفع ملفك لأي سيرفر خارجي.',
     eraseErrNoEdits: 'أضف تعديل واحد على الأقل قبل التطبيق.',
@@ -3697,6 +3699,7 @@ const I18N = {
     eraseEditsLabel: 'Edits (each edit = an erase area + new text)',
     eraseAddEditBtn: '+ Add Edit',
     erasePreviewLabel: 'Page Preview',
+    eraseDashNote: "The orange dashed outline around each erase area only shows in the preview so you can see its location clearly — it never appears in the final file.",
     eraseBtn: 'Apply Edits and Download',
     eraseNote: "This tool covers the old text with a rectangle and adds the new text on top — it isn't a real edit of the original text inside the file (a PDF doesn't always store text as directly editable text). Everything happens in your browser — your file is never uploaded to any external server.",
     eraseErrNoEdits: 'Add at least one edit before applying.',
@@ -7166,6 +7169,15 @@ async function renderErasePreview(){
       const pxW = edit.widthPt*scale, pxH = edit.heightPt*scale;
       ctx.fillStyle = edit.eraseColor;
       ctx.fillRect(px, py, pxW, pxH);
+      // Preview-only marker: a dashed outline so the erase area stays visible even
+      // when its fill color matches the page background (it will NOT appear in the
+      // final downloaded PDF — only the solid fill is applied there).
+      ctx.save();
+      ctx.strokeStyle = '#d9662f';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 3]);
+      ctx.strokeRect(px + 0.75, py + 0.75, Math.max(0, pxW - 1.5), Math.max(0, pxH - 1.5));
+      ctx.restore();
       if(edit.text.trim()){
         ctx.fillStyle = edit.textColor;
         ctx.font = `600 ${Math.max(6, edit.fontSize*scale)}px 'IBM Plex Sans Arabic', sans-serif`;
