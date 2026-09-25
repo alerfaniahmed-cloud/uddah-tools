@@ -1942,7 +1942,7 @@
 
       <div class="field" id="erase-preview-wrap" style="display:none;">
         <label data-i18n="erasePreviewLabel">معاينة الصفحة</label>
-        <p class="note" style="margin-top:2px;font-weight:600;" data-i18n="eraseDrawNote">🖊️ اسحب بالماوس أو إصبعك فوق الصورة تحت لترسم منطقة مسح جديدة مباشرة.</p>
+        <p class="note" style="margin-top:2px;font-weight:600;" data-i18n="eraseDrawNote">🖊️ اسحب على مكان فاضي بالصورة لترسم منطقة مسح جديدة، أو اسحب داخل منطقة موجودة لتحريك نصها بحرية كاملة.</p>
         <p class="note" style="margin-top:2px;" data-i18n="eraseDashNote">الخط المتقطع البرتقالي حوالين كل منطقة مسح يظهر بالمعاينة بس عشان تشوف مكانها بوضوح — ما يظهر إطلاقاً بالملف النهائي.</p>
         <div class="row" style="align-items:center;margin-bottom:8px;">
           <div class="field" style="flex:2;margin-bottom:0;">
@@ -3054,7 +3054,7 @@ const I18N = {
     pdfOptErase: '🧽 مسح وإضافة نص على PDF',
     eraseTitle: 'مسح وإضافة نص على PDF',
     eraseHint: 'ارفع الملف، وارسم بالسحب مباشرة فوق معاينة الصفحة بالأسفل مستطيلاً فوق النص القديم اللي تبي تشيله — يضاف تلقائياً كتعديل جديد بالقائمة، وتقدر تكتب فيه النص الجديد وتظبط لونه ومكانه.',
-    eraseDrawNote: '🖊️ اسحب بالماوس أو إصبعك فوق الصورة تحت لترسم منطقة مسح جديدة مباشرة.',
+    eraseDrawNote: '🖊️ اسحب على مكان فاضي بالصورة لترسم منطقة مسح جديدة، أو اسحب داخل منطقة موجودة لتحريك نصها بحرية كاملة.',
     eraseEditsLabel: 'التعديلات (كل تعديل = منطقة مسح + نص جديد)',
     eraseAddEditBtn: '+ إضافة تعديل',
     erasePreviewLabel: 'معاينة الصفحة',
@@ -3699,7 +3699,7 @@ const I18N = {
     pdfOptErase: '🧽 Erase & Replace Text on PDF',
     eraseTitle: 'Erase & Replace Text on PDF',
     eraseHint: "Upload the file, then drag directly on the page preview below to draw a rectangle over the old text you want to remove — it's automatically added as a new edit in the list, where you can type the new text and adjust its color and position.",
-    eraseDrawNote: '🖊️ Drag with your mouse or finger over the image below to draw a new erase area directly.',
+    eraseDrawNote: '🖊️ Drag on an empty part of the image to draw a new erase area, or drag inside an existing area to move its text completely freely.',
     eraseEditsLabel: 'Edits (each edit = an erase area + new text)',
     eraseAddEditBtn: '+ Add Edit',
     erasePreviewLabel: 'Page Preview',
@@ -7201,6 +7201,7 @@ function eraseDrawEditsOnCanvas(ctx, pw, ph, scale, liveBox){
     const y = (edit.yPct/100) * (ph - edit.heightPt);
     const px = x*scale, py = (ph - y - edit.heightPt)*scale;
     const pxW = edit.widthPt*scale, pxH = edit.heightPt*scale;
+    edit._box = { px, py, pxW, pxH }; // cached for hit-testing when dragging the text
     ctx.fillStyle = edit.eraseColor;
     ctx.fillRect(px, py, pxW, pxH);
     // Preview-only marker: a dashed outline so the erase area stays visible even
@@ -7281,11 +7282,23 @@ async function renderErasePreview(){
 document.getElementById('erase-file').addEventListener('change', ()=>{ erasePreviewPdfDoc = null; erasePreviewFileRef = null; renderErasePreview(); });
 document.getElementById('erase-page').addEventListener('input', renderErasePreview);
 
+function eraseSyncOffsetFields(index){
+  const rows = document.querySelectorAll('#erase-edits-list .erase-edit-row');
+  const row = rows[index];
+  if(!row) return;
+  const ox = row.querySelector('.erase-edit-offsetx');
+  const oy = row.querySelector('.erase-edit-offsety');
+  if(ox) ox.value = eraseEdits[index].offsetX;
+  if(oy) oy.value = eraseEdits[index].offsetY;
+}
+
 (function setupEraseCanvasDrawing(){
   const canvas = document.getElementById('erase-preview-page');
   canvas.style.cursor = 'crosshair';
-  let drawing = false;
+  let active = false;
+  let mode = 'draw'; // 'draw' = new erase box, 'move' = dragging an existing edit's text freely
   let startPx, startPy;
+  let moveIndex = -1, moveStartOffsetX = 0, moveStartOffsetY = 0;
 
   function getCanvasPos(clientX, clientY){
     const rect = canvas.getBoundingClientRect();
@@ -7294,27 +7307,69 @@ document.getElementById('erase-page').addEventListener('input', renderErasePrevi
     return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
   }
 
+  function hitTestEdit(posX, posY){
+    for(let i = eraseEdits.length - 1; i >= 0; i--){
+      const b = eraseEdits[i]._box;
+      if(!b) continue;
+      if(posX >= b.px && posX <= b.px + b.pxW && posY >= b.py && posY <= b.py + b.pxH) return i;
+    }
+    return -1;
+  }
+
   function begin(clientX, clientY){
     if(!eraseBaseCanvas) return;
-    drawing = true;
     const pos = getCanvasPos(clientX, clientY);
+    const hitIndex = hitTestEdit(pos.x, pos.y);
+    if(hitIndex >= 0){
+      mode = 'move';
+      moveIndex = hitIndex;
+      moveStartOffsetX = eraseEdits[hitIndex].offsetX || 0;
+      moveStartOffsetY = eraseEdits[hitIndex].offsetY || 0;
+      canvas.style.cursor = 'grabbing';
+    } else {
+      mode = 'draw';
+    }
     startPx = pos.x; startPy = pos.y;
+    active = true;
   }
+
   function move(clientX, clientY){
-    if(!drawing) return;
+    if(!active) return;
     const pos = getCanvasPos(clientX, clientY);
+    const ctx = canvas.getContext('2d');
+
+    if(mode === 'move'){
+      const scale = eraseCurrentScale || 1;
+      const dxPt = (pos.x - startPx) / scale;
+      const dyPt = (pos.y - startPy) / scale;
+      eraseEdits[moveIndex].offsetX = Math.round(moveStartOffsetX + dxPt);
+      eraseEdits[moveIndex].offsetY = Math.round(moveStartOffsetY - dyPt);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(eraseBaseCanvas, 0, 0);
+      eraseDrawEditsOnCanvas(ctx, eraseCurrentPw, eraseCurrentPh, eraseCurrentScale, null);
+      return;
+    }
+
     const box = {
       x: Math.min(startPx, pos.x), y: Math.min(startPy, pos.y),
       w: Math.abs(pos.x - startPx), h: Math.abs(pos.y - startPy)
     };
-    const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(eraseBaseCanvas, 0, 0);
     eraseDrawEditsOnCanvas(ctx, eraseCurrentPw, eraseCurrentPh, eraseCurrentScale, box);
   }
+
   function finish(clientX, clientY){
-    if(!drawing) return;
-    drawing = false;
+    if(!active) return;
+    active = false;
+    canvas.style.cursor = 'crosshair';
+
+    if(mode === 'move'){
+      eraseSyncOffsetFields(moveIndex);
+      renderErasePreview();
+      return;
+    }
+
     const pos = getCanvasPos(clientX, clientY);
     const leftPx = Math.min(startPx, pos.x), topPx = Math.min(startPy, pos.y);
     const boxWpx = Math.abs(pos.x - startPx), boxHpx = Math.abs(pos.y - startPy);
@@ -7337,8 +7392,8 @@ document.getElementById('erase-page').addEventListener('input', renderErasePrevi
   }
 
   canvas.addEventListener('mousedown', (e)=>{ begin(e.clientX, e.clientY); e.preventDefault(); });
-  window.addEventListener('mousemove', (e)=>{ if(drawing) move(e.clientX, e.clientY); });
-  window.addEventListener('mouseup', (e)=>{ if(drawing) finish(e.clientX, e.clientY); });
+  window.addEventListener('mousemove', (e)=>{ if(active) move(e.clientX, e.clientY); });
+  window.addEventListener('mouseup', (e)=>{ if(active) finish(e.clientX, e.clientY); });
 
   canvas.addEventListener('touchstart', (e)=>{
     const t = e.touches[0];
@@ -7346,13 +7401,13 @@ document.getElementById('erase-page').addEventListener('input', renderErasePrevi
     e.preventDefault();
   }, {passive:false});
   window.addEventListener('touchmove', (e)=>{
-    if(!drawing) return;
+    if(!active) return;
     e.preventDefault();
     const t = e.touches[0];
     move(t.clientX, t.clientY);
   }, {passive:false});
   window.addEventListener('touchend', (e)=>{
-    if(!drawing) return;
+    if(!active) return;
     const t = e.changedTouches[0];
     finish(t.clientX, t.clientY);
   });
