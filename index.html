@@ -1480,6 +1480,7 @@
         <select id="sector-select">
           <option value="mortgage" data-i18n="sectorMortgage">التمويل العقاري</option>
           <option value="gpa" data-i18n="sectorGpa">المعدل التراكمي (GPA)</option>
+          <option value="weighted" data-i18n="sectorWeighted">النسبة الموزونة (القبول الجامعي)</option>
           <option value="health" data-i18n="sectorHealth">اللياقة الصحية (BMI والسعرات)</option>
           <option value="fuel" data-i18n="sectorFuel">تكلفة الوقود للرحلة</option>
         </select>
@@ -1535,6 +1536,58 @@
       <div class="result" id="gpa-result" style="display:none;">
         <div class="big" id="gpa-out"></div>
       </div>
+    </div>
+
+    <!-- Weighted Score -->
+    <div class="card sector-card" id="sector-weighted">
+      <h2 data-i18n="weightedTitle">حاسبة النسبة الموزونة (القبول الجامعي)</h2>
+      <p class="hint" data-i18n="weightedHint">أدخل نسبك الثلاث (الثانوي، القدرات، التحصيلي) واختر أوزان الجامعة/الكلية اللي تستهدفها، لحساب نسبتك الموزونة التقريبية.</p>
+      <div class="row">
+        <div class="field">
+          <label for="weighted-thanawiya" data-i18n="weightedThanawiyaLabel">نسبة الثانوي (٪)</label>
+          <input type="number" id="weighted-thanawiya" min="0" max="100" placeholder="مثال: 95" data-i18n-ph="weightedThanawiyaPh">
+        </div>
+        <div class="field">
+          <label for="weighted-qudurat" data-i18n="weightedQuduratLabel">نسبة القدرات (٪)</label>
+          <input type="number" id="weighted-qudurat" min="0" max="100" placeholder="مثال: 85" data-i18n-ph="weightedQuduratPh">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="weighted-tahsili" data-i18n="weightedTahsiliLabel">نسبة التحصيلي (٪)</label>
+          <input type="number" id="weighted-tahsili" min="0" max="100" placeholder="مثال: 90" data-i18n-ph="weightedTahsiliPh">
+        </div>
+        <div class="field">
+          <label for="weighted-preset" data-i18n="weightedPresetLabel">أوزان الجامعة/الكلية</label>
+          <select id="weighted-preset">
+            <option value="30-30-40" data-i18n="weightedPresetCommon">شائع (٣٠ ثانوي / ٣٠ قدرات / ٤٠ تحصيلي)</option>
+            <option value="30-20-50" data-i18n="weightedPresetHealth">علمي/صحي (٣٠ ثانوي / ٢٠ قدرات / ٥٠ تحصيلي)</option>
+            <option value="50-25-25" data-i18n="weightedPresetHumanities">إنساني (٥٠ ثانوي / ٢٥ قدرات / ٢٥ تحصيلي)</option>
+            <option value="40-30-30" data-i18n="weightedPresetBalanced">متوازن (٤٠ ثانوي / ٣٠ قدرات / ٣٠ تحصيلي)</option>
+            <option value="custom" data-i18n="weightedPresetCustom">مخصص (تحدد الأوزان بنفسك)</option>
+          </select>
+        </div>
+      </div>
+      <div class="row" id="weighted-custom-wrap" style="display:none;">
+        <div class="field">
+          <label for="weighted-w-thanawiya" data-i18n="weightedWThanawiyaLabel">وزن الثانوي (٪)</label>
+          <input type="number" id="weighted-w-thanawiya" min="0" max="100" value="30">
+        </div>
+        <div class="field">
+          <label for="weighted-w-qudurat" data-i18n="weightedWQuduratLabel">وزن القدرات (٪)</label>
+          <input type="number" id="weighted-w-qudurat" min="0" max="100" value="30">
+        </div>
+        <div class="field">
+          <label for="weighted-w-tahsili" data-i18n="weightedWTahsiliLabel">وزن التحصيلي (٪)</label>
+          <input type="number" id="weighted-w-tahsili" min="0" max="100" value="40">
+        </div>
+      </div>
+      <button class="btn" id="weighted-btn" data-i18n="weightedBtn">احسب النسبة الموزونة</button>
+      <div class="result" id="weighted-result" style="display:none;">
+        <div class="big" id="weighted-out"></div>
+      </div>
+      <div class="msg err" id="weighted-err" style="display:none;"></div>
+      <p class="note" data-i18n="weightedNote">هذي النسب تقريبية وشائعة، لكنها تختلف فعلياً حسب الجامعة والكلية والسنة الدراسية — تأكد دائماً من الأوزان الرسمية بموقع الجامعة أو بوابة القبول الموحد قبل الاعتماد على النتيجة باتخاذ أي قرار.</p>
     </div>
 
     <!-- Health -->
@@ -2705,6 +2758,28 @@ const I18N = {
     gpaScale4: 'من 4',
     gpaBtn: 'احسب المعدل',
     gpaOutOf: 'من',
+    sectorWeighted: 'النسبة الموزونة (القبول الجامعي)',
+    weightedTitle: 'حاسبة النسبة الموزونة (القبول الجامعي)',
+    weightedHint: 'أدخل نسبك الثلاث (الثانوي، القدرات، التحصيلي) واختر أوزان الجامعة/الكلية اللي تستهدفها، لحساب نسبتك الموزونة التقريبية.',
+    weightedThanawiyaLabel: 'نسبة الثانوي (٪)',
+    weightedThanawiyaPh: 'مثال: 95',
+    weightedQuduratLabel: 'نسبة القدرات (٪)',
+    weightedQuduratPh: 'مثال: 85',
+    weightedTahsiliLabel: 'نسبة التحصيلي (٪)',
+    weightedTahsiliPh: 'مثال: 90',
+    weightedPresetLabel: 'أوزان الجامعة/الكلية',
+    weightedPresetCommon: 'شائع (٣٠ ثانوي / ٣٠ قدرات / ٤٠ تحصيلي)',
+    weightedPresetHealth: 'علمي/صحي (٣٠ ثانوي / ٢٠ قدرات / ٥٠ تحصيلي)',
+    weightedPresetHumanities: 'إنساني (٥٠ ثانوي / ٢٥ قدرات / ٢٥ تحصيلي)',
+    weightedPresetBalanced: 'متوازن (٤٠ ثانوي / ٣٠ قدرات / ٣٠ تحصيلي)',
+    weightedPresetCustom: 'مخصص (تحدد الأوزان بنفسك)',
+    weightedWThanawiyaLabel: 'وزن الثانوي (٪)',
+    weightedWQuduratLabel: 'وزن القدرات (٪)',
+    weightedWTahsiliLabel: 'وزن التحصيلي (٪)',
+    weightedBtn: 'احسب النسبة الموزونة',
+    weightedErrMissing: 'أدخل النسب الثلاث كاملة (الثانوي، القدرات، التحصيلي).',
+    weightedErrWeights: 'أدخل أوزاناً صحيحة (مجموعها أكبر من صفر).',
+    weightedNote: 'هذي النسب تقريبية وشائعة، لكنها تختلف فعلياً حسب الجامعة والكلية والسنة الدراسية — تأكد دائماً من الأوزان الرسمية بموقع الجامعة أو بوابة القبول الموحد قبل الاعتماد على النتيجة باتخاذ أي قرار.',
     healthTitle: 'اللياقة الصحية (BMI والسعرات)',
     healthHint: 'معلومات عامة تقريبية، وليست استشارة طبية شخصية.',
     healthWeightLabel: 'الوزن (كجم)',
@@ -3350,6 +3425,28 @@ const I18N = {
     gpaScale4: 'Out of 4',
     gpaBtn: 'Calculate GPA',
     gpaOutOf: 'out of',
+    sectorWeighted: 'Weighted Score (University Admission)',
+    weightedTitle: 'Weighted Score Calculator (University Admission)',
+    weightedHint: 'Enter your three percentages (high school, Qudurat, Tahsili) and choose the weights for your target university/college, to calculate your approximate weighted score.',
+    weightedThanawiyaLabel: 'High school percentage (%)',
+    weightedThanawiyaPh: 'e.g. 95',
+    weightedQuduratLabel: 'Qudurat (aptitude) percentage (%)',
+    weightedQuduratPh: 'e.g. 85',
+    weightedTahsiliLabel: 'Tahsili (achievement) percentage (%)',
+    weightedTahsiliPh: 'e.g. 90',
+    weightedPresetLabel: 'University/college weights',
+    weightedPresetCommon: 'Common (30 high school / 30 Qudurat / 40 Tahsili)',
+    weightedPresetHealth: 'Science/health (30 high school / 20 Qudurat / 50 Tahsili)',
+    weightedPresetHumanities: 'Humanities (50 high school / 25 Qudurat / 25 Tahsili)',
+    weightedPresetBalanced: 'Balanced (40 high school / 30 Qudurat / 30 Tahsili)',
+    weightedPresetCustom: 'Custom (set your own weights)',
+    weightedWThanawiyaLabel: 'High school weight (%)',
+    weightedWQuduratLabel: 'Qudurat weight (%)',
+    weightedWTahsiliLabel: 'Tahsili weight (%)',
+    weightedBtn: 'Calculate Weighted Score',
+    weightedErrMissing: 'Enter all three percentages (high school, Qudurat, Tahsili).',
+    weightedErrWeights: 'Enter valid weights (their total must be greater than zero).',
+    weightedNote: 'These weights are approximate and common, but they actually vary by university, college, and academic year — always confirm the official weights on the university\'s website or the unified admission portal before relying on the result for any decision.',
     healthTitle: 'Fitness (BMI & Calories)',
     healthHint: 'General approximate information, not personal medical advice.',
     healthWeightLabel: 'Weight (kg)',
@@ -7965,6 +8062,48 @@ document.getElementById('gpa-btn').addEventListener('click', ()=>{
   const gpa = (percent/100) * scale;
   document.getElementById('gpa-out').textContent = `${gpa.toLocaleString('en-US',{maximumFractionDigits:2})} ${I18N[currentLang].gpaOutOf} ${scale}`;
   document.getElementById('gpa-result').style.display = 'block';
+});
+
+/* --- Weighted score (Saudi university admission) --- */
+document.getElementById('weighted-preset').addEventListener('change', ()=>{
+  const isCustom = document.getElementById('weighted-preset').value === 'custom';
+  document.getElementById('weighted-custom-wrap').style.display = isCustom ? 'flex' : 'none';
+});
+
+document.getElementById('weighted-btn').addEventListener('click', ()=>{
+  const thanawiya = parseFloat(document.getElementById('weighted-thanawiya').value);
+  const qudurat = parseFloat(document.getElementById('weighted-qudurat').value);
+  const tahsili = parseFloat(document.getElementById('weighted-tahsili').value);
+  const errBox = document.getElementById('weighted-err');
+  const resultBox = document.getElementById('weighted-result');
+  errBox.style.display = 'none';
+  resultBox.style.display = 'none';
+
+  if(isNaN(thanawiya) || isNaN(qudurat) || isNaN(tahsili)){
+    errBox.textContent = I18N[currentLang].weightedErrMissing;
+    errBox.style.display = 'block';
+    return;
+  }
+
+  const preset = document.getElementById('weighted-preset').value;
+  let w1, w2, w3;
+  if(preset === 'custom'){
+    w1 = parseFloat(document.getElementById('weighted-w-thanawiya').value) || 0;
+    w2 = parseFloat(document.getElementById('weighted-w-qudurat').value) || 0;
+    w3 = parseFloat(document.getElementById('weighted-w-tahsili').value) || 0;
+  } else {
+    [w1, w2, w3] = preset.split('-').map(Number);
+  }
+  const totalWeight = w1 + w2 + w3;
+  if(totalWeight <= 0){
+    errBox.textContent = I18N[currentLang].weightedErrWeights;
+    errBox.style.display = 'block';
+    return;
+  }
+
+  const weighted = (thanawiya*w1 + qudurat*w2 + tahsili*w3) / totalWeight;
+  document.getElementById('weighted-out').textContent = `${weighted.toLocaleString('en-US',{maximumFractionDigits:2})}%`;
+  resultBox.style.display = 'block';
 });
 
 /* --- Health: BMI + calories --- */
