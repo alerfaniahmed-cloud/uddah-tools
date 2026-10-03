@@ -1393,7 +1393,7 @@
 
     <div class="card tools-card" id="tools-iban">
       <h2 data-i18n="ibanTitle">مدقق رقم الآيبان السعودي (IBAN)</h2>
-      <p class="hint" data-i18n="ibanHint">تحقق هل رقم الآيبان السعودي صحيح شكلياً ورياضياً قبل استخدامه بأي تحويل.</p>
+      <p class="hint" data-i18n="ibanHint">تحقق هل رقم الآيبان السعودي صحيح شكلياً ورياضياً قبل استخدامه بأي تحويل، ويطلع لك اسم البنك تلقائياً لو كان رقمه معروف.</p>
       <div class="field">
         <label for="iban-input" data-i18n="ibanInputLabel">رقم الآيبان</label>
         <input type="text" id="iban-input" placeholder="مثال: SA0380000000608010167519" style="font-family:var(--font-mono);direction:ltr;text-align:left;" data-i18n-ph="ibanInputPh">
@@ -3018,12 +3018,14 @@ const I18N = {
     idTypeLabel: 'النوع:',
     idErrChecksum: 'صيغة الرقم صحيحة (10 أرقام) لكن رقم التحقق النهائي غير مطابق — تأكد من الأرقام.',
     ibanTitle: 'مدقق رقم الآيبان السعودي (IBAN)',
-    ibanHint: 'تحقق هل رقم الآيبان السعودي صحيح شكلياً ورياضياً قبل استخدامه بأي تحويل.',
+    ibanHint: 'تحقق هل رقم الآيبان السعودي صحيح شكلياً ورياضياً قبل استخدامه بأي تحويل، ويطلع لك اسم البنك تلقائياً لو كان رقمه معروف.',
     ibanInputLabel: 'رقم الآيبان',
     ibanInputPh: 'مثال: SA0380000000608010167519',
     ibanErrFormat: 'رقم الآيبان السعودي يجب أن يبدأ بـSA ويتكون من 24 خانة بالضبط (SA + 22 رقم).',
     ibanInvalid: '❌ آيبان غير صحيح',
     ibanValid: '✅ آيبان صحيح',
+    ibanBankLabel: 'البنك:',
+    ibanBankUnknown: 'غير معروف (ربما بنك أجنبي أو فرع خاص — تأكد مباشرة من البنك)',
     ibanBankCodeLabel: 'كود البنك:',
     ibanAccountLabel: 'رقم الحساب:',
     ibanErrChecksum: 'الصيغة صحيحة لكن رقم التحقق (checksum) غير مطابق — تأكد من الأرقام.',
@@ -3687,12 +3689,14 @@ const I18N = {
     idTypeLabel: 'Type:',
     idErrChecksum: 'The format is correct (10 digits), but the final check digit does not match — verify the digits.',
     ibanTitle: 'Saudi IBAN Validator',
-    ibanHint: 'Check whether a Saudi IBAN is formally and mathematically valid before using it in any transfer.',
+    ibanHint: "Check whether a Saudi IBAN is formally and mathematically valid before using it in any transfer, and see the bank's name automatically when its code is recognized.",
     ibanInputLabel: 'IBAN',
     ibanInputPh: 'e.g. SA0380000000608010167519',
     ibanErrFormat: 'A Saudi IBAN must start with SA and be exactly 24 characters long (SA + 22 digits).',
     ibanInvalid: '❌ Invalid IBAN',
     ibanValid: '✅ Valid IBAN',
+    ibanBankLabel: 'Bank:',
+    ibanBankUnknown: "Unrecognized (possibly a foreign bank or special branch — verify directly with the bank)",
     ibanBankCodeLabel: 'Bank code:',
     ibanAccountLabel: 'Account number:',
     ibanErrChecksum: 'The format is correct but the checksum does not match — verify the digits.',
@@ -8097,6 +8101,21 @@ document.getElementById('id-btn').addEventListener('click', ()=>{
 /* ============================================================
    SAUDI IBAN VALIDATOR
    ============================================================ */
+const SAUDI_BANK_CODES = {
+  '05': { ar: 'مصرف الإنماء', en: 'Alinma Bank' },
+  '10': { ar: 'البنك الأهلي السعودي (SNB)', en: 'Saudi National Bank (SNB)' },
+  '15': { ar: 'بنك البلاد', en: 'Bank Albilad' },
+  '20': { ar: 'بنك الرياض', en: 'Riyad Bank' },
+  '30': { ar: 'البنك العربي الوطني', en: 'Arab National Bank (ANB)' },
+  '40': { ar: 'بنك سامبا', en: 'Samba Financial Group' },
+  '45': { ar: 'البنك السعودي الأول (ساب)', en: 'Saudi Awwal Bank (SAB)' },
+  '50': { ar: 'البنك السعودي الهولندي (الأول)', en: 'Alawwal Bank' },
+  '55': { ar: 'البنك السعودي الفرنسي', en: 'Banque Saudi Fransi (BSF)' },
+  '60': { ar: 'بنك الجزيرة', en: 'Bank Aljazira' },
+  '65': { ar: 'البنك السعودي للاستثمار', en: 'Saudi Investment Bank (SAIB)' },
+  '80': { ar: 'مصرف الراجحي', en: 'Al Rajhi Bank' }
+};
+
 function validateSaudiIBAN(ibanRaw){
   const iban = ibanRaw.replace(/\s|-/g, '').toUpperCase();
   if(!/^SA\d{22}$/.test(iban)){
@@ -8115,7 +8134,8 @@ function validateSaudiIBAN(ibanRaw){
   const valid = remainder === 1n;
   const bankCode = iban.slice(4, 6);
   const accountNumber = iban.slice(6);
-  return { valid, bankCode, accountNumber };
+  const bank = SAUDI_BANK_CODES[bankCode] || null;
+  return { valid, bankCode, accountNumber, bank };
 }
 
 document.getElementById('iban-btn').addEventListener('click', ()=>{
@@ -8130,7 +8150,8 @@ document.getElementById('iban-btn').addEventListener('click', ()=>{
     sub.textContent = check.reason;
   } else if(check.valid){
     out.textContent = I18N[currentLang].ibanValid;
-    sub.textContent = `${I18N[currentLang].ibanBankCodeLabel} ${check.bankCode}  —  ${I18N[currentLang].ibanAccountLabel} ${check.accountNumber}`;
+    const bankName = check.bank ? check.bank[currentLang] : I18N[currentLang].ibanBankUnknown;
+    sub.innerHTML = `${I18N[currentLang].ibanBankLabel} <strong>${bankName}</strong> (${check.bankCode})<br>${I18N[currentLang].ibanBankCodeLabel} ${check.bankCode} — ${I18N[currentLang].ibanAccountLabel} ${check.accountNumber}`;
   } else {
     out.textContent = I18N[currentLang].ibanInvalid;
     sub.textContent = I18N[currentLang].ibanErrChecksum;
