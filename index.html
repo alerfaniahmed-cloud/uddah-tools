@@ -2068,7 +2068,7 @@
 
     <div class="card pdf-card" id="pdftool-pagesize">
       <h2 data-i18n="pagesizeTitle">تغيير مقاس صفحة PDF</h2>
-      <p class="hint" data-i18n="pagesizeHint">غيّر مقاس صفحات ملف PDF (المحتوى يتمدد ليملأ المقاس الجديد)، أو ارفع صورة وحطها على مقاس ورقة قياسي بدون أي تمديد أو تشويه — تختار الاتجاه اللي يناسبها.</p>
+      <p class="hint" data-i18n="pagesizeHint">غيّر مقاس ملف PDF أو صورة ليصير بمقاس ورقة قياسي — اختر "تمديد" ليملأ المقاس بالكامل، أو "احتواء بدون تشويه" ليحافظ على النسبة الأصلية مع اختيار الاتجاه.</p>
       <div class="field">
         <input type="file" id="pagesize-file" accept="application/pdf,image/png,image/jpeg,image/webp">
         <div class="file-list" id="pagesize-file-list"></div>
@@ -2094,10 +2094,17 @@
           <input type="number" id="pagesize-custom-height" min="20" max="2000" value="297">
         </div>
       </div>
-      <div class="field" id="pagesize-orientation-wrap" style="display:none;">
-        <label for="pagesize-orientation" data-i18n="pagesizeOrientationLabel">اتجاه الصفحة (للصور فقط)</label>
+      <div class="field">
+        <label for="pagesize-method" data-i18n="pagesizeMethodLabel">طريقة التحجيم</label>
+        <select id="pagesize-method">
+          <option value="stretch" data-i18n="pagesizeMethodStretch">تمديد ليملأ الصفحة بالكامل (قد يغيّر النسبة)</option>
+          <option value="contain" data-i18n="pagesizeMethodContain">احتواء بدون تشويه (يحافظ على النسبة الأصلية)</option>
+        </select>
+      </div>
+      <div class="field" id="pagesize-orientation-wrap">
+        <label for="pagesize-orientation" data-i18n="pagesizeOrientationLabel">اتجاه الصفحة</label>
         <select id="pagesize-orientation">
-          <option value="auto" data-i18n="pagesizeOrientAuto">تلقائي (حسب شكل الصورة)</option>
+          <option value="auto" data-i18n="pagesizeOrientAuto">تلقائي (حسب شكل المحتوى)</option>
           <option value="portrait" data-i18n="pagesizeOrientPortrait">عمودي (طولي)</option>
           <option value="landscape" data-i18n="pagesizeOrientLandscape">أفقي (عرضي)</option>
         </select>
@@ -3143,9 +3150,12 @@ const I18N = {
     resizePdfErr: 'تعذر إنشاء ملف PDF، حاول مرة أخرى.',
     pdfOptPagesize: '📏 تغيير مقاس صفحة PDF',
     pagesizeTitle: 'تغيير مقاس صفحة PDF',
-    pagesizeHint: 'غيّر مقاس صفحات ملف PDF (المحتوى يتمدد ليملأ المقاس الجديد)، أو ارفع صورة وحطها على مقاس ورقة قياسي بدون أي تمديد أو تشويه — تختار الاتجاه اللي يناسبها.',
-    pagesizeOrientationLabel: 'اتجاه الصفحة (للصور فقط)',
-    pagesizeOrientAuto: 'تلقائي (حسب شكل الصورة)',
+    pagesizeHint: 'غيّر مقاس ملف PDF أو صورة ليصير بمقاس ورقة قياسي — اختر "تمديد" ليملأ المقاس بالكامل، أو "احتواء بدون تشويه" ليحافظ على النسبة الأصلية مع اختيار الاتجاه.',
+    pagesizeMethodLabel: 'طريقة التحجيم',
+    pagesizeMethodStretch: 'تمديد ليملأ الصفحة بالكامل (قد يغيّر النسبة)',
+    pagesizeMethodContain: 'احتواء بدون تشويه (يحافظ على النسبة الأصلية)',
+    pagesizeOrientationLabel: 'اتجاه الصفحة',
+    pagesizeOrientAuto: 'تلقائي (حسب شكل المحتوى)',
     pagesizeOrientPortrait: 'عمودي (طولي)',
     pagesizeOrientLandscape: 'أفقي (عرضي)',
     pagesizeImageSuccess: 'تم وضع الصورة على الصفحة بنجاح بدون أي تشويه.',
@@ -3820,9 +3830,12 @@ const I18N = {
     resizePdfErr: 'Could not create the PDF file, please try again.',
     pdfOptPagesize: '📏 Change PDF Page Size',
     pagesizeTitle: 'Change PDF Page Size',
-    pagesizeHint: "Change a PDF file's page size (content stretches to fill the new size), or upload an image and place it on a standard paper size with no stretching or distortion — you choose the orientation that fits it.",
-    pagesizeOrientationLabel: 'Page orientation (images only)',
-    pagesizeOrientAuto: 'Automatic (based on the image shape)',
+    pagesizeHint: 'Change a PDF or image to a standard paper size — choose "Stretch" to fill the size completely, or "Contain, no distortion" to keep the original proportions with your choice of orientation.',
+    pagesizeMethodLabel: 'Resize method',
+    pagesizeMethodStretch: 'Stretch to fill the page completely (may change proportions)',
+    pagesizeMethodContain: 'Contain without distortion (keeps original proportions)',
+    pagesizeOrientationLabel: 'Page orientation',
+    pagesizeOrientAuto: 'Automatic (based on the content shape)',
     pagesizeOrientPortrait: 'Portrait',
     pagesizeOrientLandscape: 'Landscape',
     pagesizeImageSuccess: 'The image was placed on the page successfully with no distortion.',
@@ -7847,13 +7860,15 @@ function pagesizeIsImageFile(file){
   return !!file && file.type && file.type.startsWith('image/');
 }
 
-// Orders a [w,h] pair to match the requested orientation. 'auto' picks whichever
-// orientation best matches the image's own aspect ratio (imgAspect = width/height).
-function pagesizeOrientedWH(widthMm, heightMm, orientation, imgAspect){
+// Orders a [w,h] pair to match the requested orientation.
+// 'auto' + contain: picks whichever orientation best matches the content's own aspect ratio.
+// 'auto' + stretch: keeps the preset's size exactly as given (unchanged, backward-compatible).
+function pagesizeOrientedWH(widthMm, heightMm, orientation, contentAspect, method){
   let wantPortrait;
   if(orientation === 'portrait') wantPortrait = true;
   else if(orientation === 'landscape') wantPortrait = false;
-  else wantPortrait = (imgAspect || 1) <= 1;
+  else if(method === 'contain') wantPortrait = (contentAspect || 1) <= 1;
+  else return [widthMm, heightMm];
 
   const longer = Math.max(widthMm, heightMm), shorter = Math.min(widthMm, heightMm);
   return wantPortrait ? [shorter, longer] : [longer, shorter];
@@ -7921,11 +7936,12 @@ function drawLetterboxed(canvas, sourceCanvasOrImg, contentAspect, frameSize, co
 async function updatePagesizePreview(){
   const file = document.getElementById('pagesize-file').files[0];
   const wrap = document.getElementById('pagesize-preview-wrap');
-  const orientWrap = document.getElementById('pagesize-orientation-wrap');
-  if(!file){ wrap.style.display = 'none'; orientWrap.style.display = 'none'; return; }
+  if(!file){ wrap.style.display = 'none'; return; }
 
   const isImage = pagesizeIsImageFile(file);
-  orientWrap.style.display = isImage ? 'block' : 'none';
+  const method = document.getElementById('pagesize-method').value;
+  const orientation = document.getElementById('pagesize-orientation').value;
+  const containFit = method === 'contain';
 
   try{
     const frameSize = 160;
@@ -7936,11 +7952,10 @@ async function updatePagesizePreview(){
     if(isImage){
       const img = await loadPagesizePreviewImage(file);
       const imgAspect = img.naturalWidth / img.naturalHeight;
-      const orientation = document.getElementById('pagesize-orientation').value;
-      const [targetW, targetH] = pagesizeOrientedWH(wMm, hMm, orientation, imgAspect);
+      const [targetW, targetH] = pagesizeOrientedWH(wMm, hMm, orientation, imgAspect, method);
 
       drawLetterboxed(beforeCanvas, img, imgAspect, frameSize, false);
-      drawLetterboxed(afterCanvas, img, targetW/targetH, frameSize, true);
+      drawLetterboxed(afterCanvas, img, targetW/targetH, frameSize, containFit);
     } else {
       const pdf = await loadPagesizePreviewPdf(file);
       const page = await pdf.getPage(1);
@@ -7953,8 +7968,11 @@ async function updatePagesizePreview(){
       const sourceCtx = sourceCanvas.getContext('2d');
       await page.render({canvasContext: sourceCtx, viewport: renderViewport}).promise;
 
-      drawLetterboxed(beforeCanvas, sourceCanvas, baseViewport.width / baseViewport.height, frameSize, false);
-      drawLetterboxed(afterCanvas, sourceCanvas, wMm / hMm, frameSize, false);
+      const pageAspect = baseViewport.width / baseViewport.height;
+      const [targetW, targetH] = pagesizeOrientedWH(wMm, hMm, orientation, pageAspect, method);
+
+      drawLetterboxed(beforeCanvas, sourceCanvas, pageAspect, frameSize, false);
+      drawLetterboxed(afterCanvas, sourceCanvas, targetW/targetH, frameSize, containFit);
     }
 
     wrap.style.display = 'block';
@@ -7978,6 +7996,7 @@ document.getElementById('pagesize-preset').addEventListener('change', ()=>{
 document.getElementById('pagesize-custom-width').addEventListener('input', updatePagesizePreview);
 document.getElementById('pagesize-custom-height').addEventListener('input', updatePagesizePreview);
 document.getElementById('pagesize-orientation').addEventListener('change', updatePagesizePreview);
+document.getElementById('pagesize-method').addEventListener('change', updatePagesizePreview);
 
 document.getElementById('pagesize-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('pagesize-file').files[0];
@@ -7995,11 +8014,14 @@ document.getElementById('pagesize-btn').addEventListener('click', async ()=>{
       [widthMm, heightMm] = PAGESIZE_PRESETS_MM[preset];
     }
 
+    const method = document.getElementById('pagesize-method').value;
+    const orientation = document.getElementById('pagesize-orientation').value;
+    const containFit = method === 'contain';
+
     if(pagesizeIsImageFile(file)){
       const img = await loadPagesizePreviewImage(file);
       const imgAspect = img.naturalWidth / img.naturalHeight;
-      const orientation = document.getElementById('pagesize-orientation').value;
-      const [orientedWmm, orientedHmm] = pagesizeOrientedWH(widthMm, heightMm, orientation, imgAspect);
+      const [orientedWmm, orientedHmm] = pagesizeOrientedWH(widthMm, heightMm, orientation, imgAspect, method);
       const pageWidthPt = orientedWmm * 2.83465;
       const pageHeightPt = orientedHmm * 2.83465;
 
@@ -8015,32 +8037,48 @@ document.getElementById('pagesize-btn').addEventListener('click', async ()=>{
       const embeddedImg = await outDoc.embedPng(imgBytes);
       const page = outDoc.addPage([pageWidthPt, pageHeightPt]);
 
-      let fitW, fitH;
-      if(imgAspect >= pageWidthPt/pageHeightPt){ fitW = pageWidthPt; fitH = pageWidthPt/imgAspect; }
-      else { fitH = pageHeightPt; fitW = pageHeightPt*imgAspect; }
-      const x = (pageWidthPt - fitW)/2, y = (pageHeightPt - fitH)/2;
-      page.drawImage(embeddedImg, { x, y, width: fitW, height: fitH });
+      if(containFit){
+        let fitW, fitH;
+        if(imgAspect >= pageWidthPt/pageHeightPt){ fitW = pageWidthPt; fitH = pageWidthPt/imgAspect; }
+        else { fitH = pageHeightPt; fitW = pageHeightPt*imgAspect; }
+        const x = (pageWidthPt - fitW)/2, y = (pageHeightPt - fitH)/2;
+        page.drawImage(embeddedImg, { x, y, width: fitW, height: fitH });
+      } else {
+        page.drawImage(embeddedImg, { x:0, y:0, width: pageWidthPt, height: pageHeightPt });
+      }
 
       const outBytes = await outDoc.save();
       downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'صورة_على_صفحة.pdf');
-      setStatus('pagesize-status', I18N[currentLang].pagesizeImageSuccess, 'ok');
+      setStatus('pagesize-status', containFit ? I18N[currentLang].pagesizeImageSuccess : I18N[currentLang].pagesizeSuccess, 'ok');
     } else {
-      const newWidthPt = widthMm * 2.83465;
-      const newHeightPt = heightMm * 2.83465;
-
       const pdfBytes = await file.arrayBuffer();
       const srcDoc = await PDFDocument.load(pdfBytes);
       const outDoc = await PDFDocument.create();
       const embeddedPages = await outDoc.embedPages(srcDoc.getPages());
+      const srcPages = srcDoc.getPages();
 
-      embeddedPages.forEach(embedded=>{
-        const newPage = outDoc.addPage([newWidthPt, newHeightPt]);
-        newPage.drawPage(embedded, { x:0, y:0, width:newWidthPt, height:newHeightPt });
+      embeddedPages.forEach((embedded, i)=>{
+        const { width: ow, height: oh } = srcPages[i].getSize();
+        const pageAspect = ow / oh;
+        const [orientedWmm, orientedHmm] = pagesizeOrientedWH(widthMm, heightMm, orientation, pageAspect, method);
+        const pageWidthPt = orientedWmm * 2.83465;
+        const pageHeightPt = orientedHmm * 2.83465;
+        const newPage = outDoc.addPage([pageWidthPt, pageHeightPt]);
+
+        if(containFit){
+          let fitW, fitH;
+          if(pageAspect >= pageWidthPt/pageHeightPt){ fitW = pageWidthPt; fitH = pageWidthPt/pageAspect; }
+          else { fitH = pageHeightPt; fitW = pageHeightPt*pageAspect; }
+          const x = (pageWidthPt - fitW)/2, y = (pageHeightPt - fitH)/2;
+          newPage.drawPage(embedded, { x, y, width: fitW, height: fitH });
+        } else {
+          newPage.drawPage(embedded, { x:0, y:0, width: pageWidthPt, height: pageHeightPt });
+        }
       });
 
       const outBytes = await outDoc.save();
       downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مقاس_معدّل.pdf');
-      setStatus('pagesize-status', I18N[currentLang].pagesizeSuccess, 'ok');
+      setStatus('pagesize-status', containFit ? I18N[currentLang].pagesizeImageSuccess : I18N[currentLang].pagesizeSuccess, 'ok');
     }
   }catch(e){
     setStatus('pagesize-status', I18N[currentLang].pagesizeErr, 'err');
