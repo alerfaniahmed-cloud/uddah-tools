@@ -2068,9 +2068,9 @@
 
     <div class="card pdf-card" id="pdftool-pagesize">
       <h2 data-i18n="pagesizeTitle">تغيير مقاس صفحة PDF</h2>
-      <p class="hint" data-i18n="pagesizeHint">غيّر مقاس صفحات الملف الفعلي (زي تحويله من A4 إلى Letter، أو أي مقاس تحدده بنفسك) — المحتوى يتمدد تلقائياً ليملأ المقاس الجديد.</p>
+      <p class="hint" data-i18n="pagesizeHint">غيّر مقاس صفحات ملف PDF (المحتوى يتمدد ليملأ المقاس الجديد)، أو ارفع صورة وحطها على مقاس ورقة قياسي بدون أي تمديد أو تشويه — تختار الاتجاه اللي يناسبها.</p>
       <div class="field">
-        <input type="file" id="pagesize-file" accept="application/pdf">
+        <input type="file" id="pagesize-file" accept="application/pdf,image/png,image/jpeg,image/webp">
         <div class="file-list" id="pagesize-file-list"></div>
       </div>
       <div class="field">
@@ -2093,6 +2093,14 @@
           <label for="pagesize-custom-height" data-i18n="heightMmLabel">الارتفاع (مم)</label>
           <input type="number" id="pagesize-custom-height" min="20" max="2000" value="297">
         </div>
+      </div>
+      <div class="field" id="pagesize-orientation-wrap" style="display:none;">
+        <label for="pagesize-orientation" data-i18n="pagesizeOrientationLabel">اتجاه الصفحة (للصور فقط)</label>
+        <select id="pagesize-orientation">
+          <option value="auto" data-i18n="pagesizeOrientAuto">تلقائي (حسب شكل الصورة)</option>
+          <option value="portrait" data-i18n="pagesizeOrientPortrait">عمودي (طولي)</option>
+          <option value="landscape" data-i18n="pagesizeOrientLandscape">أفقي (عرضي)</option>
+        </select>
       </div>
 
       <div class="field" id="pagesize-preview-wrap" style="display:none;">
@@ -3135,7 +3143,12 @@ const I18N = {
     resizePdfErr: 'تعذر إنشاء ملف PDF، حاول مرة أخرى.',
     pdfOptPagesize: '📏 تغيير مقاس صفحة PDF',
     pagesizeTitle: 'تغيير مقاس صفحة PDF',
-    pagesizeHint: 'غيّر مقاس صفحات الملف الفعلي (زي تحويله من A4 إلى Letter، أو أي مقاس تحدده بنفسك) — المحتوى يتمدد تلقائياً ليملأ المقاس الجديد.',
+    pagesizeHint: 'غيّر مقاس صفحات ملف PDF (المحتوى يتمدد ليملأ المقاس الجديد)، أو ارفع صورة وحطها على مقاس ورقة قياسي بدون أي تمديد أو تشويه — تختار الاتجاه اللي يناسبها.',
+    pagesizeOrientationLabel: 'اتجاه الصفحة (للصور فقط)',
+    pagesizeOrientAuto: 'تلقائي (حسب شكل الصورة)',
+    pagesizeOrientPortrait: 'عمودي (طولي)',
+    pagesizeOrientLandscape: 'أفقي (عرضي)',
+    pagesizeImageSuccess: 'تم وضع الصورة على الصفحة بنجاح بدون أي تشويه.',
     pagesizePresetLabel: 'المقاس الجديد',
     pagesizeA4: 'A4 (210 × 297 مم)', pagesizeLetter: 'Letter (216 × 279 مم)',
     pagesizeA3: 'A3 (297 × 420 مم)', pagesizeA5: 'A5 (148 × 210 مم)',
@@ -3807,7 +3820,12 @@ const I18N = {
     resizePdfErr: 'Could not create the PDF file, please try again.',
     pdfOptPagesize: '📏 Change PDF Page Size',
     pagesizeTitle: 'Change PDF Page Size',
-    pagesizeHint: "Change the file's actual page size (like converting it from A4 to Letter, or any size you set yourself) — the content automatically stretches to fill the new size.",
+    pagesizeHint: "Change a PDF file's page size (content stretches to fill the new size), or upload an image and place it on a standard paper size with no stretching or distortion — you choose the orientation that fits it.",
+    pagesizeOrientationLabel: 'Page orientation (images only)',
+    pagesizeOrientAuto: 'Automatic (based on the image shape)',
+    pagesizeOrientPortrait: 'Portrait',
+    pagesizeOrientLandscape: 'Landscape',
+    pagesizeImageSuccess: 'The image was placed on the page successfully with no distortion.',
     pagesizePresetLabel: 'New size',
     pagesizeA4: 'A4 (210 × 297 mm)', pagesizeLetter: 'Letter (216 × 279 mm)',
     pagesizeA3: 'A3 (297 × 420 mm)', pagesizeA5: 'A5 (148 × 210 mm)',
@@ -7825,8 +7843,26 @@ function pagesizeGetTargetMm(){
   return PAGESIZE_PRESETS_MM[preset];
 }
 
+function pagesizeIsImageFile(file){
+  return !!file && file.type && file.type.startsWith('image/');
+}
+
+// Orders a [w,h] pair to match the requested orientation. 'auto' picks whichever
+// orientation best matches the image's own aspect ratio (imgAspect = width/height).
+function pagesizeOrientedWH(widthMm, heightMm, orientation, imgAspect){
+  let wantPortrait;
+  if(orientation === 'portrait') wantPortrait = true;
+  else if(orientation === 'landscape') wantPortrait = false;
+  else wantPortrait = (imgAspect || 1) <= 1;
+
+  const longer = Math.max(widthMm, heightMm), shorter = Math.min(widthMm, heightMm);
+  return wantPortrait ? [shorter, longer] : [longer, shorter];
+}
+
 let pagesizePreviewPdfDoc = null;
 let pagesizePreviewFileRef = null;
+let pagesizePreviewImage = null;
+let pagesizePreviewImageRef = null;
 
 async function loadPagesizePreviewPdf(file){
   if(pagesizePreviewFileRef === file && pagesizePreviewPdfDoc) return pagesizePreviewPdfDoc;
@@ -7836,58 +7872,90 @@ async function loadPagesizePreviewPdf(file){
   return pagesizePreviewPdfDoc;
 }
 
+function loadPagesizePreviewImage(file){
+  if(pagesizePreviewImageRef === file && pagesizePreviewImage) return Promise.resolve(pagesizePreviewImage);
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onload = ()=>{ pagesizePreviewImage = img; pagesizePreviewImageRef = file; resolve(img); };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function drawLetterboxed(canvas, sourceCanvasOrImg, contentAspect, frameSize, containFit){
+  canvas.width = frameSize;
+  canvas.height = frameSize;
+  const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.fillStyle = '#e9e5da';
+  ctx.fillRect(0, 0, frameSize, frameSize);
+  let fitW, fitH;
+  if(contentAspect >= 1){ fitW = frameSize; fitH = frameSize / contentAspect; }
+  else { fitH = frameSize; fitW = frameSize * contentAspect; }
+  const offsetX = (frameSize - fitW) / 2;
+  const offsetY = (frameSize - fitH) / 2;
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(offsetX, offsetY, fitW, fitH);
+  if(containFit){
+    // Draw the source centered and fully contained within the frame box, preserving its own aspect
+    const srcAspect = sourceCanvasOrImg.naturalWidth ? sourceCanvasOrImg.naturalWidth/sourceCanvasOrImg.naturalHeight : sourceCanvasOrImg.width/sourceCanvasOrImg.height;
+    let innerW, innerH;
+    if(srcAspect >= contentAspect){ innerW = fitW; innerH = fitW/srcAspect; }
+    else { innerH = fitH; innerW = fitH*srcAspect; }
+    const innerX = offsetX + (fitW-innerW)/2, innerY = offsetY + (fitH-innerH)/2;
+    ctx.drawImage(sourceCanvasOrImg, innerX, innerY, innerW, innerH);
+  } else {
+    ctx.drawImage(sourceCanvasOrImg, offsetX, offsetY, fitW, fitH);
+  }
+  ctx.strokeStyle = '#b0a890';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(offsetX+0.5, offsetY+0.5, fitW-1, fitH-1);
+}
+
 async function updatePagesizePreview(){
   const file = document.getElementById('pagesize-file').files[0];
   const wrap = document.getElementById('pagesize-preview-wrap');
-  if(!file){ wrap.style.display = 'none'; return; }
+  const orientWrap = document.getElementById('pagesize-orientation-wrap');
+  if(!file){ wrap.style.display = 'none'; orientWrap.style.display = 'none'; return; }
+
+  const isImage = pagesizeIsImageFile(file);
+  orientWrap.style.display = isImage ? 'block' : 'none';
 
   try{
-    const pdf = await loadPagesizePreviewPdf(file);
-    const page = await pdf.getPage(1);
-    const baseViewport = page.getViewport({scale:1});
     const frameSize = 160;
-
-    // Render the original page once at good resolution into an offscreen canvas
-    const renderScale = frameSize / Math.min(baseViewport.width, baseViewport.height);
-    const renderViewport = page.getViewport({scale: renderScale});
-    const sourceCanvas = document.createElement('canvas');
-    sourceCanvas.width = renderViewport.width;
-    sourceCanvas.height = renderViewport.height;
-    const sourceCtx = sourceCanvas.getContext('2d');
-    await page.render({canvasContext: sourceCtx, viewport: renderViewport}).promise;
-
-    function drawLetterboxed(canvas, contentAspect){
-      canvas.width = frameSize;
-      canvas.height = frameSize;
-      const ctx = canvas.getContext('2d');
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-      ctx.fillStyle = '#e9e5da';
-      ctx.fillRect(0, 0, frameSize, frameSize);
-      let fitW, fitH;
-      if(contentAspect >= 1){ fitW = frameSize; fitH = frameSize / contentAspect; }
-      else { fitH = frameSize; fitW = frameSize * contentAspect; }
-      const offsetX = (frameSize - fitW) / 2;
-      const offsetY = (frameSize - fitH) / 2;
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(offsetX, offsetY, fitW, fitH);
-      ctx.drawImage(sourceCanvas, offsetX, offsetY, fitW, fitH);
-      ctx.strokeStyle = '#b0a890';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(offsetX+0.5, offsetY+0.5, fitW-1, fitH-1);
-    }
-
-    // BEFORE: the page's true original aspect ratio, fitted (letterboxed) inside a fixed frame
-    const beforeCanvas = document.getElementById('pagesize-preview-before');
-    drawLetterboxed(beforeCanvas, baseViewport.width / baseViewport.height);
-
-    // AFTER: the SAME content, but now shown at the new target aspect ratio (stretched),
-    // fitted inside a frame of the exact same fixed size — so only the shape of the
-    // content changes as you edit width/height, never the size of the preview boxes.
     const [wMm, hMm] = pagesizeGetTargetMm();
-    const newAspect = wMm / hMm;
+    const beforeCanvas = document.getElementById('pagesize-preview-before');
     const afterCanvas = document.getElementById('pagesize-preview-after');
-    drawLetterboxed(afterCanvas, newAspect);
+
+    if(isImage){
+      const img = await loadPagesizePreviewImage(file);
+      const imgAspect = img.naturalWidth / img.naturalHeight;
+      const orientation = document.getElementById('pagesize-orientation').value;
+      const [targetW, targetH] = pagesizeOrientedWH(wMm, hMm, orientation, imgAspect);
+
+      drawLetterboxed(beforeCanvas, img, imgAspect, frameSize, false);
+      drawLetterboxed(afterCanvas, img, targetW/targetH, frameSize, true);
+    } else {
+      const pdf = await loadPagesizePreviewPdf(file);
+      const page = await pdf.getPage(1);
+      const baseViewport = page.getViewport({scale:1});
+      const renderScale = frameSize / Math.min(baseViewport.width, baseViewport.height);
+      const renderViewport = page.getViewport({scale: renderScale});
+      const sourceCanvas = document.createElement('canvas');
+      sourceCanvas.width = renderViewport.width;
+      sourceCanvas.height = renderViewport.height;
+      const sourceCtx = sourceCanvas.getContext('2d');
+      await page.render({canvasContext: sourceCtx, viewport: renderViewport}).promise;
+
+      drawLetterboxed(beforeCanvas, sourceCanvas, baseViewport.width / baseViewport.height, frameSize, false);
+      drawLetterboxed(afterCanvas, sourceCanvas, wMm / hMm, frameSize, false);
+    }
 
     wrap.style.display = 'block';
   }catch(e){
@@ -7898,6 +7966,8 @@ async function updatePagesizePreview(){
 document.getElementById('pagesize-file').addEventListener('change', ()=>{
   pagesizePreviewPdfDoc = null;
   pagesizePreviewFileRef = null;
+  pagesizePreviewImage = null;
+  pagesizePreviewImageRef = null;
   updatePagesizePreview();
 });
 document.getElementById('pagesize-preset').addEventListener('change', ()=>{
@@ -7907,6 +7977,7 @@ document.getElementById('pagesize-preset').addEventListener('change', ()=>{
 });
 document.getElementById('pagesize-custom-width').addEventListener('input', updatePagesizePreview);
 document.getElementById('pagesize-custom-height').addEventListener('input', updatePagesizePreview);
+document.getElementById('pagesize-orientation').addEventListener('change', updatePagesizePreview);
 
 document.getElementById('pagesize-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('pagesize-file').files[0];
@@ -7923,22 +7994,54 @@ document.getElementById('pagesize-btn').addEventListener('click', async ()=>{
     } else {
       [widthMm, heightMm] = PAGESIZE_PRESETS_MM[preset];
     }
-    const newWidthPt = widthMm * 2.83465;
-    const newHeightPt = heightMm * 2.83465;
 
-    const pdfBytes = await file.arrayBuffer();
-    const srcDoc = await PDFDocument.load(pdfBytes);
-    const outDoc = await PDFDocument.create();
-    const embeddedPages = await outDoc.embedPages(srcDoc.getPages());
+    if(pagesizeIsImageFile(file)){
+      const img = await loadPagesizePreviewImage(file);
+      const imgAspect = img.naturalWidth / img.naturalHeight;
+      const orientation = document.getElementById('pagesize-orientation').value;
+      const [orientedWmm, orientedHmm] = pagesizeOrientedWH(widthMm, heightMm, orientation, imgAspect);
+      const pageWidthPt = orientedWmm * 2.83465;
+      const pageHeightPt = orientedHmm * 2.83465;
 
-    embeddedPages.forEach(embedded=>{
-      const newPage = outDoc.addPage([newWidthPt, newHeightPt]);
-      newPage.drawPage(embedded, { x:0, y:0, width:newWidthPt, height:newHeightPt });
-    });
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const cctx = canvas.getContext('2d');
+      cctx.drawImage(img, 0, 0);
+      const dataUrl = canvas.toDataURL('image/png');
+      const imgBytes = await (await fetch(dataUrl)).arrayBuffer();
 
-    const outBytes = await outDoc.save();
-    downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مقاس_معدّل.pdf');
-    setStatus('pagesize-status', I18N[currentLang].pagesizeSuccess, 'ok');
+      const outDoc = await PDFDocument.create();
+      const embeddedImg = await outDoc.embedPng(imgBytes);
+      const page = outDoc.addPage([pageWidthPt, pageHeightPt]);
+
+      let fitW, fitH;
+      if(imgAspect >= pageWidthPt/pageHeightPt){ fitW = pageWidthPt; fitH = pageWidthPt/imgAspect; }
+      else { fitH = pageHeightPt; fitW = pageHeightPt*imgAspect; }
+      const x = (pageWidthPt - fitW)/2, y = (pageHeightPt - fitH)/2;
+      page.drawImage(embeddedImg, { x, y, width: fitW, height: fitH });
+
+      const outBytes = await outDoc.save();
+      downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'صورة_على_صفحة.pdf');
+      setStatus('pagesize-status', I18N[currentLang].pagesizeImageSuccess, 'ok');
+    } else {
+      const newWidthPt = widthMm * 2.83465;
+      const newHeightPt = heightMm * 2.83465;
+
+      const pdfBytes = await file.arrayBuffer();
+      const srcDoc = await PDFDocument.load(pdfBytes);
+      const outDoc = await PDFDocument.create();
+      const embeddedPages = await outDoc.embedPages(srcDoc.getPages());
+
+      embeddedPages.forEach(embedded=>{
+        const newPage = outDoc.addPage([newWidthPt, newHeightPt]);
+        newPage.drawPage(embedded, { x:0, y:0, width:newWidthPt, height:newHeightPt });
+      });
+
+      const outBytes = await outDoc.save();
+      downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مقاس_معدّل.pdf');
+      setStatus('pagesize-status', I18N[currentLang].pagesizeSuccess, 'ok');
+    }
   }catch(e){
     setStatus('pagesize-status', I18N[currentLang].pagesizeErr, 'err');
   }
