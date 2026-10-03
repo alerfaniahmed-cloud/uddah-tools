@@ -1013,14 +1013,6 @@
         <label for="img2stamp-input" data-i18n="imageLabel">الصورة</label>
         <input type="file" id="img2stamp-input" accept="image/png,image/jpeg,image/webp">
         <div class="file-list" id="img2stamp-input-list"></div>
-        <button type="button" class="btn secondary" id="img2stamp-camera-btn" style="margin-top:8px;padding:9px 16px;font-size:.85rem;" data-i18n="cameraCaptureBtn">📷 التقط بالكاميرا مباشرة (مثل بصمة إصبع بالحبر)</button>
-        <div id="img2stamp-camera-wrap" style="display:none;margin-top:10px;">
-          <video id="img2stamp-camera-video" autoplay playsinline style="width:100%;max-width:320px;border-radius:8px;border:1px solid var(--border);background:#000;display:block;"></video>
-          <div style="display:flex;gap:10px;margin-top:8px;">
-            <button type="button" class="btn" id="img2stamp-camera-capture" data-i18n="cameraShotBtn">التقط الصورة</button>
-            <button type="button" class="btn secondary" id="img2stamp-camera-cancel" data-i18n="cameraCancelBtn">إلغاء</button>
-          </div>
-        </div>
       </div>
 
       <div class="row">
@@ -2916,10 +2908,6 @@ const I18N = {
     img2stampAutoBtn: 'اكتشاف الخلفية تلقائياً من زوايا الصورة',
     img2stampNote: 'ارفع صورة أولاً لتبدأ المعاينة، ثم حرّك "حساسية إزالة الخلفية" حتى تختفي الخلفية بالكامل ويبقى الحبر فقط. كل المعالجة تتم داخل متصفحك — لا تُرفع صورتك لأي سيرفر خارجي.',
     img2stampAdjustNote: 'اضبط الإعدادات أدناه حتى تختفي الخلفية بالكامل ويبقى الحبر فقط، ثم نزّل الصورة.',
-    cameraCaptureBtn: '📷 التقط بالكاميرا مباشرة (مثل بصمة إصبع بالحبر)',
-    cameraShotBtn: 'التقط الصورة', cameraCancelBtn: 'إلغاء',
-    cameraNotSupported: 'متصفحك لا يدعم الوصول للكاميرا، جرّب متصفح آخر زي Chrome.',
-    cameraErr: 'تعذر فتح الكاميرا — تأكد من إعطاء الموقع صلاحية الوصول للكاميرا من إعدادات المتصفح.',
     card2sTitle: 'مولد كرت الوجهين',
     card2sHint: 'اصنع بطاقة بيضاء بوجهين (أمامي وخلفي) بالمقاس اللي تحدده بنفسك، أضف شعارك أو صورة ختمك، واكتب النص المطلوب على كل وجه، ثم نزّلها.',
     widthMmLabel: 'العرض (مم)',
@@ -3588,10 +3576,6 @@ const I18N = {
     img2stampAutoBtn: 'Auto-detect background from image corners',
     img2stampNote: 'Upload an image first to start the preview, then move "background removal sensitivity" until the background fully disappears and only the ink remains. All processing happens in your browser — your image is never uploaded to any external server.',
     img2stampAdjustNote: 'Adjust the settings below until the background fully disappears and only the ink remains, then download the image.',
-    cameraCaptureBtn: '📷 Capture with Camera Directly (e.g. an inked fingerprint)',
-    cameraShotBtn: 'Take Photo', cameraCancelBtn: 'Cancel',
-    cameraNotSupported: "Your browser doesn't support camera access — try another browser like Chrome.",
-    cameraErr: "Could not open the camera — make sure you've granted this site camera access in your browser settings.",
     card2sTitle: 'Two-Sided Card Maker',
     card2sHint: 'Create a white two-sided card (front and back) at the size you set yourself, add your logo or stamp image, write the text you want on each side, then download it.',
     widthMmLabel: 'Width (mm)',
@@ -5134,50 +5118,6 @@ function img2stampLoadFile(file){
 
 document.getElementById('img2stamp-input').addEventListener('change', ()=>{
   img2stampLoadFile(document.getElementById('img2stamp-input').files[0]);
-});
-
-/* --- Direct camera capture (e.g. photographing an inked fingerprint) --- */
-let img2stampCameraStream = null;
-
-function img2stampStopCamera(){
-  if(img2stampCameraStream){
-    img2stampCameraStream.getTracks().forEach(t=>t.stop());
-    img2stampCameraStream = null;
-  }
-  const wrap = document.getElementById('img2stamp-camera-wrap');
-  if(wrap) wrap.style.display = 'none';
-}
-
-document.getElementById('img2stamp-camera-btn').addEventListener('click', async ()=>{
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-    alert(I18N[currentLang].cameraNotSupported);
-    return;
-  }
-  try{
-    img2stampCameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-    const video = document.getElementById('img2stamp-camera-video');
-    video.srcObject = img2stampCameraStream;
-    document.getElementById('img2stamp-camera-wrap').style.display = 'block';
-  }catch(e){
-    alert(I18N[currentLang].cameraErr);
-  }
-});
-
-document.getElementById('img2stamp-camera-cancel').addEventListener('click', img2stampStopCamera);
-
-document.getElementById('img2stamp-camera-capture').addEventListener('click', ()=>{
-  const video = document.getElementById('img2stamp-camera-video');
-  if(!video.videoWidth){ return; }
-  const canvas = document.createElement('canvas');
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  canvas.getContext('2d').drawImage(video, 0, 0);
-  canvas.toBlob(blob=>{
-    if(!blob) return;
-    const file = new File([blob], 'camera-capture.png', { type: 'image/png' });
-    img2stampLoadFile(file);
-    img2stampStopCamera();
-  }, 'image/png');
 });
 
 document.getElementById('img2stamp-mode').addEventListener('change', ()=>{
