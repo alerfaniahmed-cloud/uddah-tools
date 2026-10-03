@@ -3027,7 +3027,8 @@ const I18N = {
     ibanBankLabel: 'البنك:',
     ibanBankUnknown: 'غير معروف (ربما بنك أجنبي أو فرع خاص — تأكد مباشرة من البنك)',
     ibanBankCodeLabel: 'كود البنك:',
-    ibanAccountLabel: 'رقم الحساب:',
+    ibanAccountLabel: 'باقي رقم الآيبان:',
+    ibanAccountNote: 'هذا هو الجزء المتبقي من رقم الآيبان بعد كود البنك حسب المعيار الدولي — ملاحظة: بعض البنوك (مثل الراجحي) تعرض رقم الحساب بتطبيقها بتنسيق مختلف قد لا يطابق هذا الرقم حرفياً، فاعتمد على رقم الحساب الظاهر بتطبيق بنكك عند الحاجة لمطابقة دقيقة.',
     ibanErrChecksum: 'الصيغة صحيحة لكن رقم التحقق (checksum) غير مطابق — تأكد من الأرقام.',
     noFileChosen: 'لم يتم اختيار أي ملف',
     dateInputPlaceholder: 'يوم/شهر/سنة',
@@ -3698,7 +3699,8 @@ const I18N = {
     ibanBankLabel: 'Bank:',
     ibanBankUnknown: "Unrecognized (possibly a foreign bank or special branch — verify directly with the bank)",
     ibanBankCodeLabel: 'Bank code:',
-    ibanAccountLabel: 'Account number:',
+    ibanAccountLabel: 'Remaining IBAN digits:',
+    ibanAccountNote: "This is the remaining segment of the IBAN after the bank code, per the international standard — note: some banks (like Al Rajhi) display the account number in their app using a different format that may not literally match this digit sequence, so rely on the account number shown in your bank's own app for an exact match.",
     ibanErrChecksum: 'The format is correct but the checksum does not match — verify the digits.',
     noFileChosen: 'No file chosen',
     dateInputPlaceholder: 'dd/mm/yyyy',
@@ -8151,7 +8153,7 @@ document.getElementById('iban-btn').addEventListener('click', ()=>{
   } else if(check.valid){
     out.textContent = I18N[currentLang].ibanValid;
     const bankName = check.bank ? check.bank[currentLang] : I18N[currentLang].ibanBankUnknown;
-    sub.innerHTML = `${I18N[currentLang].ibanBankLabel} <strong>${bankName}</strong> (${check.bankCode})<br>${I18N[currentLang].ibanBankCodeLabel} ${check.bankCode} — ${I18N[currentLang].ibanAccountLabel} ${check.accountNumber}`;
+    sub.innerHTML = `${I18N[currentLang].ibanBankLabel} <strong>${bankName}</strong> (${check.bankCode})<br>${I18N[currentLang].ibanBankCodeLabel} ${check.bankCode} — ${I18N[currentLang].ibanAccountLabel} ${check.accountNumber}<br><span style="font-size:.78rem;opacity:.85;">${I18N[currentLang].ibanAccountNote}</span>`;
   } else {
     out.textContent = I18N[currentLang].ibanInvalid;
     sub.textContent = I18N[currentLang].ibanErrChecksum;
