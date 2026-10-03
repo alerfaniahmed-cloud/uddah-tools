@@ -224,6 +224,20 @@
   .msg.err{background:rgba(176,90,50,0.10);color:#8A3D1F;border:1px solid rgba(176,90,50,0.35);}
   .msg.ok{background:rgba(92,122,78,0.12);color:#3F5A34;border:1px solid rgba(92,122,78,0.35);}
 
+  .erase-text-layer{
+    position:absolute;top:0;left:0;right:0;bottom:0;
+    overflow:hidden;line-height:1;pointer-events:none;
+  }
+  .erase-text-layer span{
+    position:absolute;white-space:pre;cursor:pointer;
+    color:transparent;transform-origin:0% 0%;
+    border-radius:2px;pointer-events:auto;
+  }
+  .erase-text-layer span:hover{
+    background:rgba(43,108,176,0.25);
+    outline:1px dashed #2b6cb0;
+  }
+
   .file-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
   .file-chip{
     display:inline-flex;align-items:center;gap:8px;
@@ -1995,6 +2009,7 @@
 
       <div class="field" id="erase-preview-wrap" style="display:none;">
         <label data-i18n="erasePreviewLabel">معاينة الصفحة</label>
+        <p class="note" style="margin-top:2px;font-weight:600;" data-i18n="eraseClickNote">👆 اضغط مباشرة على أي نص موجود بالصفحة لتعديله فوراً في نفس مكانه — زي "فحص العنصر" بالضبط.</p>
         <p class="note" style="margin-top:2px;font-weight:600;" data-i18n="eraseDrawNote">🖊️ اسحب على مكان فاضي بالصورة لترسم منطقة مسح جديدة، أو اسحب داخل منطقة موجودة لتحريك نصها بحرية كاملة.</p>
         <p class="note" style="margin-top:2px;" data-i18n="eraseDashNote">الخط المتقطع البرتقالي حوالين كل منطقة مسح يظهر بالمعاينة بس عشان تشوف مكانها بوضوح — ما يظهر إطلاقاً بالملف النهائي.</p>
         <div class="row" style="align-items:center;margin-bottom:8px;">
@@ -2008,8 +2023,10 @@
           </div>
         </div>
         <div style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;">
-          <div style="position:relative;display:inline-block;line-height:0;background:#fff;">
+          <div id="erase-preview-container" style="position:relative;display:inline-block;line-height:0;background:#fff;">
             <canvas id="erase-preview-page"></canvas>
+            <div id="erase-text-layer" class="erase-text-layer"></div>
+            <input type="text" id="erase-inline-editor" style="position:absolute;display:none;border:2px solid #2b6cb0;border-radius:3px;background:rgba(255,255,255,0.97);padding:0;margin:0;font-family:var(--font-display);box-sizing:border-box;z-index:20;">
           </div>
         </div>
       </div>
@@ -3130,6 +3147,7 @@ const I18N = {
     pdfOptErase: '🧽 مسح وإضافة نص على PDF',
     eraseTitle: 'مسح وإضافة نص على PDF',
     eraseHint: 'ارفع الملف، وارسم بالسحب مباشرة فوق معاينة الصفحة بالأسفل مستطيلاً فوق النص القديم اللي تبي تشيله — يضاف تلقائياً كتعديل جديد بالقائمة، وتقدر تكتب فيه النص الجديد وتظبط لونه ومكانه.',
+    eraseClickNote: '👆 اضغط مباشرة على أي نص موجود بالصفحة لتعديله فوراً في نفس مكانه — زي "فحص العنصر" بالضبط.',
     eraseDrawNote: '🖊️ اسحب على مكان فاضي بالصورة لترسم منطقة مسح جديدة، أو اسحب داخل منطقة موجودة لتحريك نصها بحرية كاملة.',
     eraseEditsLabel: 'التعديلات (كل تعديل = منطقة مسح + نص جديد)',
     eraseAddEditBtn: '+ إضافة تعديل',
@@ -3798,6 +3816,7 @@ const I18N = {
     pdfOptErase: '🧽 Erase & Replace Text on PDF',
     eraseTitle: 'Erase & Replace Text on PDF',
     eraseHint: "Upload the file, then drag directly on the page preview below to draw a rectangle over the old text you want to remove — it's automatically added as a new edit in the list, where you can type the new text and adjust its color and position.",
+    eraseClickNote: '👆 Click directly on any text already on the page to edit it instantly in place — just like "Inspect Element".',
     eraseDrawNote: '🖊️ Drag on an empty part of the image to draw a new erase area, or drag inside an existing area to move its text completely freely.',
     eraseEditsLabel: 'Edits (each edit = an erase area + new text)',
     eraseAddEditBtn: '+ Add Edit',
@@ -7374,12 +7393,132 @@ async function renderErasePreview(){
     eraseCurrentPh = ph;
 
     eraseDrawEditsOnCanvas(ctx, pw, ph, scale, null);
+    await buildEraseTextLayer(page, viewport);
 
     wrap.style.display = 'block';
   }catch(e){
     wrap.style.display = 'none';
   }
 }
+
+async function buildEraseTextLayer(page, viewport){
+  const layer = document.getElementById('erase-text-layer');
+  const canvas = document.getElementById('erase-preview-page');
+  layer.innerHTML = '';
+  layer.style.width = canvas.width + 'px';
+  layer.style.height = canvas.height + 'px';
+  try{
+    const textContent = await page.getTextContent();
+    const task = pdfjsLib.renderTextLayer({
+      textContentSource: textContent,
+      container: layer,
+      viewport: viewport,
+      textDivs: []
+    });
+    await task.promise;
+    layer.querySelectorAll('span').forEach(span=>{
+      if(!span.textContent.trim()) return;
+      span.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        eraseOpenInlineEditorForSpan(span);
+      });
+    });
+  }catch(e){
+    // Text layer is a best-effort enhancement (e.g. scanned/image-only PDFs have no text) —
+    // drawing new erase boxes by hand still works fine without it.
+  }
+}
+
+function eraseRelBox(el, containerEl){
+  const er = el.getBoundingClientRect();
+  const cr = containerEl.getBoundingClientRect();
+  return { px: er.left - cr.left, py: er.top - cr.top, pxW: er.width, pxH: er.height };
+}
+
+function erasePxBoxToPt(box){
+  const scale = eraseCurrentScale, pw = eraseCurrentPw, ph = eraseCurrentPh;
+  const widthPt = Math.max(5, Math.round(box.pxW / scale));
+  const heightPt = Math.max(5, Math.round(box.pxH / scale));
+  const xPt = box.px / scale;
+  const yPtFromTop = box.py / scale;
+  const yPt = ph - yPtFromTop - heightPt;
+  const xPct = Math.max(0, Math.min(100, Math.round((xPt / Math.max(1, pw - widthPt)) * 100)));
+  const yPct = Math.max(0, Math.min(100, Math.round((yPt / Math.max(1, ph - heightPt)) * 100)));
+  return { xPct, yPct, widthPt, heightPt };
+}
+
+let eraseInlineEditIndex = -1;
+
+function eraseSyncTextField(index){
+  const rows = document.querySelectorAll('#erase-edits-list .erase-edit-row');
+  const row = rows[index];
+  if(!row) return;
+  const t = row.querySelector('.erase-edit-text');
+  if(t) t.value = eraseEdits[index].text;
+}
+
+function eraseOpenInlineEditorForSpan(span){
+  const container = document.getElementById('erase-preview-container');
+  const box = eraseRelBox(span, container);
+  const centerX = box.px + box.pxW/2, centerY = box.py + box.pxH/2;
+
+  // If an edit already covers this spot, reopen it instead of creating a duplicate
+  let index = -1;
+  for(let i = eraseEdits.length - 1; i >= 0; i--){
+    const b = eraseEdits[i]._box;
+    if(b && centerX >= b.px && centerX <= b.px+b.pxW && centerY >= b.py && centerY <= b.py+b.pxH){
+      index = i; break;
+    }
+  }
+
+  let editBox;
+  if(index === -1){
+    const ptBox = erasePxBoxToPt(box);
+    const fontSize = Math.max(6, Math.round(ptBox.heightPt * 0.78));
+    eraseEdits.push({
+      text: span.textContent, xPct: ptBox.xPct, yPct: ptBox.yPct,
+      widthPt: ptBox.widthPt, heightPt: ptBox.heightPt, fontSize,
+      textColor:'#000000', eraseColor:'#ffffff',
+      fontFamily:"'IBM Plex Sans Arabic', sans-serif", textAlign:'right', offsetX:0, offsetY:0
+    });
+    index = eraseEdits.length - 1;
+    editBox = box; // the freshly-clicked box is already accurate; avoids waiting on the async re-render below
+    eraseRenderEditsList();
+    renderErasePreview();
+  } else {
+    editBox = eraseEdits[index]._box || box;
+  }
+
+  eraseInlineEditIndex = index;
+  const editor = document.getElementById('erase-inline-editor');
+  editor.style.left = editBox.px + 'px';
+  editor.style.top = editBox.py + 'px';
+  editor.style.width = Math.max(40, editBox.pxW) + 'px';
+  editor.style.height = editBox.pxH + 'px';
+  editor.style.fontSize = Math.max(8, editBox.pxH*0.7) + 'px';
+  editor.style.color = eraseEdits[index].textColor;
+  editor.value = eraseEdits[index].text;
+  editor.style.display = 'block';
+  editor.focus();
+  editor.select();
+}
+
+(function setupEraseInlineEditor(){
+  const editor = document.getElementById('erase-inline-editor');
+  editor.addEventListener('input', ()=>{
+    if(eraseInlineEditIndex < 0) return;
+    eraseEdits[eraseInlineEditIndex].text = editor.value;
+    eraseSyncTextField(eraseInlineEditIndex);
+    renderErasePreview();
+  });
+  editor.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === 'Escape'){ editor.blur(); }
+  });
+  editor.addEventListener('blur', ()=>{
+    editor.style.display = 'none';
+    eraseInlineEditIndex = -1;
+  });
+})();
 
 document.getElementById('erase-file').addEventListener('change', ()=>{ erasePreviewPdfDoc = null; erasePreviewFileRef = null; renderErasePreview(); });
 document.getElementById('erase-page').addEventListener('input', renderErasePreview);
