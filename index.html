@@ -1695,7 +1695,7 @@
           <option value="compress" data-i18n="pdfOptCompress">🗜️ ضغط ملف PDF</option>
           <option value="sign" data-i18n="pdfOptSign">✍️ توقيع إلكتروني على PDF</option>
           <option value="stamp" data-i18n="pdfOptStamp">🖋️ إضافة ختم على PDF</option>
-          <option value="text" data-i18n="pdfOptText">🔤 إضافة نص على PDF</option>
+          <option value="text" data-i18n="pdfOptText">🔤 إضافة نص على PDF أو صورة</option>
           <option value="erase" data-i18n="pdfOptErase">🧽 مسح وإضافة نص على PDF</option>
           <option value="watermark" data-i18n="pdfOptWatermark">💧 إضافة علامة مائية (Watermark)</option>
           <option value="pagesize" data-i18n="pdfOptPagesize">📏 تغيير مقاس صفحة PDF</option>
@@ -1924,10 +1924,10 @@
     </div>
 
     <div class="card pdf-card" id="pdftool-text">
-      <h2 data-i18n="pdfTextTitle">إضافة نص على PDF</h2>
+      <h2 data-i18n="pdfTextTitle">إضافة نص على PDF أو صورة</h2>
       <p class="hint" data-i18n="pdfTextHint">اكتب أي نص، اختر حجمه ولونه والصفحة، وحدد الموضع بسحب النص مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.</p>
       <div class="field">
-        <input type="file" id="text-file" accept="application/pdf">
+        <input type="file" id="text-file" accept="application/pdf,image/*">
         <div class="file-list" id="text-file-list"></div>
       </div>
 
@@ -1948,9 +1948,17 @@
       </div>
 
       <div class="row">
-        <div class="field">
+        <div class="field" id="text-page-field">
           <label for="text-page" data-i18n="pageNumLabel">رقم الصفحة</label>
           <input type="number" id="text-page" min="1" value="1" placeholder="آخر صفحة افتراضياً" data-i18n-ph="lastPageDefaultPh">
+        </div>
+        <div class="field" id="text-format-field" style="display:none;">
+          <label for="text-format" data-i18n="textFormatLabel">صيغة الملف الناتج</label>
+          <select id="text-format" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);">
+            <option value="png" data-i18n="textFmtPng">PNG (أعلى جودة، بدون فقد)</option>
+            <option value="jpg" data-i18n="textFmtJpg">JPG (أصغر حجماً)</option>
+            <option value="pdf" data-i18n="textFmtPdf">PDF</option>
+          </select>
         </div>
       </div>
       <div class="row">
@@ -1979,7 +1987,7 @@
         <div style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;">
           <div style="position:relative;display:inline-block;line-height:0;background:#fff;">
             <canvas id="text-preview-page"></canvas>
-            <img id="text-preview-overlay" style="position:absolute;pointer-events:none;outline:1px dashed var(--rust);">
+            <img id="text-preview-overlay" alt="" style="position:absolute;outline:1px dashed var(--rust);">
           </div>
         </div>
       </div>
@@ -3068,7 +3076,7 @@ const I18N = {
     pdfOptCompress: '🗜️ ضغط ملف PDF',
     pdfOptSign: '✍️ توقيع إلكتروني على PDF',
     pdfOptStamp: '🖋️ إضافة ختم على PDF',
-    pdfOptText: '🔤 إضافة نص على PDF',
+    pdfOptText: '🔤 إضافة نص على PDF أو صورة',
     sealTemplateLabel: 'قالب جاهز (اختياري)',
     sealTemplateNone: '— بدون قالب —',
     sealTemplateCompany: '🏢 مؤسسة تجارية',
@@ -3187,8 +3195,13 @@ const I18N = {
     zoomLabel: 'تكبير المعاينة:',
     pdfStampBtn: 'إضافة الختم وتنزيل',
     pdfStampNote: 'الختم يُضاف بالكامل داخل متصفحك — لا تُرفع صورة الختم أو ملفك لأي سيرفر خارجي.',
-    pdfTextTitle: 'إضافة نص على PDF',
-    pdfTextHint: 'اكتب أي نص، اختر حجمه ولونه والصفحة، وحدد الموضع بسحب النص مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.',
+    pdfTextTitle: 'إضافة نص على PDF أو صورة',
+    pdfTextHint: 'ارفع ملف PDF أو صورة، اكتب النص واختر حجمه ولونه، ثم اسحب النص بالماوس بحرية فوق المعاينة (أو اضغط في أي مكان لنقله إليه، أو استخدم الأسهم للتحريك الدقيق). التنزيل يكون بأعلى جودة وبدقة الملف الأصلي.',
+    textFormatLabel: 'صيغة الملف الناتج',
+    textFmtPng: 'PNG (أعلى جودة، بدون فقد)',
+    textFmtJpg: 'JPG (أصغر حجماً)',
+    textFmtPdf: 'PDF',
+    textSuccessImg: 'تم إضافة النص على الصورة بأعلى جودة.',
     textContentLabel: 'النص',
     writeTextPh: 'اكتب النص هنا...',
     textSizeLabel: 'حجم الخط (نقطة PDF)',
@@ -3234,7 +3247,7 @@ const I18N = {
     stampErr: 'تعذر إضافة الختم — تأكد أن الملف PDF وصورة الختم صحيحين.',
     textErrWrite: 'اكتب النص أولاً.',
     textSuccessPrefix: 'تم إضافة النص بنجاح على الصفحة',
-    textErr: 'تعذر إضافة النص — تأكد أن الملف PDF صحيح.',
+    textErr: 'تعذر إضافة النص — تأكد أن الملف (PDF أو صورة) صحيح.',
   },
   en: {
     siteName: 'Uddah',
@@ -3748,7 +3761,7 @@ const I18N = {
     pdfOptCompress: '🗜️ Compress a PDF File',
     pdfOptSign: '✍️ Electronic Signature on PDF',
     pdfOptStamp: '🖋️ Add Stamp to PDF',
-    pdfOptText: '🔤 Add Text to PDF',
+    pdfOptText: '🔤 Add Text to PDF or Image',
     sealTemplateLabel: 'Ready-made template (optional)',
     sealTemplateNone: '— No template —',
     sealTemplateCompany: '🏢 Business',
@@ -3867,8 +3880,13 @@ const I18N = {
     zoomLabel: 'Preview zoom:',
     pdfStampBtn: 'Add Stamp and Download',
     pdfStampNote: 'The stamp is added entirely in your browser — neither the stamp image nor your file is uploaded to any external server.',
-    pdfTextTitle: 'Add Text to PDF',
-    pdfTextHint: 'Write any text, choose its size, color, and page, drag it directly on the page preview to position it, then add it to a PDF file.',
+    pdfTextTitle: 'Add Text to PDF or Image',
+    pdfTextHint: 'Upload a PDF or an image, write your text and choose its size and color, then drag the text freely with the mouse over the preview (or click anywhere to move it there, or use arrow keys for fine nudging). Download is high quality at the original file resolution.',
+    textFormatLabel: 'Output format',
+    textFmtPng: 'PNG (best quality, lossless)',
+    textFmtJpg: 'JPG (smaller size)',
+    textFmtPdf: 'PDF',
+    textSuccessImg: 'Text added to the image in full quality.',
     textContentLabel: 'Text',
     writeTextPh: 'Write your text here...',
     textSizeLabel: 'Font size (PDF points)',
@@ -3914,7 +3932,7 @@ const I18N = {
     stampErr: 'Could not add the stamp — make sure the PDF file and stamp image are valid.',
     textErrWrite: 'Write the text first.',
     textSuccessPrefix: 'Text added successfully to page',
-    textErr: 'Could not add the text — make sure the PDF file is valid.',
+    textErr: 'Could not add the text — make sure the file (PDF or image) is valid.',
   }
 };
 
@@ -7043,166 +7061,315 @@ document.getElementById('stamp-btn').addEventListener('click', async ()=>{
   setBusy(btn, false, '', I18N[currentLang].pdfStampBtn);
 });
 
-/* --- Add Text to PDF --- */
-function renderTextToCanvas(text, fontSizePt, color, fontFamily){
+/* --- Add Text to PDF / Image --- */
+function renderTextToCanvas(text, fontSizePt, color, fontFamily, scale){
   fontFamily = fontFamily || "'IBM Plex Sans Arabic', sans-serif";
-  const scale = 4; // render at higher resolution for crispness
+  scale = scale || 4;
+  // Keep canvas within safe browser limits
+  const lines = text.split('\n');
+  const probe = document.createElement('canvas').getContext('2d');
+  const measure = (s)=>{
+    probe.font = `600 ${fontSizePt*s}px ${fontFamily}`;
+    let m = 10; lines.forEach(l=>{ const w = probe.measureText(l).width; if(w>m) m=w; }); return m;
+  };
+  let maxW = measure(scale);
+  let totalH = fontSizePt*scale*1.35*lines.length;
+  const LIMIT = 12000;
+  if(maxW + 8 > LIMIT || totalH + 8 > LIMIT){
+    scale = scale * Math.min(LIMIT/(maxW+8), LIMIT/(totalH+8));
+    maxW = measure(scale);
+  }
   const fontPx = fontSizePt * scale;
   const lineHeight = fontPx * 1.35;
-  const lines = text.split('\n');
-
-  const measureCanvas = document.createElement('canvas');
-  const mctx = measureCanvas.getContext('2d');
-  mctx.font = `600 ${fontPx}px ${fontFamily}`;
-  let maxWidth = 10;
-  lines.forEach(line=>{
-    const w = mctx.measureText(line).width;
-    if(w > maxWidth) maxWidth = w;
-  });
-
+  const pad = Math.ceil(scale);
   const canvas = document.createElement('canvas');
-  canvas.width = Math.ceil(maxWidth) + 8;
-  canvas.height = Math.ceil(lineHeight * lines.length) + 8;
+  canvas.width = Math.ceil(maxW) + pad*2;
+  canvas.height = Math.ceil(lineHeight * lines.length) + pad*2;
   const ctx = canvas.getContext('2d');
   ctx.font = `600 ${fontPx}px ${fontFamily}`;
   ctx.fillStyle = color;
   ctx.textBaseline = 'top';
   ctx.direction = 'rtl';
   ctx.textAlign = 'right';
-  lines.forEach((line, i)=>{
-    ctx.fillText(line, canvas.width - 4, 4 + i*lineHeight);
-  });
-
-  return { canvas, widthPt: canvas.width/scale, heightPt: canvas.height/scale };
+  lines.forEach((line, i)=>{ ctx.fillText(line, canvas.width - pad, pad + i*lineHeight); });
+  return { canvas, widthPt: canvas.width/scale, heightPt: canvas.height/scale, scale };
 }
 
-let textCanvasData = null;
+let textCanvasData = null;   // preview-resolution text
+let textSrc = { kind:null, file:null, pdf:null, img:null, imgUrl:null, pw:595, ph:842, k:1 };
+let textPos = null;          // {x,y} top-left of text box in page units, y from TOP
+const TEXT_PREVIEW_W = 360;
+
+function textIsOnPage(){ return !!(textSrc.kind && textCanvasData); }
 
 async function refreshTextCanvas(){
   const content = document.getElementById('text-content').value;
-  if(!content.trim()){ textCanvasData = null; updateTextPreview(); return; }
+  if(!content.trim()){ textCanvasData = null; updateTextPreview(true); return; }
   await document.fonts.ready;
   const fontSize = parseFloat(document.getElementById('text-size').value) || 24;
   const color = document.getElementById('text-color').value;
-  textCanvasData = renderTextToCanvas(content, fontSize, color);
-  updateTextPreview();
+  // preview resolution: high enough for retina zoom
+  textCanvasData = renderTextToCanvas(content, fontSize, color, null, 6);
+  if(textPos == null && textSrc.kind){ textPos = { x:(textSrc.pw - textCanvasData.widthPt)/2, y:(textSrc.ph - textCanvasData.heightPt)/2 }; }
+  textSyncSliders();
+  updateTextPreview(true);
 }
-document.getElementById('text-content').addEventListener('input', refreshTextCanvas);
-document.getElementById('text-size').addEventListener('input', refreshTextCanvas);
-document.getElementById('text-color').addEventListener('input', refreshTextCanvas);
+['text-content','text-size','text-color'].forEach(id=>document.getElementById(id).addEventListener('input', refreshTextCanvas));
 
 const textXInput = document.getElementById('text-x');
 const textYInput = document.getElementById('text-y');
-textXInput.addEventListener('input', ()=>{ document.getElementById('text-x-val').textContent = textXInput.value; updateTextPreview(); });
-textYInput.addEventListener('input', ()=>{ document.getElementById('text-y-val').textContent = textYInput.value; updateTextPreview(); });
-makeOverlayDraggable('text-preview-overlay', textXInput, textYInput, 'text-x-val', 'text-y-val', updateTextPreview);
-document.getElementById('text-page').addEventListener('input', updateTextPreview);
-document.getElementById('text-zoom').addEventListener('input', ()=>{
-  document.getElementById('text-zoom-val').textContent = document.getElementById('text-zoom').value;
-  updateTextPreview();
-});
-document.getElementById('text-zoom-in').addEventListener('click', ()=>{
-  const zoomInput = document.getElementById('text-zoom');
-  zoomInput.value = Math.min(250, (parseFloat(zoomInput.value) || 100) + 20);
-  document.getElementById('text-zoom-val').textContent = zoomInput.value;
-  updateTextPreview();
-});
-document.getElementById('text-zoom-out').addEventListener('click', ()=>{
-  const zoomInput = document.getElementById('text-zoom');
-  zoomInput.value = Math.max(50, (parseFloat(zoomInput.value) || 100) - 20);
-  document.getElementById('text-zoom-val').textContent = zoomInput.value;
-  updateTextPreview();
-});
 
-let textPreviewPdfDoc = null;
-let textPreviewFileRef = null;
+function textSyncSliders(){
+  if(!textPos || !textCanvasData) return;
+  const rx = textSrc.pw - textCanvasData.widthPt, ry = textSrc.ph - textCanvasData.heightPt;
+  const xp = rx > 0 ? Math.max(0, Math.min(100, textPos.x/rx*100)) : 0;
+  const yp = ry > 0 ? Math.max(0, Math.min(100, (1 - textPos.y/ry)*100)) : 0;
+  textXInput.value = xp.toFixed(1); textYInput.value = yp.toFixed(1);
+  document.getElementById('text-x-val').textContent = Math.round(xp);
+  document.getElementById('text-y-val').textContent = Math.round(yp);
+}
+function textFromSliders(){
+  if(!textCanvasData) return;
+  const rx = textSrc.pw - textCanvasData.widthPt, ry = textSrc.ph - textCanvasData.heightPt;
+  textPos = { x: parseFloat(textXInput.value)/100*rx, y: (1 - parseFloat(textYInput.value)/100)*ry };
+  document.getElementById('text-x-val').textContent = Math.round(parseFloat(textXInput.value));
+  document.getElementById('text-y-val').textContent = Math.round(parseFloat(textYInput.value));
+  positionTextOverlay();
+}
+textXInput.addEventListener('input', textFromSliders);
+textYInput.addEventListener('input', textFromSliders);
+textXInput.step = '0.1'; textYInput.step = '0.1';
 
-async function loadTextPreviewPdf(file){
-  if(textPreviewFileRef === file && textPreviewPdfDoc) return textPreviewPdfDoc;
-  const bytes = await file.arrayBuffer();
-  textPreviewPdfDoc = await pdfjsLib.getDocument({data: bytes}).promise;
-  textPreviewFileRef = file;
-  return textPreviewPdfDoc;
+function setTextZoom(v){
+  const z = document.getElementById('text-zoom');
+  z.value = Math.max(50, Math.min(250, v));
+  document.getElementById('text-zoom-val').textContent = z.value;
+  updateTextPreview(true);
+}
+document.getElementById('text-zoom').addEventListener('input', ()=> setTextZoom(parseFloat(document.getElementById('text-zoom').value)||100));
+document.getElementById('text-zoom-in').addEventListener('click', ()=> setTextZoom((parseFloat(document.getElementById('text-zoom').value)||100)+20));
+document.getElementById('text-zoom-out').addEventListener('click', ()=> setTextZoom((parseFloat(document.getElementById('text-zoom').value)||100)-20));
+document.getElementById('text-page').addEventListener('input', ()=> updateTextPreview(true));
+
+function textPreviewScale(){
+  const zoomPct = parseFloat(document.getElementById('text-zoom').value) || 100;
+  return (TEXT_PREVIEW_W * zoomPct/100) / textSrc.pw;
 }
 
-async function updateTextPreview(){
-  const file = document.getElementById('text-file').files[0];
+function positionTextOverlay(){
+  const overlay = document.getElementById('text-preview-overlay');
+  if(!textCanvasData || !textPos){ overlay.style.display='none'; return; }
+  const s = textPreviewScale();
+  overlay.style.display = 'block';
+  overlay.style.left = (textPos.x*s) + 'px';
+  overlay.style.top = (textPos.y*s) + 'px';
+  overlay.style.width = (textCanvasData.widthPt*s) + 'px';
+  overlay.style.height = (textCanvasData.heightPt*s) + 'px';
+}
+
+let textPreviewToken = 0;
+async function loadTextSource(file){
+  textSrc = { kind:null, file, pdf:null, img:null, imgUrl:null, pw:595, ph:842, k:1 };
+  textPos = null;
+  if(!file) return;
+  const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+  if(isPdf){
+    const bytes = await file.arrayBuffer();
+    textSrc.pdf = await pdfjsLib.getDocument({data: bytes}).promise;
+    textSrc.kind = 'pdf';
+  }else{
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    await new Promise((res, rej)=>{ img.onload = res; img.onerror = rej; img.src = url; });
+    textSrc.img = img; textSrc.imgUrl = url; textSrc.kind = 'img';
+    textSrc.pw = 595; textSrc.ph = img.naturalHeight * 595 / img.naturalWidth;
+    textSrc.k = img.naturalWidth / 595;
+  }
+  document.getElementById('text-format-field').style.display = isPdf ? 'none' : 'block';
+  document.getElementById('text-page-field').style.display = isPdf ? 'block' : 'none';
+}
+
+async function updateTextPreview(rebuildPage){
   const wrap = document.getElementById('text-preview-wrap');
-  if(!file || !textCanvasData){ wrap.style.display = 'none'; return; }
-
+  if(!textSrc.kind){ wrap.style.display = 'none'; return; }
+  const token = ++textPreviewToken;
   try{
-    const pdf = await loadTextPreviewPdf(file);
-    let pageNum = parseInt(document.getElementById('text-page').value, 10);
-    if(!pageNum || pageNum < 1 || pageNum > pdf.numPages) pageNum = pdf.numPages;
-    const page = await pdf.getPage(pageNum);
-    const baseViewport = page.getViewport({scale:1});
-    const zoomPct = parseFloat(document.getElementById('text-zoom').value) || 100;
-    const previewWidth = 320 * (zoomPct/100);
-    const scale = previewWidth / baseViewport.width;
-    const viewport = page.getViewport({scale});
-
     const canvas = document.getElementById('text-preview-page');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    const ctx = canvas.getContext('2d');
-    await page.render({canvasContext: ctx, viewport}).promise;
-
-    const pw = baseViewport.width, ph = baseViewport.height;
-    const txtWidthPt = textCanvasData.widthPt;
-    const txtHeightPt = textCanvasData.heightPt;
-    const xPct = parseFloat(textXInput.value)/100;
-    const yPct = parseFloat(textYInput.value)/100;
-    const x = xPct * (pw - txtWidthPt);
-    const y = yPct * (ph - txtHeightPt);
-
-    const overlay = document.getElementById('text-preview-overlay');
-    overlay.src = textCanvasData.canvas.toDataURL('image/png');
-    overlay.style.left = (x*scale) + 'px';
-    overlay.style.top = ((ph - y - txtHeightPt)*scale) + 'px';
-    overlay.style.width = (txtWidthPt*scale) + 'px';
-    overlay.style.height = (txtHeightPt*scale) + 'px';
-
-    wrap.style.display = 'block';
+    if(rebuildPage){
+      const dpr = Math.min(window.devicePixelRatio || 1, 3);
+      if(textSrc.kind === 'pdf'){
+        let pageNum = parseInt(document.getElementById('text-page').value, 10);
+        if(!pageNum || pageNum < 1 || pageNum > textSrc.pdf.numPages) pageNum = textSrc.pdf.numPages;
+        const page = await textSrc.pdf.getPage(pageNum);
+        const base = page.getViewport({scale:1});
+        textSrc.pw = base.width; textSrc.ph = base.height;
+        const s = textPreviewScale();
+        const vp = page.getViewport({scale: s*dpr});
+        if(token !== textPreviewToken) return;
+        canvas.width = vp.width; canvas.height = vp.height;
+        canvas.style.width = (base.width*s)+'px'; canvas.style.height = (base.height*s)+'px';
+        await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
+      }else{
+        const s = textPreviewScale();
+        const w = Math.round(textSrc.pw*s*dpr), h = Math.round(textSrc.ph*s*dpr);
+        drawImageHighQuality(textSrc.img, canvas, w, h);
+        canvas.style.width = (textSrc.pw*s)+'px'; canvas.style.height = (textSrc.ph*s)+'px';
+      }
+      if(token !== textPreviewToken) return;
+      if(textCanvasData){
+        const ov = document.getElementById('text-preview-overlay');
+        ov.src = textCanvasData.canvas.toDataURL('image/png');
+        if(!textPos) textPos = { x:(textSrc.pw - textCanvasData.widthPt)/2, y:(textSrc.ph - textCanvasData.heightPt)/2 };
+        textSyncSliders();
+      }
+    }
+    wrap.style.display = textCanvasData ? 'block' : 'none';
+    positionTextOverlay();
   }catch(e){
     wrap.style.display = 'none';
   }
 }
 
-document.getElementById('text-file').addEventListener('change', ()=>{ textPreviewPdfDoc = null; textPreviewFileRef = null; updateTextPreview(); });
+document.getElementById('text-file').addEventListener('change', async ()=>{
+  const f = document.getElementById('text-file').files[0];
+  try{ await loadTextSource(f); }catch(e){ textSrc.kind = null; }
+  updateTextPreview(true);
+});
+
+/* Free dragging: grab offset preserved, pointer events (mouse/touch/pen),
+   click anywhere on the page to jump the text there, arrow keys to nudge. */
+(function(){
+  const overlay = document.getElementById('text-preview-overlay');
+  const canvas = document.getElementById('text-preview-page');
+  const box = overlay.parentElement;
+  overlay.style.pointerEvents = 'auto';
+  overlay.style.cursor = 'move';
+  overlay.style.touchAction = 'none';
+  overlay.style.userSelect = 'none';
+  overlay.tabIndex = 0;
+  overlay.draggable = false;
+  box.style.touchAction = 'none';
+  let drag = null;
+
+  function toPage(e){
+    const r = canvas.getBoundingClientRect();
+    const s = textPreviewScale();
+    return { x:(e.clientX - r.left)/s, y:(e.clientY - r.top)/s };
+  }
+  function clampPos(){
+    // complete freedom, but keep at least a small part of the text on the page
+    const m = 8;
+    textPos.x = Math.max(m - textCanvasData.widthPt, Math.min(textSrc.pw - m, textPos.x));
+    textPos.y = Math.max(m - textCanvasData.heightPt, Math.min(textSrc.ph - m, textPos.y));
+  }
+  overlay.addEventListener('pointerdown', (e)=>{
+    if(!textPos) return;
+    const p = toPage(e);
+    drag = { dx: p.x - textPos.x, dy: p.y - textPos.y };
+    overlay.setPointerCapture(e.pointerId);
+    overlay.style.cursor = 'grabbing';
+    overlay.focus({preventScroll:true});
+    e.preventDefault(); e.stopPropagation();
+  });
+  overlay.addEventListener('pointermove', (e)=>{
+    if(!drag) return;
+    const p = toPage(e);
+    textPos.x = p.x - drag.dx; textPos.y = p.y - drag.dy;
+    clampPos(); textSyncSliders(); positionTextOverlay();
+    e.preventDefault();
+  });
+  const end = (e)=>{ if(drag){ drag = null; overlay.style.cursor = 'move'; try{ overlay.releasePointerCapture(e.pointerId); }catch(_){} } };
+  overlay.addEventListener('pointerup', end);
+  overlay.addEventListener('pointercancel', end);
+
+  canvas.addEventListener('pointerdown', (e)=>{
+    if(!textCanvasData) return;
+    const p = toPage(e);
+    textPos = { x: p.x - textCanvasData.widthPt/2, y: p.y - textCanvasData.heightPt/2 };
+    clampPos(); textSyncSliders(); positionTextOverlay();
+    drag = null;
+  });
+  overlay.addEventListener('keydown', (e)=>{
+    if(!textPos) return;
+    const step = (e.shiftKey ? 10 : 1) / textPreviewScale() * 0.5;
+    let used = true;
+    if(e.key === 'ArrowLeft') textPos.x -= step;
+    else if(e.key === 'ArrowRight') textPos.x += step;
+    else if(e.key === 'ArrowUp') textPos.y -= step;
+    else if(e.key === 'ArrowDown') textPos.y += step;
+    else used = false;
+    if(used){ e.preventDefault(); clampPos(); textSyncSliders(); positionTextOverlay(); }
+  });
+})();
+
+function textCanvasToBlob(canvas, type, q){
+  return new Promise((res, rej)=> canvas.toBlob(b=> b ? res(b) : rej(new Error('blob')), type, q));
+}
 
 document.getElementById('text-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('text-file').files[0];
   const btn = document.getElementById('text-btn');
   if(!file){ setStatus('text-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
-  if(!textCanvasData){ setStatus('text-status', I18N[currentLang].textErrWrite, 'err'); return; }
+  if(!textCanvasData || !textPos){ setStatus('text-status', I18N[currentLang].textErrWrite, 'err'); return; }
+  if(!textSrc.kind || textSrc.file !== file){ try{ await loadTextSource(file); }catch(e){} }
 
   setBusy(btn, true, I18N[currentLang].addingBusy, I18N[currentLang].pdfTextBtn);
   try{
-    const pdfBytes = await file.arrayBuffer();
-    const pdfDoc = await PDFDocument.load(pdfBytes);
-    const pages = pdfDoc.getPages();
+    await document.fonts.ready;
+    const content = document.getElementById('text-content').value;
+    const fontSize = parseFloat(document.getElementById('text-size').value) || 24;
+    const color = document.getElementById('text-color').value;
 
-    let pageNum = parseInt(document.getElementById('text-page').value, 10);
-    if(!pageNum || pageNum < 1 || pageNum > pages.length) pageNum = pages.length;
-    const targetPage = pages[pageNum - 1];
-    const { width: pw, height: ph } = targetPage.getSize();
+    if(textSrc.kind === 'pdf'){
+      const pdfBytes = await file.arrayBuffer();
+      const pdfDoc = await PDFDocument.load(pdfBytes);
+      const pages = pdfDoc.getPages();
+      let pageNum = parseInt(document.getElementById('text-page').value, 10);
+      if(!pageNum || pageNum < 1 || pageNum > pages.length) pageNum = pages.length;
+      const targetPage = pages[pageNum - 1];
+      const { height: ph } = targetPage.getSize();
 
-    const textPngDataUrl = textCanvasData.canvas.toDataURL('image/png');
-    const textBytes = await (await fetch(textPngDataUrl)).arrayBuffer();
-    const textImage = await pdfDoc.embedPng(textBytes);
+      // Text rasterised at very high resolution (~1000 DPI) — page content stays untouched/vector.
+      const hi = renderTextToCanvas(content, fontSize, color, null, 14);
+      const textBytes = await (await textCanvasToBlob(hi.canvas, 'image/png')).arrayBuffer();
+      const textImage = await pdfDoc.embedPng(textBytes);
+      targetPage.drawImage(textImage, { x: textPos.x, y: ph - textPos.y - hi.heightPt, width: hi.widthPt, height: hi.heightPt });
 
-    const txtWidthPt = textCanvasData.widthPt;
-    const txtHeightPt = textCanvasData.heightPt;
-    const xPct = parseFloat(textXInput.value) / 100;
-    const yPct = parseFloat(textYInput.value) / 100;
-    const x = xPct * (pw - txtWidthPt);
-    const y = yPct * (ph - txtHeightPt);
+      const outBytes = await pdfDoc.save();
+      downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'نص_مضاف.pdf');
+      setStatus('text-status', `${I18N[currentLang].textSuccessPrefix} ${pageNum}.`, 'ok');
+    }else{
+      const img = textSrc.img;
+      let W = img.naturalWidth, H = img.naturalHeight;
+      const MAXPX = 120e6;           // browser canvas safety cap
+      let down = 1;
+      if(W*H > MAXPX || W > 16384 || H > 16384) down = Math.min(Math.sqrt(MAXPX/(W*H)), 16384/W, 16384/H);
+      const cw = Math.round(W*down), ch = Math.round(H*down);
+      const k = (cw / 595);
+      const out = document.createElement('canvas');
+      out.width = cw; out.height = ch;
+      const ctx = out.getContext('2d');
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+      const fmt = document.getElementById('text-format').value;
+      if(fmt === 'jpg'){ ctx.fillStyle = '#fff'; ctx.fillRect(0,0,cw,ch); }
+      ctx.drawImage(img, 0, 0, cw, ch);   // original pixels, no downscale
+      const t = renderTextToCanvas(content, fontSize, color, null, Math.max(k, 1));
+      ctx.drawImage(t.canvas, textPos.x*k, textPos.y*k, t.widthPt*k, t.heightPt*k);
 
-    targetPage.drawImage(textImage, { x, y, width: txtWidthPt, height: txtHeightPt });
-
-    const outBytes = await pdfDoc.save();
-    downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'نص_مضاف.pdf');
-    setStatus('text-status', `${I18N[currentLang].textSuccessPrefix} ${pageNum}.`, 'ok');
+      if(fmt === 'png'){
+        downloadBlob(await textCanvasToBlob(out, 'image/png'), 'نص_مضاف.png');
+      }else if(fmt === 'jpg'){
+        downloadBlob(await textCanvasToBlob(out, 'image/jpeg', 1.0), 'نص_مضاف.jpg');
+      }else{
+        const pdfDoc = await PDFDocument.create();
+        const png = await pdfDoc.embedPng(await (await textCanvasToBlob(out, 'image/png')).arrayBuffer());
+        const pgW = cw*0.75, pgH = ch*0.75;
+        const page = pdfDoc.addPage([pgW, pgH]);
+        page.drawImage(png, { x:0, y:0, width:pgW, height:pgH });
+        downloadBlob(new Blob([await pdfDoc.save()], {type:'application/pdf'}), 'نص_مضاف.pdf');
+      }
+      setStatus('text-status', I18N[currentLang].textSuccessImg, 'ok');
+    }
   }catch(e){
     setStatus('text-status', I18N[currentLang].textErr, 'err');
   }
