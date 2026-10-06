@@ -720,6 +720,13 @@
           <input type="number" id="zakat-debts" min="0" data-i18n-ph="zakatDebtsPh" placeholder="مثال: 0">
         </div>
       </div>
+      <div class="field">
+        <label for="zakat-calendar" data-i18n="zakatCalLabel">نوع الحول</label>
+        <select id="zakat-calendar" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);">
+          <option value="hijri" data-i18n="zakatCalHijri">هجري (٢٫٥٪)</option>
+          <option value="greg" data-i18n="zakatCalGreg">ميلادي (٢٫٥٧٧٥٪)</option>
+        </select>
+      </div>
       <button class="btn" id="zakat-btn" data-i18n="zakatBtn">احسب الزكاة</button>
       <div class="result" id="zakat-result" style="display:none;">
         <div class="big" id="zakat-out"></div>
@@ -1519,6 +1526,13 @@
         <label for="mort-years" data-i18n="mortYearsLabel">مدة التمويل (سنوات)</label>
         <input type="number" id="mort-years" min="1" placeholder="مثال: 20" data-i18n-ph="mortYearsPh">
       </div>
+      <div class="field">
+        <label for="mort-method" data-i18n="mortMethodLabel">طريقة احتساب الربح</label>
+        <select id="mort-method" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);">
+          <option value="flat" data-i18n="mortMethodFlat">نسبة ثابتة (مثل أغلب البنوك السعودية)</option>
+          <option value="reducing" data-i18n="mortMethodReducing">رصيد متناقص (قسط متساوٍ)</option>
+        </select>
+      </div>
       <button class="btn" id="mort-btn" data-i18n="mortBtn">احسب القسط</button>
       <div class="result" id="mort-result" style="display:none;">
         <div class="grid3">
@@ -2282,7 +2296,7 @@ document.getElementById('g2h-btn').addEventListener('click', ()=>{
   const val = document.getElementById('g2h-input').value;
   if(!val) return;
   const [y,m,d] = val.split('-').map(Number);
-  const date = new Date(Date.UTC(y, m-1, d, 12));
+  const date = new Date(Date.UTC(2000, m-1, d, 12)); date.setUTCFullYear(y);
   const h = gregorianToHijri(date);
   document.getElementById('g2h-out').textContent = formatHijri(h);
   document.getElementById('g2h-result').style.display = 'block';
@@ -2631,6 +2645,8 @@ const I18N = {
     vatBase: 'قبل الضريبة', vatTax: 'قيمة الضريبة', vatTotal: 'شامل الضريبة',
     zakatTitle: 'حاسبة الزكاة',
     zakatHint: 'أدخل إجمالي المال الذي حال عليه الحول (نقد ومدخرات) والديون المستحقة عليك، لحساب مقدار الزكاة الواجبة (٢.٥٪).',
+    zakatCalLabel: 'نوع الحول', zakatCalHijri: 'هجري (٢٫٥٪)', zakatCalGreg: 'ميلادي (٢٫٥٧٧٥٪)',
+    mortMethodLabel: 'طريقة احتساب الربح', mortMethodFlat: 'نسبة ثابتة (مثل أغلب البنوك السعودية)', mortMethodReducing: 'رصيد متناقص (قسط متساوٍ)',
     zakatTotalLabel: 'إجمالي المال (ريال)', zakatTotalPh: 'مثال: 50000',
     zakatDebtsLabel: 'الديون المستحقة عليك (ريال)', zakatDebtsPh: 'مثال: 0',
     zakatBtn: 'احسب الزكاة',
@@ -3316,6 +3332,8 @@ const I18N = {
     vatBase: 'Before tax', vatTax: 'Tax amount', vatTotal: 'Including tax',
     zakatTitle: 'Zakat Calculator',
     zakatHint: 'Enter the total money that has completed a full year in your possession (cash and savings) and any debts owed by you, to calculate the zakat due (2.5%).',
+    zakatCalLabel: 'Year type', zakatCalHijri: 'Hijri (2.5%)', zakatCalGreg: 'Gregorian (2.5775%)',
+    mortMethodLabel: 'Profit calculation method', mortMethodFlat: 'Flat rate (as most Saudi banks)', mortMethodReducing: 'Reducing balance (equal installments)',
     zakatTotalLabel: 'Total money (SAR)', zakatTotalPh: 'e.g. 50000',
     zakatDebtsLabel: 'Debts owed by you (SAR)', zakatDebtsPh: 'e.g. 0',
     zakatBtn: 'Calculate Zakat',
@@ -4273,7 +4291,8 @@ document.getElementById('zakat-btn').addEventListener('click', ()=>{
   const total = parseFloat(document.getElementById('zakat-total').value) || 0;
   const debts = parseFloat(document.getElementById('zakat-debts').value) || 0;
   const net = Math.max(0, total - debts);
-  const zakat = net * 0.025;
+  const calSel = document.getElementById('zakat-calendar');
+  const zakat = net * (calSel && calSel.value === 'greg' ? 0.025775 : 0.025);
   document.getElementById('zakat-out').textContent =
     `${zakat.toLocaleString('en-US',{maximumFractionDigits:2})} ${currentLang === 'en' ? 'SAR' : 'ريال'}`;
   document.getElementById('zakat-result').style.display = 'block';
@@ -4354,11 +4373,21 @@ function calcInheritance(input){
     if(input.fullSisters>0) blocked.push({label: input.fullSisters>1?`الأخوات الشقيقات (${input.fullSisters})`:'الأخت الشقيقة', reason, word: input.fullSisters>1?'محجوبات':'محجوبة'});
     if(input.paternalBrothers>0) blocked.push({label: input.paternalBrothers>1?`الإخوة لأب (${input.paternalBrothers})`:'الأخ لأب', reason, word: input.paternalBrothers>1?'محجوبون':'محجوب'});
     if(input.paternalSisters>0) blocked.push({label: input.paternalSisters>1?`الأخوات لأب (${input.paternalSisters})`:'الأخت لأب', reason, word: input.paternalSisters>1?'محجوبات':'محجوبة'});
-  } else if((effFullBrothers > 0 || effFullSisters > 0)){
-    if(input.paternalBrothers>0) blocked.push({label: input.paternalBrothers>1?`الإخوة لأب (${input.paternalBrothers})`:'الأخ لأب', reason:'وجود إخوة/أخوات أشقاء', word: input.paternalBrothers>1?'محجوبون':'محجوب'});
-    if(input.paternalSisters>0) blocked.push({label: input.paternalSisters>1?`الأخوات لأب (${input.paternalSisters})`:'الأخت لأب', reason:'وجود إخوة/أخوات أشقاء', word: input.paternalSisters>1?'محجوبات':'محجوبة'});
+  } else if(effFullBrothers > 0 || effFullSisters > 0){
+    // Paternal siblings are blocked by a full brother, or by full sisters acting as residuary with daughters.
+    // A full sister WITHOUT daughters is a fixed-share heir only, so she does not block paternal brothers.
+    const fullSisterAsaba = effFullSisters > 0 && effFullBrothers === 0 && hasDaughter;
+    if(effFullBrothers > 0 || fullSisterAsaba){
+      const why = effFullBrothers > 0 ? 'وجود إخوة/أخوات أشقاء' : 'الأخوات الشقيقات مع البنات (عصبة)';
+      if(input.paternalBrothers>0) blocked.push({label: input.paternalBrothers>1?`الإخوة لأب (${input.paternalBrothers})`:'الأخ لأب', reason:why, word: input.paternalBrothers>1?'محجوبون':'محجوب'});
+      if(input.paternalSisters>0) blocked.push({label: input.paternalSisters>1?`الأخوات لأب (${input.paternalSisters})`:'الأخت لأب', reason:why, word: input.paternalSisters>1?'محجوبات':'محجوبة'});
+      effPaternalBrothers = 0; effPaternalSisters = 0;
+    } else if(effFullSisters >= 2 && effPaternalBrothers === 0 && input.paternalSisters > 0){
+      // two or more full sisters take the 2/3; paternal sisters alone get nothing
+      blocked.push({label: input.paternalSisters>1?`الأخوات لأب (${input.paternalSisters})`:'الأخت لأب', reason:'استكمال الأخوات الشقيقات للثلثين', word: input.paternalSisters>1?'محجوبات':'محجوبة'});
+      effPaternalSisters = 0;
+    }
   }
-  if(effFullBrothers > 0 || effFullSisters > 0){ effPaternalBrothers = 0; effPaternalSisters = 0; }
 
   let effMaternalSiblings = maternalSiblingsBlocked ? 0 : input.maternalSiblings;
   if(maternalSiblingsBlocked && input.maternalSiblings > 0){
@@ -4429,10 +4458,14 @@ function calcInheritance(input){
   }
 
   // Paternal sisters fixed
-  const paternalSistersAsFixed = effPaternalSisters > 0 && effPaternalBrothers === 0 && !hasDaughter && effFullSisters===0 && effFullBrothers===0;
+  const paternalSistersAsFixed = effPaternalSisters > 0 && effPaternalBrothers === 0 && !hasDaughter && effFullBrothers===0 && effFullSisters<=1;
   let paternalSistersFixedFraction = ZERO;
   if(paternalSistersAsFixed){
-    paternalSistersFixedFraction = effPaternalSisters === 1 ? F(1,2) : F(2,3);
+    if(effFullSisters === 1){
+      paternalSistersFixedFraction = F(1,6); // تكملة الثلثين
+    } else {
+      paternalSistersFixedFraction = effPaternalSisters === 1 ? F(1,2) : F(2,3);
+    }
     shares.push({label: effPaternalSisters>1 ? `الأخوات لأب (${effPaternalSisters})` : 'الأخت لأب', fraction: paternalSistersFixedFraction});
   }
 
@@ -6080,17 +6113,20 @@ function generatePassword(length, useUpper, useLower, useNumbers, useSymbols){
   if(sets.length === 0) return null;
 
   const allChars = sets.join('');
-  const array = new Uint32Array(length);
-  crypto.getRandomValues(array);
+  const lim0 = Math.floor(4294967296/allChars.length)*allChars.length;
   let result = '';
-  for(let i=0; i<length; i++){
-    result += allChars[array[i] % allChars.length];
+  const buf = new Uint32Array(1);
+  while(result.length < length){
+    crypto.getRandomValues(buf);
+    if(buf[0] < lim0) result += allChars[buf[0] % allChars.length];
   }
-  // ensure at least one char from each selected set
+  // ensure at least one char from each selected set, at DISTINCT random positions
   const resultArr = result.split('');
+  const rnd = (n)=>{ const u = new Uint32Array(1); const lim = Math.floor(4294967296/n)*n; let v; do{ crypto.getRandomValues(u); v = u[0]; }while(v >= lim); return v % n; };
+  const positions = Array.from({length}, (_,i)=>i);
+  for(let i=positions.length-1;i>0;i--){ const j = rnd(i+1); [positions[i],positions[j]] = [positions[j],positions[i]]; }
   sets.forEach((set, idx)=>{
-    const pos = crypto.getRandomValues(new Uint32Array(1))[0] % length;
-    resultArr[pos] = set[crypto.getRandomValues(new Uint32Array(1))[0] % set.length];
+    if(idx < length) resultArr[positions[idx]] = set[rnd(set.length)];
   });
   return resultArr.join('');
 }
@@ -6118,19 +6154,23 @@ document.getElementById('pw-btn').addEventListener('click', ()=>{
   if(length >= 12 && setsUsed >= 3) strength = I18N[currentLang].pwVeryStrong;
   else if(length >= 10 && setsUsed >= 2) strength = I18N[currentLang].pwStrong;
   else if(length >= 8) strength = I18N[currentLang].pwMedium;
-  document.getElementById('pw-strength').textContent = `${I18N[currentLang].pwStrengthLabel} ${strength}`;
+  const poolSize = ((useUpper?24:0)+(useLower?25:0)+(useNumbers?8:0)+(useSymbols?18:0));
+  const bits = Math.round(length * Math.log2(Math.max(2,poolSize)));
+  document.getElementById('pw-strength').textContent = `${I18N[currentLang].pwStrengthLabel} ${strength} (~${bits} bit)`;
   resultBox.style.display = 'block';
 });
 
 document.getElementById('pw-copy-btn').addEventListener('click', ()=>{
   const pw = document.getElementById('pw-out').textContent;
   if(!pw) return;
-  navigator.clipboard.writeText(pw).then(()=>{
+  const done = ()=>{
     const btn = document.getElementById('pw-copy-btn');
     const original = btn.textContent;
     btn.textContent = I18N[currentLang].copiedConfirm;
     setTimeout(()=>{ btn.textContent = original; }, 1500);
-  });
+  };
+  const legacy = ()=>{ try{ const ta = document.createElement('textarea'); ta.value = pw; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); done(); }catch(e){} };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(pw).then(done, legacy); } else { legacy(); }
 });
 
 /* --- Gold/Silver Zakat --- */
@@ -8512,10 +8552,13 @@ document.getElementById('mort-btn').addEventListener('click', ()=>{
   const years = parseFloat(document.getElementById('mort-years').value) || 0;
   if(principal <= 0 || years <= 0) return;
 
-  const months = years * 12;
+  const months = Math.round(years * 12);
   const monthlyRate = (annualRate/100) / 12;
+  const method = (document.getElementById('mort-method')||{}).value || 'flat';
   let monthly;
-  if(monthlyRate === 0){
+  if(method === 'flat'){
+    monthly = (principal + principal * (annualRate/100) * years) / months;
+  } else if(monthlyRate === 0){
     monthly = principal / months;
   } else {
     monthly = principal * monthlyRate * Math.pow(1+monthlyRate, months) / (Math.pow(1+monthlyRate, months) - 1);
