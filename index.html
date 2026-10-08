@@ -1541,11 +1541,13 @@
         <button class="btn" id="inv-pdf-btn" data-i18n="invPdfBtn">تنزيل PDF</button>
         <button class="btn secondary" id="inv-png-btn" data-i18n="invPngBtn">تنزيل صورة PNG</button>
         <button class="btn secondary" id="inv-new-btn" data-i18n="invNewBtn">فاتورة جديدة</button>
+        <button class="btn secondary" id="inv-clear-btn" data-i18n="invClearBtn">مسح بيانات المنشأة المحفوظة</button>
       </div>
       <div id="inv-status"></div>
 
       <div class="field" style="margin-top:16px;">
         <label data-i18n="invPreviewLabel">معاينة الفاتورة</label>
+        <p class="note" style="margin:4px 0 8px;" data-i18n="invDragHint">اسحب الباركود (المربع المتقطع) لأي مكان في الصفحة الأولى، ونقرتان عليه ترجعه لمكانه.</p>
         <div id="inv-preview" style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;"></div>
       </div>
       <p class="note" data-i18n="invNote">رمز QR مبني بصيغة المرحلة الأولى لهيئة الزكاة والضريبة والجمارك (اسم البائع، الرقم الضريبي، الوقت، الإجمالي، الضريبة). هذه الأداة لا تُغني عن حل الفوترة المعتمد والربط مع الهيئة (المرحلة الثانية) للمنشآت المشمولة بها. بيانات منشأتك تُحفظ داخل متصفحك فقط ولا تُرفع لأي سيرفر.</p>
@@ -2953,6 +2955,7 @@ const I18N = {
     invInclLabel: 'الأسعار المدخلة تشمل ضريبة القيمة المضافة', invNotesLabel: 'ملاحظات (اختياري)',
     invShowQr: 'رمز QR (هيئة الزكاة)', invShowBar: 'باركود رقم الفاتورة', invAccentLabel: 'لون الفاتورة',
     invSumTaxable: 'الإجمالي الخاضع للضريبة', invSumVat: 'ضريبة القيمة المضافة', invSumTotal: 'الإجمالي شامل الضريبة',
+    invClearBtn: 'مسح بيانات المنشأة المحفوظة', invDragHint: 'اسحب الباركود (المربع المتقطع) لأي مكان في الصفحة الأولى، ونقرتان عليه ترجعه لمكانه.',
     invPdfBtn: 'تنزيل PDF', invPngBtn: 'تنزيل صورة PNG', invNewBtn: 'فاتورة جديدة', invPreviewLabel: 'معاينة الفاتورة',
     invNote: 'رمز QR مبني بصيغة المرحلة الأولى لهيئة الزكاة والضريبة والجمارك (اسم البائع، الرقم الضريبي، الوقت، الإجمالي، الضريبة). هذه الأداة لا تُغني عن حل الفوترة المعتمد والربط مع الهيئة (المرحلة الثانية) للمنشآت المشمولة بها. بيانات منشأتك تُحفظ داخل متصفحك فقط ولا تُرفع لأي سيرفر.',
     invWarnVat: 'الرقم الضريبي للبائع يجب أن يكون 15 رقماً يبدأ وينتهي بالرقم 3.', invWarnBuyerVat: 'الرقم الضريبي للمشتري غير مطابق للصيغة (15 رقماً يبدأ وينتهي بـ 3).',
@@ -3678,6 +3681,7 @@ const I18N = {
     invInclLabel: 'Entered prices include VAT', invNotesLabel: 'Notes (optional)',
     invShowQr: 'QR code (ZATCA)', invShowBar: 'Invoice-number barcode', invAccentLabel: 'Invoice colour',
     invSumTaxable: 'Total taxable', invSumVat: 'VAT', invSumTotal: 'Total incl. VAT',
+    invClearBtn: 'Clear saved business data', invDragHint: 'Drag the barcode (dashed box) anywhere on page 1; double-click it to reset.',
     invPdfBtn: 'Download PDF', invPngBtn: 'Download PNG image', invNewBtn: 'New invoice', invPreviewLabel: 'Invoice preview',
     invNote: 'The QR code follows the ZATCA phase-1 format (seller name, VAT number, time, total, VAT). This tool does not replace an approved e-invoicing solution or the integration with ZATCA (phase 2) for businesses covered by it. Your business details are kept in your browser only and never uploaded.',
     invWarnVat: 'The seller VAT number must be 15 digits starting and ending with 3.', invWarnBuyerVat: 'The buyer VAT number does not match the format (15 digits starting and ending with 3).',
@@ -8168,6 +8172,9 @@ const INV_W = 794, INV_H = 1123, INV_M = 36;
 const INV_LS = 'uddah-invoice-profile';
 let invItems = [{ desc:'', qty:1, price:0, disc:0, rate:15 }];
 let invLogoImg = null;
+let invBarPos = null;      // {x,y} top-left of the barcode on page 1 (null = default spot)
+let invBarRect = null;
+const INV_BAR_W = 190, INV_BAR_H = 60;
 
 function invNum(v){ const n = parseFloat(String(v).replace(/[٠-٩]/g, d=>d.charCodeAt(0)-0x0660).replace(/[۰-۹]/g, d=>d.charCodeAt(0)-0x06F0).replace(/,/g,'.')); return isNaN(n) ? 0 : n; }
 function invRound(n){ return Math.round((n + Number.EPSILON) * 100) / 100; }
@@ -8302,6 +8309,7 @@ const INV_PAY = { cash:['نقدي','Cash'], card:['بطاقة / شبكة','Card'
 async function invRender(scale){
   try{ await document.fonts.load("600 16px 'IBM Plex Sans Arabic'"); await document.fonts.load("400 16px 'IBM Plex Sans Arabic'"); }catch(e){}
   const d = invCollect();
+  invBarRect = null;
   const calc = invCompute(d);
   const L = INV_LABELS[d.type];
   const FONT = "'IBM Plex Sans Arabic', 'Segoe UI', Arial, sans-serif";
@@ -8376,13 +8384,15 @@ async function invRender(scale){
     try{
       const mods = code128Modules(d.no);
       const quiet = 4, total = mods.length + quiet * 2;
-      const bw = 190, m = bw / total, bh = 38;
-      ctx.fillStyle = '#fff'; ctx.fillRect(Lx, y, bw, bh + 22);
+      const bw = INV_BAR_W, m = bw / total, bh = 38;
+      const bx0 = invBarPos ? invBarPos.x : Lx, by0 = invBarPos ? invBarPos.y : y;
+      invBarRect = { x:bx0, y:by0, w:INV_BAR_W, h:INV_BAR_H };
+      ctx.fillStyle = '#fff'; ctx.fillRect(bx0, by0, bw, bh + 22);
       ctx.fillStyle = '#000';
       for(let i = 0; i < mods.length; i++){
-        if(mods[i] === '1'){ let j = i; while(j < mods.length && mods[j] === '1') j++; ctx.fillRect(Lx + (quiet + i) * m, y + 2, (j - i) * m, bh); i = j - 1; }
+        if(mods[i] === '1'){ let j = i; while(j < mods.length && mods[j] === '1') j++; ctx.fillRect(bx0 + (quiet + i) * m, by0 + 2, (j - i) * m, bh); i = j - 1; }
       }
-      T(d.no, Lx + bw / 2, y + bh + 12, { a:'center', s:10, dir:'ltr', c:'#222' });
+      T(d.no, bx0 + bw / 2, by0 + bh + 12, { a:'center', s:10, dir:'ltr', c:'#222' });
     }catch(e){}
   }
   if(d.sellerVat) T('الرقم الضريبي  VAT No: ' + d.sellerVat, R, y + 38, { s:11, c:grey });
@@ -8441,7 +8451,6 @@ async function invRender(scale){
     const lines = invWrap(ctx, r.desc || '—', cols[1].w - 12);
     const rowH = Math.max(24, lines.length * 15 + 9);
     if(y + rowH > bottomLimit){
-      T(`${pageNo}`, INV_W / 2, INV_H - INV_M + 4, { a:'center', s:9, c:grey, dir:'ltr' });
       newPage(); drawTableHeader();
     }
     if(idx % 2 === 1) box(Lx, y, R - Lx, rowH, '#f8fafc', null);
@@ -8468,7 +8477,6 @@ async function invRender(scale){
   /* ---------- totals + codes (kept together on the last page) ---------- */
   const footTop = INV_H - INV_M - 160;      // QR (bottom-right) and barcode (bottom-centre) are anchored to the page bottom
   if(y + 14 + 90 > footTop - 8){
-    T(`${pageNo}`, INV_W / 2, INV_H - INV_M + 4, { a:'center', s:9, c:grey, dir:'ltr' });
     newPage();
   }
   y += 14;
@@ -8516,7 +8524,6 @@ async function invRender(scale){
   y = Math.max(barY, qrBottom) + 6;
 
   // footer line + page numbers
-  T(`${pageNo}`, INV_W / 2, INV_H - INV_M + 4, { a:'center', s:9, c:grey, dir:'ltr' });
   if(pages.length > 1){
     pages.forEach((pg, i)=>{
       const c2 = pg.getContext('2d');
@@ -8560,8 +8567,51 @@ async function invRefreshPreview(){
       pg.style.cssText = 'display:block;width:100%;max-width:794px;height:auto;margin:0 auto 10px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.18);';
       host.appendChild(pg);
     });
+    invMakeBarOverlay(host, out.pages[0]);
   }catch(e){ console.error(e); }
 }
+
+function invMakeBarOverlay(host, canvas){
+  host.style.position = 'relative';
+  if(!invBarRect) return;
+  const ov = document.createElement('div');
+  ov.title = I18N[currentLang].invDragHint;
+  ov.style.cssText = 'position:absolute;border:1.5px dashed var(--brass);cursor:grab;touch-action:none;background:rgba(184,134,59,.08);z-index:5;';
+  host.appendChild(ov);
+  const place = ()=>{
+    const cr = canvas.getBoundingClientRect(), hr = host.getBoundingClientRect();
+    const k = cr.width / INV_W;
+    ov.style.left = (cr.left - hr.left + host.scrollLeft + invBarRect.x * k) + 'px';
+    ov.style.top  = (cr.top  - hr.top  + host.scrollTop  + invBarRect.y * k) + 'px';
+    ov.style.width = (invBarRect.w * k) + 'px'; ov.style.height = (invBarRect.h * k) + 'px';
+  };
+  place();
+  let drag = null;
+  ov.addEventListener('pointerdown', e=>{
+    e.preventDefault(); ov.setPointerCapture(e.pointerId);
+    drag = { sx:e.clientX, sy:e.clientY, ox:invBarRect.x, oy:invBarRect.y };
+    ov.style.cursor = 'grabbing';
+  });
+  ov.addEventListener('pointermove', e=>{
+    if(!drag) return;
+    const k = canvas.getBoundingClientRect().width / INV_W;
+    let nx = drag.ox + (e.clientX - drag.sx) / k, ny = drag.oy + (e.clientY - drag.sy) / k;
+    nx = Math.max(0, Math.min(INV_W - INV_BAR_W, nx)); ny = Math.max(0, Math.min(INV_H - INV_BAR_H, ny));
+    invBarPos = { x: Math.round(nx), y: Math.round(ny) };
+    invBarRect.x = invBarPos.x; invBarRect.y = invBarPos.y; place();
+    invSchedule();
+  });
+  const end = ()=>{ drag = null; ov.style.cursor = 'grab'; };
+  ov.addEventListener('pointerup', end); ov.addEventListener('pointercancel', end);
+  ov.addEventListener('dblclick', ()=>{ invBarPos = null; invSchedule(); });
+}
+
+function invClearSaved(){
+  try{ localStorage.removeItem(INV_LS); }catch(e){}
+  ['inv-seller-name','inv-seller-vat','inv-seller-addr','inv-seller-cr'].forEach(id=> document.getElementById(id).value = '');
+  invSchedule();
+}
+document.getElementById('inv-clear-btn').addEventListener('click', invClearSaved);
 
 function invSaveProfile(){
   try{
