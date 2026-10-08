@@ -8369,7 +8369,21 @@ async function invRender(scale){
   if(invLogoImg){
     const maxW = 130, maxH = 62;
     const r = Math.min(maxW / invLogoImg.naturalWidth, maxH / invLogoImg.naturalHeight);
-    ctx.drawImage(invLogoImg, Lx, y, invLogoImg.naturalWidth * r, invLogoImg.naturalHeight * r);
+    ctx.drawImage(invLogoImg, Lx + (d.showBar && d.no ? 215 : 0), y, invLogoImg.naturalWidth * r, invLogoImg.naturalHeight * r);
+  }
+  // invoice-number barcode: top-left, beside the business name
+  if(d.showBar && d.no && /^[\x20-\x7e]+$/.test(d.no)){
+    try{
+      const mods = code128Modules(d.no);
+      const quiet = 4, total = mods.length + quiet * 2;
+      const bw = 190, m = bw / total, bh = 38;
+      ctx.fillStyle = '#fff'; ctx.fillRect(Lx, y, bw, bh + 22);
+      ctx.fillStyle = '#000';
+      for(let i = 0; i < mods.length; i++){
+        if(mods[i] === '1'){ let j = i; while(j < mods.length && mods[j] === '1') j++; ctx.fillRect(Lx + (quiet + i) * m, y + 2, (j - i) * m, bh); i = j - 1; }
+      }
+      T(d.no, Lx + bw / 2, y + bh + 12, { a:'center', s:10, dir:'ltr', c:'#222' });
+    }catch(e){}
   }
   if(d.sellerVat) T('الرقم الضريبي  VAT No: ' + d.sellerVat, R, y + 38, { s:11, c:grey });
   y += 68;
@@ -8480,7 +8494,7 @@ async function invRender(scale){
     const yTot = y; y = footTop + 6;
     const payload = zatcaTLV(d.sellerName || '-', d.sellerVat || '-', invTimestampISO(d.date), invFmt(calc.total).replace(/,/g, ''), invFmt(calc.vat).replace(/,/g, ''));
     const qc = invQrCanvas(payload, 600);
-    const qx = R - qrSize;
+    const qx = (Lx + R) / 2 - qrSize / 2;
     box(qx - 6, y - 4, qrSize + 12, qrSize + 26, '#fff', line);
     if(qc){ ctx.imageSmoothingEnabled = false; ctx.drawImage(qc, qx, y, qrSize, qrSize); ctx.imageSmoothingEnabled = true; }
     else T('QR', qx + qrSize / 2, y + qrSize / 2, { a:'center', s:12, c:grey });
@@ -8498,22 +8512,7 @@ async function invRender(scale){
     invWrap(ctx, d.notes, midX1 - midX0).slice(0, 5).forEach((ln, i)=> T(ln, midX1, ny + 24 + i * 14, { s:10.5, c:'#333' }));
     ny += 24 + 5 * 14;
   }
-  let barY = footTop + 40;
-  if(d.showBar && d.no && /^[\x20-\x7e]+$/.test(d.no)){
-    try{
-      const mods = code128Modules(d.no);
-      const quiet = 10, total = mods.length + quiet * 2;
-      const bw = Math.min(300, total * 2.2), m = bw / total, bh = 38;
-      const bx = (Lx + R) / 2 - bw / 2;
-      ctx.fillStyle = '#fff'; ctx.fillRect(bx, barY, bw, bh + 22);
-      ctx.fillStyle = '#000';
-      for(let i = 0; i < mods.length; i++){
-        if(mods[i] === '1'){ let j = i; while(j < mods.length && mods[j] === '1') j++; ctx.fillRect(bx + (quiet + i) * m, barY + 4, (j - i) * m, bh); i = j - 1; }
-      }
-      T(d.no, (Lx + R) / 2, barY + bh + 14, { a:'center', s:10, dir:'ltr', c:'#222' });
-      barY += bh + 26;
-    }catch(e){}
-  }
+  let barY = qrBottom;
   y = Math.max(barY, qrBottom) + 6;
 
   // footer line + page numbers
