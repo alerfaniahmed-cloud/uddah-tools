@@ -8452,8 +8452,8 @@ async function invRender(scale){
   ctx.strokeStyle = line; ctx.lineWidth = 1; ctx.strokeRect(Lx + 0.5, y - 0 + 0.5, 0, 0);
 
   /* ---------- totals + codes (kept together on the last page) ---------- */
-  const needed = 190;
-  if(y + needed + 24 > INV_H - INV_M){
+  const footTop = INV_H - INV_M - 160;      // QR (bottom-right) and barcode (bottom-centre) are anchored to the page bottom
+  if(y + 14 + 90 > footTop - 8){
     T(`${pageNo}`, INV_W / 2, INV_H - INV_M + 4, { a:'center', s:9, c:grey, dir:'ltr' });
     newPage();
   }
@@ -8477,6 +8477,7 @@ async function invRender(scale){
   let qrBottom = y;
   if(d.showQr){
     const qrSize = 118;
+    const yTot = y; y = footTop + 6;
     const payload = zatcaTLV(d.sellerName || '-', d.sellerVat || '-', invTimestampISO(d.date), invFmt(calc.total).replace(/,/g, ''), invFmt(calc.vat).replace(/,/g, ''));
     const qc = invQrCanvas(payload, 600);
     const qx = R - qrSize;
@@ -8485,9 +8486,10 @@ async function invRender(scale){
     else T('QR', qx + qrSize / 2, y + qrSize / 2, { a:'center', s:12, c:grey });
     T('رمز الفاتورة الضريبية  ZATCA QR', qx + qrSize / 2, y + qrSize + 11, { a:'center', s:8, c:grey });
     qrBottom = y + qrSize + 24;
+    y = yTot;
   }
   // notes (middle) and invoice-number barcode
-  const midX1 = d.showQr ? R - 118 - 22 : R;
+  const midX1 = R;
   const midX0 = tx + tw + 16;
   let ny = y + 4;
   if(d.notes && midX1 - midX0 > 60){
@@ -8496,7 +8498,7 @@ async function invRender(scale){
     invWrap(ctx, d.notes, midX1 - midX0).slice(0, 5).forEach((ln, i)=> T(ln, midX1, ny + 24 + i * 14, { s:10.5, c:'#333' }));
     ny += 24 + 5 * 14;
   }
-  let barY = Math.max(y + 100, qrBottom + 8);
+  let barY = footTop + 40;
   if(d.showBar && d.no && /^[\x20-\x7e]+$/.test(d.no)){
     try{
       const mods = code128Modules(d.no);
