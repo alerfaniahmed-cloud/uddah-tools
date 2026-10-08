@@ -995,7 +995,7 @@
       <div class="row">
         <div class="field">
           <label for="seal-top-text" data-i18n="sealTopTextLabel">النص العلوي (منحني أعلى الختم)</label>
-          <input type="text" id="seal-top-text" placeholder="مثال: مؤسسة النحلة الطيبة للتجارة" maxlength="60" data-i18n-ph="sealTopTextPh">
+          <input type="text" id="seal-top-text" placeholder="مثال: اسم المنشأة" maxlength="60" data-i18n-ph="sealTopTextPh">
         </div>
         <div class="field">
           <label for="seal-bottom-text" data-i18n="sealBottomTextLabel">النص السفلي (منحني أسفل الختم)</label>
@@ -1725,12 +1725,13 @@
           <option value="extract" data-i18n="pdfOptExtract">✂️ استخراج صفحات محددة</option>
           <option value="img2pdf" data-i18n="pdfOptImg2pdf">🖼️ تحويل صور إلى PDF</option>
           <option value="pdf2img" data-i18n="pdfOptPdf2img">🗂️ تحويل PDF إلى صور</option>
-          <option value="compress" data-i18n="pdfOptCompress">🗜️ ضغط ملف PDF</option>
-          <option value="sign" data-i18n="pdfOptSign">✍️ توقيع إلكتروني على PDF</option>
-          <option value="stamp" data-i18n="pdfOptStamp">🖋️ إضافة ختم على PDF</option>
+          <option value="compress" data-i18n="pdfOptCompress">🗜️ ضغط ملف PDF أو صورة</option>
+          <option value="sign" data-i18n="pdfOptSign">✍️ توقيع إلكتروني على PDF أو صورة</option>
+          <option value="stamp" data-i18n="pdfOptStamp">🖋️ إضافة ختم على PDF أو صورة</option>
+          <option value="barcode" data-i18n="pdfOptBarcode">▦ إضافة باركود / QR على PDF أو صورة</option>
           <option value="text" data-i18n="pdfOptText">🔤 إضافة نص على PDF أو صورة</option>
           <option value="erase" data-i18n="pdfOptErase">🧽 مسح وإضافة نص على PDF أو صورة</option>
-          <option value="watermark" data-i18n="pdfOptWatermark">💧 إضافة علامة مائية (Watermark)</option>
+          <option value="watermark" data-i18n="pdfOptWatermark">💧 علامة مائية على PDF أو صورة</option>
           <option value="pagesize" data-i18n="pdfOptPagesize">📏 تغيير مقاس صفحة PDF</option>
         </select>
       </div>
@@ -1820,10 +1821,10 @@
     </div>
 
     <div class="card pdf-card" id="pdftool-compress">
-      <h2 data-i18n="compressTitle">ضغط ملف PDF</h2>
+      <h2 data-i18n="compressTitle">ضغط ملف PDF أو صورة</h2>
       <p class="hint" data-i18n="compressHint">يعيد هذا الخيار رسم صفحات الملف بجودة أقل لتقليل الحجم — مناسب للمستندات النصية والصور، وقد يقلل وضوح النصوص الدقيقة جداً.</p>
       <div class="field">
-        <input type="file" id="compress-file" accept="application/pdf">
+        <input type="file" id="compress-file" accept="application/pdf,image/*">
         <div class="file-list" id="compress-file-list"></div>
       </div>
       <div class="field">
@@ -1839,10 +1840,10 @@
     </div>
 
     <div class="card pdf-card" id="pdftool-sign">
-      <h2 data-i18n="signTitle">توقيع إلكتروني على PDF</h2>
+      <h2 data-i18n="signTitle">توقيع إلكتروني على PDF أو صورة</h2>
       <p class="hint" data-i18n="signHint">ارسم توقيعك بإصبعك أو الماوس، اختر الصفحة، وحدد الموضع بسحب التوقيع مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.</p>
       <div class="field">
-        <input type="file" id="sign-file" accept="application/pdf">
+        <input type="file" id="sign-file" accept="application/pdf,image/*">
         <div class="file-list" id="sign-file-list"></div>
       </div>
 
@@ -1899,10 +1900,10 @@
     </div>
 
     <div class="card pdf-card" id="pdftool-stamp">
-      <h2 data-i18n="pdfStampTitle">إضافة ختم على PDF</h2>
+      <h2 data-i18n="pdfStampTitle">إضافة ختم على PDF أو صورة</h2>
       <p class="hint" data-i18n="pdfStampHint">ارفع صورة ختمك (PNG بخلفية شفافة أفضل)، اختر الصفحة، وحدد الموضع بسحب الختم مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.</p>
       <div class="field">
-        <input type="file" id="stamp-file" accept="application/pdf">
+        <input type="file" id="stamp-file" accept="application/pdf,image/*">
         <div class="file-list" id="stamp-file-list"></div>
       </div>
 
@@ -2047,6 +2048,95 @@
       <p class="note" data-i18n="pdfTextNote">النص يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو نصك لأي سيرفر خارجي.</p>
     </div>
 
+    <div class="card pdf-card" id="pdftool-barcode">
+      <h2 data-i18n="bcTitle">إضافة باركود / QR على PDF أو صورة</h2>
+      <p class="hint" data-i18n="bcHint">ارفع ملف PDF أو صورة، اكتب النص أو الرابط أو الرقم، اختر نوع الرمز، ثم اسحبه بحرية فوق المعاينة وضعه في أي مكان. يمكن إضافته على صفحة واحدة أو على كل الصفحات.</p>
+      <div class="field">
+        <input type="file" id="barcode-file" accept="application/pdf,image/*">
+        <div class="file-list" id="barcode-file-list"></div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="barcode-type" data-i18n="bcTypeLabel">نوع الرمز</label>
+          <select id="barcode-type" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);">
+            <option value="qr" data-i18n="bcTypeQr">QR (يدعم العربي والروابط)</option>
+            <option value="code128" data-i18n="bcTypeCode128">باركود خطي Code 128 (أرقام وإنجليزي)</option>
+          </select>
+        </div>
+        <div class="field" id="barcode-level-field">
+          <label for="barcode-level" data-i18n="qrLevelLabel">مستوى تصحيح الأخطاء</label>
+          <select id="barcode-level" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);">
+            <option value="M" data-i18n="qrLevelM">متوسط (M)</option>
+            <option value="L" data-i18n="qrLevelL">منخفض (L) — رمز أبسط</option>
+            <option value="Q" data-i18n="qrLevelQ">جيد (Q)</option>
+            <option value="H" data-i18n="qrLevelH">عالٍ (H) — يتحمل التلف</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="barcode-text" data-i18n="bcTextLabel">المحتوى</label>
+        <input type="text" id="barcode-text" placeholder="https://example.com" data-i18n-ph="bcTextPh">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="barcode-size" data-i18n="bcSizeLabel">العرض (نقطة)</label>
+          <input type="text" inputmode="decimal" lang="en" id="barcode-size" value="110">
+        </div>
+        <div class="field" id="barcode-showtext-field" style="display:none;">
+          <label style="display:flex;gap:8px;align-items:center;cursor:pointer;margin-top:28px;">
+            <input type="checkbox" id="barcode-showtext" checked style="width:auto;">
+            <span data-i18n="bcShowText">إظهار الرقم تحت الباركود</span>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field" id="barcode-page-field">
+          <label for="barcode-page" data-i18n="pageNumLabel">رقم الصفحة</label>
+          <input type="number" id="barcode-page" min="1" value="1" placeholder="آخر صفحة افتراضياً" data-i18n-ph="lastPageDefaultPh">
+        </div>
+        <div class="field" id="barcode-allpages-field">
+          <label style="display:flex;gap:8px;align-items:center;cursor:pointer;margin-top:28px;">
+            <input type="checkbox" id="barcode-allpages" style="width:auto;">
+            <span data-i18n="bcAllPages">إضافته على كل الصفحات</span>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="barcode-x"><span data-i18n="posXLabel">الموضع الأفقي:</span> <span id="barcode-x-val">85</span><span data-i18n="pctFromLeft">٪ (من اليسار)</span></label>
+          <input type="range" id="barcode-x" min="0" max="100" step="0.1" value="85" style="width:100%;">
+        </div>
+        <div class="field">
+          <label for="barcode-y"><span data-i18n="posYLabel">الموضع الرأسي:</span> <span id="barcode-y-val">8</span><span data-i18n="pctFromBottom">٪ (من الأسفل)</span></label>
+          <input type="range" id="barcode-y" min="0" max="100" step="0.1" value="8" style="width:100%;">
+        </div>
+      </div>
+
+      <div class="field" id="barcode-preview-wrap" style="display:none;">
+        <label data-i18n="posPreviewLabel">معاينة الموضع على الصفحة</label>
+        <div class="row" style="align-items:center;margin:8px 0;">
+          <div class="field" style="flex:2;margin-bottom:0;">
+            <label for="barcode-zoom"><span data-i18n="zoomLabel">تكبير المعاينة:</span> <span id="barcode-zoom-val">100</span>٪</label>
+            <input type="range" id="barcode-zoom" min="50" max="250" step="10" value="100" style="width:100%;">
+          </div>
+          <div style="flex:0 0 auto;display:flex;gap:6px;">
+            <button type="button" class="btn secondary" id="barcode-zoom-out" style="padding:7px 12px;font-size:1rem;line-height:1;">−</button>
+            <button type="button" class="btn secondary" id="barcode-zoom-in" style="padding:7px 12px;font-size:1rem;line-height:1;">+</button>
+          </div>
+        </div>
+        <div style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;">
+          <div style="position:relative;display:inline-block;line-height:0;background:#fff;">
+            <canvas id="barcode-preview-page"></canvas>
+            <img id="barcode-preview-overlay" alt="" style="position:absolute;outline:1px dashed var(--rust);">
+          </div>
+        </div>
+      </div>
+
+      <button class="btn" id="barcode-btn" style="margin-top:14px;" data-i18n="bcBtn">إضافة الرمز وتنزيل</button>
+      <div id="barcode-status"></div>
+      <p class="note" data-i18n="bcNote">يُولَّد الرمز ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو محتواه لأي سيرفر. للتأكد، جرّب مسح الرمز بكاميرا الجوال بعد التنزيل.</p>
+    </div>
+
     <div class="card pdf-card" id="pdftool-erase">
       <h2 data-i18n="eraseTitle">مسح وإضافة نص على PDF أو صورة</h2>
       <p class="hint" data-i18n="eraseHint">ارفع ملف PDF أو صورة، وارسم بالسحب مباشرة فوق المعاينة بالأسفل مستطيلاً فوق النص القديم اللي تبي تشيله — يضاف تلقائياً كتعديل جديد بالقائمة، وتقدر تكتب فيه النص الجديد وتظبط لونه ومكانه.</p>
@@ -2110,10 +2200,10 @@
     </div>
 
     <div class="card pdf-card" id="pdftool-watermark">
-      <h2 data-i18n="watermarkTitle">إضافة علامة مائية (Watermark)</h2>
+      <h2 data-i18n="watermarkTitle">علامة مائية على PDF أو صورة</h2>
       <p class="hint" data-i18n="watermarkHint">اكتب نص العلامة المائية (مثل "نسخة" أو اسم شركتك)، واختر لونها وحجمها وشفافيتها، وستُضاف بشكل مائل خفيف على كل صفحات الملف.</p>
       <div class="field">
-        <input type="file" id="watermark-file" accept="application/pdf">
+        <input type="file" id="watermark-file" accept="application/pdf,image/*">
         <div class="file-list" id="watermark-file-list"></div>
       </div>
       <div class="field">
@@ -2703,6 +2793,17 @@ const I18N = {
     eraseFlattenLabel: 'حذف النص الأصلي نهائياً (تسطيح الصفحة إلى صورة عالية الدقة)',
     eraseFlattenNote: 'بدون هذا الخيار يُغطّى النص القديم بقطعة بنفس لون الخلفية، لكن النص الأصلي يبقى داخل الملف ويمكن تحديده أو البحث فيه. مع الخيار تتحول الصفحة المعدّلة إلى صورة ويختفي النص الأصلي تماماً.',
     eraseSuccessImg: 'تم المسح والتعديل على الصورة بأعلى جودة.',
+    pdfOptBarcode: '▦ إضافة باركود / QR على PDF أو صورة',
+    bcTitle: 'إضافة باركود / QR على PDF أو صورة',
+    bcHint: 'ارفع ملف PDF أو صورة، اكتب النص أو الرابط أو الرقم، اختر نوع الرمز، ثم اسحبه بحرية فوق المعاينة وضعه في أي مكان. يمكن إضافته على صفحة واحدة أو على كل الصفحات.',
+    bcTypeLabel: 'نوع الرمز', bcTypeQr: 'QR (يدعم العربي والروابط)', bcTypeCode128: 'باركود خطي Code 128 (أرقام وإنجليزي)',
+    bcTextLabel: 'المحتوى', bcTextPh: 'https://example.com',
+    bcSizeLabel: 'العرض (نقطة)', bcShowText: 'إظهار الرقم تحت الباركود', bcAllPages: 'إضافته على كل الصفحات',
+    bcBtn: 'إضافة الرمز وتنزيل',
+    bcNote: 'يُولَّد الرمز ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو محتواه لأي سيرفر. للتأكد، جرّب مسح الرمز بكاميرا الجوال بعد التنزيل.',
+    bcErrNoText: 'اكتب المحتوى أولاً.', bcErrCode128: 'الباركود الخطي يدعم الأحرف الإنجليزية والأرقام والرموز فقط — للنص العربي استخدم QR.',
+    bcErr: 'تعذر إضافة الرمز — تأكد من الملف والمحتوى.', bcSuccessPrefix: 'تمت إضافة الرمز بنجاح على الصفحة',
+    psSuccessImg: 'تم التعديل على الصورة بأعلى جودة.',
     zakatCalLabel: 'نوع الحول', zakatCalHijri: 'هجري (٢٫٥٪)', zakatCalGreg: 'ميلادي (٢٫٥٧٧٥٪)',
     mortMethodLabel: 'طريقة احتساب الربح', mortMethodFlat: 'نسبة ثابتة (مثل أغلب البنوك السعودية)', mortMethodReducing: 'رصيد متناقص (قسط متساوٍ)',
     zakatTotalLabel: 'إجمالي المال (ريال)', zakatTotalPh: 'مثال: 50000',
@@ -2997,7 +3098,7 @@ const I18N = {
     sealStyleWavy: 'مموّج',
     sealStyleGear: 'مسنن كالترس',
     sealTopTextLabel: 'النص العلوي (منحني أعلى الختم)',
-    sealTopTextPh: 'مثال: مؤسسة النحلة الطيبة للتجارة',
+    sealTopTextPh: 'مثال: اسم المنشأة',
     sealBottomTextLabel: 'النص السفلي (منحني أسفل الختم)',
     sealBottomTextPh: 'مثال: الرياض - المملكة العربية السعودية',
     sealCenter1Label: 'السطر الأول بالمنتصف',
@@ -3147,9 +3248,9 @@ const I18N = {
     pdfOptExtract: '✂️ استخراج صفحات محددة',
     pdfOptImg2pdf: '🖼️ تحويل صور إلى PDF',
     pdfOptPdf2img: '🗂️ تحويل PDF إلى صور',
-    pdfOptCompress: '🗜️ ضغط ملف PDF',
-    pdfOptSign: '✍️ توقيع إلكتروني على PDF',
-    pdfOptStamp: '🖋️ إضافة ختم على PDF',
+    pdfOptCompress: '🗜️ ضغط ملف PDF أو صورة',
+    pdfOptSign: '✍️ توقيع إلكتروني على PDF أو صورة',
+    pdfOptStamp: '🖋️ إضافة ختم على PDF أو صورة',
     pdfOptText: '🔤 إضافة نص على PDF أو صورة',
     sealTemplateLabel: 'قالب جاهز (اختياري)',
     sealTemplateNone: '— بدون قالب —',
@@ -3161,8 +3262,8 @@ const I18N = {
     sealTemplateReceived: '📥 ختم "مستلم"',
     sealLogoLabel: 'شعار صغير بالمنتصف (اختياري)',
     sealLogoSizeLabel: 'حجم الشعار:',
-    pdfOptWatermark: '💧 إضافة علامة مائية (Watermark)',
-    watermarkTitle: 'إضافة علامة مائية (Watermark)',
+    pdfOptWatermark: '💧 علامة مائية على PDF أو صورة',
+    watermarkTitle: 'علامة مائية على PDF أو صورة',
     watermarkHint: 'اكتب نص العلامة المائية (مثل "نسخة" أو اسم شركتك)، واختر لونها وحجمها وشفافيتها، وستُضاف بشكل مائل خفيف على كل صفحات الملف.',
     watermarkTextLabel: 'نص العلامة المائية', watermarkTextPh: 'مثال: نسخة - سري',
     watermarkOpacityLabel: 'الشفافية:',
@@ -3192,14 +3293,14 @@ const I18N = {
     pdf2imgTitle: 'تحويل PDF إلى صور',
     pdf2imgHint: 'اختر ملف PDF والدقة والصيغة (PNG أو JPG)، وسيتم تحويل كل صفحة إلى صورة وتنزيلها كلها داخل ملف مضغوط (ZIP) واحد.',
     pdf2imgBtn: 'تحويل وتنزيل الصور',
-    compressTitle: 'ضغط ملف PDF',
+    compressTitle: 'ضغط ملف PDF أو صورة',
     compressHint: 'يعيد هذا الخيار رسم صفحات الملف بجودة أقل لتقليل الحجم — مناسب للمستندات النصية والصور، وقد يقلل وضوح النصوص الدقيقة جداً.',
     compressQualityLabel: 'مستوى الضغط',
     compressLight: 'خفيف (جودة أعلى، حجم أكبر)',
     compressMedium: 'متوسط',
     compressStrong: 'قوي (حجم أصغر، جودة أقل)',
     compressBtn: 'ضغط وتنزيل',
-    signTitle: 'توقيع إلكتروني على PDF',
+    signTitle: 'توقيع إلكتروني على PDF أو صورة',
     signHint: 'ارسم توقيعك بإصبعك أو الماوس، اختر الصفحة، وحدد الموضع بسحب التوقيع مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.',
     signDrawLabel: 'ارسم توقيعك هنا',
     signClearBtn: 'مسح التوقيع',
@@ -3207,7 +3308,7 @@ const I18N = {
     signSizeLabel: 'حجم التوقيع (نقطة PDF)',
     signBtn: 'إضافة التوقيع وتنزيل',
     signNote: 'التوقيع يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو توقيعك لأي سيرفر خارجي.',
-    pdfStampTitle: 'إضافة ختم على PDF',
+    pdfStampTitle: 'إضافة ختم على PDF أو صورة',
     pdfStampHint: 'ارفع صورة ختمك (PNG بخلفية شفافة أفضل)، اختر الصفحة، وحدد الموضع بسحب الختم مباشرة فوق معاينة الصفحة، ثم أضفه على ملف PDF.',
     stampImageLabel: 'صورة الختم',
     stampSizeLabel: 'حجم الختم (نقطة PDF)',
@@ -3397,6 +3498,17 @@ const I18N = {
     eraseFlattenLabel: 'Permanently remove original text (flatten page to a high-resolution image)',
     eraseFlattenNote: 'Without this option the old text is covered by a patch matching the background colour, but the original text stays inside the file and can still be selected or searched. With it, the edited page becomes an image and the original text is gone for good.',
     eraseSuccessImg: 'Erased and edited the image in full quality.',
+    pdfOptBarcode: '▦ Add Barcode / QR to PDF or Image',
+    bcTitle: 'Add Barcode / QR to PDF or Image',
+    bcHint: 'Upload a PDF or an image, type the text, link or number, choose the code type, then drag it freely over the preview to place it anywhere. It can go on one page or on every page.',
+    bcTypeLabel: 'Code type', bcTypeQr: 'QR (supports Arabic and links)', bcTypeCode128: 'Linear barcode Code 128 (digits & English)',
+    bcTextLabel: 'Content', bcTextPh: 'https://example.com',
+    bcSizeLabel: 'Width (pt)', bcShowText: 'Show the number under the barcode', bcAllPages: 'Add to every page',
+    bcBtn: 'Add Code and Download',
+    bcNote: 'The code is generated and added entirely in your browser — your file and its content are never uploaded. To be sure, try scanning the code with your phone camera after downloading.',
+    bcErrNoText: 'Enter the content first.', bcErrCode128: 'Linear barcodes support only English letters, digits and symbols — for Arabic text use QR.',
+    bcErr: 'Could not add the code — check the file and content.', bcSuccessPrefix: 'Code added successfully on page',
+    psSuccessImg: 'Image edited in full quality.',
     zakatCalLabel: 'Year type', zakatCalHijri: 'Hijri (2.5%)', zakatCalGreg: 'Gregorian (2.5775%)',
     mortMethodLabel: 'Profit calculation method', mortMethodFlat: 'Flat rate (as most Saudi banks)', mortMethodReducing: 'Reducing balance (equal installments)',
     zakatTotalLabel: 'Total money (SAR)', zakatTotalPh: 'e.g. 50000',
@@ -3691,7 +3803,7 @@ const I18N = {
     sealStyleWavy: 'Wavy',
     sealStyleGear: 'Gear-tooth',
     sealTopTextLabel: 'Top text (curved along the top)',
-    sealTopTextPh: 'e.g. Al-Nahla Al-Tayyeba Trading Est.',
+    sealTopTextPh: 'e.g. Company name',
     sealBottomTextLabel: 'Bottom text (curved along the bottom)',
     sealBottomTextPh: 'e.g. Riyadh - Saudi Arabia',
     sealCenter1Label: 'First center line',
@@ -3841,9 +3953,9 @@ const I18N = {
     pdfOptExtract: '✂️ Extract Specific Pages',
     pdfOptImg2pdf: '🖼️ Convert Images to PDF',
     pdfOptPdf2img: '🗂️ Convert PDF to Images',
-    pdfOptCompress: '🗜️ Compress a PDF File',
-    pdfOptSign: '✍️ Electronic Signature on PDF',
-    pdfOptStamp: '🖋️ Add Stamp to PDF',
+    pdfOptCompress: '🗜️ Compress a PDF or Image',
+    pdfOptSign: '✍️ Electronic Signature on PDF or Image',
+    pdfOptStamp: '🖋️ Add Stamp to PDF or Image',
     pdfOptText: '🔤 Add Text to PDF or Image',
     sealTemplateLabel: 'Ready-made template (optional)',
     sealTemplateNone: '— No template —',
@@ -3855,8 +3967,8 @@ const I18N = {
     sealTemplateReceived: '📥 "Received" Stamp',
     sealLogoLabel: 'Small logo in the center (optional)',
     sealLogoSizeLabel: 'Logo size:',
-    pdfOptWatermark: '💧 Add Watermark',
-    watermarkTitle: 'Add Watermark',
+    pdfOptWatermark: '💧 Watermark on PDF or Image',
+    watermarkTitle: 'Watermark on PDF or Image',
     watermarkHint: 'Type your watermark text (like "Copy" or your company name), choose its color, size, and opacity, and it will be added diagonally and lightly across every page of the file.',
     watermarkTextLabel: 'Watermark text', watermarkTextPh: 'e.g. Copy - Confidential',
     watermarkOpacityLabel: 'Opacity:',
@@ -3886,14 +3998,14 @@ const I18N = {
     pdf2imgTitle: 'Convert PDF to Images',
     pdf2imgHint: 'Choose a PDF file, resolution and format (PNG or JPG); every page is converted to an image and all are downloaded inside one ZIP file.',
     pdf2imgBtn: 'Convert and Download Images',
-    compressTitle: 'Compress a PDF File',
+    compressTitle: 'Compress a PDF or Image',
     compressHint: 'This option re-renders the file\'s pages at a lower quality to reduce size — suitable for text documents and images, and may reduce the sharpness of very fine text.',
     compressQualityLabel: 'Compression level',
     compressLight: 'Light (higher quality, larger size)',
     compressMedium: 'Medium',
     compressStrong: 'Strong (smaller size, lower quality)',
     compressBtn: 'Compress and Download',
-    signTitle: 'Electronic Signature on PDF',
+    signTitle: 'Electronic Signature on PDF or Image',
     signHint: 'Draw your signature with your finger or mouse, choose the page, drag the signature directly on the page preview to position it, then add it to a PDF file.',
     signDrawLabel: 'Draw your signature here',
     signClearBtn: 'Clear Signature',
@@ -3901,7 +4013,7 @@ const I18N = {
     signSizeLabel: 'Signature size (PDF points)',
     signBtn: 'Add Signature and Download',
     signNote: 'The signature is drawn and added entirely in your browser — neither your file nor your signature is uploaded to any external server.',
-    pdfStampTitle: 'Add Stamp to PDF',
+    pdfStampTitle: 'Add Stamp to PDF or Image',
     pdfStampHint: 'Upload your stamp image (PNG with a transparent background is best), choose the page, drag the stamp directly on the page preview to position it, then add it to a PDF file.',
     stampImageLabel: 'Stamp image',
     stampSizeLabel: 'Stamp size (PDF points)',
@@ -6740,6 +6852,21 @@ document.getElementById('compress-btn').addEventListener('click', async ()=>{
   if(!file){ setStatus('compress-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
   setBusy(btn, true, I18N[currentLang].compressingBusy, I18N[currentLang].compressBtn);
   try{
+    if(!psIsPdfFile(file)){
+      const im = await psLoadImg(file);
+      const c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight;
+      const cx = c.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0,0,c.width,c.height); cx.drawImage(im, 0, 0);
+      const jb = await psCanvasBlob(c, 'image/jpeg', quality);
+      if(jb.size >= file.size){
+        downloadBlob(file, 'مضغوط_' + file.name);
+        setStatus('compress-status', I18N[currentLang].compressNoGain, 'ok');
+      }else{
+        downloadBlob(jb, 'مضغوط.jpg');
+        setStatus('compress-status', I18N[currentLang].compressSuccessPrefix + ' ' + Math.round((1 - jb.size/file.size)*100) + '%.', 'ok');
+      }
+      setBusy(btn, false, '', I18N[currentLang].compressBtn);
+      return;
+    }
     const bytes = await file.arrayBuffer();
     const originalSize = bytes.byteLength;
     const pdf = await pdfjsLib.getDocument({data: bytes}).promise;
@@ -6773,6 +6900,106 @@ document.getElementById('compress-btn').addEventListener('click', async ()=>{
   }
   setBusy(btn, false, '', I18N[currentLang].compressBtn);
 });
+
+/* ============================================================
+   SHARED: PDF-or-image source for editing tools (sign / stamp / watermark / barcode / compress)
+   Image sources use a virtual 595-unit-wide page so sizes behave exactly as on a PDF page,
+   and are exported at the ORIGINAL pixel resolution.
+   ============================================================ */
+const PS_CACHE = {};
+function psIsPdfFile(f){ return !!f && (f.type === 'application/pdf' || /\.pdf$/i.test(f.name)); }
+async function psLoadImg(file){
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  await new Promise((res, rej)=>{ img.onload = res; img.onerror = rej; img.src = url; });
+  return img;
+}
+async function psLoad(key, file){
+  const c = PS_CACHE[key];
+  if(c && c.file === file) return c;
+  const src = { file, kind:null, pdf:null, img:null };
+  if(psIsPdfFile(file)){
+    src.pdf = await pdfjsLib.getDocument({data: await file.arrayBuffer()}).promise;
+    src.kind = 'pdf';
+  }else{
+    src.img = await psLoadImg(file);
+    src.kind = 'img';
+  }
+  PS_CACHE[key] = src;
+  return src;
+}
+async function psRenderPreview(src, canvas, pageVal, previewWidth){
+  if(src.kind === 'pdf'){
+    let pageNum = parseInt(pageVal, 10);
+    if(!pageNum || pageNum < 1 || pageNum > src.pdf.numPages) pageNum = src.pdf.numPages;
+    const page = await src.pdf.getPage(pageNum);
+    const base = page.getViewport({scale:1});
+    const scale = previewWidth / base.width;
+    const vp = page.getViewport({scale});
+    canvas.width = vp.width; canvas.height = vp.height;
+    await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
+    return { pw: base.width, ph: base.height, scale, pageNum };
+  }
+  const pw = 595, ph = src.img.naturalHeight * 595 / src.img.naturalWidth;
+  const scale = previewWidth / pw;
+  drawImageHighQuality(src.img, canvas, Math.round(pw*scale), Math.round(ph*scale));
+  return { pw, ph, scale, pageNum: 1 };
+}
+function psCanvasBlob(canvas, type, q){
+  return new Promise((res, rej)=> canvas.toBlob(b=> b ? res(b) : rej(new Error('blob')), type, q));
+}
+// Draws an overlay (image/canvas) placed in page units (x,y from bottom-left) on a canvas that is k px per unit
+function psDrawOverlay(ctx, el, x, y, w, h, k, ph){
+  ctx.drawImage(el, x*k, (ph - y - h)*k, w*k, h*k);
+}
+async function psExportImage(src, fmt, baseName, drawFn){
+  const img = src.img;
+  let W = img.naturalWidth, H = img.naturalHeight, down = 1;
+  const MAXPX = 120e6;
+  if(W*H > MAXPX || W > 16384 || H > 16384) down = Math.min(Math.sqrt(MAXPX/(W*H)), 16384/W, 16384/H);
+  const cw = Math.round(W*down), ch = Math.round(H*down);
+  const out = document.createElement('canvas'); out.width = cw; out.height = ch;
+  const ctx = out.getContext('2d');
+  ctx.imageSmoothingQuality = 'high';
+  if(fmt === 'jpg'){ ctx.fillStyle = '#fff'; ctx.fillRect(0,0,cw,ch); }
+  ctx.drawImage(img, 0, 0, cw, ch);
+  const pw = 595, ph = H * 595 / W, k = cw / pw;
+  await drawFn(ctx, k, pw, ph);
+  if(fmt === 'png'){
+    downloadBlob(await psCanvasBlob(out, 'image/png'), baseName + '.png');
+  }else if(fmt === 'jpg'){
+    downloadBlob(await psCanvasBlob(out, 'image/jpeg', 1.0), baseName + '.jpg');
+  }else{
+    const doc = await PDFDocument.create();
+    const png = await doc.embedPng(await (await psCanvasBlob(out, 'image/png')).arrayBuffer());
+    const page = doc.addPage([cw*0.75, ch*0.75]);
+    page.drawImage(png, {x:0, y:0, width:cw*0.75, height:ch*0.75});
+    downloadBlob(new Blob([await doc.save()], {type:'application/pdf'}), baseName + '.pdf');
+  }
+}
+function psInjectFormat(prefix){
+  const fileEl = document.getElementById(prefix + '-file');
+  if(!fileEl) return;
+  const holder = fileEl.closest('.field');
+  const div = document.createElement('div');
+  div.className = 'field'; div.id = prefix + '-format-field'; div.style.display = 'none';
+  div.innerHTML = '<label for="' + prefix + '-format" data-i18n="textFormatLabel">صيغة الملف الناتج</label>' +
+    '<select id="' + prefix + '-format" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);">' +
+    '<option value="png" data-i18n="textFmtPng">PNG (أعلى جودة، بدون فقد)</option>' +
+    '<option value="jpg" data-i18n="textFmtJpg">JPG (أصغر حجماً)</option>' +
+    '<option value="pdf" data-i18n="textFmtPdf">PDF</option></select>';
+  holder.insertAdjacentElement('afterend', div);
+  fileEl.addEventListener('change', ()=>{
+    const f = fileEl.files[0];
+    const isImg = !!f && !psIsPdfFile(f);
+    div.style.display = isImg ? 'block' : 'none';
+    const pg = document.getElementById(prefix + '-page');
+    if(pg){ const pf = pg.closest('.field'); if(pf) pf.style.display = isImg ? 'none' : ''; }
+    const all = document.getElementById(prefix + '-allpages-field');
+    if(all) all.style.display = isImg ? 'none' : '';
+  });
+}
+['sign','stamp','watermark','barcode'].forEach(psInjectFormat);
 
 /* --- Electronic Signature --- */
 const signCanvas = document.getElementById('sign-canvas');
@@ -6892,23 +7119,11 @@ async function updateSignPreview(){
   if(!file || !signHasContent){ wrap.style.display = 'none'; return; }
 
   try{
-    const pdf = await loadSignPreviewPdf(file);
-    let pageNum = parseInt(document.getElementById('sign-page').value, 10);
-    if(!pageNum || pageNum < 1 || pageNum > pdf.numPages) pageNum = pdf.numPages;
-    const page = await pdf.getPage(pageNum);
-    const baseViewport = page.getViewport({scale:1});
-    const zoomPct = parseFloat(document.getElementById('sign-zoom').value) || 100;
-    const previewWidth = 320 * (zoomPct/100);
-    const scale = previewWidth / baseViewport.width;
-    const viewport = page.getViewport({scale});
-
+    const src = await psLoad('sign', file);
     const canvas = document.getElementById('sign-preview-page');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    const ctx = canvas.getContext('2d');
-    await page.render({canvasContext: ctx, viewport}).promise;
-
-    const pw = baseViewport.width, ph = baseViewport.height;
+    const zoomPct = parseFloat(document.getElementById('sign-zoom').value) || 100;
+    const rp = await psRenderPreview(src, canvas, document.getElementById('sign-page').value, 320 * (zoomPct/100));
+    const pw = rp.pw, ph = rp.ph, scale = rp.scale;
     const sigWidth = parseFloat(document.getElementById('sign-size').value) || 150;
     const sigHeight = sigWidth * (signCanvas.height / signCanvas.width);
     const xPct = parseFloat(signXInput.value)/100;
@@ -6929,7 +7144,7 @@ async function updateSignPreview(){
   }
 }
 
-document.getElementById('sign-file').addEventListener('change', ()=>{ signPreviewPdfDoc = null; signPreviewFileRef = null; updateSignPreview(); });
+document.getElementById('sign-file').addEventListener('change', ()=>{ PS_CACHE.sign = null; updateSignPreview(); });
 document.getElementById('sign-page').addEventListener('input', updateSignPreview);
 document.getElementById('sign-zoom').addEventListener('input', ()=>{
   document.getElementById('sign-zoom-val').textContent = document.getElementById('sign-zoom').value;
@@ -6957,6 +7172,19 @@ document.getElementById('sign-btn').addEventListener('click', async ()=>{
 
   setBusy(btn, true, I18N[currentLang].addingBusy, I18N[currentLang].signBtn);
   try{
+    if(!psIsPdfFile(file)){
+      const psrc = await psLoad('sign', file);
+      const sigW = parseFloat(document.getElementById('sign-size').value) || 150;
+      const sigH = sigW * (signCanvas.height / signCanvas.width);
+      await psExportImage(psrc, document.getElementById('sign-format').value, 'موقّع', async (ctx, k, pw, ph)=>{
+        const x = parseFloat(signXInput.value) / 100 * (pw - sigW);
+        const y = parseFloat(signYInput.value) / 100 * (ph - sigH);
+        psDrawOverlay(ctx, signCanvas, x, y, sigW, sigH, k, ph);
+      });
+      setStatus('sign-status', I18N[currentLang].psSuccessImg, 'ok');
+      setBusy(btn, false, '', I18N[currentLang].signBtn);
+      return;
+    }
     const pdfBytes = await file.arrayBuffer();
     const pdfDoc = await PDFDocument.load(pdfBytes, {ignoreEncryption:true});
     const pages = pdfDoc.getPages();
@@ -7084,24 +7312,12 @@ async function updateStampPreview(){
   if(!file || !stampImageDataUrl){ wrap.style.display = 'none'; return; }
 
   try{
-    const pdf = await loadStampPreviewPdf(file);
-    let pageNum = parseInt(document.getElementById('stamp-page').value, 10);
-    if(!pageNum || pageNum < 1 || pageNum > pdf.numPages) pageNum = pdf.numPages;
-    const page = await pdf.getPage(pageNum);
-    const baseViewport = page.getViewport({scale:1});
-    const zoomPct = parseFloat(document.getElementById('stamp-zoom').value) || 100;
-    const previewWidth = 320 * (zoomPct/100);
-    const scale = previewWidth / baseViewport.width;
-    stampPreviewScale = scale;
-    const viewport = page.getViewport({scale});
-
+    const src = await psLoad('stamp', file);
     const canvas = document.getElementById('stamp-preview-page');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    const ctx = canvas.getContext('2d');
-    await page.render({canvasContext: ctx, viewport}).promise;
-
-    const pw = baseViewport.width, ph = baseViewport.height;
+    const zoomPct = parseFloat(document.getElementById('stamp-zoom').value) || 100;
+    const rp = await psRenderPreview(src, canvas, document.getElementById('stamp-page').value, 320 * (zoomPct/100));
+    const pw = rp.pw, ph = rp.ph, scale = rp.scale;
+    stampPreviewScale = scale;
     const stWidth = parseFloat(stampWidthInput.value) || 120;
     const stHeight = parseFloat(stampHeightInput.value) || 120;
     const xPct = parseFloat(stampXInput.value)/100;
@@ -7179,7 +7395,7 @@ setupStampResizeHandle('stamp-resize-handle', 'both');
 setupStampResizeHandle('stamp-resize-handle-right', 'width');
 setupStampResizeHandle('stamp-resize-handle-bottom', 'height');
 
-document.getElementById('stamp-file').addEventListener('change', ()=>{ stampPreviewPdfDoc = null; stampPreviewFileRef = null; updateStampPreview(); });
+document.getElementById('stamp-file').addEventListener('change', ()=>{ PS_CACHE.stamp = null; updateStampPreview(); });
 
 document.getElementById('stamp-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('stamp-file').files[0];
@@ -7189,6 +7405,20 @@ document.getElementById('stamp-btn').addEventListener('click', async ()=>{
 
   setBusy(btn, true, I18N[currentLang].addingBusy, I18N[currentLang].pdfStampBtn);
   try{
+    if(!psIsPdfFile(file)){
+      const psrc = await psLoad('stamp', file);
+      const stImg = new Image();
+      await new Promise((res, rej)=>{ stImg.onload = res; stImg.onerror = rej; stImg.src = stampImageDataUrl; });
+      const stW = parseFloat(stampWidthInput.value) || 120, stH = parseFloat(stampHeightInput.value) || 120;
+      await psExportImage(psrc, document.getElementById('stamp-format').value, 'مختوم', async (ctx, k, pw, ph)=>{
+        const x = parseFloat(stampXInput.value) / 100 * (pw - stW);
+        const y = parseFloat(stampYInput.value) / 100 * (ph - stH);
+        psDrawOverlay(ctx, stImg, x, y, stW, stH, k, ph);
+      });
+      setStatus('stamp-status', I18N[currentLang].psSuccessImg, 'ok');
+      setBusy(btn, false, '', I18N[currentLang].pdfStampBtn);
+      return;
+    }
     const pdfBytes = await file.arrayBuffer();
     const pdfDoc = await PDFDocument.load(pdfBytes, {ignoreEncryption:true});
     const pages = pdfDoc.getPages();
@@ -7537,6 +7767,224 @@ document.getElementById('text-btn').addEventListener('click', async ()=>{
   }
   setBusy(btn, false, '', I18N[currentLang].pdfTextBtn);
 });
+
+/* ============================================================
+   ADD BARCODE / QR TO PDF OR IMAGE
+   ============================================================ */
+setupFilePicker('barcode-file', 'barcode-file-list', false);
+const C128_PATTERNS = ["212222", "222122", "222221", "121223", "121322", "131222", "122213", "122312", "132212", "221213", "221312", "231212", "112232", "122132", "122231", "113222", "123122", "123221", "223211", "221132", "221231", "213212", "223112", "312131", "311222", "321122", "321221", "312212", "322112", "322211", "212123", "212321", "232121", "111323", "131123", "131321", "112313", "132113", "132311", "211313", "231113", "231311", "112133", "112331", "132131", "113123", "113321", "133121", "313121", "211331", "231131", "213113", "213311", "213131", "311123", "311321", "331121", "312113", "312311", "332111", "314111", "221411", "431111", "111224", "111422", "121124", "121421", "141122", "141221", "112214", "112412", "122114", "122411", "142112", "142211", "241211", "221114", "413111", "241112", "134111", "111242", "121142", "121241", "114212", "124112", "124211", "411212", "421112", "421211", "212141", "214121", "412121", "111143", "111341", "131141", "114113", "114311", "411113", "411311", "113141", "114131", "311141", "411131", "211412", "211214", "211232", "2331112"];
+
+function code128Modules(text){
+  const codes = [];
+  if(/^\d+$/.test(text) && text.length % 2 === 0 && text.length >= 4){
+    codes.push(105);
+    for(let i = 0; i < text.length; i += 2) codes.push(parseInt(text.substr(i, 2), 10));
+  }else{
+    codes.push(104);
+    for(const ch of text){
+      const c = ch.charCodeAt(0);
+      if(c < 32 || c > 126) throw new Error('unsupported');
+      codes.push(c - 32);
+    }
+  }
+  let sum = codes[0];
+  for(let i = 1; i < codes.length; i++) sum += codes[i] * i;
+  codes.push(sum % 103);
+  codes.push(106);
+  let mods = '';
+  codes.forEach(c=>{
+    const p = C128_PATTERNS[c];
+    for(let i = 0; i < p.length; i++) mods += (i % 2 === 0 ? '1' : '0').repeat(parseInt(p[i], 10));
+  });
+  return mods;
+}
+
+let barcodeCanvas = null; // current rendered code (white background, quiet zone included)
+function barcodeBuild(){
+  const type = document.getElementById('barcode-type').value;
+  const text = document.getElementById('barcode-text').value.trim();
+  if(!text) return null;
+  if(type === 'qr'){
+    const S = 1024;
+    const tmp = document.createElement('div');
+    tmp.style.cssText = 'position:fixed;left:-99999px;top:0;';
+    document.body.appendChild(tmp);
+    let qrCanvas = null;
+    try{
+      const lvl = document.getElementById('barcode-level').value;
+      new QRCode(tmp, { text, width: S, height: S, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel[lvl] || QRCode.CorrectLevel.M });
+      qrCanvas = tmp.querySelector('canvas');
+      if(!qrCanvas){
+        const im = tmp.querySelector('img');
+        if(im){ qrCanvas = document.createElement('canvas'); qrCanvas.width = S; qrCanvas.height = S; qrCanvas.getContext('2d').drawImage(im, 0, 0, S, S); }
+      }
+    }finally{ /* removed below */ }
+    const pad = Math.round(S * 0.07);
+    const out = document.createElement('canvas');
+    out.width = S + pad*2; out.height = S + pad*2;
+    const ctx = out.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, out.width, out.height);
+    if(qrCanvas){ ctx.imageSmoothingEnabled = false; ctx.drawImage(qrCanvas, pad, pad, S, S); }
+    tmp.remove();
+    return out;
+  }
+  const mods = code128Modules(text);           // throws for unsupported characters
+  const quiet = 10;
+  const total = mods.length + quiet*2;
+  const m = Math.max(2, Math.round(2400 / total));
+  const barH = Math.round(total * m * 0.28);
+  const showText = document.getElementById('barcode-showtext').checked;
+  const textH = showText ? Math.round(m * 9) : 0;
+  const out = document.createElement('canvas');
+  out.width = total * m; out.height = barH + textH + m*3;
+  const ctx = out.getContext('2d');
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, out.width, out.height);
+  ctx.fillStyle = '#000';
+  for(let i = 0; i < mods.length; i++){
+    if(mods[i] === '1'){
+      let j = i; while(j < mods.length && mods[j] === '1') j++;
+      ctx.fillRect((quiet + i) * m, m, (j - i) * m, barH);
+      i = j - 1;
+    }
+  }
+  if(showText){
+    ctx.font = Math.round(m*6.5) + "px 'Courier New', monospace";
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(text, out.width/2, barH + m*2 + textH/2);
+  }
+  return out;
+}
+
+let barcodePos = null;       // {x,y} bottom-left in page units; kept in sync with sliders
+const barcodeXInput = document.getElementById('barcode-x');
+const barcodeYInput = document.getElementById('barcode-y');
+let barcodeSrcInfo = null;   // {pw,ph,scale} of the preview
+
+function barcodeDims(){
+  if(!barcodeCanvas) return {w:0,h:0};
+  const w = parseFloat(document.getElementById('barcode-size').value) || 110;
+  return { w, h: w * barcodeCanvas.height / barcodeCanvas.width };
+}
+function barcodeReposition(){
+  const ov = document.getElementById('barcode-preview-overlay');
+  if(!barcodeCanvas || !barcodeSrcInfo){ ov.style.display = 'none'; return; }
+  const {pw, ph, scale} = barcodeSrcInfo;
+  const d = barcodeDims();
+  const x = parseFloat(barcodeXInput.value)/100 * (pw - d.w);
+  const y = parseFloat(barcodeYInput.value)/100 * (ph - d.h);
+  ov.style.display = 'block';
+  ov.style.left = (x*scale) + 'px';
+  ov.style.top = ((ph - y - d.h)*scale) + 'px';
+  ov.style.width = (d.w*scale) + 'px';
+  ov.style.height = (d.h*scale) + 'px';
+}
+let barcodeToken = 0;
+async function updateBarcodePreview(rebuild){
+  const file = document.getElementById('barcode-file').files[0];
+  const wrap = document.getElementById('barcode-preview-wrap');
+  if(!file){ wrap.style.display = 'none'; return; }
+  const token = ++barcodeToken;
+  try{
+    if(rebuild !== false){
+      const src = await psLoad('barcode', file);
+      const canvas = document.getElementById('barcode-preview-page');
+      const zoomPct = parseFloat(document.getElementById('barcode-zoom').value) || 100;
+      const rp = await psRenderPreview(src, canvas, document.getElementById('barcode-page').value, 320 * (zoomPct/100));
+      if(token !== barcodeToken) return;
+      barcodeSrcInfo = rp;
+      const ov = document.getElementById('barcode-preview-overlay');
+      if(barcodeCanvas) ov.src = barcodeCanvas.toDataURL('image/png');
+    }
+    wrap.style.display = barcodeCanvas ? 'block' : 'none';
+    barcodeReposition();
+  }catch(e){
+    wrap.style.display = 'none';
+  }
+}
+function barcodeRefresh(){
+  const err = document.getElementById('barcode-status');
+  try{
+    barcodeCanvas = barcodeBuild();
+    if(err.dataset.bcErr){ err.textContent = ''; err.dataset.bcErr = ''; }
+  }catch(e){
+    barcodeCanvas = null;
+    setStatus('barcode-status', I18N[currentLang].bcErrCode128, 'err');
+    err.dataset.bcErr = '1';
+  }
+  updateBarcodePreview(true);
+}
+function barcodeTypeChanged(){
+  const type = document.getElementById('barcode-type').value;
+  document.getElementById('barcode-level-field').style.display = type === 'qr' ? '' : 'none';
+  document.getElementById('barcode-showtext-field').style.display = type === 'qr' ? 'none' : '';
+  document.getElementById('barcode-size').value = type === 'qr' ? '110' : '220';
+  barcodeRefresh();
+}
+document.getElementById('barcode-type').addEventListener('change', barcodeTypeChanged);
+['barcode-text','barcode-level','barcode-showtext'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', barcodeRefresh);
+  document.getElementById(id).addEventListener('change', barcodeRefresh);
+});
+document.getElementById('barcode-size').addEventListener('input', barcodeReposition);
+document.getElementById('barcode-file').addEventListener('change', ()=>{ PS_CACHE.barcode = null; updateBarcodePreview(true); });
+document.getElementById('barcode-page').addEventListener('input', ()=> updateBarcodePreview(true));
+function barcodeSliderInput(){
+  document.getElementById('barcode-x-val').textContent = Math.round(parseFloat(barcodeXInput.value));
+  document.getElementById('barcode-y-val').textContent = Math.round(parseFloat(barcodeYInput.value));
+  barcodeReposition();
+}
+barcodeXInput.addEventListener('input', barcodeSliderInput);
+barcodeYInput.addEventListener('input', barcodeSliderInput);
+makeOverlayDraggable('barcode-preview-overlay', barcodeXInput, barcodeYInput, 'barcode-x-val', 'barcode-y-val', barcodeReposition);
+function setBarcodeZoom(v){
+  const z = document.getElementById('barcode-zoom');
+  z.value = Math.max(50, Math.min(250, v));
+  document.getElementById('barcode-zoom-val').textContent = z.value;
+  updateBarcodePreview(true);
+}
+document.getElementById('barcode-zoom').addEventListener('input', ()=> setBarcodeZoom(parseFloat(document.getElementById('barcode-zoom').value) || 100));
+document.getElementById('barcode-zoom-in').addEventListener('click', ()=> setBarcodeZoom((parseFloat(document.getElementById('barcode-zoom').value) || 100) + 20));
+document.getElementById('barcode-zoom-out').addEventListener('click', ()=> setBarcodeZoom((parseFloat(document.getElementById('barcode-zoom').value) || 100) - 20));
+
+document.getElementById('barcode-btn').addEventListener('click', async ()=>{
+  const file = document.getElementById('barcode-file').files[0];
+  const btn = document.getElementById('barcode-btn');
+  if(!file){ setStatus('barcode-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
+  if(!document.getElementById('barcode-text').value.trim()){ setStatus('barcode-status', I18N[currentLang].bcErrNoText, 'err'); return; }
+  setBusy(btn, true, I18N[currentLang].addingBusy, I18N[currentLang].bcBtn);
+  try{
+    barcodeCanvas = barcodeBuild();
+    if(!barcodeCanvas) throw new Error('empty');
+    const d = barcodeDims();
+    const xPct = parseFloat(barcodeXInput.value) / 100, yPct = parseFloat(barcodeYInput.value) / 100;
+    if(!psIsPdfFile(file)){
+      const psrc = await psLoad('barcode', file);
+      await psExportImage(psrc, document.getElementById('barcode-format').value, 'باركود', async (ctx, k, pw, ph)=>{
+        ctx.imageSmoothingEnabled = false;
+        psDrawOverlay(ctx, barcodeCanvas, xPct * (pw - d.w), yPct * (ph - d.h), d.w, d.h, k, ph);
+      });
+      setStatus('barcode-status', I18N[currentLang].psSuccessImg, 'ok');
+    }else{
+      const pdfDoc = await PDFDocument.load(await file.arrayBuffer(), {ignoreEncryption:true});
+      const pages = pdfDoc.getPages();
+      const png = await pdfDoc.embedPng(await (await psCanvasBlob(barcodeCanvas, 'image/png')).arrayBuffer());
+      let pageNum = parseInt(document.getElementById('barcode-page').value, 10);
+      if(!pageNum || pageNum < 1 || pageNum > pages.length) pageNum = pages.length;
+      const targets = document.getElementById('barcode-allpages').checked ? pages : [pages[pageNum - 1]];
+      targets.forEach(pg=>{
+        const { width: pw, height: ph } = pg.getSize();
+        pg.drawImage(png, { x: xPct * (pw - d.w), y: yPct * (ph - d.h), width: d.w, height: d.h });
+      });
+      downloadBlob(new Blob([await pdfDoc.save()], {type:'application/pdf'}), 'مع_باركود.pdf');
+      setStatus('barcode-status', I18N[currentLang].bcSuccessPrefix + ' ' + (targets.length === pages.length && pages.length > 1 ? '(' + pages.length + ')' : pageNum) + '.', 'ok');
+    }
+  }catch(e){
+    console.error(e);
+    setStatus('barcode-status', I18N[currentLang].bcErr, 'err');
+  }
+  setBusy(btn, false, '', I18N[currentLang].bcBtn);
+});
+barcodeTypeChanged();
 
 /* ============================================================
    PDF ERASE & REPLACE TEXT
@@ -8301,8 +8749,8 @@ document.getElementById('watermark-opacity').addEventListener('input', ()=>{
   document.getElementById('watermark-opacity-val').textContent = document.getElementById('watermark-opacity').value;
 });
 
-function buildWatermarkCanvas(pageWidthPt, pageHeightPt, text, color, opacity, fontSizePt){
-  const scale = 2;
+function buildWatermarkCanvas(pageWidthPt, pageHeightPt, text, color, opacity, fontSizePt, scaleOverride){
+  const scale = scaleOverride || 3;
   const canvas = document.createElement('canvas');
   canvas.width = Math.max(1, Math.round(pageWidthPt * scale));
   canvas.height = Math.max(1, Math.round(pageHeightPt * scale));
@@ -8341,6 +8789,17 @@ document.getElementById('watermark-btn').addEventListener('click', async ()=>{
     const fontSizePt = parseFloat(document.getElementById('watermark-size').value) || 60;
     const color = document.getElementById('watermark-color').value;
     const opacity = (parseFloat(document.getElementById('watermark-opacity').value) || 25) / 100;
+
+    if(!psIsPdfFile(file)){
+      const psrc = await psLoad('watermark', file);
+      await psExportImage(psrc, document.getElementById('watermark-format').value, 'علامة_مائية', async (ctx, k, pw, ph)=>{
+        const wm = buildWatermarkCanvas(pw, ph, text, color, opacity, fontSizePt, Math.min(k, 12000/Math.max(pw,ph)));
+        ctx.drawImage(wm, 0, 0, pw*k, ph*k);
+      });
+      setStatus('watermark-status', I18N[currentLang].psSuccessImg, 'ok');
+      setBusy(btn, false, '', I18N[currentLang].watermarkBtn);
+      return;
+    }
 
     const pdfBytes = await file.arrayBuffer();
     const pdfDoc = await PDFDocument.load(pdfBytes, {ignoreEncryption:true});
