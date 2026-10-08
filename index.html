@@ -907,6 +907,7 @@
           <option value="bulkcrop" data-i18n="toolsOptBulkcrop">✂️ قص عدة صور دفعة واحدة</option>
           <option value="pw" data-i18n="toolsOptPw">🔑 مولد كلمات المرور</option>
           <option value="id" data-i18n="toolsOptId">🪪 مدقق رقم الهوية / الإقامة</option>
+          <option value="invoice" data-i18n="toolsOptInvoice">🧾 إنشاء فاتورة (مبيعات / مشتريات)</option>
           <option value="iban" data-i18n="toolsOptIban">🏦 مدقق رقم الآيبان السعودي (IBAN)</option>
         </select>
       </div>
@@ -1415,6 +1416,139 @@
         <div class="big" id="id-out"></div>
         <p class="note" id="id-sub"></p>
       </div>
+    </div>
+
+    <div class="card tools-card" id="tools-invoice">
+      <h2 data-i18n="invTitle">إنشاء فاتورة (مبيعات / مشتريات)</h2>
+      <p class="hint" data-i18n="invHint">أنشئ فاتورة ضريبية مبسطة جاهزة للطباعة بالعربي والإنجليزي، مع حساب ضريبة القيمة المضافة تلقائياً، ورمز QR بصيغة هيئة الزكاة والضريبة والجمارك (المرحلة الأولى) وباركود لرقم الفاتورة.</p>
+
+      <div class="row">
+        <div class="field">
+          <label for="inv-type" data-i18n="invTypeLabel">نوع الفاتورة</label>
+          <select id="inv-type" class="inv-ctl">
+            <option value="sales" data-i18n="invTypeSales">فاتورة مبيعات</option>
+            <option value="purchase" data-i18n="invTypePurchase">فاتورة مشتريات</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="inv-no" data-i18n="invNoLabel">رقم الفاتورة</label>
+          <input type="text" id="inv-no" class="inv-ctl" lang="en" style="direction:ltr;text-align:left;">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="inv-date" data-i18n="invDateLabel">التاريخ والوقت (YYYY-MM-DD HH:MM)</label>
+          <input type="text" id="inv-date" class="inv-ctl" lang="en" inputmode="numeric" style="direction:ltr;text-align:left;">
+        </div>
+        <div class="field">
+          <label for="inv-pay" data-i18n="invPayLabel">طريقة الدفع</label>
+          <select id="inv-pay" class="inv-ctl">
+            <option value="cash" data-i18n="invPayCash">نقدي</option>
+            <option value="card" data-i18n="invPayCard">بطاقة / شبكة</option>
+            <option value="transfer" data-i18n="invPayTransfer">تحويل بنكي</option>
+            <option value="credit" data-i18n="invPayCredit">آجل</option>
+          </select>
+        </div>
+      </div>
+
+      <h3 id="inv-seller-title" style="margin:16px 0 6px;font-size:1rem;" data-i18n="invSellerSales">بيانات منشأتي (البائع)</h3>
+      <div class="row">
+        <div class="field">
+          <label for="inv-seller-name" data-i18n="invNameLabel">الاسم</label>
+          <input type="text" id="inv-seller-name" class="inv-ctl" maxlength="100">
+        </div>
+        <div class="field">
+          <label for="inv-seller-vat" data-i18n="invVatLabel">الرقم الضريبي (15 رقماً)</label>
+          <input type="text" id="inv-seller-vat" class="inv-ctl" lang="en" inputmode="numeric" maxlength="15" style="direction:ltr;text-align:left;font-family:var(--font-mono);">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="inv-seller-addr" data-i18n="invAddrLabel">العنوان</label>
+          <input type="text" id="inv-seller-addr" class="inv-ctl" maxlength="140">
+        </div>
+        <div class="field">
+          <label for="inv-seller-cr" data-i18n="invCrLabel">السجل التجاري (اختياري)</label>
+          <input type="text" id="inv-seller-cr" class="inv-ctl" lang="en" style="direction:ltr;text-align:left;">
+        </div>
+      </div>
+      <div class="field">
+        <label for="inv-logo" data-i18n="invLogoLabel">شعار المنشأة (اختياري)</label>
+        <input type="file" id="inv-logo" accept="image/*">
+        <div class="file-list" id="inv-logo-list"></div>
+      </div>
+
+      <h3 id="inv-buyer-title" style="margin:16px 0 6px;font-size:1rem;" data-i18n="invBuyerSales">بيانات العميل (المشتري)</h3>
+      <div class="row">
+        <div class="field">
+          <label for="inv-buyer-name" data-i18n="invNameLabel">الاسم</label>
+          <input type="text" id="inv-buyer-name" class="inv-ctl" maxlength="100">
+        </div>
+        <div class="field">
+          <label for="inv-buyer-vat" data-i18n="invVatOptLabel">الرقم الضريبي (إن وُجد)</label>
+          <input type="text" id="inv-buyer-vat" class="inv-ctl" lang="en" inputmode="numeric" maxlength="15" style="direction:ltr;text-align:left;font-family:var(--font-mono);">
+        </div>
+      </div>
+      <div class="field">
+        <label for="inv-buyer-addr" data-i18n="invAddrLabel">العنوان</label>
+        <input type="text" id="inv-buyer-addr" class="inv-ctl" maxlength="140">
+      </div>
+
+      <h3 style="margin:16px 0 6px;font-size:1rem;" data-i18n="invItemsTitle">البنود</h3>
+      <div id="inv-items"></div>
+      <button type="button" class="btn secondary" id="inv-add-item" style="margin-top:2px;padding:7px 14px;font-size:.82rem;" data-i18n="invAddItem">+ إضافة بند</button>
+
+      <div class="field" style="margin-top:12px;">
+        <label style="display:flex;gap:8px;align-items:center;cursor:pointer;">
+          <input type="checkbox" id="inv-incl" class="inv-ctl" style="width:auto;">
+          <span data-i18n="invInclLabel">الأسعار المدخلة تشمل ضريبة القيمة المضافة</span>
+        </label>
+      </div>
+      <div class="field">
+        <label for="inv-notes" data-i18n="invNotesLabel">ملاحظات (اختياري)</label>
+        <textarea id="inv-notes" class="inv-ctl" rows="2" maxlength="300" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label style="display:flex;gap:8px;align-items:center;cursor:pointer;">
+            <input type="checkbox" id="inv-show-qr" class="inv-ctl" checked style="width:auto;">
+            <span data-i18n="invShowQr">رمز QR (هيئة الزكاة)</span>
+          </label>
+        </div>
+        <div class="field">
+          <label style="display:flex;gap:8px;align-items:center;cursor:pointer;">
+            <input type="checkbox" id="inv-show-bar" class="inv-ctl" checked style="width:auto;">
+            <span data-i18n="invShowBar">باركود رقم الفاتورة</span>
+          </label>
+        </div>
+        <div class="field">
+          <label for="inv-accent" data-i18n="invAccentLabel">لون الفاتورة</label>
+          <input type="color" id="inv-accent" class="inv-ctl" value="#1f3a5f" style="width:100%;height:44px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:4px;">
+        </div>
+      </div>
+
+      <div id="inv-warn" class="note" style="display:none;color:var(--rust);font-weight:600;"></div>
+
+      <div class="result" id="inv-totals" style="margin-top:14px;">
+        <div class="grid3">
+          <div><div class="n" id="inv-sum-taxable">0.00</div><div class="l" data-i18n="invSumTaxable">الإجمالي الخاضع للضريبة</div></div>
+          <div><div class="n" id="inv-sum-vat">0.00</div><div class="l" data-i18n="invSumVat">ضريبة القيمة المضافة</div></div>
+          <div><div class="n" id="inv-sum-total">0.00</div><div class="l" data-i18n="invSumTotal">الإجمالي شامل الضريبة</div></div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;">
+        <button class="btn" id="inv-pdf-btn" data-i18n="invPdfBtn">تنزيل PDF</button>
+        <button class="btn secondary" id="inv-png-btn" data-i18n="invPngBtn">تنزيل صورة PNG</button>
+        <button class="btn secondary" id="inv-new-btn" data-i18n="invNewBtn">فاتورة جديدة</button>
+      </div>
+      <div id="inv-status"></div>
+
+      <div class="field" style="margin-top:16px;">
+        <label data-i18n="invPreviewLabel">معاينة الفاتورة</label>
+        <div id="inv-preview" style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;"></div>
+      </div>
+      <p class="note" data-i18n="invNote">رمز QR مبني بصيغة المرحلة الأولى لهيئة الزكاة والضريبة والجمارك (اسم البائع، الرقم الضريبي، الوقت، الإجمالي، الضريبة). هذه الأداة لا تُغني عن حل الفوترة المعتمد والربط مع الهيئة (المرحلة الثانية) للمنشآت المشمولة بها. بيانات منشأتك تُحفظ داخل متصفحك فقط ولا تُرفع لأي سيرفر.</p>
     </div>
 
     <div class="card tools-card" id="tools-iban">
@@ -2804,6 +2938,26 @@ const I18N = {
     bcErrNoText: 'اكتب المحتوى أولاً.', bcErrCode128: 'الباركود الخطي يدعم الأحرف الإنجليزية والأرقام والرموز فقط — للنص العربي استخدم QR.',
     bcErr: 'تعذر إضافة الرمز — تأكد من الملف والمحتوى.', bcSuccessPrefix: 'تمت إضافة الرمز بنجاح على الصفحة',
     psSuccessImg: 'تم التعديل على الصورة بأعلى جودة.',
+    toolsOptInvoice: '🧾 إنشاء فاتورة (مبيعات / مشتريات)',
+    invTitle: 'إنشاء فاتورة (مبيعات / مشتريات)',
+    invHint: 'أنشئ فاتورة ضريبية مبسطة جاهزة للطباعة بالعربي والإنجليزي، مع حساب ضريبة القيمة المضافة تلقائياً، ورمز QR بصيغة هيئة الزكاة والضريبة والجمارك (المرحلة الأولى) وباركود لرقم الفاتورة.',
+    invTypeLabel: 'نوع الفاتورة', invTypeSales: 'فاتورة مبيعات', invTypePurchase: 'فاتورة مشتريات',
+    invNoLabel: 'رقم الفاتورة', invDateLabel: 'التاريخ والوقت (YYYY-MM-DD HH:MM)', invPayLabel: 'طريقة الدفع',
+    invPayCash: 'نقدي', invPayCard: 'بطاقة / شبكة', invPayTransfer: 'تحويل بنكي', invPayCredit: 'آجل',
+    invSellerSales: 'بيانات منشأتي (البائع)', invSellerPurchase: 'بيانات المورّد (البائع)',
+    invBuyerSales: 'بيانات العميل (المشتري)', invBuyerPurchase: 'بيانات منشأتي (المشتري)',
+    invNameLabel: 'الاسم', invVatLabel: 'الرقم الضريبي (15 رقماً)', invVatOptLabel: 'الرقم الضريبي (إن وُجد)',
+    invAddrLabel: 'العنوان', invCrLabel: 'السجل التجاري (اختياري)', invLogoLabel: 'شعار المنشأة (اختياري)',
+    invItemsTitle: 'البنود', invAddItem: '+ إضافة بند', invItemDescPh: 'وصف البند / المنتج',
+    invQty: 'الكمية', invUnitPrice: 'سعر الوحدة', invDisc: 'الخصم (قبل الضريبة)', invVatRate: 'الضريبة',
+    invInclLabel: 'الأسعار المدخلة تشمل ضريبة القيمة المضافة', invNotesLabel: 'ملاحظات (اختياري)',
+    invShowQr: 'رمز QR (هيئة الزكاة)', invShowBar: 'باركود رقم الفاتورة', invAccentLabel: 'لون الفاتورة',
+    invSumTaxable: 'الإجمالي الخاضع للضريبة', invSumVat: 'ضريبة القيمة المضافة', invSumTotal: 'الإجمالي شامل الضريبة',
+    invPdfBtn: 'تنزيل PDF', invPngBtn: 'تنزيل صورة PNG', invNewBtn: 'فاتورة جديدة', invPreviewLabel: 'معاينة الفاتورة',
+    invNote: 'رمز QR مبني بصيغة المرحلة الأولى لهيئة الزكاة والضريبة والجمارك (اسم البائع، الرقم الضريبي، الوقت، الإجمالي، الضريبة). هذه الأداة لا تُغني عن حل الفوترة المعتمد والربط مع الهيئة (المرحلة الثانية) للمنشآت المشمولة بها. بيانات منشأتك تُحفظ داخل متصفحك فقط ولا تُرفع لأي سيرفر.',
+    invWarnVat: 'الرقم الضريبي للبائع يجب أن يكون 15 رقماً يبدأ وينتهي بالرقم 3.', invWarnBuyerVat: 'الرقم الضريبي للمشتري غير مطابق للصيغة (15 رقماً يبدأ وينتهي بـ 3).',
+    invWarnDate: 'صيغة التاريخ يجب أن تكون YYYY-MM-DD HH:MM',
+    invErrNoItems: 'أضف بنداً واحداً على الأقل بوصف أو سعر.', invSuccess: 'تم إنشاء الفاتورة وتنزيلها.', invErr: 'تعذر إنشاء الفاتورة.',
     zakatCalLabel: 'نوع الحول', zakatCalHijri: 'هجري (٢٫٥٪)', zakatCalGreg: 'ميلادي (٢٫٥٧٧٥٪)',
     mortMethodLabel: 'طريقة احتساب الربح', mortMethodFlat: 'نسبة ثابتة (مثل أغلب البنوك السعودية)', mortMethodReducing: 'رصيد متناقص (قسط متساوٍ)',
     zakatTotalLabel: 'إجمالي المال (ريال)', zakatTotalPh: 'مثال: 50000',
@@ -3509,6 +3663,26 @@ const I18N = {
     bcErrNoText: 'Enter the content first.', bcErrCode128: 'Linear barcodes support only English letters, digits and symbols — for Arabic text use QR.',
     bcErr: 'Could not add the code — check the file and content.', bcSuccessPrefix: 'Code added successfully on page',
     psSuccessImg: 'Image edited in full quality.',
+    toolsOptInvoice: '🧾 Invoice Maker (Sales / Purchases)',
+    invTitle: 'Invoice Maker (Sales / Purchases)',
+    invHint: 'Create a print-ready simplified tax invoice in Arabic and English, with automatic VAT calculation, a ZATCA phase-1 QR code and a barcode for the invoice number.',
+    invTypeLabel: 'Invoice type', invTypeSales: 'Sales invoice', invTypePurchase: 'Purchase invoice',
+    invNoLabel: 'Invoice number', invDateLabel: 'Date & time (YYYY-MM-DD HH:MM)', invPayLabel: 'Payment method',
+    invPayCash: 'Cash', invPayCard: 'Card', invPayTransfer: 'Bank transfer', invPayCredit: 'Credit',
+    invSellerSales: 'My business (seller)', invSellerPurchase: 'Supplier (seller)',
+    invBuyerSales: 'Customer (buyer)', invBuyerPurchase: 'My business (buyer)',
+    invNameLabel: 'Name', invVatLabel: 'VAT number (15 digits)', invVatOptLabel: 'VAT number (if any)',
+    invAddrLabel: 'Address', invCrLabel: 'Commercial registration (optional)', invLogoLabel: 'Business logo (optional)',
+    invItemsTitle: 'Items', invAddItem: '+ Add item', invItemDescPh: 'Item / product description',
+    invQty: 'Qty', invUnitPrice: 'Unit price', invDisc: 'Discount (before VAT)', invVatRate: 'VAT',
+    invInclLabel: 'Entered prices include VAT', invNotesLabel: 'Notes (optional)',
+    invShowQr: 'QR code (ZATCA)', invShowBar: 'Invoice-number barcode', invAccentLabel: 'Invoice colour',
+    invSumTaxable: 'Total taxable', invSumVat: 'VAT', invSumTotal: 'Total incl. VAT',
+    invPdfBtn: 'Download PDF', invPngBtn: 'Download PNG image', invNewBtn: 'New invoice', invPreviewLabel: 'Invoice preview',
+    invNote: 'The QR code follows the ZATCA phase-1 format (seller name, VAT number, time, total, VAT). This tool does not replace an approved e-invoicing solution or the integration with ZATCA (phase 2) for businesses covered by it. Your business details are kept in your browser only and never uploaded.',
+    invWarnVat: 'The seller VAT number must be 15 digits starting and ending with 3.', invWarnBuyerVat: 'The buyer VAT number does not match the format (15 digits starting and ending with 3).',
+    invWarnDate: 'Date format must be YYYY-MM-DD HH:MM',
+    invErrNoItems: 'Add at least one item with a description or price.', invSuccess: 'Invoice created and downloaded.', invErr: 'Could not create the invoice.',
     zakatCalLabel: 'Year type', zakatCalHijri: 'Hijri (2.5%)', zakatCalGreg: 'Gregorian (2.5775%)',
     mortMethodLabel: 'Profit calculation method', mortMethodFlat: 'Flat rate (as most Saudi banks)', mortMethodReducing: 'Reducing balance (equal installments)',
     zakatTotalLabel: 'Total money (SAR)', zakatTotalPh: 'e.g. 50000',
@@ -7985,6 +8159,529 @@ document.getElementById('barcode-btn').addEventListener('click', async ()=>{
   setBusy(btn, false, '', I18N[currentLang].bcBtn);
 });
 barcodeTypeChanged();
+
+/* ============================================================
+   INVOICE MAKER (sales / purchase) — canvas-drawn A4, ZATCA phase-1 TLV QR, Code128 invoice number
+   ============================================================ */
+setupFilePicker('inv-logo', 'inv-logo-list', false);
+const INV_W = 794, INV_H = 1123, INV_M = 36;
+const INV_LS = 'uddah-invoice-profile';
+let invItems = [{ desc:'', qty:1, price:0, disc:0, rate:15 }];
+let invLogoImg = null;
+
+function invNum(v){ const n = parseFloat(String(v).replace(/[٠-٩]/g, d=>d.charCodeAt(0)-0x0660).replace(/[۰-۹]/g, d=>d.charCodeAt(0)-0x06F0).replace(/,/g,'.')); return isNaN(n) ? 0 : n; }
+function invRound(n){ return Math.round((n + Number.EPSILON) * 100) / 100; }
+function invFmt(n){ return n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+function invDigits(s){ return String(s).replace(/[٠-٩]/g, d=>d.charCodeAt(0)-0x0660).replace(/[۰-۹]/g, d=>d.charCodeAt(0)-0x06F0); }
+function invPad(n, w){ return String(n).padStart(w, '0'); }
+function invNowText(){
+  const d = new Date();
+  return `${d.getFullYear()}-${invPad(d.getMonth()+1,2)}-${invPad(d.getDate(),2)} ${invPad(d.getHours(),2)}:${invPad(d.getMinutes(),2)}`;
+}
+function invCounterKey(type){ return 'uddah-invoice-counter-' + type; }
+function invNextNumber(type){
+  let n = 0;
+  try{ n = parseInt(localStorage.getItem(invCounterKey(type)), 10) || 0; }catch(e){}
+  return (type === 'sales' ? 'INV-' : 'PUR-') + invPad(n + 1, 4);
+}
+function invBumpCounter(type, numberText){
+  const m = /(\d+)\s*$/.exec(numberText || '');
+  if(!m) return;
+  try{
+    const cur = parseInt(localStorage.getItem(invCounterKey(type)), 10) || 0;
+    localStorage.setItem(invCounterKey(type), String(Math.max(cur, parseInt(m[1], 10))));
+  }catch(e){}
+}
+
+/* ---------- ZATCA phase-1 TLV (base64) ---------- */
+function zatcaTLV(sellerName, vatNo, timestamp, total, vatAmount){
+  const enc = new TextEncoder();
+  const values = [sellerName, vatNo, timestamp, total, vatAmount];
+  const bytes = [];
+  values.forEach((v, i)=>{
+    let s = String(v);
+    let b = enc.encode(s);
+    while(b.length > 255){ s = s.slice(0, -1); b = enc.encode(s); }   // never cut a multi-byte char in half
+    bytes.push(i + 1, b.length);
+    for(let k = 0; k < b.length; k++) bytes.push(b[k]);
+  });
+  let bin = '';
+  bytes.forEach(x=>{ bin += String.fromCharCode(x); });
+  return btoa(bin);
+}
+
+/* ---------- read form ---------- */
+function invCollect(){
+  const g = id => document.getElementById(id);
+  const type = g('inv-type').value;
+  return {
+    type,
+    no: g('inv-no').value.trim(),
+    date: invDigits(g('inv-date').value.trim()),
+    pay: g('inv-pay').value,
+    sellerName: g('inv-seller-name').value.trim(), sellerVat: invDigits(g('inv-seller-vat').value.trim()),
+    sellerAddr: g('inv-seller-addr').value.trim(), sellerCr: g('inv-seller-cr').value.trim(),
+    buyerName: g('inv-buyer-name').value.trim(), buyerVat: invDigits(g('inv-buyer-vat').value.trim()),
+    buyerAddr: g('inv-buyer-addr').value.trim(),
+    incl: g('inv-incl').checked, notes: g('inv-notes').value.trim(),
+    showQr: g('inv-show-qr').checked, showBar: g('inv-show-bar').checked,
+    accent: g('inv-accent').value || '#1f3a5f',
+    items: invItems.map(it=>({ desc: String(it.desc || '').trim(), qty: invNum(it.qty), price: invNum(it.price), disc: invNum(it.disc), rate: invNum(it.rate) }))
+  };
+}
+function invCompute(d){
+  const rows = [];
+  d.items.forEach(it=>{
+    if(!it.desc && !(it.price > 0)) return;
+    const r = it.rate / 100;
+    const unitEx = d.incl ? it.price / (1 + r) : it.price;
+    let taxable = invRound(it.qty * unitEx - it.disc);
+    if(taxable < 0) taxable = 0;
+    const vat = invRound(taxable * r);
+    rows.push({ desc: it.desc, qty: it.qty, unit: unitEx, disc: it.disc, taxable, rate: it.rate, vat, total: invRound(taxable + vat) });
+  });
+  const taxable = invRound(rows.reduce((s, r)=> s + r.taxable, 0));
+  const vat = invRound(rows.reduce((s, r)=> s + r.vat, 0));
+  return { rows, taxable, vat, total: invRound(taxable + vat) };
+}
+function invTimestampISO(text){
+  const m = /^(\d{4})-(\d{1,2})-(\d{1,2})[ T](\d{1,2}):(\d{2})/.exec(text || '');
+  if(!m) return new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+  return `${m[1]}-${invPad(m[2],2)}-${invPad(m[3],2)}T${invPad(m[4],2)}:${m[5]}:00Z`;
+}
+
+/* ---------- QR (re-uses the QR library already used by the QR tool) ---------- */
+function invQrCanvas(text, S){
+  const tmp = document.createElement('div');
+  tmp.style.cssText = 'position:fixed;left:-99999px;top:0;';
+  document.body.appendChild(tmp);
+  let out = null;
+  try{
+    new QRCode(tmp, { text, width: S, height: S, colorDark:'#000000', colorLight:'#ffffff', correctLevel: QRCode.CorrectLevel.M });
+    let c = tmp.querySelector('canvas');
+    if(!c){
+      const im = tmp.querySelector('img');
+      if(im){ c = document.createElement('canvas'); c.width = S; c.height = S; c.getContext('2d').drawImage(im, 0, 0, S, S); }
+    }
+    out = c;
+  }catch(e){ out = null; }
+  const copy = document.createElement('canvas');
+  if(out){ copy.width = out.width; copy.height = out.height; copy.getContext('2d').drawImage(out, 0, 0); }
+  tmp.remove();
+  return out ? copy : null;
+}
+
+/* ---------- canvas drawing helpers ---------- */
+function invWrap(ctx, text, maxW){
+  const words = String(text).split(/\s+/);
+  const lines = [];
+  let cur = '';
+  words.forEach(w=>{
+    const test = cur ? cur + ' ' + w : w;
+    if(ctx.measureText(test).width <= maxW || !cur){ cur = test; }
+    else { lines.push(cur); cur = w; }
+  });
+  if(cur) lines.push(cur);
+  // hard-break a single very long word
+  const out = [];
+  lines.forEach(l=>{
+    if(ctx.measureText(l).width <= maxW){ out.push(l); return; }
+    let piece = '';
+    for(const ch of l){ if(ctx.measureText(piece + ch).width > maxW){ out.push(piece); piece = ch; } else piece += ch; }
+    if(piece) out.push(piece);
+  });
+  return out.length ? out : [''];
+}
+
+const INV_LABELS = {
+  sales:    { titleAr:'فاتورة ضريبية مبسطة', titleEn:'Simplified Tax Invoice', partyA:['البائع','Seller'], partyB:['العميل','Customer'] },
+  purchase: { titleAr:'فاتورة مشتريات',       titleEn:'Purchase Invoice',       partyA:['المورّد (البائع)','Supplier (Seller)'], partyB:['المشتري (منشأتي)','Buyer (my business)'] }
+};
+const INV_PAY = { cash:['نقدي','Cash'], card:['بطاقة / شبكة','Card'], transfer:['تحويل بنكي','Bank transfer'], credit:['آجل','Credit'] };
+
+async function invRender(scale){
+  try{ await document.fonts.load("600 16px 'IBM Plex Sans Arabic'"); await document.fonts.load("400 16px 'IBM Plex Sans Arabic'"); }catch(e){}
+  const d = invCollect();
+  const calc = invCompute(d);
+  const L = INV_LABELS[d.type];
+  const FONT = "'IBM Plex Sans Arabic', 'Segoe UI', Arial, sans-serif";
+  const ink = '#1a1a1a', grey = '#666b73', line = '#c9d1dc', tint = '#eef2f7', accent = d.accent;
+  const R = INV_W - INV_M, Lx = INV_M;
+  const pages = [];
+  let canvas, ctx, y, pageNo = 0;
+
+  function T(str, x, yy, o){
+    o = o || {};
+    ctx.font = `${o.w || 400} ${o.s || 12}px ${FONT}`;
+    ctx.fillStyle = o.c || ink;
+    ctx.textBaseline = 'middle';
+    ctx.direction = o.dir || 'rtl';
+    ctx.textAlign = o.a || 'right';
+    ctx.fillText(str, x, yy);
+  }
+  function box(x, yy, w, h, fill, stroke){
+    if(fill){ ctx.fillStyle = fill; ctx.fillRect(x, yy, w, h); }
+    if(stroke){ ctx.strokeStyle = stroke; ctx.lineWidth = 1; ctx.strokeRect(x + 0.5, yy + 0.5, w - 1, h - 1); }
+  }
+  function newPage(){
+    canvas = document.createElement('canvas');
+    canvas.width = Math.round(INV_W * scale); canvas.height = Math.round(INV_H * scale);
+    ctx = canvas.getContext('2d');
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, INV_W, INV_H);
+    pages.push(canvas); pageNo++;
+    y = INV_M;
+  }
+
+  const cols = [  // right → left
+    { k:'n',       ar:'#',            en:'No',          w:28,  a:'center' },
+    { k:'desc',    ar:'الوصف',        en:'Description', w:0,   a:'right'  },
+    { k:'qty',     ar:'الكمية',       en:'Qty',         w:46,  a:'center' },
+    { k:'unit',    ar:'سعر الوحدة',   en:'Unit price',  w:68,  a:'center' },
+    { k:'disc',    ar:'الخصم',        en:'Discount',    w:54,  a:'center' },
+    { k:'taxable', ar:'الخاضع للضريبة', en:'Taxable',   w:76,  a:'center' },
+    { k:'rate',    ar:'الضريبة %',    en:'VAT %',       w:46,  a:'center' },
+    { k:'vat',     ar:'مبلغ الضريبة', en:'VAT',         w:64,  a:'center' },
+    { k:'total',   ar:'الإجمالي',     en:'Total',       w:76,  a:'center' }
+  ];
+  const fixed = cols.reduce((s, c)=> s + c.w, 0);
+  cols[1].w = (R - Lx) - fixed;
+  let cx = R;
+  cols.forEach(c=>{ c.x1 = cx; c.x0 = cx - c.w; cx = c.x0; });
+
+  function drawTableHeader(){
+    box(Lx, y, R - Lx, 34, accent, null);
+    cols.forEach(c=>{
+      const mid = (c.x0 + c.x1) / 2;
+      T(c.ar, mid, y + 12, { a:'center', w:600, s:10.5, c:'#fff' });
+      T(c.en, mid, y + 25, { a:'center', s:8.5, c:'#d6deea', dir:'ltr' });
+    });
+    y += 34;
+  }
+
+  /* ---------- page 1 header ---------- */
+  newPage();
+  // top: seller name (right) + logo (left)
+  const topName = d.sellerName || (d.type === 'sales' ? 'اسم المنشأة' : 'اسم المورّد');
+  if(d.type === 'sales' || d.sellerName){
+    T(topName, R, y + 14, { w:700, s:19 });
+  }
+  if(invLogoImg){
+    const maxW = 130, maxH = 62;
+    const r = Math.min(maxW / invLogoImg.naturalWidth, maxH / invLogoImg.naturalHeight);
+    ctx.drawImage(invLogoImg, Lx, y, invLogoImg.naturalWidth * r, invLogoImg.naturalHeight * r);
+  }
+  if(d.sellerVat) T('الرقم الضريبي  VAT No: ' + d.sellerVat, R, y + 38, { s:11, c:grey });
+  y += 68;
+
+  // title bar
+  box(Lx, y, R - Lx, 44, accent, null);
+  T(L.titleAr, (Lx + R) / 2, y + 17, { a:'center', w:700, s:19, c:'#fff' });
+  T(L.titleEn, (Lx + R) / 2, y + 34, { a:'center', s:11, c:'#d6deea', dir:'ltr' });
+  y += 56;
+
+  // meta cells
+  const metaW = (R - Lx - 16) / 3;
+  const pay = INV_PAY[d.pay] || INV_PAY.cash;
+  const meta = [
+    ['رقم الفاتورة  Invoice No', d.no || '—', 'ltr'],
+    ['التاريخ والوقت  Date & time', d.date || '—', 'ltr'],
+    ['طريقة الدفع  Payment', pay[0] + ' / ' + pay[1], 'rtl']
+  ];
+  meta.forEach((m, i)=>{
+    const x1 = R - i * (metaW + 8);
+    box(x1 - metaW, y, metaW, 42, tint, line);
+    T(m[0], x1 - 8, y + 13, { s:9.5, c:grey });
+    T(m[1], x1 - 8, y + 29, { w:600, s:12, dir:m[2] });
+  });
+  y += 54;
+
+  // parties
+  const partyW = (R - Lx - 12) / 2;
+  const sellerLines = [d.sellerName || '—', d.sellerVat ? 'الرقم الضريبي / VAT: ' + d.sellerVat : '', d.sellerAddr, d.sellerCr ? 'س.ت / CR: ' + d.sellerCr : ''].filter(Boolean);
+  const buyerLines  = [d.buyerName  || '—', d.buyerVat  ? 'الرقم الضريبي / VAT: ' + d.buyerVat  : '', d.buyerAddr].filter(Boolean);
+  const mineIsSeller = d.type === 'sales';
+  const partyData = [
+    { title: L.partyA, lines: sellerLines },
+    { title: L.partyB, lines: buyerLines }
+  ];
+  let partyH = 24 + Math.max(sellerLines.length, buyerLines.length) * 16 + 6;
+  partyData.forEach((p, i)=>{
+    const x1 = R - i * (partyW + 12);
+    box(x1 - partyW, y, partyW, partyH, null, line);
+    box(x1 - partyW, y, partyW, 20, tint, line);
+    T(p.title[0] + '  ' + p.title[1], x1 - 8, y + 10, { w:600, s:10.5, c:accent });
+    p.lines.forEach((t, k)=>{
+      ctx.font = `${k === 0 ? 600 : 400} 11px ${FONT}`;
+      const fit = ctx.measureText(t).width > partyW - 16 ? invWrap(ctx, t, partyW - 16)[0] + '…' : t;
+      T(fit, x1 - 8, y + 33 + k * 16, { w: k === 0 ? 600 : 400, s: k === 0 ? 12 : 11, c: k === 0 ? ink : '#333' });
+    });
+  });
+  y += partyH + 12;
+
+  /* ---------- table ---------- */
+  drawTableHeader();
+  const bottomLimit = INV_H - INV_M - 22;
+  calc.rows.forEach((r, idx)=>{
+    ctx.font = `400 11px ${FONT}`;
+    const lines = invWrap(ctx, r.desc || '—', cols[1].w - 12);
+    const rowH = Math.max(24, lines.length * 15 + 9);
+    if(y + rowH > bottomLimit){
+      T(`${pageNo}`, INV_W / 2, INV_H - INV_M + 4, { a:'center', s:9, c:grey, dir:'ltr' });
+      newPage(); drawTableHeader();
+    }
+    if(idx % 2 === 1) box(Lx, y, R - Lx, rowH, '#f8fafc', null);
+    cols.forEach(c=>{
+      const mid = (c.x0 + c.x1) / 2;
+      if(c.k === 'desc'){
+        lines.forEach((ln, i)=> T(ln, c.x1 - 6, y + 12 + i * 15, { s:11 }));
+      }else{
+        let val = '';
+        if(c.k === 'n') val = String(idx + 1);
+        else if(c.k === 'qty') val = String(+r.qty.toFixed(3));
+        else if(c.k === 'rate') val = r.rate + '%';
+        else val = invFmt(r[c.k]);
+        T(val, mid, y + rowH / 2, { a:'center', s:10.5, dir:'ltr', w: c.k === 'total' ? 600 : 400 });
+      }
+    });
+    ctx.strokeStyle = line; ctx.lineWidth = 0.6;
+    ctx.beginPath(); ctx.moveTo(Lx, y + rowH); ctx.lineTo(R, y + rowH); ctx.stroke();
+    y += rowH;
+  });
+  if(!calc.rows.length){ T('لا توجد بنود  No items', (Lx + R) / 2, y + 16, { a:'center', s:11, c:grey }); y += 32; }
+  ctx.strokeStyle = line; ctx.lineWidth = 1; ctx.strokeRect(Lx + 0.5, y - 0 + 0.5, 0, 0);
+
+  /* ---------- totals + codes (kept together on the last page) ---------- */
+  const needed = 190;
+  if(y + needed + 24 > INV_H - INV_M){
+    T(`${pageNo}`, INV_W / 2, INV_H - INV_M + 4, { a:'center', s:9, c:grey, dir:'ltr' });
+    newPage();
+  }
+  y += 14;
+  // totals box (left side)
+  const tw = 270, tx = Lx;
+  const tot = [
+    ['الإجمالي الخاضع للضريبة', 'Total taxable', calc.taxable, false],
+    ['ضريبة القيمة المضافة', 'VAT', calc.vat, false],
+    ['الإجمالي شامل الضريبة', 'Total (SAR)', calc.total, true]
+  ];
+  tot.forEach((t, i)=>{
+    const yy = y + i * 30;
+    box(tx, yy, tw, 30, t[3] ? accent : (i % 2 ? '#f8fafc' : tint), line);
+    T(t[0], tx + tw - 8, yy + 11, { w: t[3] ? 700 : 500, s:11.5, c: t[3] ? '#fff' : ink });
+    T(t[1], tx + tw - 8, yy + 23, { s:8.5, c: t[3] ? '#d6deea' : grey, dir:'ltr' });
+    T(invFmt(t[2]), tx + 10, yy + 15, { a:'left', w:700, s:13, c: t[3] ? '#fff' : ink, dir:'ltr' });
+  });
+
+  // QR (right side)
+  let qrBottom = y;
+  if(d.showQr){
+    const qrSize = 118;
+    const payload = zatcaTLV(d.sellerName || '-', d.sellerVat || '-', invTimestampISO(d.date), invFmt(calc.total).replace(/,/g, ''), invFmt(calc.vat).replace(/,/g, ''));
+    const qc = invQrCanvas(payload, 600);
+    const qx = R - qrSize;
+    box(qx - 6, y - 4, qrSize + 12, qrSize + 26, '#fff', line);
+    if(qc){ ctx.imageSmoothingEnabled = false; ctx.drawImage(qc, qx, y, qrSize, qrSize); ctx.imageSmoothingEnabled = true; }
+    else T('QR', qx + qrSize / 2, y + qrSize / 2, { a:'center', s:12, c:grey });
+    T('رمز الفاتورة الضريبية  ZATCA QR', qx + qrSize / 2, y + qrSize + 11, { a:'center', s:8, c:grey });
+    qrBottom = y + qrSize + 24;
+  }
+  // notes (middle) and invoice-number barcode
+  const midX1 = d.showQr ? R - 118 - 22 : R;
+  const midX0 = tx + tw + 16;
+  let ny = y + 4;
+  if(d.notes && midX1 - midX0 > 60){
+    T('ملاحظات  Notes', midX1, ny + 6, { w:600, s:10.5, c:accent });
+    ctx.font = `400 10.5px ${FONT}`;
+    invWrap(ctx, d.notes, midX1 - midX0).slice(0, 5).forEach((ln, i)=> T(ln, midX1, ny + 24 + i * 14, { s:10.5, c:'#333' }));
+    ny += 24 + 5 * 14;
+  }
+  let barY = Math.max(y + 100, qrBottom + 8);
+  if(d.showBar && d.no && /^[\x20-\x7e]+$/.test(d.no)){
+    try{
+      const mods = code128Modules(d.no);
+      const quiet = 10, total = mods.length + quiet * 2;
+      const bw = Math.min(300, total * 2.2), m = bw / total, bh = 38;
+      const bx = (Lx + R) / 2 - bw / 2;
+      ctx.fillStyle = '#fff'; ctx.fillRect(bx, barY, bw, bh + 22);
+      ctx.fillStyle = '#000';
+      for(let i = 0; i < mods.length; i++){
+        if(mods[i] === '1'){ let j = i; while(j < mods.length && mods[j] === '1') j++; ctx.fillRect(bx + (quiet + i) * m, barY + 4, (j - i) * m, bh); i = j - 1; }
+      }
+      T(d.no, (Lx + R) / 2, barY + bh + 14, { a:'center', s:10, dir:'ltr', c:'#222' });
+      barY += bh + 26;
+    }catch(e){}
+  }
+  y = Math.max(barY, qrBottom) + 6;
+
+  // footer line + page numbers
+  T(`${pageNo}`, INV_W / 2, INV_H - INV_M + 4, { a:'center', s:9, c:grey, dir:'ltr' });
+  if(pages.length > 1){
+    pages.forEach((pg, i)=>{
+      const c2 = pg.getContext('2d');
+      c2.setTransform(scale, 0, 0, scale, 0, 0);
+      c2.font = `400 9px ${FONT}`; c2.fillStyle = grey; c2.textAlign = 'center'; c2.direction = 'ltr'; c2.textBaseline = 'middle';
+      c2.fillStyle = '#fff'; c2.fillRect(INV_W/2 - 40, INV_H - INV_M - 4, 80, 16);
+      c2.fillStyle = grey; c2.fillText(`${i + 1} / ${pages.length}`, INV_W / 2, INV_H - INV_M + 4);
+    });
+  }
+  return { pages, calc, d };
+}
+
+/* ---------- UI wiring ---------- */
+function invWarnCheck(d){
+  const w = [];
+  if(d.sellerVat && !(/^3\d{13}3$/.test(d.sellerVat))) w.push(I18N[currentLang].invWarnVat);
+  if(d.buyerVat && !(/^3\d{13}3$/.test(d.buyerVat))) w.push(I18N[currentLang].invWarnBuyerVat);
+  if(!/^\d{4}-\d{1,2}-\d{1,2}[ T]\d{1,2}:\d{2}/.test(d.date)) w.push(I18N[currentLang].invWarnDate);
+  const box = document.getElementById('inv-warn');
+  box.textContent = w.join(' • ');
+  box.style.display = w.length ? 'block' : 'none';
+}
+
+let invTimer = null;
+function invSchedule(){
+  clearTimeout(invTimer);
+  invTimer = setTimeout(invRefreshPreview, 180);
+}
+async function invRefreshPreview(){
+  const d = invCollect();
+  invWarnCheck(d);
+  const c = invCompute(d);
+  document.getElementById('inv-sum-taxable').textContent = invFmt(c.taxable);
+  document.getElementById('inv-sum-vat').textContent = invFmt(c.vat);
+  document.getElementById('inv-sum-total').textContent = invFmt(c.total);
+  try{
+    const out = await invRender(1.5);
+    const host = document.getElementById('inv-preview');
+    host.innerHTML = '';
+    out.pages.forEach(pg=>{
+      pg.style.cssText = 'display:block;width:100%;max-width:794px;height:auto;margin:0 auto 10px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.18);';
+      host.appendChild(pg);
+    });
+  }catch(e){ console.error(e); }
+}
+
+function invSaveProfile(){
+  try{
+    const g = id => document.getElementById(id).value;
+    localStorage.setItem(INV_LS, JSON.stringify({ name:g('inv-seller-name'), vat:g('inv-seller-vat'), addr:g('inv-seller-addr'), cr:g('inv-seller-cr'), accent:g('inv-accent') }));
+  }catch(e){}
+}
+function invLoadProfile(){
+  try{
+    const p = JSON.parse(localStorage.getItem(INV_LS) || 'null');
+    if(p){
+      const s = (id, v)=>{ if(v != null) document.getElementById(id).value = v; };
+      s('inv-seller-name', p.name); s('inv-seller-vat', p.vat); s('inv-seller-addr', p.addr); s('inv-seller-cr', p.cr); s('inv-accent', p.accent);
+    }
+  }catch(e){}
+}
+// Which side is "my business": seller in sales, buyer in purchases. The profile fills MY side.
+function invApplyType(){
+  const type = document.getElementById('inv-type').value;
+  document.getElementById('inv-seller-title').textContent = I18N[currentLang][type === 'sales' ? 'invSellerSales' : 'invSellerPurchase'];
+  document.getElementById('inv-buyer-title').textContent = I18N[currentLang][type === 'sales' ? 'invBuyerSales' : 'invBuyerPurchase'];
+  document.getElementById('inv-seller-title').setAttribute('data-i18n', type === 'sales' ? 'invSellerSales' : 'invSellerPurchase');
+  document.getElementById('inv-buyer-title').setAttribute('data-i18n', type === 'sales' ? 'invBuyerSales' : 'invBuyerPurchase');
+  document.getElementById('inv-no').value = invNextNumber(type);
+}
+
+function invRenderItems(){
+  const host = document.getElementById('inv-items');
+  host.innerHTML = '';
+  const inpStyle = 'width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;';
+  invItems.forEach((it, i)=>{
+    const row = document.createElement('div');
+    row.style.cssText = 'border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;background:var(--bg-elev-2);';
+    row.innerHTML =
+      '<div style="display:flex;gap:8px;align-items:center;">' +
+      '<input type="text" class="it-desc" placeholder="' + I18N[currentLang].invItemDescPh + '" style="flex:1;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:9px 10px;font-family:var(--font-display);font-size:.9rem;">' +
+      '<button type="button" class="it-del" title="x" style="flex:0 0 auto;width:28px;height:28px;border-radius:50%;border:none;background:var(--rust);color:#fff;cursor:pointer;font-size:.9rem;">×</button></div>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">' +
+      '<div style="flex:1;min-width:70px;"><label style="font-size:.72rem;color:var(--bone-dim);">' + I18N[currentLang].invQty + '</label><input type="text" inputmode="decimal" lang="en" class="it-qty" style="' + inpStyle + '"></div>' +
+      '<div style="flex:1;min-width:90px;"><label style="font-size:.72rem;color:var(--bone-dim);">' + I18N[currentLang].invUnitPrice + '</label><input type="text" inputmode="decimal" lang="en" class="it-price" style="' + inpStyle + '"></div>' +
+      '<div style="flex:1;min-width:80px;"><label style="font-size:.72rem;color:var(--bone-dim);">' + I18N[currentLang].invDisc + '</label><input type="text" inputmode="decimal" lang="en" class="it-disc" style="' + inpStyle + '"></div>' +
+      '<div style="flex:1;min-width:80px;"><label style="font-size:.72rem;color:var(--bone-dim);">' + I18N[currentLang].invVatRate + '</label><select class="it-rate" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-size:.85rem;"><option value="15">15%</option><option value="0">0%</option></select></div>' +
+      '</div>';
+    row.querySelector('.it-desc').value = it.desc;
+    row.querySelector('.it-qty').value = it.qty;
+    row.querySelector('.it-price').value = it.price;
+    row.querySelector('.it-disc').value = it.disc;
+    row.querySelector('.it-rate').value = String(it.rate);
+    const bind = (sel, key, isSelect)=> row.querySelector(sel).addEventListener(isSelect ? 'change' : 'input', e=>{ invItems[i][key] = e.target.value; invSchedule(); });
+    bind('.it-desc', 'desc'); bind('.it-qty', 'qty'); bind('.it-price', 'price'); bind('.it-disc', 'disc'); bind('.it-rate', 'rate', true);
+    row.querySelector('.it-del').addEventListener('click', ()=>{
+      invItems.splice(i, 1);
+      if(!invItems.length) invItems.push({ desc:'', qty:1, price:0, disc:0, rate:15 });
+      invRenderItems(); invSchedule();
+    });
+    host.appendChild(row);
+  });
+}
+document.getElementById('inv-add-item').addEventListener('click', ()=>{
+  invItems.push({ desc:'', qty:1, price:0, disc:0, rate:15 });
+  invRenderItems(); invSchedule();
+});
+
+document.querySelectorAll('.inv-ctl').forEach(el=>{
+  el.addEventListener('input', ()=>{ invSaveProfile(); invSchedule(); });
+  el.addEventListener('change', ()=>{ invSaveProfile(); invSchedule(); });
+});
+document.getElementById('inv-type').addEventListener('change', ()=>{ invApplyType(); invSchedule(); });
+document.getElementById('inv-logo').addEventListener('change', async ()=>{
+  const f = document.getElementById('inv-logo').files[0];
+  invLogoImg = null;
+  if(f){ try{ invLogoImg = await psLoadImg(f); }catch(e){} }
+  invSchedule();
+});
+document.getElementById('inv-new-btn').addEventListener('click', ()=>{
+  invItems = [{ desc:'', qty:1, price:0, disc:0, rate:15 }];
+  ['inv-buyer-name','inv-buyer-vat','inv-buyer-addr','inv-notes'].forEach(id=> document.getElementById(id).value = '');
+  document.getElementById('inv-date').value = invNowText();
+  invApplyType(); invRenderItems(); invSchedule();
+});
+
+async function invDownload(kind){
+  const status = 'inv-status';
+  try{
+    const d0 = invCollect();
+    if(!compute_ok(d0)){ setStatus(status, I18N[currentLang].invErrNoItems, 'err'); return; }
+    const out = await invRender(3);
+    const base = (d0.type === 'sales' ? 'فاتورة_مبيعات_' : 'فاتورة_مشتريات_') + (d0.no || 'invoice').replace(/[^\w\-؀-ۿ]+/g, '_');
+    if(kind === 'pdf'){
+      const doc = await PDFDocument.create();
+      for(const pg of out.pages){
+        const png = await doc.embedPng(await (await psCanvasBlob(pg, 'image/png')).arrayBuffer());
+        const page = doc.addPage([595.28, 841.89]);
+        page.drawImage(png, { x:0, y:0, width:595.28, height:841.89 });
+      }
+      downloadBlob(new Blob([await doc.save()], {type:'application/pdf'}), base + '.pdf');
+    }else if(out.pages.length === 1){
+      downloadBlob(await psCanvasBlob(out.pages[0], 'image/png'), base + '.png');
+    }else{
+      const zip = new JSZip();
+      for(let i = 0; i < out.pages.length; i++) zip.file(`${base}_${i + 1}.png`, await psCanvasBlob(out.pages[i], 'image/png'));
+      downloadBlob(await zip.generateAsync({type:'blob'}), base + '.zip');
+    }
+    invBumpCounter(d0.type, d0.no);
+    setStatus(status, I18N[currentLang].invSuccess, 'ok');
+  }catch(e){
+    console.error(e);
+    setStatus(status, I18N[currentLang].invErr, 'err');
+  }
+}
+function compute_ok(d){ return invCompute(d).rows.length > 0; }
+document.getElementById('inv-pdf-btn').addEventListener('click', ()=> invDownload('pdf'));
+document.getElementById('inv-png-btn').addEventListener('click', ()=> invDownload('png'));
+
+(function invInit(){
+  document.getElementById('inv-date').value = invNowText();
+  invLoadProfile();
+  invApplyType();
+  invRenderItems();
+  invSchedule();
+})();
 
 /* ============================================================
    PDF ERASE & REPLACE TEXT
