@@ -1477,6 +1477,19 @@
         <input type="file" id="inv-logo" accept="image/*">
         <div class="file-list" id="inv-logo-list"></div>
       </div>
+      <div id="inv-logo-opts" style="display:none;">
+        <div class="field">
+          <label for="inv-logo-mode" data-i18n="invLogoModeLabel">طريقة عرض الشعار</label>
+          <select id="inv-logo-mode"><option value="logo" data-i18n="invLogoModeLogo">شعار عادي</option><option value="watermark" data-i18n="invLogoModeWm">علامة مائية (على كل الصفحات)</option></select>
+        </div>
+        <div class="field"><label for="inv-logo-size"><span data-i18n="invLogoSize">حجم الشعار</span>: <span id="inv-logo-size-val"></span></label>
+          <input type="range" id="inv-logo-size" min="30" max="760" step="1" value="130"></div>
+        <div class="field"><label for="inv-logo-rot"><span data-i18n="invLogoRot">الاتجاه (تدوير)</span>: <span id="inv-logo-rot-val">0°</span></label>
+          <input type="range" id="inv-logo-rot" min="-180" max="180" step="1" value="0"></div>
+        <div class="field"><label for="inv-logo-op"><span data-i18n="invLogoOp">الشفافية</span>: <span id="inv-logo-op-val"></span></label>
+          <input type="range" id="inv-logo-op" min="3" max="100" step="1" value="100"></div>
+        <button type="button" class="btn secondary" id="inv-logo-reset" data-i18n="invLogoReset">إعادة ضبط الشعار</button>
+      </div>
 
       <h3 id="inv-buyer-title" style="margin:16px 0 6px;font-size:1rem;" data-i18n="invBuyerSales">بيانات العميل (المشتري)</h3>
       <div class="row">
@@ -1547,7 +1560,7 @@
 
       <div class="field" style="margin-top:16px;">
         <label data-i18n="invPreviewLabel">معاينة الفاتورة</label>
-        <p class="note" style="margin:4px 0 8px;" data-i18n="invDragHint">اسحب الباركود (المربع المتقطع) لأي مكان في الصفحة الأولى، ونقرتان عليه ترجعه لمكانه.</p>
+        <p class="note" style="margin:4px 0 8px;" data-i18n="invDragHint">اسحب الباركود أو الشعار (المربع المتقطع) لأي مكان في الصفحة الأولى، ونقرتان عليه ترجعه لمكانه.</p>
         <div id="inv-preview" style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;"></div>
       </div>
       <p class="note" data-i18n="invNote">رمز QR مبني بصيغة المرحلة الأولى لهيئة الزكاة والضريبة والجمارك (اسم البائع، الرقم الضريبي، الوقت، الإجمالي، الضريبة). هذه الأداة لا تُغني عن حل الفوترة المعتمد والربط مع الهيئة (المرحلة الثانية) للمنشآت المشمولة بها. بيانات منشأتك تُحفظ داخل متصفحك فقط ولا تُرفع لأي سيرفر.</p>
@@ -2955,7 +2968,8 @@ const I18N = {
     invInclLabel: 'الأسعار المدخلة تشمل ضريبة القيمة المضافة', invNotesLabel: 'ملاحظات (اختياري)',
     invShowQr: 'رمز QR (هيئة الزكاة)', invShowBar: 'باركود رقم الفاتورة', invAccentLabel: 'لون الفاتورة',
     invSumTaxable: 'الإجمالي الخاضع للضريبة', invSumVat: 'ضريبة القيمة المضافة', invSumTotal: 'الإجمالي شامل الضريبة',
-    invClearBtn: 'مسح بيانات المنشأة المحفوظة', invDragHint: 'اسحب الباركود (المربع المتقطع) لأي مكان في الصفحة الأولى، ونقرتان عليه ترجعه لمكانه.',
+    invLogoModeLabel: 'طريقة عرض الشعار', invLogoModeLogo: 'شعار عادي', invLogoModeWm: 'علامة مائية (على كل الصفحات)', invLogoSize: 'حجم الشعار', invLogoRot: 'الاتجاه (تدوير)', invLogoOp: 'الشفافية', invLogoReset: 'إعادة ضبط الشعار',
+    invClearBtn: 'مسح بيانات المنشأة المحفوظة', invDragHint: 'اسحب الباركود أو الشعار (المربع المتقطع) لأي مكان في الصفحة الأولى، ونقرتان عليه ترجعه لمكانه.',
     invPdfBtn: 'تنزيل PDF', invPngBtn: 'تنزيل صورة PNG', invNewBtn: 'فاتورة جديدة', invPreviewLabel: 'معاينة الفاتورة',
     invNote: 'رمز QR مبني بصيغة المرحلة الأولى لهيئة الزكاة والضريبة والجمارك (اسم البائع، الرقم الضريبي، الوقت، الإجمالي، الضريبة). هذه الأداة لا تُغني عن حل الفوترة المعتمد والربط مع الهيئة (المرحلة الثانية) للمنشآت المشمولة بها. بيانات منشأتك تُحفظ داخل متصفحك فقط ولا تُرفع لأي سيرفر.',
     invWarnVat: 'الرقم الضريبي للبائع يجب أن يكون 15 رقماً يبدأ وينتهي بالرقم 3.', invWarnBuyerVat: 'الرقم الضريبي للمشتري غير مطابق للصيغة (15 رقماً يبدأ وينتهي بـ 3).',
@@ -3681,7 +3695,8 @@ const I18N = {
     invInclLabel: 'Entered prices include VAT', invNotesLabel: 'Notes (optional)',
     invShowQr: 'QR code (ZATCA)', invShowBar: 'Invoice-number barcode', invAccentLabel: 'Invoice colour',
     invSumTaxable: 'Total taxable', invSumVat: 'VAT', invSumTotal: 'Total incl. VAT',
-    invClearBtn: 'Clear saved business data', invDragHint: 'Drag the barcode (dashed box) anywhere on page 1; double-click it to reset.',
+    invLogoModeLabel: 'Logo display', invLogoModeLogo: 'Normal logo', invLogoModeWm: 'Watermark (on every page)', invLogoSize: 'Logo size', invLogoRot: 'Rotation', invLogoOp: 'Opacity', invLogoReset: 'Reset logo',
+    invClearBtn: 'Clear saved business data', invDragHint: 'Drag the barcode or logo (dashed box) anywhere on page 1; double-click it to reset.',
     invPdfBtn: 'Download PDF', invPngBtn: 'Download PNG image', invNewBtn: 'New invoice', invPreviewLabel: 'Invoice preview',
     invNote: 'The QR code follows the ZATCA phase-1 format (seller name, VAT number, time, total, VAT). This tool does not replace an approved e-invoicing solution or the integration with ZATCA (phase 2) for businesses covered by it. Your business details are kept in your browser only and never uploaded.',
     invWarnVat: 'The seller VAT number must be 15 digits starting and ending with 3.', invWarnBuyerVat: 'The buyer VAT number does not match the format (15 digits starting and ending with 3).',
@@ -8172,6 +8187,14 @@ const INV_W = 794, INV_H = 1123, INV_M = 36;
 const INV_LS = 'uddah-invoice-profile';
 let invItems = [{ desc:'', qty:1, price:0, disc:0, rate:15 }];
 let invLogoImg = null;
+let invLogoMode = 'logo';   // 'logo' | 'watermark'
+let invLogoCx = null, invLogoCy = null;   // centre on page (null = default)
+let invLogoW = null, invLogoRot = 0, invLogoOp = 100, invLogoRect = null;
+function invLogoDefaults(){
+  const rt = invLogoImg ? invLogoImg.naturalHeight / invLogoImg.naturalWidth : 1;
+  if(invLogoMode === 'watermark') return { w: 420, op: 15 };
+  return { w: Math.round(Math.min(130, 62 / rt)), op: 100 };
+}
 let invBarPos = null;      // {x,y} top-left of the barcode on page 1 (null = default spot)
 let invBarRect = null;
 const INV_BAR_W = 190, INV_BAR_H = 60;
@@ -8374,11 +8397,6 @@ async function invRender(scale){
   if(d.type === 'sales' || d.sellerName){
     T(topName, R, y + 14, { w:700, s:19 });
   }
-  if(invLogoImg){
-    const maxW = 130, maxH = 62;
-    const r = Math.min(maxW / invLogoImg.naturalWidth, maxH / invLogoImg.naturalHeight);
-    ctx.drawImage(invLogoImg, Lx + (d.showBar && d.no ? 215 : 0), y, invLogoImg.naturalWidth * r, invLogoImg.naturalHeight * r);
-  }
   // invoice-number barcode: top-left, beside the business name
   if(d.showBar && d.no && /^[\x20-\x7e]+$/.test(d.no)){
     try{
@@ -8523,6 +8541,25 @@ async function invRender(scale){
   let barY = qrBottom;
   y = Math.max(barY, qrBottom) + 6;
 
+  // logo / watermark (drawn last so it can sit anywhere)
+  invLogoRect = null;
+  if(invLogoImg){
+    const df = invLogoDefaults();
+    const w = invLogoW || df.w, h = w * invLogoImg.naturalHeight / invLogoImg.naturalWidth;
+    const wm = invLogoMode === 'watermark';
+    const cx = invLogoCx != null ? invLogoCx : (wm ? INV_W / 2 : Lx + (d.showBar && d.no ? 215 : 0) + w / 2);
+    const cy = invLogoCy != null ? invLogoCy : (wm ? INV_H / 2 : INV_M + h / 2);
+    invLogoRect = { x: cx - w / 2, y: cy - h / 2, w, h, cx, cy };
+    (wm ? pages : [pages[0]]).forEach(pg=>{
+      const c2 = pg.getContext('2d');
+      c2.setTransform(scale, 0, 0, scale, 0, 0);
+      c2.save(); c2.globalAlpha = Math.max(0.02, Math.min(1, invLogoOp / 100));
+      c2.translate(cx, cy); c2.rotate(invLogoRot * Math.PI / 180);
+      c2.imageSmoothingQuality = 'high';
+      c2.drawImage(invLogoImg, -w / 2, -h / 2, w, h);
+      c2.restore();
+    });
+  }
   // footer line + page numbers
   if(pages.length > 1){
     pages.forEach((pg, i)=>{
@@ -8571,39 +8608,54 @@ async function invRefreshPreview(){
   }catch(e){ console.error(e); }
 }
 
-function invMakeBarOverlay(host, canvas){
-  host.style.position = 'relative';
-  if(!invBarRect) return;
+function invMakeOverlay(host, canvas, rect, rot, onMove, onReset){
   const ov = document.createElement('div');
   ov.title = I18N[currentLang].invDragHint;
-  ov.style.cssText = 'position:absolute;border:1.5px dashed var(--brass);cursor:grab;touch-action:none;background:rgba(184,134,59,.08);z-index:5;';
+  ov.style.cssText = 'position:absolute;border:1.5px dashed var(--brass);cursor:grab;touch-action:none;background:rgba(184,134,59,.06);';
   host.appendChild(ov);
   const place = ()=>{
     const cr = canvas.getBoundingClientRect(), hr = host.getBoundingClientRect();
     const k = cr.width / INV_W;
-    ov.style.left = (cr.left - hr.left + host.scrollLeft + invBarRect.x * k) + 'px';
-    ov.style.top  = (cr.top  - hr.top  + host.scrollTop  + invBarRect.y * k) + 'px';
-    ov.style.width = (invBarRect.w * k) + 'px'; ov.style.height = (invBarRect.h * k) + 'px';
+    ov.style.left = (cr.left - hr.left + host.scrollLeft + rect.x * k) + 'px';
+    ov.style.top  = (cr.top  - hr.top  + host.scrollTop  + rect.y * k) + 'px';
+    ov.style.width = (rect.w * k) + 'px'; ov.style.height = (rect.h * k) + 'px';
+    ov.style.transform = rot ? 'rotate(' + rot + 'deg)' : '';
   };
   place();
   let drag = null;
   ov.addEventListener('pointerdown', e=>{
     e.preventDefault(); ov.setPointerCapture(e.pointerId);
-    drag = { sx:e.clientX, sy:e.clientY, ox:invBarRect.x, oy:invBarRect.y };
+    drag = { sx:e.clientX, sy:e.clientY, ox:rect.x, oy:rect.y };
     ov.style.cursor = 'grabbing';
   });
   ov.addEventListener('pointermove', e=>{
     if(!drag) return;
     const k = canvas.getBoundingClientRect().width / INV_W;
     let nx = drag.ox + (e.clientX - drag.sx) / k, ny = drag.oy + (e.clientY - drag.sy) / k;
-    nx = Math.max(0, Math.min(INV_W - INV_BAR_W, nx)); ny = Math.max(0, Math.min(INV_H - INV_BAR_H, ny));
-    invBarPos = { x: Math.round(nx), y: Math.round(ny) };
-    invBarRect.x = invBarPos.x; invBarRect.y = invBarPos.y; place();
+    nx = Math.max(-rect.w * 0.6, Math.min(INV_W - rect.w * 0.4, nx)); ny = Math.max(-rect.h * 0.6, Math.min(INV_H - rect.h * 0.4, ny));
+    rect.x = Math.round(nx); rect.y = Math.round(ny); place();
+    onMove(rect);
     invSchedule();
   });
   const end = ()=>{ drag = null; ov.style.cursor = 'grab'; };
   ov.addEventListener('pointerup', end); ov.addEventListener('pointercancel', end);
-  ov.addEventListener('dblclick', ()=>{ invBarPos = null; invSchedule(); });
+  ov.addEventListener('dblclick', ()=>{ onReset(); invSchedule(); });
+  return ov;
+}
+function invMakeBarOverlay(host, canvas){
+  host.style.position = 'relative';
+  if(invLogoRect){
+    const ov = invMakeOverlay(host, canvas, invLogoRect, invLogoRot,
+      r=>{ invLogoCx = r.x + r.w / 2; invLogoCy = r.y + r.h / 2; },
+      ()=>{ invLogoCx = null; invLogoCy = null; });
+    ov.style.zIndex = 4;
+  }
+  if(invBarRect){
+    const ov = invMakeOverlay(host, canvas, invBarRect, 0,
+      r=>{ invBarPos = { x:r.x, y:r.y }; },
+      ()=>{ invBarPos = null; });
+    ov.style.zIndex = 5;
+  }
 }
 
 function invClearSaved(){
@@ -8680,12 +8732,30 @@ document.querySelectorAll('.inv-ctl').forEach(el=>{
   el.addEventListener('change', ()=>{ invSaveProfile(); invSchedule(); });
 });
 document.getElementById('inv-type').addEventListener('change', ()=>{ invApplyType(); invSchedule(); });
+function invSyncLogoUi(){
+  const g = id => document.getElementById(id);
+  const df = invLogoDefaults();
+  g('inv-logo-opts').style.display = invLogoImg ? 'block' : 'none';
+  g('inv-logo-size').value = invLogoW || df.w; g('inv-logo-size-val').textContent = (invLogoW || df.w) + ' px';
+  g('inv-logo-rot').value = invLogoRot; g('inv-logo-rot-val').textContent = invLogoRot + '°';
+  g('inv-logo-op').value = invLogoOp; g('inv-logo-op-val').textContent = invLogoOp + '%';
+  g('inv-logo-mode').value = invLogoMode;
+}
+function invResetLogo(){
+  invLogoCx = invLogoCy = null; invLogoW = null; invLogoRot = 0; invLogoOp = invLogoDefaults().op;
+  invSyncLogoUi(); invSchedule();
+}
 document.getElementById('inv-logo').addEventListener('change', async ()=>{
   const f = document.getElementById('inv-logo').files[0];
   invLogoImg = null;
   if(f){ try{ invLogoImg = await psLoadImg(f); }catch(e){} }
-  invSchedule();
+  invResetLogo();
 });
+document.getElementById('inv-logo-mode').addEventListener('change', e=>{ invLogoMode = e.target.value; invResetLogo(); });
+document.getElementById('inv-logo-size').addEventListener('input', e=>{ invLogoW = parseInt(e.target.value, 10); document.getElementById('inv-logo-size-val').textContent = invLogoW + ' px'; invSchedule(); });
+document.getElementById('inv-logo-rot').addEventListener('input', e=>{ invLogoRot = parseInt(e.target.value, 10); document.getElementById('inv-logo-rot-val').textContent = invLogoRot + '°'; invSchedule(); });
+document.getElementById('inv-logo-op').addEventListener('input', e=>{ invLogoOp = parseInt(e.target.value, 10); document.getElementById('inv-logo-op-val').textContent = invLogoOp + '%'; invSchedule(); });
+document.getElementById('inv-logo-reset').addEventListener('click', invResetLogo);
 document.getElementById('inv-new-btn').addEventListener('click', ()=>{
   invItems = [{ desc:'', qty:1, price:0, disc:0, rate:15 }];
   ['inv-buyer-name','inv-buyer-vat','inv-buyer-addr','inv-notes'].forEach(id=> document.getElementById(id).value = '');
