@@ -9435,7 +9435,6 @@ function paSpeakOnline(phrase, lang, onFail){
   // Fallback when the device has no speech voice: try several online TTS services in order until one plays.
   const q = encodeURIComponent(phrase);
   const urls = lang === 'ar' ? [
-    'https://api.streamelements.com/kappa/v2/speech?voice=Zayd&text=' + q,
     'https://api.streamelements.com/kappa/v2/speech?voice=Zeina&text=' + q,
     'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ar&q=' + q,
     'https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=ar&q=' + q
@@ -9451,6 +9450,10 @@ function paSpeakOnline(phrase, lang, onFail){
     try{
       const a = new Audio();
       a.preload = 'auto';
+      if(lang === 'ar'){   // the online voices are female: slow + lower the pitch (no pitch preservation) to get a deeper, male-sounding voice
+        a.preservesPitch = false; a.mozPreservesPitch = false; a.webkitPreservesPitch = false;
+        a.playbackRate = 0.78;
+      }
       a.onerror = fail;
       a.src = urls[i++];
       window.__paClip = a;
