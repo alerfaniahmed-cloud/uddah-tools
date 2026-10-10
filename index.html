@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>عُدّة — أدوات يومية عملية</title>
 <meta name="description" content="عُدّة: تحويل التاريخ بين الهجري والميلادي، حساب الفرق بين تاريخين والعمر، وأدوات PDF — كلها تعمل داخل متصفحك مباشرة.">
@@ -9427,16 +9428,32 @@ function paPickVoice(){
   return vs.find(v=> v.lang && v.lang.toLowerCase().startsWith(want + '-sa')) || vs.find(v=> v.lang && v.lang.toLowerCase().startsWith(want)) || null;
 }
 function paSpeakOnline(phrase, lang, onFail){
-  // Fallback when the device has no speech voice for the language: stream a spoken clip from an online TTS service.
-  try{
-    const url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' + lang + '&q=' + encodeURIComponent(phrase);
-    const a = new Audio(url);
-    a.volume = 1;
-    a.onerror = ()=> onFail && onFail();
-    const p = a.play();
-    if(p && p.catch) p.catch(()=> onFail && onFail());
-    window.__paClip = a;
-  }catch(e){ onFail && onFail(); }
+  // Fallback when the device has no speech voice: try several online TTS services in order until one plays.
+  const q = encodeURIComponent(phrase);
+  const urls = lang === 'ar' ? [
+    'https://api.streamelements.com/kappa/v2/speech?voice=Zeina&text=' + q,
+    'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ar&q=' + q,
+    'https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=ar&q=' + q
+  ] : [
+    'https://api.streamelements.com/kappa/v2/speech?voice=Brian&text=' + q,
+    'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=' + q
+  ];
+  let i = 0;
+  const next = ()=>{
+    if(i >= urls.length){ onFail && onFail(); return; }
+    let done = false;
+    const fail = ()=>{ if(done) return; done = true; next(); };
+    try{
+      const a = new Audio();
+      a.preload = 'auto';
+      a.onerror = fail;
+      a.src = urls[i++];
+      window.__paClip = a;
+      const p = a.play();
+      if(p && p.catch) p.catch(fail);
+    }catch(e){ fail(); }
+  };
+  next();
 }
 function paSpeak(key, immediate){
   const L = I18N[currentLang], city = paCityName();
