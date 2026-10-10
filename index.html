@@ -328,10 +328,8 @@
     </div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
       <select id="pa-city" style="max-width:190px;padding:6px 8px;font-size:.85rem;"></select>
-      <select id="pa-vsel" style="max-width:200px;padding:6px 8px;font-size:.85rem;display:none;" title="الصوت / Voice"></select>
       <button type="button" class="btn secondary" id="pa-toggle" style="padding:6px 12px;font-size:.85rem;">🔔</button>
       <label style="display:flex;align-items:center;gap:4px;font-size:.8rem;color:var(--bone-dim);"><input type="checkbox" id="pa-sound" checked> <span id="pa-sound-lbl">🔊</span></label>
-      <label style="display:flex;align-items:center;gap:4px;font-size:.8rem;color:var(--bone-dim);"><input type="checkbox" id="pa-voice" checked> <span id="pa-voice-lbl">🗣️</span></label>
       <button type="button" class="btn secondary" id="pa-test" style="padding:6px 10px;font-size:.8rem;" data-i18n="paTest">تجربة</button>
     </div>
     <div id="pa-msg" style="flex-basis:100%;font-size:.8rem;color:var(--rust);"></div>
@@ -9409,16 +9407,25 @@ function paFmtCount(ms){
 function paDayKey(d){ return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
 
 function paBeep(){
+  // Loud, bright bell: inharmonic partials with long exponential decay, struck 4 times.
   try{
     if(!paAudio) paAudio = new (window.AudioContext || window.webkitAudioContext)();
     if(paAudio.state === 'suspended') paAudio.resume();
-    [0, 0.55, 1.1].forEach((t, i)=>{
-      const o = paAudio.createOscillator(), g = paAudio.createGain();
-      o.type = 'sine'; o.frequency.value = [660, 784, 988][i];
-      g.gain.setValueAtTime(0.0001, paAudio.currentTime + t);
-      g.gain.exponentialRampToValueAtTime(0.25, paAudio.currentTime + t + 0.05);
-      g.gain.exponentialRampToValueAtTime(0.0001, paAudio.currentTime + t + 0.5);
-      o.connect(g); g.connect(paAudio.destination); o.start(paAudio.currentTime + t); o.stop(paAudio.currentTime + t + 0.55);
+    const ctx = paAudio, now = ctx.currentTime + 0.05;
+    const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -12; comp.ratio.value = 6;
+    const master = ctx.createGain(); master.gain.value = 1.0;
+    comp.connect(master); master.connect(ctx.destination);
+    const partials = [[1,1,3.2],[2.0,0.55,2.4],[2.76,0.5,1.8],[5.4,0.3,1.0],[8.93,0.18,0.6]];
+    [0, 1.25, 2.5, 3.75].forEach(off=>{
+      const f0 = 880, t0 = now + off;
+      partials.forEach(([m, amp, dec])=>{
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = f0 * m;
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(0.9 * amp, t0 + 0.008);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + dec);
+        o.connect(g); g.connect(comp); o.start(t0); o.stop(t0 + dec + 0.05);
+      });
     });
   }catch(e){}
 }
@@ -9508,7 +9515,6 @@ function paAnnounce(key){
   document.body.appendChild(box);
   setTimeout(()=>{ if(box.isConnected) box.remove(); }, 90000);
   if(paState.sound) paBeep();
-  if(paState.voice) paSpeak(key, !paState.sound);
   try{ if(navigator.vibrate) navigator.vibrate([300, 150, 300]); }catch(e){}
   try{ if('Notification' in window && Notification.permission === 'granted') new Notification(text, { tag:'uddah-prayer-' + key, requireInteraction:false }); }catch(e){}
   if(document.hidden){ document.title = '🕌 ' + text; }
@@ -9551,8 +9557,6 @@ function paRefreshLabels(){
   tg.style.background = paState.on ? 'var(--brass)' : '';
   tg.style.color = paState.on ? '#1c1b1a' : '';
   document.getElementById('pa-sound-lbl').textContent = L.paSound;
-  document.getElementById('pa-voice-lbl').textContent = L.paVoice;
-  paBuildVoiceSelect();
   paTick();
 }
 function paResolveAuto(){
@@ -9583,9 +9587,6 @@ document.getElementById('pa-toggle').addEventListener('click', async ()=>{
   paRefreshLabels();
 });
 document.getElementById('pa-sound').addEventListener('change', e=>{ paState.sound = e.target.checked; paSave(); });
-document.getElementById('pa-vsel').addEventListener('change', e=>{ paState.voiceName = e.target.value; paSave(); });
-document.getElementById('pa-voice').addEventListener('change', e=>{ paState.voice = e.target.checked; paSave(); });
-if('speechSynthesis' in window){ try{ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = ()=> paBuildVoiceSelect(); setTimeout(paBuildVoiceSelect, 800); }catch(e){} }
 function paPrimeSpeech(){ try{ if('speechSynthesis' in window){ const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } }catch(e){} }
 document.getElementById('pa-test').addEventListener('click', async ()=>{
   paPrimeSpeech();
@@ -9596,7 +9597,6 @@ document.getElementById('pa-test').addEventListener('click', async ()=>{
 (function paInit(){
   paBuildCitySelect();
   document.getElementById('pa-sound').checked = !!paState.sound;
-  document.getElementById('pa-voice').checked = !!paState.voice;
   if(paState.city === 'auto') paResolveAuto();
   paRefreshLabels();
   setInterval(paTick, 1000);
