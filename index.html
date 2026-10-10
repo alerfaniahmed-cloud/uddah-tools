@@ -3130,7 +3130,7 @@ const I18N = {
     certPresetGeneral: 'شكر وتقدير عام', certPresetExcel: 'شهادة تفوق دراسي', certPresetTeacher: 'تكريم معلم / معلمة', certPresetQuran: 'إتمام حفظ القرآن', certPresetCourse: 'إتمام دورة تدريبية', certPresetPart: 'مشاركة في فعالية', certPresetStaff: 'شكر موظف / إداري',
     certCountPrefix: 'عدد الشهادات:', certNamePlaceholder: 'اسم المكرَّم', certBusy: 'جارٍ إنشاء الشهادات...', certSuccess: 'تم إنشاء الشهادة وتنزيلها.', certErr: 'تعذر إنشاء الشهادة.',
     paNext: 'الصلاة القادمة', paAuto: '📍 حسب موقعي (تلقائي)', paOn: '🔔 تنبيه الأذان: مفعّل', paOff: '🔕 تنبيه الأذان: موقوف', paSound: '🔊 صوت', paTest: 'تجربة',
-    paVoice: '🗣️ صوت ناطق', paNoVoice: 'جهازك لا يحوي صوتاً عربياً ناطقاً؛ ثبّت صوتاً عربياً من إعدادات النظام (الكلام / Text-to-speech) ليُنطق التنبيه بالعربية.',
+    paVoice: '🗣️ صوت ناطق', paNoVoice: 'تعذّر تشغيل النطق الصوتي: جهازك لا يحوي صوتاً عربياً، وتعذّر تحميل الصوت من الإنترنت. تأكد من اتصالك بالإنترنت أو ثبّت صوتاً عربياً من إعدادات النظام.',
     paNowTitle: 'حان الآن وقت صلاة', paGeoFail: 'تعذّر تحديد موقعك، تم اختيار الرياض.', paNotifDenied: 'إشعارات المتصفح محظورة لهذا الموقع؛ سيظهر التنبيه داخل الصفحة مع الصوت فقط.',
     zakatCalLabel: 'نوع الحول', zakatCalHijri: 'هجري (٢٫٥٪)', zakatCalGreg: 'ميلادي (٢٫٥٧٧٥٪)',
     mortMethodLabel: 'طريقة احتساب الربح', mortMethodFlat: 'نسبة ثابتة (مثل أغلب البنوك السعودية)', mortMethodReducing: 'رصيد متناقص (قسط متساوٍ)',
@@ -9426,22 +9426,35 @@ function paPickVoice(){
   const vs = speechSynthesis.getVoices();
   return vs.find(v=> v.lang && v.lang.toLowerCase().startsWith(want + '-sa')) || vs.find(v=> v.lang && v.lang.toLowerCase().startsWith(want)) || null;
 }
+function paSpeakOnline(phrase, lang, onFail){
+  // Fallback when the device has no speech voice for the language: stream a spoken clip from an online TTS service.
+  try{
+    const url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' + lang + '&q=' + encodeURIComponent(phrase);
+    const a = new Audio(url);
+    a.volume = 1;
+    a.onerror = ()=> onFail && onFail();
+    const p = a.play();
+    if(p && p.catch) p.catch(()=> onFail && onFail());
+    window.__paClip = a;
+  }catch(e){ onFail && onFail(); }
+}
 function paSpeak(key, immediate){
-  if(!('speechSynthesis' in window)) return;
   const L = I18N[currentLang], city = paCityName();
   const phrase = currentLang === 'en'
     ? `It is now time for the ${L[PA_LABEL[key]]} prayer${city ? ' in ' + city : ''}.`
     : `حان الآن موعد أذان ${L[PA_LABEL[key]]}${city ? ' في ' + city : ''}. حيَّ على الصلاة.`;
+  const msg = document.getElementById('pa-msg');
+  const v = paPickVoice();
+  const delay = immediate ? 0 : 1700;   // after the chime
+  const online = ()=> setTimeout(()=> paSpeakOnline(phrase, currentLang === 'en' ? 'en' : 'ar', ()=>{ if(msg) msg.textContent = L.paNoVoice; }), delay);
+  if(!v || !('speechSynthesis' in window)){ online(); return; }
   try{
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(phrase);
-    u.lang = currentLang === 'en' ? 'en-US' : 'ar-SA';
-    const v = paPickVoice(); if(v){ u.voice = v; u.lang = v.lang; }
+    u.voice = v; u.lang = v.lang;
     u.rate = 0.9; u.pitch = 1; u.volume = 1;
-    setTimeout(()=> speechSynthesis.speak(u), immediate ? 0 : 1700);   // after the chime
-    const msg = document.getElementById('pa-msg');
-    if(!v && msg) msg.textContent = L.paNoVoice;
-  }catch(e){}
+    setTimeout(()=> speechSynthesis.speak(u), delay);
+  }catch(e){ online(); }
 }
 function paAnnounce(key){
   const L = I18N[currentLang];
