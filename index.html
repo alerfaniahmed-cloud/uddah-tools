@@ -1617,6 +1617,7 @@
         <label for="cert-logo" data-i18n="certLogoLabel">الشعار (اختياري)</label>
         <input type="file" id="cert-logo" accept="image/*">
         <div class="file-list" id="cert-logo-list"></div>
+        <button type="button" class="btn secondary" id="cert-logo-del" style="margin-top:6px;padding:6px 12px;font-size:.85rem;" data-i18n="certLogoDel">حذف الشعار</button>
       </div>
       <div class="field"><label for="cert-logo-size"><span data-i18n="certLogoSize">حجم الشعار</span>: <span id="cert-logo-size-val">90</span></label>
         <input type="range" id="cert-logo-size" class="cert-ctl" min="40" max="170" value="90"></div>
@@ -1645,6 +1646,7 @@
         <label for="cert-stamp" data-i18n="certStampLabel">ختم الجهة (صورة شفافة PNG، اختياري)</label>
         <input type="file" id="cert-stamp" accept="image/*">
         <div class="file-list" id="cert-stamp-list"></div>
+        <button type="button" class="btn secondary" id="cert-stamp-del" style="margin-top:6px;padding:6px 12px;font-size:.85rem;" data-i18n="certStampDel">حذف الختم</button>
       </div>
       <div class="field"><label for="cert-stamp-size"><span data-i18n="certStampSize">حجم الختم</span>: <span id="cert-stamp-size-val">110</span></label>
         <input type="range" id="cert-stamp-size" class="cert-ctl" min="50" max="200" value="110"></div>
@@ -1652,6 +1654,7 @@
         <div class="field"><label for="cert-color1" data-i18n="certColor1">اللون الرئيسي</label><input type="color" id="cert-color1" class="cert-ctl" value="#1f3a5f"></div>
         <div class="field"><label for="cert-color2" data-i18n="certColor2">لون الزخارف</label><input type="color" id="cert-color2" class="cert-ctl" value="#b8863b"></div>
       </div>
+      <label style="display:flex;align-items:center;gap:8px;margin:6px 0 10px;"><input type="checkbox" id="cert-bar" class="cert-ctl" checked> <span data-i18n="certBarLabel">إضافة باركود احترافي (Code128) لرقم الشهادة — يُولَّد الرقم تلقائياً إن تركته فارغاً</span></label>
       <label style="display:flex;align-items:center;gap:8px;margin:6px 0 10px;"><input type="checkbox" id="cert-qr" class="cert-ctl"> <span data-i18n="certQrLabel">إضافة رمز QR للتحقق (يحمل الاسم والجهة والتاريخ والرقم)</span></label>
 
       <div class="btn-row" style="display:flex;flex-wrap:wrap;gap:8px;">
@@ -1661,6 +1664,7 @@
       <div id="cert-status"></div>
       <div class="field" style="margin-top:16px;">
         <label data-i18n="certPreviewLabel">معاينة الشهادة (أول اسم)</label>
+        <p class="note" style="margin:4px 0 8px;" data-i18n="certDragHint">اسحب الشعار أو الختم أو الباركود أو رمز QR (المربعات المتقطعة) لأي مكان في الشهادة، ونقرتان على أي منها ترجعه لمكانه.</p>
         <div id="cert-preview" style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;"></div>
       </div>
     </div>
@@ -3089,6 +3093,7 @@ const I18N = {
     certS1Title: 'المسمى الوظيفي للموقِّع الأول', certS1Name: 'اسم الموقِّع الأول', certS2Title: 'المسمى الوظيفي للموقِّع الثاني (اختياري)', certS2Name: 'اسم الموقِّع الثاني',
     certDateLabel: 'التاريخ', certNoLabel: 'رقم الشهادة (اختياري)', certStampLabel: 'ختم الجهة (صورة شفافة PNG، اختياري)', certStampSize: 'حجم الختم',
     certColor1: 'اللون الرئيسي', certColor2: 'لون الزخارف', certQrLabel: 'إضافة رمز QR للتحقق (يحمل الاسم والجهة والتاريخ والرقم)',
+    certLogoDel: 'حذف الشعار', certStampDel: 'حذف الختم', certBarLabel: 'إضافة باركود احترافي (Code128) لرقم الشهادة — يُولَّد الرقم تلقائياً إن تركته فارغاً', certDragHint: 'اسحب الشعار أو الختم أو الباركود أو رمز QR (المربعات المتقطعة) لأي مكان في الشهادة، ونقرتان على أي منها ترجعه لمكانه.',
     certPdfBtn: 'تنزيل PDF', certPngBtn: 'تنزيل صورة PNG', certPreviewLabel: 'معاينة الشهادة (أول اسم)',
     certPresetGeneral: 'شكر وتقدير عام', certPresetExcel: 'شهادة تفوق دراسي', certPresetTeacher: 'تكريم معلم / معلمة', certPresetQuran: 'إتمام حفظ القرآن', certPresetCourse: 'إتمام دورة تدريبية', certPresetPart: 'مشاركة في فعالية', certPresetStaff: 'شكر موظف / إداري',
     certCountPrefix: 'عدد الشهادات:', certNamePlaceholder: 'اسم المكرَّم', certBusy: 'جارٍ إنشاء الشهادات...', certSuccess: 'تم إنشاء الشهادة وتنزيلها.', certErr: 'تعذر إنشاء الشهادة.',
@@ -3833,6 +3838,7 @@ const I18N = {
     certS1Title: 'First signatory title', certS1Name: 'First signatory name', certS2Title: 'Second signatory title (optional)', certS2Name: 'Second signatory name',
     certDateLabel: 'Date', certNoLabel: 'Certificate number (optional)', certStampLabel: 'Official stamp (transparent PNG, optional)', certStampSize: 'Stamp size',
     certColor1: 'Main colour', certColor2: 'Ornament colour', certQrLabel: 'Add a verification QR code (name, organisation, date, number)',
+    certLogoDel: 'Remove logo', certStampDel: 'Remove stamp', certBarLabel: 'Add a professional Code128 barcode for the certificate number (auto-generated if left empty)', certDragHint: 'Drag the logo, stamp, barcode or QR code (dashed boxes) anywhere on the certificate; double-click one to reset it.',
     certPdfBtn: 'Download PDF', certPngBtn: 'Download PNG image', certPreviewLabel: 'Certificate preview (first name)',
     certPresetGeneral: 'General appreciation', certPresetExcel: 'Academic excellence', certPresetTeacher: 'Teacher recognition', certPresetQuran: 'Quran memorisation', certPresetCourse: 'Course completion', certPresetPart: 'Event participation', certPresetStaff: 'Staff appreciation',
     certCountPrefix: 'Certificates:', certNamePlaceholder: 'Recipient name', certBusy: 'Creating certificates...', certSuccess: 'Certificate created and downloaded.', certErr: 'Could not create the certificate.',
@@ -8953,6 +8959,8 @@ setupFilePicker('cert-logo', 'cert-logo-list', false);
 setupFilePicker('cert-stamp', 'cert-stamp-list', false);
 const CERT_LS = 'uddah-cert-profile';
 let certLogo = null, certStampImg = null;
+let certPos = { logo:null, stamp:null, bar:null, qr:null };   // centre {x,y} of each movable item (null = default spot)
+let certRects = {};
 const CERT_PRESETS = [
   { k:'certPresetGeneral', title:'شهادة شكر وتقدير', en:'Certificate of Appreciation', intro:'تتقدم {org} بخالص الشكر والتقدير إلى', body:'وذلك تقديراً لجهوده المتميزة وعطائه المثمر، سائلين الله له دوام التوفيق والنجاح.' },
   { k:'certPresetExcel', title:'شهادة تفوق', en:'Certificate of Excellence', intro:'تمنح {org} هذه الشهادة إلى الطالب/ة', body:'تقديراً لتفوقه الدراسي ومثابرته وحصوله على مرتبة متميزة، متمنين له دوام التقدم والنجاح.' },
@@ -8986,7 +8994,7 @@ function certCollect(){
     intro: g('cert-intro').value.replace(/\{org\}/g, g('cert-org').value.trim() || '............'), body: g('cert-body').value.trim(),
     s1t: g('cert-s1-title').value.trim(), s1n: g('cert-s1-name').value.trim(), s2t: g('cert-s2-title').value.trim(), s2n: g('cert-s2-name').value.trim(),
     date: g('cert-date').value.trim(), no: g('cert-no').value.trim(), stampSize: parseInt(g('cert-stamp-size').value, 10),
-    c1: g('cert-color1').value, c2: g('cert-color2').value, qr: g('cert-qr').checked
+    c1: g('cert-color1').value, c2: g('cert-color2').value, qr: g('cert-qr').checked, bar: g('cert-bar').checked
   };
 }
 function certStar(ctx, cx, cy, r, color){
@@ -9075,7 +9083,8 @@ async function certLoadFonts(font){
     ]);
   }catch(e){}
 }
-async function certRender(d, name, scale){
+async function certRender(d, name, scale, idx, total){
+  certRects = {};
   await certLoadFonts(d.font);
   const W = d.port ? 794 : 1123, H = d.port ? 1123 : 794, cx = W / 2;
   const canvas = document.createElement('canvas');
@@ -9095,14 +9104,22 @@ async function certRender(d, name, scale){
   // vertical layout
   const L = d.port
     ? { logo:84, org:262, title:340, titleEn:386, div:418, intro:470, name:550, nameLine:588, body:650, sign:900, stamp:850, foot:1040, bodyW:620, nameMax:640, titleS:50 }
-    : { logo:62, org:176, title:240, titleEn:282, div:310, intro:352, name:422, nameLine:456, body:512, sign:626, stamp:584, foot:728, bodyW:760, nameMax:820, titleS:56 };
+    : { logo:62, org:176, title:240, titleEn:282, div:310, intro:352, name:422, nameLine:456, body:512, sign:604, stamp:556, foot:728, bodyW:760, nameMax:820, titleS:56 };
   if(d.header) T(d.header, cx, d.port ? 70 : 54, { s:15, c:'#555', w:500 });
   let logoBottom = L.logo;
+  const place = (key, w, h, dx, dy)=>{
+    const p = certPos[key];
+    const cxx = p ? p.x : dx, cyy = p ? p.y : dy;
+    certRects[key] = { x: cxx - w / 2, y: cyy - h / 2, w, h };
+    return certRects[key];
+  };
   if(certLogo){
     const maxH = d.logoSize, r = Math.min(maxH / certLogo.naturalHeight, (d.logoSize * 2.2) / certLogo.naturalWidth);
     const w = certLogo.naturalWidth * r, h = certLogo.naturalHeight * r;
-    ctx.drawImage(certLogo, cx - w / 2, L.logo - 12 + (d.header ? 14 : 0), w, h);
-    logoBottom = L.logo + h;
+    const top = L.logo - 12 + (d.header ? 14 : 0);
+    const rc = place('logo', w, h, cx, top + h / 2);
+    ctx.drawImage(certLogo, rc.x, rc.y, rc.w, rc.h);
+    logoBottom = top + h;
   }
   const orgY = Math.max(L.org, logoBottom + 26);
   if(d.org) T(d.org, cx, orgY, { s:26, w:700, f:HF, c:d.c1 });
@@ -9138,18 +9155,36 @@ async function certRender(d, name, scale){
   if(certStampImg){
     const r = Math.min(d.stampSize / certStampImg.naturalWidth, d.stampSize / certStampImg.naturalHeight);
     const w = certStampImg.naturalWidth * r, h = certStampImg.naturalHeight * r;
-    ctx.save(); ctx.globalAlpha = 0.92; ctx.drawImage(certStampImg, cx - w / 2, L.stamp + 40 - h / 2, w, h); ctx.restore();
+    const rc = place('stamp', w, h, cx, L.stamp + 40);
+    ctx.save(); ctx.globalAlpha = 0.92; ctx.drawImage(certStampImg, rc.x, rc.y, rc.w, rc.h); ctx.restore();
   }
-  // footer: date / number
-  const foot = [d.date ? 'التاريخ: \u2066' + d.date + '\u2069' : '', d.no ? 'رقم الشهادة: \u2066' + d.no + '\u2069' : ''].filter(Boolean).join('   •   ');
+  // certificate number (given, or generated for the barcode / QR)
+  let certNo = d.no;
+  if(certNo && total > 1) certNo = certNo + '-' + String((idx || 0) + 1).padStart(3, '0');
+  if(!certNo && (d.bar || d.qr)) certNo = 'CERT-' + (d.date.replace(/\D/g, '').slice(0, 8) || '00000000') + '-' + String((idx || 0) + 1).padStart(3, '0');
+  const foot = [d.date ? 'التاريخ: \u2066' + d.date + '\u2069' : '', certNo ? 'رقم الشهادة: \u2066' + certNo + '\u2069' : ''].filter(Boolean).join('   •   ');
   if(foot) T(foot, cx, L.foot, { s:14, c:'#666' });
   // verification QR
   if(d.qr){
-    const payload = `${name} | ${d.org} | ${d.title} | ${d.date}${d.no ? ' | ' + d.no : ''}`;
+    const payload = `${name} | ${d.org} | ${d.title} | ${d.date}${certNo ? ' | ' + certNo : ''}`;
     const qc = certQrCanvas(payload, 400);
-    const q = 72, qx = 62, qy = H - 62 - q - 4;
-    ctx.fillStyle = '#fff'; ctx.fillRect(qx - 4, qy - 4, q + 8, q + 8);
-    if(qc){ ctx.imageSmoothingEnabled = false; ctx.drawImage(qc, qx, qy, q, q); ctx.imageSmoothingEnabled = true; }
+    const q = 72, rc = place('qr', q, q, 62 + q / 2, H - 66 - q / 2);
+    ctx.fillStyle = '#fff'; ctx.fillRect(rc.x - 4, rc.y - 4, q + 8, q + 8);
+    if(qc){ ctx.imageSmoothingEnabled = false; ctx.drawImage(qc, rc.x, rc.y, q, q); ctx.imageSmoothingEnabled = true; }
+  }
+  // Code128 barcode of the certificate number
+  if(d.bar && certNo && /^[\x20-\x7e]+$/.test(certNo)){
+    try{
+      const mods = code128Modules(certNo);
+      const quiet = 5, tot = mods.length + quiet * 2, bw = 190, m = bw / tot, bh = 38, bhTot = 58;
+      const rc = place('bar', bw, bhTot, W - 62 - bw / 2, H - 66 - bhTot / 2);
+      ctx.fillStyle = '#fff'; ctx.fillRect(rc.x, rc.y, bw, bhTot);
+      ctx.fillStyle = '#000';
+      for(let i = 0; i < mods.length; i++){
+        if(mods[i] === '1'){ let j = i; while(j < mods.length && mods[j] === '1') j++; ctx.fillRect(rc.x + (quiet + i) * m, rc.y + 3, (j - i) * m, bh); i = j - 1; }
+      }
+      T(certNo, rc.x + bw / 2, rc.y + bh + 13, { s:11, c:'#222', dir:'ltr' });
+    }catch(e){}
   }
   return canvas;
 }
@@ -9161,10 +9196,42 @@ async function certPreview(){
   const d = certCollect();
   document.getElementById('cert-count').textContent = d.names.length ? I18N[currentLang].certCountPrefix + ' ' + d.names.length : '';
   try{
-    const c = await certRender(d, d.names[0] || I18N[currentLang].certNamePlaceholder, 1.2);
+    const c = await certRender(d, d.names[0] || I18N[currentLang].certNamePlaceholder, 1.2, 0, d.names.length);
     c.style.cssText = 'display:block;width:100%;max-width:' + (d.port ? 520 : 900) + 'px;height:auto;margin:0 auto;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.2);';
     const host = document.getElementById('cert-preview'); host.innerHTML = ''; host.appendChild(c);
+    certMakeOverlays(host, c, d.port);
   }catch(e){ console.error(e); }
+}
+function certMakeOverlays(host, canvas, port){
+  host.style.position = 'relative';
+  const CW = port ? 794 : 1123, CH = port ? 1123 : 794;
+  ['logo', 'stamp', 'qr', 'bar'].forEach(key=>{
+    const rect = certRects[key]; if(!rect) return;
+    const ov = document.createElement('div');
+    ov.title = I18N[currentLang].certDragHint;
+    ov.style.cssText = 'position:absolute;border:1.5px dashed var(--brass);cursor:grab;touch-action:none;background:rgba(184,134,59,.06);z-index:5;';
+    host.appendChild(ov);
+    const place = ()=>{
+      const cr = canvas.getBoundingClientRect(), hr = host.getBoundingClientRect(), k = cr.width / CW;
+      ov.style.left = (cr.left - hr.left + host.scrollLeft + rect.x * k) + 'px';
+      ov.style.top = (cr.top - hr.top + host.scrollTop + rect.y * k) + 'px';
+      ov.style.width = (rect.w * k) + 'px'; ov.style.height = (rect.h * k) + 'px';
+    };
+    place();
+    let drag = null;
+    ov.addEventListener('pointerdown', e=>{ e.preventDefault(); ov.setPointerCapture(e.pointerId); drag = { sx:e.clientX, sy:e.clientY, ox:rect.x, oy:rect.y }; ov.style.cursor = 'grabbing'; });
+    ov.addEventListener('pointermove', e=>{
+      if(!drag) return;
+      const k = canvas.getBoundingClientRect().width / CW;
+      rect.x = Math.max(-rect.w * 0.5, Math.min(CW - rect.w * 0.5, drag.ox + (e.clientX - drag.sx) / k));
+      rect.y = Math.max(-rect.h * 0.5, Math.min(CH - rect.h * 0.5, drag.oy + (e.clientY - drag.sy) / k));
+      certPos[key] = { x: Math.round(rect.x + rect.w / 2), y: Math.round(rect.y + rect.h / 2) };
+      place(); certSchedule();
+    });
+    const end = ()=>{ drag = null; ov.style.cursor = 'grab'; };
+    ov.addEventListener('pointerup', end); ov.addEventListener('pointercancel', end);
+    ov.addEventListener('dblclick', ()=>{ certPos[key] = null; certSchedule(); });
+  });
 }
 function certSaveProfile(){
   try{
@@ -9197,6 +9264,13 @@ document.getElementById('cert-stamp').addEventListener('change', async ()=>{
   const f = document.getElementById('cert-stamp').files[0]; certStampImg = null;
   if(f){ try{ certStampImg = await psLoadImg(f); }catch(e){} } certSchedule();
 });
+function certRemoveLogo(){ const b = document.querySelector('#cert-logo-list .file-chip-remove'); if(b) b.click(); certLogo = null; certPos.logo = null; certSchedule(); }
+function certRemoveStamp(){ const b = document.querySelector('#cert-stamp-list .file-chip-remove'); if(b) b.click(); certStampImg = null; certPos.stamp = null; certSchedule(); }
+document.getElementById('cert-logo-del').addEventListener('click', certRemoveLogo);
+document.getElementById('cert-stamp-del').addEventListener('click', certRemoveStamp);
+document.getElementById('cert-logo-list').addEventListener('click', e=>{ if(e.target.closest('.file-chip-remove')){ certLogo = null; certPos.logo = null; certSchedule(); } });
+document.getElementById('cert-stamp-list').addEventListener('click', e=>{ if(e.target.closest('.file-chip-remove')){ certStampImg = null; certPos.stamp = null; certSchedule(); } });
+document.getElementById('cert-orient').addEventListener('change', ()=>{ certPos = { logo:null, stamp:null, bar:null, qr:null }; certSchedule(); });
 async function certDownload(kind){
   const status = 'cert-status';
   try{
@@ -9209,8 +9283,9 @@ async function certDownload(kind){
     if(kind === 'pdf'){
       const doc = await PDFDocument.create();
       const pw = d.port ? 595.28 : 841.89, ph = d.port ? 841.89 : 595.28;
-      for(const n of names){
-        const c = await certRender(d, n, sc);
+      for(let ni = 0; ni < names.length; ni++){
+        const n = names[ni];
+        const c = await certRender(d, n, sc, ni, names.length);
         const blob = await psCanvasBlob(c, many ? 'image/jpeg' : 'image/png', 0.93);
         const buf = await blob.arrayBuffer();
         const img = many ? await doc.embedJpg(buf) : await doc.embedPng(buf);
@@ -9218,11 +9293,11 @@ async function certDownload(kind){
       }
       downloadBlob(new Blob([await doc.save()], {type:'application/pdf'}), base + '.pdf');
     }else if(names.length === 1){
-      downloadBlob(await psCanvasBlob(await certRender(d, names[0], 3), 'image/png'), base + '.png');
+      downloadBlob(await psCanvasBlob(await certRender(d, names[0], 3, 0, 1), 'image/png'), base + '.png');
     }else{
       const zip = new JSZip();
       for(let i = 0; i < names.length; i++){
-        const c = await certRender(d, names[i], sc);
+        const c = await certRender(d, names[i], sc, i, names.length);
         zip.file(`${String(i + 1).padStart(2, '0')}_${names[i].replace(/[^\w؀-ۿ]+/g, '_')}.png`, await psCanvasBlob(c, 'image/png'));
       }
       downloadBlob(await zip.generateAsync({type:'blob'}), base + '.zip');
