@@ -3273,7 +3273,7 @@ const I18N = {
     sttHint: 'اضغط "ابدأ التسجيل" وتكلم — النص يظهر مباشرة أثناء الكلام، وتقدر تعدّله أو تنسخه بعدها.',
 
     sttFileLabel: 'أو أرفق ملفاً صوتياً (أو فيديو) لاستخراج النص منه', sttModelLabel: 'دقة التفريغ', sttModelSmall: 'دقيق (أفضل للعربية — تحميل أكبر)', sttModelBase: 'سريع (أخف وأقل دقة)', sttFileBtn: 'استخرج النص من الملف',
-    sttFileNone: 'اختر ملفاً صوتياً أولاً.', sttFileDecode: 'جارٍ قراءة الملف الصوتي…', sttFileLoadModel: 'جارٍ تحميل نموذج التفريغ (مرة واحدة فقط، ثم يُحفظ في المتصفح)…', sttFileWorking: 'جارٍ استخراج النص… قد يستغرق وقتاً حسب طول الملف', sttFileDone: 'تم استخراج النص. راجعه وصحّح أي كلمة قبل الاعتماد عليه.', sttFileFail: 'تعذّر استخراج النص. تأكد من اتصالك بالإنترنت (للتحميل الأول) وأن الملف صوتي سليم، أو جرّب خيار «سريع».', sttFileNote: 'يتم التفريغ داخل متصفحك ولا يُرفع الملف لأي سيرفر.',
+    sttFileNone: 'اختر ملفاً صوتياً أولاً.', sttFileDecode: 'جارٍ قراءة الملف الصوتي…', sttFileInit: 'اكتمل التحميل — جارٍ تجهيز النموذج (قد يستغرق دقيقة، لا تغلق الصفحة)…', sttFileLoadModel: 'جارٍ تحميل نموذج التفريغ (مرة واحدة فقط، ثم يُحفظ في المتصفح)…', sttFileWorking: 'جارٍ استخراج النص… قد يستغرق وقتاً حسب طول الملف', sttFileDone: 'تم استخراج النص. راجعه وصحّح أي كلمة قبل الاعتماد عليه.', sttFileFail: 'تعذّر استخراج النص. تأكد من اتصالك بالإنترنت (للتحميل الأول) وأن الملف صوتي سليم، أو جرّب خيار «سريع».', sttFileNote: 'يتم التفريغ داخل متصفحك ولا يُرفع الملف لأي سيرفر.',
     sttLangLabel: 'اللغة', langArabic: 'العربية', langEnglish: 'الإنجليزية',
     sttBtnStart: 'ابدأ التسجيل 🎙️', sttBtnStop: 'إيقاف التسجيل ⏹️',
     sttOutputLabel: 'النص', sttOutputPh: 'سيظهر النص هنا أثناء الكلام...',
@@ -4024,7 +4024,7 @@ const I18N = {
     sttHint: 'Press "Start Recording" and speak — the text appears live as you talk, and you can edit or copy it afterward.',
 
     sttFileLabel: 'Or attach an audio (or video) file to extract its text', sttModelLabel: 'Transcription quality', sttModelSmall: 'Accurate (best for Arabic — larger download)', sttModelBase: 'Fast (lighter, less accurate)', sttFileBtn: 'Extract text from file',
-    sttFileNone: 'Choose an audio file first.', sttFileDecode: 'Reading the audio file…', sttFileLoadModel: 'Loading the transcription model (one time only, then cached in your browser)…', sttFileWorking: 'Extracting text… this may take a while depending on the file length', sttFileDone: 'Done. Review the text and fix any word before relying on it.', sttFileFail: 'Could not extract text. Check your connection (needed for the first download) and that the file is valid audio, or try the "Fast" option.', sttFileNote: 'Transcription runs inside your browser; the file is not uploaded to any server.',
+    sttFileNone: 'Choose an audio file first.', sttFileDecode: 'Reading the audio file…', sttFileInit: 'Download complete — preparing the model (may take a minute, keep the page open)…', sttFileLoadModel: 'Loading the transcription model (one time only, then cached in your browser)…', sttFileWorking: 'Extracting text… this may take a while depending on the file length', sttFileDone: 'Done. Review the text and fix any word before relying on it.', sttFileFail: 'Could not extract text. Check your connection (needed for the first download) and that the file is valid audio, or try the "Fast" option.', sttFileNote: 'Transcription runs inside your browser; the file is not uploaded to any server.',
     sttLangLabel: 'Language', langArabic: 'Arabic', langEnglish: 'English',
     sttBtnStart: 'Start Recording 🎙️', sttBtnStop: 'Stop Recording ⏹️',
     sttOutputLabel: 'Text', sttOutputPh: 'The text will appear here as you speak...',
@@ -10961,13 +10961,16 @@ async function sttLoadAsr(model){
   sttFileSet(L.sttFileLoadModel, 2);
   const tf = await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.2');
   tf.env.allowLocalModels = false;
+  try{   // run the heavy WASM work off the main thread so the page never freezes
+    tf.env.backends.onnx.wasm.proxy = true;
+    tf.env.backends.onnx.wasm.numThreads = (self.crossOriginIsolated && navigator.hardwareConcurrency) ? Math.min(4, navigator.hardwareConcurrency) : 1;
+  }catch(e){}
   const files = {};
   const progress = (p)=>{
     if(p && p.file && p.status === 'progress'){ files[p.file] = p; let l = 0, t = 0; Object.values(files).forEach(f=>{ l += f.loaded || 0; t += f.total || 0; }); if(t) sttFileSet(L.sttFileLoadModel + ' ' + Math.round(l / t * 100) + '%', l / t * 100); }
+    else if(p && (p.status === 'done' || p.status === 'ready')){ sttFileSet(L.sttFileInit, null); }
   };
-  const attempts = [];
-  if(navigator.gpu) attempts.push({ device:'webgpu', dtype:{ encoder_model:'fp32', decoder_model_merged:'q4' } });
-  attempts.push({ device:'wasm', dtype:'q8' });
+  const attempts = [{ device:'wasm', dtype:'q8' }];
   let lastErr;
   for(const opt of attempts){
     try{
@@ -10986,6 +10989,7 @@ document.getElementById('stt-file-btn').addEventListener('click', async ()=>{
   try{
     sttFileSet(L.sttFileDecode, 1);
     const pcm = await sttDecodeFile(f);
+    const tl0 = Date.now();
     const asr = await sttLoadAsr(document.getElementById('stt-model').value);
     sttFileSet(L.sttFileWorking, null);
     const lang = sttLangSelect.value.startsWith('ar') ? 'arabic' : 'english';
