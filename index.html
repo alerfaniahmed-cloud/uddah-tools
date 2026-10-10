@@ -7,7 +7,7 @@
 <meta name="description" content="عُدّة: تحويل التاريخ بين الهجري والميلادي، حساب الفرق بين تاريخين والعمر، وأدوات PDF — كلها تعمل داخل متصفحك مباشرة.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Reem+Kufi:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Aref+Ruqaa+Ink&family=Rakkas&family=Lalezar&family=Jomhuria&family=Katibeh&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&family=Almarai:wght@400;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
@@ -908,6 +908,7 @@
           <option value="pw" data-i18n="toolsOptPw">🔑 مولد كلمات المرور</option>
           <option value="id" data-i18n="toolsOptId">🪪 مدقق رقم الهوية / الإقامة</option>
           <option value="invoice" data-i18n="toolsOptInvoice">🧾 إنشاء فاتورة (مبيعات / مشتريات)</option>
+          <option value="cert" data-i18n="toolsOptCert">🎓 شهادة شكر وتقدير (مدارس وأكاديميات)</option>
           <option value="iban" data-i18n="toolsOptIban">🏦 مدقق رقم الآيبان السعودي (IBAN)</option>
         </select>
       </div>
@@ -1564,6 +1565,104 @@
         <div id="inv-preview" style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;"></div>
       </div>
       <p class="note" data-i18n="invNote">رمز QR مبني بصيغة المرحلة الأولى لهيئة الزكاة والضريبة والجمارك (اسم البائع، الرقم الضريبي، الوقت، الإجمالي، الضريبة). هذه الأداة لا تُغني عن حل الفوترة المعتمد والربط مع الهيئة (المرحلة الثانية) للمنشآت المشمولة بها. بيانات منشأتك تُحفظ داخل متصفحك فقط ولا تُرفع لأي سيرفر.</p>
+    </div>
+
+    <div class="card tools-card" id="tools-cert">
+      <h2 data-i18n="certTitleH">شهادة شكر وتقدير للمدارس والأكاديميات</h2>
+      <p class="hint" data-i18n="certHint">صمّم شهادة شكر أو تقدير أو تفوق جاهزة للطباعة بتصميم احترافي، وأنشئ عدة شهادات دفعة واحدة بكتابة الأسماء كل اسم في سطر.</p>
+
+      <div class="row">
+        <div class="field">
+          <label for="cert-preset" data-i18n="certPresetLabel">نوع الشهادة (يعبّئ النصوص تلقائياً)</label>
+          <select id="cert-preset"></select>
+        </div>
+        <div class="field">
+          <label for="cert-style" data-i18n="certStyleLabel">التصميم</label>
+          <select id="cert-style" class="cert-ctl">
+            <option value="classic" data-i18n="certStyleClassic">كلاسيكي ذهبي</option>
+            <option value="royal" data-i18n="certStyleRoyal">ملكي بزخارف نجمية</option>
+            <option value="modern" data-i18n="certStyleModern">عصري</option>
+            <option value="minimal" data-i18n="certStyleMinimal">بسيط أنيق</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="cert-orient" data-i18n="certOrientLabel">اتجاه الورقة</label>
+          <select id="cert-orient" class="cert-ctl">
+            <option value="land" data-i18n="certOrientLand">عرضي (أفقي)</option>
+            <option value="port" data-i18n="certOrientPort">طولي (رأسي)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cert-font" data-i18n="certFontLabel">خط العناوين والاسم</label>
+          <select id="cert-font" class="cert-ctl">
+            <option value="Amiri">أميري (نسخ كلاسيكي)</option>
+            <option value="Aref Ruqaa">عارف رقعة (رقعة)</option>
+            <option value="Reem Kufi">ريم كوفي (كوفي)</option>
+            <option value="IBM Plex Sans Arabic">IBM Plex (عصري)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field"><label for="cert-title" data-i18n="certTitleLabel">عنوان الشهادة</label><input type="text" id="cert-title" class="cert-ctl"></div>
+        <div class="field"><label for="cert-title-en" data-i18n="certTitleEnLabel">العنوان بالإنجليزية (اختياري)</label><input type="text" id="cert-title-en" class="cert-ctl" lang="en" dir="ltr" value="Certificate of Appreciation"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="cert-org" data-i18n="certOrgLabel">اسم المدرسة / الأكاديمية</label><input type="text" id="cert-org" class="cert-ctl"></div>
+        <div class="field"><label for="cert-header" data-i18n="certHeaderLabel">سطر علوي (اختياري، مثل: المملكة العربية السعودية)</label><input type="text" id="cert-header" class="cert-ctl"></div>
+      </div>
+      <div class="field">
+        <label for="cert-logo" data-i18n="certLogoLabel">الشعار (اختياري)</label>
+        <input type="file" id="cert-logo" accept="image/*">
+        <div class="file-list" id="cert-logo-list"></div>
+      </div>
+      <div class="field"><label for="cert-logo-size"><span data-i18n="certLogoSize">حجم الشعار</span>: <span id="cert-logo-size-val">90</span></label>
+        <input type="range" id="cert-logo-size" class="cert-ctl" min="40" max="170" value="90"></div>
+
+      <div class="field">
+        <label for="cert-names" data-i18n="certNamesLabel">أسماء المكرَّمين (كل اسم في سطر مستقل)</label>
+        <textarea id="cert-names" class="cert-ctl" rows="4" style="width:100%;"></textarea>
+        <div id="cert-count" style="font-size:.8rem;color:var(--bone-dim);margin-top:4px;"></div>
+      </div>
+      <div class="field"><label for="cert-intro" data-i18n="certIntroLabel">العبارة التمهيدية (استخدم {org} لاسم الجهة)</label><input type="text" id="cert-intro" class="cert-ctl"></div>
+      <div class="field"><label for="cert-body" data-i18n="certBodyLabel">نص الشهادة</label><textarea id="cert-body" class="cert-ctl" rows="3" style="width:100%;"></textarea></div>
+
+      <div class="row">
+        <div class="field"><label for="cert-s1-title" data-i18n="certS1Title">المسمى الوظيفي للموقِّع الأول</label><input type="text" id="cert-s1-title" class="cert-ctl" value="مدير المدرسة"></div>
+        <div class="field"><label for="cert-s1-name" data-i18n="certS1Name">اسم الموقِّع الأول</label><input type="text" id="cert-s1-name" class="cert-ctl"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="cert-s2-title" data-i18n="certS2Title">المسمى الوظيفي للموقِّع الثاني (اختياري)</label><input type="text" id="cert-s2-title" class="cert-ctl" value="وكيل المدرسة"></div>
+        <div class="field"><label for="cert-s2-name" data-i18n="certS2Name">اسم الموقِّع الثاني</label><input type="text" id="cert-s2-name" class="cert-ctl"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="cert-date" data-i18n="certDateLabel">التاريخ</label><input type="text" id="cert-date" class="cert-ctl" lang="en"></div>
+        <div class="field"><label for="cert-no" data-i18n="certNoLabel">رقم الشهادة (اختياري)</label><input type="text" id="cert-no" class="cert-ctl" lang="en" dir="ltr"></div>
+      </div>
+      <div class="field">
+        <label for="cert-stamp" data-i18n="certStampLabel">ختم الجهة (صورة شفافة PNG، اختياري)</label>
+        <input type="file" id="cert-stamp" accept="image/*">
+        <div class="file-list" id="cert-stamp-list"></div>
+      </div>
+      <div class="field"><label for="cert-stamp-size"><span data-i18n="certStampSize">حجم الختم</span>: <span id="cert-stamp-size-val">110</span></label>
+        <input type="range" id="cert-stamp-size" class="cert-ctl" min="50" max="200" value="110"></div>
+      <div class="row">
+        <div class="field"><label for="cert-color1" data-i18n="certColor1">اللون الرئيسي</label><input type="color" id="cert-color1" class="cert-ctl" value="#1f3a5f"></div>
+        <div class="field"><label for="cert-color2" data-i18n="certColor2">لون الزخارف</label><input type="color" id="cert-color2" class="cert-ctl" value="#b8863b"></div>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;margin:6px 0 10px;"><input type="checkbox" id="cert-qr" class="cert-ctl"> <span data-i18n="certQrLabel">إضافة رمز QR للتحقق (يحمل الاسم والجهة والتاريخ والرقم)</span></label>
+
+      <div class="btn-row" style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button class="btn" id="cert-pdf-btn" data-i18n="certPdfBtn">تنزيل PDF</button>
+        <button class="btn secondary" id="cert-png-btn" data-i18n="certPngBtn">تنزيل صورة PNG</button>
+      </div>
+      <div id="cert-status"></div>
+      <div class="field" style="margin-top:16px;">
+        <label data-i18n="certPreviewLabel">معاينة الشهادة (أول اسم)</label>
+        <div id="cert-preview" style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;"></div>
+      </div>
     </div>
 
     <div class="card tools-card" id="tools-iban">
@@ -2978,6 +3077,21 @@ const I18N = {
     invWarnDisc: 'الخصم في أحد البنود أكبر من قيمة البند، فسيظهر الإجمالي بالسالب.',
     invWarnDate: 'صيغة التاريخ يجب أن تكون YYYY-MM-DD HH:MM',
     invErrNoItems: 'أضف بنداً واحداً على الأقل بوصف أو سعر.', invSuccess: 'تم إنشاء الفاتورة وتنزيلها.', invErr: 'تعذر إنشاء الفاتورة.',
+    toolsOptCert: '🎓 شهادة شكر وتقدير (مدارس وأكاديميات)',
+    certTitleH: 'شهادة شكر وتقدير للمدارس والأكاديميات',
+    certHint: 'صمّم شهادة شكر أو تقدير أو تفوق جاهزة للطباعة بتصميم احترافي، وأنشئ عدة شهادات دفعة واحدة بكتابة الأسماء كل اسم في سطر.',
+    certPresetLabel: 'نوع الشهادة (يعبّئ النصوص تلقائياً)', certStyleLabel: 'التصميم',
+    certStyleClassic: 'كلاسيكي ذهبي', certStyleRoyal: 'ملكي بزخارف نجمية', certStyleModern: 'عصري', certStyleMinimal: 'بسيط أنيق',
+    certOrientLabel: 'اتجاه الورقة', certOrientLand: 'عرضي (أفقي)', certOrientPort: 'طولي (رأسي)', certFontLabel: 'خط العناوين والاسم',
+    certTitleLabel: 'عنوان الشهادة', certTitleEnLabel: 'العنوان بالإنجليزية (اختياري)', certOrgLabel: 'اسم المدرسة / الأكاديمية',
+    certHeaderLabel: 'سطر علوي (اختياري، مثل: المملكة العربية السعودية)', certLogoLabel: 'الشعار (اختياري)', certLogoSize: 'حجم الشعار',
+    certNamesLabel: 'أسماء المكرَّمين (كل اسم في سطر مستقل)', certIntroLabel: 'العبارة التمهيدية (استخدم {org} لاسم الجهة)', certBodyLabel: 'نص الشهادة',
+    certS1Title: 'المسمى الوظيفي للموقِّع الأول', certS1Name: 'اسم الموقِّع الأول', certS2Title: 'المسمى الوظيفي للموقِّع الثاني (اختياري)', certS2Name: 'اسم الموقِّع الثاني',
+    certDateLabel: 'التاريخ', certNoLabel: 'رقم الشهادة (اختياري)', certStampLabel: 'ختم الجهة (صورة شفافة PNG، اختياري)', certStampSize: 'حجم الختم',
+    certColor1: 'اللون الرئيسي', certColor2: 'لون الزخارف', certQrLabel: 'إضافة رمز QR للتحقق (يحمل الاسم والجهة والتاريخ والرقم)',
+    certPdfBtn: 'تنزيل PDF', certPngBtn: 'تنزيل صورة PNG', certPreviewLabel: 'معاينة الشهادة (أول اسم)',
+    certPresetGeneral: 'شكر وتقدير عام', certPresetExcel: 'شهادة تفوق دراسي', certPresetTeacher: 'تكريم معلم / معلمة', certPresetQuran: 'إتمام حفظ القرآن', certPresetCourse: 'إتمام دورة تدريبية', certPresetPart: 'مشاركة في فعالية', certPresetStaff: 'شكر موظف / إداري',
+    certCountPrefix: 'عدد الشهادات:', certNamePlaceholder: 'اسم المكرَّم', certBusy: 'جارٍ إنشاء الشهادات...', certSuccess: 'تم إنشاء الشهادة وتنزيلها.', certErr: 'تعذر إنشاء الشهادة.',
     zakatCalLabel: 'نوع الحول', zakatCalHijri: 'هجري (٢٫٥٪)', zakatCalGreg: 'ميلادي (٢٫٥٧٧٥٪)',
     mortMethodLabel: 'طريقة احتساب الربح', mortMethodFlat: 'نسبة ثابتة (مثل أغلب البنوك السعودية)', mortMethodReducing: 'رصيد متناقص (قسط متساوٍ)',
     zakatTotalLabel: 'إجمالي المال (ريال)', zakatTotalPh: 'مثال: 50000',
@@ -3707,6 +3821,21 @@ const I18N = {
     invWarnDisc: 'A line discount is larger than the line amount, so its total will be negative.',
     invWarnDate: 'Date format must be YYYY-MM-DD HH:MM',
     invErrNoItems: 'Add at least one item with a description or price.', invSuccess: 'Invoice created and downloaded.', invErr: 'Could not create the invoice.',
+    toolsOptCert: '🎓 Appreciation Certificate (schools & academies)',
+    certTitleH: 'Appreciation certificate for schools & academies',
+    certHint: 'Design a print-ready certificate of appreciation, excellence or completion, and create many certificates at once by typing one name per line.',
+    certPresetLabel: 'Certificate type (fills the texts)', certStyleLabel: 'Design',
+    certStyleClassic: 'Classic gold', certStyleRoyal: 'Royal with star ornaments', certStyleModern: 'Modern', certStyleMinimal: 'Minimal',
+    certOrientLabel: 'Page orientation', certOrientLand: 'Landscape', certOrientPort: 'Portrait', certFontLabel: 'Title & name font',
+    certTitleLabel: 'Certificate title', certTitleEnLabel: 'English title (optional)', certOrgLabel: 'School / academy name',
+    certHeaderLabel: 'Top line (optional, e.g. Kingdom of Saudi Arabia)', certLogoLabel: 'Logo (optional)', certLogoSize: 'Logo size',
+    certNamesLabel: 'Recipient names (one per line)', certIntroLabel: 'Opening phrase (use {org} for the organisation)', certBodyLabel: 'Certificate text',
+    certS1Title: 'First signatory title', certS1Name: 'First signatory name', certS2Title: 'Second signatory title (optional)', certS2Name: 'Second signatory name',
+    certDateLabel: 'Date', certNoLabel: 'Certificate number (optional)', certStampLabel: 'Official stamp (transparent PNG, optional)', certStampSize: 'Stamp size',
+    certColor1: 'Main colour', certColor2: 'Ornament colour', certQrLabel: 'Add a verification QR code (name, organisation, date, number)',
+    certPdfBtn: 'Download PDF', certPngBtn: 'Download PNG image', certPreviewLabel: 'Certificate preview (first name)',
+    certPresetGeneral: 'General appreciation', certPresetExcel: 'Academic excellence', certPresetTeacher: 'Teacher recognition', certPresetQuran: 'Quran memorisation', certPresetCourse: 'Course completion', certPresetPart: 'Event participation', certPresetStaff: 'Staff appreciation',
+    certCountPrefix: 'Certificates:', certNamePlaceholder: 'Recipient name', certBusy: 'Creating certificates...', certSuccess: 'Certificate created and downloaded.', certErr: 'Could not create the certificate.',
     zakatCalLabel: 'Year type', zakatCalHijri: 'Hijri (2.5%)', zakatCalGreg: 'Gregorian (2.5775%)',
     mortMethodLabel: 'Profit calculation method', mortMethodFlat: 'Flat rate (as most Saudi banks)', mortMethodReducing: 'Reducing balance (equal installments)',
     zakatTotalLabel: 'Total money (SAR)', zakatTotalPh: 'e.g. 50000',
@@ -4368,6 +4497,7 @@ function applyLanguage(lang){
     if(input._dateLabelUpdate) input._dateLabelUpdate();
   });
 
+  if(typeof certFillPresetSelect === 'function') certFillPresetSelect();
   paintStamp();
   if(typeof populateUnitSelects === 'function') populateUnitSelects();
   if(typeof populateCurrencySelects === 'function') populateCurrencySelects();
@@ -8814,6 +8944,298 @@ document.getElementById('inv-png-btn').addEventListener('click', ()=> invDownloa
   invApplyType();
   invRenderItems();
   invSchedule();
+})();
+
+/* ============================================================
+   CERTIFICATE MAKER — canvas-drawn A4 (landscape / portrait), 4 designs, batch names
+   ============================================================ */
+setupFilePicker('cert-logo', 'cert-logo-list', false);
+setupFilePicker('cert-stamp', 'cert-stamp-list', false);
+const CERT_LS = 'uddah-cert-profile';
+let certLogo = null, certStampImg = null;
+const CERT_PRESETS = [
+  { k:'certPresetGeneral', title:'شهادة شكر وتقدير', en:'Certificate of Appreciation', intro:'تتقدم {org} بخالص الشكر والتقدير إلى', body:'وذلك تقديراً لجهوده المتميزة وعطائه المثمر، سائلين الله له دوام التوفيق والنجاح.' },
+  { k:'certPresetExcel', title:'شهادة تفوق', en:'Certificate of Excellence', intro:'تمنح {org} هذه الشهادة إلى الطالب/ة', body:'تقديراً لتفوقه الدراسي ومثابرته وحصوله على مرتبة متميزة، متمنين له دوام التقدم والنجاح.' },
+  { k:'certPresetTeacher', title:'شهادة شكر وتقدير', en:'Certificate of Appreciation', intro:'تتقدم {org} بجزيل الشكر والتقدير إلى المعلم/ة', body:'نظير جهوده المخلصة في أداء رسالته التعليمية وإسهامه الفاعل في خدمة الطلاب والارتقاء بالمستوى التعليمي.' },
+  { k:'certPresetQuran', title:'شهادة إتمام حفظ', en:'Certificate of Completion', intro:'تشهد {org} بأن', body:'قد أتمّ حفظ ما تيسّر من كتاب الله تعالى، نسأل الله أن ينفعه به وأن يجعله من أهل القرآن الذين هم أهل الله وخاصته.' },
+  { k:'certPresetCourse', title:'شهادة إتمام دورة', en:'Certificate of Completion', intro:'تشهد {org} بأن', body:'قد أتمّ بنجاح دورة تدريبية بعنوان «............» ومدتها (....) ساعة تدريبية.' },
+  { k:'certPresetPart', title:'شهادة مشاركة', en:'Certificate of Participation', intro:'تشهد {org} بأن', body:'قد شارك مشاركة فاعلة في الفعالية، شاكرين له حضوره وإسهامه المميز.' },
+  { k:'certPresetStaff', title:'شهادة شكر وتقدير', en:'Certificate of Appreciation', intro:'تتقدم {org} بالشكر والتقدير إلى', body:'لما بذله من جهد وإخلاص وتفانٍ في عمله وما قدمه من إسهامات متميزة، متمنين له المزيد من التوفيق.' }
+];
+function certFillPresetSelect(){
+  const sel = document.getElementById('cert-preset');
+  const cur = sel.value;
+  sel.innerHTML = '';
+  CERT_PRESETS.forEach((p, i)=>{ const o = document.createElement('option'); o.value = i; o.textContent = I18N[currentLang][p.k]; sel.appendChild(o); });
+  if(cur) sel.value = cur;
+}
+function certApplyPreset(){
+  const p = CERT_PRESETS[parseInt(document.getElementById('cert-preset').value, 10) || 0];
+  document.getElementById('cert-title').value = p.title;
+  document.getElementById('cert-title-en').value = p.en;
+  document.getElementById('cert-intro').value = p.intro;
+  document.getElementById('cert-body').value = p.body;
+}
+function certCollect(){
+  const g = id => document.getElementById(id);
+  const names = g('cert-names').value.split(/\r?\n/).map(s=> s.trim()).filter(Boolean);
+  return {
+    style: g('cert-style').value, port: g('cert-orient').value === 'port', font: g('cert-font').value,
+    title: g('cert-title').value.trim(), titleEn: g('cert-title-en').value.trim(), org: g('cert-org').value.trim(), header: g('cert-header').value.trim(),
+    logoSize: parseInt(g('cert-logo-size').value, 10), names,
+    intro: g('cert-intro').value.replace(/\{org\}/g, g('cert-org').value.trim() || '............'), body: g('cert-body').value.trim(),
+    s1t: g('cert-s1-title').value.trim(), s1n: g('cert-s1-name').value.trim(), s2t: g('cert-s2-title').value.trim(), s2n: g('cert-s2-name').value.trim(),
+    date: g('cert-date').value.trim(), no: g('cert-no').value.trim(), stampSize: parseInt(g('cert-stamp-size').value, 10),
+    c1: g('cert-color1').value, c2: g('cert-color2').value, qr: g('cert-qr').checked
+  };
+}
+function certStar(ctx, cx, cy, r, color){
+  ctx.save(); ctx.translate(cx, cy); ctx.fillStyle = color;
+  for(let i = 0; i < 2; i++){ ctx.rotate(i ? Math.PI / 4 : 0); ctx.fillRect(-r * 0.72, -r * 0.72, r * 1.44, r * 1.44); }
+  ctx.restore();
+}
+function certDivider(ctx, cx, y, w, color){
+  ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(cx - w / 2, y); ctx.lineTo(cx - 14, y); ctx.moveTo(cx + 14, y); ctx.lineTo(cx + w / 2, y); ctx.stroke();
+  ctx.restore(); certStar(ctx, cx, y, 7, color);
+}
+function certFrame(ctx, W, H, st, c1, c2){
+  ctx.save();
+  if(st === 'classic'){
+    ctx.fillStyle = '#fffdf7'; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = c1; ctx.lineWidth = 7; ctx.strokeRect(22, 22, W - 44, H - 44);
+    ctx.strokeStyle = c2; ctx.lineWidth = 2.5; ctx.strokeRect(36, 36, W - 72, H - 72);
+    ctx.lineWidth = 1; ctx.strokeRect(44, 44, W - 88, H - 88);
+    [[36,36,1,1],[W-36,36,-1,1],[36,H-36,1,-1],[W-36,H-36,-1,-1]].forEach(([x,y,sx,sy])=>{
+      ctx.strokeStyle = c2; ctx.lineWidth = 2;
+      for(let r = 14; r <= 38; r += 12){ const a0 = (sx > 0 && sy > 0) ? 0 : (sx < 0 && sy > 0) ? Math.PI / 2 : (sx < 0 && sy < 0) ? Math.PI : Math.PI * 1.5; ctx.beginPath(); ctx.arc(x, y, r, a0, a0 + Math.PI / 2, false); ctx.stroke(); }
+      certStar(ctx, x + sx * 6, y + sy * 6, 9, c1);
+    });
+  }else if(st === 'royal'){
+    ctx.fillStyle = '#fbf9f2'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = c1; ctx.fillRect(0, 0, W, 30); ctx.fillRect(0, H - 30, W, 30); ctx.fillRect(0, 0, 30, H); ctx.fillRect(W - 30, 0, 30, H);
+    ctx.strokeStyle = c2; ctx.lineWidth = 3; ctx.strokeRect(40, 40, W - 80, H - 80);
+    ctx.lineWidth = 1; ctx.strokeRect(48, 48, W - 96, H - 96);
+    // star band along the dark frame
+    const stepX = 46; for(let x = 40; x < W - 30; x += stepX){ certStar(ctx, x, 15, 6, c2); certStar(ctx, x, H - 15, 6, c2); }
+    for(let y = 40; y < H - 30; y += stepX){ certStar(ctx, 15, y, 6, c2); certStar(ctx, W - 15, y, 6, c2); }
+    [[48,48],[W-48,48],[48,H-48],[W-48,H-48]].forEach(([x,y])=> certStar(ctx, x, y, 14, c2));
+  }else if(st === 'modern'){
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = c1; ctx.fillRect(0, 0, W, 34); ctx.fillRect(0, H - 34, W, 34);
+    ctx.fillStyle = c2; ctx.fillRect(0, 34, W, 6); ctx.fillRect(0, H - 40, W, 6);
+    ctx.globalAlpha = 0.10; ctx.fillStyle = c1;
+    ctx.beginPath(); ctx.arc(0, 40, 200, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(W, H - 40, 220, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = 0.14; ctx.fillStyle = c2;
+    ctx.beginPath(); ctx.arc(W, 40, 110, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(0, H - 40, 120, 0, Math.PI * 2); ctx.fill();
+  }else{
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = c1; ctx.lineWidth = 1.8; ctx.strokeRect(30, 30, W - 60, H - 60);
+    ctx.strokeStyle = c2; ctx.lineWidth = 4;
+    [[30,30,1,1],[W-30,30,-1,1],[30,H-30,1,-1],[W-30,H-30,-1,-1]].forEach(([x,y,sx,sy])=>{
+      ctx.beginPath(); ctx.moveTo(x, y + sy * 40); ctx.lineTo(x, y); ctx.lineTo(x + sx * 40, y); ctx.stroke();
+    });
+  }
+  ctx.restore();
+}
+function certQrCanvas(text, S){
+  const tmp = document.createElement('div');
+  tmp.style.cssText = 'position:fixed;left:-99999px;top:0;';
+  document.body.appendChild(tmp);
+  let c = null;
+  try{
+    new QRCode(tmp, { text, width: S, height: S, colorDark:'#000000', colorLight:'#ffffff', correctLevel: QRCode.CorrectLevel.M });
+    c = tmp.querySelector('canvas');
+    if(!c){ const im = tmp.querySelector('img'); if(im){ c = document.createElement('canvas'); c.width = S; c.height = S; c.getContext('2d').drawImage(im, 0, 0, S, S); } }
+  }catch(e){ c = null; }
+  let copy = null;
+  if(c){ copy = document.createElement('canvas'); copy.width = c.width; copy.height = c.height; copy.getContext('2d').drawImage(c, 0, 0); }
+  tmp.remove();
+  return copy;
+}
+function certWrap(ctx, text, maxW){
+  const out = [];
+  String(text).split(/\n/).forEach(par=>{
+    let cur = '';
+    par.split(/\s+/).filter(Boolean).forEach(w=>{
+      const test = cur ? cur + ' ' + w : w;
+      if(ctx.measureText(test).width <= maxW || !cur) cur = test; else { out.push(cur); cur = w; }
+    });
+    out.push(cur);
+  });
+  return out;
+}
+async function certLoadFonts(font){
+  try{
+    await Promise.all([
+      document.fonts.load(`700 40px '${font}'`), document.fonts.load(`400 40px '${font}'`),
+      document.fonts.load("400 20px 'IBM Plex Sans Arabic'"), document.fonts.load("600 20px 'IBM Plex Sans Arabic'")
+    ]);
+  }catch(e){}
+}
+async function certRender(d, name, scale){
+  await certLoadFonts(d.font);
+  const W = d.port ? 794 : 1123, H = d.port ? 1123 : 794, cx = W / 2;
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(W * scale); canvas.height = Math.round(H * scale);
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
+  ctx.imageSmoothingQuality = 'high';
+  certFrame(ctx, W, H, d.style, d.c1, d.c2);
+  const HF = `'${d.font}', 'IBM Plex Sans Arabic', serif`, BF = `'IBM Plex Sans Arabic', 'Segoe UI', Arial, sans-serif`;
+  const T = (str, x, y, o)=>{
+    o = o || {};
+    ctx.font = `${o.w || 400} ${o.s || 20}px ${o.f || BF}`;
+    ctx.fillStyle = o.c || '#222'; ctx.textBaseline = 'middle';
+    ctx.direction = o.dir || 'rtl'; ctx.textAlign = o.a || 'center';
+    ctx.fillText(str, x, y);
+  };
+  // vertical layout
+  const L = d.port
+    ? { logo:84, org:262, title:340, titleEn:386, div:418, intro:470, name:550, nameLine:588, body:650, sign:900, stamp:850, foot:1040, bodyW:620, nameMax:640, titleS:50 }
+    : { logo:62, org:176, title:240, titleEn:282, div:310, intro:352, name:422, nameLine:456, body:512, sign:626, stamp:584, foot:728, bodyW:760, nameMax:820, titleS:56 };
+  if(d.header) T(d.header, cx, d.port ? 70 : 54, { s:15, c:'#555', w:500 });
+  let logoBottom = L.logo;
+  if(certLogo){
+    const maxH = d.logoSize, r = Math.min(maxH / certLogo.naturalHeight, (d.logoSize * 2.2) / certLogo.naturalWidth);
+    const w = certLogo.naturalWidth * r, h = certLogo.naturalHeight * r;
+    ctx.drawImage(certLogo, cx - w / 2, L.logo - 12 + (d.header ? 14 : 0), w, h);
+    logoBottom = L.logo + h;
+  }
+  const orgY = Math.max(L.org, logoBottom + 26);
+  if(d.org) T(d.org, cx, orgY, { s:26, w:700, f:HF, c:d.c1 });
+  const shift = Math.max(0, orgY - L.org);
+  // title
+  ctx.font = `700 ${L.titleS}px ${HF}`;
+  let ts = L.titleS; while(ts > 28 && ctx.measureText(d.title || ' ').width > L.nameMax){ ts -= 2; ctx.font = `700 ${ts}px ${HF}`; }
+  T(d.title, cx, L.title + shift, { s:ts, w:700, f:HF, c:d.c1 });
+  if(d.titleEn) T(d.titleEn, cx, L.titleEn + shift, { s:18, c:d.c2, dir:'ltr', w:500 });
+  certDivider(ctx, cx, L.div + shift, 260, d.c2);
+  T(d.intro, cx, L.intro + shift, { s:22, c:'#333' });
+  // recipient name (auto-fit)
+  let ns = d.port ? 50 : 60;
+  ctx.font = `700 ${ns}px ${HF}`;
+  while(ns > 22 && ctx.measureText(name).width > L.nameMax){ ns -= 2; ctx.font = `700 ${ns}px ${HF}`; }
+  T(name, cx, L.name + shift, { s:ns, w:700, f:HF, c:d.c2 === '#ffffff' ? d.c1 : d.c1 });
+  ctx.strokeStyle = d.c2; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.moveTo(cx - L.nameMax / 2.4, L.nameLine + shift); ctx.lineTo(cx + L.nameMax / 2.4, L.nameLine + shift); ctx.stroke();
+  // body
+  ctx.font = `500 22px ${BF}`;
+  const lines = certWrap(ctx, d.body, L.bodyW);
+  lines.forEach((ln, i)=> T(ln, cx, L.body + shift + i * 38, { s:22, w:500, c:'#333' }));
+  // signatures
+  const sx = d.port ? [W * 0.27, W * 0.73] : [W * 0.22, W * 0.78];
+  [[d.s1t, d.s1n, sx[1]], [d.s2t, d.s2n, sx[0]]].forEach(([t, n, x])=>{
+    if(!t && !n) return;
+    T(t, x, L.sign, { s:18, w:700, f:HF, c:d.c1 });
+    if(n) T(n, x, L.sign + 30, { s:17, c:'#333' });
+    ctx.strokeStyle = '#777'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x - 95, L.sign + 64); ctx.lineTo(x + 95, L.sign + 64); ctx.stroke();
+  });
+  // stamp
+  if(certStampImg){
+    const r = Math.min(d.stampSize / certStampImg.naturalWidth, d.stampSize / certStampImg.naturalHeight);
+    const w = certStampImg.naturalWidth * r, h = certStampImg.naturalHeight * r;
+    ctx.save(); ctx.globalAlpha = 0.92; ctx.drawImage(certStampImg, cx - w / 2, L.stamp + 40 - h / 2, w, h); ctx.restore();
+  }
+  // footer: date / number
+  const foot = [d.date ? 'التاريخ: \u2066' + d.date + '\u2069' : '', d.no ? 'رقم الشهادة: \u2066' + d.no + '\u2069' : ''].filter(Boolean).join('   •   ');
+  if(foot) T(foot, cx, L.foot, { s:14, c:'#666' });
+  // verification QR
+  if(d.qr){
+    const payload = `${name} | ${d.org} | ${d.title} | ${d.date}${d.no ? ' | ' + d.no : ''}`;
+    const qc = certQrCanvas(payload, 400);
+    const q = 72, qx = 62, qy = H - 62 - q - 4;
+    ctx.fillStyle = '#fff'; ctx.fillRect(qx - 4, qy - 4, q + 8, q + 8);
+    if(qc){ ctx.imageSmoothingEnabled = false; ctx.drawImage(qc, qx, qy, q, q); ctx.imageSmoothingEnabled = true; }
+  }
+  return canvas;
+}
+
+/* ---------- UI ---------- */
+let certTimer = null;
+function certSchedule(){ clearTimeout(certTimer); certTimer = setTimeout(certPreview, 200); }
+async function certPreview(){
+  const d = certCollect();
+  document.getElementById('cert-count').textContent = d.names.length ? I18N[currentLang].certCountPrefix + ' ' + d.names.length : '';
+  try{
+    const c = await certRender(d, d.names[0] || I18N[currentLang].certNamePlaceholder, 1.2);
+    c.style.cssText = 'display:block;width:100%;max-width:' + (d.port ? 520 : 900) + 'px;height:auto;margin:0 auto;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.2);';
+    const host = document.getElementById('cert-preview'); host.innerHTML = ''; host.appendChild(c);
+  }catch(e){ console.error(e); }
+}
+function certSaveProfile(){
+  try{
+    const g = id => document.getElementById(id).value;
+    localStorage.setItem(CERT_LS, JSON.stringify({ org:g('cert-org'), header:g('cert-header'), s1t:g('cert-s1-title'), s1n:g('cert-s1-name'), s2t:g('cert-s2-title'), s2n:g('cert-s2-name'), c1:g('cert-color1'), c2:g('cert-color2'), style:g('cert-style'), font:g('cert-font'), orient:g('cert-orient') }));
+  }catch(e){}
+}
+function certLoadProfile(){
+  try{
+    const p = JSON.parse(localStorage.getItem(CERT_LS) || 'null'); if(!p) return;
+    const s = (id, v)=>{ if(v != null) document.getElementById(id).value = v; };
+    s('cert-org', p.org); s('cert-header', p.header); s('cert-s1-title', p.s1t); s('cert-s1-name', p.s1n); s('cert-s2-title', p.s2t); s('cert-s2-name', p.s2n);
+    s('cert-color1', p.c1); s('cert-color2', p.c2); s('cert-style', p.style); s('cert-font', p.font); s('cert-orient', p.orient);
+  }catch(e){}
+}
+document.querySelectorAll('.cert-ctl').forEach(el=>{
+  const h = ()=>{
+    if(el.id === 'cert-logo-size') document.getElementById('cert-logo-size-val').textContent = el.value;
+    if(el.id === 'cert-stamp-size') document.getElementById('cert-stamp-size-val').textContent = el.value;
+    certSaveProfile(); certSchedule();
+  };
+  el.addEventListener('input', h); el.addEventListener('change', h);
+});
+document.getElementById('cert-preset').addEventListener('change', ()=>{ certApplyPreset(); certSchedule(); });
+document.getElementById('cert-logo').addEventListener('change', async ()=>{
+  const f = document.getElementById('cert-logo').files[0]; certLogo = null;
+  if(f){ try{ certLogo = await psLoadImg(f); }catch(e){} } certSchedule();
+});
+document.getElementById('cert-stamp').addEventListener('change', async ()=>{
+  const f = document.getElementById('cert-stamp').files[0]; certStampImg = null;
+  if(f){ try{ certStampImg = await psLoadImg(f); }catch(e){} } certSchedule();
+});
+async function certDownload(kind){
+  const status = 'cert-status';
+  try{
+    const d = certCollect();
+    const names = d.names.length ? d.names : [I18N[currentLang].certNamePlaceholder];
+    setStatus(status, I18N[currentLang].certBusy, 'info');
+    const many = names.length > 5;
+    const sc = names.length > 20 ? 1.8 : (names.length > 5 ? 2.2 : 3);
+    const base = 'شهادة_' + (d.title || 'تقدير').replace(/[^\w؀-ۿ]+/g, '_');
+    if(kind === 'pdf'){
+      const doc = await PDFDocument.create();
+      const pw = d.port ? 595.28 : 841.89, ph = d.port ? 841.89 : 595.28;
+      for(const n of names){
+        const c = await certRender(d, n, sc);
+        const blob = await psCanvasBlob(c, many ? 'image/jpeg' : 'image/png', 0.93);
+        const buf = await blob.arrayBuffer();
+        const img = many ? await doc.embedJpg(buf) : await doc.embedPng(buf);
+        doc.addPage([pw, ph]).drawImage(img, { x:0, y:0, width:pw, height:ph });
+      }
+      downloadBlob(new Blob([await doc.save()], {type:'application/pdf'}), base + '.pdf');
+    }else if(names.length === 1){
+      downloadBlob(await psCanvasBlob(await certRender(d, names[0], 3), 'image/png'), base + '.png');
+    }else{
+      const zip = new JSZip();
+      for(let i = 0; i < names.length; i++){
+        const c = await certRender(d, names[i], sc);
+        zip.file(`${String(i + 1).padStart(2, '0')}_${names[i].replace(/[^\w؀-ۿ]+/g, '_')}.png`, await psCanvasBlob(c, 'image/png'));
+      }
+      downloadBlob(await zip.generateAsync({type:'blob'}), base + '.zip');
+    }
+    setStatus(status, I18N[currentLang].certSuccess, 'ok');
+  }catch(e){ console.error(e); setStatus(status, I18N[currentLang].certErr, 'err'); }
+}
+document.getElementById('cert-pdf-btn').addEventListener('click', ()=> certDownload('pdf'));
+document.getElementById('cert-png-btn').addEventListener('click', ()=> certDownload('png'));
+(function certInit(){
+  certFillPresetSelect(); certApplyPreset();
+  document.getElementById('cert-date').value = new Date().toISOString().slice(0, 10);
+  certLoadProfile(); certSchedule();
 })();
 
 /* ============================================================
