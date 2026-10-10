@@ -9245,20 +9245,8 @@ function certMakeOverlays(host, canvas, port){
     ov.addEventListener('dblclick', ()=>{ certPos[key] = null; certSchedule(); });
   });
 }
-function certSaveProfile(){
-  try{
-    const g = id => document.getElementById(id).value;
-    localStorage.setItem(CERT_LS, JSON.stringify({ org:g('cert-org'), header:g('cert-header'), s1t:g('cert-s1-title'), s1n:g('cert-s1-name'), s2t:g('cert-s2-title'), s2n:g('cert-s2-name'), c1:g('cert-color1'), c2:g('cert-color2'), style:g('cert-style'), font:g('cert-font'), orient:g('cert-orient') }));
-  }catch(e){}
-}
-function certLoadProfile(){
-  try{
-    const p = JSON.parse(localStorage.getItem(CERT_LS) || 'null'); if(!p) return;
-    const s = (id, v)=>{ if(v != null) document.getElementById(id).value = v; };
-    s('cert-org', p.org); s('cert-header', p.header); s('cert-s1-title', p.s1t); s('cert-s1-name', p.s1n); s('cert-s2-title', p.s2t); s('cert-s2-name', p.s2n);
-    s('cert-color1', p.c1); s('cert-color2', p.c2); s('cert-style', p.style); s('cert-font', p.font); s('cert-orient', p.orient);
-  }catch(e){}
-}
+function certSaveProfile(){}   // nothing is stored: every visit starts with an empty certificate
+function certLoadProfile(){ try{ localStorage.removeItem(CERT_LS); }catch(e){} }   // also wipes data saved by earlier versions
 document.querySelectorAll('.cert-ctl').forEach(el=>{
   const h = ()=>{
     if(el.id === 'cert-logo-size') document.getElementById('cert-logo-size-val').textContent = el.value;
