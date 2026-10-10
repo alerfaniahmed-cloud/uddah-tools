@@ -1747,6 +1747,18 @@
         </select>
       </div>
       <button class="btn" id="stt-btn" data-i18n="sttBtnStart">ابدأ التسجيل 🎙️</button>
+      <div class="field" style="margin-top:18px;padding-top:16px;border-top:1px dashed var(--border);">
+        <label data-i18n="sttFileLabel">أو أرفق ملفاً صوتياً (أو فيديو) لاستخراج النص منه</label>
+        <input type="file" id="stt-file" accept="audio/*,video/*,.mp3,.wav,.m4a,.aac,.ogg,.opus,.webm,.mp4,.amr,.flac,.3gp" style="margin-bottom:10px;">
+        <label for="stt-model" data-i18n="sttModelLabel">دقة التفريغ</label>
+        <select id="stt-model">
+          <option value="onnx-community/whisper-small" data-i18n="sttModelSmall">دقيق (أفضل للعربية — تحميل أكبر)</option>
+          <option value="onnx-community/whisper-base" data-i18n="sttModelBase">سريع (أخف وأقل دقة)</option>
+        </select>
+        <button class="btn" id="stt-file-btn" style="margin-top:10px;" data-i18n="sttFileBtn">استخرج النص من الملف</button>
+        <div id="stt-file-status" class="hint" style="margin-top:8px;min-height:1.2em;"></div>
+        <div style="height:6px;background:var(--bg-elev-2);border-radius:4px;overflow:hidden;margin-top:6px;display:none;" id="stt-file-bar-wrap"><div id="stt-file-bar" style="height:100%;width:0;background:var(--brass);transition:width .2s;"></div></div>
+      </div>
       <div class="field" style="margin-top:16px;">
         <label for="stt-output" data-i18n="sttOutputLabel">النص</label>
         <textarea id="stt-output" rows="6" data-i18n-ph="sttOutputPh" placeholder="سيظهر النص هنا أثناء الكلام..." style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
@@ -3259,6 +3271,9 @@ const I18N = {
     totalDaysSinceBirth: 'إجمالي الأيام منذ الميلاد:',
     sttTitle: 'تحويل الصوت إلى نص',
     sttHint: 'اضغط "ابدأ التسجيل" وتكلم — النص يظهر مباشرة أثناء الكلام، وتقدر تعدّله أو تنسخه بعدها.',
+
+    sttFileLabel: 'أو أرفق ملفاً صوتياً (أو فيديو) لاستخراج النص منه', sttModelLabel: 'دقة التفريغ', sttModelSmall: 'دقيق (أفضل للعربية — تحميل أكبر)', sttModelBase: 'سريع (أخف وأقل دقة)', sttFileBtn: 'استخرج النص من الملف',
+    sttFileNone: 'اختر ملفاً صوتياً أولاً.', sttFileDecode: 'جارٍ قراءة الملف الصوتي…', sttFileLoadModel: 'جارٍ تحميل نموذج التفريغ (مرة واحدة فقط، ثم يُحفظ في المتصفح)…', sttFileWorking: 'جارٍ استخراج النص… قد يستغرق وقتاً حسب طول الملف', sttFileDone: 'تم استخراج النص. راجعه وصحّح أي كلمة قبل الاعتماد عليه.', sttFileFail: 'تعذّر استخراج النص. تأكد من اتصالك بالإنترنت (للتحميل الأول) وأن الملف صوتي سليم، أو جرّب خيار «سريع».', sttFileNote: 'يتم التفريغ داخل متصفحك ولا يُرفع الملف لأي سيرفر.',
     sttLangLabel: 'اللغة', langArabic: 'العربية', langEnglish: 'الإنجليزية',
     sttBtnStart: 'ابدأ التسجيل 🎙️', sttBtnStop: 'إيقاف التسجيل ⏹️',
     sttOutputLabel: 'النص', sttOutputPh: 'سيظهر النص هنا أثناء الكلام...',
@@ -4007,6 +4022,9 @@ const I18N = {
     totalDaysSinceBirth: 'Total days since birth:',
     sttTitle: 'Speech to Text',
     sttHint: 'Press "Start Recording" and speak — the text appears live as you talk, and you can edit or copy it afterward.',
+
+    sttFileLabel: 'Or attach an audio (or video) file to extract its text', sttModelLabel: 'Transcription quality', sttModelSmall: 'Accurate (best for Arabic — larger download)', sttModelBase: 'Fast (lighter, less accurate)', sttFileBtn: 'Extract text from file',
+    sttFileNone: 'Choose an audio file first.', sttFileDecode: 'Reading the audio file…', sttFileLoadModel: 'Loading the transcription model (one time only, then cached in your browser)…', sttFileWorking: 'Extracting text… this may take a while depending on the file length', sttFileDone: 'Done. Review the text and fix any word before relying on it.', sttFileFail: 'Could not extract text. Check your connection (needed for the first download) and that the file is valid audio, or try the "Fast" option.', sttFileNote: 'Transcription runs inside your browser; the file is not uploaded to any server.',
     sttLangLabel: 'Language', langArabic: 'Arabic', langEnglish: 'English',
     sttBtnStart: 'Start Recording 🎙️', sttBtnStop: 'Stop Recording ⏹️',
     sttOutputLabel: 'Text', sttOutputPh: 'The text will appear here as you speak...',
@@ -10905,6 +10923,88 @@ sttBtn.addEventListener('click', ()=>{
   sttRecognition.start();
   sttRecognizing = true;
   sttBtn.textContent = I18N[currentLang].sttBtnStop;
+});
+
+
+/* ---- Speech to text from an attached audio/video file (Whisper running in the browser) ---- */
+let sttAsr = null, sttAsrModel = '', sttBusy = false;
+function sttFileSet(msg, pct){
+  document.getElementById('stt-file-status').textContent = msg || '';
+  const w = document.getElementById('stt-file-bar-wrap'), b = document.getElementById('stt-file-bar');
+  if(pct == null){ w.style.display = 'none'; } else { w.style.display = 'block'; b.style.width = Math.max(0, Math.min(100, pct)) + '%'; }
+}
+async function sttDecodeFile(file){
+  const buf = await file.arrayBuffer();
+  const AC = window.AudioContext || window.webkitAudioContext;
+  let ctx;
+  try{ ctx = new AC({ sampleRate: 16000 }); }catch(e){ ctx = new AC(); }
+  const audio = await new Promise((res, rej)=> ctx.decodeAudioData(buf.slice(0), res, rej));
+  // mix to mono
+  const len = audio.length, ch = audio.numberOfChannels, mono = new Float32Array(len);
+  for(let c = 0; c < ch; c++){ const d = audio.getChannelData(c); for(let i = 0; i < len; i++) mono[i] += d[i] / ch; }
+  let out = mono;
+  if(audio.sampleRate !== 16000){   // resample to 16 kHz
+    const oc = new OfflineAudioContext(1, Math.ceil(len * 16000 / audio.sampleRate), 16000);
+    const ab = oc.createBuffer(1, len, audio.sampleRate); ab.copyToChannel(mono, 0);
+    const src = oc.createBufferSource(); src.buffer = ab; src.connect(oc.destination); src.start();
+    out = (await oc.startRendering()).getChannelData(0);
+  }
+  try{ ctx.close(); }catch(e){}
+  // light peak normalisation helps quiet recordings
+  let peak = 0; for(let i = 0; i < out.length; i++){ const a = Math.abs(out[i]); if(a > peak) peak = a; }
+  if(peak > 0.01 && peak < 0.9){ const g = 0.9 / peak; out = out.map(v=> v * g); }
+  return out;
+}
+async function sttLoadAsr(model){
+  if(sttAsr && sttAsrModel === model) return sttAsr;
+  const L = I18N[currentLang];
+  sttFileSet(L.sttFileLoadModel, 2);
+  const tf = await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.2');
+  tf.env.allowLocalModels = false;
+  const files = {};
+  const progress = (p)=>{
+    if(p && p.file && p.status === 'progress'){ files[p.file] = p; let l = 0, t = 0; Object.values(files).forEach(f=>{ l += f.loaded || 0; t += f.total || 0; }); if(t) sttFileSet(L.sttFileLoadModel + ' ' + Math.round(l / t * 100) + '%', l / t * 100); }
+  };
+  const attempts = [];
+  if(navigator.gpu) attempts.push({ device:'webgpu', dtype:{ encoder_model:'fp32', decoder_model_merged:'q4' } });
+  attempts.push({ device:'wasm', dtype:'q8' });
+  let lastErr;
+  for(const opt of attempts){
+    try{
+      sttAsr = await tf.pipeline('automatic-speech-recognition', model, Object.assign({ progress_callback: progress }, opt));
+      sttAsrModel = model; return sttAsr;
+    }catch(e){ lastErr = e; console.warn('ASR load failed', opt, e); }
+  }
+  throw lastErr;
+}
+document.getElementById('stt-file-btn').addEventListener('click', async ()=>{
+  if(sttBusy) return;
+  const L = I18N[currentLang];
+  const f = document.getElementById('stt-file').files[0];
+  if(!f){ sttFileSet(L.sttFileNone); return; }
+  sttBusy = true; document.getElementById('stt-file-btn').disabled = true;
+  try{
+    sttFileSet(L.sttFileDecode, 1);
+    const pcm = await sttDecodeFile(f);
+    const asr = await sttLoadAsr(document.getElementById('stt-model').value);
+    sttFileSet(L.sttFileWorking, null);
+    const lang = sttLangSelect.value.startsWith('ar') ? 'arabic' : 'english';
+    const t0 = Date.now();
+    const tick = setInterval(()=> sttFileSet(L.sttFileWorking + ' — ' + Math.round((Date.now() - t0) / 1000) + 's', null), 1000);
+    let res;
+    try{
+      res = await asr(pcm, { language: lang, task: 'transcribe', chunk_length_s: 30, stride_length_s: 5, return_timestamps: true, no_repeat_ngram_size: 0 });
+    } finally { clearInterval(tick); }
+    const text = (res.text || '').trim().replace(/\s{2,}/g, ' ');
+    sttFinalTranscript = text ? text + ' ' : '';
+    sttOutput.value = text;
+    sttFileSet(L.sttFileDone, null);
+  }catch(e){
+    console.error(e);
+    sttFileSet(L.sttFileFail, null);
+  }finally{
+    sttBusy = false; document.getElementById('stt-file-btn').disabled = false;
+  }
 });
 
 document.getElementById('stt-clear-btn').addEventListener('click', ()=>{
