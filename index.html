@@ -2744,6 +2744,23 @@ document.getElementById('h2g-btn').addEventListener('click', ()=>{
 /* ============================================================
    PRAYER TIMES
    ============================================================ */
+/* --- Umm al-Qura official-calendar style times: prayers rounded UP to the next minute, sunrise rounded DOWN,
+       and Isha = Maghrib + 120 min during Ramadan (90 min otherwise) --- */
+function uddahIsRamadan(date){
+  try{ return new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {month:'numeric'}).format(date) === '9'; }catch(e){ return false; }
+}
+function uddahPrayerTimes(lat, lng, date){
+  const c = new adhan.Coordinates(lat, lng);
+  const mk = (rounding)=>{ const p = adhan.CalculationMethod.UmmAlQura(); p.madhab = adhan.Madhab.Shafi; if(adhan.Rounding) p.rounding = rounding; return p; };
+  const up = new adhan.PrayerTimes(c, date, mk(adhan.Rounding && adhan.Rounding.Up));
+  const raw = new adhan.PrayerTimes(c, date, mk(adhan.Rounding && adhan.Rounding.None));
+  const floorMin = d => new Date(Math.floor(d.getTime() / 60000) * 60000);
+  const ceilMin = d => new Date(Math.ceil(d.getTime() / 60000) * 60000);
+  let isha = up.isha;
+  if(uddahIsRamadan(date)) isha = ceilMin(new Date(raw.maghrib.getTime() + 120 * 60000));
+  return { fajr: up.fajr, sunrise: adhan.Rounding ? floorMin(raw.sunrise) : up.sunrise, dhuhr: up.dhuhr, asr: up.asr, maghrib: up.maghrib, isha };
+}
+
 /* --- Prayer times overview table for major cities --- */
 const PRAYER_MAJOR_CITIES = [
   {name:{ar:'الرياض', en:'Riyadh'}, lat:24.7136, lng:46.6753},
@@ -2762,15 +2779,12 @@ function renderPrayerOverview(){
   const tbody = document.getElementById('prayer-overview-body');
   if(!tbody || typeof adhan === 'undefined') return;
   const today = new Date();
-  const params = adhan.CalculationMethod.UmmAlQura();
-  params.madhab = adhan.Madhab.Shafi;
   const locale = currentLang === 'en' ? 'en-US' : 'ar-SA-u-nu-latn';
   const fmt = (d) => d.toLocaleTimeString(locale, {hour:'2-digit', minute:'2-digit', hour12:true, timeZone:'Asia/Riyadh'});
 
   tbody.innerHTML = '';
   PRAYER_MAJOR_CITIES.forEach(city=>{
-    const coordinates = new adhan.Coordinates(city.lat, city.lng);
-    const pt = new adhan.PrayerTimes(coordinates, today, params);
+    const pt = uddahPrayerTimes(city.lat, city.lng, today);
     const tr = document.createElement('tr');
     tr.style.borderBottom = '1px solid var(--border)';
     tr.innerHTML = `
@@ -2831,10 +2845,7 @@ document.getElementById('prayer-btn').addEventListener('click', async ()=>{
       dateObj = new Date();
     }
 
-    const coordinates = new adhan.Coordinates(coords.lat, coords.lng);
-    const params = adhan.CalculationMethod.UmmAlQura();
-    params.madhab = adhan.Madhab.Shafi;
-    const prayerTimes = new adhan.PrayerTimes(coordinates, dateObj, params);
+    const prayerTimes = uddahPrayerTimes(coords.lat, coords.lng, dateObj);
 
     const tzOptions = coords.isSaudiCity ? {timeZone:'Asia/Riyadh'} : {};
     const locale = currentLang === 'en' ? 'en-US' : 'ar-SA-u-nu-latn';
@@ -3214,7 +3225,7 @@ const I18N = {
     prayerCityCol: 'المدينة',
     prayerFajr: 'الفجر', prayerSunrise: 'الشروق', prayerDhuhr: 'الظهر',
     prayerAsr: 'العصر', prayerMaghrib: 'المغرب', prayerIsha: 'العشاء',
-    prayerOverviewNote: 'الأوقات بتوقيت الرياض (توقيت السعودية)، حسب طريقة أم القرى.',
+    prayerOverviewNote: 'الأوقات بتوقيت الرياض (توقيت السعودية)، حسب طريقة أم القرى: تُقرَّب أوقات الصلوات إلى الدقيقة التالية والشروق إلى الدقيقة السابقة كما في تقويم أم القرى، وفي رمضان يكون العشاء بعد المغرب بـ١٢٠ دقيقة. قد يبقى فرق دقيقة واحدة في بعض المدن بسبب اختلاف إحداثيات المدينة المعتمدة.',
     prayerCalcTitle: 'أوقات الصلاة',
     prayerCalcHint: 'احسب أوقات الصلوات الخمس بدقة لأي مدينة سعودية أو موقعك الحالي، بحساب فلكي كامل داخل متصفحك.',
     prayerLocationLabel: 'الموقع',
@@ -3962,7 +3973,7 @@ const I18N = {
     prayerCityCol: 'City',
     prayerFajr: 'Fajr', prayerSunrise: 'Sunrise', prayerDhuhr: 'Dhuhr',
     prayerAsr: 'Asr', prayerMaghrib: 'Maghrib', prayerIsha: 'Isha',
-    prayerOverviewNote: 'Times are in Riyadh time (Saudi Arabia time), using the Umm al-Qura method.',
+    prayerOverviewNote: 'Times are in Riyadh time (Saudi Arabia time), using the Umm al-Qura method: prayer times are rounded up to the next minute and sunrise down, as in the Umm al-Qura calendar, and in Ramadan Isha is 120 minutes after Maghrib. A one-minute difference may remain in some cities because of the reference coordinates used.',
     prayerCalcTitle: 'Prayer Times',
     prayerCalcHint: 'Calculate the five daily prayer times precisely for any Saudi city or your current location, with full astronomical calculation right in your browser.',
     prayerLocationLabel: 'Location',
@@ -9374,9 +9385,7 @@ function paCurrentCoords(){
 function paTimesFor(date){
   const c = paCurrentCoords();
   if(!c || typeof adhan === 'undefined') return null;
-  const params = adhan.CalculationMethod.UmmAlQura();
-  params.madhab = adhan.Madhab.Shafi;
-  return new adhan.PrayerTimes(new adhan.Coordinates(c.lat, c.lng), date, params);
+  return uddahPrayerTimes(c.lat, c.lng, date);
 }
 function paCityName(){
   const sel = document.getElementById('pa-city');
