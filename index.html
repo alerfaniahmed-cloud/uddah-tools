@@ -9425,12 +9425,17 @@ function paPickVoice(){
   if(!('speechSynthesis' in window)) return null;
   const want = currentLang === 'en' ? 'en' : 'ar';
   const vs = speechSynthesis.getVoices();
+  const maleRe = /naayf|hamed|majed|maged|tarik|tareq|shakir|zayd|male|رجل|نايف|حامد|ماجد|طارق/i;
+  const arabic = vs.filter(v=> v.lang && v.lang.toLowerCase().startsWith(want));
+  const male = arabic.find(v=> maleRe.test(v.name||''));
+  if(male) return male;
   return vs.find(v=> v.lang && v.lang.toLowerCase().startsWith(want + '-sa')) || vs.find(v=> v.lang && v.lang.toLowerCase().startsWith(want)) || null;
 }
 function paSpeakOnline(phrase, lang, onFail){
   // Fallback when the device has no speech voice: try several online TTS services in order until one plays.
   const q = encodeURIComponent(phrase);
   const urls = lang === 'ar' ? [
+    'https://api.streamelements.com/kappa/v2/speech?voice=Zayd&text=' + q,
     'https://api.streamelements.com/kappa/v2/speech?voice=Zeina&text=' + q,
     'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ar&q=' + q,
     'https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=ar&q=' + q
