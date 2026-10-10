@@ -343,7 +343,6 @@
     <button data-tab="inheritance" data-i18n="tabInheritance">حاسبة المواريث</button>
     <button data-tab="tools" data-i18n="tabTools">أدوات متنوعة</button>
     <button data-tab="student" data-i18n="tabStudent">أدوات الطلاب</button>
-    <button data-tab="voice" data-i18n="tabVoice">الصوت والنص</button>
     <button data-tab="sectors" data-i18n="tabSectors">حاسبات متنوعة</button>
     <button data-tab="pdf" data-i18n="tabPdf">أدوات PDF</button>
   </nav>
@@ -1731,67 +1730,6 @@
     </div>
 
     <p class="note" data-i18n="studentMoreNote">المزيد من أدوات الطلاب (حاسبة الدرجة المطلوبة، مولّد الاقتباسات الأكاديمية APA/MLA) قادمة قريباً.</p>
-  </section>
-
-  <!-- ===================== TAB: VOICE (STT + TTS) ===================== -->
-  <section class="panel" id="panel-voice">
-
-    <div class="card">
-      <h2 data-i18n="sttTitle">تحويل الصوت إلى نص</h2>
-      <p class="hint" data-i18n="sttHint">اضغط "ابدأ التسجيل" وتكلم — النص يظهر مباشرة أثناء الكلام، وتقدر تعدّله أو تنسخه بعدها.</p>
-      <div class="field">
-        <label for="stt-lang" data-i18n="sttLangLabel">اللغة</label>
-        <select id="stt-lang">
-          <option value="ar-SA" data-i18n="langArabic">العربية</option>
-          <option value="en-US" data-i18n="langEnglish">الإنجليزية</option>
-        </select>
-      </div>
-      <button class="btn" id="stt-btn" data-i18n="sttBtnStart">ابدأ التسجيل 🎙️</button>
-      <div class="field" style="margin-top:18px;padding-top:16px;border-top:1px dashed var(--border);">
-        <label data-i18n="sttFileLabel">أو أرفق ملفاً صوتياً (أو فيديو) لاستخراج النص منه</label>
-        <input type="file" id="stt-file" accept="audio/*,video/*,.mp3,.wav,.m4a,.aac,.ogg,.opus,.webm,.mp4,.amr,.flac,.3gp" style="margin-bottom:10px;">
-        <label for="stt-model" data-i18n="sttModelLabel">دقة التفريغ</label>
-        <select id="stt-model">
-          <option value="onnx-community/whisper-small" data-i18n="sttModelSmall">دقيق (أفضل للعربية — تحميل أكبر)</option>
-          <option value="onnx-community/whisper-base" data-i18n="sttModelBase">سريع (أخف وأقل دقة)</option>
-        </select>
-        <button class="btn" id="stt-file-btn" style="margin-top:10px;" data-i18n="sttFileBtn">استخرج النص من الملف</button>
-        <div id="stt-file-status" class="hint" style="margin-top:8px;min-height:1.2em;"></div>
-        <div style="height:6px;background:var(--bg-elev-2);border-radius:4px;overflow:hidden;margin-top:6px;display:none;" id="stt-file-bar-wrap"><div id="stt-file-bar" style="height:100%;width:0;background:var(--brass);transition:width .2s;"></div></div>
-      </div>
-      <div class="field" style="margin-top:16px;">
-        <label for="stt-output" data-i18n="sttOutputLabel">النص</label>
-        <textarea id="stt-output" rows="6" data-i18n-ph="sttOutputPh" placeholder="سيظهر النص هنا أثناء الكلام..." style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
-      </div>
-      <div class="row">
-        <button class="btn secondary" id="stt-copy-btn" style="padding:9px 18px;font-size:.85rem;" data-i18n="sttCopyBtn">نسخ النص</button>
-        <button class="btn secondary" id="stt-clear-btn" style="padding:9px 18px;font-size:.85rem;" data-i18n="sttClearBtn">مسح</button>
-      </div>
-      <div class="msg err" id="stt-support-msg" style="display:none;" data-i18n="sttSupportMsg">هذه الميزة غير مدعومة بالكامل بمتصفحك الحالي — جرّب Chrome أو Edge للحصول على أفضل دعم.</div>
-      <p class="note" data-i18n="sttNote">التسجيل والتفريغ يتمّان داخل متصفحك مباشرة عبر خدمة تعرّف الصوت المدمجة به — لا نُخزّن أي تسجيل صوتي على أي سيرفر.</p>
-    </div>
-
-    <div class="card">
-      <h2 data-i18n="ttsTitle">تحويل النص إلى صوت</h2>
-      <p class="hint" data-i18n="ttsHint">الصق أو اكتب أي نص، اختر الصوت والسرعة، واضغط تشغيل لسماعه.</p>
-      <div class="field">
-        <label for="tts-text" data-i18n="ttsTextLabel">النص</label>
-        <textarea id="tts-text" rows="5" data-i18n-ph="ttsTextPh" placeholder="اكتب أو الصق النص هنا..." style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
-      </div>
-      <div class="field">
-        <label for="tts-voice" data-i18n="ttsVoiceLabel">الصوت</label>
-        <select id="tts-voice"></select>
-      </div>
-      <div class="field">
-        <label for="tts-rate"><span data-i18n="ttsRateLabel">سرعة القراءة:</span> <span id="tts-rate-val">1</span>x</label>
-        <input type="range" id="tts-rate" min="0.5" max="2" step="0.1" value="1" style="width:100%;">
-      </div>
-      <div class="row">
-        <button class="btn" id="tts-play-btn" data-i18n="ttsPlayBtn">تشغيل ▶</button>
-        <button class="btn secondary" id="tts-stop-btn" style="padding:11px 22px;" data-i18n="ttsStopBtn">إيقاف ⏹</button>
-      </div>
-      <p class="note" data-i18n="ttsNote">الأصوات المتاحة تعتمد على جهازك ومتصفحك — لو ما وجدت صوتاً عربياً بالقائمة، معناه جهازك لا يحتوي حزمة صوت عربية مثبتة.</p>
-    </div>
   </section>
 
   <!-- ===================== TAB: SECTOR CALCULATORS ===================== -->
@@ -3272,6 +3210,9 @@ const I18N = {
     sttTitle: 'تحويل الصوت إلى نص',
     sttHint: 'اضغط "ابدأ التسجيل" وتكلم — النص يظهر مباشرة أثناء الكلام، وتقدر تعدّله أو تنسخه بعدها.',
 
+
+    sttEngineLabel: 'طريقة التفريغ', sttEngineGroq: 'سحابي — Whisper large-v3 (الأدق والأسرع، يحتاج مفتاحاً مجانياً)', sttEngineLocal: 'داخل المتصفح (تجريبي — بطيء وأقل دقة)', sttKeyLabel: 'مفتاح Groq المجاني', sttKeyHelp: 'احصل عليه مجاناً (دقيقتان): ادخل', sttKeyHelp2: 'وسجّل بحساب Google ثم Create API Key والصقه هنا. يُحفظ في متصفحك فقط.', sttKeyClear: 'حذف المفتاح',
+    sttNeedKey: 'ألصق مفتاح Groq أولاً (رابط الحصول عليه أعلاه).', sttCloudPart: 'جارٍ التفريغ سحابياً — الجزء', sttBadKey: 'المفتاح غير صحيح أو منتهٍ. تأكد من نسخه كاملاً (يبدأ بـ gsk_).', sttRate: 'تجاوزت الحد المجاني المؤقت لـ Groq. انتظر دقيقة وأعد المحاولة.', sttNet: 'تعذّر الاتصال بخدمة التفريغ. تأكد من الإنترنت ثم أعد المحاولة.', sttCloudNote: 'في الوضع السحابي يُرسل الصوت إلى Groq للتفريغ فقط.',
     sttFileLabel: 'أو أرفق ملفاً صوتياً (أو فيديو) لاستخراج النص منه', sttModelLabel: 'دقة التفريغ', sttModelSmall: 'دقيق (أفضل للعربية — تحميل أكبر)', sttModelBase: 'سريع (أخف وأقل دقة)', sttFileBtn: 'استخرج النص من الملف',
     sttFileNone: 'اختر ملفاً صوتياً أولاً.', sttFileDecode: 'جارٍ قراءة الملف الصوتي…', sttFileInit: 'اكتمل التحميل — جارٍ تجهيز النموذج (قد يستغرق دقيقة، لا تغلق الصفحة)…', sttFileLoadModel: 'جارٍ تحميل نموذج التفريغ (مرة واحدة فقط، ثم يُحفظ في المتصفح)…', sttFileWorking: 'جارٍ استخراج النص… قد يستغرق وقتاً حسب طول الملف', sttFileDone: 'تم استخراج النص. راجعه وصحّح أي كلمة قبل الاعتماد عليه.', sttFileFail: 'تعذّر استخراج النص. تأكد من اتصالك بالإنترنت (للتحميل الأول) وأن الملف صوتي سليم، أو جرّب خيار «سريع».', sttFileNote: 'يتم التفريغ داخل متصفحك ولا يُرفع الملف لأي سيرفر.',
     sttLangLabel: 'اللغة', langArabic: 'العربية', langEnglish: 'الإنجليزية',
@@ -4023,6 +3964,9 @@ const I18N = {
     sttTitle: 'Speech to Text',
     sttHint: 'Press "Start Recording" and speak — the text appears live as you talk, and you can edit or copy it afterward.',
 
+
+    sttEngineLabel: 'Transcription method', sttEngineGroq: 'Cloud — Whisper large-v3 (most accurate and fast, needs a free key)', sttEngineLocal: 'In-browser (experimental — slow, less accurate)', sttKeyLabel: 'Free Groq key', sttKeyHelp: 'Get it free (2 minutes): open', sttKeyHelp2: 'sign in with Google, Create API Key and paste it here. Stored in your browser only.', sttKeyClear: 'Remove key',
+    sttNeedKey: 'Paste your Groq key first (get it from the link above).', sttCloudPart: 'Transcribing in the cloud — part', sttBadKey: 'The key is invalid or expired. Make sure you copied it fully (starts with gsk_).', sttRate: 'Groq free limit reached temporarily. Wait a minute and retry.', sttNet: 'Could not reach the transcription service. Check your internet and retry.', sttCloudNote: 'In cloud mode the audio is sent to Groq for transcription only.',
     sttFileLabel: 'Or attach an audio (or video) file to extract its text', sttModelLabel: 'Transcription quality', sttModelSmall: 'Accurate (best for Arabic — larger download)', sttModelBase: 'Fast (lighter, less accurate)', sttFileBtn: 'Extract text from file',
     sttFileNone: 'Choose an audio file first.', sttFileDecode: 'Reading the audio file…', sttFileInit: 'Download complete — preparing the model (may take a minute, keep the page open)…', sttFileLoadModel: 'Loading the transcription model (one time only, then cached in your browser)…', sttFileWorking: 'Extracting text… this may take a while depending on the file length', sttFileDone: 'Done. Review the text and fix any word before relying on it.', sttFileFail: 'Could not extract text. Check your connection (needed for the first download) and that the file is valid audio, or try the "Fast" option.', sttFileNote: 'Transcription runs inside your browser; the file is not uploaded to any server.',
     sttLangLabel: 'Language', langArabic: 'Arabic', langEnglish: 'English',
@@ -9597,7 +9541,6 @@ document.getElementById('pa-toggle').addEventListener('click', async ()=>{
   const msg = document.getElementById('pa-msg'); msg.textContent = '';
   paRefreshLabels();
   if(paState.on){
-    paPrimeSpeech();
     try{ if(!paAudio) paAudio = new (window.AudioContext || window.webkitAudioContext)(); if(paAudio.state === 'suspended') await paAudio.resume(); }catch(e){}
     if('Notification' in window && Notification.permission === 'default'){ try{ await Notification.requestPermission(); }catch(e){} }
     if('Notification' in window && Notification.permission === 'denied') msg.textContent = I18N[currentLang].paNotifDenied;
@@ -9605,9 +9548,7 @@ document.getElementById('pa-toggle').addEventListener('click', async ()=>{
   paRefreshLabels();
 });
 document.getElementById('pa-sound').addEventListener('change', e=>{ paState.sound = e.target.checked; paSave(); });
-function paPrimeSpeech(){ try{ if('speechSynthesis' in window){ const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } }catch(e){} }
 document.getElementById('pa-test').addEventListener('click', async ()=>{
-  paPrimeSpeech();
   try{ if(!paAudio) paAudio = new (window.AudioContext || window.webkitAudioContext)(); if(paAudio.state === 'suspended') await paAudio.resume(); }catch(e){}
   if('Notification' in window && Notification.permission === 'default'){ try{ await Notification.requestPermission(); }catch(e){} }
   paAnnounce('dhuhr');
@@ -10870,206 +10811,6 @@ document.getElementById('pagesize-btn').addEventListener('click', async ()=>{
     setStatus('pagesize-status', I18N[currentLang].pagesizeErr, 'err');
   }
   setBusy(btn, false, '', I18N[currentLang].pagesizeBtn);
-});
-
-/* ============================================================
-   SPEECH TO TEXT
-   ============================================================ */
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-const sttBtn = document.getElementById('stt-btn');
-const sttOutput = document.getElementById('stt-output');
-const sttLangSelect = document.getElementById('stt-lang');
-let sttRecognition = null;
-let sttRecognizing = false;
-let sttFinalTranscript = '';
-
-if(!SR){
-  sttBtn.disabled = true;
-  document.getElementById('stt-support-msg').style.display = 'block';
-}
-
-sttBtn.addEventListener('click', ()=>{
-  if(!SR) return;
-  if(sttRecognizing){
-    sttRecognition.stop();
-    return;
-  }
-  sttRecognition = new SR();
-  sttRecognition.lang = sttLangSelect.value;
-  sttRecognition.continuous = true;
-  sttRecognition.interimResults = true;
-
-  sttRecognition.onresult = (event)=>{
-    let interim = '';
-    for(let i = event.resultIndex; i < event.results.length; i++){
-      const transcript = event.results[i][0].transcript;
-      if(event.results[i].isFinal){
-        sttFinalTranscript += transcript + ' ';
-      } else {
-        interim += transcript;
-      }
-    }
-    sttOutput.value = sttFinalTranscript + interim;
-  };
-  sttRecognition.onerror = ()=>{
-    sttRecognizing = false;
-    sttBtn.textContent = I18N[currentLang].sttBtnStart;
-  };
-  sttRecognition.onend = ()=>{
-    sttRecognizing = false;
-    sttBtn.textContent = I18N[currentLang].sttBtnStart;
-  };
-
-  sttRecognition.start();
-  sttRecognizing = true;
-  sttBtn.textContent = I18N[currentLang].sttBtnStop;
-});
-
-
-/* ---- Speech to text from an attached audio/video file (Whisper running in the browser) ---- */
-let sttAsr = null, sttAsrModel = '', sttBusy = false;
-function sttFileSet(msg, pct){
-  document.getElementById('stt-file-status').textContent = msg || '';
-  const w = document.getElementById('stt-file-bar-wrap'), b = document.getElementById('stt-file-bar');
-  if(pct == null){ w.style.display = 'none'; } else { w.style.display = 'block'; b.style.width = Math.max(0, Math.min(100, pct)) + '%'; }
-}
-async function sttDecodeFile(file){
-  const buf = await file.arrayBuffer();
-  const AC = window.AudioContext || window.webkitAudioContext;
-  let ctx;
-  try{ ctx = new AC({ sampleRate: 16000 }); }catch(e){ ctx = new AC(); }
-  const audio = await new Promise((res, rej)=> ctx.decodeAudioData(buf.slice(0), res, rej));
-  // mix to mono
-  const len = audio.length, ch = audio.numberOfChannels, mono = new Float32Array(len);
-  for(let c = 0; c < ch; c++){ const d = audio.getChannelData(c); for(let i = 0; i < len; i++) mono[i] += d[i] / ch; }
-  let out = mono;
-  if(audio.sampleRate !== 16000){   // resample to 16 kHz
-    const oc = new OfflineAudioContext(1, Math.ceil(len * 16000 / audio.sampleRate), 16000);
-    const ab = oc.createBuffer(1, len, audio.sampleRate); ab.copyToChannel(mono, 0);
-    const src = oc.createBufferSource(); src.buffer = ab; src.connect(oc.destination); src.start();
-    out = (await oc.startRendering()).getChannelData(0);
-  }
-  try{ ctx.close(); }catch(e){}
-  // light peak normalisation helps quiet recordings
-  let peak = 0; for(let i = 0; i < out.length; i++){ const a = Math.abs(out[i]); if(a > peak) peak = a; }
-  if(peak > 0.01 && peak < 0.9){ const g = 0.9 / peak; out = out.map(v=> v * g); }
-  return out;
-}
-async function sttLoadAsr(model){
-  if(sttAsr && sttAsrModel === model) return sttAsr;
-  const L = I18N[currentLang];
-  sttFileSet(L.sttFileLoadModel, 2);
-  const tf = await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.2');
-  tf.env.allowLocalModels = false;
-  try{   // run the heavy WASM work off the main thread so the page never freezes
-    tf.env.backends.onnx.wasm.proxy = true;
-    tf.env.backends.onnx.wasm.numThreads = (self.crossOriginIsolated && navigator.hardwareConcurrency) ? Math.min(4, navigator.hardwareConcurrency) : 1;
-  }catch(e){}
-  const files = {};
-  const progress = (p)=>{
-    if(p && p.file && p.status === 'progress'){ files[p.file] = p; let l = 0, t = 0; Object.values(files).forEach(f=>{ l += f.loaded || 0; t += f.total || 0; }); if(t) sttFileSet(L.sttFileLoadModel + ' ' + Math.round(l / t * 100) + '%', l / t * 100); }
-    else if(p && (p.status === 'done' || p.status === 'ready')){ sttFileSet(L.sttFileInit, null); }
-  };
-  const attempts = [{ device:'wasm', dtype:'q8' }];
-  let lastErr;
-  for(const opt of attempts){
-    try{
-      sttAsr = await tf.pipeline('automatic-speech-recognition', model, Object.assign({ progress_callback: progress }, opt));
-      sttAsrModel = model; return sttAsr;
-    }catch(e){ lastErr = e; console.warn('ASR load failed', opt, e); }
-  }
-  throw lastErr;
-}
-document.getElementById('stt-file-btn').addEventListener('click', async ()=>{
-  if(sttBusy) return;
-  const L = I18N[currentLang];
-  const f = document.getElementById('stt-file').files[0];
-  if(!f){ sttFileSet(L.sttFileNone); return; }
-  sttBusy = true; document.getElementById('stt-file-btn').disabled = true;
-  try{
-    sttFileSet(L.sttFileDecode, 1);
-    const pcm = await sttDecodeFile(f);
-    const tl0 = Date.now();
-    const asr = await sttLoadAsr(document.getElementById('stt-model').value);
-    sttFileSet(L.sttFileWorking, null);
-    const lang = sttLangSelect.value.startsWith('ar') ? 'arabic' : 'english';
-    const t0 = Date.now();
-    const tick = setInterval(()=> sttFileSet(L.sttFileWorking + ' — ' + Math.round((Date.now() - t0) / 1000) + 's', null), 1000);
-    let res;
-    try{
-      res = await asr(pcm, { language: lang, task: 'transcribe', chunk_length_s: 30, stride_length_s: 5, return_timestamps: true, no_repeat_ngram_size: 0 });
-    } finally { clearInterval(tick); }
-    const text = (res.text || '').trim().replace(/\s{2,}/g, ' ');
-    sttFinalTranscript = text ? text + ' ' : '';
-    sttOutput.value = text;
-    sttFileSet(L.sttFileDone, null);
-  }catch(e){
-    console.error(e);
-    sttFileSet(L.sttFileFail, null);
-  }finally{
-    sttBusy = false; document.getElementById('stt-file-btn').disabled = false;
-  }
-});
-
-document.getElementById('stt-clear-btn').addEventListener('click', ()=>{
-  sttFinalTranscript = '';
-  sttOutput.value = '';
-});
-
-document.getElementById('stt-copy-btn').addEventListener('click', ()=>{
-  if(!sttOutput.value) return;
-  navigator.clipboard.writeText(sttOutput.value).then(()=>{
-    const btn = document.getElementById('stt-copy-btn');
-    const original = btn.textContent;
-    btn.textContent = I18N[currentLang].copiedConfirm;
-    setTimeout(()=>{ btn.textContent = original; }, 1500);
-  });
-});
-
-/* ============================================================
-   TEXT TO SPEECH
-   ============================================================ */
-const ttsVoiceSelect = document.getElementById('tts-voice');
-const ttsRateInput = document.getElementById('tts-rate');
-let ttsVoices = [];
-
-function populateTTSVoices(){
-  ttsVoices = speechSynthesis.getVoices();
-  ttsVoiceSelect.innerHTML = '';
-  const sorted = [...ttsVoices].sort((a,b)=>{
-    const aAr = a.lang.startsWith('ar') ? 0 : 1;
-    const bAr = b.lang.startsWith('ar') ? 0 : 1;
-    return aAr - bAr;
-  });
-  sorted.forEach(voice=>{
-    const opt = document.createElement('option');
-    opt.value = ttsVoices.indexOf(voice);
-    opt.textContent = `${voice.name} (${voice.lang})`;
-    ttsVoiceSelect.appendChild(opt);
-  });
-}
-populateTTSVoices();
-if(typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined){
-  speechSynthesis.onvoiceschanged = populateTTSVoices;
-}
-
-ttsRateInput.addEventListener('input', ()=>{
-  document.getElementById('tts-rate-val').textContent = ttsRateInput.value;
-});
-
-document.getElementById('tts-play-btn').addEventListener('click', ()=>{
-  const text = document.getElementById('tts-text').value.trim();
-  if(!text) return;
-  speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  const voiceIdx = parseInt(ttsVoiceSelect.value, 10);
-  if(ttsVoices[voiceIdx]) utter.voice = ttsVoices[voiceIdx];
-  utter.rate = parseFloat(ttsRateInput.value);
-  speechSynthesis.speak(utter);
-});
-
-document.getElementById('tts-stop-btn').addEventListener('click', ()=>{
-  speechSynthesis.cancel();
 });
 
 /* ============================================================
