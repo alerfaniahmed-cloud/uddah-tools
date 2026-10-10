@@ -329,6 +329,7 @@
       <select id="pa-city" style="max-width:190px;padding:6px 8px;font-size:.85rem;"></select>
       <button type="button" class="btn secondary" id="pa-toggle" style="padding:6px 12px;font-size:.85rem;">🔔</button>
       <label style="display:flex;align-items:center;gap:4px;font-size:.8rem;color:var(--bone-dim);"><input type="checkbox" id="pa-sound" checked> <span id="pa-sound-lbl">🔊</span></label>
+      <label style="display:flex;align-items:center;gap:4px;font-size:.8rem;color:var(--bone-dim);"><input type="checkbox" id="pa-voice" checked> <span id="pa-voice-lbl">🗣️</span></label>
       <button type="button" class="btn secondary" id="pa-test" style="padding:6px 10px;font-size:.8rem;" data-i18n="paTest">تجربة</button>
     </div>
     <div id="pa-msg" style="flex-basis:100%;font-size:.8rem;color:var(--rust);"></div>
@@ -3118,6 +3119,7 @@ const I18N = {
     certPresetGeneral: 'شكر وتقدير عام', certPresetExcel: 'شهادة تفوق دراسي', certPresetTeacher: 'تكريم معلم / معلمة', certPresetQuran: 'إتمام حفظ القرآن', certPresetCourse: 'إتمام دورة تدريبية', certPresetPart: 'مشاركة في فعالية', certPresetStaff: 'شكر موظف / إداري',
     certCountPrefix: 'عدد الشهادات:', certNamePlaceholder: 'اسم المكرَّم', certBusy: 'جارٍ إنشاء الشهادات...', certSuccess: 'تم إنشاء الشهادة وتنزيلها.', certErr: 'تعذر إنشاء الشهادة.',
     paNext: 'الصلاة القادمة', paAuto: '📍 حسب موقعي (تلقائي)', paOn: '🔔 تنبيه الأذان: مفعّل', paOff: '🔕 تنبيه الأذان: موقوف', paSound: '🔊 صوت', paTest: 'تجربة',
+    paVoice: '🗣️ صوت ناطق', paNoVoice: 'جهازك لا يحوي صوتاً عربياً ناطقاً؛ ثبّت صوتاً عربياً من إعدادات النظام (الكلام / Text-to-speech) ليُنطق التنبيه بالعربية.',
     paNowTitle: 'حان الآن وقت صلاة', paGeoFail: 'تعذّر تحديد موقعك، تم اختيار الرياض.', paNotifDenied: 'إشعارات المتصفح محظورة لهذا الموقع؛ سيظهر التنبيه داخل الصفحة مع الصوت فقط.',
     zakatCalLabel: 'نوع الحول', zakatCalHijri: 'هجري (٢٫٥٪)', zakatCalGreg: 'ميلادي (٢٫٥٧٧٥٪)',
     mortMethodLabel: 'طريقة احتساب الربح', mortMethodFlat: 'نسبة ثابتة (مثل أغلب البنوك السعودية)', mortMethodReducing: 'رصيد متناقص (قسط متساوٍ)',
@@ -3865,6 +3867,7 @@ const I18N = {
     certPresetGeneral: 'General appreciation', certPresetExcel: 'Academic excellence', certPresetTeacher: 'Teacher recognition', certPresetQuran: 'Quran memorisation', certPresetCourse: 'Course completion', certPresetPart: 'Event participation', certPresetStaff: 'Staff appreciation',
     certCountPrefix: 'Certificates:', certNamePlaceholder: 'Recipient name', certBusy: 'Creating certificates...', certSuccess: 'Certificate created and downloaded.', certErr: 'Could not create the certificate.',
     paNext: 'Next prayer', paAuto: '📍 My location (auto)', paOn: '🔔 Adhan alert: on', paOff: '🔕 Adhan alert: off', paSound: '🔊 Sound', paTest: 'Test',
+    paVoice: '🗣️ Voice', paNoVoice: 'No matching speech voice was found on this device; install one in the system speech settings.',
     paNowTitle: 'It is now time for', paGeoFail: 'Could not detect your location; Riyadh selected.', paNotifDenied: 'Browser notifications are blocked for this site; the alert will show in the page with sound only.',
     zakatCalLabel: 'Year type', zakatCalHijri: 'Hijri (2.5%)', zakatCalGreg: 'Gregorian (2.5775%)',
     mortMethodLabel: 'Profit calculation method', mortMethodFlat: 'Flat rate (as most Saudi banks)', mortMethodReducing: 'Reducing balance (equal installments)',
@@ -9340,7 +9343,7 @@ document.getElementById('cert-png-btn').addEventListener('click', ()=> certDownl
 const PA_KEY = 'uddah-prayer-alert';
 const PA_ORDER = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
 const PA_LABEL = { fajr:'prayerFajr', dhuhr:'prayerDhuhr', asr:'prayerAsr', maghrib:'prayerMaghrib', isha:'prayerIsha' };
-let paState = { city:'24.7136,46.6753', on:false, sound:true };
+let paState = { city:'24.7136,46.6753', on:false, sound:true, voice:true };
 let paCoords = null;            // coordinates used by "auto" (device location)
 let paFired = {};               // prayers already announced (per day)
 let paAudio = null, paTitleBase = document.title;
@@ -9377,6 +9380,7 @@ function paTimesFor(date){
 }
 function paCityName(){
   const sel = document.getElementById('pa-city');
+  if(paState.city === 'auto') return '';
   const o = sel.options[sel.selectedIndex];
   return o ? o.textContent.replace(/^📍\s*/, '') : '';
 }
@@ -9407,9 +9411,32 @@ function paBeep(){
     });
   }catch(e){}
 }
+function paPickVoice(){
+  if(!('speechSynthesis' in window)) return null;
+  const want = currentLang === 'en' ? 'en' : 'ar';
+  const vs = speechSynthesis.getVoices();
+  return vs.find(v=> v.lang && v.lang.toLowerCase().startsWith(want + '-sa')) || vs.find(v=> v.lang && v.lang.toLowerCase().startsWith(want)) || null;
+}
+function paSpeak(key, immediate){
+  if(!('speechSynthesis' in window)) return;
+  const L = I18N[currentLang], city = paCityName();
+  const phrase = currentLang === 'en'
+    ? `It is now time for the ${L[PA_LABEL[key]]} prayer${city ? ' in ' + city : ''}.`
+    : `حان الآن موعد أذان ${L[PA_LABEL[key]]}${city ? ' في ' + city : ''}. حيَّ على الصلاة.`;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(phrase);
+    u.lang = currentLang === 'en' ? 'en-US' : 'ar-SA';
+    const v = paPickVoice(); if(v){ u.voice = v; u.lang = v.lang; }
+    u.rate = 0.9; u.pitch = 1; u.volume = 1;
+    setTimeout(()=> speechSynthesis.speak(u), immediate ? 0 : 1700);   // after the chime
+    const msg = document.getElementById('pa-msg');
+    if(!v && msg) msg.textContent = L.paNoVoice;
+  }catch(e){}
+}
 function paAnnounce(key){
   const L = I18N[currentLang];
-  const text = L.paNowTitle + ' ' + L[PA_LABEL[key]] + ' — ' + paCityName();
+  const text = L.paNowTitle + ' ' + L[PA_LABEL[key]] + (paCityName() ? ' — ' + paCityName() : '');
   const box = document.createElement('div');
   box.className = 'pa-toast';
   box.style.cssText = 'position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:9999;background:var(--brass);color:#1c1b1a;padding:14px 18px;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.35);font-weight:700;display:flex;gap:12px;align-items:center;max-width:92vw;';
@@ -9419,6 +9446,7 @@ function paAnnounce(key){
   document.body.appendChild(box);
   setTimeout(()=>{ if(box.isConnected) box.remove(); }, 90000);
   if(paState.sound) paBeep();
+  if(paState.voice) paSpeak(key, !paState.sound);
   try{ if(navigator.vibrate) navigator.vibrate([300, 150, 300]); }catch(e){}
   try{ if('Notification' in window && Notification.permission === 'granted') new Notification(text, { tag:'uddah-prayer-' + key, requireInteraction:false }); }catch(e){}
   if(document.hidden){ document.title = '🕌 ' + text; }
@@ -9461,6 +9489,7 @@ function paRefreshLabels(){
   tg.style.background = paState.on ? 'var(--brass)' : '';
   tg.style.color = paState.on ? '#1c1b1a' : '';
   document.getElementById('pa-sound-lbl').textContent = L.paSound;
+  document.getElementById('pa-voice-lbl').textContent = L.paVoice;
   paTick();
 }
 function paResolveAuto(){
@@ -9483,6 +9512,7 @@ document.getElementById('pa-toggle').addEventListener('click', async ()=>{
   const msg = document.getElementById('pa-msg'); msg.textContent = '';
   paRefreshLabels();
   if(paState.on){
+    paPrimeSpeech();
     try{ if(!paAudio) paAudio = new (window.AudioContext || window.webkitAudioContext)(); if(paAudio.state === 'suspended') await paAudio.resume(); }catch(e){}
     if('Notification' in window && Notification.permission === 'default'){ try{ await Notification.requestPermission(); }catch(e){} }
     if('Notification' in window && Notification.permission === 'denied') msg.textContent = I18N[currentLang].paNotifDenied;
@@ -9490,7 +9520,11 @@ document.getElementById('pa-toggle').addEventListener('click', async ()=>{
   paRefreshLabels();
 });
 document.getElementById('pa-sound').addEventListener('change', e=>{ paState.sound = e.target.checked; paSave(); });
+document.getElementById('pa-voice').addEventListener('change', e=>{ paState.voice = e.target.checked; paSave(); });
+if('speechSynthesis' in window){ try{ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = ()=>{}; }catch(e){} }
+function paPrimeSpeech(){ try{ if('speechSynthesis' in window){ const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } }catch(e){} }
 document.getElementById('pa-test').addEventListener('click', async ()=>{
+  paPrimeSpeech();
   try{ if(!paAudio) paAudio = new (window.AudioContext || window.webkitAudioContext)(); if(paAudio.state === 'suspended') await paAudio.resume(); }catch(e){}
   if('Notification' in window && Notification.permission === 'default'){ try{ await Notification.requestPermission(); }catch(e){} }
   paAnnounce('dhuhr');
@@ -9498,6 +9532,7 @@ document.getElementById('pa-test').addEventListener('click', async ()=>{
 (function paInit(){
   paBuildCitySelect();
   document.getElementById('pa-sound').checked = !!paState.sound;
+  document.getElementById('pa-voice').checked = !!paState.voice;
   if(paState.city === 'auto') paResolveAuto();
   paRefreshLabels();
   setInterval(paTick, 1000);
