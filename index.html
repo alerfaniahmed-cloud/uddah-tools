@@ -328,6 +328,7 @@
     </div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
       <select id="pa-city" style="max-width:190px;padding:6px 8px;font-size:.85rem;"></select>
+      <select id="pa-vsel" style="max-width:200px;padding:6px 8px;font-size:.85rem;display:none;" title="الصوت / Voice"></select>
       <button type="button" class="btn secondary" id="pa-toggle" style="padding:6px 12px;font-size:.85rem;">🔔</button>
       <label style="display:flex;align-items:center;gap:4px;font-size:.8rem;color:var(--bone-dim);"><input type="checkbox" id="pa-sound" checked> <span id="pa-sound-lbl">🔊</span></label>
       <label style="display:flex;align-items:center;gap:4px;font-size:.8rem;color:var(--bone-dim);"><input type="checkbox" id="pa-voice" checked> <span id="pa-voice-lbl">🗣️</span></label>
@@ -9421,10 +9422,24 @@ function paBeep(){
     });
   }catch(e){}
 }
+function paBuildVoiceSelect(){
+  const sel = document.getElementById('pa-vsel');
+  if(!sel || !('speechSynthesis' in window)) return;
+  const want = currentLang === 'en' ? 'en' : 'ar';
+  const vs = speechSynthesis.getVoices().filter(v=> v.lang && v.lang.toLowerCase().startsWith(want));
+  sel.innerHTML = '';
+  if(!vs.length){ sel.style.display = 'none'; return; }
+  const auto = document.createElement('option'); auto.value = ''; auto.textContent = currentLang === 'en' ? 'Voice: auto' : 'الصوت: تلقائي'; sel.appendChild(auto);
+  vs.forEach(v=>{ const o = document.createElement('option'); o.value = v.name; o.textContent = v.name.replace(/^Microsoft\s+/,'').replace(/^Google\s+/,'') + ' (' + v.lang + ')'; sel.appendChild(o); });
+  sel.value = paState.voiceName || '';
+  if(sel.value !== (paState.voiceName || '')) sel.value = '';
+  sel.style.display = '';
+}
 function paPickVoice(){
   if(!('speechSynthesis' in window)) return null;
   const want = currentLang === 'en' ? 'en' : 'ar';
   const vs = speechSynthesis.getVoices();
+  if(paState.voiceName){ const chosen = vs.find(v=> v.name === paState.voiceName); if(chosen) return chosen; }
   const maleRe = /naayf|hamed|majed|maged|tarik|tareq|shakir|zayd|male|رجل|نايف|حامد|ماجد|طارق/i;
   const arabic = vs.filter(v=> v.lang && v.lang.toLowerCase().startsWith(want));
   const male = arabic.find(v=> maleRe.test(v.name||''));
@@ -9537,6 +9552,7 @@ function paRefreshLabels(){
   tg.style.color = paState.on ? '#1c1b1a' : '';
   document.getElementById('pa-sound-lbl').textContent = L.paSound;
   document.getElementById('pa-voice-lbl').textContent = L.paVoice;
+  paBuildVoiceSelect();
   paTick();
 }
 function paResolveAuto(){
@@ -9567,8 +9583,9 @@ document.getElementById('pa-toggle').addEventListener('click', async ()=>{
   paRefreshLabels();
 });
 document.getElementById('pa-sound').addEventListener('change', e=>{ paState.sound = e.target.checked; paSave(); });
+document.getElementById('pa-vsel').addEventListener('change', e=>{ paState.voiceName = e.target.value; paSave(); });
 document.getElementById('pa-voice').addEventListener('change', e=>{ paState.voice = e.target.checked; paSave(); });
-if('speechSynthesis' in window){ try{ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = ()=>{}; }catch(e){} }
+if('speechSynthesis' in window){ try{ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = ()=> paBuildVoiceSelect(); setTimeout(paBuildVoiceSelect, 800); }catch(e){} }
 function paPrimeSpeech(){ try{ if('speechSynthesis' in window){ const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } }catch(e){} }
 document.getElementById('pa-test').addEventListener('click', async ()=>{
   paPrimeSpeech();
