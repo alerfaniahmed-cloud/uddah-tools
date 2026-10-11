@@ -5327,11 +5327,18 @@ document.getElementById('inh-btn').addEventListener('click', ()=>{
    QR CODE GENERATOR
    ============================================================ */
 let currentQR = null;
+// Scanners that guess the text encoding (ZXing-based ones) wrongly read Arabic UTF-8 as Shift-JIS and show garbage.
+// A UTF-8 byte-order mark in front tells them it is UTF-8 (it is an invisible character). Not added to links / pure ASCII.
+function qrSafeText(text){
+  text = String(text);
+  if(/^[\x00-\x7f]*$/.test(text) || /^(https?:|WIFI:|BEGIN:|tel:|mailto:|geo:|sms:|smsto:|MATMSG:|MECARD:)/i.test(text) || text.charCodeAt(0) === 0xFEFF) return text;
+  return '\uFEFF' + text;
+}
 function qrBuild(holder, text, size){
   const lvl = (document.getElementById('qr-level')||{}).value || 'M';
   holder.innerHTML = '';
   return new QRCode(holder, {
-    text: text,
+    text: qrSafeText(text),
     width: size,
     height: size,
     colorDark: '#000000',
@@ -8257,7 +8264,7 @@ function barcodeBuild(){
     let qrCanvas = null;
     try{
       const lvl = document.getElementById('barcode-level').value;
-      new QRCode(tmp, { text, width: S, height: S, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel[lvl] || QRCode.CorrectLevel.M });
+      new QRCode(tmp, { text: qrSafeText(text), width: S, height: S, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel[lvl] || QRCode.CorrectLevel.M });
       qrCanvas = tmp.querySelector('canvas');
       if(!qrCanvas){
         const im = tmp.querySelector('img');
@@ -9184,7 +9191,7 @@ function certQrCanvas(texts, S){
       document.body.appendChild(tmp);
       let copy = null;
       try{
-        new QRCode(tmp, { text, width: S, height: S, colorDark:'#000000', colorLight:'#ffffff', correctLevel: lvl });
+        new QRCode(tmp, { text: qrSafeText(text), width: S, height: S, colorDark:'#000000', colorLight:'#ffffff', correctLevel: lvl });
         let c = tmp.querySelector('canvas');
         if(!c){ const im = tmp.querySelector('img'); if(im && im.naturalWidth){ c = document.createElement('canvas'); c.width = S; c.height = S; c.getContext('2d').drawImage(im, 0, 0, S, S); } }
         if(c && c.width){ copy = document.createElement('canvas'); copy.width = c.width; copy.height = c.height; copy.getContext('2d').drawImage(c, 0, 0); }
