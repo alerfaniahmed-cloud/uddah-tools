@@ -1584,7 +1584,7 @@
 
     <div class="card tools-card" id="tools-cert">
       <h2 data-i18n="certTitleH">شهادة شكر وتقدير للمدارس والأكاديميات</h2>
-      <p class="hint" data-i18n="certHint">صمّم شهادة شكر أو تقدير أو تفوق جاهزة للطباعة بتصميم احترافي، وأنشئ عدة شهادات دفعة واحدة بكتابة الأسماء كل اسم في سطر.</p>
+      <p class="hint" data-i18n="certHint">صمّم شهادة شكر أو تقدير أو تفوق، للمدارس والأندية والأكاديميات، جاهزة للطباعة بتصميم احترافي، وأنشئ عدة شهادات دفعة واحدة بكتابة الأسماء كل اسم في سطر.</p>
 
       <div class="row">
         <div class="field">
@@ -1625,7 +1625,7 @@
         <div class="field"><label for="cert-title-en" data-i18n="certTitleEnLabel">العنوان بالإنجليزية (اختياري)</label><input type="text" id="cert-title-en" class="cert-ctl" lang="en" dir="ltr" value="Certificate of Appreciation"></div>
       </div>
       <div class="row">
-        <div class="field"><label for="cert-org" data-i18n="certOrgLabel">اسم المدرسة / الأكاديمية</label><input type="text" id="cert-org" class="cert-ctl"></div>
+        <div class="field"><label for="cert-org" data-i18n="certOrgLabel">اسم المدرسة / الأكاديمية / النادي</label><input type="text" id="cert-org" class="cert-ctl"></div>
         <div class="field"><label for="cert-header" data-i18n="certHeaderLabel">سطر علوي (اختياري، مثل: المملكة العربية السعودية)</label><input type="text" id="cert-header" class="cert-ctl"></div>
       </div>
       <div class="field">
@@ -3166,7 +3166,7 @@ const I18N = {
     certPresetLabel: 'نوع الشهادة (يعبّئ النصوص تلقائياً)', certStyleLabel: 'التصميم',
     certStyleClassic: 'كلاسيكي ذهبي', certStyleRoyal: 'ملكي بزخارف نجمية', certStyleModern: 'عصري', certStyleMinimal: 'بسيط أنيق',
     certOrientLabel: 'اتجاه الورقة', certOrientLand: 'عرضي (أفقي)', certOrientPort: 'طولي (رأسي)', certFontLabel: 'خط العناوين والاسم',
-    certTitleLabel: 'عنوان الشهادة', certTitleEnLabel: 'العنوان بالإنجليزية (اختياري)', certOrgLabel: 'اسم المدرسة / الأكاديمية',
+    certTitleLabel: 'عنوان الشهادة', certTitleEnLabel: 'العنوان بالإنجليزية (اختياري)', certOrgLabel: 'اسم المدرسة / الأكاديمية / النادي',
     certHeaderLabel: 'سطر علوي (اختياري، مثل: المملكة العربية السعودية)', certLogoLabel: 'الشعار (اختياري)', certLogoSize: 'حجم الشعار',
     certNamesLabel: 'أسماء المكرَّمين (كل اسم في سطر مستقل)', certIntroLabel: 'العبارة التمهيدية (استخدم {org} لاسم الجهة)', certBodyLabel: 'نص الشهادة',
     certS1Title: 'المسمى الوظيفي للموقِّع الأول', certS1Name: 'اسم الموقِّع الأول', certS2Title: 'المسمى الوظيفي للموقِّع الثاني (اختياري)', certS2Name: 'اسم الموقِّع الثاني',
@@ -3174,7 +3174,7 @@ const I18N = {
     certColor1: 'اللون الرئيسي', certColor2: 'لون الزخارف', certQrLabel: 'إضافة رمز QR للتحقق (يحمل الاسم والجهة والتاريخ والرقم)',
     certBarSize: 'حجم الباركود', certQrSize: 'حجم رمز QR', certLogoDel: 'حذف الشعار', certStampDel: 'حذف الختم', certBarLabel: 'إضافة باركود احترافي (Code128) لرقم الشهادة — يُولَّد الرقم تلقائياً إن تركته فارغاً', certDragHint: 'اسحب الشعار أو الختم أو الباركود أو رمز QR (المربعات المتقطعة) لأي مكان في الشهادة، ونقرتان على أي منها ترجعه لمكانه.',
     certPdfBtn: 'تنزيل PDF', certPngBtn: 'تنزيل صورة PNG', certPreviewLabel: 'معاينة الشهادة (أول اسم)',
-    certPresetGeneral: 'شكر وتقدير عام', certPresetExcel: 'شهادة تفوق دراسي', certPresetTeacher: 'تكريم معلم / معلمة', certPresetQuran: 'إتمام حفظ القرآن', certPresetCourse: 'إتمام دورة تدريبية', certPresetPart: 'مشاركة في فعالية', certPresetStaff: 'شكر موظف / إداري',
+    certPresetGeneral: 'شكر وتقدير عام', certPresetExcel: 'شهادة تفوق دراسي', certPresetTeacher: 'تكريم معلم / معلمة', certPresetQuran: 'إتمام حفظ القرآن', certPresetCourse: 'إتمام دورة تدريبية', certPresetPart: 'مشاركة في فعالية', certPresetStaff: 'شكر موظف / إداري', certPresetClubThanks: 'نادي: شكر وتقدير لعضو', certPresetClubMember: 'نادي: شهادة عضوية', certPresetClubAchieve: 'نادي: تميّز وإنجاز', certPresetClubWin: 'نادي: فوز بمركز / بطولة', certPresetClubPart: 'نادي: مشاركة في نشاط', certPresetClubVolunteer: 'نادي: شكر متطوع',
     certCountPrefix: 'عدد الشهادات:', certNamePlaceholder: 'اسم المكرَّم', certBusy: 'جارٍ إنشاء الشهادات...', certSuccess: 'تم إنشاء الشهادة وتنزيلها.', certErr: 'تعذر إنشاء الشهادة.',
     paNext: 'الصلاة القادمة', paAuto: '📍 حسب موقعي (تلقائي)', paOn: '🔔 تنبيه الأذان: مفعّل', paOff: '🔕 تنبيه الأذان: موقوف', paSound: '🔊 صوت', paTest: 'تجربة',
     paVoice: '🗣️ صوت ناطق', paNoVoice: 'تعذّر تشغيل النطق الصوتي: جهازك لا يحوي صوتاً عربياً، وتعذّر تحميل الصوت من الإنترنت. تأكد من اتصالك بالإنترنت أو ثبّت صوتاً عربياً من إعدادات النظام.',
@@ -3933,7 +3933,7 @@ const I18N = {
     certPresetLabel: 'Certificate type (fills the texts)', certStyleLabel: 'Design',
     certStyleClassic: 'Classic gold', certStyleRoyal: 'Royal with star ornaments', certStyleModern: 'Modern', certStyleMinimal: 'Minimal',
     certOrientLabel: 'Page orientation', certOrientLand: 'Landscape', certOrientPort: 'Portrait', certFontLabel: 'Title & name font',
-    certTitleLabel: 'Certificate title', certTitleEnLabel: 'English title (optional)', certOrgLabel: 'School / academy name',
+    certTitleLabel: 'Certificate title', certTitleEnLabel: 'English title (optional)', certOrgLabel: 'School / academy / club name',
     certHeaderLabel: 'Top line (optional, e.g. Kingdom of Saudi Arabia)', certLogoLabel: 'Logo (optional)', certLogoSize: 'Logo size',
     certNamesLabel: 'Recipient names (one per line)', certIntroLabel: 'Opening phrase (use {org} for the organisation)', certBodyLabel: 'Certificate text',
     certS1Title: 'First signatory title', certS1Name: 'First signatory name', certS2Title: 'Second signatory title (optional)', certS2Name: 'Second signatory name',
@@ -3941,7 +3941,7 @@ const I18N = {
     certColor1: 'Main colour', certColor2: 'Ornament colour', certQrLabel: 'Add a verification QR code (name, organisation, date, number)',
     certBarSize: 'Barcode size', certQrSize: 'QR code size', certLogoDel: 'Remove logo', certStampDel: 'Remove stamp', certBarLabel: 'Add a professional Code128 barcode for the certificate number (auto-generated if left empty)', certDragHint: 'Drag the logo, stamp, barcode or QR code (dashed boxes) anywhere on the certificate; double-click one to reset it.',
     certPdfBtn: 'Download PDF', certPngBtn: 'Download PNG image', certPreviewLabel: 'Certificate preview (first name)',
-    certPresetGeneral: 'General appreciation', certPresetExcel: 'Academic excellence', certPresetTeacher: 'Teacher recognition', certPresetQuran: 'Quran memorisation', certPresetCourse: 'Course completion', certPresetPart: 'Event participation', certPresetStaff: 'Staff appreciation',
+    certPresetGeneral: 'General appreciation', certPresetExcel: 'Academic excellence', certPresetTeacher: 'Teacher recognition', certPresetQuran: 'Quran memorisation', certPresetCourse: 'Course completion', certPresetPart: 'Event participation', certPresetStaff: 'Staff appreciation', certPresetClubThanks: 'Club: member appreciation', certPresetClubMember: 'Club: membership', certPresetClubAchieve: 'Club: excellence & achievement', certPresetClubWin: 'Club: winning a place / tournament', certPresetClubPart: 'Club: activity participation', certPresetClubVolunteer: 'Club: volunteer thanks',
     certCountPrefix: 'Certificates:', certNamePlaceholder: 'Recipient name', certBusy: 'Creating certificates...', certSuccess: 'Certificate created and downloaded.', certErr: 'Could not create the certificate.',
     paNext: 'Next prayer', paAuto: '📍 My location (auto)', paOn: '🔔 Adhan alert: on', paOff: '🔕 Adhan alert: off', paSound: '🔊 Sound', paTest: 'Test',
     paVoice: '🗣️ Voice', paNoVoice: 'No matching speech voice was found on this device; install one in the system speech settings.',
@@ -9079,7 +9079,13 @@ const CERT_PRESETS = [
   { k:'certPresetQuran', title:'شهادة إتمام حفظ', en:'Certificate of Completion', intro:'تشهد {org} بأن', body:'قد أتمّ حفظ ما تيسّر من كتاب الله تعالى، نسأل الله أن ينفعه به وأن يجعله من أهل القرآن الذين هم أهل الله وخاصته.' },
   { k:'certPresetCourse', title:'شهادة إتمام دورة', en:'Certificate of Completion', intro:'تشهد {org} بأن', body:'قد أتمّ بنجاح دورة تدريبية بعنوان «............» ومدتها (....) ساعة تدريبية.' },
   { k:'certPresetPart', title:'شهادة مشاركة', en:'Certificate of Participation', intro:'تشهد {org} بأن', body:'قد شارك مشاركة فاعلة في الفعالية، شاكرين له حضوره وإسهامه المميز.' },
-  { k:'certPresetStaff', title:'شهادة شكر وتقدير', en:'Certificate of Appreciation', intro:'تتقدم {org} بالشكر والتقدير إلى', body:'لما بذله من جهد وإخلاص وتفانٍ في عمله وما قدمه من إسهامات متميزة، متمنين له المزيد من التوفيق.' }
+  { k:'certPresetStaff', title:'شهادة شكر وتقدير', en:'Certificate of Appreciation', intro:'تتقدم {org} بالشكر والتقدير إلى', body:'لما بذله من جهد وإخلاص وتفانٍ في عمله وما قدمه من إسهامات متميزة، متمنين له المزيد من التوفيق.' },
+  { k:'certPresetClubThanks', title:'شهادة شكر وتقدير', en:'Certificate of Appreciation', intro:'يتقدم {org} بخالص الشكر والتقدير إلى العضو/ة', body:'تقديراً لعطائه المتميز وروحه الإيجابية ومشاركته الفاعلة في أنشطة النادي وفعالياته، وإسهامه في خدمة أهدافه وتحقيق رسالته، سائلين الله له دوام التوفيق والسداد.', s1:'رئيس النادي', s2:'أمين السر' },
+  { k:'certPresetClubMember', title:'شهادة عضوية', en:'Certificate of Membership', intro:'يشهد {org} بأن', body:'عضو مسجّل في النادي، التزم بأنظمته ولوائحه وشارك في برامجه وأنشطته، وقد مُنح هذه الشهادة بناءً على طلبه، متمنين له دوام التوفيق والاستفادة من برامج النادي.', s1:'رئيس النادي', s2:'أمين السر' },
+  { k:'certPresetClubAchieve', title:'شهادة تميّز وإنجاز', en:'Certificate of Achievement', intro:'يمنح {org} هذه الشهادة إلى العضو/ة', body:'تقديراً لتميّزه وإنجازه المشهود في النادي وما أظهره من جدّ واجتهاد وانضباط، فكان قدوة حسنة لزملائه، متمنين له المزيد من التقدم والنجاح.', s1:'رئيس النادي', s2:'المدير التنفيذي' },
+  { k:'certPresetClubWin', title:'شهادة تقدير وفوز', en:'Certificate of Achievement', intro:'تشهد إدارة {org} بأن', body:'قد أحرز المركز (............) في (البطولة / المسابقة ............) تمثيلاً للنادي بروح رياضية عالية، شاكرين له جهده وحرصه على رفع اسم النادي، ومتمنين له دوام التميز.', s1:'رئيس النادي', s2:'مدير النشاط' },
+  { k:'certPresetClubPart', title:'شهادة مشاركة', en:'Certificate of Participation', intro:'يشهد {org} بأن', body:'قد شارك في (النشاط / البرنامج ............) وأسهم في نجاحه بجهده وحضوره المميز وحسن تعاونه، شاكرين له تفاعله وروحه الطيبة.', s1:'رئيس النادي', s2:'مسؤول الأنشطة' },
+  { k:'certPresetClubVolunteer', title:'شهادة شكر للمتطوع', en:'Volunteer Appreciation Certificate', intro:'يتقدم {org} بجزيل الشكر والعرفان إلى المتطوع/ة', body:'لما قدّمه من وقت وجهد مخلص في العمل التطوعي ودعم أنشطة النادي وبرامجه، وإسهامه الفاعل في تحقيق أهدافه، جعل الله ذلك في ميزان حسناته.', s1:'رئيس النادي', s2:'منسق التطوع' }
 ];
 function certFillPresetSelect(){
   const sel = document.getElementById('cert-preset');
@@ -9094,6 +9100,8 @@ function certApplyPreset(){
   document.getElementById('cert-title-en').value = p.en;
   document.getElementById('cert-intro').value = p.intro;
   document.getElementById('cert-body').value = p.body;
+  document.getElementById('cert-s1-title').value = p.s1 || 'مدير المدرسة';
+  document.getElementById('cert-s2-title').value = p.s2 || 'وكيل المدرسة';
 }
 function certCollect(){
   const g = id => document.getElementById(id);
