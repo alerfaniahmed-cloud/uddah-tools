@@ -343,6 +343,7 @@
     <button data-tab="inheritance" data-i18n="tabInheritance">حاسبة المواريث</button>
     <button data-tab="tools" data-i18n="tabTools">أدوات متنوعة</button>
     <button data-tab="student" data-i18n="tabStudent">أدوات الطلاب</button>
+    <button data-tab="school" data-i18n="tabSchool">للمدارس</button>
     <button data-tab="sectors" data-i18n="tabSectors">حاسبات متنوعة</button>
     <button data-tab="pdf" data-i18n="tabPdf">أدوات PDF</button>
   </nav>
@@ -1732,6 +1733,89 @@
     <p class="note" data-i18n="studentMoreNote">المزيد من أدوات الطلاب (حاسبة الدرجة المطلوبة، مولّد الاقتباسات الأكاديمية APA/MLA) قادمة قريباً.</p>
   </section>
 
+  <!-- ===================== TAB: SCHOOLS (exam committees) ===================== -->
+  <section class="panel" id="panel-school">
+    <div class="card tools-card" id="tools-exam">
+      <h2 data-i18n="exTitleH">لجان الاختبار وأرقام الجلوس</h2>
+      <p class="hint" data-i18n="exHint">الصق قائمة الطلاب، فتُوزَّع تلقائياً على لجان بأرقام جلوس متسلسلة، وتحصل على بطاقات للأبواب وبطاقات للطاولات وكشف عام في ملف PDF واحد جاهز للطباعة.</p>
+
+      <div class="row">
+        <div class="field"><label for="ex-school" data-i18n="exSchool">اسم المدرسة</label><input type="text" id="ex-school" class="ex-ctl"></div>
+        <div class="field"><label for="ex-exam" data-i18n="exExam">اسم الاختبار</label><input type="text" id="ex-exam" class="ex-ctl" value="اختبارات نهاية الفصل الدراسي الأول"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="ex-when" data-i18n="exWhen">العام الدراسي / الفترة (اختياري)</label><input type="text" id="ex-when" class="ex-ctl" placeholder="1448 / 1449 هـ"></div>
+        <div class="field"><label for="ex-header" data-i18n="exHeader">سطر علوي (اختياري)</label><input type="text" id="ex-header" class="ex-ctl"></div>
+      </div>
+      <div class="field">
+        <label data-i18n="exLogo">شعار المدرسة (اختياري)</label>
+        <input type="file" id="ex-logo" accept="image/*">
+        <div class="file-list" id="ex-logo-list"></div>
+      </div>
+
+      <div class="field">
+        <label for="ex-names" data-i18n="exNames">قائمة الطلاب (كل طالب في سطر — ويمكن إضافة الصف بعد فاصلة أو | مثل: أحمد محمد | 3/أ)</label>
+        <textarea id="ex-names" class="ex-ctl" rows="6" style="width:100%;"></textarea>
+        <div id="ex-count" style="font-size:.8rem;color:var(--bone-dim);margin-top:4px;"></div>
+        <button type="button" class="btn secondary" id="ex-sample-btn" style="margin-top:6px;padding:6px 12px;font-size:.85rem;" data-i18n="exSample">تعبئة أسماء تجريبية</button>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="ex-sort" data-i18n="exSort">ترتيب الطلاب قبل التوزيع</label>
+          <select id="ex-sort" class="ex-ctl">
+            <option value="keep" data-i18n="exSortKeep">كما كُتبت</option>
+            <option value="alpha" data-i18n="exSortAlpha">أبجدياً</option>
+            <option value="class" data-i18n="exSortClass">حسب الصف ثم أبجدياً</option>
+          </select>
+        </div>
+        <div class="field"><label for="ex-cap" data-i18n="exCap">عدد الطلاب في اللجنة (الحد الأعلى)</label><input type="number" id="ex-cap" class="ex-ctl" min="5" max="60" value="25"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="ex-seat0" data-i18n="exSeat0">رقم الجلوس الأول</label><input type="number" id="ex-seat0" class="ex-ctl" min="1" value="1001" lang="en"></div>
+        <div class="field"><label for="ex-com0" data-i18n="exCom0">رقم اللجنة الأولى</label><input type="number" id="ex-com0" class="ex-ctl" min="1" value="1" lang="en"></div>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;margin:6px 0 10px;"><input type="checkbox" id="ex-split" class="ex-ctl"> <span data-i18n="exSplit">فصل الصفوف: لا تجمع طلاب صفّين مختلفين في لجنة واحدة</span></label>
+
+      <div class="row">
+        <div class="field"><label for="ex-locs" data-i18n="exLocs">مقر كل لجنة (اختياري — سطر لكل لجنة بالترتيب)</label><textarea id="ex-locs" class="ex-ctl" rows="3" style="width:100%;" placeholder="قاعة 1&#10;قاعة 2"></textarea></div>
+        <div class="field"><label for="ex-sups" data-i18n="exSups">المراقب لكل لجنة (اختياري — سطر لكل لجنة بالترتيب)</label><textarea id="ex-sups" class="ex-ctl" rows="3" style="width:100%;"></textarea></div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="ex-font" data-i18n="exFont">خط العناوين</label>
+          <select id="ex-font" class="ex-ctl">
+            <option value="Amiri">أميري (نسخ كلاسيكي)</option>
+            <option value="Reem Kufi">ريم كوفي (كوفي)</option>
+            <option value="IBM Plex Sans Arabic">IBM Plex (عصري)</option>
+          </select>
+        </div>
+        <div class="field"><label for="ex-color1" data-i18n="exColor1">اللون الرئيسي</label><input type="color" id="ex-color1" class="ex-ctl" value="#1f3a5f"></div>
+        <div class="field"><label for="ex-color2" data-i18n="exColor2">لون الزخارف</label><input type="color" id="ex-color2" class="ex-ctl" value="#b8863b"></div>
+      </div>
+
+      <div class="field"><label data-i18n="exOut">ما الذي تريد طباعته؟</label>
+        <label style="display:flex;align-items:center;gap:8px;margin:4px 0;"><input type="checkbox" id="ex-out-door" class="ex-ctl" checked> <span data-i18n="exOutDoor">بطاقات الأبواب (ورقة لكل لجنة بأسماء طلابها)</span></label>
+        <label style="display:flex;align-items:center;gap:8px;margin:4px 0;"><input type="checkbox" id="ex-out-desk" class="ex-ctl" checked> <span data-i18n="exOutDesk">بطاقات الطاولات (10 بطاقات في الصفحة جاهزة للقص)</span></label>
+        <label style="display:flex;align-items:center;gap:8px;margin:4px 0;"><input type="checkbox" id="ex-out-list" class="ex-ctl" checked> <span data-i18n="exOutList">الكشف العام مرتباً بأرقام الجلوس</span></label>
+        <label style="display:flex;align-items:center;gap:8px;margin:4px 0;"><input type="checkbox" id="ex-out-alpha" class="ex-ctl" checked> <span data-i18n="exOutAlpha">كشف أبجدي للأسماء (للتعليق عند بوابة المدرسة)</span></label>
+        <label style="display:flex;align-items:center;gap:8px;margin:4px 0;"><input type="checkbox" id="ex-desk-bar" class="ex-ctl"> <span data-i18n="exDeskBar">إضافة باركود رقم الجلوس على بطاقة الطاولة (للتحضير بالقارئ)</span></label>
+      </div>
+
+      <div class="btn-row" style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button class="btn" id="ex-pdf-btn" data-i18n="exPdfBtn">تنزيل PDF</button>
+      </div>
+      <div id="ex-status"></div>
+      <div id="ex-summary" style="margin-top:12px;font-size:.85rem;color:var(--bone-dim);"></div>
+      <div class="field" style="margin-top:16px;">
+        <label data-i18n="exPreview">معاينة (أول بطاقة باب، وأول صفحة بطاقات طاولات، وأول صفحة كشف)</label>
+        <div id="ex-preview" style="display:flex;flex-wrap:wrap;gap:10px;max-width:100%;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;"></div>
+      </div>
+      <p class="note" data-i18n="exNote">لا يُحفظ أي اسم من أسماء الطلاب في المتصفح ولا يُرفع لأي سيرفر؛ كل شيء يتم على جهازك، وتختفي القائمة عند إغلاق الصفحة.</p>
+    </div>
+  </section>
+
   <!-- ===================== TAB: SECTOR CALCULATORS ===================== -->
   <section class="panel" id="panel-sectors">
 
@@ -2968,6 +3052,19 @@ const I18N = {
     tabInheritance: 'حاسبة المواريث',
     tabTools: 'أدوات متنوعة',
     tabStudent: 'أدوات الطلاب',
+    tabSchool: 'للمدارس',
+    exTitleH: 'لجان الاختبار وأرقام الجلوس', exHint: 'الصق قائمة الطلاب، فتُوزَّع تلقائياً على لجان بأرقام جلوس متسلسلة، وتحصل على بطاقات للأبواب وبطاقات للطاولات وكشف عام في ملف PDF واحد جاهز للطباعة.',
+    exSchool: 'اسم المدرسة', exExam: 'اسم الاختبار', exWhen: 'العام الدراسي / الفترة (اختياري)', exHeader: 'سطر علوي (اختياري)', exLogo: 'شعار المدرسة (اختياري)',
+    exNames: 'قائمة الطلاب (كل طالب في سطر — ويمكن إضافة الصف بعد فاصلة أو | مثل: أحمد محمد | 3/أ)', exSample: 'تعبئة أسماء تجريبية',
+    exSort: 'ترتيب الطلاب قبل التوزيع', exSortKeep: 'كما كُتبت', exSortAlpha: 'أبجدياً', exSortClass: 'حسب الصف ثم أبجدياً',
+    exCap: 'عدد الطلاب في اللجنة (الحد الأعلى)', exSeat0: 'رقم الجلوس الأول', exCom0: 'رقم اللجنة الأولى', exSplit: 'فصل الصفوف: لا تجمع طلاب صفّين مختلفين في لجنة واحدة',
+    exLocs: 'مقر كل لجنة (اختياري — سطر لكل لجنة بالترتيب)', exSups: 'المراقب لكل لجنة (اختياري — سطر لكل لجنة بالترتيب)',
+    exFont: 'خط العناوين', exColor1: 'اللون الرئيسي', exColor2: 'لون الزخارف', exOut: 'ما الذي تريد طباعته؟',
+    exOutDoor: 'بطاقات الأبواب (ورقة لكل لجنة بأسماء طلابها)', exOutDesk: 'بطاقات الطاولات (10 بطاقات في الصفحة جاهزة للقص)', exOutList: 'الكشف العام مرتباً بأرقام الجلوس', exOutAlpha: 'كشف أبجدي للأسماء (للتعليق عند بوابة المدرسة)', exDeskBar: 'إضافة باركود رقم الجلوس على بطاقة الطاولة (للتحضير بالقارئ)',
+    exPdfBtn: 'تنزيل PDF', exPreview: 'معاينة (أول بطاقة باب، وأول صفحة بطاقات طاولات، وأول صفحة كشف)',
+    exNote: 'لا يُحفظ أي اسم من أسماء الطلاب في المتصفح ولا يُرفع لأي سيرفر؛ كل شيء يتم على جهازك، وتختفي القائمة عند إغلاق الصفحة.',
+    exCountTxt: 'عدد الطلاب', exBusy: 'جارٍ تجهيز الملف…', exOk: 'تم تجهيز الملف.', exErr: 'تعذّر تجهيز الملف.', exNoNames: 'أضف أسماء الطلاب أولاً.', exNoOut: 'اختر نوعاً واحداً على الأقل للطباعة.',
+    exSumTxt: 'لجان', exSumRange: 'أرقام الجلوس', exCapWarn: 'تنبيه: عدد الطلاب في اللجنة كبير، قد تصغر الخطوط في بطاقة الباب.',
     tabVoice: 'الصوت والنص',
     tabSectors: 'حاسبات متنوعة',
     tabPdf: 'أدوات PDF',
@@ -3722,6 +3819,19 @@ const I18N = {
     tabInheritance: 'Inheritance Calculator',
     tabTools: 'Misc Tools',
     tabStudent: 'Student Tools',
+    tabSchool: 'Schools',
+    exTitleH: 'Exam committees & seat numbers', exHint: 'Paste the student list: students are distributed into committees with sequential seat numbers, and you get door cards, desk cards and a master list in one printable PDF.',
+    exSchool: 'School name', exExam: 'Exam name', exWhen: 'Academic year / period (optional)', exHeader: 'Top line (optional)', exLogo: 'School logo (optional)',
+    exNames: 'Student list (one per line — you can add the class after a comma or | e.g. Ahmed Mohammed | 3/A)', exSample: 'Fill sample names',
+    exSort: 'Sort students before distributing', exSortKeep: 'As typed', exSortAlpha: 'Alphabetical', exSortClass: 'By class, then alphabetical',
+    exCap: 'Students per committee (max)', exSeat0: 'First seat number', exCom0: 'First committee number', exSplit: 'Separate classes: do not mix two classes in one committee',
+    exLocs: 'Location of each committee (optional — one line per committee, in order)', exSups: 'Supervisor of each committee (optional — one line per committee, in order)',
+    exFont: 'Headings font', exColor1: 'Main colour', exColor2: 'Accent colour', exOut: 'What to print?',
+    exOutDoor: 'Door cards (one sheet per committee listing its students)', exOutDesk: 'Desk cards (10 per page, ready to cut)', exOutList: 'Master list ordered by seat number', exOutAlpha: 'Alphabetical name list (to post at the school gate)', exDeskBar: 'Add a seat-number barcode to the desk card (for scanner attendance)',
+    exPdfBtn: 'Download PDF', exPreview: 'Preview (first door card, first desk-card page, first list page)',
+    exNote: 'No student name is stored in the browser or uploaded to any server; everything happens on your device and the list disappears when you close the page.',
+    exCountTxt: 'Students', exBusy: 'Preparing the file…', exOk: 'File is ready.', exErr: 'Could not prepare the file.', exNoNames: 'Add the student names first.', exNoOut: 'Select at least one output to print.',
+    exSumTxt: 'committees', exSumRange: 'Seat numbers', exCapWarn: 'Note: many students per committee; fonts on the door card may get small.',
     tabVoice: 'Voice & Text',
     tabSectors: 'More Calculators',
     tabPdf: 'PDF Tools',
@@ -9309,6 +9419,250 @@ document.getElementById('cert-png-btn').addEventListener('click', ()=> certDownl
   document.getElementById('cert-date').value = new Date().toISOString().slice(0, 10);
   certLoadProfile(); certSchedule();
 })();
+
+
+/* ============================================================
+   EXAM COMMITTEES — distribute students into committees, door cards, desk cards, master lists (A4 canvas -> PDF)
+   ============================================================ */
+setupFilePicker('ex-logo', 'ex-logo-list', false);
+let exLogo = null, exTimer = null;
+const EX_SAMPLE_NAMES = ['أحمد محمد العتيبي','خالد عبدالله القحطاني','عبدالرحمن سعد الدوسري','فهد ناصر الشمري','سلطان إبراهيم الحربي','محمد صالح الغامدي','ياسر علي الزهراني','عمر حسن المطيري','تركي فيصل السبيعي','بدر عادل العنزي','نايف مشعل الرشيدي','سعود خالد البقمي','ماجد يوسف الشهري','راكان عبدالعزيز التميمي','وليد منصور الخالدي','عبدالإله فواز المالكي','زياد أنس الجهني','هاني طلال العمري','رائد سامي الحازمي','مازن بندر السلمي'];
+function exCollect(){
+  const g = id => document.getElementById(id);
+  const lines = g('ex-names').value.split(/\r?\n/).map(s=> s.trim()).filter(Boolean);
+  let students = lines.map(l=>{ const p = l.split(/\t|\||،|,/).map(s=> s.trim()); return { name:p[0], cls:p[1] || '' }; }).filter(s=> s.name);
+  const sort = g('ex-sort').value, cmp = (a, b)=> a.localeCompare(b, 'ar');
+  if(sort === 'alpha') students.sort((a, b)=> cmp(a.name, b.name));
+  else if(sort === 'class') students.sort((a, b)=> (a.cls || '').localeCompare(b.cls || '', 'ar', { numeric:true }) || cmp(a.name, b.name));
+  return {
+    school: g('ex-school').value.trim(), exam: g('ex-exam').value.trim(), when: g('ex-when').value.trim(), header: g('ex-header').value.trim(),
+    students, cap: Math.max(5, Math.min(60, parseInt(g('ex-cap').value, 10) || 25)), seat0: parseInt(g('ex-seat0').value, 10) || 1, com0: parseInt(g('ex-com0').value, 10) || 1,
+    split: g('ex-split').checked, font: g('ex-font').value, c1: g('ex-color1').value, c2: g('ex-color2').value,
+    locs: g('ex-locs').value.split(/\r?\n/).map(s=> s.trim()), sups: g('ex-sups').value.split(/\r?\n/).map(s=> s.trim()),
+    out: { door:g('ex-out-door').checked, desk:g('ex-out-desk').checked, list:g('ex-out-list').checked, alpha:g('ex-out-alpha').checked }, deskBar: g('ex-desk-bar').checked
+  };
+}
+function exBuild(d){
+  const groups = [];
+  if(d.split){
+    const map = new Map();
+    d.students.forEach(s=>{ const k = s.cls || ''; if(!map.has(k)) map.set(k, []); map.get(k).push(s); });
+    map.forEach(v=> groups.push(v));
+  } else groups.push(d.students);
+  const coms = []; let seat = d.seat0, ci = 0;
+  groups.forEach(grp=>{
+    const n = grp.length; if(!n) return;
+    const k = Math.ceil(n / d.cap), base = Math.floor(n / k), extra = n % k; let p = 0;
+    for(let i = 0; i < k; i++){
+      const size = base + (i < extra ? 1 : 0), list = grp.slice(p, p + size); p += size;
+      const com = { no: d.com0 + ci, loc: d.locs[ci] || '', sup: d.sups[ci] || '', students: [] };
+      list.forEach(s=>{ com.students.push({ name:s.name, cls:s.cls, seat:seat, com:com.no, loc:com.loc }); seat++; });
+      com.from = com.students[0].seat; com.to = com.students[com.students.length - 1].seat;
+      coms.push(com); ci++;
+    }
+  });
+  return coms;
+}
+function exFit(ctx, str, maxW, size, weight, fam, minS){
+  let s = size; ctx.font = `${weight} ${s}px ${fam}`;
+  while(s > (minS || 8) && ctx.measureText(str).width > maxW){ s -= 1; ctx.font = `${weight} ${s}px ${fam}`; }
+  return s;
+}
+function exRR(ctx, x, y, w, h, r){
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+function exCanvas(scale){
+  const c = document.createElement('canvas'); c.width = Math.round(794 * scale); c.height = Math.round(1123 * scale);
+  const ctx = c.getContext('2d'); ctx.setTransform(scale, 0, 0, scale, 0, 0); ctx.imageSmoothingQuality = 'high';
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 794, 1123);
+  return { c, ctx };
+}
+function exFonts(d){ return { H: `'${d.font}', 'IBM Plex Sans Arabic', serif`, B: `'IBM Plex Sans Arabic', 'Segoe UI', Arial, sans-serif` }; }
+function exT(ctx, str, x, y, o){
+  o = o || {};
+  ctx.font = `${o.w || 400} ${o.s || 18}px ${o.f}`; ctx.fillStyle = o.c || '#222'; ctx.textBaseline = 'middle';
+  ctx.direction = o.dir || 'rtl'; ctx.textAlign = o.a || 'center';
+  if(o.max){ const s = exFit(ctx, str, o.max, o.s || 18, o.w || 400, o.f, o.min || 8); ctx.font = `${o.w || 400} ${s}px ${o.f}`; }
+  ctx.fillText(str, x, y);
+}
+function exBarcode(ctx, text, x, y, w, h){
+  try{
+    const mods = code128Modules(text), quiet = 5, m = w / (mods.length + quiet * 2);
+    ctx.fillStyle = '#000';
+    for(let i = 0; i < mods.length; i++){ if(mods[i] === '1'){ let j = i; while(j < mods.length && mods[j] === '1') j++; ctx.fillRect(x + (quiet + i) * m, y, (j - i) * m, h); i = j - 1; } }
+  }catch(e){}
+}
+function exHeaderBlock(ctx, d, F, cx, top){
+  let y = top;
+  if(d.header){ exT(ctx, d.header, cx, y, { s:14, c:'#555', w:500, f:F.B }); y += 28; }
+  if(exLogo){ const mh = 74, r = Math.min(mh / exLogo.naturalHeight, 190 / exLogo.naturalWidth), w = exLogo.naturalWidth * r, h = exLogo.naturalHeight * r; ctx.drawImage(exLogo, cx - w / 2, y, w, h); y += h + 14; }
+  if(d.school){ exT(ctx, d.school, cx, y + 14, { s:28, w:700, f:F.H, c:d.c1, max:680 }); y += 40; }
+  if(d.exam){ exT(ctx, d.exam, cx, y + 10, { s:20, w:600, f:F.B, c:'#333', max:680 }); y += 30; }
+  if(d.when){ exT(ctx, d.when, cx, y + 6, { s:15, w:400, f:F.B, c:'#666', max:680 }); y += 24; }
+  return y;
+}
+function exFrame(ctx, d){
+  ctx.strokeStyle = d.c1; ctx.lineWidth = 3; exRR(ctx, 22, 22, 750, 1079, 14); ctx.stroke();
+  ctx.strokeStyle = d.c2; ctx.lineWidth = 1.2; exRR(ctx, 30, 30, 734, 1063, 9); ctx.stroke();
+}
+function exNamesTable(ctx, d, F, x, y, w, rows, rh, seatW){
+  const fs = Math.max(9, Math.min(19, rh * 0.56));
+  ctx.fillStyle = d.c1; ctx.fillRect(x, y, w, rh);
+  exT(ctx, 'رقم الجلوس', x + w - seatW / 2, y + rh / 2, { s:fs, w:700, c:'#fff', f:F.B, max:seatW - 8 });
+  exT(ctx, 'اسم الطالب', x + w - seatW - 10, y + rh / 2, { s:fs, w:700, c:'#fff', f:F.B, a:'right' });
+  rows.forEach((r, i)=>{
+    const ry = y + rh * (i + 1);
+    if(i % 2 === 0){ ctx.fillStyle = d.c1 + '12'; ctx.fillRect(x, ry, w, rh); }
+    ctx.strokeStyle = '#ddd'; ctx.lineWidth = .6; ctx.beginPath(); ctx.moveTo(x, ry + rh); ctx.lineTo(x + w, ry + rh); ctx.stroke();
+    exT(ctx, String(r.seat), x + w - seatW / 2, ry + rh / 2, { s:fs, w:700, c:d.c1, f:F.B, dir:'ltr' });
+    exT(ctx, r.name, x + w - seatW - 10, ry + rh / 2, { s:fs, w:500, c:'#111', f:F.B, a:'right', max:w - seatW - 18, min:8 });
+  });
+  ctx.strokeStyle = d.c1; ctx.lineWidth = 1; ctx.strokeRect(x, y, w, rh * (rows.length + 1));
+}
+function exDoorPage(d, com, scale){
+  const F = exFonts(d), { c, ctx } = exCanvas(scale), cx = 397;
+  exFrame(ctx, d);
+  let y = exHeaderBlock(ctx, d, F, cx, 52);
+  y += 10;
+  // committee banner
+  exRR(ctx, 197, y, 400, 150, 18); ctx.fillStyle = d.c1; ctx.fill();
+  ctx.strokeStyle = d.c2; ctx.lineWidth = 2; exRR(ctx, 203, y + 6, 388, 138, 13); ctx.stroke();
+  exT(ctx, 'لجنة رقم', cx, y + 36, { s:26, w:600, c:'#fff', f:F.H });
+  exT(ctx, String(com.no), cx, y + 100, { s:84, w:700, c:'#fff', f:F.B, dir:'ltr' });
+  y += 178;
+  const info = [];
+  if(com.loc) info.push('المقر: ' + com.loc);
+  if(com.sup) info.push('المراقب: ' + com.sup);
+  info.push('أرقام الجلوس: من ' + com.from + ' إلى ' + com.to + '   •   عدد الطلاب: ' + com.students.length);
+  info.forEach((s, i)=> exT(ctx, s, cx, y + i * 30, { s:19, w:600, c:'#222', f:F.B, max:700 }));
+  y += info.length * 30 + 4;
+  const n = com.students.length, bottom = 1058, avail = bottom - y;
+  if(n <= 18){
+    const rh = Math.min(38, avail / (n + 1));
+    exNamesTable(ctx, d, F, 117, y, 560, com.students, rh, 100);
+  }else{
+    const per = Math.ceil(n / 2), rh = Math.min(34, avail / (per + 1));
+    exNamesTable(ctx, d, F, 404, y, 350, com.students.slice(0, per), rh, 70);
+    exNamesTable(ctx, d, F, 40, y, 350, com.students.slice(per), rh, 70);
+  }
+  exT(ctx, 'نتمنى لجميع الطلاب التوفيق والنجاح', cx, 1078, { s:13, c:'#777', f:F.B });
+  return c;
+}
+function exDeskPage(d, studs, scale){
+  const F = exFonts(d), { c, ctx } = exCanvas(scale);
+  const mx = 30, my = 30, cw = (794 - mx * 2) / 2, ch = (1123 - my * 2) / 5;
+  studs.forEach((s, i)=>{
+    const col = i % 2, row = Math.floor(i / 2);
+    const x = mx + (1 - col) * cw, y = my + row * ch, cx = x + cw / 2;   // first card at the right (RTL)
+    ctx.setLineDash([6, 4]); ctx.strokeStyle = '#aaa'; ctx.lineWidth = .8; ctx.strokeRect(x, y, cw, ch); ctx.setLineDash([]);
+    ctx.strokeStyle = d.c2; ctx.lineWidth = 1.2; exRR(ctx, x + 7, y + 7, cw - 14, ch - 14, 8); ctx.stroke();
+    exT(ctx, d.school || ' ', cx, y + 24, { s:15, w:700, c:d.c1, f:F.H, max:cw - 40 });
+    exT(ctx, d.exam || ' ', cx, y + 43, { s:12, c:'#555', f:F.B, max:cw - 40 });
+    exT(ctx, 'رقم الجلوس', cx, y + 68, { s:13, c:'#777', f:F.B });
+    exT(ctx, String(s.seat), cx, y + 104, { s:50, w:700, c:d.c1, f:F.B, dir:'ltr' });
+    exT(ctx, s.name, cx, y + 146, { s:22, w:700, c:'#111', f:F.B, max:cw - 36, min:11 });
+    const meta = 'لجنة ' + s.com + (s.cls ? '   •   ' + s.cls : '') + (s.loc ? '   •   ' + s.loc : '');
+    if(d.deskBar){
+      exT(ctx, meta, x + cw - 18, y + 180, { s:13, w:600, c:'#444', f:F.B, a:'right', max:cw * 0.52 });
+      exBarcode(ctx, String(s.seat), x + 14, y + 166, 110, 22);
+    }else exT(ctx, meta, cx, y + 180, { s:14, w:600, c:'#444', f:F.B, max:cw - 36 });
+  });
+  return c;
+}
+function exListPage(d, rows, pageNo, pages, alpha, scale){
+  const F = exFonts(d), { c, ctx } = exCanvas(scale), cx = 397;
+  exFrame(ctx, d);
+  let y = 54;
+  exT(ctx, d.school || ' ', cx, y, { s:24, w:700, c:d.c1, f:F.H, max:680 });
+  exT(ctx, (alpha ? 'كشف أسماء الطلاب مرتباً أبجدياً' : 'كشف أرقام الجلوس واللجان') + (d.exam ? ' — ' + d.exam : ''), cx, y + 32, { s:17, w:600, c:'#333', f:F.B, max:690 });
+  const cols = alpha
+    ? [{ t:'م', w:46, k:'i', a:'center' }, { t:'اسم الطالب', w:340, k:'name', a:'right' }, { t:'اللجنة', w:80, k:'com', a:'center' }, { t:'رقم الجلوس', w:110, k:'seat', a:'center' }, { t:'المقر', w:128, k:'loc', a:'center' }]
+    : [{ t:'م', w:46, k:'i', a:'center' }, { t:'رقم الجلوس', w:100, k:'seat', a:'center' }, { t:'اسم الطالب', w:310, k:'name', a:'right' }, { t:'الصف', w:110, k:'cls', a:'center' }, { t:'اللجنة', w:70, k:'com', a:'center' }, { t:'المقر', w:78, k:'loc', a:'center' }];
+  const top = 112, rh = 31, xr = 754;
+  let x = xr; const pos = cols.map(col=>{ const o = { x:x - col.w, w:col.w }; x -= col.w; return o; });
+  ctx.fillStyle = d.c1; ctx.fillRect(40, top, 714, rh);
+  cols.forEach((col, i)=> exT(ctx, col.t, col.a === 'right' ? pos[i].x + col.w - 8 : pos[i].x + col.w / 2, top + rh / 2, { s:14, w:700, c:'#fff', f:F.B, a:col.a === 'right' ? 'right' : 'center' }));
+  rows.forEach((r, ri)=>{
+    const ry = top + rh * (ri + 1);
+    if(ri % 2 === 0){ ctx.fillStyle = d.c1 + '12'; ctx.fillRect(40, ry, 714, rh); }
+    ctx.strokeStyle = '#ddd'; ctx.lineWidth = .6; ctx.beginPath(); ctx.moveTo(40, ry + rh); ctx.lineTo(754, ry + rh); ctx.stroke();
+    cols.forEach((col, i)=>{
+      const v = String(r[col.k] == null ? '' : r[col.k]);
+      exT(ctx, v, col.a === 'right' ? pos[i].x + col.w - 8 : pos[i].x + col.w / 2, ry + rh / 2, { s:14, w:col.k === 'seat' ? 700 : 500, c:col.k === 'seat' ? d.c1 : '#111', f:F.B, a:col.a === 'right' ? 'right' : 'center', dir:(col.k === 'seat' || col.k === 'i' || col.k === 'com') ? 'ltr' : 'rtl', max:col.w - 12 });
+    });
+  });
+  ctx.strokeStyle = d.c1; ctx.lineWidth = 1; ctx.strokeRect(40, top, 714, rh * (rows.length + 1));
+  exT(ctx, `صفحة ${pageNo} من ${pages}`, cx, 1085, { s:13, c:'#777', f:F.B });
+  return c;
+}
+const EX_ROWS = 28, EX_DESK = 10;
+function exPlan(d){
+  const coms = exBuild(d), flat = []; coms.forEach(cm=> cm.students.forEach(s=> flat.push(s)));
+  const bySeat = flat.map((s, i)=> Object.assign({ i:i + 1 }, s));
+  const byName = flat.slice().sort((a, b)=> a.name.localeCompare(b.name, 'ar')).map((s, i)=> Object.assign({ i:i + 1 }, s));
+  const pages = [];
+  if(d.out.door) coms.forEach(cm=> pages.push({ t:'door', cm }));
+  if(d.out.desk) for(let i = 0; i < flat.length; i += EX_DESK) pages.push({ t:'desk', studs:flat.slice(i, i + EX_DESK) });
+  if(d.out.list){ const n = Math.ceil(bySeat.length / EX_ROWS); for(let p = 0; p < n; p++) pages.push({ t:'list', rows:bySeat.slice(p * EX_ROWS, (p + 1) * EX_ROWS), p:p + 1, n }); }
+  if(d.out.alpha){ const n = Math.ceil(byName.length / EX_ROWS); for(let p = 0; p < n; p++) pages.push({ t:'alpha', rows:byName.slice(p * EX_ROWS, (p + 1) * EX_ROWS), p:p + 1, n }); }
+  return { coms, flat, pages };
+}
+function exRenderPage(d, pg, scale){
+  if(pg.t === 'door') return exDoorPage(d, pg.cm, scale);
+  if(pg.t === 'desk') return exDeskPage(d, pg.studs, scale);
+  return exListPage(d, pg.rows, pg.p, pg.n, pg.t === 'alpha', scale);
+}
+function exSchedule(){ clearTimeout(exTimer); exTimer = setTimeout(exPreview, 250); }
+async function exPreview(){
+  const L = I18N[currentLang], host = document.getElementById('ex-preview'), d = exCollect();
+  document.getElementById('ex-count').textContent = d.students.length ? L.exCountTxt + ': ' + d.students.length : '';
+  host.innerHTML = '';
+  const sum = document.getElementById('ex-summary');
+  if(!d.students.length){ sum.textContent = ''; host.textContent = L.exNoNames; host.style.fontSize = '.85rem'; return; }
+  await certLoadFonts(d.font);
+  const sample = Object.assign({}, d, { out:{ door:true, desk:true, list:true, alpha:false } });
+  const plan = exPlan(sample);
+  sum.textContent = plan.coms.length + ' ' + L.exSumTxt + ' — ' + L.exSumRange + ': ' + plan.flat[0].seat + ' → ' + plan.flat[plan.flat.length - 1].seat + (d.cap > 40 ? '  ·  ' + L.exCapWarn : '');
+  const firsts = [plan.pages.find(p=> p.t === 'door'), plan.pages.find(p=> p.t === 'desk'), plan.pages.find(p=> p.t === 'list')];
+  firsts.forEach(pg=>{
+    if(!pg) return;
+    const cv = exRenderPage(d, pg, 0.9); cv.style.cssText = 'width:min(100%,260px);height:auto;border:1px solid var(--border);background:#fff;';
+    host.appendChild(cv);
+  });
+}
+async function exDownload(){
+  const L = I18N[currentLang], status = 'ex-status', d = exCollect();
+  if(!d.students.length){ setStatus(status, L.exNoNames, 'err'); return; }
+  if(!d.out.door && !d.out.desk && !d.out.list && !d.out.alpha){ setStatus(status, L.exNoOut, 'err'); return; }
+  try{
+    setStatus(status, L.exBusy, 'info');
+    await certLoadFonts(d.font);
+    const plan = exPlan(d), doc = await PDFDocument.create(), sc = plan.pages.length > 60 ? 1.6 : 2;
+    for(const pg of plan.pages){
+      const cv = exRenderPage(d, pg, sc);
+      const img = await doc.embedJpg(await (await psCanvasBlob(cv, 'image/jpeg', 0.93)).arrayBuffer());
+      doc.addPage([595.28, 841.89]).drawImage(img, { x:0, y:0, width:595.28, height:841.89 });
+      await new Promise(r=> setTimeout(r, 0));
+    }
+    downloadBlob(new Blob([await doc.save()], { type:'application/pdf' }), 'لجان_الاختبار.pdf');
+    setStatus(status, L.exOk, 'ok');
+  }catch(e){ console.error(e); setStatus(status, L.exErr, 'err'); }
+}
+document.querySelectorAll('.ex-ctl').forEach(el=>{ el.addEventListener('input', exSchedule); el.addEventListener('change', exSchedule); });
+document.getElementById('ex-logo').addEventListener('change', async ()=>{
+  const f = document.getElementById('ex-logo').files[0]; exLogo = null;
+  if(f){ try{ exLogo = await psLoadImg(f); }catch(e){} } exSchedule();
+});
+document.getElementById('ex-logo-list').addEventListener('click', e=>{ if(e.target.closest('.file-chip-remove')){ exLogo = null; exSchedule(); } });
+document.getElementById('ex-sample-btn').addEventListener('click', ()=>{
+  const cls = ['1/أ', '1/ب'];
+  const lines = []; for(let i = 0; i < 40; i++) lines.push(EX_SAMPLE_NAMES[i % EX_SAMPLE_NAMES.length] + (i >= 20 ? ' ' + ['الأول','الثاني'][0] : '') + ' | ' + cls[i < 20 ? 0 : 1]);
+  document.getElementById('ex-names').value = lines.join('\n');
+  if(!document.getElementById('ex-school').value) document.getElementById('ex-school').value = 'مدرسة النموذج الابتدائية';
+  exSchedule();
+});
+document.getElementById('ex-pdf-btn').addEventListener('click', exDownload);
+exSchedule();
 
 /* ============================================================
    PRAYER ALERT BAR — next prayer + countdown for the chosen city, with an alert at the adhan time
