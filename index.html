@@ -388,7 +388,6 @@
       <div style="display:flex;flex-wrap:wrap;gap:8px;">
         <button class="btn" id="cert-viewer-pdf" data-i18n="certPdfBtn">تنزيل PDF</button>
         <button class="btn secondary" id="cert-viewer-png" data-i18n="certPngBtn">تنزيل صورة PNG</button>
-        <button class="btn secondary" id="cert-viewer-close" data-i18n="certViewerClose">فتح عُدّة</button>
       </div>
       <div id="cert-viewer-status"></div>
     </div>
@@ -9404,20 +9403,24 @@ async function certSiteLinks(d, name, certNo){
   const out = [], sfx = '&d=' + (d.qrDl || 'p');
   out.push(base + await certPack(['A', d.style, d.port ? 1 : 0, d.font, d.title, d.titleEn, d.org, d.header, name, d.intro, d.body, d.s1t, d.s1n, d.s2t, d.s2n, d.date, certNo, hex(d.c1), hex(d.c2)]) + sfx);
   const pr = CERT_PRESETS[d.presetIdx];
-  if(pr && d.title === pr.title && d.titleEn === pr.en && d.introRaw === pr.intro && d.body === pr.body)
-    { const t = (v, def)=> v === def ? '' : (v === '' ? '-' : '=' + v);
-      out.push(base + await certPack(['B', d.presetIdx, d.style, d.port ? 1 : 0, d.font, d.org, name, t(d.s1t, pr.s1 || 'مدير المدرسة'), d.s1n, t(d.s2t, pr.s2 || 'وكيل المدرسة'), d.s2n, d.date, certNo, hex(d.c1), hex(d.c2)]) + sfx); }
+  if(pr && d.title === pr.title && d.titleEn === pr.en && d.introRaw === pr.intro && d.body === pr.body){
+    const t = (v, def)=> v === def ? '' : (v === '' ? '-' : '=' + v);
+    const core = [d.presetIdx, d.style, d.port ? 1 : 0, d.font, d.org, name, t(d.s1t, pr.s1 || 'مدير المدرسة'), d.s1n, t(d.s2t, pr.s2 || 'وكيل المدرسة'), d.s2n, d.date, certNo, hex(d.c1), hex(d.c2)];
+    if(d.header) out.push(base + await certPack(['C'].concat(core, [d.header])) + sfx);
+    out.push(base + await certPack(['B'].concat(core)) + sfx);
+  }
   return out;
 }
-function certFromPacked(a){
+function certFromPacked(a, dl){
   const col = h => '#' + h;
-  const base = { logoSize:90, stampSize:110, qr:false, bar:true, barSize:190, qrSize:72, qrMode:'verify', names:[] };
+  const base = { logoSize:90, stampSize:110, qr:true, bar:true, barSize:190, qrSize:72, qrMode:'site', qrDl:dl || 'p', presetIdx:0, introRaw:'', names:[] };
   if(a[0] === 'A'){
     return { d: Object.assign(base, { style:a[1], port:a[2] === '1', font:a[3], title:a[4], titleEn:a[5], org:a[6], header:a[7], intro:a[9], body:a[10], s1t:a[11], s1n:a[12], s2t:a[13], s2n:a[14], date:a[15], no:a[16], c1:col(a[17]), c2:col(a[18]) }), name:a[8] };
   }
   const pr = CERT_PRESETS[parseInt(a[1], 10)] || CERT_PRESETS[0];
+  const hdr = a[0] === 'C' ? (a[15] || '') : '';
   const t = (v, def)=> v === '' ? def : (v === '-' ? '' : v.slice(1));
-  return { d: Object.assign(base, { style:a[2], port:a[3] === '1', font:a[4], title:pr.title, titleEn:pr.en, org:a[5], header:'', intro:pr.intro.replace(/\{org\}/g, a[5] || '............'), body:pr.body, s1t:t(a[7], pr.s1 || 'مدير المدرسة'), s1n:a[8], s2t:t(a[9], pr.s2 || 'وكيل المدرسة'), s2n:a[10], date:a[11], no:a[12], c1:col(a[13]), c2:col(a[14]) }), name:a[6] };
+  return { d: Object.assign(base, { presetIdx:parseInt(a[1], 10) || 0, introRaw:pr.intro, style:a[2], port:a[3] === '1', font:a[4], title:pr.title, titleEn:pr.en, org:a[5], header:hdr, intro:pr.intro.replace(/\{org\}/g, a[5] || '............'), body:pr.body, s1t:t(a[7], pr.s1 || 'مدير المدرسة'), s1n:a[8], s2t:t(a[9], pr.s2 || 'وكيل المدرسة'), s2n:a[10], date:a[11], no:a[12], c1:col(a[13]), c2:col(a[14]) }), name:a[6] };
 }
 function certQrNote(key){
   const el = document.getElementById('cert-qr-note'); if(!el) return;
@@ -9518,7 +9521,7 @@ async function certRender(d, name, scale, idx, total){
       nTiers = links.length; payloads = links.concat(payloads);
     }
     const qc = certQrCanvas(payloads, 400);
-    if(d.qrMode === 'site') noteKey = certQrTier === 0 ? 'certQrNoteFull' : (certQrTier === 1 && nTiers > 1 ? 'certQrNotePreset' : 'certQrNoteFail');
+    if(d.qrMode === 'site') noteKey = certQrTier === 0 ? 'certQrNoteFull' : (certQrTier >= 1 && certQrTier < nTiers ? 'certQrNotePreset' : 'certQrNoteFail');
     if(idx === 0 || idx === undefined) certQrNote(noteKey);
     const big = d.qrMode === 'site' && certQrTier >= 0 && certQrTier < nTiers, q = big ? Math.max(d.qrSize, 140) : d.qrSize;
     const rc = place('qr', q, q, big ? cx : 62 + q / 2, big ? H - 66 - q / 2 - 24 : H - 66 - q / 2);
@@ -9530,7 +9533,7 @@ async function certRender(d, name, scale, idx, total){
     try{
       const mods = code128Modules(certNo);
       const quiet = 5, tot = mods.length + quiet * 2, bw = d.barSize, m = bw / tot, bh = bw * 0.2, bhTot = bw * 0.305;
-      const rc = place('bar', bw, bhTot, W - 62 - bw / 2, H - 66 - bhTot / 2);
+      const rc = place('bar', bw, bhTot, W - 62 - bw / 2, 46 + bhTot / 2);
       ctx.fillStyle = '#fff'; ctx.fillRect(rc.x, rc.y, bw, bhTot);
       ctx.fillStyle = '#000';
       for(let i = 0; i < mods.length; i++){
@@ -9660,7 +9663,7 @@ document.getElementById('cert-png-btn').addEventListener('click', ()=> certDownl
   const m = /^#c=([A-Za-z0-9_.-]+)(?:&d=([pin]))?$/.exec(location.hash || ''); if(!m) return;
   const v = document.getElementById('cert-viewer'), st = 'cert-viewer-status';
   try{
-    const arr = await certUnpack(m[1]); const { d, name } = certFromPacked(arr);
+    const arr = await certUnpack(m[1]); const { d, name } = certFromPacked(arr, m[2] || 'p');
     v.style.display = 'block'; document.body.style.overflow = 'hidden';
     setStatus(st, I18N[currentLang].certBusy, 'info');
     const c = await certRender(d, name, 1, 0, 1);
@@ -9682,9 +9685,6 @@ document.getElementById('cert-png-btn').addEventListener('click', ()=> certDownl
     document.getElementById('cert-viewer-pdf').addEventListener('click', doPdf);
     const dl = m[2] || 'p';
     if(dl === 'p') await doPdf(); else if(dl === 'i') await doPng();
-    document.getElementById('cert-viewer-close').addEventListener('click', ()=>{
-      v.style.display = 'none'; document.body.style.overflow = ''; history.replaceState(null, '', location.pathname + location.search);
-    });
   }catch(e){ console.error(e); v.style.display = 'none'; document.body.style.overflow = ''; }
 })();
 (function certInit(){
