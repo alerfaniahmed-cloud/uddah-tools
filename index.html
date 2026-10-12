@@ -360,6 +360,7 @@
   #pa-count,#pa-next-time{font-family:var(--font-display) !important;font-variant-numeric:tabular-nums;}
   footer{padding:28px 0 calc(28px + env(safe-area-inset-bottom));font-size:.85rem;}
   footer .footer-links a{display:inline-block;padding:6px 4px;}
+  @media (min-width:641px){ #prayer-bar>div:nth-child(2){flex-wrap:nowrap !important;} #prayer-bar select{max-width:170px !important;} }
   @media (max-width:640px){
     #prayer-bar{flex-direction:column;align-items:stretch !important;}
     #prayer-bar>div{justify-content:space-between;}
@@ -378,6 +379,21 @@
 </style>
 </head>
 <body>
+<div id="cert-viewer" style="display:none;position:fixed;inset:0;z-index:1000;background:var(--bg);overflow:auto;padding:clamp(12px,3vw,28px);">
+  <div class="wrap" style="max-width:980px;">
+    <div class="card">
+      <h2 id="cert-viewer-title" data-i18n="certViewerTitle">شهادتك جاهزة</h2>
+      <p class="hint" data-i18n="certViewerHint">أُعيد عرض الشهادة من بيانات رمز QR. نزّلها كملف PDF أو كصورة.</p>
+      <div id="cert-viewer-canvas" style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;margin-bottom:14px;"></div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button class="btn" id="cert-viewer-pdf" data-i18n="certPdfBtn">تنزيل PDF</button>
+        <button class="btn secondary" id="cert-viewer-png" data-i18n="certPngBtn">تنزيل صورة PNG</button>
+        <button class="btn secondary" id="cert-viewer-close" data-i18n="certViewerClose">فتح عُدّة</button>
+      </div>
+      <div id="cert-viewer-status"></div>
+    </div>
+  </div>
+</div>
 
 <header class="top" style="position:relative;">
   <div class="toolbar">
@@ -1771,6 +1787,19 @@
       </div>
       <label style="display:flex;align-items:center;gap:8px;margin:6px 0 10px;"><input type="checkbox" id="cert-bar" class="cert-ctl" checked> <span data-i18n="certBarLabel">إضافة باركود احترافي (Code128) لرقم الشهادة — يُولَّد الرقم تلقائياً إن تركته فارغاً</span></label>
       <label style="display:flex;align-items:center;gap:8px;margin:6px 0 10px;"><input type="checkbox" id="cert-qr" class="cert-ctl"> <span data-i18n="certQrLabel">إضافة رمز QR للتحقق (يحمل الاسم والجهة والتاريخ والرقم)</span></label>
+
+      <div id="cert-qr-opts" style="margin:0 0 12px;">
+        <div class="row">
+          <div class="field"><label for="cert-qr-mode" data-i18n="certQrModeLabel">ماذا يحدث عند مسح رمز QR؟</label>
+            <select id="cert-qr-mode" class="cert-ctl">
+              <option value="verify" data-i18n="certQrModeVerify">يعرض بيانات الشهادة (اسم/جهة/تاريخ/رقم)</option>
+              <option value="site" data-i18n="certQrModeSite">يفتح الشهادة في عُدّة لتنزيلها PDF أو صورة</option>
+              <option value="link" data-i18n="certQrModeLink">يفتح رابطاً أضعه أنا (مثل رابط ملف على Google Drive)</option>
+            </select></div>
+          <div class="field" id="cert-qr-url-wrap" style="display:none;"><label for="cert-qr-url" data-i18n="certQrUrlLabel">رابط ملف الشهادة</label><input type="text" id="cert-qr-url" class="cert-ctl" dir="ltr" placeholder="https://..."></div>
+        </div>
+        <div id="cert-qr-note" class="note" style="display:none;margin-top:0;"></div>
+      </div>
 
       <div class="btn-row" style="display:flex;flex-wrap:wrap;gap:8px;">
         <button class="btn" id="cert-pdf-btn" data-i18n="certPdfBtn">تنزيل PDF</button>
@@ -3265,7 +3294,7 @@ const I18N = {
     certNamesLabel: 'أسماء المكرَّمين (كل اسم في سطر مستقل)', certIntroLabel: 'العبارة التمهيدية (استخدم {org} لاسم الجهة)', certBodyLabel: 'نص الشهادة',
     certS1Title: 'المسمى الوظيفي للموقِّع الأول', certS1Name: 'اسم الموقِّع الأول', certS2Title: 'المسمى الوظيفي للموقِّع الثاني (اختياري)', certS2Name: 'اسم الموقِّع الثاني',
     certDateLabel: 'التاريخ', certNoLabel: 'رقم الشهادة (اختياري)', certStampLabel: 'ختم الجهة (صورة شفافة PNG، اختياري)', certStampSize: 'حجم الختم',
-    certColor1: 'اللون الرئيسي', certColor2: 'لون الزخارف', certQrLabel: 'إضافة رمز QR للتحقق (يحمل الاسم والجهة والتاريخ والرقم)',
+    certColor1: 'اللون الرئيسي', certColor2: 'لون الزخارف', certQrLabel: 'إضافة رمز QR للتحقق (يحمل الاسم والجهة والتاريخ والرقم)', certQrModeLabel: 'ماذا يحدث عند مسح رمز QR؟', certQrModeVerify: 'يعرض بيانات الشهادة (اسم/جهة/تاريخ/رقم)', certQrModeSite: 'يفتح الشهادة في عُدّة لتنزيلها PDF أو صورة', certQrModeLink: 'يفتح رابطاً أضعه أنا (مثل رابط ملف على Google Drive)', certQrUrlLabel: 'رابط ملف الشهادة', certViewerTitle: 'شهادتك جاهزة', certViewerHint: 'أُعيد عرض الشهادة من بيانات رمز QR. نزّلها كملف PDF أو كصورة.', certViewerClose: 'فتح عُدّة', certQrNoteFull: 'رمز QR سيفتح الشهادة كاملة في عُدّة.', certQrNotePreset: 'رمز QR سيفتح الشهادة بنص القالب المختار (التعديلات اليدوية على النص لا تدخل في الرمز). كُبّر الرمز تلقائياً ليسهل مسحه.', certQrNoteFail: 'البيانات أكبر من أن يحملها رمز QR: عُرضت بيانات مختصرة بدلاً من الرابط. قصّر النص أو استخدم خيار الرابط.', certQrNoteNoUrl: 'اكتب رابط الملف أولاً.', certQrNoteLink: 'رمز QR سيفتح الرابط الذي كتبته.',
     certBarSize: 'حجم الباركود', certQrSize: 'حجم رمز QR', certLogoDel: 'حذف الشعار', certStampDel: 'حذف الختم', certBarLabel: 'إضافة باركود احترافي (Code128) لرقم الشهادة — يُولَّد الرقم تلقائياً إن تركته فارغاً', certDragHint: 'اسحب الشعار أو الختم أو الباركود أو رمز QR (المربعات المتقطعة) لأي مكان في الشهادة، ونقرتان على أي منها ترجعه لمكانه.',
     certPdfBtn: 'تنزيل PDF', certPngBtn: 'تنزيل صورة PNG', certPreviewLabel: 'معاينة الشهادة (أول اسم)',
     certPresetGeneral: 'شكر وتقدير عام', certPresetExcel: 'شهادة تفوق دراسي', certPresetTeacher: 'تكريم معلم / معلمة', certPresetQuran: 'إتمام حفظ القرآن', certPresetCourse: 'إتمام دورة تدريبية', certPresetPart: 'مشاركة في فعالية', certPresetStaff: 'شكر موظف / إداري', certPresetClubThanks: 'نادي: شكر وتقدير لعضو', certPresetClubMember: 'نادي: شهادة عضوية', certPresetClubAchieve: 'نادي: تميّز وإنجاز', certPresetClubWin: 'نادي: فوز بمركز / بطولة', certPresetClubPart: 'نادي: مشاركة في نشاط', certPresetClubVolunteer: 'نادي: شكر متطوع', certPresetFbThanks: 'كرة قدم: شكر وتقدير للاعب متألق', certPresetFbPotm: 'كرة قدم: لاعب الشهر', certPresetFbScorer: 'كرة قدم: الهداف', certPresetFbSpirit: 'كرة قدم: الروح الرياضية', certPresetFbWin: 'كرة قدم: فوز ببطولة', certPresetFbJoin: 'كرة قدم: انتساب لاعب', certPresetFbCoach: 'كرة قدم: شكر مدرب',
@@ -4032,7 +4061,7 @@ const I18N = {
     certNamesLabel: 'Recipient names (one per line)', certIntroLabel: 'Opening phrase (use {org} for the organisation)', certBodyLabel: 'Certificate text',
     certS1Title: 'First signatory title', certS1Name: 'First signatory name', certS2Title: 'Second signatory title (optional)', certS2Name: 'Second signatory name',
     certDateLabel: 'Date', certNoLabel: 'Certificate number (optional)', certStampLabel: 'Official stamp (transparent PNG, optional)', certStampSize: 'Stamp size',
-    certColor1: 'Main colour', certColor2: 'Ornament colour', certQrLabel: 'Add a verification QR code (name, organisation, date, number)',
+    certColor1: 'Main colour', certColor2: 'Ornament colour', certQrLabel: 'Add a verification QR code (name, organisation, date, number)', certQrModeLabel: 'What happens when the QR code is scanned?', certQrModeVerify: 'Shows the certificate details (name / organisation / date / number)', certQrModeSite: 'Opens the certificate in Uddah to download as PDF or image', certQrModeLink: 'Opens a link I provide (e.g. a Google Drive file)', certQrUrlLabel: 'Certificate file link', certViewerTitle: 'Your certificate is ready', certViewerHint: 'The certificate was rebuilt from the QR code data. Download it as a PDF or an image.', certViewerClose: 'Open Uddah', certQrNoteFull: 'The QR code will open the full certificate in Uddah.', certQrNotePreset: 'The QR code will open the certificate with the selected template text (manual text edits are not stored in the code). It was enlarged automatically so it scans easily.', certQrNoteFail: 'The data is too large for a QR code, so short details were used instead of a link. Shorten the text or use the link option.', certQrNoteNoUrl: 'Enter the file link first.', certQrNoteLink: 'The QR code will open the link you entered.',
     certBarSize: 'Barcode size', certQrSize: 'QR code size', certLogoDel: 'Remove logo', certStampDel: 'Remove stamp', certBarLabel: 'Add a professional Code128 barcode for the certificate number (auto-generated if left empty)', certDragHint: 'Drag the logo, stamp, barcode or QR code (dashed boxes) anywhere on the certificate; double-click one to reset it.',
     certPdfBtn: 'Download PDF', certPngBtn: 'Download PNG image', certPreviewLabel: 'Certificate preview (first name)',
     certPresetGeneral: 'General appreciation', certPresetExcel: 'Academic excellence', certPresetTeacher: 'Teacher recognition', certPresetQuran: 'Quran memorisation', certPresetCourse: 'Course completion', certPresetPart: 'Event participation', certPresetStaff: 'Staff appreciation', certPresetClubThanks: 'Club: member appreciation', certPresetClubMember: 'Club: membership', certPresetClubAchieve: 'Club: excellence & achievement', certPresetClubWin: 'Club: winning a place / tournament', certPresetClubPart: 'Club: activity participation', certPresetClubVolunteer: 'Club: volunteer thanks', certPresetFbThanks: 'Football: appreciation for a standout player', certPresetFbPotm: 'Football: player of the month', certPresetFbScorer: 'Football: top scorer', certPresetFbSpirit: 'Football: sportsmanship', certPresetFbWin: 'Football: championship win', certPresetFbJoin: 'Football: player registration', certPresetFbCoach: 'Football: coach thanks',
@@ -9221,7 +9250,8 @@ function certCollect(){
     intro: g('cert-intro').value.replace(/\{org\}/g, g('cert-org').value.trim() || '............'), body: g('cert-body').value.trim(),
     s1t: g('cert-s1-title').value.trim(), s1n: g('cert-s1-name').value.trim(), s2t: g('cert-s2-title').value.trim(), s2n: g('cert-s2-name').value.trim(),
     date: g('cert-date').value.trim(), no: g('cert-no').value.trim(), stampSize: parseInt(g('cert-stamp-size').value, 10),
-    c1: g('cert-color1').value, c2: g('cert-color2').value, qr: g('cert-qr').checked, bar: g('cert-bar').checked, barSize: parseInt(g('cert-bar-size').value, 10), qrSize: parseInt(g('cert-qr-size').value, 10)
+    c1: g('cert-color1').value, c2: g('cert-color2').value, qr: g('cert-qr').checked, bar: g('cert-bar').checked, barSize: parseInt(g('cert-bar-size').value, 10), qrSize: parseInt(g('cert-qr-size').value, 10),
+    qrMode: g('cert-qr-mode').value, qrUrl: g('cert-qr-url').value.trim(), presetIdx: parseInt(g('cert-preset').value, 10) || 0, introRaw: g('cert-intro').value
   };
 }
 function certStar(ctx, cx, cy, r, color){
@@ -9275,10 +9305,13 @@ function certFrame(ctx, W, H, st, c1, c2){
   }
   ctx.restore();
 }
+let certQrTier = -1;
 function certQrCanvas(texts, S){
   if(!Array.isArray(texts)) texts = [texts];
+  certQrTier = -1;
   const levels = [QRCode.CorrectLevel.M, QRCode.CorrectLevel.L];
-  for(const text of texts){
+  for(let ti = 0; ti < texts.length; ti++){
+    const text = texts[ti];
     for(const lvl of levels){
       const tmp = document.createElement('div');
       tmp.style.cssText = 'position:fixed;left:-99999px;top:0;';
@@ -9291,7 +9324,7 @@ function certQrCanvas(texts, S){
         if(c && c.width){ copy = document.createElement('canvas'); copy.width = c.width; copy.height = c.height; copy.getContext('2d').drawImage(c, 0, 0); }
       }catch(e){ copy = null; }
       tmp.remove();
-      if(copy) return copy;
+      if(copy){ certQrTier = ti; return copy; }
     }
   }
   return null;
@@ -9315,6 +9348,75 @@ async function certLoadFonts(font){
       document.fonts.load("400 20px 'IBM Plex Sans Arabic'"), document.fonts.load("600 20px 'IBM Plex Sans Arabic'")
     ]);
   }catch(e){}
+}
+
+/* ---------- certificate link inside the QR: the certificate is rebuilt from the data in the link ---------- */
+const CERT_SITE_FALLBACK = 'https://alerfaniahmed-cloud.github.io/uddah-tools/';
+function certBaseUrl(){ return /^https?:$/.test(location.protocol) ? location.origin + location.pathname : CERT_SITE_FALLBACK; }
+function certB64u(bytes){ let b = ''; for(let i = 0; i < bytes.length; i++) b += String.fromCharCode(bytes[i]); return btoa(b).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+function certUnB64u(str){ str = str.replace(/-/g, '+').replace(/_/g, '/'); while(str.length % 4) str += '='; const b = atob(str), o = new Uint8Array(b.length); for(let i = 0; i < b.length; i++) o[i] = b.charCodeAt(i); return o; }
+async function certStreamBytes(bytes, Ctor, mode){
+  const st = new Blob([bytes]).stream().pipeThrough(new Ctor(mode));
+  return new Uint8Array(await new Response(st).arrayBuffer());
+}
+function certEnc(str){
+  const o = [];
+  for(const ch of str){
+    const c = ch.codePointAt(0);
+    if(c < 0x80) o.push(c);
+    else if(c >= 0x621 && c <= 0x64A) o.push(0x80 + c - 0x621);
+    else if(c >= 0x64B && c <= 0x652) o.push(0xAA + c - 0x64B);
+    else { const u = ch.length === 1 ? [c] : [ch.charCodeAt(0), ch.charCodeAt(1)]; u.forEach(x=> o.push(0xFF, x >> 8, x & 255)); }
+  }
+  return new Uint8Array(o);
+}
+function certDec(bytes){
+  let r = '';
+  for(let i = 0; i < bytes.length; i++){
+    const c = bytes[i];
+    if(c < 0x80) r += String.fromCharCode(c);
+    else if(c <= 0xA9) r += String.fromCharCode(0x621 + c - 0x80);
+    else if(c <= 0xB1) r += String.fromCharCode(0x64B + c - 0xAA);
+    else if(c === 0xFF){ r += String.fromCharCode((bytes[i + 1] << 8) | bytes[i + 2]); i += 2; }
+  }
+  return r;
+}
+async function certPack(arr){
+  const raw = certEnc(arr.map(x=> String(x == null ? '' : x)).join('\u0001'));
+  let best = 'r.' + certB64u(raw);
+  try{ if(typeof CompressionStream === 'function'){ const z = 'z.' + certB64u(await certStreamBytes(raw, CompressionStream, 'deflate-raw')); if(z.length < best.length) best = z; } }catch(e){}
+  return best;
+}
+async function certUnpack(str){
+  const kind = str.slice(0, 2), bytes = certUnB64u(str.slice(2));
+  const raw = kind === 'z.' ? await certStreamBytes(bytes, DecompressionStream, 'deflate-raw') : bytes;
+  return certDec(raw).split('\u0001');
+}
+async function certSiteLinks(d, name, certNo){
+  const base = certBaseUrl() + '#c=', hex = h => String(h || '').replace('#', '');
+  const out = [];
+  out.push(base + await certPack(['A', d.style, d.port ? 1 : 0, d.font, d.title, d.titleEn, d.org, d.header, name, d.intro, d.body, d.s1t, d.s1n, d.s2t, d.s2n, d.date, certNo, hex(d.c1), hex(d.c2)]));
+  const pr = CERT_PRESETS[d.presetIdx];
+  if(pr && d.title === pr.title && d.titleEn === pr.en && d.introRaw === pr.intro && d.body === pr.body)
+    { const t = (v, def)=> v === def ? '' : (v === '' ? '-' : '=' + v);
+      out.push(base + await certPack(['B', d.presetIdx, d.style, d.port ? 1 : 0, d.font, d.org, name, t(d.s1t, pr.s1 || 'مدير المدرسة'), d.s1n, t(d.s2t, pr.s2 || 'وكيل المدرسة'), d.s2n, d.date, certNo, hex(d.c1), hex(d.c2)])); }
+  return out;
+}
+function certFromPacked(a){
+  const col = h => '#' + h;
+  const base = { logoSize:90, stampSize:110, qr:false, bar:true, barSize:190, qrSize:72, qrMode:'verify', names:[] };
+  if(a[0] === 'A'){
+    return { d: Object.assign(base, { style:a[1], port:a[2] === '1', font:a[3], title:a[4], titleEn:a[5], org:a[6], header:a[7], intro:a[9], body:a[10], s1t:a[11], s1n:a[12], s2t:a[13], s2n:a[14], date:a[15], no:a[16], c1:col(a[17]), c2:col(a[18]) }), name:a[8] };
+  }
+  const pr = CERT_PRESETS[parseInt(a[1], 10)] || CERT_PRESETS[0];
+  const t = (v, def)=> v === '' ? def : (v === '-' ? '' : v.slice(1));
+  return { d: Object.assign(base, { style:a[2], port:a[3] === '1', font:a[4], title:pr.title, titleEn:pr.en, org:a[5], header:'', intro:pr.intro.replace(/\{org\}/g, a[5] || '............'), body:pr.body, s1t:t(a[7], pr.s1 || 'مدير المدرسة'), s1n:a[8], s2t:t(a[9], pr.s2 || 'وكيل المدرسة'), s2n:a[10], date:a[11], no:a[12], c1:col(a[13]), c2:col(a[14]) }), name:a[6] };
+}
+function certQrNote(key){
+  const el = document.getElementById('cert-qr-note'); if(!el) return;
+  if(!key){ el.style.display = 'none'; return; }
+  el.textContent = I18N[currentLang][key] || ''; el.style.display = 'block';
+  el.style.borderInlineStartColor = (key === 'certQrNoteFail' || key === 'certQrNoteNoUrl') ? 'var(--rust)' : 'var(--brass)';
 }
 async function certRender(d, name, scale, idx, total){
   certRects = {};
@@ -9399,9 +9501,20 @@ async function certRender(d, name, scale, idx, total){
   if(foot) T(foot, cx, L.foot, { s:14, c:'#666' });
   // verification QR
   if(d.qr){
-    const payloads = [`${name} | ${d.org} | ${d.title} | ${d.date}${certNo ? ' | ' + certNo : ''}`, `${name} | ${d.org} | ${d.date}${certNo ? ' | ' + certNo : ''}`, `${name} | ${certNo || d.date}`, `${certNo || d.date}`];
+    let payloads = [`${name} | ${d.org} | ${d.title} | ${d.date}${certNo ? ' | ' + certNo : ''}`, `${name} | ${d.org} | ${d.date}${certNo ? ' | ' + certNo : ''}`, `${name} | ${certNo || d.date}`, `${certNo || d.date}`];
+    let nTiers = 0, noteKey = '';
+    if(d.qrMode === 'link'){
+      let u = (d.qrUrl || '').trim();
+      if(u){ if(!/^[a-z][a-z0-9+.-]*:/i.test(u)) u = 'https://' + u; payloads = [u]; noteKey = 'certQrNoteLink'; } else noteKey = 'certQrNoteNoUrl';
+    }else if(d.qrMode === 'site'){
+      const links = await certSiteLinks(d, name, certNo);
+      nTiers = links.length; payloads = links.concat(payloads);
+    }
     const qc = certQrCanvas(payloads, 400);
-    const q = d.qrSize, rc = place('qr', q, q, 62 + q / 2, H - 66 - q / 2);
+    if(d.qrMode === 'site') noteKey = certQrTier === 0 ? 'certQrNoteFull' : (certQrTier === 1 && nTiers > 1 ? 'certQrNotePreset' : 'certQrNoteFail');
+    if(idx === 0 || idx === undefined) certQrNote(noteKey);
+    const big = d.qrMode === 'site' && certQrTier >= 0 && certQrTier < nTiers, q = big ? Math.max(d.qrSize, 140) : d.qrSize;
+    const rc = place('qr', q, q, big ? cx : 62 + q / 2, big ? H - 66 - q / 2 - 24 : H - 66 - q / 2);
     ctx.fillStyle = '#fff'; ctx.fillRect(rc.x - 4, rc.y - 4, q + 8, q + 8);
     if(qc){ ctx.imageSmoothingEnabled = false; ctx.drawImage(qc, rc.x, rc.y, q, q); ctx.imageSmoothingEnabled = true; }
   }
@@ -9530,6 +9643,41 @@ async function certDownload(kind){
 }
 document.getElementById('cert-pdf-btn').addEventListener('click', ()=> certDownload('pdf'));
 document.getElementById('cert-png-btn').addEventListener('click', ()=> certDownload('png'));
+
+(function certQrInit(){
+  const mode = document.getElementById('cert-qr-mode'), wrap = document.getElementById('cert-qr-url-wrap'), chk = document.getElementById('cert-qr');
+  const sync = ()=>{ wrap.style.display = mode.value === 'link' ? '' : 'none'; document.getElementById('cert-qr-opts').style.display = chk.checked ? '' : 'none'; if(!chk.checked) certQrNote(''); };
+  mode.addEventListener('change', sync); chk.addEventListener('change', sync); sync();
+})();
+(async function certViewerInit(){
+  const m = /^#c=(.+)$/.exec(location.hash || ''); if(!m) return;
+  const v = document.getElementById('cert-viewer'), st = 'cert-viewer-status';
+  try{
+    const arr = await certUnpack(m[1]); const { d, name } = certFromPacked(arr);
+    v.style.display = 'block'; document.body.style.overflow = 'hidden';
+    setStatus(st, I18N[currentLang].certBusy, 'info');
+    const c = await certRender(d, name, 1, 0, 1);
+    c.style.cssText = 'max-width:100%;height:auto;display:block;margin:0 auto;';
+    const host = document.getElementById('cert-viewer-canvas'); host.innerHTML = ''; host.appendChild(c);
+    setStatus(st, '', 'info');
+    const base = 'شهادة_' + (d.title || 'تقدير').replace(/[^\w؀-ۿ]+/g, '_');
+    document.getElementById('cert-viewer-png').addEventListener('click', async ()=>{
+      downloadBlob(await psCanvasBlob(await certRender(d, name, 3, 0, 1), 'image/png'), base + '.png');
+    });
+    document.getElementById('cert-viewer-pdf').addEventListener('click', async ()=>{
+      try{
+        const doc = await PDFDocument.create(), big = await certRender(d, name, 3, 0, 1);
+        const img = await doc.embedPng(await (await psCanvasBlob(big, 'image/png')).arrayBuffer());
+        const pw = d.port ? 595.28 : 841.89, ph = d.port ? 841.89 : 595.28;
+        doc.addPage([pw, ph]).drawImage(img, { x:0, y:0, width:pw, height:ph });
+        downloadBlob(new Blob([await doc.save()], {type:'application/pdf'}), base + '.pdf');
+      }catch(e){ console.error(e); setStatus(st, I18N[currentLang].certErr, 'err'); }
+    });
+    document.getElementById('cert-viewer-close').addEventListener('click', ()=>{
+      v.style.display = 'none'; document.body.style.overflow = ''; history.replaceState(null, '', location.pathname + location.search);
+    });
+  }catch(e){ console.error(e); v.style.display = 'none'; document.body.style.overflow = ''; }
+})();
 (function certInit(){
   certFillPresetSelect(); certApplyPreset();
   document.getElementById('cert-date').value = new Date().toISOString().slice(0, 10);
