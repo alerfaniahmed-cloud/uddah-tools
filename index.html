@@ -12138,6 +12138,12 @@ function ceRenderSide(ctx, side, items, withUi){
       }
       ctx.restore();
     });
+    if(ce.guides){
+      ctx.save(); ctx.strokeStyle = '#e0218a'; ctx.lineWidth = 1.5 * k; ctx.setLineDash([6 * k, 4 * k]);
+      (ce.guides.v || []).forEach(x=>{ ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, ce.H); ctx.stroke(); });
+      (ce.guides.h || []).forEach(y=>{ ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(ce.W, y); ctx.stroke(); });
+      ctx.restore();
+    }
   }
 }
 function ceRedraw(){ if(!ce.base) return; ceRenderSide(document.getElementById('ce-canvas').getContext('2d'), ce.side, ce.items, true); }
@@ -12159,6 +12165,14 @@ function ceSelect(i){
   ceRedraw();
 }
 function ceFromEvent(e){ const c = document.getElementById('ce-canvas'), r = c.getBoundingClientRect(); return { x:(e.clientX - r.left) * ce.W / r.width, y:(e.clientY - r.top) * ce.H / r.height, k: ce.W / r.width }; }
+/* smart guides: snap to the card edges / centre and to other elements, like Word */
+function ceTargets(){
+  const xs = [0, ce.W / 2, ce.W], ys = [0, ce.H / 2, ce.H];
+  ce.items.forEach((t, i)=>{ if(i === ce.sel) return; if(t.type === 'line'){ xs.push(t.x1, t.x2); ys.push(t.y1, t.y2); } else { xs.push(t.x, t.x + t.w / 2, t.x + t.w); ys.push(t.y, t.y + t.h / 2, t.y + t.h); } });
+  return { xs, ys };
+}
+function ceNear(vals, targets, thr){ let best = null; vals.forEach(v=> targets.forEach(t=>{ const d = t - v; if(Math.abs(d) <= thr && (!best || Math.abs(d) < Math.abs(best.d))) best = { d }; })); return best; }
+function ceMatches(vals, targets){ const out = []; targets.forEach(t=>{ if(vals.some(v=> Math.abs(v - t) < 0.75) && out.indexOf(t) < 0) out.push(t); }); return out; }
 function ceSegDist(px, py, x1, y1, x2, y2){ const dx = x2 - x1, dy = y2 - y1, l2 = dx * dx + dy * dy; let t = l2 ? ((px - x1) * dx + (py - y1) * dy) / l2 : 0; t = Math.max(0, Math.min(1, t)); return Math.hypot(px - (x1 + t * dx), py - (y1 + t * dy)); }
 function ceHit(pt){
   const it = ce.items[ce.sel], tol = 16 * pt.k;
@@ -12235,17 +12249,34 @@ async function ceRenderCanvas(side, fmt){
     if(!ce.drag){ const h = ceHit(pt); cv.style.cursor = !h ? 'default' : (h.mode === 'move' ? 'move' : (h.mode === 'nw' || h.mode === 'se' ? 'nwse-resize' : (h.mode === 'p1' || h.mode === 'p2' ? 'crosshair' : 'nesw-resize'))); return; }
     const it = ce.items[ce.sel], d = ce.drag, dx = pt.x - d.sx, dy = pt.y - d.sy, o = d.o, MIN = 12;
     if(it.type === 'line'){
-      if(d.mode === 'move'){ it.x1 = o.x1 + dx; it.y1 = o.y1 + dy; it.x2 = o.x2 + dx; it.y2 = o.y2 + dy; }
+      if(d.mode === 'move'){
+        let mx = dx, my = dy; const T = ceTargets(), th = 8 * pt.k, X = [o.x1 + dx, o.x2 + dx, (o.x1 + o.x2) / 2 + dx], Y = [o.y1 + dy, o.y2 + dy, (o.y1 + o.y2) / 2 + dy], sx = ceNear(X, T.xs, th), sy = ceNear(Y, T.ys, th);
+        if(sx){ mx += sx.d; X.forEach((v, i)=> X[i] = v + sx.d); } if(sy){ my += sy.d; Y.forEach((v, i)=> Y[i] = v + sy.d); }
+        ce.guides = { v:ceMatches(X, T.xs), h:ceMatches(Y, T.ys) };
+        it.x1 = o.x1 + mx; it.y1 = o.y1 + my; it.x2 = o.x2 + mx; it.y2 = o.y2 + my;
+      }
       else{
         const fx = d.mode === 'p1' ? o.x2 : o.x1, fy = d.mode === 'p1' ? o.y2 : o.y1; let nx = (d.mode === 'p1' ? o.x1 : o.x2) + dx, ny = (d.mode === 'p1' ? o.y1 : o.y2) + dy; const sn = 8 * pt.k;
         if(Math.abs(ny - fy) < sn) ny = fy; if(Math.abs(nx - fx) < sn) nx = fx;
+        const T = ceTargets(), th = 8 * pt.k, sx = ceNear([nx], T.xs, th), sy = ceNear([ny], T.ys, th);
+        if(sx) nx += sx.d; if(sy) ny += sy.d; ce.guides = { v:ceMatches([nx], T.xs), h:ceMatches([ny], T.ys) };
         if(d.mode === 'p1'){ it.x1 = nx; it.y1 = ny; } else { it.x2 = nx; it.y2 = ny; }
       }
-    }else if(d.mode === 'move'){ it.x = o.x + dx; it.y = o.y + dy; }
+    }else if(d.mode === 'move'){
+      let mx = o.x + dx, my = o.y + dy; const T = ceTargets(), th = 8 * pt.k, X = [mx, mx + o.w / 2, mx + o.w], Y = [my, my + o.h / 2, my + o.h], sx = ceNear(X, T.xs, th), sy = ceNear(Y, T.ys, th);
+      if(sx){ mx += sx.d; X.forEach((v, i)=> X[i] = v + sx.d); } if(sy){ my += sy.d; Y.forEach((v, i)=> Y[i] = v + sy.d); }
+      ce.guides = { v:ceMatches(X, T.xs), h:ceMatches(Y, T.ys) }; it.x = mx; it.y = my;
+    }
     else{
       let x0 = o.x, y0 = o.y, x1 = o.x + o.w, y1 = o.y + o.h;
       if(d.mode.includes('w')) x0 = Math.min(o.x + dx, x1 - MIN); else x1 = Math.max(o.x + o.w + dx, x0 + MIN);
       if(d.mode.includes('n')) y0 = Math.min(o.y + dy, y1 - MIN); else y1 = Math.max(o.y + o.h + dy, y0 + MIN);
+      if(it.type !== 'stamp' && it.type !== 'img'){
+        const T = ceTargets(), th = 8 * pt.k, gx = d.mode.includes('w') ? x0 : x1, gy = d.mode.includes('n') ? y0 : y1, sx = ceNear([gx], T.xs, th), sy = ceNear([gy], T.ys, th);
+        if(sx){ if(d.mode.includes('w')) x0 = Math.min(x0 + sx.d, x1 - MIN); else x1 = Math.max(x1 + sx.d, x0 + MIN); }
+        if(sy){ if(d.mode.includes('n')) y0 = Math.min(y0 + sy.d, y1 - MIN); else y1 = Math.max(y1 + sy.d, y0 + MIN); }
+        ce.guides = { v:ceMatches([d.mode.includes('w') ? x0 : x1], T.xs), h:ceMatches([d.mode.includes('n') ? y0 : y1], T.ys) };
+      }
       if(it.type === 'stamp' || it.type === 'img'){
         const ratio = it.type === 'img' ? o.w / o.h : 1, w = Math.max(x1 - x0, MIN), hh = w / ratio;
         if(d.mode.includes('w')) x0 = x1 - w; else x1 = x0 + w; if(d.mode.includes('n')) y0 = y1 - hh; else y1 = y0 + hh;
@@ -12254,7 +12285,7 @@ async function ceRenderCanvas(side, fmt){
     }
     ceRedraw(); e.preventDefault();
   });
-  const end = ()=>{ ce.drag = null; };
+  const end = ()=>{ ce.drag = null; ce.guides = null; ceRedraw(); };
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
   const updText = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'text') return;
     it.text = g('ce-text').value; it.font = g('ce-font').value; it.size = Math.max(0, parseFloat(g('ce-size').value) || 0); it.color = g('ce-color').value; it.align = g('ce-align').value; it.cover = g('ce-cover').value; it.coverColor = g('ce-covercolor').value; it.bold = g('ce-bold').checked;
