@@ -1033,6 +1033,7 @@
           <option value="id" data-i18n="toolsOptId">🪪 مدقق رقم الهوية / الإقامة</option>
           <option value="invoice" data-i18n="toolsOptInvoice">🧾 إنشاء فاتورة (مبيعات / مشتريات)</option>
           <option value="cert" data-i18n="toolsOptCert">🎓 شهادة شكر وتقدير (مدارس وأكاديميات)</option>
+          <option value="svgconv" data-i18n="toolsOptSvg">🎨 تحويل ملف SVG إلى صورة أو PDF</option>
           <option value="iban" data-i18n="toolsOptIban">🏦 مدقق رقم الآيبان السعودي (IBAN)</option>
         </select>
       </div>
@@ -1819,6 +1820,50 @@
       </div>
     </div>
 
+    <div class="card tools-card" id="tools-svgconv">
+      <h2 data-i18n="svgTitle">تحويل SVG إلى صورة أو PDF</h2>
+      <p class="hint" data-i18n="svgHint">ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.</p>
+      <div class="field">
+        <input type="file" id="svg-files" accept=".svg,image/svg+xml" multiple>
+        <div class="file-list" id="svg-files-list"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="svg-format" data-i18n="svgFormat">الصيغة</label>
+          <select id="svg-format">
+            <option value="png">PNG</option>
+            <option value="jpg">JPG</option>
+            <option value="webp">WebP</option>
+            <option value="pdf">PDF</option>
+          </select></div>
+        <div class="field"><label for="svg-scale" data-i18n="svgScale">مقياس الجودة</label>
+          <select id="svg-scale">
+            <option value="1">1×</option>
+            <option value="2" selected>2×</option>
+            <option value="3">3×</option>
+            <option value="4">4×</option>
+          </select></div>
+        <div class="field"><label for="svg-width" data-i18n="svgWidth">أو عرض مخصص بالبكسل (اختياري)</label>
+          <input type="number" id="svg-width" min="16" max="8000" placeholder="2000" dir="ltr"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="svg-bg" data-i18n="svgBg">الخلفية</label>
+          <select id="svg-bg">
+            <option value="transparent" data-i18n="svgBgTransparent">شفافة (PNG / WebP)</option>
+            <option value="#ffffff" data-i18n="svgBgWhite">بيضاء</option>
+            <option value="custom" data-i18n="svgBgCustom">لون مخصص</option>
+          </select></div>
+        <div class="field" id="svg-bgcolor-wrap" style="display:none;"><label for="svg-bgcolor" data-i18n="svgBgColor">لون الخلفية</label>
+          <input type="color" id="svg-bgcolor" value="#ffffff"></div>
+      </div>
+      <label id="svg-merge-wrap" style="display:none;margin:4px 0 12px;"><input type="checkbox" id="svg-merge" checked> <span data-i18n="svgMerge">دمج كل الملفات في ملف PDF واحد (صفحة لكل ملف)</span></label>
+      <div class="field">
+        <label data-i18n="svgPreview">معاينة (أول ملف)</label>
+        <div id="svg-preview" style="min-height:90px;max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;background-color:var(--bg-elev-2);background-image:linear-gradient(45deg,rgba(128,128,128,.14) 25%,transparent 25%,transparent 75%,rgba(128,128,128,.14) 75%),linear-gradient(45deg,rgba(128,128,128,.14) 25%,transparent 25%,transparent 75%,rgba(128,128,128,.14) 75%);background-size:16px 16px;background-position:0 0,8px 8px;"></div>
+      </div>
+      <button class="btn" id="svg-btn" data-i18n="svgBtn">تحويل وتنزيل</button>
+      <div id="svg-status"></div>
+      <p class="note" data-i18n="svgNote">ملاحظة: الخطوط غير المضمّنة داخل ملف SVG تُعرض بخطوط جهازك، والصور الخارجية المرتبطة برابط قد لا تظهر. الأفضل أن يكون الملف مستقلاً.</p>
+    </div>
     <div class="card tools-card" id="tools-iban">
       <h2 data-i18n="ibanTitle">مدقق رقم الآيبان السعودي (IBAN)</h2>
       <p class="hint" data-i18n="ibanHint">تحقق هل رقم الآيبان السعودي صحيح شكلياً ورياضياً قبل استخدامه بأي تحويل، ويطلع لك اسم البنك تلقائياً لو كان رقمه معروف.</p>
@@ -3751,6 +3796,10 @@ const I18N = {
     toolsOptPw: '🔑 مولد كلمات المرور',
     toolsOptId: '🪪 مدقق رقم الهوية / الإقامة',
     toolsOptIban: '🏦 مدقق رقم الآيبان السعودي (IBAN)',
+    toolsOptSvg: '🎨 تحويل ملف SVG إلى صورة أو PDF', svgTitle: 'تحويل SVG إلى صورة أو PDF', svgHint: 'ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.',
+    svgFormat: 'الصيغة', svgScale: 'مقياس الجودة', svgWidth: 'أو عرض مخصص بالبكسل (اختياري)', svgBg: 'الخلفية', svgBgTransparent: 'شفافة (PNG / WebP)', svgBgWhite: 'بيضاء', svgBgCustom: 'لون مخصص', svgBgColor: 'لون الخلفية',
+    svgMerge: 'دمج كل الملفات في ملف PDF واحد (صفحة لكل ملف)', svgPreview: 'معاينة (أول ملف)', svgBtn: 'تحويل وتنزيل', svgBusy: 'جارٍ التحويل...', svgDone: 'تم التحويل', svgNoFile: 'اختر ملف SVG أولاً.', svgBad: 'تعذّر قراءة الملف. تأكد أنه ملف SVG سليم:',
+    svgNote: 'ملاحظة: الخطوط غير المضمّنة داخل ملف SVG تُعرض بخطوط جهازك، والصور الخارجية المرتبطة برابط قد لا تظهر. الأفضل أن يكون الملف مستقلاً.',
     pdfPickerTitle: 'أدوات PDF',
     pdfPickerHint: 'اختر الأداة اللي تبيها من القائمة.',
     pdfOptMerge: '📎 دمج ملفات PDF',
@@ -4518,6 +4567,10 @@ const I18N = {
     toolsOptPw: '🔑 Password Generator',
     toolsOptId: '🪪 National ID / Iqama Validator',
     toolsOptIban: '🏦 Saudi IBAN Validator',
+    toolsOptSvg: '🎨 Convert SVG to image or PDF', svgTitle: 'Convert SVG to image or PDF', svgHint: 'Upload one or several SVG files and choose the format and quality. Conversion happens in your browser; nothing is uploaded.',
+    svgFormat: 'Format', svgScale: 'Quality scale', svgWidth: 'Or custom width in pixels (optional)', svgBg: 'Background', svgBgTransparent: 'Transparent (PNG / WebP)', svgBgWhite: 'White', svgBgCustom: 'Custom colour', svgBgColor: 'Background colour',
+    svgMerge: 'Merge all files into one PDF (one page per file)', svgPreview: 'Preview (first file)', svgBtn: 'Convert and download', svgBusy: 'Converting...', svgDone: 'Converted', svgNoFile: 'Choose an SVG file first.', svgBad: 'Could not read the file. Make sure it is a valid SVG:',
+    svgNote: 'Note: fonts that are not embedded in the SVG use your device fonts, and externally linked images may not appear. A self-contained file works best.',
     pdfPickerTitle: 'PDF Tools',
     pdfPickerHint: 'Pick the tool you want from the list.',
     pdfOptMerge: '📎 Merge PDF Files',
@@ -11589,6 +11642,127 @@ function switchToolsCard(){
 }
 document.getElementById('tools-select').addEventListener('change', switchToolsCard);
 switchToolsCard();
+
+
+/* ============================================================
+   SVG CONVERTER — SVG files -> PNG / JPG / WebP / PDF (all in the browser)
+   ============================================================ */
+setupFilePicker('svg-files', 'svg-files-list', true);
+function svgLen(v, ref){
+  if(!v) return null; const m = /^\s*([\d.]+)\s*([a-z%]*)\s*$/i.exec(v); if(!m) return null;
+  const n = parseFloat(m[1]), u = (m[2] || 'px').toLowerCase();
+  if(u === '%') return ref ? ref * n / 100 : null;
+  const k = { px:1, pt:96 / 72, pc:16, mm:96 / 25.4, cm:96 / 2.54, in:96, em:16, ex:8 }[u];
+  return k ? n * k : null;
+}
+function svgPrepare(text){
+  const doc = new DOMParser().parseFromString(text.replace(/^﻿/, ''), 'image/svg+xml');
+  const root = doc.documentElement;
+  if(!root || root.nodeName.toLowerCase() !== 'svg' || doc.querySelector('parsererror')) throw new Error('bad svg');
+  root.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  if(!root.getAttribute('xmlns:xlink') && /xlink:/.test(text)) root.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+  let vb = (root.getAttribute('viewBox') || '').trim().split(/[\s,]+/).map(Number);
+  if(vb.length !== 4 || vb.some(isNaN) || vb[2] <= 0 || vb[3] <= 0) vb = null;
+  let w = svgLen(root.getAttribute('width'), vb && vb[2]), h = svgLen(root.getAttribute('height'), vb && vb[3]);
+  if(!w && !h){ w = vb ? vb[2] : 800; h = vb ? vb[3] : 600; }
+  else if(!w){ w = vb ? h * vb[2] / vb[3] : h; }
+  else if(!h){ h = vb ? w * vb[3] / vb[2] : w; }
+  root.setAttribute('width', w); root.setAttribute('height', h);
+  if(!vb) root.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  return { text: new XMLSerializer().serializeToString(root), w, h };
+}
+function svgLoadImg(text){
+  return new Promise((res, rej)=>{
+    const url = URL.createObjectURL(new Blob([text], { type:'image/svg+xml;charset=utf-8' }));
+    const im = new Image();
+    im.onload = ()=>{ res(im); setTimeout(()=> URL.revokeObjectURL(url), 2000); };
+    im.onerror = ()=>{ URL.revokeObjectURL(url); rej(new Error('load')); };
+    im.src = url;
+  });
+}
+function svgOpts(){
+  const g = id => document.getElementById(id), fmt = g('svg-format').value;
+  let bg = g('svg-bg').value; if(bg === 'custom') bg = g('svg-bgcolor').value;
+  if(bg === 'transparent' && (fmt === 'jpg' || fmt === 'pdf')) bg = '#ffffff';
+  return { fmt, scale: parseFloat(g('svg-scale').value) || 2, width: parseInt(g('svg-width').value, 10) || 0, bg };
+}
+async function svgToCanvas(file, o){
+  const info = svgPrepare(await file.text());
+  const im = await svgLoadImg(info.text);
+  let k = o.width ? o.width / info.w : o.scale;
+  const MAXS = 8000, MAXP = 40e6;
+  k = Math.min(k, MAXS / info.w, MAXS / info.h, Math.sqrt(MAXP / (info.w * info.h)));
+  const c = document.createElement('canvas');
+  c.width = Math.max(1, Math.round(info.w * k)); c.height = Math.max(1, Math.round(info.h * k));
+  const ctx = c.getContext('2d');
+  if(o.bg !== 'transparent'){ ctx.fillStyle = o.bg; ctx.fillRect(0, 0, c.width, c.height); }
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(im, 0, 0, c.width, c.height);
+  return { canvas: c, w: info.w, h: info.h };
+}
+let svgPrevTimer = null;
+async function svgPreview(){
+  const host = document.getElementById('svg-preview'), f = document.getElementById('svg-files').files[0];
+  host.innerHTML = '';
+  if(!f) return;
+  try{
+    const o = svgOpts(); o.width = 0; o.scale = 1;
+    const { canvas } = await svgToCanvas(f, o);
+    canvas.style.cssText = 'max-width:100%;max-height:340px;height:auto;width:auto;';
+    host.appendChild(canvas);
+  }catch(e){ host.textContent = I18N[currentLang].svgBad + ' ' + f.name; }
+}
+function svgSync(){
+  const g = id => document.getElementById(id);
+  g('svg-bgcolor-wrap').style.display = g('svg-bg').value === 'custom' ? '' : 'none';
+  g('svg-merge-wrap').style.display = (g('svg-format').value === 'pdf' && g('svg-files').files.length > 1) ? 'inline-flex' : 'none';
+  clearTimeout(svgPrevTimer); svgPrevTimer = setTimeout(svgPreview, 150);
+}
+['svg-format','svg-bg','svg-bgcolor','svg-files'].forEach(id=> document.getElementById(id).addEventListener('change', svgSync));
+document.getElementById('svg-files-list').addEventListener('click', ()=> setTimeout(svgSync, 50));
+document.getElementById('svg-btn').addEventListener('click', async ()=>{
+  const st = 'svg-status', btn = document.getElementById('svg-btn'), t = I18N[currentLang];
+  const files = [...document.getElementById('svg-files').files];
+  if(!files.length){ setStatus(st, t.svgNoFile, 'err'); return; }
+  const o = svgOpts(), many = files.length > 1, idle = btn.innerHTML;
+  setBusy(btn, true, t.svgBusy, idle); setStatus(st, t.svgBusy, 'info');
+  let cur = '';
+  try{
+    const mime = { png:'image/png', jpg:'image/jpeg', webp:'image/webp' }[o.fmt];
+    const base = f => f.name.replace(/\.svg$/i, '') || 'image';
+    if(o.fmt === 'pdf'){
+      const merge = many && document.getElementById('svg-merge').checked;
+      let doc = null; const outs = [];
+      for(const f of files){
+        cur = f.name;
+        const r = await svgToCanvas(f, o);
+        if(!doc || !merge) doc = await PDFDocument.create();
+        const img = await doc.embedPng(await (await psCanvasBlob(r.canvas, 'image/png')).arrayBuffer());
+        const pw = r.w * 0.75, ph = r.h * 0.75;
+        doc.addPage([pw, ph]).drawImage(img, { x:0, y:0, width:pw, height:ph });
+        if(!merge) outs.push({ name: base(f) + '.pdf', data: await doc.save() });
+      }
+      if(merge) downloadBlob(new Blob([await doc.save()], { type:'application/pdf' }), base(files[0]) + (many ? '_merged' : '') + '.pdf');
+      else if(outs.length === 1) downloadBlob(new Blob([outs[0].data], { type:'application/pdf' }), outs[0].name);
+      else { const zip = new JSZip(); outs.forEach(x=> zip.file(x.name, x.data)); downloadBlob(await zip.generateAsync({ type:'blob' }), 'svg_pdf.zip'); }
+    }else if(!many){
+      cur = files[0].name;
+      const r = await svgToCanvas(files[0], o);
+      downloadBlob(await psCanvasBlob(r.canvas, mime, 0.95), base(files[0]) + '.' + o.fmt);
+    }else{
+      const zip = new JSZip(), used = {};
+      for(const f of files){
+        cur = f.name;
+        const r = await svgToCanvas(f, o);
+        let n = base(f); used[n] = (used[n] || 0) + 1; if(used[n] > 1) n += '_' + used[n];
+        zip.file(n + '.' + o.fmt, await psCanvasBlob(r.canvas, mime, 0.95));
+      }
+      downloadBlob(await zip.generateAsync({ type:'blob' }), 'svg_images.zip');
+    }
+    setStatus(st, t.svgDone, 'ok');
+  }catch(e){ console.error(e); setStatus(st, t.svgBad + ' ' + cur, 'err'); }
+  setBusy(btn, false, '', idle);
+});
 
 /* ============================================================
    PDF TOOLS PICKER (sub-tab select + 9 tools)
