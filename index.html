@@ -1971,6 +1971,8 @@
 
           <div id="ce-text-opts" style="display:none;">
             <div class="field"><label for="ce-text" data-i18n="ceText">النص (كل سطر في سطر)</label><textarea id="ce-text" rows="2"></textarea></div>
+            <label style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;"><input type="checkbox" id="ce-split" style="margin-top:4px;"> <span data-i18n="ceSplit">وضع حقلين: العنوان في جهة والقيمة في الجهة الأخرى (مثل: Card number: 2238). يقسم النص عند أول نقطتين ( : )</span></label>
+            <button type="button" class="btn secondary" id="ce-lines" style="margin-bottom:12px;" data-i18n="ceLines">📑 كل سطر في صندوق مستقل بنفس النسق</button>
             <div class="row">
               <div class="field"><label for="ce-font" data-i18n="ceFont">الخط</label><select id="ce-font"></select></div>
               <div class="field"><label for="ce-color" data-i18n="ceColor">لون النص</label><input type="color" id="ce-color" value="#000000"></div>
@@ -4003,6 +4005,7 @@ const I18N = {
     ceOptsText: 'خيارات النص', ceOptsStamp: 'خيارات الختم', ceOptsLine: 'خيارات الخط', ceOptsImg: 'خيارات الصورة / الشعار',
     ceDup: '⧉ تكرار', ceCopy: '📄 نسخ', cePaste: '📋 لصق',
     ceAddFrame: 'برواز', ceFrRadius: 'استدارة الزوايا', ceFrLines: 'عدد الخطوط', ceFr1: 'خط واحد', ceFr2: 'خطان (مزدوج)', ceFrFill: 'تعبئة داخل البرواز', ceFrNoFill: 'بدون', ceFrWhite: 'أبيض', ceFrCustom: 'لون مخصص', ceFrFillC: 'لون التعبئة', ceOptsFrame: 'خيارات البرواز',
+    ceSplit: 'وضع حقلين: العنوان في جهة والقيمة في الجهة الأخرى (مثل: Card number: 2238). يقسم النص عند أول نقطتين ( : )', ceLines: '📑 كل سطر في صندوق مستقل بنفس النسق', ceNewSplit: 'العنوان: القيمة',
     toolsOptSvg: '🎨 تحويل ملف SVG إلى صورة أو PDF', svgTitle: 'تحويل SVG إلى صورة أو PDF', svgHint: 'ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.',
     svgFormat: 'الصيغة', svgScale: 'مقياس الجودة', svgWidth: 'أو عرض مخصص بالبكسل (اختياري)', svgBg: 'الخلفية', svgBgTransparent: 'شفافة (PNG / WebP)', svgBgWhite: 'بيضاء', svgBgCustom: 'لون مخصص', svgBgColor: 'لون الخلفية',
     svgMerge: 'دمج كل الملفات في ملف PDF واحد (صفحة لكل ملف)', svgPreview: 'معاينة (أول ملف)', svgBtn: 'تحويل وتنزيل', svgBusy: 'جارٍ التحويل...', svgDone: 'تم التحويل', svgNoFile: 'اختر ملف SVG أولاً.', svgBad: 'تعذّر قراءة الملف. تأكد أنه ملف SVG سليم:',
@@ -4795,6 +4798,7 @@ const I18N = {
     ceOptsText: 'Text options', ceOptsStamp: 'Stamp options', ceOptsLine: 'Line options', ceOptsImg: 'Image / logo options',
     ceDup: '⧉ Duplicate', ceCopy: '📄 Copy', cePaste: '📋 Paste',
     ceAddFrame: 'Frame', ceFrRadius: 'Corner roundness', ceFrLines: 'Number of lines', ceFr1: 'Single line', ceFr2: 'Double line', ceFrFill: 'Fill inside the frame', ceFrNoFill: 'None', ceFrWhite: 'White', ceFrCustom: 'Custom color', ceFrFillC: 'Fill color', ceOptsFrame: 'Frame options',
+    ceSplit: 'Two-field mode: label on one side and value on the other (like: Card number: 2238). Splits the text at the first colon ( : )', ceLines: '📑 Put each line in its own box with the same style', ceNewSplit: 'Label: value',
     toolsOptSvg: '🎨 Convert SVG to image or PDF', svgTitle: 'Convert SVG to image or PDF', svgHint: 'Upload one or several SVG files and choose the format and quality. Conversion happens in your browser; nothing is uploaded.',
     svgFormat: 'Format', svgScale: 'Quality scale', svgWidth: 'Or custom width in pixels (optional)', svgBg: 'Background', svgBgTransparent: 'Transparent (PNG / WebP)', svgBgWhite: 'White', svgBgCustom: 'Custom colour', svgBgColor: 'Background colour',
     svgMerge: 'Merge all files into one PDF (one page per file)', svgPreview: 'Preview (first file)', svgBtn: 'Convert and download', svgBusy: 'Converting...', svgDone: 'Converted', svgNoFile: 'Choose an SVG file first.', svgBad: 'Could not read the file. Make sure it is a valid SVG:',
@@ -12101,13 +12105,18 @@ function ceDrawItem(ctx, it){
   const lines = (it.text || '').split('\n'); if(!lines.some(l=> l.trim())) return;
   const weight = it.bold ? 700 : 400, pad = Math.min(it.w, it.h) * 0.04;
   let size = it.size > 0 ? it.size : Math.max(8, it.h * 0.7 / Math.max(1, lines.length));
-  const fit = ()=>{ ctx.font = `${weight} ${size}px ${it.font}`; return Math.max(...lines.map(l=> ctx.measureText(l).width)); };
+  const parts = lines.map(l=>{ if(!it.split) return null; const k = l.indexOf(':'); return k < 0 ? null : [l.slice(0, k + 1).trim(), l.slice(k + 1).trim()]; });
+  const fit = ()=>{ ctx.font = `${weight} ${size}px ${it.font}`; return Math.max(...lines.map((l, i)=> parts[i] ? ctx.measureText(parts[i][0]).width + ctx.measureText(parts[i][1]).width + size * 0.8 : ctx.measureText(l).width)); };
   if(!(it.size > 0)){ let guard = 0; while(guard++ < 200 && size > 6 && (fit() > it.w - pad * 2 || size * 1.25 * lines.length > it.h)) size -= 1; } else fit();
   ctx.fillStyle = it.color; ctx.textBaseline = 'middle'; ctx.textAlign = it.align;
   const ax = it.align === 'center' ? it.x + it.w / 2 : (it.align === 'right' ? it.x + it.w - pad : it.x + pad);
   const lh = size * 1.25, top = it.y + it.h / 2 - lh * (lines.length - 1) / 2;
   ctx.save(); ctx.beginPath(); ctx.rect(it.x, it.y, it.w, it.h); if(it.size > 0) ctx.clip();
-  lines.forEach((l, i)=>{ ctx.direction = /[֐-ࣿ]/.test(l) ? 'rtl' : 'ltr'; ctx.fillText(l, ax, top + i * lh); });
+  lines.forEach((l, i)=>{
+    const pr = parts[i];
+    if(pr){ const rtl = /[֐-ࣿ]/.test(pr[0]); ctx.direction = rtl ? 'rtl' : 'ltr'; ctx.textAlign = rtl ? 'right' : 'left'; ctx.fillText(pr[0], rtl ? it.x + it.w - pad : it.x + pad, top + i * lh);
+      if(pr[1]){ ctx.direction = /[֐-ࣿ]/.test(pr[1]) ? 'rtl' : 'ltr'; ctx.textAlign = rtl ? 'left' : 'right'; ctx.fillText(pr[1], rtl ? it.x + pad : it.x + it.w - pad, top + i * lh); } ctx.textAlign = it.align; return; }
+    ctx.direction = /[֐-ࣿ]/.test(l) ? 'rtl' : 'ltr'; ctx.fillText(l, ax, top + i * lh); });
   ctx.restore();
 }
 function ceDecor(ctx, w, h){
@@ -12158,7 +12167,7 @@ function ceSelect(i){
   g('ce-canvas').style.touchAction = it ? 'none' : 'pan-y';
   g('ce-text-opts').style.display = ty === 'text' ? '' : 'none'; g('ce-stamp-opts').style.display = ty === 'stamp' ? '' : 'none'; g('ce-fr-opts').style.display = ty === 'frame' ? '' : 'none'; g('ce-line-opts').style.display = ty === 'line' ? '' : 'none';
   g('ce-cover-wrap').style.display = ce.mode === 'img' ? '' : 'none';
-  if(ty === 'text'){ g('ce-text').value = it.text; g('ce-font').value = it.font; g('ce-size').value = it.size; g('ce-color').value = it.color; g('ce-align').value = it.align; g('ce-cover').value = it.cover; g('ce-covercolor').value = it.coverColor; g('ce-bold').checked = it.bold; g('ce-covercolor-wrap').style.display = it.cover === 'custom' ? '' : 'none'; }
+  if(ty === 'text'){ g('ce-text').value = it.text; g('ce-font').value = it.font; g('ce-size').value = it.size; g('ce-color').value = it.color; g('ce-align').value = it.align; g('ce-cover').value = it.cover; g('ce-covercolor').value = it.coverColor; g('ce-bold').checked = it.bold; g('ce-split').checked = !!it.split; ce.lastText = it; g('ce-covercolor-wrap').style.display = it.cover === 'custom' ? '' : 'none'; }
   if(ty === 'stamp'){ g('ce-st-top').value = it.top; g('ce-st-bot').value = it.bot; g('ce-st-l1').value = it.l1; g('ce-st-l2').value = it.l2; g('ce-st-l3').value = it.l3; g('ce-st-l4').value = it.l4; g('ce-st-font').value = it.font; g('ce-st-color').value = it.color; g('ce-st-thick').value = it.thick; g('ce-st-op').value = Math.round(it.opacity * 100); g('ce-st-wear').value = it.wear; g('ce-st-rot').value = it.rot; g('ce-st-rings').value = String(it.rings); g('ce-st-mult').checked = it.mult; }
   if(ty === 'frame'){ g('ce-fr-color').value = it.color; g('ce-fr-width').value = it.width; g('ce-fr-radius').value = it.radius; g('ce-fr-style').value = it.style; g('ce-fr-lines').value = String(it.lines); g('ce-fr-fill').value = it.fill; g('ce-fr-fillc').value = it.fillColor; g('ce-fr-fillc-wrap').style.display = it.fill === 'custom' ? '' : 'none'; }
   if(ty === 'line'){ g('ce-ln-color').value = it.color; g('ce-ln-width').value = it.width; g('ce-ln-style').value = it.style; }
@@ -12288,9 +12297,9 @@ async function ceRenderCanvas(side, fmt){
   const end = ()=>{ ce.drag = null; ce.guides = null; ceRedraw(); };
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
   const updText = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'text') return;
-    it.text = g('ce-text').value; it.font = g('ce-font').value; it.size = Math.max(0, parseFloat(g('ce-size').value) || 0); it.color = g('ce-color').value; it.align = g('ce-align').value; it.cover = g('ce-cover').value; it.coverColor = g('ce-covercolor').value; it.bold = g('ce-bold').checked;
+    it.text = g('ce-text').value; it.font = g('ce-font').value; it.size = Math.max(0, parseFloat(g('ce-size').value) || 0); it.color = g('ce-color').value; it.align = g('ce-align').value; it.cover = g('ce-cover').value; it.coverColor = g('ce-covercolor').value; it.bold = g('ce-bold').checked; it.split = g('ce-split').checked; ce.lastText = it;
     g('ce-covercolor-wrap').style.display = it.cover === 'custom' ? '' : 'none'; ceLoadFont(it.font, it.bold ? 700 : 400); ceRedraw(); };
-  ['ce-text','ce-font','ce-size','ce-color','ce-align','ce-cover','ce-covercolor','ce-bold'].forEach(id=>{ const el = g(id); el.addEventListener('input', updText); el.addEventListener('change', updText); });
+  ['ce-text','ce-font','ce-size','ce-color','ce-align','ce-cover','ce-covercolor','ce-bold','ce-split'].forEach(id=>{ const el = g(id); el.addEventListener('input', updText); el.addEventListener('change', updText); });
   const updStamp = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'stamp') return;
     it.top = g('ce-st-top').value; it.bot = g('ce-st-bot').value; it.l1 = g('ce-st-l1').value; it.l2 = g('ce-st-l2').value; it.l3 = g('ce-st-l3').value; it.l4 = g('ce-st-l4').value; it.font = g('ce-st-font').value; it.color = g('ce-st-color').value;
     it.thick = parseFloat(g('ce-st-thick').value) || 1.6; it.opacity = (parseFloat(g('ce-st-op').value) || 85) / 100; it.wear = parseFloat(g('ce-st-wear').value) || 0; it.rot = parseFloat(g('ce-st-rot').value) || 0; it.rings = parseInt(g('ce-st-rings').value, 10) || 2; it.mult = g('ce-st-mult').checked;
@@ -12310,9 +12319,23 @@ async function ceRenderCanvas(side, fmt){
   ['ce-im-op','ce-im-white','ce-im-mult'].forEach(id=>{ const el = g(id); el.addEventListener('input', updImg); el.addEventListener('change', updImg); });
   const unit = ()=> ce.H / 180;
   g('ce-add-text').addEventListener('click', ()=>{
-    if(!ce.base) return; const w = ce.W * 0.7, h = Math.max(30, ce.H * 0.2), n = ce.items.length;
-    ce.items.push({ type:'text', x:(ce.W - w) / 2, y:Math.min(ce.H - h, ce.H * 0.12 + n * h * 1.15), w, h, text:I18N[currentLang].ceNewText, font:ERASE_FONT_OPTIONS[0].v, size:0, color:'#000000', align:'center', cover:ce.mode === 'img' ? 'auto' : 'none', coverColor:'#ffffff', bold:true });
+    if(!ce.base) return; const L = ce.lastText && ce.items.indexOf(ce.lastText) >= 0 ? ce.lastText : null;
+    if(L){
+      // same style, size and column as the last text box, placed right under it
+      const gap = L.h * 0.12, ny = Math.min(Math.max(0, ce.H - L.h), L.y + L.h + gap);
+      ce.items.push({ type:'text', x:L.x, y:ny, w:L.w, h:L.h, text:L.split ? I18N[currentLang].ceNewSplit : I18N[currentLang].ceNewText, font:L.font, size:L.size, color:L.color, align:L.align, cover:L.cover, coverColor:L.coverColor, bold:L.bold, split:!!L.split });
+    }else{
+      const w = ce.W * 0.7, h = Math.max(30, ce.H * 0.2), n = ce.items.length;
+      ce.items.push({ type:'text', x:(ce.W - w) / 2, y:Math.min(ce.H - h, ce.H * 0.12 + n * h * 1.15), w, h, text:I18N[currentLang].ceNewText, font:ERASE_FONT_OPTIONS[0].v, size:0, color:'#000000', align:'center', cover:ce.mode === 'img' ? 'auto' : 'none', coverColor:'#ffffff', bold:true, split:false });
+    }
     ceSelect(ce.items.length - 1);
+  });
+  g('ce-lines').addEventListener('click', ()=>{
+    const it = ce.items[ce.sel]; if(!it || it.type !== 'text') return;
+    const ls = (it.text || '').split('\n').map(x=> x.replace(/^\s*[*\-•]\s*/, '').trim()).filter(Boolean); if(ls.length < 2) return;
+    const hl = it.h / ls.length, gap = hl * 0.1; it.text = ls[0]; it.h = hl; let last = it;
+    for(let i = 1; i < ls.length; i++){ const c = Object.assign({}, it, { text:ls[i], y:it.y + i * (hl + gap) }); if(c.y + c.h > ce.H) c.y = Math.max(0, ce.H - c.h); ce.items.push(c); last = c; }
+    ceSelect(ce.items.indexOf(last));
   });
   g('ce-add-stamp').addEventListener('click', ()=>{
     if(!ce.base) return; const t = I18N[currentLang], sz = Math.min(ce.W, ce.H) * 0.6, f = ERASE_FONT_OPTIONS[0].v;
