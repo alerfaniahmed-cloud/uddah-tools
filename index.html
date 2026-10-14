@@ -388,6 +388,7 @@
   .ce-tabs{display:flex;gap:8px;margin-top:6px;}
   .ce-tab{flex:1;min-height:44px;border:1px solid var(--border);border-radius:10px;background:var(--bg-elev-2);color:var(--bone-dim);font-family:var(--font-display);font-size:1rem;font-weight:600;cursor:pointer;}
   .ce-tab.active{background:var(--brass);border-color:var(--brass);color:#1C1B1A;}
+  #ce-actions .btn{width:100%;min-height:44px;padding:8px 2px;font-size:.88rem;white-space:nowrap;margin:0;}
   details.ce-more{margin:6px 0 10px;}
   details.ce-more summary{cursor:pointer;color:var(--brass-light);font-weight:600;min-height:36px;display:flex;align-items:center;}
   @media print{.toolbar,nav.tabs,#prayer-bar{display:none !important;}}
@@ -1882,18 +1883,23 @@
           <button type="button" class="ce-big" id="ce-add-text"><span class="ce-ico">🔤</span><b data-i18n="ceAddText">نص</b></button>
           <button type="button" class="ce-big" id="ce-add-stamp"><span class="ce-ico">🔴</span><b data-i18n="ceAddStamp">ختم</b></button>
           <button type="button" class="ce-big" id="ce-add-line"><span class="ce-ico">➖</span><b data-i18n="ceAddLine">خط</b></button>
-          <button type="button" class="ce-big" id="ce-paste" disabled style="opacity:.45;"><span class="ce-ico">📋</span><b data-i18n="cePaste">لصق</b></button>
           <button type="button" class="ce-big" id="ce-add-frame"><span class="ce-ico">▭</span><b data-i18n="ceAddFrame">برواز</b></button>
           <button type="button" class="ce-big" id="ce-add-img"><span class="ce-ico">🖼️</span><b data-i18n="ceAddImg">شعار / صورة</b></button>
           <input type="file" id="ce-img-file" accept="image/*" style="display:none;">
         </div>
         <p class="note" style="margin:0 0 8px;" data-i18n="ceDrag">المس أي عنصر لتحديده، ثم اسحبه لتحريكه أو اسحب الدائرة في زاويته لتغيير حجمه.</p>
+        <div id="ce-actions" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 8px;">
+          <button type="button" class="btn secondary" id="ce-copy" data-i18n="ceCopy">📄 نسخ</button>
+          <button type="button" class="btn secondary" id="ce-paste" data-i18n="cePaste">📋 لصق</button>
+          <button type="button" class="btn secondary" id="ce-dup" data-i18n="ceDup">⧉ تكرار</button>
+          <button type="button" class="btn secondary" id="ce-del" data-i18n="ceDel">🗑️ حذف</button>
+        </div>
         <div id="ce-stage" style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;text-align:center;">
           <canvas id="ce-canvas" style="max-width:100%;height:auto;touch-action:pan-y;cursor:default;"></canvas>
         </div>
 
         <div id="ce-props" class="ce-box" style="display:none;margin-top:12px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;"><b id="ce-props-title" style="font-size:1.05rem;"></b><span style="display:flex;gap:6px;flex-wrap:wrap;"><button type="button" class="btn secondary" id="ce-dup" data-i18n="ceDup">⧉ تكرار</button><button type="button" class="btn secondary" id="ce-copy" data-i18n="ceCopy">📄 نسخ</button><button type="button" class="btn secondary" id="ce-del" data-i18n="ceDel">🗑️ حذف</button></span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;"><b id="ce-props-title" style="font-size:1.05rem;"></b></div>
           <div id="ce-fr-opts" style="display:none;">
             <div class="row">
               <div class="field"><label for="ce-fr-color" data-i18n="ceLnColor">لون الخط</label><input type="color" id="ce-fr-color" value="#000000"></div>
@@ -3990,12 +3996,12 @@ const I18N = {
     ceStartNew: 'كرت جديد', ceStartNewSub: 'ابدأ من كرت فاضي بالمقاس اللي تبغاه', ceStartImg: 'كرت جاهز', ceStartImgSub: 'ارفع صورة كرت وعدّل عليها',
     ceSizeLabel: 'مقاس الكرت', ceSzCard: 'بطاقة 9×5 سم (أفقي)', ceSzCardV: 'بطاقة 5×9 سم (عمودي)', ceSzId: 'بطاقة هوية 8.56×5.4 سم', ceSzA6: 'A6 (10.5×14.8 سم)', ceSzSq: 'مربع 8×8 سم', ceSzCustom: 'مقاس مخصص', ceCustomW: 'العرض (سم)', ceCustomH: 'الارتفاع (سم)', ceBgColor: 'لون الكرت',
     ceDecor: 'زخرفة الكرت (اختياري)', ceDecorStyle: 'الشكل', ceSideFront: 'الوجه', ceSideBack: 'الظهر', ceMore: 'خيارات أخرى', ceAdv: 'خيارات متقدمة', ceClear: '🧹 مسح كل العناصر', ceReset: '🔄 البدء من جديد',
-    ceAddText: 'نص', ceAddStamp: 'ختم', ceAddLine: 'خط', ceAddImg: 'شعار / صورة', ceDel: '🗑️ حذف هذا العنصر', ceDrag: 'المس أي عنصر لتحديده، ثم اسحبه لتحريكه أو اسحب الدائرة في زاويته لتغيير حجمه.',
+    ceAddText: 'نص', ceAddStamp: 'ختم', ceAddLine: 'خط', ceAddImg: 'شعار / صورة', ceDel: '🗑️ حذف', ceDrag: 'المس أي عنصر لتحديده، ثم اسحبه لتحريكه أو اسحب الدائرة في زاويته لتغيير حجمه.',
     ceText: 'النص (كل سطر في سطر)', ceBtn: 'تنزيل الكرت', ceFmtPdf2: 'PDF (الوجه والظهر)', ceFmtFront: 'صورة PNG للوجه', ceFmtBack: 'صورة PNG للظهر',
     ceStL1: 'الاسم الرئيسي بالمنتصف', ceStOp: 'قوة الحبر', ceStWear: 'تآكل الحبر (يخفّ ويثقل)', ceStDefL1: 'اسم المشروع',
     ceStRings: 'عدد الدوائر', ceRing1: 'دائرة واحدة', ceRing2: 'دائرتان', ceRing3: 'ثلاث دوائر', ceImOp: 'الشفافية', ceImWhite: 'جعل الخلفية البيضاء شفافة', ceImMult: 'يندمج مع الخلفية مثل الحبر',
     ceOptsText: 'خيارات النص', ceOptsStamp: 'خيارات الختم', ceOptsLine: 'خيارات الخط', ceOptsImg: 'خيارات الصورة / الشعار',
-    ceDup: '⧉ تكرار', ceCopy: '📄 نسخ', cePaste: 'لصق',
+    ceDup: '⧉ تكرار', ceCopy: '📄 نسخ', cePaste: '📋 لصق',
     ceAddFrame: 'برواز', ceFrRadius: 'استدارة الزوايا', ceFrLines: 'عدد الخطوط', ceFr1: 'خط واحد', ceFr2: 'خطان (مزدوج)', ceFrFill: 'تعبئة داخل البرواز', ceFrNoFill: 'بدون', ceFrWhite: 'أبيض', ceFrCustom: 'لون مخصص', ceFrFillC: 'لون التعبئة', ceOptsFrame: 'خيارات البرواز',
     toolsOptSvg: '🎨 تحويل ملف SVG إلى صورة أو PDF', svgTitle: 'تحويل SVG إلى صورة أو PDF', svgHint: 'ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.',
     svgFormat: 'الصيغة', svgScale: 'مقياس الجودة', svgWidth: 'أو عرض مخصص بالبكسل (اختياري)', svgBg: 'الخلفية', svgBgTransparent: 'شفافة (PNG / WebP)', svgBgWhite: 'بيضاء', svgBgCustom: 'لون مخصص', svgBgColor: 'لون الخلفية',
@@ -4782,12 +4788,12 @@ const I18N = {
     ceStartNew: 'New card', ceStartNewSub: 'Start from an empty card in the size you want', ceStartImg: 'Ready card', ceStartImgSub: 'Upload a card image and edit it',
     ceSizeLabel: 'Card size', ceSzCard: 'Card 9×5 cm (landscape)', ceSzCardV: 'Card 5×9 cm (portrait)', ceSzId: 'ID card 8.56×5.4 cm', ceSzA6: 'A6 (10.5×14.8 cm)', ceSzSq: 'Square 8×8 cm', ceSzCustom: 'Custom size', ceCustomW: 'Width (cm)', ceCustomH: 'Height (cm)', ceBgColor: 'Card colour',
     ceDecor: 'Card decoration (optional)', ceDecorStyle: 'Style', ceSideFront: 'Front', ceSideBack: 'Back', ceMore: 'More options', ceAdv: 'Advanced options', ceClear: '🧹 Clear all items', ceReset: '🔄 Start over',
-    ceAddText: 'Text', ceAddStamp: 'Stamp', ceAddLine: 'Line', ceAddImg: 'Logo / image', ceDel: '🗑️ Delete this item', ceDrag: 'Tap an item to select it, then drag it to move or drag the circle on its corner to resize.',
+    ceAddText: 'Text', ceAddStamp: 'Stamp', ceAddLine: 'Line', ceAddImg: 'Logo / image', ceDel: '🗑️ Delete', ceDrag: 'Tap an item to select it, then drag it to move or drag the circle on its corner to resize.',
     ceText: 'Text (one line per row)', ceBtn: 'Download the card', ceFmtPdf2: 'PDF (front and back)', ceFmtFront: 'PNG image of the front', ceFmtBack: 'PNG image of the back',
     ceStL1: 'Main name in the centre', ceStOp: 'Ink strength', ceStWear: 'Ink wear (fades and darkens)', ceStDefL1: 'Project name',
     ceStRings: 'Number of circles', ceRing1: 'One circle', ceRing2: 'Two circles', ceRing3: 'Three circles', ceImOp: 'Opacity', ceImWhite: 'Make the white background transparent', ceImMult: 'Blend with the background like ink',
     ceOptsText: 'Text options', ceOptsStamp: 'Stamp options', ceOptsLine: 'Line options', ceOptsImg: 'Image / logo options',
-    ceDup: '⧉ Duplicate', ceCopy: '📄 Copy', cePaste: 'Paste',
+    ceDup: '⧉ Duplicate', ceCopy: '📄 Copy', cePaste: '📋 Paste',
     ceAddFrame: 'Frame', ceFrRadius: 'Corner roundness', ceFrLines: 'Number of lines', ceFr1: 'Single line', ceFr2: 'Double line', ceFrFill: 'Fill inside the frame', ceFrNoFill: 'None', ceFrWhite: 'White', ceFrCustom: 'Custom color', ceFrFillC: 'Fill color', ceOptsFrame: 'Frame options',
     toolsOptSvg: '🎨 Convert SVG to image or PDF', svgTitle: 'Convert SVG to image or PDF', svgHint: 'Upload one or several SVG files and choose the format and quality. Conversion happens in your browser; nothing is uploaded.',
     svgFormat: 'Format', svgScale: 'Quality scale', svgWidth: 'Or custom width in pixels (optional)', svgBg: 'Background', svgBgTransparent: 'Transparent (PNG / WebP)', svgBgWhite: 'White', svgBgCustom: 'Custom colour', svgBgColor: 'Background colour',
@@ -12136,8 +12142,9 @@ function ceRenderSide(ctx, side, items, withUi){
 }
 function ceRedraw(){ if(!ce.base) return; ceRenderSide(document.getElementById('ce-canvas').getContext('2d'), ce.side, ce.items, true); }
 function ceLoadFont(f, w){ try{ return document.fonts.load(`${w || 700} 40px ${f}`).then(()=>{ ce.epoch++; ceRedraw(); }).catch(()=>0); }catch(e){ return Promise.resolve(); } }
+let ceActState = null;
 function ceSelect(i){
-  ce.sel = i; const pr = document.getElementById('ce-props'), it = ce.items[i], g = id => document.getElementById(id), ty = it && it.type;
+  ce.sel = i; if(ceActState) ceActState(); const pr = document.getElementById('ce-props'), it = ce.items[i], g = id => document.getElementById(id), ty = it && it.type;
   pr.style.display = it ? '' : 'none';
   g('ce-img-opts').style.display = (it && it.type === 'img') ? '' : 'none';
   if(it) g('ce-props-title').textContent = I18N[currentLang][{ text:'ceOptsText', stamp:'ceOptsStamp', line:'ceOptsLine', frame:'ceOptsFrame', img:'ceOptsImg' }[it.type]] || '';
@@ -12286,12 +12293,14 @@ async function ceRenderCanvas(side, fmt){
     ceSelect(ce.items.length - 1);
   });
   const cePasteBtn = ()=>{ const b = g('ce-paste'); b.disabled = !ce.clip; b.style.opacity = ce.clip ? '' : '.45'; };
+  ceActState = ()=>{ const has = ce.sel >= 0; ['ce-copy','ce-dup','ce-del'].forEach(id=>{ const b = g(id); b.disabled = !has; b.style.opacity = has ? '' : '.45'; }); cePasteBtn(); };
   const ceCopy = ()=>{ const it = ce.items[ce.sel]; if(!it) return false; ce.clip = Object.assign({}, it); delete ce.clip._wo; ce.pasteN = 0; cePasteBtn(); return true; };
   const cePaste = ()=>{
     if(!ce.base || !ce.clip) return; ce.pasteN = (ce.pasteN || 0) + 1; const c = Object.assign({}, ce.clip), d = Math.min(ce.W, ce.H) * 0.04 * ce.pasteN;
     if(c.type === 'line'){ c.x1 += d; c.x2 += d; c.y1 += d; c.y2 += d; } else { c.x += d; c.y += d; }
     ce.items.push(c); ceSelect(ce.items.length - 1);
   };
+  ceActState();
   g('ce-copy').addEventListener('click', ()=>{ if(ceCopy()){ const b = g('ce-copy'), o = b.textContent; b.textContent = '✓'; setTimeout(()=>{ b.textContent = I18N[currentLang].ceCopy || o; }, 900); } });
   g('ce-paste').addEventListener('click', cePaste);
   g('ce-dup').addEventListener('click', ()=>{ if(ceCopy()) cePaste(); });
