@@ -1882,6 +1882,7 @@
           <button type="button" class="ce-big" id="ce-add-text"><span class="ce-ico">🔤</span><b data-i18n="ceAddText">نص</b></button>
           <button type="button" class="ce-big" id="ce-add-stamp"><span class="ce-ico">🔴</span><b data-i18n="ceAddStamp">ختم</b></button>
           <button type="button" class="ce-big" id="ce-add-line"><span class="ce-ico">➖</span><b data-i18n="ceAddLine">خط</b></button>
+          <button type="button" class="ce-big" id="ce-paste" disabled style="opacity:.45;"><span class="ce-ico">📋</span><b data-i18n="cePaste">لصق</b></button>
           <button type="button" class="ce-big" id="ce-add-frame"><span class="ce-ico">▭</span><b data-i18n="ceAddFrame">برواز</b></button>
           <button type="button" class="ce-big" id="ce-add-img"><span class="ce-ico">🖼️</span><b data-i18n="ceAddImg">شعار / صورة</b></button>
           <input type="file" id="ce-img-file" accept="image/*" style="display:none;">
@@ -1892,7 +1893,7 @@
         </div>
 
         <div id="ce-props" class="ce-box" style="display:none;margin-top:12px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;"><b id="ce-props-title" style="font-size:1.05rem;"></b><button type="button" class="btn secondary" id="ce-del" data-i18n="ceDel">🗑️ حذف هذا العنصر</button></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;"><b id="ce-props-title" style="font-size:1.05rem;"></b><span style="display:flex;gap:6px;flex-wrap:wrap;"><button type="button" class="btn secondary" id="ce-dup" data-i18n="ceDup">⧉ تكرار</button><button type="button" class="btn secondary" id="ce-copy" data-i18n="ceCopy">📄 نسخ</button><button type="button" class="btn secondary" id="ce-del" data-i18n="ceDel">🗑️ حذف</button></span></div>
           <div id="ce-fr-opts" style="display:none;">
             <div class="row">
               <div class="field"><label for="ce-fr-color" data-i18n="ceLnColor">لون الخط</label><input type="color" id="ce-fr-color" value="#000000"></div>
@@ -3994,6 +3995,7 @@ const I18N = {
     ceStL1: 'الاسم الرئيسي بالمنتصف', ceStOp: 'قوة الحبر', ceStWear: 'تآكل الحبر (يخفّ ويثقل)', ceStDefL1: 'اسم المشروع',
     ceStRings: 'عدد الدوائر', ceRing1: 'دائرة واحدة', ceRing2: 'دائرتان', ceRing3: 'ثلاث دوائر', ceImOp: 'الشفافية', ceImWhite: 'جعل الخلفية البيضاء شفافة', ceImMult: 'يندمج مع الخلفية مثل الحبر',
     ceOptsText: 'خيارات النص', ceOptsStamp: 'خيارات الختم', ceOptsLine: 'خيارات الخط', ceOptsImg: 'خيارات الصورة / الشعار',
+    ceDup: '⧉ تكرار', ceCopy: '📄 نسخ', cePaste: 'لصق',
     ceAddFrame: 'برواز', ceFrRadius: 'استدارة الزوايا', ceFrLines: 'عدد الخطوط', ceFr1: 'خط واحد', ceFr2: 'خطان (مزدوج)', ceFrFill: 'تعبئة داخل البرواز', ceFrNoFill: 'بدون', ceFrWhite: 'أبيض', ceFrCustom: 'لون مخصص', ceFrFillC: 'لون التعبئة', ceOptsFrame: 'خيارات البرواز',
     toolsOptSvg: '🎨 تحويل ملف SVG إلى صورة أو PDF', svgTitle: 'تحويل SVG إلى صورة أو PDF', svgHint: 'ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.',
     svgFormat: 'الصيغة', svgScale: 'مقياس الجودة', svgWidth: 'أو عرض مخصص بالبكسل (اختياري)', svgBg: 'الخلفية', svgBgTransparent: 'شفافة (PNG / WebP)', svgBgWhite: 'بيضاء', svgBgCustom: 'لون مخصص', svgBgColor: 'لون الخلفية',
@@ -4785,6 +4787,7 @@ const I18N = {
     ceStL1: 'Main name in the centre', ceStOp: 'Ink strength', ceStWear: 'Ink wear (fades and darkens)', ceStDefL1: 'Project name',
     ceStRings: 'Number of circles', ceRing1: 'One circle', ceRing2: 'Two circles', ceRing3: 'Three circles', ceImOp: 'Opacity', ceImWhite: 'Make the white background transparent', ceImMult: 'Blend with the background like ink',
     ceOptsText: 'Text options', ceOptsStamp: 'Stamp options', ceOptsLine: 'Line options', ceOptsImg: 'Image / logo options',
+    ceDup: '⧉ Duplicate', ceCopy: '📄 Copy', cePaste: 'Paste',
     ceAddFrame: 'Frame', ceFrRadius: 'Corner roundness', ceFrLines: 'Number of lines', ceFr1: 'Single line', ceFr2: 'Double line', ceFrFill: 'Fill inside the frame', ceFrNoFill: 'None', ceFrWhite: 'White', ceFrCustom: 'Custom color', ceFrFillC: 'Fill color', ceOptsFrame: 'Frame options',
     toolsOptSvg: '🎨 Convert SVG to image or PDF', svgTitle: 'Convert SVG to image or PDF', svgHint: 'Upload one or several SVG files and choose the format and quality. Conversion happens in your browser; nothing is uploaded.',
     svgFormat: 'Format', svgScale: 'Quality scale', svgWidth: 'Or custom width in pixels (optional)', svgBg: 'Background', svgBgTransparent: 'Transparent (PNG / WebP)', svgBgWhite: 'White', svgBgCustom: 'Custom colour', svgBgColor: 'Background colour',
@@ -12281,6 +12284,20 @@ async function ceRenderCanvas(side, fmt){
   g('ce-add-line').addEventListener('click', ()=>{
     if(!ce.base) return; ce.items.push({ type:'line', x1:ce.W * 0.12, y1:ce.H * 0.5, x2:ce.W * 0.88, y2:ce.H * 0.5, color:'#000000', width:Math.max(2, Math.round(unit())), style:'solid' });
     ceSelect(ce.items.length - 1);
+  });
+  const cePasteBtn = ()=>{ const b = g('ce-paste'); b.disabled = !ce.clip; b.style.opacity = ce.clip ? '' : '.45'; };
+  const ceCopy = ()=>{ const it = ce.items[ce.sel]; if(!it) return false; ce.clip = Object.assign({}, it); delete ce.clip._wo; ce.pasteN = 0; cePasteBtn(); return true; };
+  const cePaste = ()=>{
+    if(!ce.base || !ce.clip) return; ce.pasteN = (ce.pasteN || 0) + 1; const c = Object.assign({}, ce.clip), d = Math.min(ce.W, ce.H) * 0.04 * ce.pasteN;
+    if(c.type === 'line'){ c.x1 += d; c.x2 += d; c.y1 += d; c.y2 += d; } else { c.x += d; c.y += d; }
+    ce.items.push(c); ceSelect(ce.items.length - 1);
+  };
+  g('ce-copy').addEventListener('click', ()=>{ if(ceCopy()){ const b = g('ce-copy'), o = b.textContent; b.textContent = '✓'; setTimeout(()=>{ b.textContent = I18N[currentLang].ceCopy || o; }, 900); } });
+  g('ce-paste').addEventListener('click', cePaste);
+  g('ce-dup').addEventListener('click', ()=>{ if(ceCopy()) cePaste(); });
+  document.addEventListener('keydown', e=>{
+    if(!(e.ctrlKey || e.metaKey) || !ce.base || /^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement || {}).tagName || '') || g('tools-cardedit').offsetParent === null) return;
+    const k = e.key.toLowerCase(); if(k === 'c' && ceCopy()) e.preventDefault(); else if(k === 'v' && ce.clip){ cePaste(); e.preventDefault(); } else if(k === 'd' && ceCopy()){ cePaste(); e.preventDefault(); }
   });
   g('ce-del').addEventListener('click', ()=>{ if(ce.sel < 0) return; ce.items.splice(ce.sel, 1); ceSelect(-1); });
   g('ce-clear').addEventListener('click', ()=>{ ce.sideItems[ce.side].length = 0; ceSelect(-1); });
