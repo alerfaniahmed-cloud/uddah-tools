@@ -1882,6 +1882,7 @@
           <button type="button" class="ce-big" id="ce-add-text"><span class="ce-ico">🔤</span><b data-i18n="ceAddText">نص</b></button>
           <button type="button" class="ce-big" id="ce-add-stamp"><span class="ce-ico">🔴</span><b data-i18n="ceAddStamp">ختم</b></button>
           <button type="button" class="ce-big" id="ce-add-line"><span class="ce-ico">➖</span><b data-i18n="ceAddLine">خط</b></button>
+          <button type="button" class="ce-big" id="ce-add-frame"><span class="ce-ico">▭</span><b data-i18n="ceAddFrame">برواز</b></button>
           <button type="button" class="ce-big" id="ce-add-img"><span class="ce-ico">🖼️</span><b data-i18n="ceAddImg">شعار / صورة</b></button>
           <input type="file" id="ce-img-file" accept="image/*" style="display:none;">
         </div>
@@ -1892,6 +1893,24 @@
 
         <div id="ce-props" class="ce-box" style="display:none;margin-top:12px;">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;"><b id="ce-props-title" style="font-size:1.05rem;"></b><button type="button" class="btn secondary" id="ce-del" data-i18n="ceDel">🗑️ حذف هذا العنصر</button></div>
+          <div id="ce-fr-opts" style="display:none;">
+            <div class="row">
+              <div class="field"><label for="ce-fr-color" data-i18n="ceLnColor">لون الخط</label><input type="color" id="ce-fr-color" value="#000000"></div>
+              <div class="field"><label for="ce-fr-width" data-i18n="ceLnWidth">سُمك الخط</label><input type="range" id="ce-fr-width" min="1" max="40" step="1" value="4"></div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="ce-fr-radius" data-i18n="ceFrRadius">استدارة الزوايا</label><input type="range" id="ce-fr-radius" min="0" max="50" step="1" value="10"></div>
+              <div class="field"><label for="ce-fr-style" data-i18n="ceLnStyle">نوع الخط</label>
+                <select id="ce-fr-style"><option value="solid" data-i18n="ceLnSolid">متصل</option><option value="dashed" data-i18n="ceLnDashed">متقطع</option><option value="dotted" data-i18n="ceLnDotted">منقّط</option></select></div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="ce-fr-lines" data-i18n="ceFrLines">عدد الخطوط</label>
+                <select id="ce-fr-lines"><option value="1" data-i18n="ceFr1">خط واحد</option><option value="2" data-i18n="ceFr2">خطان (مزدوج)</option></select></div>
+              <div class="field"><label for="ce-fr-fill" data-i18n="ceFrFill">تعبئة داخل البرواز</label>
+                <select id="ce-fr-fill"><option value="none" data-i18n="ceFrNoFill">بدون</option><option value="white" data-i18n="ceFrWhite">أبيض</option><option value="custom" data-i18n="ceFrCustom">لون مخصص</option></select></div>
+              <div class="field" id="ce-fr-fillc-wrap" style="display:none;"><label for="ce-fr-fillc" data-i18n="ceFrFillC">لون التعبئة</label><input type="color" id="ce-fr-fillc" value="#ffffff"></div>
+            </div>
+          </div>
           <div id="ce-img-opts" style="display:none;">
             <div class="row">
               <div class="field"><label for="ce-im-op" data-i18n="ceImOp">الشفافية</label><input type="range" id="ce-im-op" min="10" max="100" step="1" value="100"></div>
@@ -3975,6 +3994,7 @@ const I18N = {
     ceStL1: 'الاسم الرئيسي بالمنتصف', ceStOp: 'قوة الحبر', ceStWear: 'تآكل الحبر (يخفّ ويثقل)', ceStDefL1: 'اسم المشروع',
     ceStRings: 'عدد الدوائر', ceRing1: 'دائرة واحدة', ceRing2: 'دائرتان', ceRing3: 'ثلاث دوائر', ceImOp: 'الشفافية', ceImWhite: 'جعل الخلفية البيضاء شفافة', ceImMult: 'يندمج مع الخلفية مثل الحبر',
     ceOptsText: 'خيارات النص', ceOptsStamp: 'خيارات الختم', ceOptsLine: 'خيارات الخط', ceOptsImg: 'خيارات الصورة / الشعار',
+    ceAddFrame: 'برواز', ceFrRadius: 'استدارة الزوايا', ceFrLines: 'عدد الخطوط', ceFr1: 'خط واحد', ceFr2: 'خطان (مزدوج)', ceFrFill: 'تعبئة داخل البرواز', ceFrNoFill: 'بدون', ceFrWhite: 'أبيض', ceFrCustom: 'لون مخصص', ceFrFillC: 'لون التعبئة', ceOptsFrame: 'خيارات البرواز',
     toolsOptSvg: '🎨 تحويل ملف SVG إلى صورة أو PDF', svgTitle: 'تحويل SVG إلى صورة أو PDF', svgHint: 'ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.',
     svgFormat: 'الصيغة', svgScale: 'مقياس الجودة', svgWidth: 'أو عرض مخصص بالبكسل (اختياري)', svgBg: 'الخلفية', svgBgTransparent: 'شفافة (PNG / WebP)', svgBgWhite: 'بيضاء', svgBgCustom: 'لون مخصص', svgBgColor: 'لون الخلفية',
     svgMerge: 'دمج كل الملفات في ملف PDF واحد (صفحة لكل ملف)', svgPreview: 'معاينة (أول ملف)', svgBtn: 'تحويل وتنزيل', svgBusy: 'جارٍ التحويل...', svgDone: 'تم التحويل', svgNoFile: 'اختر ملف SVG أولاً.', svgBad: 'تعذّر قراءة الملف. تأكد أنه ملف SVG سليم:',
@@ -4765,6 +4785,7 @@ const I18N = {
     ceStL1: 'Main name in the centre', ceStOp: 'Ink strength', ceStWear: 'Ink wear (fades and darkens)', ceStDefL1: 'Project name',
     ceStRings: 'Number of circles', ceRing1: 'One circle', ceRing2: 'Two circles', ceRing3: 'Three circles', ceImOp: 'Opacity', ceImWhite: 'Make the white background transparent', ceImMult: 'Blend with the background like ink',
     ceOptsText: 'Text options', ceOptsStamp: 'Stamp options', ceOptsLine: 'Line options', ceOptsImg: 'Image / logo options',
+    ceAddFrame: 'Frame', ceFrRadius: 'Corner roundness', ceFrLines: 'Number of lines', ceFr1: 'Single line', ceFr2: 'Double line', ceFrFill: 'Fill inside the frame', ceFrNoFill: 'None', ceFrWhite: 'White', ceFrCustom: 'Custom color', ceFrFillC: 'Fill color', ceOptsFrame: 'Frame options',
     toolsOptSvg: '🎨 Convert SVG to image or PDF', svgTitle: 'Convert SVG to image or PDF', svgHint: 'Upload one or several SVG files and choose the format and quality. Conversion happens in your browser; nothing is uploaded.',
     svgFormat: 'Format', svgScale: 'Quality scale', svgWidth: 'Or custom width in pixels (optional)', svgBg: 'Background', svgBgTransparent: 'Transparent (PNG / WebP)', svgBgWhite: 'White', svgBgCustom: 'Custom colour', svgBgColor: 'Background colour',
     svgMerge: 'Merge all files into one PDF (one page per file)', svgPreview: 'Preview (first file)', svgBtn: 'Convert and download', svgBusy: 'Converting...', svgDone: 'Converted', svgNoFile: 'Choose an SVG file first.', svgBad: 'Could not read the file. Make sure it is a valid SVG:',
@@ -12051,6 +12072,17 @@ function ceDrawItem(ctx, it){
     if(it.mult) ctx.globalCompositeOperation = 'multiply';
     ctx.drawImage(bm, -sz / 2, -sz / 2, sz, sz); ctx.restore(); return;
   }
+  if(it.type === 'frame'){
+    const rr = (x, y, w, h, r)=>{ r = Math.max(0, Math.min(r, w / 2, h / 2)); ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); };
+    const m = Math.min(it.w, it.h), rad = m * it.radius / 100, lw = it.width, ins = lw / 2;
+    ctx.save();
+    if(it.fill && it.fill !== 'none'){ ctx.fillStyle = it.fill === 'custom' ? it.fillColor : '#ffffff'; rr(it.x + ins, it.y + ins, it.w - lw, it.h - lw, rad - ins); ctx.fill(); }
+    ctx.strokeStyle = it.color; ctx.lineWidth = lw; ctx.lineCap = it.style === 'dotted' ? 'round' : 'butt'; ctx.lineJoin = 'round';
+    ctx.setLineDash(it.style === 'dashed' ? [lw * 4, lw * 2.5] : (it.style === 'dotted' ? [0.01, lw * 2.2] : []));
+    rr(it.x + ins, it.y + ins, it.w - lw, it.h - lw, rad - ins); ctx.stroke();
+    if(it.lines === 2){ const g2 = lw * 2.6; ctx.lineWidth = Math.max(1, lw * 0.5); rr(it.x + ins + g2, it.y + ins + g2, it.w - lw - g2 * 2, it.h - lw - g2 * 2, rad - ins - g2); ctx.stroke(); }
+    ctx.restore(); return;
+  }
   if(it.type === 'line'){
     ctx.save(); ctx.strokeStyle = it.color; ctx.lineWidth = it.width; ctx.lineCap = it.style === 'dotted' ? 'round' : 'butt';
     ctx.setLineDash(it.style === 'dashed' ? [it.width * 4, it.width * 2.5] : (it.style === 'dotted' ? [0.01, it.width * 2.2] : []));
@@ -12105,13 +12137,14 @@ function ceSelect(i){
   ce.sel = i; const pr = document.getElementById('ce-props'), it = ce.items[i], g = id => document.getElementById(id), ty = it && it.type;
   pr.style.display = it ? '' : 'none';
   g('ce-img-opts').style.display = (it && it.type === 'img') ? '' : 'none';
-  if(it) g('ce-props-title').textContent = I18N[currentLang][{ text:'ceOptsText', stamp:'ceOptsStamp', line:'ceOptsLine', img:'ceOptsImg' }[it.type]] || '';
+  if(it) g('ce-props-title').textContent = I18N[currentLang][{ text:'ceOptsText', stamp:'ceOptsStamp', line:'ceOptsLine', frame:'ceOptsFrame', img:'ceOptsImg' }[it.type]] || '';
   if(it && it.type === 'img'){ g('ce-im-op').value = Math.round((it.opacity == null ? 1 : it.opacity) * 100); g('ce-im-white').checked = !!it.white; g('ce-im-mult').checked = !!it.mult; }
   g('ce-canvas').style.touchAction = it ? 'none' : 'pan-y';
-  g('ce-text-opts').style.display = ty === 'text' ? '' : 'none'; g('ce-stamp-opts').style.display = ty === 'stamp' ? '' : 'none'; g('ce-line-opts').style.display = ty === 'line' ? '' : 'none';
+  g('ce-text-opts').style.display = ty === 'text' ? '' : 'none'; g('ce-stamp-opts').style.display = ty === 'stamp' ? '' : 'none'; g('ce-fr-opts').style.display = ty === 'frame' ? '' : 'none'; g('ce-line-opts').style.display = ty === 'line' ? '' : 'none';
   g('ce-cover-wrap').style.display = ce.mode === 'img' ? '' : 'none';
   if(ty === 'text'){ g('ce-text').value = it.text; g('ce-font').value = it.font; g('ce-size').value = it.size; g('ce-color').value = it.color; g('ce-align').value = it.align; g('ce-cover').value = it.cover; g('ce-covercolor').value = it.coverColor; g('ce-bold').checked = it.bold; g('ce-covercolor-wrap').style.display = it.cover === 'custom' ? '' : 'none'; }
   if(ty === 'stamp'){ g('ce-st-top').value = it.top; g('ce-st-bot').value = it.bot; g('ce-st-l1').value = it.l1; g('ce-st-l2').value = it.l2; g('ce-st-l3').value = it.l3; g('ce-st-l4').value = it.l4; g('ce-st-font').value = it.font; g('ce-st-color').value = it.color; g('ce-st-thick').value = it.thick; g('ce-st-op').value = Math.round(it.opacity * 100); g('ce-st-wear').value = it.wear; g('ce-st-rot').value = it.rot; g('ce-st-rings').value = String(it.rings); g('ce-st-mult').checked = it.mult; }
+  if(ty === 'frame'){ g('ce-fr-color').value = it.color; g('ce-fr-width').value = it.width; g('ce-fr-radius').value = it.radius; g('ce-fr-style').value = it.style; g('ce-fr-lines').value = String(it.lines); g('ce-fr-fill').value = it.fill; g('ce-fr-fillc').value = it.fillColor; g('ce-fr-fillc-wrap').style.display = it.fill === 'custom' ? '' : 'none'; }
   if(ty === 'line'){ g('ce-ln-color').value = it.color; g('ce-ln-width').value = it.width; g('ce-ln-style').value = it.style; }
   ceRedraw();
 }
@@ -12126,6 +12159,7 @@ function ceHit(pt){
   for(let i = ce.items.length - 1; i >= 0; i--){
     const t = ce.items[i];
     if(t.type === 'line'){ if(ceSegDist(pt.x, pt.y, t.x1, t.y1, t.x2, t.y2) <= Math.max(10 * pt.k, t.width / 2 + 4 * pt.k)) return { i, mode:'move' }; }
+    else if(t.type === 'frame'){ const b = Math.max(14 * pt.k, t.width * 1.5 + 4 * pt.k), inO = pt.x >= t.x - b && pt.x <= t.x + t.w + b && pt.y >= t.y - b && pt.y <= t.y + t.h + b, inI = pt.x > t.x + b && pt.x < t.x + t.w - b && pt.y > t.y + b && pt.y < t.y + t.h - b; if(inO && !inI) return { i, mode:'move' }; }
     else if(pt.x >= t.x && pt.x <= t.x + t.w && pt.y >= t.y && pt.y <= t.y + t.h) return { i, mode:'move' };
   }
   return null;
@@ -12144,7 +12178,7 @@ function ceBuildNewBase(){
     ['front', 'back'].forEach(sd=> ce.sideItems[sd].forEach(it=>{
       if(it.type === 'line'){ it.x1 *= sx; it.x2 *= sx; it.y1 *= sy; it.y2 *= sy; it.width *= u; }
       else if(it.type === 'stamp' || it.type === 'img'){ const cx = (it.x + it.w / 2) * sx, cy = (it.y + it.h / 2) * sy, r = it.h / it.w; it.w *= u; it.h = it.w * r; it.x = cx - it.w / 2; it.y = cy - it.h / 2; }
-      else { it.x *= sx; it.w *= sx; it.y *= sy; it.h *= sy; if(it.size) it.size *= u; }
+      else { it.x *= sx; it.w *= sx; it.y *= sy; it.h *= sy; if(it.size) it.size *= u; if(it.type === 'frame') it.width *= u; }
     }));
   }
   ce.base = c; ce.W = W; ce.H = H; ce.data = null; ce.cache.clear();
@@ -12224,6 +12258,13 @@ async function ceRenderCanvas(side, fmt){
   g('ce-st-seed').addEventListener('click', ()=>{ const it = ce.items[ce.sel]; if(it && it.type === 'stamp'){ it.seed = (Math.random() * 1e9) | 0; ceRedraw(); } });
   const updLine = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'line') return; it.color = g('ce-ln-color').value; it.width = Math.max(1, parseFloat(g('ce-ln-width').value) || 3); it.style = g('ce-ln-style').value; ceRedraw(); };
   ['ce-ln-color','ce-ln-width','ce-ln-style'].forEach(id=>{ const el = g(id); el.addEventListener('input', updLine); el.addEventListener('change', updLine); });
+  const updFrame = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'frame') return; it.color = g('ce-fr-color').value; it.width = Math.max(1, parseFloat(g('ce-fr-width').value) || 4); it.radius = parseFloat(g('ce-fr-radius').value) || 0; it.style = g('ce-fr-style').value; it.lines = parseInt(g('ce-fr-lines').value, 10) || 1; it.fill = g('ce-fr-fill').value; it.fillColor = g('ce-fr-fillc').value; g('ce-fr-fillc-wrap').style.display = it.fill === 'custom' ? '' : 'none'; ceRedraw(); };
+  ['ce-fr-color','ce-fr-width','ce-fr-radius','ce-fr-style','ce-fr-lines','ce-fr-fill','ce-fr-fillc'].forEach(id=>{ const el = g(id); el.addEventListener('input', updFrame); el.addEventListener('change', updFrame); });
+  g('ce-add-frame').addEventListener('click', ()=>{
+    if(!ce.base) return; const m = Math.min(ce.W, ce.H) * 0.06;
+    ce.items.push({ type:'frame', x:m, y:m, w:ce.W - m * 2, h:ce.H - m * 2, color:'#000000', width:Math.max(2, Math.round(ce.H / 90)), radius:10, style:'solid', lines:1, fill:'none', fillColor:'#ffffff' });
+    ceSelect(ce.items.length - 1);
+  });
   const updImg = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'img') return; it.opacity = (parseFloat(g('ce-im-op').value) || 100) / 100; it.white = g('ce-im-white').checked; it.mult = g('ce-im-mult').checked; ceRedraw(); };
   ['ce-im-op','ce-im-white','ce-im-mult'].forEach(id=>{ const el = g(id); el.addEventListener('input', updImg); el.addEventListener('change', updImg); });
   const unit = ()=> ce.H / 180;
