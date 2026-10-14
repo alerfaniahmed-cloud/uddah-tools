@@ -375,6 +375,21 @@
   }
   @media (max-width:420px){ .result .grid3 div .l{font-size:.74rem;} .stamp{gap:10px;padding:12px;} }
   @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}}
+
+  /* card designer */
+  .ce-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;}
+  .ce-big{flex:1 1 120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:72px;padding:12px 10px;border:1px solid var(--border);border-radius:12px;background:var(--bg-elev);color:var(--bone);font-family:var(--font-display);font-size:1rem;cursor:pointer;text-align:center;transition:border-color .15s,background-color .15s;}
+  .ce-big:hover{border-color:var(--brass);background:var(--bg-elev-2);}
+  .ce-big:active{transform:scale(.98);}
+  .ce-big .ce-ico{font-size:1.6rem;line-height:1.2;}
+  .ce-big small{font-size:.78rem;color:var(--bone-dim);font-weight:400;}
+  .ce-tools .ce-big{min-height:64px;}
+  .ce-box{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--bg-elev);margin-bottom:12px;}
+  .ce-tabs{display:flex;gap:8px;margin-top:6px;}
+  .ce-tab{flex:1;min-height:44px;border:1px solid var(--border);border-radius:10px;background:var(--bg-elev-2);color:var(--bone-dim);font-family:var(--font-display);font-size:1rem;font-weight:600;cursor:pointer;}
+  .ce-tab.active{background:var(--brass);border-color:var(--brass);color:#1C1B1A;}
+  details.ce-more{margin:6px 0 10px;}
+  details.ce-more summary{cursor:pointer;color:var(--brass-light);font-weight:600;min-height:36px;display:flex;align-items:center;}
   @media print{.toolbar,nav.tabs,#prayer-bar{display:none !important;}}
 </style>
 </head>
@@ -1026,14 +1041,13 @@
           <option value="qr" data-i18n="toolsOptQr">🔗 مولد رمز QR</option>
           <option value="seal" data-i18n="toolsOptSeal">🖋️ مولد الأختام</option>
           <option value="img2stamp" data-i18n="toolsOptImg2stamp">🖼️ تحويل صورة إلى ختم</option>
-          <option value="card2s" data-i18n="toolsOptCard2s">🪪 مولد كرت الوجهين</option>
           <option value="resize" data-i18n="toolsOptResize">📐 تغيير حجم الصورة</option>
           <option value="bulkcrop" data-i18n="toolsOptBulkcrop">✂️ قص عدة صور دفعة واحدة</option>
           <option value="pw" data-i18n="toolsOptPw">🔑 مولد كلمات المرور</option>
           <option value="id" data-i18n="toolsOptId">🪪 مدقق رقم الهوية / الإقامة</option>
           <option value="invoice" data-i18n="toolsOptInvoice">🧾 إنشاء فاتورة (مبيعات / مشتريات)</option>
           <option value="cert" data-i18n="toolsOptCert">🎓 شهادة شكر وتقدير (مدارس وأكاديميات)</option>
-          <option value="cardedit" data-i18n="toolsOptCe">✏️ تعديل على كرت جاهز (صورة)</option>
+          <option value="cardedit" data-i18n="toolsOptCe">🪪 مصمم الكروت (كرت جديد أو تعديل كرت جاهز)</option>
           <option value="svgconv" data-i18n="toolsOptSvg">🎨 تحويل ملف SVG إلى صورة أو PDF</option>
           <option value="iban" data-i18n="toolsOptIban">🏦 مدقق رقم الآيبان السعودي (IBAN)</option>
         </select>
@@ -1238,7 +1252,7 @@
       <p class="note" id="img2stamp-note" data-i18n="img2stampNote">ارفع صورة أولاً لتبدأ المعاينة، ثم حرّك "حساسية إزالة الخلفية" حتى تختفي الخلفية بالكامل ويبقى الحبر فقط. كل المعالجة تتم داخل متصفحك — لا تُرفع صورتك لأي سيرفر خارجي.</p>
     </div>
 
-    <div class="card tools-card" id="tools-card2s">
+    <div class="card tools-card" id="tools-card2s" hidden style="display:none !important;"><!-- replaced by tools-cardedit (kept only so older code keeps working) -->
       <h2 data-i18n="card2sTitle">مولد كرت الوجهين</h2>
       <p class="hint" data-i18n="card2sHint">اصنع بطاقة بيضاء بوجهين (أمامي وخلفي) بالمقاس اللي تحدده بنفسك، أضف شعارك أو صورة ختمك، واكتب النص المطلوب على كل وجه، ثم نزّلها.</p>
 
@@ -1822,89 +1836,138 @@
     </div>
 
     <div class="card tools-card" id="tools-cardedit">
-      <h2 data-i18n="ceTitle">تعديل على كرت جاهز</h2>
-      <p class="hint" data-i18n="ceHint">ارفع صورة الكرت، ثم أضف مربع نص فوق الكلام القديم واسحبه وغيّر حجمه ليغطيه، واكتب النص الجديد. تُملأ المنطقة تلقائياً بلون الخلفية المحيطة بها. التعديل داخل متصفحك ولا يُرفع أي ملف.</p>
-      <div class="field">
-        <input type="file" id="ce-file" accept="image/*,.svg">
-        <div class="file-list" id="ce-file-list"></div>
+      <h2 data-i18n="ceTitle">مصمم الكروت</h2>
+      <p class="hint" data-i18n="ceHint">اصنع كرتاً جديداً من الصفر، أو ارفع كرتاً جاهزاً وعدّل عليه. أضف نصاً أو ختماً أو خطوطاً أو شعاراً، وحرّكها بإصبعك. كل شيء داخل متصفحك ولا يُرفع أي ملف.</p>
+      <input type="file" id="ce-file" accept="image/*,.svg" style="display:none;">
+
+      <div id="ce-start" class="ce-row">
+        <button type="button" class="ce-big" id="ce-start-new"><span class="ce-ico">🆕</span><b data-i18n="ceStartNew">كرت جديد</b><small data-i18n="ceStartNewSub">ابدأ من كرت فاضي بالمقاس اللي تبغاه</small></button>
+        <button type="button" class="ce-big" id="ce-start-img"><span class="ce-ico">📷</span><b data-i18n="ceStartImg">كرت جاهز</b><small data-i18n="ceStartImgSub">ارفع صورة كرت وعدّل عليها</small></button>
       </div>
+
       <div id="ce-work" style="display:none;">
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
-          <button type="button" class="btn secondary" id="ce-add-text" data-i18n="ceAddText">+ مربع نص</button>
-          <button type="button" class="btn secondary" id="ce-add-stamp" data-i18n="ceAddStamp">+ ختم</button>
-          <button type="button" class="btn secondary" id="ce-add-line" data-i18n="ceAddLine">+ خط</button>
-          <button type="button" class="btn secondary" id="ce-add-img" data-i18n="ceAddImg">+ شعار / صورة</button>
-          <button type="button" class="btn secondary" id="ce-del" data-i18n="ceDel">حذف المحدّد</button>
+        <div id="ce-newopts" class="ce-box">
+          <div class="row">
+            <div class="field"><label for="ce-preset" data-i18n="ceSizeLabel">مقاس الكرت</label>
+              <select id="ce-preset">
+                <option value="c90x50" data-i18n="ceSzCard">بطاقة 9×5 سم (أفقي)</option>
+                <option value="c50x90" data-i18n="ceSzCardV">بطاقة 5×9 سم (عمودي)</option>
+                <option value="id" data-i18n="ceSzId">بطاقة هوية 8.56×5.4 سم</option>
+                <option value="a6" data-i18n="ceSzA6">A6 (10.5×14.8 سم)</option>
+                <option value="sq" data-i18n="ceSzSq">مربع 8×8 سم</option>
+                <option value="custom" data-i18n="ceSzCustom">مقاس مخصص</option>
+              </select></div>
+            <div class="field"><label for="ce-bg" data-i18n="ceBgColor">لون الكرت</label><input type="color" id="ce-bg" value="#ffffff"></div>
+          </div>
+          <div class="row" id="ce-custom-wrap" style="display:none;">
+            <div class="field"><label for="ce-cw" data-i18n="ceCustomW">العرض (سم)</label><input type="number" id="ce-cw" min="2" max="40" step="0.1" value="9" dir="ltr"></div>
+            <div class="field"><label for="ce-ch" data-i18n="ceCustomH">الارتفاع (سم)</label><input type="number" id="ce-ch" min="2" max="40" step="0.1" value="5" dir="ltr"></div>
+          </div>
+          <details class="ce-more"><summary data-i18n="ceDecor">زخرفة الكرت (اختياري)</summary>
+            <div class="row" style="margin-top:10px;">
+              <div class="field"><label for="ce-decor" data-i18n="ceDecorStyle">الشكل</label>
+                <select id="ce-decor"><option value="none" data-i18n="decorNone">بدون</option><option value="hearts-corners" data-i18n="decorHeartsCorners">قلوب في الزوايا</option><option value="hearts-sides" data-i18n="decorHeartsSides">قلوب في الجوانب</option><option value="hearts-border" data-i18n="decorHeartsBorder">إطار قلوب حوالين الكرت</option><option value="flowers-corners" data-i18n="decorFlowersCorners">زهور في الزوايا</option><option value="flowers-border" data-i18n="decorFlowersBorder">إطار زهور حوالين الكرت</option><option value="stars-corners" data-i18n="decorStarsCorners">نجوم في الزوايا</option></select></div>
+              <div class="field"><label for="ce-decor-color" data-i18n="decorColorLabel">لون الزخرفة</label><input type="color" id="ce-decor-color" value="#d94f70"></div>
+              <div class="field"><label for="ce-decor-side" data-i18n="decorSideLabel">الزخرفة تظهر في</label>
+                <select id="ce-decor-side"><option value="both" data-i18n="bothSides">الوجهين</option><option value="front" data-i18n="frontOnly">الوجه فقط</option><option value="back" data-i18n="backOnly">الظهر فقط</option></select></div>
+            </div>
+          </details>
+          <div class="ce-tabs" id="ce-sidetabs">
+            <button type="button" class="ce-tab active" id="ce-tab-front" data-i18n="ceSideFront">الوجه</button>
+            <button type="button" class="ce-tab" id="ce-tab-back" data-i18n="ceSideBack">الظهر</button>
+          </div>
+        </div>
+
+        <div class="ce-row ce-tools">
+          <button type="button" class="ce-big" id="ce-add-text"><span class="ce-ico">🔤</span><b data-i18n="ceAddText">نص</b></button>
+          <button type="button" class="ce-big" id="ce-add-stamp"><span class="ce-ico">🔴</span><b data-i18n="ceAddStamp">ختم</b></button>
+          <button type="button" class="ce-big" id="ce-add-line"><span class="ce-ico">➖</span><b data-i18n="ceAddLine">خط</b></button>
+          <button type="button" class="ce-big" id="ce-add-img"><span class="ce-ico">🖼️</span><b data-i18n="ceAddImg">شعار / صورة</b></button>
           <input type="file" id="ce-img-file" accept="image/*" style="display:none;">
         </div>
-        <p class="note" style="margin:0 0 8px;" data-i18n="ceDrag">المس المربع لتحديده، ثم اسحبه لتحريكه أو اسحب الزاوية لتغيير حجمه. على الجوال: المس المربع أولاً ثم اسحب.</p>
+        <p class="note" style="margin:0 0 8px;" data-i18n="ceDrag">المس أي عنصر لتحديده، ثم اسحبه لتحريكه أو اسحب الدائرة في زاويته لتغيير حجمه.</p>
         <div id="ce-stage" style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;text-align:center;">
           <canvas id="ce-canvas" style="max-width:100%;height:auto;touch-action:pan-y;cursor:default;"></canvas>
         </div>
-        <div id="ce-props" style="display:none;margin-top:14px;">
+
+        <div id="ce-props" class="ce-box" style="display:none;margin-top:12px;">
           <div id="ce-stamp-opts" style="display:none;">
+            <div class="row">
+              <div class="field"><label for="ce-st-l1" data-i18n="ceStL1">الاسم الرئيسي بالمنتصف</label><input type="text" id="ce-st-l1"></div>
+              <div class="field"><label for="ce-st-l2" data-i18n="ceStL2">سطر المنتصف 2</label><input type="text" id="ce-st-l2"></div>
+            </div>
             <div class="row">
               <div class="field"><label for="ce-st-top" data-i18n="ceStTop">النص العلوي (منحني)</label><input type="text" id="ce-st-top"></div>
               <div class="field"><label for="ce-st-bot" data-i18n="ceStBot">النص السفلي (منحني)</label><input type="text" id="ce-st-bot"></div>
             </div>
             <div class="row">
-              <div class="field"><label for="ce-st-l1" data-i18n="ceStL1">السطر الرئيسي بالمنتصف (كبير)</label><input type="text" id="ce-st-l1"></div>
-              <div class="field"><label for="ce-st-l2" data-i18n="ceStL2">سطر المنتصف 2</label><input type="text" id="ce-st-l2"></div>
-            </div>
-            <div class="row">
-              <div class="field"><label for="ce-st-l3" data-i18n="ceStL3">سطر المنتصف 3</label><input type="text" id="ce-st-l3"></div>
-              <div class="field"><label for="ce-st-l4" data-i18n="ceStL4">سطر المنتصف 4</label><input type="text" id="ce-st-l4"></div>
-            </div>
-            <div class="row">
-              <div class="field"><label for="ce-st-font" data-i18n="ceFont">الخط</label><select id="ce-st-font"></select></div>
               <div class="field"><label for="ce-st-color" data-i18n="ceStColor">لون الحبر</label><input type="color" id="ce-st-color" value="#c8202a"></div>
+              <div class="field"><label for="ce-st-op" data-i18n="ceStOp">قوة الحبر</label><input type="range" id="ce-st-op" min="20" max="100" step="1" value="85"></div>
+              <div class="field"><label for="ce-st-wear" data-i18n="ceStWear">تآكل الحبر (يخفّ ويثقل)</label><input type="range" id="ce-st-wear" min="0" max="100" step="1" value="45"></div>
             </div>
-            <div class="row">
-              <div class="field"><label for="ce-st-thick"><span data-i18n="ceStThick">سُمك الخطوط</span></label><input type="range" id="ce-st-thick" min="0.6" max="4" step="0.1" value="1.6"></div>
-              <div class="field"><label for="ce-st-op"><span data-i18n="ceStOp">قوة الحبر</span></label><input type="range" id="ce-st-op" min="20" max="100" step="1" value="85"></div>
-            </div>
-            <div class="row">
-              <div class="field"><label for="ce-st-wear"><span data-i18n="ceStWear">التآكل (جزء يخفّ وجزء يثقل)</span></label><input type="range" id="ce-st-wear" min="0" max="100" step="1" value="45"></div>
-              <div class="field"><label for="ce-st-rot"><span data-i18n="ceStRot">الدوران</span></label><input type="range" id="ce-st-rot" min="-45" max="45" step="1" value="-8"></div>
-            </div>
-            <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:8px;">
-              <label><input type="checkbox" id="ce-st-dbl" checked> <span data-i18n="ceStDbl">إطار مزدوج</span></label>
-              <label><input type="checkbox" id="ce-st-mult" checked> <span data-i18n="ceStMult">يندمج مع الخلفية مثل الحبر</span></label>
-              <button type="button" class="btn secondary" id="ce-st-seed" data-i18n="ceStSeed">🎲 نمط تآكل جديد</button>
-            </div>
+            <details class="ce-more"><summary data-i18n="ceAdv">خيارات متقدمة</summary>
+              <div class="row" style="margin-top:10px;">
+                <div class="field"><label for="ce-st-l3" data-i18n="ceStL3">سطر المنتصف 3</label><input type="text" id="ce-st-l3"></div>
+                <div class="field"><label for="ce-st-l4" data-i18n="ceStL4">سطر المنتصف 4</label><input type="text" id="ce-st-l4"></div>
+              </div>
+              <div class="row">
+                <div class="field"><label for="ce-st-font" data-i18n="ceFont">الخط</label><select id="ce-st-font"></select></div>
+                <div class="field"><label for="ce-st-thick" data-i18n="ceStThick">سُمك الخطوط</label><input type="range" id="ce-st-thick" min="0.6" max="4" step="0.1" value="1.6"></div>
+                <div class="field"><label for="ce-st-rot" data-i18n="ceStRot">الدوران</label><input type="range" id="ce-st-rot" min="-45" max="45" step="1" value="-8"></div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
+                <label><input type="checkbox" id="ce-st-dbl" checked> <span data-i18n="ceStDbl">إطار مزدوج</span></label>
+                <label><input type="checkbox" id="ce-st-mult" checked> <span data-i18n="ceStMult">يندمج مع الخلفية مثل الحبر</span></label>
+                <button type="button" class="btn secondary" id="ce-st-seed" data-i18n="ceStSeed">🎲 نمط تآكل جديد</button>
+              </div>
+            </details>
           </div>
+
           <div id="ce-line-opts" style="display:none;">
             <div class="row">
               <div class="field"><label for="ce-ln-color" data-i18n="ceLnColor">لون الخط</label><input type="color" id="ce-ln-color" value="#000000"></div>
-              <div class="field"><label for="ce-ln-width"><span data-i18n="ceLnWidth">سُمك الخط</span></label><input type="range" id="ce-ln-width" min="1" max="40" step="1" value="3"></div>
+              <div class="field"><label for="ce-ln-width" data-i18n="ceLnWidth">سُمك الخط</label><input type="range" id="ce-ln-width" min="1" max="40" step="1" value="3"></div>
               <div class="field"><label for="ce-ln-style" data-i18n="ceLnStyle">نوع الخط</label>
                 <select id="ce-ln-style"><option value="solid" data-i18n="ceLnSolid">متصل</option><option value="dashed" data-i18n="ceLnDashed">متقطع</option><option value="dotted" data-i18n="ceLnDotted">منقّط</option></select></div>
             </div>
           </div>
-          <div class="field" id="ce-text-wrap"><label for="ce-text" data-i18n="ceText">النص الجديد (كل سطر في سطر)</label><textarea id="ce-text" rows="2"></textarea></div>
-          <div id="ce-text-opts">
+
+          <div id="ce-text-opts" style="display:none;">
+            <div class="field"><label for="ce-text" data-i18n="ceText">النص (كل سطر في سطر)</label><textarea id="ce-text" rows="2"></textarea></div>
             <div class="row">
               <div class="field"><label for="ce-font" data-i18n="ceFont">الخط</label><select id="ce-font"></select></div>
-              <div class="field"><label for="ce-size" data-i18n="ceSize">حجم الخط (0 = تلقائي)</label><input type="number" id="ce-size" min="0" max="800" value="0" dir="ltr"></div>
               <div class="field"><label for="ce-color" data-i18n="ceColor">لون النص</label><input type="color" id="ce-color" value="#000000"></div>
             </div>
-            <div class="row">
-              <div class="field"><label for="ce-align" data-i18n="ceAlign">المحاذاة</label>
-                <select id="ce-align"><option value="center" data-i18n="ceAlignC">وسط</option><option value="right" data-i18n="ceAlignR">يمين</option><option value="left" data-i18n="ceAlignL">يسار</option></select></div>
-              <div class="field"><label for="ce-cover" data-i18n="ceCover">تغطية النص القديم</label>
-                <select id="ce-cover"><option value="auto" data-i18n="ceCoverAuto">تلقائي (لون الخلفية المحيطة)</option><option value="custom" data-i18n="ceCoverCustom">لون أختاره</option><option value="none" data-i18n="ceCoverNone">بدون تغطية</option></select></div>
-              <div class="field" id="ce-covercolor-wrap" style="display:none;"><label for="ce-covercolor" data-i18n="ceCoverColor">لون التغطية</label><input type="color" id="ce-covercolor" value="#ffffff"></div>
-            </div>
-            <label><input type="checkbox" id="ce-bold" checked> <span data-i18n="ceBold">خط عريض</span></label>
+            <details class="ce-more"><summary data-i18n="ceMore">خيارات أخرى</summary>
+              <div class="row" style="margin-top:10px;">
+                <div class="field"><label for="ce-size" data-i18n="ceSize">حجم الخط (0 = يناسب المربع تلقائياً)</label><input type="number" id="ce-size" min="0" max="800" value="0" dir="ltr"></div>
+                <div class="field"><label for="ce-align" data-i18n="ceAlign">المحاذاة</label>
+                  <select id="ce-align"><option value="center" data-i18n="ceAlignC">وسط</option><option value="right" data-i18n="ceAlignR">يمين</option><option value="left" data-i18n="ceAlignL">يسار</option></select></div>
+              </div>
+              <div class="row" id="ce-cover-wrap">
+                <div class="field"><label for="ce-cover" data-i18n="ceCover">تغطية النص القديم</label>
+                  <select id="ce-cover"><option value="auto" data-i18n="ceCoverAuto">تلقائي (لون الخلفية المحيطة)</option><option value="custom" data-i18n="ceCoverCustom">لون أختاره</option><option value="none" data-i18n="ceCoverNone">بدون تغطية</option></select></div>
+                <div class="field" id="ce-covercolor-wrap" style="display:none;"><label for="ce-covercolor" data-i18n="ceCoverColor">لون التغطية</label><input type="color" id="ce-covercolor" value="#ffffff"></div>
+              </div>
+              <label><input type="checkbox" id="ce-bold" checked> <span data-i18n="ceBold">خط عريض</span></label>
+            </details>
           </div>
+          <button type="button" class="btn secondary" id="ce-del" style="margin-top:10px;" data-i18n="ceDel">🗑️ حذف هذا العنصر</button>
         </div>
-        <div class="row" style="margin-top:14px;">
-          <div class="field"><label for="ce-format" data-i18n="ceFormat">صيغة الملف الناتج</label>
-            <select id="ce-format"><option value="png">PNG</option><option value="jpg">JPG</option><option value="pdf">PDF</option></select></div>
+
+        <div class="ce-row" style="margin-top:14px;">
+          <button type="button" class="btn secondary" id="ce-clear" data-i18n="ceClear">🧹 مسح كل العناصر</button>
+          <button type="button" class="btn secondary" id="ce-reset" data-i18n="ceReset">🔄 البدء من جديد</button>
         </div>
-        <button class="btn" id="ce-btn" data-i18n="ceBtn">تنزيل الكرت المعدَّل</button>
-        <div id="ce-status"></div>
-        <p class="note" data-i18n="ceNote">التغطية التلقائية تعطي أفضل نتيجة على الخلفيات الساذجة (لون واحد). إن كانت الخلفية متدرجة أو فيها زخرفة فاختر لوناً يدوياً أو غطِّ منطقة أصغر.</p>
+
+        <div class="ce-box" style="margin-top:14px;">
+          <div class="row">
+            <div class="field"><label for="ce-format" data-i18n="ceFormat">تنزيل بصيغة</label><select id="ce-format"></select></div>
+          </div>
+          <button class="btn" id="ce-btn" data-i18n="ceBtn">تنزيل الكرت</button>
+          <div id="ce-status"></div>
+        </div>
+        <p class="note" id="ce-note-cover" data-i18n="ceNote">التغطية التلقائية تعطي أفضل نتيجة على الخلفيات ذات اللون الواحد. إن كانت الخلفية متدرجة أو فيها زخرفة فاختر لوناً يدوياً أو غطِّ منطقة أصغر.</p>
       </div>
     </div>
     <div class="card tools-card" id="tools-svgconv">
@@ -3893,6 +3956,13 @@ const I18N = {
     ceCover: 'تغطية النص القديم', ceCoverAuto: 'تلقائي (لون الخلفية المحيطة)', ceCoverCustom: 'لون أختاره', ceCoverNone: 'بدون تغطية', ceCoverColor: 'لون التغطية', ceBold: 'خط عريض', ceFormat: 'صيغة الملف الناتج',
     ceBtn: 'تنزيل الكرت المعدَّل', ceNoFile: 'ارفع صورة الكرت أولاً.', ceBad: 'تعذّر فتح الصورة.', ceDone: 'تم تجهيز الكرت', ceNewText: 'نص جديد',
     ceNote: 'التغطية التلقائية تعطي أفضل نتيجة على الخلفيات الساذجة (لون واحد). إن كانت الخلفية متدرجة أو فيها زخرفة فاختر لوناً يدوياً أو غطِّ منطقة أصغر.',
+    toolsOptCe: '🪪 مصمم الكروت (كرت جديد أو تعديل كرت جاهز)', ceTitle: 'مصمم الكروت', ceHint: 'اصنع كرتاً جديداً من الصفر، أو ارفع كرتاً جاهزاً وعدّل عليه. أضف نصاً أو ختماً أو خطوطاً أو شعاراً، وحرّكها بإصبعك. كل شيء داخل متصفحك ولا يُرفع أي ملف.',
+    ceStartNew: 'كرت جديد', ceStartNewSub: 'ابدأ من كرت فاضي بالمقاس اللي تبغاه', ceStartImg: 'كرت جاهز', ceStartImgSub: 'ارفع صورة كرت وعدّل عليها',
+    ceSizeLabel: 'مقاس الكرت', ceSzCard: 'بطاقة 9×5 سم (أفقي)', ceSzCardV: 'بطاقة 5×9 سم (عمودي)', ceSzId: 'بطاقة هوية 8.56×5.4 سم', ceSzA6: 'A6 (10.5×14.8 سم)', ceSzSq: 'مربع 8×8 سم', ceSzCustom: 'مقاس مخصص', ceCustomW: 'العرض (سم)', ceCustomH: 'الارتفاع (سم)', ceBgColor: 'لون الكرت',
+    ceDecor: 'زخرفة الكرت (اختياري)', ceDecorStyle: 'الشكل', ceSideFront: 'الوجه', ceSideBack: 'الظهر', ceMore: 'خيارات أخرى', ceAdv: 'خيارات متقدمة', ceClear: '🧹 مسح كل العناصر', ceReset: '🔄 البدء من جديد',
+    ceAddText: 'نص', ceAddStamp: 'ختم', ceAddLine: 'خط', ceAddImg: 'شعار / صورة', ceDel: '🗑️ حذف هذا العنصر', ceDrag: 'المس أي عنصر لتحديده، ثم اسحبه لتحريكه أو اسحب الدائرة في زاويته لتغيير حجمه.',
+    ceText: 'النص (كل سطر في سطر)', ceBtn: 'تنزيل الكرت', ceFmtPdf2: 'PDF (الوجه والظهر)', ceFmtFront: 'صورة PNG للوجه', ceFmtBack: 'صورة PNG للظهر',
+    ceStL1: 'الاسم الرئيسي بالمنتصف', ceStOp: 'قوة الحبر', ceStWear: 'تآكل الحبر (يخفّ ويثقل)', ceStDefL1: 'اسم المشروع',
     toolsOptSvg: '🎨 تحويل ملف SVG إلى صورة أو PDF', svgTitle: 'تحويل SVG إلى صورة أو PDF', svgHint: 'ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.',
     svgFormat: 'الصيغة', svgScale: 'مقياس الجودة', svgWidth: 'أو عرض مخصص بالبكسل (اختياري)', svgBg: 'الخلفية', svgBgTransparent: 'شفافة (PNG / WebP)', svgBgWhite: 'بيضاء', svgBgCustom: 'لون مخصص', svgBgColor: 'لون الخلفية',
     svgMerge: 'دمج كل الملفات في ملف PDF واحد (صفحة لكل ملف)', svgPreview: 'معاينة (أول ملف)', svgBtn: 'تحويل وتنزيل', svgBusy: 'جارٍ التحويل...', svgDone: 'تم التحويل', svgNoFile: 'اختر ملف SVG أولاً.', svgBad: 'تعذّر قراءة الملف. تأكد أنه ملف SVG سليم:',
@@ -4674,6 +4744,13 @@ const I18N = {
     ceCover: 'Cover the old text', ceCoverAuto: 'Auto (surrounding background colour)', ceCoverCustom: 'A colour I choose', ceCoverNone: 'No cover', ceCoverColor: 'Cover colour', ceBold: 'Bold', ceFormat: 'Output format',
     ceBtn: 'Download the edited card', ceNoFile: 'Upload the card image first.', ceBad: 'Could not open the image.', ceDone: 'Card ready', ceNewText: 'New text',
     ceNote: 'Auto cover works best on plain one-colour backgrounds. On gradients or patterns choose a colour manually or cover a smaller area.',
+    toolsOptCe: '🪪 Card designer (new card or edit a ready card)', ceTitle: 'Card designer', ceHint: 'Make a new card from scratch, or upload a ready card and edit it. Add text, a stamp, lines or a logo, and move them with your finger. Everything stays in your browser; nothing is uploaded.',
+    ceStartNew: 'New card', ceStartNewSub: 'Start from an empty card in the size you want', ceStartImg: 'Ready card', ceStartImgSub: 'Upload a card image and edit it',
+    ceSizeLabel: 'Card size', ceSzCard: 'Card 9×5 cm (landscape)', ceSzCardV: 'Card 5×9 cm (portrait)', ceSzId: 'ID card 8.56×5.4 cm', ceSzA6: 'A6 (10.5×14.8 cm)', ceSzSq: 'Square 8×8 cm', ceSzCustom: 'Custom size', ceCustomW: 'Width (cm)', ceCustomH: 'Height (cm)', ceBgColor: 'Card colour',
+    ceDecor: 'Card decoration (optional)', ceDecorStyle: 'Style', ceSideFront: 'Front', ceSideBack: 'Back', ceMore: 'More options', ceAdv: 'Advanced options', ceClear: '🧹 Clear all items', ceReset: '🔄 Start over',
+    ceAddText: 'Text', ceAddStamp: 'Stamp', ceAddLine: 'Line', ceAddImg: 'Logo / image', ceDel: '🗑️ Delete this item', ceDrag: 'Tap an item to select it, then drag it to move or drag the circle on its corner to resize.',
+    ceText: 'Text (one line per row)', ceBtn: 'Download the card', ceFmtPdf2: 'PDF (front and back)', ceFmtFront: 'PNG image of the front', ceFmtBack: 'PNG image of the back',
+    ceStL1: 'Main name in the centre', ceStOp: 'Ink strength', ceStWear: 'Ink wear (fades and darkens)', ceStDefL1: 'Project name',
     toolsOptSvg: '🎨 Convert SVG to image or PDF', svgTitle: 'Convert SVG to image or PDF', svgHint: 'Upload one or several SVG files and choose the format and quality. Conversion happens in your browser; nothing is uploaded.',
     svgFormat: 'Format', svgScale: 'Quality scale', svgWidth: 'Or custom width in pixels (optional)', svgBg: 'Background', svgBgTransparent: 'Transparent (PNG / WebP)', svgBgWhite: 'White', svgBgCustom: 'Custom colour', svgBgColor: 'Background colour',
     svgMerge: 'Merge all files into one PDF (one page per file)', svgPreview: 'Preview (first file)', svgBtn: 'Convert and download', svgBusy: 'Converting...', svgDone: 'Converted', svgNoFile: 'Choose an SVG file first.', svgBad: 'Could not read the file. Make sure it is a valid SVG:',
@@ -11873,14 +11950,15 @@ document.getElementById('svg-btn').addEventListener('click', async ()=>{
 
 
 /* ============================================================
-   CARD EDITOR — edit a ready-made card image: cover old text, type new text, stamps, lines, logos
+   CARD DESIGNER — new card (front/back) or edit a ready-made card image: text, stamps, lines, logos
    ============================================================ */
-setupFilePicker('ce-file', 'ce-file-list', false);
-const ce = { base:null, W:0, H:0, data:null, items:[], sel:-1, drag:null, cache:new Map(), stampCache:new Map(), epoch:0 };
+const CE_DPI = 300, CE_MM = { c90x50:[90, 50], c50x90:[50, 90], id:[85.6, 54], a6:[105, 148], sq:[80, 80] };
+const ce = { mode:'', base:null, W:0, H:0, data:null, items:[], sideItems:{ front:[], back:[] }, side:'front', sel:-1, drag:null, cache:new Map(), stampCache:new Map(), epoch:0 };
 ['ce-font','ce-st-font'].forEach(id=>{ const f = document.getElementById(id); ERASE_FONT_OPTIONS.forEach(o=>{ const e = document.createElement('option'); e.value = o.v; e.textContent = o.l; f.appendChild(e); }); });
 function ceMedian(a){ a.sort((x, y)=> x - y); return a[a.length >> 1]; }
 function ceRng(seed){ let a = seed >>> 0; return ()=>{ a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
 function ceAutoColor(it){
+  if(!ce.data) return '#ffffff';
   const key = [it.x, it.y, it.w, it.h].map(Math.round).join(','); if(ce.cache.has(key)) return ce.cache.get(key);
   const W = ce.W, H = ce.H, d = ce.data.data, R = [], G = [], B = [], x0 = Math.round(it.x), y0 = Math.round(it.y), x1 = Math.round(it.x + it.w), y1 = Math.round(it.y + it.h);
   const px = (x, y)=>{ if(x < 0 || y < 0 || x >= W || y >= H) return; const i = (y * W + x) * 4; if(d[i + 3] < 10) return; R.push(d[i]); G.push(d[i + 1]); B.push(d[i + 2]); };
@@ -11923,8 +12001,6 @@ function ceStampBitmap(it){
     const Rt = (R0 - (it.dbl ? lw * 3.2 : 0) + R1) / 2, fs = ringW * 0.6;
     ceCurveText(ctx, it.top, cx, cy, Rt, 0, true, fs, 700, it.font, col, Math.PI * 0.78);
     ceCurveText(ctx, it.bot, cx, cy, Rt, Math.PI, false, fs, 700, it.font, col, Math.PI * 0.78);
-    ctx.font = `700 ${fs}px ${it.font}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    [Math.PI / 2, -Math.PI / 2].forEach(a=> ctx.fillText('✦', cx + Rt * Math.sin(a), cy - Rt * Math.cos(a)));
   }
   const lines = [[it.l1, 1], [it.l2, 0.5], [it.l3, 0.5], [it.l4, 0.4]].filter(l=> l[0] && l[0].trim());
   if(lines.length){
@@ -11969,12 +12045,25 @@ function ceDrawItem(ctx, it){
   lines.forEach((l, i)=>{ ctx.direction = /[֐-ࣿ]/.test(l) ? 'rtl' : 'ltr'; ctx.fillText(l, ax, top + i * lh); });
   ctx.restore();
 }
-function ceRender(ctx, withUi){
+function ceDecor(ctx, w, h){
+  const style = document.getElementById('ce-decor').value; if(style === 'none') return;
+  const side = document.getElementById('ce-decor-side').value; if(!(side === 'both' || side === ce.side)) return;
+  const color = document.getElementById('ce-decor-color').value, margin = Math.min(w, h) * 0.1, size = Math.min(w, h) * 0.11;
+  const fn = style.indexOf('hearts') === 0 ? card2sDrawHeart : (style.indexOf('flowers') === 0 ? card2sDrawFlower : card2sDrawStar);
+  if(style.endsWith('-corners')){ fn(ctx, margin, margin, size, color); fn(ctx, w - margin, margin, size, color); fn(ctx, margin, h - margin, size, color); fn(ctx, w - margin, h - margin, size, color); }
+  else if(style === 'hearts-sides'){ fn(ctx, margin * 0.8, h / 2, size, color); fn(ctx, w - margin * 0.8, h / 2, size, color); }
+  else if(style.endsWith('-border')){
+    const rx = w / 2 - margin * 0.6, ry = h / 2 - margin * 0.6, per = 2 * (rx * 2 + ry * 2), count = Math.max(8, Math.round(per / (size * 2.4)));
+    for(let i = 0; i < count; i++){ const q = card2sRectPerimeterPoint(i / count, w / 2, h / 2, rx, ry); fn(ctx, q.x, q.y, size * 0.65, color); }
+  }
+}
+function ceRenderSide(ctx, side, items, withUi){
   ctx.clearRect(0, 0, ce.W, ce.H); ctx.drawImage(ce.base, 0, 0);
-  ce.items.forEach(it=> ceDrawItem(ctx, it));
+  if(ce.mode === 'new'){ const keep = ce.side; ce.side = side; ceDecor(ctx, ce.W, ce.H); ce.side = keep; }
+  items.forEach(it=> ceDrawItem(ctx, it));
   if(withUi){
     const k = ce.W / (document.getElementById('ce-canvas').getBoundingClientRect().width || ce.W), r = 9 * k;
-    ce.items.forEach((it, i)=>{
+    items.forEach((it, i)=>{
       const sel = i === ce.sel; ctx.save(); ctx.lineWidth = (sel ? 2.5 : 1.5) * k; ctx.strokeStyle = sel ? '#2b6cb0' : 'rgba(43,108,176,.55)'; ctx.setLineDash(sel ? [] : [8 * k, 6 * k]); ctx.fillStyle = '#fff';
       if(it.type === 'line'){
         if(sel){ [[it.x1, it.y1], [it.x2, it.y2]].forEach(([hx, hy])=>{ ctx.beginPath(); ctx.arc(hx, hy, r, 0, 7); ctx.fill(); ctx.stroke(); }); }
@@ -11986,15 +12075,14 @@ function ceRender(ctx, withUi){
     });
   }
 }
-function ceRedraw(){ if(!ce.base) return; ceRender(document.getElementById('ce-canvas').getContext('2d'), true); }
+function ceRedraw(){ if(!ce.base) return; ceRenderSide(document.getElementById('ce-canvas').getContext('2d'), ce.side, ce.items, true); }
 function ceLoadFont(f, w){ try{ return document.fonts.load(`${w || 700} 40px ${f}`).then(()=>{ ce.epoch++; ceRedraw(); }).catch(()=>0); }catch(e){ return Promise.resolve(); } }
 function ceSelect(i){
-  ce.sel = i; const pr = document.getElementById('ce-props'), it = ce.items[i], g = id => document.getElementById(id);
-  pr.style.display = it && it.type !== 'img' ? '' : 'none';
+  ce.sel = i; const pr = document.getElementById('ce-props'), it = ce.items[i], g = id => document.getElementById(id), ty = it && it.type;
+  pr.style.display = it ? '' : 'none';
   g('ce-canvas').style.touchAction = it ? 'none' : 'pan-y';
-  const ty = it && it.type;
-  g('ce-text-wrap').style.display = g('ce-text-opts').style.display = ty === 'text' ? '' : 'none';
-  g('ce-stamp-opts').style.display = ty === 'stamp' ? '' : 'none'; g('ce-line-opts').style.display = ty === 'line' ? '' : 'none';
+  g('ce-text-opts').style.display = ty === 'text' ? '' : 'none'; g('ce-stamp-opts').style.display = ty === 'stamp' ? '' : 'none'; g('ce-line-opts').style.display = ty === 'line' ? '' : 'none';
+  g('ce-cover-wrap').style.display = ce.mode === 'img' ? '' : 'none';
   if(ty === 'text'){ g('ce-text').value = it.text; g('ce-font').value = it.font; g('ce-size').value = it.size; g('ce-color').value = it.color; g('ce-align').value = it.align; g('ce-cover').value = it.cover; g('ce-covercolor').value = it.coverColor; g('ce-bold').checked = it.bold; g('ce-covercolor-wrap').style.display = it.cover === 'custom' ? '' : 'none'; }
   if(ty === 'stamp'){ g('ce-st-top').value = it.top; g('ce-st-bot').value = it.bot; g('ce-st-l1').value = it.l1; g('ce-st-l2').value = it.l2; g('ce-st-l3').value = it.l3; g('ce-st-l4').value = it.l4; g('ce-st-font').value = it.font; g('ce-st-color').value = it.color; g('ce-st-thick').value = it.thick; g('ce-st-op').value = Math.round(it.opacity * 100); g('ce-st-wear').value = it.wear; g('ce-st-rot').value = it.rot; g('ce-st-dbl').checked = it.dbl; g('ce-st-mult').checked = it.mult; }
   if(ty === 'line'){ g('ce-ln-color').value = it.color; g('ce-ln-width').value = it.width; g('ce-ln-style').value = it.style; }
@@ -12014,6 +12102,52 @@ function ceHit(pt){
     else if(pt.x >= t.x && pt.x <= t.x + t.w && pt.y >= t.y && pt.y <= t.y + t.h) return { i, mode:'move' };
   }
   return null;
+}
+/* ---- card setup ---- */
+function ceCardMm(){
+  const v = document.getElementById('ce-preset').value;
+  if(v === 'custom'){ const w = parseFloat(document.getElementById('ce-cw').value) || 9, h = parseFloat(document.getElementById('ce-ch').value) || 5; return [Math.min(400, Math.max(20, w * 10)), Math.min(400, Math.max(20, h * 10))]; }
+  return CE_MM[v] || CE_MM.c90x50;
+}
+function ceBuildNewBase(){
+  const [wmm, hmm] = ceCardMm(), W = Math.round(wmm * CE_DPI / 25.4), H = Math.round(hmm * CE_DPI / 25.4), oldW = ce.W, oldH = ce.H;
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'); x.fillStyle = document.getElementById('ce-bg').value; x.fillRect(0, 0, W, H);
+  if(oldW && oldH && (oldW !== W || oldH !== H)){
+    const sx = W / oldW, sy = H / oldH, u = Math.min(sx, sy);
+    ['front', 'back'].forEach(sd=> ce.sideItems[sd].forEach(it=>{
+      if(it.type === 'line'){ it.x1 *= sx; it.x2 *= sx; it.y1 *= sy; it.y2 *= sy; it.width *= u; }
+      else if(it.type === 'stamp' || it.type === 'img'){ const cx = (it.x + it.w / 2) * sx, cy = (it.y + it.h / 2) * sy, r = it.h / it.w; it.w *= u; it.h = it.w * r; it.x = cx - it.w / 2; it.y = cy - it.h / 2; }
+      else { it.x *= sx; it.w *= sx; it.y *= sy; it.h *= sy; if(it.size) it.size *= u; }
+    }));
+  }
+  ce.base = c; ce.W = W; ce.H = H; ce.data = null; ce.cache.clear();
+  const cv = document.getElementById('ce-canvas'); cv.width = W; cv.height = H; ceRedraw();
+}
+function ceSetSide(side){
+  ce.side = side; ce.items = ce.sideItems[side];
+  document.getElementById('ce-tab-front').classList.toggle('active', side === 'front'); document.getElementById('ce-tab-back').classList.toggle('active', side === 'back');
+  ceSelect(-1);
+}
+function ceFillFormats(){
+  const f = document.getElementById('ce-format'), t = I18N[currentLang]; f.innerHTML = '';
+  const opts = ce.mode === 'new' ? [['pdf', t.ceFmtPdf2], ['png-front', t.ceFmtFront], ['png-back', t.ceFmtBack]] : [['png', 'PNG'], ['jpg', 'JPG'], ['pdf', 'PDF']];
+  opts.forEach(([v, l])=>{ const o = document.createElement('option'); o.value = v; o.textContent = l; f.appendChild(o); });
+}
+function ceShowWork(mode){
+  ce.mode = mode; const g = id => document.getElementById(id);
+  g('ce-start').style.display = 'none'; g('ce-work').style.display = '';
+  g('ce-newopts').style.display = mode === 'new' ? '' : 'none'; g('ce-note-cover').style.display = mode === 'img' ? '' : 'none';
+  ce.sideItems = { front:[], back:[] }; ce.stampCache.clear(); ceFillFormats(); g('ce-status').innerHTML = '';
+  ceSetSide('front');
+}
+function ceResetAll(){
+  ce.mode = ''; ce.base = null; ce.W = ce.H = 0; ce.data = null; ce.sideItems = { front:[], back:[] }; ce.items = ce.sideItems.front; ce.sel = -1;
+  document.getElementById('ce-file').value = ''; document.getElementById('ce-work').style.display = 'none'; document.getElementById('ce-start').style.display = '';
+}
+async function ceRenderCanvas(side, fmt){
+  const c = document.createElement('canvas'); c.width = ce.W; c.height = ce.H; const ctx = c.getContext('2d');
+  if(fmt !== 'png') { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height); }
+  const bg = ce.base; ceRenderSide(ctx, side, ce.sideItems[side], false); return c;
 }
 (function ceBind(){
   const cv = document.getElementById('ce-canvas'), g = id => document.getElementById(id);
@@ -12063,56 +12197,72 @@ function ceHit(pt){
   g('ce-st-seed').addEventListener('click', ()=>{ const it = ce.items[ce.sel]; if(it && it.type === 'stamp'){ it.seed = (Math.random() * 1e9) | 0; ceRedraw(); } });
   const updLine = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'line') return; it.color = g('ce-ln-color').value; it.width = Math.max(1, parseFloat(g('ce-ln-width').value) || 3); it.style = g('ce-ln-style').value; ceRedraw(); };
   ['ce-ln-color','ce-ln-width','ce-ln-style'].forEach(id=>{ const el = g(id); el.addEventListener('input', updLine); el.addEventListener('change', updLine); });
+  const unit = ()=> ce.H / 180;
   g('ce-add-text').addEventListener('click', ()=>{
-    if(!ce.base) return; const w = ce.W * 0.4, h = Math.max(30, ce.H * 0.1);
-    ce.items.push({ type:'text', x:(ce.W - w) / 2, y:(ce.H - h) / 2, w, h, text:I18N[currentLang].ceNewText, font:ERASE_FONT_OPTIONS[0].v, size:0, color:'#000000', align:'center', cover:'auto', coverColor:'#ffffff', bold:true });
+    if(!ce.base) return; const w = ce.W * 0.7, h = Math.max(30, ce.H * 0.2), n = ce.items.length;
+    ce.items.push({ type:'text', x:(ce.W - w) / 2, y:Math.min(ce.H - h, ce.H * 0.12 + n * h * 1.15), w, h, text:I18N[currentLang].ceNewText, font:ERASE_FONT_OPTIONS[0].v, size:0, color:'#000000', align:'center', cover:ce.mode === 'img' ? 'auto' : 'none', coverColor:'#ffffff', bold:true });
     ceSelect(ce.items.length - 1);
   });
   g('ce-add-stamp').addEventListener('click', ()=>{
-    if(!ce.base) return; const t = I18N[currentLang], sz = Math.min(ce.W, ce.H) * 0.5, f = ERASE_FONT_OPTIONS[0].v;
+    if(!ce.base) return; const t = I18N[currentLang], sz = Math.min(ce.W, ce.H) * 0.6, f = ERASE_FONT_OPTIONS[0].v;
     ce.items.push({ type:'stamp', x:(ce.W - sz) / 2, y:(ce.H - sz) / 2, w:sz, h:sz, top:t.ceStDefTop, bot:t.ceStDefBot, l1:t.ceStDefL1, l2:t.ceStDefL2, l3:t.ceStDefL3, l4:t.ceStDefL4, font:f, color:'#c8202a', thick:1.6, opacity:0.85, wear:45, rot:-8, dbl:true, mult:true, seed:(Math.random() * 1e9) | 0 });
     ceLoadFont(f, 700); ceSelect(ce.items.length - 1);
   });
   g('ce-add-line').addEventListener('click', ()=>{
-    if(!ce.base) return; ce.items.push({ type:'line', x1:ce.W * 0.2, y1:ce.H * 0.5, x2:ce.W * 0.8, y2:ce.H * 0.5, color:'#000000', width:Math.max(2, Math.round(ce.H / 180)), style:'solid' });
+    if(!ce.base) return; ce.items.push({ type:'line', x1:ce.W * 0.12, y1:ce.H * 0.5, x2:ce.W * 0.88, y2:ce.H * 0.5, color:'#000000', width:Math.max(2, Math.round(unit())), style:'solid' });
     ceSelect(ce.items.length - 1);
   });
   g('ce-del').addEventListener('click', ()=>{ if(ce.sel < 0) return; ce.items.splice(ce.sel, 1); ceSelect(-1); });
+  g('ce-clear').addEventListener('click', ()=>{ ce.sideItems[ce.side].length = 0; ceSelect(-1); });
+  g('ce-reset').addEventListener('click', ceResetAll);
   g('ce-add-img').addEventListener('click', ()=> g('ce-img-file').click());
   g('ce-img-file').addEventListener('change', async e=>{
     const f = e.target.files[0]; if(!f || !ce.base) return;
     try{
-      const im = await ceLoadFile(f, 1600), w = ce.W * 0.2, h = w * im.height / im.width;
+      const im = await ceLoadFile(f, 1600), w = ce.W * 0.25, h = w * im.height / im.width;
       ce.items.push({ type:'img', img:im, x:(ce.W - w) / 2, y:(ce.H - h) / 2, w, h }); ceSelect(ce.items.length - 1);
     }catch(err){ setStatus('ce-status', I18N[currentLang].ceBad, 'err'); }
     e.target.value = '';
   });
+  g('ce-start-new').addEventListener('click', ()=>{ ce.W = ce.H = 0; ceShowWork('new'); ceBuildNewBase(); });
+  g('ce-start-img').addEventListener('click', ()=> g('ce-file').click());
   g('ce-file').addEventListener('change', async ()=>{
-    const f = g('ce-file').files[0], work = g('ce-work');
-    if(!f){ work.style.display = 'none'; ce.base = null; return; }
+    const f = g('ce-file').files[0]; if(!f) return;
     try{
       const im = await ceLoadFile(f, 4000);
-      ce.base = im; ce.W = im.width; ce.H = im.height; ce.items = []; ce.sel = -1; ce.cache.clear(); ce.stampCache.clear();
-      ce.data = im.getContext('2d').getImageData(0, 0, ce.W, ce.H);
-      const cv2 = g('ce-canvas'); cv2.width = ce.W; cv2.height = ce.H;
-      work.style.display = ''; g('ce-status').innerHTML = ''; ceSelect(-1);
-    }catch(err){ console.error(err); work.style.display = 'none'; ce.base = null; setStatus('ce-status', I18N[currentLang].ceBad, 'err'); }
+      ce.base = im; ce.W = im.width; ce.H = im.height; ce.cache.clear(); ce.data = im.getContext('2d').getImageData(0, 0, ce.W, ce.H);
+      const cv2 = g('ce-canvas'); cv2.width = ce.W; cv2.height = ce.H; ceShowWork('img'); ceRedraw();
+    }catch(err){ console.error(err); setStatus('ce-status', I18N[currentLang].ceBad, 'err'); g('ce-file').value = ''; }
   });
+  ['ce-preset','ce-cw','ce-ch','ce-bg'].forEach(id=> g(id).addEventListener('input', ()=>{ g('ce-custom-wrap').style.display = g('ce-preset').value === 'custom' ? '' : 'none'; if(ce.mode === 'new') ceBuildNewBase(); }));
+  ['ce-decor','ce-decor-color','ce-decor-side'].forEach(id=> g(id).addEventListener('input', ceRedraw));
+  g('ce-tab-front').addEventListener('click', ()=> ceSetSide('front')); g('ce-tab-back').addEventListener('click', ()=> ceSetSide('back'));
   window.addEventListener('resize', ceRedraw);
   g('ce-btn').addEventListener('click', async ()=>{
     const t = I18N[currentLang], st = 'ce-status';
     if(!ce.base){ setStatus(st, t.ceNoFile, 'err'); return; }
     try{
-      await Promise.all(ce.items.filter(i=> i.font).map(i=> document.fonts.load(`${i.bold === false ? 400 : 700} 40px ${i.font}`).catch(()=>0))); ce.epoch++;
-      const c = document.createElement('canvas'); c.width = ce.W; c.height = ce.H; const ctx = c.getContext('2d');
+      const all = [...ce.sideItems.front, ...ce.sideItems.back];
+      await Promise.all(all.filter(i=> i.font).map(i=> document.fonts.load(`${i.bold === false ? 400 : 700} 40px ${i.font}`).catch(()=>0))); ce.epoch++;
       const fmt = g('ce-format').value;
-      if(fmt !== 'png'){ ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height); }
-      ceRender(ctx, false);
-      if(fmt === 'pdf'){
-        const doc = await PDFDocument.create(), img = await doc.embedPng(await (await psCanvasBlob(c, 'image/png')).arrayBuffer());
-        const pw = ce.W * 0.75, ph = ce.H * 0.75; doc.addPage([pw, ph]).drawImage(img, { x:0, y:0, width:pw, height:ph });
-        downloadBlob(new Blob([await doc.save()], { type:'application/pdf' }), 'card_edited.pdf');
-      }else downloadBlob(await psCanvasBlob(c, fmt === 'jpg' ? 'image/jpeg' : 'image/png', 0.95), 'card_edited.' + fmt);
+      const pdfOf = async (canvases, pw, ph)=>{
+        const doc = await PDFDocument.create();
+        for(const c of canvases){ const img = await doc.embedPng(await (await psCanvasBlob(c, 'image/png')).arrayBuffer()); doc.addPage([pw, ph]).drawImage(img, { x:0, y:0, width:pw, height:ph }); }
+        return new Blob([await doc.save()], { type:'application/pdf' });
+      };
+      if(ce.mode === 'new'){
+        const [wmm, hmm] = ceCardMm(), pw = wmm * 72 / 25.4, ph = hmm * 72 / 25.4;
+        if(fmt === 'png-front') downloadBlob(await psCanvasBlob(await ceRenderCanvas('front', 'jpg'), 'image/png'), 'card_front.png');
+        else if(fmt === 'png-back') downloadBlob(await psCanvasBlob(await ceRenderCanvas('back', 'jpg'), 'image/png'), 'card_back.png');
+        else{
+          const cs = [await ceRenderCanvas('front', 'jpg')]; const hasBack = ce.sideItems.back.length || (g('ce-decor').value !== 'none' && g('ce-decor-side').value !== 'front');
+          if(hasBack) cs.push(await ceRenderCanvas('back', 'jpg')); downloadBlob(await pdfOf(cs, pw, ph), 'card.pdf');
+        }
+      }else{
+        const c = await ceRenderCanvas('front', fmt);
+        if(fmt === 'pdf') downloadBlob(await pdfOf([c], ce.W * 0.75, ce.H * 0.75), 'card_edited.pdf');
+        else downloadBlob(await psCanvasBlob(c, fmt === 'jpg' ? 'image/jpeg' : 'image/png', 0.95), 'card_edited.' + fmt);
+      }
       setStatus(st, t.ceDone, 'ok');
     }catch(err){ console.error(err); setStatus(st, t.ceBad, 'err'); }
   });
