@@ -1033,6 +1033,7 @@
           <option value="id" data-i18n="toolsOptId">🪪 مدقق رقم الهوية / الإقامة</option>
           <option value="invoice" data-i18n="toolsOptInvoice">🧾 إنشاء فاتورة (مبيعات / مشتريات)</option>
           <option value="cert" data-i18n="toolsOptCert">🎓 شهادة شكر وتقدير (مدارس وأكاديميات)</option>
+          <option value="cardedit" data-i18n="toolsOptCe">✏️ تعديل على كرت جاهز (صورة)</option>
           <option value="svgconv" data-i18n="toolsOptSvg">🎨 تحويل ملف SVG إلى صورة أو PDF</option>
           <option value="iban" data-i18n="toolsOptIban">🏦 مدقق رقم الآيبان السعودي (IBAN)</option>
         </select>
@@ -1820,6 +1821,51 @@
       </div>
     </div>
 
+    <div class="card tools-card" id="tools-cardedit">
+      <h2 data-i18n="ceTitle">تعديل على كرت جاهز</h2>
+      <p class="hint" data-i18n="ceHint">ارفع صورة الكرت، ثم أضف مربع نص فوق الكلام القديم واسحبه وغيّر حجمه ليغطيه، واكتب النص الجديد. تُملأ المنطقة تلقائياً بلون الخلفية المحيطة بها. التعديل داخل متصفحك ولا يُرفع أي ملف.</p>
+      <div class="field">
+        <input type="file" id="ce-file" accept="image/*,.svg">
+        <div class="file-list" id="ce-file-list"></div>
+      </div>
+      <div id="ce-work" style="display:none;">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+          <button type="button" class="btn secondary" id="ce-add-text" data-i18n="ceAddText">+ مربع نص</button>
+          <button type="button" class="btn secondary" id="ce-add-img" data-i18n="ceAddImg">+ شعار / صورة</button>
+          <button type="button" class="btn secondary" id="ce-del" data-i18n="ceDel">حذف المحدّد</button>
+          <input type="file" id="ce-img-file" accept="image/*" style="display:none;">
+        </div>
+        <p class="note" style="margin:0 0 8px;" data-i18n="ceDrag">المس المربع لتحديده، ثم اسحبه لتحريكه أو اسحب الزاوية لتغيير حجمه. على الجوال: المس المربع أولاً ثم اسحب.</p>
+        <div id="ce-stage" style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;text-align:center;">
+          <canvas id="ce-canvas" style="max-width:100%;height:auto;touch-action:pan-y;cursor:default;"></canvas>
+        </div>
+        <div id="ce-props" style="display:none;margin-top:14px;">
+          <div class="field" id="ce-text-wrap"><label for="ce-text" data-i18n="ceText">النص الجديد (كل سطر في سطر)</label><textarea id="ce-text" rows="2"></textarea></div>
+          <div id="ce-text-opts">
+            <div class="row">
+              <div class="field"><label for="ce-font" data-i18n="ceFont">الخط</label><select id="ce-font"></select></div>
+              <div class="field"><label for="ce-size" data-i18n="ceSize">حجم الخط (0 = تلقائي)</label><input type="number" id="ce-size" min="0" max="800" value="0" dir="ltr"></div>
+              <div class="field"><label for="ce-color" data-i18n="ceColor">لون النص</label><input type="color" id="ce-color" value="#000000"></div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="ce-align" data-i18n="ceAlign">المحاذاة</label>
+                <select id="ce-align"><option value="center" data-i18n="ceAlignC">وسط</option><option value="right" data-i18n="ceAlignR">يمين</option><option value="left" data-i18n="ceAlignL">يسار</option></select></div>
+              <div class="field"><label for="ce-cover" data-i18n="ceCover">تغطية النص القديم</label>
+                <select id="ce-cover"><option value="auto" data-i18n="ceCoverAuto">تلقائي (لون الخلفية المحيطة)</option><option value="custom" data-i18n="ceCoverCustom">لون أختاره</option><option value="none" data-i18n="ceCoverNone">بدون تغطية</option></select></div>
+              <div class="field" id="ce-covercolor-wrap" style="display:none;"><label for="ce-covercolor" data-i18n="ceCoverColor">لون التغطية</label><input type="color" id="ce-covercolor" value="#ffffff"></div>
+            </div>
+            <label><input type="checkbox" id="ce-bold" checked> <span data-i18n="ceBold">خط عريض</span></label>
+          </div>
+        </div>
+        <div class="row" style="margin-top:14px;">
+          <div class="field"><label for="ce-format" data-i18n="ceFormat">صيغة الملف الناتج</label>
+            <select id="ce-format"><option value="png">PNG</option><option value="jpg">JPG</option><option value="pdf">PDF</option></select></div>
+        </div>
+        <button class="btn" id="ce-btn" data-i18n="ceBtn">تنزيل الكرت المعدَّل</button>
+        <div id="ce-status"></div>
+        <p class="note" data-i18n="ceNote">التغطية التلقائية تعطي أفضل نتيجة على الخلفيات الساذجة (لون واحد). إن كانت الخلفية متدرجة أو فيها زخرفة فاختر لوناً يدوياً أو غطِّ منطقة أصغر.</p>
+      </div>
+    </div>
     <div class="card tools-card" id="tools-svgconv">
       <h2 data-i18n="svgTitle">تحويل SVG إلى صورة أو PDF</h2>
       <p class="hint" data-i18n="svgHint">ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.</p>
@@ -3796,6 +3842,12 @@ const I18N = {
     toolsOptPw: '🔑 مولد كلمات المرور',
     toolsOptId: '🪪 مدقق رقم الهوية / الإقامة',
     toolsOptIban: '🏦 مدقق رقم الآيبان السعودي (IBAN)',
+    toolsOptCe: '✏️ تعديل على كرت جاهز (صورة)', ceTitle: 'تعديل على كرت جاهز', ceHint: 'ارفع صورة الكرت، ثم أضف مربع نص فوق الكلام القديم واسحبه وغيّر حجمه ليغطيه، واكتب النص الجديد. تُملأ المنطقة تلقائياً بلون الخلفية المحيطة بها. التعديل داخل متصفحك ولا يُرفع أي ملف.',
+    ceAddText: '+ مربع نص', ceAddImg: '+ شعار / صورة', ceDel: 'حذف المحدّد', ceDrag: 'المس المربع لتحديده، ثم اسحبه لتحريكه أو اسحب الزاوية لتغيير حجمه. على الجوال: المس المربع أولاً ثم اسحب.',
+    ceText: 'النص الجديد (كل سطر في سطر)', ceFont: 'الخط', ceSize: 'حجم الخط (0 = تلقائي)', ceColor: 'لون النص', ceAlign: 'المحاذاة', ceAlignC: 'وسط', ceAlignR: 'يمين', ceAlignL: 'يسار',
+    ceCover: 'تغطية النص القديم', ceCoverAuto: 'تلقائي (لون الخلفية المحيطة)', ceCoverCustom: 'لون أختاره', ceCoverNone: 'بدون تغطية', ceCoverColor: 'لون التغطية', ceBold: 'خط عريض', ceFormat: 'صيغة الملف الناتج',
+    ceBtn: 'تنزيل الكرت المعدَّل', ceNoFile: 'ارفع صورة الكرت أولاً.', ceBad: 'تعذّر فتح الصورة.', ceDone: 'تم تجهيز الكرت', ceNewText: 'نص جديد',
+    ceNote: 'التغطية التلقائية تعطي أفضل نتيجة على الخلفيات الساذجة (لون واحد). إن كانت الخلفية متدرجة أو فيها زخرفة فاختر لوناً يدوياً أو غطِّ منطقة أصغر.',
     toolsOptSvg: '🎨 تحويل ملف SVG إلى صورة أو PDF', svgTitle: 'تحويل SVG إلى صورة أو PDF', svgHint: 'ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.',
     svgFormat: 'الصيغة', svgScale: 'مقياس الجودة', svgWidth: 'أو عرض مخصص بالبكسل (اختياري)', svgBg: 'الخلفية', svgBgTransparent: 'شفافة (PNG / WebP)', svgBgWhite: 'بيضاء', svgBgCustom: 'لون مخصص', svgBgColor: 'لون الخلفية',
     svgMerge: 'دمج كل الملفات في ملف PDF واحد (صفحة لكل ملف)', svgPreview: 'معاينة (أول ملف)', svgBtn: 'تحويل وتنزيل', svgBusy: 'جارٍ التحويل...', svgDone: 'تم التحويل', svgNoFile: 'اختر ملف SVG أولاً.', svgBad: 'تعذّر قراءة الملف. تأكد أنه ملف SVG سليم:',
@@ -4567,6 +4619,12 @@ const I18N = {
     toolsOptPw: '🔑 Password Generator',
     toolsOptId: '🪪 National ID / Iqama Validator',
     toolsOptIban: '🏦 Saudi IBAN Validator',
+    toolsOptCe: '✏️ Edit a ready-made card (image)', ceTitle: 'Edit a ready-made card', ceHint: 'Upload the card image, add a text box over the old text, drag and resize it to cover it, and type the new text. The area is filled automatically with the surrounding background colour. Everything happens in your browser; nothing is uploaded.',
+    ceAddText: '+ Text box', ceAddImg: '+ Logo / image', ceDel: 'Delete selected', ceDrag: 'Tap a box to select it, then drag it to move or drag its corner to resize. On phones: tap the box first, then drag.',
+    ceText: 'New text (one line per row)', ceFont: 'Font', ceSize: 'Font size (0 = auto)', ceColor: 'Text colour', ceAlign: 'Alignment', ceAlignC: 'Centre', ceAlignR: 'Right', ceAlignL: 'Left',
+    ceCover: 'Cover the old text', ceCoverAuto: 'Auto (surrounding background colour)', ceCoverCustom: 'A colour I choose', ceCoverNone: 'No cover', ceCoverColor: 'Cover colour', ceBold: 'Bold', ceFormat: 'Output format',
+    ceBtn: 'Download the edited card', ceNoFile: 'Upload the card image first.', ceBad: 'Could not open the image.', ceDone: 'Card ready', ceNewText: 'New text',
+    ceNote: 'Auto cover works best on plain one-colour backgrounds. On gradients or patterns choose a colour manually or cover a smaller area.',
     toolsOptSvg: '🎨 Convert SVG to image or PDF', svgTitle: 'Convert SVG to image or PDF', svgHint: 'Upload one or several SVG files and choose the format and quality. Conversion happens in your browser; nothing is uploaded.',
     svgFormat: 'Format', svgScale: 'Quality scale', svgWidth: 'Or custom width in pixels (optional)', svgBg: 'Background', svgBgTransparent: 'Transparent (PNG / WebP)', svgBgWhite: 'White', svgBgCustom: 'Custom colour', svgBgColor: 'Background colour',
     svgMerge: 'Merge all files into one PDF (one page per file)', svgPreview: 'Preview (first file)', svgBtn: 'Convert and download', svgBusy: 'Converting...', svgDone: 'Converted', svgNoFile: 'Choose an SVG file first.', svgBad: 'Could not read the file. Make sure it is a valid SVG:',
@@ -11763,6 +11821,163 @@ document.getElementById('svg-btn').addEventListener('click', async ()=>{
   }catch(e){ console.error(e); setStatus(st, t.svgBad + ' ' + cur, 'err'); }
   setBusy(btn, false, '', idle);
 });
+
+
+/* ============================================================
+   CARD EDITOR — edit a ready-made card image: cover old text, type new text, add logos
+   ============================================================ */
+setupFilePicker('ce-file', 'ce-file-list', false);
+const ce = { base:null, W:0, H:0, data:null, items:[], sel:-1, drag:null, cache:new Map() };
+(function(){ const f = document.getElementById('ce-font'); ERASE_FONT_OPTIONS.forEach(o=>{ const e = document.createElement('option'); e.value = o.v; e.textContent = o.l; f.appendChild(e); }); })();
+function ceMedian(a){ a.sort((x, y)=> x - y); return a[a.length >> 1]; }
+function ceAutoColor(it){
+  const key = [it.x, it.y, it.w, it.h].map(Math.round).join(','); if(ce.cache.has(key)) return ce.cache.get(key);
+  const W = ce.W, H = ce.H, d = ce.data.data, R = [], G = [], B = [], x0 = Math.round(it.x), y0 = Math.round(it.y), x1 = Math.round(it.x + it.w), y1 = Math.round(it.y + it.h);
+  const px = (x, y)=>{ if(x < 0 || y < 0 || x >= W || y >= H) return; const i = (y * W + x) * 4; if(d[i + 3] < 10) return; R.push(d[i]); G.push(d[i + 1]); B.push(d[i + 2]); };
+  const stepX = Math.max(1, Math.floor((x1 - x0) / 60)), stepY = Math.max(1, Math.floor((y1 - y0) / 40));
+  for(const off of [3, 5, 7]){
+    for(let x = x0; x <= x1; x += stepX){ px(x, y0 - off); px(x, y1 + off); }
+    for(let y = y0; y <= y1; y += stepY){ px(x0 - off, y); px(x1 + off, y); }
+  }
+  const c = R.length ? `rgb(${ceMedian(R)},${ceMedian(G)},${ceMedian(B)})` : '#ffffff';
+  ce.cache.set(key, c); return c;
+}
+function ceDrawItem(ctx, it){
+  if(it.type === 'img'){ if(it.img) ctx.drawImage(it.img, it.x, it.y, it.w, it.h); return; }
+  if(it.cover !== 'none'){ ctx.fillStyle = it.cover === 'custom' ? it.coverColor : ceAutoColor(it); ctx.fillRect(it.x, it.y, it.w, it.h); }
+  const lines = (it.text || '').split('\n'); if(!lines.some(l=> l.trim())) return;
+  const weight = it.bold ? 700 : 400, pad = Math.min(it.w, it.h) * 0.04;
+  let size = it.size > 0 ? it.size : Math.max(8, it.h * 0.7 / Math.max(1, lines.length));
+  const fit = ()=>{ ctx.font = `${weight} ${size}px ${it.font}`; return Math.max(...lines.map(l=> ctx.measureText(l).width)); };
+  if(!(it.size > 0)){ let guard = 0; while(guard++ < 200 && size > 6 && (fit() > it.w - pad * 2 || size * 1.25 * lines.length > it.h)) size -= 1; } else fit();
+  ctx.fillStyle = it.color; ctx.textBaseline = 'middle'; ctx.textAlign = it.align;
+  const ax = it.align === 'center' ? it.x + it.w / 2 : (it.align === 'right' ? it.x + it.w - pad : it.x + pad);
+  const lh = size * 1.25, top = it.y + it.h / 2 - lh * (lines.length - 1) / 2;
+  ctx.save(); ctx.beginPath(); ctx.rect(it.x, it.y, it.w, it.h); if(it.size > 0) ctx.clip();
+  lines.forEach((l, i)=>{ ctx.direction = /[֐-ࣿ]/.test(l) ? 'rtl' : 'ltr'; ctx.fillText(l, ax, top + i * lh); });
+  ctx.restore();
+}
+function ceRender(ctx, withUi){
+  ctx.clearRect(0, 0, ce.W, ce.H); ctx.drawImage(ce.base, 0, 0);
+  ce.items.forEach(it=> ceDrawItem(ctx, it));
+  if(withUi){
+    const k = ce.W / (document.getElementById('ce-canvas').getBoundingClientRect().width || ce.W);
+    ce.items.forEach((it, i)=>{
+      const sel = i === ce.sel; ctx.save(); ctx.lineWidth = (sel ? 2.5 : 1.5) * k; ctx.strokeStyle = sel ? '#2b6cb0' : 'rgba(43,108,176,.55)'; ctx.setLineDash(sel ? [] : [8 * k, 6 * k]);
+      ctx.strokeRect(it.x, it.y, it.w, it.h);
+      if(sel){ ctx.fillStyle = '#fff'; ctx.setLineDash([]); const r = 9 * k; [[it.x, it.y], [it.x + it.w, it.y], [it.x, it.y + it.h], [it.x + it.w, it.y + it.h]].forEach(([hx, hy])=>{ ctx.beginPath(); ctx.arc(hx, hy, r, 0, 7); ctx.fill(); ctx.stroke(); }); }
+      ctx.restore();
+    });
+  }
+}
+function ceRedraw(){ if(!ce.base) return; ceRender(document.getElementById('ce-canvas').getContext('2d'), true); }
+function ceSelect(i){
+  ce.sel = i; const pr = document.getElementById('ce-props'), it = ce.items[i];
+  pr.style.display = it ? '' : 'none';
+  document.getElementById('ce-canvas').style.touchAction = it ? 'none' : 'pan-y';
+  if(it){
+    const g = id => document.getElementById(id), isT = it.type === 'text';
+    g('ce-text-wrap').style.display = g('ce-text-opts').style.display = isT ? '' : 'none';
+    if(isT){ g('ce-text').value = it.text; g('ce-font').value = it.font; g('ce-size').value = it.size; g('ce-color').value = it.color; g('ce-align').value = it.align; g('ce-cover').value = it.cover; g('ce-covercolor').value = it.coverColor; g('ce-bold').checked = it.bold; g('ce-covercolor-wrap').style.display = it.cover === 'custom' ? '' : 'none'; }
+  }
+  ceRedraw();
+}
+function ceFromEvent(e){ const c = document.getElementById('ce-canvas'), r = c.getBoundingClientRect(); return { x:(e.clientX - r.left) * ce.W / r.width, y:(e.clientY - r.top) * ce.H / r.height, k: ce.W / r.width }; }
+function ceHit(pt){
+  const it = ce.items[ce.sel];
+  if(it){ const tol = 16 * pt.k; for(const [cx, cy, n] of [[it.x, it.y, 'nw'], [it.x + it.w, it.y, 'ne'], [it.x, it.y + it.h, 'sw'], [it.x + it.w, it.y + it.h, 'se']]) if(Math.abs(pt.x - cx) <= tol && Math.abs(pt.y - cy) <= tol) return { i:ce.sel, mode:n }; }
+  for(let i = ce.items.length - 1; i >= 0; i--){ const t = ce.items[i]; if(pt.x >= t.x && pt.x <= t.x + t.w && pt.y >= t.y && pt.y <= t.y + t.h) return { i, mode:'move' }; }
+  return null;
+}
+(function ceBind(){
+  const cv = document.getElementById('ce-canvas');
+  cv.addEventListener('pointerdown', e=>{
+    if(!ce.base) return; const pt = ceFromEvent(e), h = ceHit(pt), touch = e.pointerType === 'touch';
+    if(!h){ if(!touch || ce.sel >= 0) { ceSelect(-1); } return; }
+    if(touch && h.i !== ce.sel){ ceSelect(h.i); return; }
+    if(h.i !== ce.sel) ceSelect(h.i);
+    const it = ce.items[h.i]; ce.drag = { mode:h.mode, sx:pt.x, sy:pt.y, o:{ x:it.x, y:it.y, w:it.w, h:it.h } };
+    cv.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  cv.addEventListener('pointermove', e=>{
+    if(!ce.base) return; const pt = ceFromEvent(e);
+    if(!ce.drag){ const h = ceHit(pt); cv.style.cursor = !h ? 'default' : (h.mode === 'move' ? 'move' : (h.mode === 'nw' || h.mode === 'se' ? 'nwse-resize' : 'nesw-resize')); return; }
+    const it = ce.items[ce.sel], d = ce.drag, dx = pt.x - d.sx, dy = pt.y - d.sy, o = d.o, MIN = 12;
+    if(d.mode === 'move'){ it.x = o.x + dx; it.y = o.y + dy; }
+    else{
+      let x0 = o.x, y0 = o.y, x1 = o.x + o.w, y1 = o.y + o.h;
+      if(d.mode.includes('w')) x0 = Math.min(o.x + dx, x1 - MIN); else x1 = Math.max(o.x + o.w + dx, x0 + MIN);
+      if(d.mode.includes('n')) y0 = Math.min(o.y + dy, y1 - MIN); else y1 = Math.max(o.y + o.h + dy, y0 + MIN);
+      it.x = x0; it.y = y0; it.w = x1 - x0; it.h = y1 - y0;
+    }
+    ceRedraw(); e.preventDefault();
+  });
+  const end = ()=>{ ce.drag = null; };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  const upd = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'text') return; const g = id => document.getElementById(id);
+    it.text = g('ce-text').value; it.font = g('ce-font').value; it.size = Math.max(0, parseFloat(g('ce-size').value) || 0); it.color = g('ce-color').value; it.align = g('ce-align').value; it.cover = g('ce-cover').value; it.coverColor = g('ce-covercolor').value; it.bold = g('ce-bold').checked;
+    g('ce-covercolor-wrap').style.display = it.cover === 'custom' ? '' : 'none';
+    try{ document.fonts.load(`${it.bold ? 700 : 400} 40px ${it.font}`).then(ceRedraw); }catch(e){} ceRedraw(); };
+  ['ce-text','ce-font','ce-size','ce-color','ce-align','ce-cover','ce-covercolor','ce-bold'].forEach(id=>{ const el = document.getElementById(id); el.addEventListener('input', upd); el.addEventListener('change', upd); });
+  document.getElementById('ce-add-text').addEventListener('click', ()=>{
+    if(!ce.base) return; const w = ce.W * 0.4, h = Math.max(30, ce.H * 0.1);
+    ce.items.push({ type:'text', x:(ce.W - w) / 2, y:(ce.H - h) / 2, w, h, text:I18N[currentLang].ceNewText, font:ERASE_FONT_OPTIONS[0].v, size:0, color:'#000000', align:'center', cover:'auto', coverColor:'#ffffff', bold:true });
+    ceSelect(ce.items.length - 1);
+  });
+  document.getElementById('ce-del').addEventListener('click', ()=>{ if(ce.sel < 0) return; ce.items.splice(ce.sel, 1); ceSelect(-1); });
+  document.getElementById('ce-add-img').addEventListener('click', ()=> document.getElementById('ce-img-file').click());
+  document.getElementById('ce-img-file').addEventListener('change', async e=>{
+    const f = e.target.files[0]; if(!f || !ce.base) return;
+    try{
+      const im = await ceLoadFile(f, 1600), w = ce.W * 0.2, h = w * im.height / im.width;
+      ce.items.push({ type:'img', img:im, x:(ce.W - w) / 2, y:(ce.H - h) / 2, w, h }); ceSelect(ce.items.length - 1);
+    }catch(err){ setStatus('ce-status', I18N[currentLang].ceBad, 'err'); }
+    e.target.value = '';
+  });
+  document.getElementById('ce-file').addEventListener('change', async ()=>{
+    const f = document.getElementById('ce-file').files[0], work = document.getElementById('ce-work');
+    if(!f){ work.style.display = 'none'; ce.base = null; return; }
+    try{
+      const im = await ceLoadFile(f, 4000);
+      ce.base = im; ce.W = im.width; ce.H = im.height; ce.items = []; ce.sel = -1; ce.cache.clear();
+      ce.data = im.getContext('2d').getImageData(0, 0, ce.W, ce.H);
+      const cv2 = document.getElementById('ce-canvas'); cv2.width = ce.W; cv2.height = ce.H;
+      work.style.display = ''; document.getElementById('ce-status').innerHTML = ''; ceSelect(-1);
+    }catch(err){ console.error(err); work.style.display = 'none'; ce.base = null; setStatus('ce-status', I18N[currentLang].ceBad, 'err'); }
+  });
+  window.addEventListener('resize', ceRedraw);
+  document.getElementById('ce-btn').addEventListener('click', async ()=>{
+    const t = I18N[currentLang], st = 'ce-status';
+    if(!ce.base){ setStatus(st, t.ceNoFile, 'err'); return; }
+    try{
+      await Promise.all(ce.items.filter(i=> i.type === 'text').map(i=> document.fonts.load(`${i.bold ? 700 : 400} 40px ${i.font}`).catch(()=>0)));
+      const c = document.createElement('canvas'); c.width = ce.W; c.height = ce.H; const ctx = c.getContext('2d');
+      const fmt = document.getElementById('ce-format').value;
+      if(fmt !== 'png'){ ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height); }
+      ceRender(ctx, false);
+      if(fmt === 'pdf'){
+        const doc = await PDFDocument.create(), img = await doc.embedPng(await (await psCanvasBlob(c, 'image/png')).arrayBuffer());
+        const pw = ce.W * 0.75, ph = ce.H * 0.75; doc.addPage([pw, ph]).drawImage(img, { x:0, y:0, width:pw, height:ph });
+        downloadBlob(new Blob([await doc.save()], { type:'application/pdf' }), 'card_edited.pdf');
+      }else downloadBlob(await psCanvasBlob(c, fmt === 'jpg' ? 'image/jpeg' : 'image/png', 0.95), 'card_edited.' + fmt);
+      setStatus(st, t.ceDone, 'ok');
+    }catch(err){ console.error(err); setStatus(st, t.ceBad, 'err'); }
+  });
+})();
+// Loads an image / SVG file into a canvas no larger than maxSide on its longest side
+async function ceLoadFile(file, maxSide){
+  let im;
+  if(/\.svg$/i.test(file.name) || file.type === 'image/svg+xml'){
+    const info = svgPrepare(await file.text()); im = await svgLoadImg(info.text);
+    const k = Math.min(2, maxSide / Math.max(info.w, info.h)), c = document.createElement('canvas'); c.width = Math.round(info.w * k); c.height = Math.round(info.h * k);
+    c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); return c;
+  }
+  const url = URL.createObjectURL(file);
+  try{ im = await new Promise((res, rej)=>{ const i = new Image(); i.onload = ()=> res(i); i.onerror = rej; i.src = url; }); }finally{ setTimeout(()=> URL.revokeObjectURL(url), 3000); }
+  const k = Math.min(1, maxSide / Math.max(im.naturalWidth, im.naturalHeight)), c = document.createElement('canvas');
+  c.width = Math.max(1, Math.round(im.naturalWidth * k)); c.height = Math.max(1, Math.round(im.naturalHeight * k));
+  c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); return c;
+}
 
 /* ============================================================
    PDF TOOLS PICKER (sub-tab select + 9 tools)
