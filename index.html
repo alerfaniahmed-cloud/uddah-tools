@@ -290,6 +290,7 @@
     padding-inline:env(safe-area-inset-left) env(safe-area-inset-right);}
   .wrap{width:100%;padding-inline:clamp(14px,4vw,24px);}
   img,canvas,svg,video{max-width:100%;}
+  [id$="-preview-page"],[id$="-preview-overlay"],img.text-extra{max-width:none !important;}
   ::selection{background:rgba(184,134,59,.28);}
   .toolbar{position:absolute;top:clamp(14px,3vw,22px);inset-inline-end:clamp(14px,4vw,24px);display:flex;gap:8px;z-index:5;}
   .theme-toggle{position:static;width:40px;height:40px;font-family:var(--font-display);font-size:1rem;font-weight:700;line-height:1;box-shadow:none;}
@@ -1943,6 +1944,9 @@
               <div class="field"><label for="ce-st-rings" data-i18n="ceStRings">عدد الدوائر</label>
                 <select id="ce-st-rings"><option value="1" data-i18n="ceRing1">دائرة واحدة</option><option value="2" selected data-i18n="ceRing2">دائرتان</option><option value="3" data-i18n="ceRing3">ثلاث دوائر</option></select></div>
             </div>
+            <div class="row">
+              <div class="field"><label for="ce-st-digits" data-i18n="digLabel">نوع الأرقام</label><select id="ce-st-digits"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option></select></div>
+            </div>
             <div class="ce-all">
               <div class="row" style="margin-top:10px;">
                 <div class="field"><label for="ce-st-l3" data-i18n="ceStL3">سطر المنتصف 3</label><input type="text" id="ce-st-l3"></div>
@@ -1972,6 +1976,7 @@
           <div id="ce-text-opts" style="display:none;">
             <div class="field"><label for="ce-text" data-i18n="ceText">النص (كل سطر في سطر)</label><textarea id="ce-text" rows="2"></textarea></div>
             <label style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;"><input type="checkbox" id="ce-split" style="margin-top:4px;"> <span data-i18n="ceSplit">وضع حقلين: العنوان في جهة والقيمة في الجهة الأخرى (مثل: Card number: 2238). يقسم النص عند أول نقطتين ( : )</span></label>
+            <div class="field" style="margin-bottom:10px;"><label for="ce-digits" data-i18n="digLabel">نوع الأرقام</label><select id="ce-digits"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option></select></div>
             <button type="button" class="btn secondary" id="ce-lines" style="margin-bottom:12px;" data-i18n="ceLines">📑 كل سطر في صندوق مستقل بنفس النسق</button>
             <div class="row">
               <div class="field"><label for="ce-font" data-i18n="ceFont">الخط</label><select id="ce-font"></select></div>
@@ -2655,6 +2660,7 @@
         <label for="text-content" data-i18n="textContentLabel">النص</label>
         <textarea id="text-content" rows="3" placeholder="اكتب النص هنا..." data-i18n-ph="writeTextPh" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
       </div>
+      <div class="field"><label for="text-digits" data-i18n="digLabel">نوع الأرقام</label><select id="text-digits" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option></select></div>
       <button type="button" class="btn secondary" id="text-add-more" style="margin-bottom:12px;" data-i18n="textAddMore">➕ حفظ هذا النص وإضافة نص آخر</button>
       <div id="text-items" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;"></div>
 
@@ -2835,6 +2841,7 @@
         <p class="note" style="margin-top:4px;" data-i18n="eraseFlattenNote">بدون هذا الخيار يُغطّى النص القديم بقطعة بنفس لون الخلفية، لكن النص الأصلي يبقى داخل الملف ويمكن تحديده أو البحث فيه. مع الخيار تتحول الصفحة المعدّلة إلى صورة ويختفي النص الأصلي تماماً.</p>
       </div>
 
+      <div class="field"><label for="erase-digits" data-i18n="digLabel">نوع الأرقام</label><select id="erase-digits" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option></select></div>
       <div class="field">
         <label data-i18n="eraseEditsLabel">التعديلات (كل تعديل = منطقة مسح + نص جديد)</label>
         <div id="erase-edits-list"></div>
@@ -4009,6 +4016,7 @@ const I18N = {
     ceAddFrame: 'برواز', ceFrRadius: 'استدارة الزوايا', ceFrLines: 'عدد الخطوط', ceFr1: 'خط واحد', ceFr2: 'خطان (مزدوج)', ceFrFill: 'تعبئة داخل البرواز', ceFrNoFill: 'بدون', ceFrWhite: 'أبيض', ceFrCustom: 'لون مخصص', ceFrFillC: 'لون التعبئة', ceOptsFrame: 'خيارات البرواز',
     ceSplit: 'وضع حقلين: العنوان في جهة والقيمة في الجهة الأخرى (مثل: Card number: 2238). يقسم النص عند أول نقطتين ( : )', ceLines: '📑 كل سطر في صندوق مستقل بنفس النسق', ceNewSplit: 'العنوان: القيمة',
     textAddMore: '➕ حفظ هذا النص وإضافة نص آخر', textItemHint: 'اضغط على النص في المعاينة أو في القائمة لتعديله', textNoneYet: 'اكتب نصاً أولاً.',
+    digKeep: 'كما كتبتها', digAr: 'أرقام عربية (٠١٢٣)', digEn: 'أرقام إنجليزية (0123)', digLabel: 'نوع الأرقام',
     toolsOptSvg: '🎨 تحويل ملف SVG إلى صورة أو PDF', svgTitle: 'تحويل SVG إلى صورة أو PDF', svgHint: 'ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.',
     svgFormat: 'الصيغة', svgScale: 'مقياس الجودة', svgWidth: 'أو عرض مخصص بالبكسل (اختياري)', svgBg: 'الخلفية', svgBgTransparent: 'شفافة (PNG / WebP)', svgBgWhite: 'بيضاء', svgBgCustom: 'لون مخصص', svgBgColor: 'لون الخلفية',
     svgMerge: 'دمج كل الملفات في ملف PDF واحد (صفحة لكل ملف)', svgPreview: 'معاينة (أول ملف)', svgBtn: 'تحويل وتنزيل', svgBusy: 'جارٍ التحويل...', svgDone: 'تم التحويل', svgNoFile: 'اختر ملف SVG أولاً.', svgBad: 'تعذّر قراءة الملف. تأكد أنه ملف SVG سليم:',
@@ -4803,6 +4811,7 @@ const I18N = {
     ceAddFrame: 'Frame', ceFrRadius: 'Corner roundness', ceFrLines: 'Number of lines', ceFr1: 'Single line', ceFr2: 'Double line', ceFrFill: 'Fill inside the frame', ceFrNoFill: 'None', ceFrWhite: 'White', ceFrCustom: 'Custom color', ceFrFillC: 'Fill color', ceOptsFrame: 'Frame options',
     ceSplit: 'Two-field mode: label on one side and value on the other (like: Card number: 2238). Splits the text at the first colon ( : )', ceLines: '📑 Put each line in its own box with the same style', ceNewSplit: 'Label: value',
     textAddMore: '➕ Save this text and add another', textItemHint: 'Tap a text in the preview or the list to edit it', textNoneYet: 'Write some text first.',
+    digKeep: 'As typed', digAr: 'Arabic digits (٠١٢٣)', digEn: 'English digits (0123)', digLabel: 'Digit style',
     toolsOptSvg: '🎨 Convert SVG to image or PDF', svgTitle: 'Convert SVG to image or PDF', svgHint: 'Upload one or several SVG files and choose the format and quality. Conversion happens in your browser; nothing is uploaded.',
     svgFormat: 'Format', svgScale: 'Quality scale', svgWidth: 'Or custom width in pixels (optional)', svgBg: 'Background', svgBgTransparent: 'Transparent (PNG / WebP)', svgBgWhite: 'White', svgBgCustom: 'Custom colour', svgBgColor: 'Background colour',
     svgMerge: 'Merge all files into one PDF (one page per file)', svgPreview: 'Preview (first file)', svgBtn: 'Convert and download', svgBusy: 'Converting...', svgDone: 'Converted', svgNoFile: 'Choose an SVG file first.', svgBad: 'Could not read the file. Make sure it is a valid SVG:',
@@ -8324,6 +8333,12 @@ document.getElementById('stamp-btn').addEventListener('click', async ()=>{
 });
 
 /* --- Add Text to PDF / Image --- */
+function uddahDigits(str, mode){
+  if(!str || !mode || mode === 'keep') return str;
+  if(mode === 'ar') return str.replace(/[0-9]/g, d=> '٠١٢٣٤٥٦٧٨٩'[d]);
+  if(mode === 'en') return str.replace(/[٠-٩]/g, d=> String(d.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, d=> String(d.charCodeAt(0) - 1776));
+  return str;
+}
 function renderTextToCanvas(text, fontSizePt, color, fontFamily, scale){
   fontFamily = fontFamily || "'IBM Plex Sans Arabic', sans-serif";
   scale = scale || 4;
@@ -8381,12 +8396,12 @@ function textEditItem(i){
 }
 function textCommitCurrent(){
   if(!textCanvasData || !textPos) return false;
-  textItems.push({ content:document.getElementById('text-content').value, size:parseFloat(document.getElementById('text-size').value) || 24, color:document.getElementById('text-color').value, pos:{ x:textPos.x, y:textPos.y }, data:textCanvasData });
+  textItems.push({ content:uddahDigits(document.getElementById('text-content').value, document.getElementById('text-digits').value), size:parseFloat(document.getElementById('text-size').value) || 24, color:document.getElementById('text-color').value, pos:{ x:textPos.x, y:textPos.y }, data:textCanvasData });
   return true;
 }
 function textAllItems(){
   const all = textItems.map(it=> ({ content:it.content, size:it.size, color:it.color, pos:it.pos }));
-  if(textCanvasData && textPos) all.push({ content:document.getElementById('text-content').value, size:parseFloat(document.getElementById('text-size').value) || 24, color:document.getElementById('text-color').value, pos:textPos });
+  if(textCanvasData && textPos) all.push({ content:uddahDigits(document.getElementById('text-content').value, document.getElementById('text-digits').value), size:parseFloat(document.getElementById('text-size').value) || 24, color:document.getElementById('text-color').value, pos:textPos });
   return all;
 }
 document.getElementById('text-add-more').addEventListener('click', ()=>{
@@ -8401,7 +8416,7 @@ document.getElementById('text-add-more').addEventListener('click', ()=>{
 function textIsOnPage(){ return !!(textSrc.kind && textCanvasData); }
 
 async function refreshTextCanvas(){
-  const content = document.getElementById('text-content').value;
+  const content = uddahDigits(document.getElementById('text-content').value, document.getElementById('text-digits').value);
   if(!content.trim()){ textCanvasData = null; updateTextPreview(true); return; }
   await document.fonts.ready;
   const fontSize = parseFloat(document.getElementById('text-size').value) || 24;
@@ -8412,7 +8427,7 @@ async function refreshTextCanvas(){
   textSyncSliders();
   updateTextPreview(true);
 }
-['text-content','text-size','text-color'].forEach(id=>document.getElementById(id).addEventListener('input', refreshTextCanvas));
+['text-content','text-size','text-color','text-digits'].forEach(id=>document.getElementById(id).addEventListener('input', refreshTextCanvas));
 
 const textXInput = document.getElementById('text-x');
 const textYInput = document.getElementById('text-y');
@@ -10976,7 +10991,7 @@ function eraseDrawEditsOnCanvas(ctx, pw, ph, scale, liveBox){
       else { ctx.textAlign = 'right'; anchorX = px + pxW - 3; }
       ctx.textBaseline = 'middle';
       const offX = (edit.offsetX || 0) * scale, offY = (edit.offsetY || 0) * scale;
-      ctx.fillText(edit.text, anchorX + offX, py + pxH/2 - offY);
+      ctx.fillText(eraseTxt(edit), anchorX + offX, py + pxH/2 - offY);
     }
   });
   if(liveBox){
@@ -10991,6 +11006,7 @@ function eraseDrawEditsOnCanvas(ctx, pw, ph, scale, liveBox){
   }
 }
 
+function eraseTxt(edit){ return uddahDigits(edit.text, document.getElementById('erase-digits').value); }
 async function renderErasePreview(){
   const file = document.getElementById('erase-file').files[0];
   const wrap = document.getElementById('erase-preview-wrap');
@@ -11295,6 +11311,7 @@ function eraseSyncOffsetFields(index){
   });
 })();
 
+document.getElementById('erase-digits').addEventListener('change', ()=> renderErasePreview());
 document.getElementById('erase-zoom').addEventListener('input', ()=>{
   document.getElementById('erase-zoom-val').textContent = document.getElementById('erase-zoom').value;
   renderErasePreview();
@@ -11363,7 +11380,7 @@ document.getElementById('erase-btn').addEventListener('click', async ()=>{
         const bx = eraseBoxPx(edit, pw, ph, k);
         eraseFillRegion(octx, clean, bx.px, bx.py, bx.pw_, bx.ph_, edit.eraseMode || 'auto', edit.eraseColor, Math.max(2, Math.round(k*1.5)));
         if(edit.text.trim()){
-          const rendered = renderTextToCanvas(edit.text, edit.fontSize, edit.textColor, edit.fontFamily, Math.max(k, 1));
+          const rendered = renderTextToCanvas(eraseTxt(edit), edit.fontSize, edit.textColor, edit.fontFamily, Math.max(k, 1));
           const pos = eraseTextPlacement(edit, rendered, bx.x, bx.y);
           octx.drawImage(rendered.canvas, pos.x*k, (ph - pos.y - rendered.heightPt)*k, rendered.widthPt*k, rendered.heightPt*k);
         }
@@ -11442,7 +11459,7 @@ document.getElementById('erase-btn').addEventListener('click', async ()=>{
           }
         }
         if(edit.text.trim()){
-          const rendered = renderTextToCanvas(edit.text, edit.fontSize, edit.textColor, edit.fontFamily, 12);
+          const rendered = renderTextToCanvas(eraseTxt(edit), edit.fontSize, edit.textColor, edit.fontFamily, 12);
           const embeddedImg = await pdfDoc.embedPng(await (await eraseCanvasToBlob(rendered.canvas, 'image/png')).arrayBuffer());
           const pos = eraseTextPlacement(edit, rendered, bx.x, bx.y);
           targetPage.drawImage(embeddedImg, { x: pos.x, y: pos.y, width: rendered.widthPt, height: rendered.heightPt });
@@ -12087,7 +12104,8 @@ function ceCurveText(ctx, text, cx, cy, R, centerAng, top, size, weight, font, c
     ctx.drawImage(tmp, u, 0, sw, th, -sw / 2 - 0.3, -th / 2, sw + 0.6, th); ctx.restore();
   }
 }
-function ceStampBitmap(it){
+function ceStampBitmap(it0){
+  const dg = it0.digits, it = Object.assign({}, it0, { top:uddahDigits(it0.top, dg), bot:uddahDigits(it0.bot, dg), l1:uddahDigits(it0.l1, dg), l2:uddahDigits(it0.l2, dg), l3:uddahDigits(it0.l3, dg), l4:uddahDigits(it0.l4, dg) });
   const key = [it.top, it.bot, it.l1, it.l2, it.l3, it.l4, it.font, it.color, it.thick, it.wear, it.seed, it.rings, ce.epoch].join('|');
   if(ce.stampCache.has(key)) return ce.stampCache.get(key);
   const S = 900, cv = document.createElement('canvas'); cv.width = cv.height = S; const ctx = cv.getContext('2d');
@@ -12154,7 +12172,7 @@ function ceDrawItem(ctx, it){
     ctx.beginPath(); ctx.moveTo(it.x1, it.y1); ctx.lineTo(it.x2, it.y2); ctx.stroke(); ctx.restore(); return;
   }
   if(it.cover !== 'none'){ ctx.fillStyle = it.cover === 'custom' ? it.coverColor : ceAutoColor(it); ctx.fillRect(it.x, it.y, it.w, it.h); }
-  const lines = (it.text || '').split('\n'); if(!lines.some(l=> l.trim())) return;
+  const lines = uddahDigits(it.text || '', it.digits).split('\n'); if(!lines.some(l=> l.trim())) return;
   const weight = it.bold ? 700 : 400, pad = Math.min(it.w, it.h) * 0.04;
   let size = it.size > 0 ? it.size : Math.max(8, it.h * 0.7 / Math.max(1, lines.length));
   const parts = lines.map(l=>{ if(!it.split) return null; const k = l.indexOf(':'); return k < 0 ? null : [l.slice(0, k + 1).trim(), l.slice(k + 1).trim()]; });
@@ -12219,8 +12237,8 @@ function ceSelect(i){
   g('ce-canvas').style.touchAction = it ? 'none' : 'pan-y';
   g('ce-text-opts').style.display = ty === 'text' ? '' : 'none'; g('ce-stamp-opts').style.display = ty === 'stamp' ? '' : 'none'; g('ce-fr-opts').style.display = ty === 'frame' ? '' : 'none'; g('ce-line-opts').style.display = ty === 'line' ? '' : 'none';
   g('ce-cover-wrap').style.display = ce.mode === 'img' ? '' : 'none';
-  if(ty === 'text'){ g('ce-text').value = it.text; g('ce-font').value = it.font; g('ce-size').value = it.size; g('ce-color').value = it.color; g('ce-align').value = it.align; g('ce-cover').value = it.cover; g('ce-covercolor').value = it.coverColor; g('ce-bold').checked = it.bold; g('ce-split').checked = !!it.split; ce.lastText = it; g('ce-covercolor-wrap').style.display = it.cover === 'custom' ? '' : 'none'; }
-  if(ty === 'stamp'){ g('ce-st-top').value = it.top; g('ce-st-bot').value = it.bot; g('ce-st-l1').value = it.l1; g('ce-st-l2').value = it.l2; g('ce-st-l3').value = it.l3; g('ce-st-l4').value = it.l4; g('ce-st-font').value = it.font; g('ce-st-color').value = it.color; g('ce-st-thick').value = it.thick; g('ce-st-op').value = Math.round(it.opacity * 100); g('ce-st-wear').value = it.wear; g('ce-st-rot').value = it.rot; g('ce-st-rings').value = String(it.rings); g('ce-st-mult').checked = it.mult; }
+  if(ty === 'text'){ g('ce-text').value = it.text; g('ce-font').value = it.font; g('ce-size').value = it.size; g('ce-color').value = it.color; g('ce-align').value = it.align; g('ce-cover').value = it.cover; g('ce-covercolor').value = it.coverColor; g('ce-bold').checked = it.bold; g('ce-split').checked = !!it.split; g('ce-digits').value = it.digits || 'keep'; ce.lastText = it; g('ce-covercolor-wrap').style.display = it.cover === 'custom' ? '' : 'none'; }
+  if(ty === 'stamp'){ g('ce-st-top').value = it.top; g('ce-st-bot').value = it.bot; g('ce-st-l1').value = it.l1; g('ce-st-l2').value = it.l2; g('ce-st-l3').value = it.l3; g('ce-st-l4').value = it.l4; g('ce-st-font').value = it.font; g('ce-st-color').value = it.color; g('ce-st-thick').value = it.thick; g('ce-st-op').value = Math.round(it.opacity * 100); g('ce-st-wear').value = it.wear; g('ce-st-rot').value = it.rot; g('ce-st-rings').value = String(it.rings); g('ce-st-digits').value = it.digits || 'keep'; g('ce-st-mult').checked = it.mult; }
   if(ty === 'frame'){ g('ce-fr-color').value = it.color; g('ce-fr-width').value = it.width; g('ce-fr-radius').value = it.radius; g('ce-fr-style').value = it.style; g('ce-fr-lines').value = String(it.lines); g('ce-fr-fill').value = it.fill; g('ce-fr-fillc').value = it.fillColor; g('ce-fr-fillc-wrap').style.display = it.fill === 'custom' ? '' : 'none'; }
   if(ty === 'line'){ g('ce-ln-color').value = it.color; g('ce-ln-width').value = it.width; g('ce-ln-style').value = it.style; }
   ceRedraw();
@@ -12349,14 +12367,14 @@ async function ceRenderCanvas(side, fmt){
   const end = ()=>{ ce.drag = null; ce.guides = null; ceRedraw(); };
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
   const updText = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'text') return;
-    it.text = g('ce-text').value; it.font = g('ce-font').value; it.size = Math.max(0, parseFloat(g('ce-size').value) || 0); it.color = g('ce-color').value; it.align = g('ce-align').value; it.cover = g('ce-cover').value; it.coverColor = g('ce-covercolor').value; it.bold = g('ce-bold').checked; it.split = g('ce-split').checked; ce.lastText = it;
+    it.text = g('ce-text').value; it.font = g('ce-font').value; it.size = Math.max(0, parseFloat(g('ce-size').value) || 0); it.color = g('ce-color').value; it.align = g('ce-align').value; it.cover = g('ce-cover').value; it.coverColor = g('ce-covercolor').value; it.bold = g('ce-bold').checked; it.split = g('ce-split').checked; it.digits = g('ce-digits').value; ce.lastText = it;
     g('ce-covercolor-wrap').style.display = it.cover === 'custom' ? '' : 'none'; ceLoadFont(it.font, it.bold ? 700 : 400); ceRedraw(); };
-  ['ce-text','ce-font','ce-size','ce-color','ce-align','ce-cover','ce-covercolor','ce-bold','ce-split'].forEach(id=>{ const el = g(id); el.addEventListener('input', updText); el.addEventListener('change', updText); });
+  ['ce-text','ce-font','ce-size','ce-color','ce-align','ce-cover','ce-covercolor','ce-bold','ce-split','ce-digits'].forEach(id=>{ const el = g(id); el.addEventListener('input', updText); el.addEventListener('change', updText); });
   const updStamp = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'stamp') return;
     it.top = g('ce-st-top').value; it.bot = g('ce-st-bot').value; it.l1 = g('ce-st-l1').value; it.l2 = g('ce-st-l2').value; it.l3 = g('ce-st-l3').value; it.l4 = g('ce-st-l4').value; it.font = g('ce-st-font').value; it.color = g('ce-st-color').value;
-    it.thick = parseFloat(g('ce-st-thick').value) || 1.6; it.opacity = (parseFloat(g('ce-st-op').value) || 85) / 100; it.wear = parseFloat(g('ce-st-wear').value) || 0; it.rot = parseFloat(g('ce-st-rot').value) || 0; it.rings = parseInt(g('ce-st-rings').value, 10) || 2; it.mult = g('ce-st-mult').checked;
+    it.thick = parseFloat(g('ce-st-thick').value) || 1.6; it.opacity = (parseFloat(g('ce-st-op').value) || 85) / 100; it.wear = parseFloat(g('ce-st-wear').value) || 0; it.rot = parseFloat(g('ce-st-rot').value) || 0; it.rings = parseInt(g('ce-st-rings').value, 10) || 2; it.digits = g('ce-st-digits').value; it.mult = g('ce-st-mult').checked;
     ceLoadFont(it.font, 700); ceRedraw(); };
-  ['ce-st-top','ce-st-bot','ce-st-l1','ce-st-l2','ce-st-l3','ce-st-l4','ce-st-font','ce-st-color','ce-st-thick','ce-st-op','ce-st-wear','ce-st-rot','ce-st-rings','ce-st-mult'].forEach(id=>{ const el = g(id); el.addEventListener('input', updStamp); el.addEventListener('change', updStamp); });
+  ['ce-st-top','ce-st-bot','ce-st-l1','ce-st-l2','ce-st-l3','ce-st-l4','ce-st-font','ce-st-color','ce-st-thick','ce-st-op','ce-st-wear','ce-st-rot','ce-st-rings','ce-st-digits','ce-st-mult'].forEach(id=>{ const el = g(id); el.addEventListener('input', updStamp); el.addEventListener('change', updStamp); });
   g('ce-st-seed').addEventListener('click', ()=>{ const it = ce.items[ce.sel]; if(it && it.type === 'stamp'){ it.seed = (Math.random() * 1e9) | 0; ceRedraw(); } });
   const updLine = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'line') return; it.color = g('ce-ln-color').value; it.width = Math.max(1, parseFloat(g('ce-ln-width').value) || 3); it.style = g('ce-ln-style').value; ceRedraw(); };
   ['ce-ln-color','ce-ln-width','ce-ln-style'].forEach(id=>{ const el = g(id); el.addEventListener('input', updLine); el.addEventListener('change', updLine); });
@@ -12375,7 +12393,7 @@ async function ceRenderCanvas(side, fmt){
     if(L){
       // same style, size and column as the last text box, placed right under it
       const gap = L.h * 0.12, ny = Math.min(Math.max(0, ce.H - L.h), L.y + L.h + gap);
-      ce.items.push({ type:'text', x:L.x, y:ny, w:L.w, h:L.h, text:L.split ? I18N[currentLang].ceNewSplit : I18N[currentLang].ceNewText, font:L.font, size:L.size, color:L.color, align:L.align, cover:L.cover, coverColor:L.coverColor, bold:L.bold, split:!!L.split });
+      ce.items.push({ type:'text', x:L.x, y:ny, w:L.w, h:L.h, text:L.split ? I18N[currentLang].ceNewSplit : I18N[currentLang].ceNewText, font:L.font, size:L.size, color:L.color, align:L.align, cover:L.cover, coverColor:L.coverColor, bold:L.bold, split:!!L.split, digits:L.digits || 'keep' });
     }else{
       const w = ce.W * 0.7, h = Math.max(30, ce.H * 0.2), n = ce.items.length;
       ce.items.push({ type:'text', x:(ce.W - w) / 2, y:Math.min(ce.H - h, ce.H * 0.12 + n * h * 1.15), w, h, text:I18N[currentLang].ceNewText, font:ERASE_FONT_OPTIONS[0].v, size:0, color:'#000000', align:'center', cover:ce.mode === 'img' ? 'auto' : 'none', coverColor:'#ffffff', bold:true, split:false });
