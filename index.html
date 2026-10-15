@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Reem+Kufi:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Aref+Ruqaa+Ink&family=Rakkas&family=Lalezar&family=Jomhuria&family=Katibeh&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@600&family=Allura&family=Sacramento&family=Caveat:wght@600&family=Satisfy&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&family=Almarai:wght@400;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -1957,7 +1958,7 @@
               <div class="field"><label for="ce-st-tsr"><span data-i18n="ceStTsR">حجم الكتابة الدائرية</span> <span id="ce-st-tsr-v">100</span>٪</label><input type="range" id="ce-st-tsr" min="50" max="150" step="2" value="100"></div>
             </div>
             <div class="row">
-              <div class="field"><label for="ce-st-digits" data-i18n="digLabel">نوع الأرقام</label><select id="ce-st-digits"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option></select></div>
+              <div class="field"><label for="ce-st-digits" data-i18n="digLabel">نوع الأرقام</label><select id="ce-st-digits"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option><option value="auto" data-i18n="digAuto">حسب لغة كل نص (تلقائي)</option></select></div>
             </div>
             <div class="ce-all">
               <div class="row" style="margin-top:10px;">
@@ -1988,7 +1989,7 @@
           <div id="ce-text-opts" style="display:none;">
             <div class="field"><label for="ce-text" data-i18n="ceText">النص (كل سطر في سطر)</label><textarea id="ce-text" rows="2"></textarea></div>
             <label style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;"><input type="checkbox" id="ce-split" style="margin-top:4px;"> <span data-i18n="ceSplit">وضع حقلين: العنوان في جهة والقيمة في الجهة الأخرى (مثل: Card number: 2238). يقسم النص عند أول نقطتين ( : )</span></label>
-            <div class="field" style="margin-bottom:10px;"><label for="ce-digits" data-i18n="digLabel">نوع الأرقام</label><select id="ce-digits"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option></select></div>
+            <div class="field" style="margin-bottom:10px;"><label for="ce-digits" data-i18n="digLabel">نوع الأرقام</label><select id="ce-digits"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option><option value="auto" data-i18n="digAuto">حسب لغة كل نص (تلقائي)</option></select></div>
             <button type="button" class="btn secondary" id="ce-lines" style="margin-bottom:12px;" data-i18n="ceLines">📑 كل سطر في صندوق مستقل بنفس النسق</button>
             <div class="row">
               <div class="field"><label for="ce-font" data-i18n="ceFont">الخط</label><select id="ce-font"></select></div>
@@ -2544,6 +2545,16 @@
       </div>
 
       <div class="field">
+        <label for="sign-name" data-i18n="signNameLabel">✍️ اكتب اسمك وحوّله إلى توقيع</label>
+        <input type="text" id="sign-name" placeholder="اكتب الاسم هنا" data-i18n-ph="signNamePh" autocomplete="off">
+        <div class="row" style="margin-top:10px;align-items:flex-end;">
+          <div class="field" style="flex:0 0 140px;"><label for="sign-name-color" data-i18n="signInkLabel">لون الحبر</label><input type="color" id="sign-name-color" value="#1b2a6b" style="width:100%;height:44px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:4px;"></div>
+          <p class="note" style="flex:1 1 200px;margin:0 0 6px;" data-i18n="signStyleHint">اختر شكل التوقيع من الأشكال تحت، وبعدها تقدر تسحبه وتغيّر حجمه مثل أي توقيع.</p>
+        </div>
+        <div id="sign-styles" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:6px;"></div>
+      </div>
+
+      <div class="field">
         <label data-i18n="signDrawLabel">ارسم توقيعك هنا</label>
         <canvas id="sign-canvas" width="600" height="180" style="width:100%;max-width:500px;height:150px;background:var(--bg-elev-2);border:1px dashed var(--steel);border-radius:8px;touch-action:none;cursor:crosshair;display:block;"></canvas>
         <button type="button" class="btn secondary" id="sign-clear-btn" style="margin-top:8px;padding:8px 16px;font-size:.82rem;" data-i18n="signClearBtn">مسح التوقيع</button>
@@ -2682,7 +2693,7 @@
         <label for="text-content" data-i18n="textContentLabel">النص</label>
         <textarea id="text-content" rows="3" placeholder="اكتب النص هنا..." data-i18n-ph="writeTextPh" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
       </div>
-      <div class="field"><label for="text-digits" data-i18n="digLabel">نوع الأرقام</label><select id="text-digits" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option></select></div>
+      <div class="field"><label for="text-digits" data-i18n="digLabel">نوع الأرقام</label><select id="text-digits" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option><option value="auto" data-i18n="digAuto">حسب لغة كل نص (تلقائي)</option></select></div>
       <button type="button" class="btn secondary" id="text-add-more" style="margin-bottom:12px;" data-i18n="textAddMore">➕ حفظ هذا النص وإضافة نص آخر</button>
       <div id="text-items" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;"></div>
 
@@ -2863,7 +2874,7 @@
         <p class="note" style="margin-top:4px;" data-i18n="eraseFlattenNote">بدون هذا الخيار يُغطّى النص القديم بقطعة بنفس لون الخلفية، لكن النص الأصلي يبقى داخل الملف ويمكن تحديده أو البحث فيه. مع الخيار تتحول الصفحة المعدّلة إلى صورة ويختفي النص الأصلي تماماً.</p>
       </div>
 
-      <div class="field"><label for="erase-digits" data-i18n="digLabel">نوع الأرقام</label><select id="erase-digits" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option></select></div>
+      <div class="field"><label for="erase-digits" data-i18n="digLabel">نوع الأرقام</label><select id="erase-digits" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option><option value="auto" data-i18n="digAuto">حسب لغة كل نص (تلقائي)</option></select></div>
       <div class="field">
         <label data-i18n="eraseEditsLabel">التعديلات (كل تعديل = منطقة مسح + نص جديد)</label>
         <div id="erase-edits-list"></div>
@@ -4038,9 +4049,11 @@ const I18N = {
     ceAddFrame: 'برواز', ceFrRadius: 'استدارة الزوايا', ceFrLines: 'عدد الخطوط', ceFr1: 'خط واحد', ceFr2: 'خطان (مزدوج)', ceFrFill: 'تعبئة داخل البرواز', ceFrNoFill: 'بدون', ceFrWhite: 'أبيض', ceFrCustom: 'لون مخصص', ceFrFillC: 'لون التعبئة', ceOptsFrame: 'خيارات البرواز',
     ceSplit: 'وضع حقلين: العنوان في جهة والقيمة في الجهة الأخرى (مثل: Card number: 2238). يقسم النص عند أول نقطتين ( : )', ceLines: '📑 كل سطر في صندوق مستقل بنفس النسق', ceNewSplit: 'العنوان: القيمة',
     textAddMore: '➕ حفظ هذا النص وإضافة نص آخر', textItemHint: 'اضغط على النص في المعاينة أو في القائمة لتعديله', textNoneYet: 'اكتب نصاً أولاً.',
+    digAuto: 'حسب لغة كل نص (تلقائي)',
     digKeep: 'كما كتبتها', digAr: 'أرقام عربية (٠١٢٣)', digEn: 'أرقام إنجليزية (0123)', digLabel: 'نوع الأرقام',
     ceStTsC: 'حجم كتابة الوسط', ceStTsR: 'حجم الكتابة الدائرية',
     ceTplTitle: '📁 قوالبي المحفوظة', ceTplSave: '💾 حفظ كقالب', ceTplName: 'اسم القالب', ceTplNameDef: 'قالب الكرت', ceTplSaved: 'تم حفظ القالب ✓ يبقى في هذا المتصفح، وللاحتياط صدّره كملف.', ceTplFail: 'تعذّر الحفظ في المتصفح. صدّر القالب كملف بدلاً من ذلك.', ceTplOpen: 'فتح', ceTplDel: 'حذف', ceTplExp: '⬇️ تصدير القالب كملف', ceTplImp: '⬆️ استيراد قالب من ملف', ceTplNone: 'ما فيه قوالب محفوظة بعد.', ceTplBad: 'هذا الملف ليس قالب كرت صالحاً.', ceTplAuto: 'نسخة تلقائية قبل الفتح', ceTplOpened: 'تم فتح القالب ✓',
+    signNameLabel: '✍️ اكتب اسمك وحوّله إلى توقيع', signNamePh: 'اكتب الاسم هنا', signInkLabel: 'لون الحبر', signStyleHint: 'اختر شكل التوقيع من الأشكال تحت، وبعدها تقدر تسحبه وتغيّر حجمه مثل أي توقيع.',
     toolsOptSvg: '🎨 تحويل ملف SVG إلى صورة أو PDF', svgTitle: 'تحويل SVG إلى صورة أو PDF', svgHint: 'ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.',
     svgFormat: 'الصيغة', svgScale: 'مقياس الجودة', svgWidth: 'أو عرض مخصص بالبكسل (اختياري)', svgBg: 'الخلفية', svgBgTransparent: 'شفافة (PNG / WebP)', svgBgWhite: 'بيضاء', svgBgCustom: 'لون مخصص', svgBgColor: 'لون الخلفية',
     svgMerge: 'دمج كل الملفات في ملف PDF واحد (صفحة لكل ملف)', svgPreview: 'معاينة (أول ملف)', svgBtn: 'تحويل وتنزيل', svgBusy: 'جارٍ التحويل...', svgDone: 'تم التحويل', svgNoFile: 'اختر ملف SVG أولاً.', svgBad: 'تعذّر قراءة الملف. تأكد أنه ملف SVG سليم:',
@@ -4835,9 +4848,11 @@ const I18N = {
     ceAddFrame: 'Frame', ceFrRadius: 'Corner roundness', ceFrLines: 'Number of lines', ceFr1: 'Single line', ceFr2: 'Double line', ceFrFill: 'Fill inside the frame', ceFrNoFill: 'None', ceFrWhite: 'White', ceFrCustom: 'Custom color', ceFrFillC: 'Fill color', ceOptsFrame: 'Frame options',
     ceSplit: 'Two-field mode: label on one side and value on the other (like: Card number: 2238). Splits the text at the first colon ( : )', ceLines: '📑 Put each line in its own box with the same style', ceNewSplit: 'Label: value',
     textAddMore: '➕ Save this text and add another', textItemHint: 'Tap a text in the preview or the list to edit it', textNoneYet: 'Write some text first.',
+    digAuto: 'By each text\'s language (auto)',
     digKeep: 'As typed', digAr: 'Arabic digits (٠١٢٣)', digEn: 'English digits (0123)', digLabel: 'Digit style',
     ceStTsC: 'Centre text size', ceStTsR: 'Curved text size',
     ceTplTitle: '📁 My saved templates', ceTplSave: '💾 Save as template', ceTplName: 'Template name', ceTplNameDef: 'Card template', ceTplSaved: 'Template saved ✓ It stays in this browser; export it as a file as a backup.', ceTplFail: 'Could not save in the browser. Export the template as a file instead.', ceTplOpen: 'Open', ceTplDel: 'Delete', ceTplExp: '⬇️ Export template as a file', ceTplImp: '⬆️ Import a template from a file', ceTplNone: 'No saved templates yet.', ceTplBad: 'This file is not a valid card template.', ceTplAuto: 'Automatic copy before opening', ceTplOpened: 'Template opened ✓',
+    signNameLabel: '✍️ Type your name and turn it into a signature', signNamePh: 'Type the name here', signInkLabel: 'Ink colour', signStyleHint: 'Pick a signature style below, then drag and resize it like any signature.',
     toolsOptSvg: '🎨 Convert SVG to image or PDF', svgTitle: 'Convert SVG to image or PDF', svgHint: 'Upload one or several SVG files and choose the format and quality. Conversion happens in your browser; nothing is uploaded.',
     svgFormat: 'Format', svgScale: 'Quality scale', svgWidth: 'Or custom width in pixels (optional)', svgBg: 'Background', svgBgTransparent: 'Transparent (PNG / WebP)', svgBgWhite: 'White', svgBgCustom: 'Custom colour', svgBgColor: 'Background colour',
     svgMerge: 'Merge all files into one PDF (one page per file)', svgPreview: 'Preview (first file)', svgBtn: 'Convert and download', svgBusy: 'Converting...', svgDone: 'Converted', svgNoFile: 'Choose an SVG file first.', svgBad: 'Could not read the file. Make sure it is a valid SVG:',
@@ -7954,6 +7969,39 @@ document.getElementById('sign-clear-btn').addEventListener('click', ()=>{
   updateSignPreview();
 });
 
+
+/* Typed name -> signature: handwriting-style fonts drawn onto the signature canvas */
+(function signFromName(){
+  const AR = ["'Aref Ruqaa Ink'", "'Aref Ruqaa'", "'Katibeh'", "'Jomhuria'"];
+  const LAT = ["'Great Vibes'", "'Dancing Script'", "'Allura'", "'Sacramento'", "'Caveat'", "'Satisfy'"];
+  const nameEl = document.getElementById('sign-name'), colEl = document.getElementById('sign-name-color'), box = document.getElementById('sign-styles');
+  let chosen = null;
+  const hasAr = s=> /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(s);
+  async function draw(font, name){
+    chosen = font;
+    try{ await document.fonts.load(`80px ${font}`, name); }catch(e){}
+    const W = signCanvas.width, H = signCanvas.height, ctx = signCtx;
+    ctx.save(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = colEl.value; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = hasAr(name) ? 'rtl' : 'ltr';
+    let size = 150; const fit = ()=>{ ctx.font = `${size}px ${font}`; return ctx.measureText(name).width; };
+    while(size > 14 && fit() > W * 0.86) size -= 2; fit();
+    ctx.translate(W / 2, H / 2); ctx.rotate(-3 * Math.PI / 180); ctx.fillText(name, 0, 0); ctx.restore();
+    signHasContent = true; updateSignPreview();
+  }
+  function render(){
+    const name = nameEl.value.trim(); box.textContent = '';
+    if(!name) return;
+    const fonts = hasAr(name) ? AR.concat(/[A-Za-z]/.test(name) ? LAT : []) : LAT;
+    fonts.forEach(f=>{
+      document.fonts.load(`40px ${f}`, name).then(()=>{ b.style.fontFamily = f; }).catch(()=>{});
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary';
+      b.style.cssText = `font-family:${f};font-size:1.7rem;line-height:1.3;min-height:64px;padding:6px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:${colEl.value};`;
+      b.textContent = name; b.addEventListener('click', ()=> draw(f, name)); box.appendChild(b);
+    });
+  }
+  nameEl.addEventListener('input', render);
+  colEl.addEventListener('input', ()=>{ render(); if(chosen && nameEl.value.trim()) draw(chosen, nameEl.value.trim()); });
+})();
+
 function makeOverlayDraggable(overlayId, xInput, yInput, xValId, yValId, updateFn){
   const overlay = document.getElementById(overlayId);
   overlay.style.pointerEvents = 'auto';
@@ -8362,6 +8410,7 @@ document.getElementById('stamp-btn').addEventListener('click', async ()=>{
 function uddahDigits(str, mode){
   if(!str || !mode || mode === 'keep') return str;
   if(mode === 'ar') return str.replace(/[0-9]/g, d=> '٠١٢٣٤٥٦٧٨٩'[d]);
+  if(mode === 'auto') return str.split('\n').map(l=> /[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(l) ? uddahDigits(l, 'ar') : uddahDigits(l, 'en')).join('\n');
   if(mode === 'en') return str.replace(/[٠-٩]/g, d=> String(d.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, d=> String(d.charCodeAt(0) - 1776));
   return str;
 }
@@ -12443,7 +12492,7 @@ async function ceRenderCanvas(side, fmt){
   });
   g('ce-add-stamp').addEventListener('click', ()=>{
     if(!ce.base) return; const t = I18N[currentLang], sz = Math.min(ce.W, ce.H) * 0.6, f = ERASE_FONT_OPTIONS[0].v;
-    ce.items.push({ type:'stamp', x:(ce.W - sz) / 2, y:(ce.H - sz) / 2, w:sz, h:sz, top:t.ceStDefTop, bot:t.ceStDefBot, l1:t.ceStDefL1, l2:t.ceStDefL2, l3:t.ceStDefL3, l4:t.ceStDefL4, font:f, color:'#c8202a', thick:1.6, opacity:0.85, wear:45, rot:-8, rings:2, tsC:100, tsR:100, mult:true, seed:(Math.random() * 1e9) | 0 });
+    ce.items.push({ type:'stamp', x:(ce.W - sz) / 2, y:(ce.H - sz) / 2, w:sz, h:sz, top:t.ceStDefTop, bot:t.ceStDefBot, l1:t.ceStDefL1, l2:t.ceStDefL2, l3:t.ceStDefL3, l4:t.ceStDefL4, font:f, color:'#c8202a', thick:1.6, opacity:0.85, wear:45, rot:-8, rings:2, tsC:100, tsR:100, digits:'auto', mult:true, seed:(Math.random() * 1e9) | 0 });
     ceLoadFont(f, 700); ceSelect(ce.items.length - 1);
   });
   g('ce-add-line').addEventListener('click', ()=>{
