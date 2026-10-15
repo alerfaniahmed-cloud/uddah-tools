@@ -1847,6 +1847,14 @@
         <button type="button" class="ce-big" id="ce-start-img"><span class="ce-ico">📷</span><b data-i18n="ceStartImg">كرت جاهز</b><small data-i18n="ceStartImgSub">ارفع صورة كرت وعدّل عليها</small></button>
       </div>
 
+      <div id="ce-tpl-start" class="ce-box" style="margin-top:12px;">
+        <b data-i18n="ceTplTitle">📁 قوالبي المحفوظة</b>
+        <div id="ce-tpl-list-start" style="margin:10px 0;"></div>
+        <button type="button" class="btn secondary" id="ce-tpl-imp" data-i18n="ceTplImp">⬆️ استيراد قالب من ملف</button>
+        <input type="file" id="ce-tpl-file" accept=".json,application/json" hidden>
+        <div id="ce-tpl-status-start"></div>
+      </div>
+
       <div id="ce-work" style="display:none;">
         <div id="ce-newopts" class="ce-box">
           <div class="row">
@@ -1945,6 +1953,10 @@
                 <select id="ce-st-rings"><option value="1" data-i18n="ceRing1">دائرة واحدة</option><option value="2" selected data-i18n="ceRing2">دائرتان</option><option value="3" data-i18n="ceRing3">ثلاث دوائر</option></select></div>
             </div>
             <div class="row">
+              <div class="field"><label for="ce-st-tsc"><span data-i18n="ceStTsC">حجم كتابة الوسط</span> <span id="ce-st-tsc-v">100</span>٪</label><input type="range" id="ce-st-tsc" min="50" max="160" step="2" value="100"></div>
+              <div class="field"><label for="ce-st-tsr"><span data-i18n="ceStTsR">حجم الكتابة الدائرية</span> <span id="ce-st-tsr-v">100</span>٪</label><input type="range" id="ce-st-tsr" min="50" max="150" step="2" value="100"></div>
+            </div>
+            <div class="row">
               <div class="field"><label for="ce-st-digits" data-i18n="digLabel">نوع الأرقام</label><select id="ce-st-digits"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option></select></div>
             </div>
             <div class="ce-all">
@@ -2001,6 +2013,16 @@
         <div class="ce-row" style="margin-top:14px;">
           <button type="button" class="btn secondary" id="ce-clear" data-i18n="ceClear">🧹 مسح كل العناصر</button>
           <button type="button" class="btn secondary" id="ce-reset" data-i18n="ceReset">🔄 البدء من جديد</button>
+        </div>
+
+        <div class="ce-box" style="margin-top:14px;">
+          <b data-i18n="ceTplTitle">📁 قوالبي المحفوظة</b>
+          <div class="row" style="margin-top:10px;">
+            <div class="field"><label for="ce-tpl-name" data-i18n="ceTplName">اسم القالب</label><input type="text" id="ce-tpl-name"></div>
+          </div>
+          <div class="ce-row"><button type="button" class="btn" id="ce-tpl-save" data-i18n="ceTplSave">💾 حفظ كقالب</button><button type="button" class="btn secondary" id="ce-tpl-exp" data-i18n="ceTplExp">⬇️ تصدير القالب كملف</button></div>
+          <div id="ce-tpl-list" style="margin:4px 0 8px;"></div>
+          <div id="ce-tpl-status"></div>
         </div>
 
         <div class="ce-box" style="margin-top:14px;">
@@ -4017,6 +4039,8 @@ const I18N = {
     ceSplit: 'وضع حقلين: العنوان في جهة والقيمة في الجهة الأخرى (مثل: Card number: 2238). يقسم النص عند أول نقطتين ( : )', ceLines: '📑 كل سطر في صندوق مستقل بنفس النسق', ceNewSplit: 'العنوان: القيمة',
     textAddMore: '➕ حفظ هذا النص وإضافة نص آخر', textItemHint: 'اضغط على النص في المعاينة أو في القائمة لتعديله', textNoneYet: 'اكتب نصاً أولاً.',
     digKeep: 'كما كتبتها', digAr: 'أرقام عربية (٠١٢٣)', digEn: 'أرقام إنجليزية (0123)', digLabel: 'نوع الأرقام',
+    ceStTsC: 'حجم كتابة الوسط', ceStTsR: 'حجم الكتابة الدائرية',
+    ceTplTitle: '📁 قوالبي المحفوظة', ceTplSave: '💾 حفظ كقالب', ceTplName: 'اسم القالب', ceTplNameDef: 'قالب الكرت', ceTplSaved: 'تم حفظ القالب ✓ يبقى في هذا المتصفح، وللاحتياط صدّره كملف.', ceTplFail: 'تعذّر الحفظ في المتصفح. صدّر القالب كملف بدلاً من ذلك.', ceTplOpen: 'فتح', ceTplDel: 'حذف', ceTplExp: '⬇️ تصدير القالب كملف', ceTplImp: '⬆️ استيراد قالب من ملف', ceTplNone: 'ما فيه قوالب محفوظة بعد.', ceTplBad: 'هذا الملف ليس قالب كرت صالحاً.', ceTplAuto: 'نسخة تلقائية قبل الفتح', ceTplOpened: 'تم فتح القالب ✓',
     toolsOptSvg: '🎨 تحويل ملف SVG إلى صورة أو PDF', svgTitle: 'تحويل SVG إلى صورة أو PDF', svgHint: 'ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.',
     svgFormat: 'الصيغة', svgScale: 'مقياس الجودة', svgWidth: 'أو عرض مخصص بالبكسل (اختياري)', svgBg: 'الخلفية', svgBgTransparent: 'شفافة (PNG / WebP)', svgBgWhite: 'بيضاء', svgBgCustom: 'لون مخصص', svgBgColor: 'لون الخلفية',
     svgMerge: 'دمج كل الملفات في ملف PDF واحد (صفحة لكل ملف)', svgPreview: 'معاينة (أول ملف)', svgBtn: 'تحويل وتنزيل', svgBusy: 'جارٍ التحويل...', svgDone: 'تم التحويل', svgNoFile: 'اختر ملف SVG أولاً.', svgBad: 'تعذّر قراءة الملف. تأكد أنه ملف SVG سليم:',
@@ -4812,6 +4836,8 @@ const I18N = {
     ceSplit: 'Two-field mode: label on one side and value on the other (like: Card number: 2238). Splits the text at the first colon ( : )', ceLines: '📑 Put each line in its own box with the same style', ceNewSplit: 'Label: value',
     textAddMore: '➕ Save this text and add another', textItemHint: 'Tap a text in the preview or the list to edit it', textNoneYet: 'Write some text first.',
     digKeep: 'As typed', digAr: 'Arabic digits (٠١٢٣)', digEn: 'English digits (0123)', digLabel: 'Digit style',
+    ceStTsC: 'Centre text size', ceStTsR: 'Curved text size',
+    ceTplTitle: '📁 My saved templates', ceTplSave: '💾 Save as template', ceTplName: 'Template name', ceTplNameDef: 'Card template', ceTplSaved: 'Template saved ✓ It stays in this browser; export it as a file as a backup.', ceTplFail: 'Could not save in the browser. Export the template as a file instead.', ceTplOpen: 'Open', ceTplDel: 'Delete', ceTplExp: '⬇️ Export template as a file', ceTplImp: '⬆️ Import a template from a file', ceTplNone: 'No saved templates yet.', ceTplBad: 'This file is not a valid card template.', ceTplAuto: 'Automatic copy before opening', ceTplOpened: 'Template opened ✓',
     toolsOptSvg: '🎨 Convert SVG to image or PDF', svgTitle: 'Convert SVG to image or PDF', svgHint: 'Upload one or several SVG files and choose the format and quality. Conversion happens in your browser; nothing is uploaded.',
     svgFormat: 'Format', svgScale: 'Quality scale', svgWidth: 'Or custom width in pixels (optional)', svgBg: 'Background', svgBgTransparent: 'Transparent (PNG / WebP)', svgBgWhite: 'White', svgBgCustom: 'Custom colour', svgBgColor: 'Background colour',
     svgMerge: 'Merge all files into one PDF (one page per file)', svgPreview: 'Preview (first file)', svgBtn: 'Convert and download', svgBusy: 'Converting...', svgDone: 'Converted', svgNoFile: 'Choose an SVG file first.', svgBad: 'Could not read the file. Make sure it is a valid SVG:',
@@ -12106,7 +12132,7 @@ function ceCurveText(ctx, text, cx, cy, R, centerAng, top, size, weight, font, c
 }
 function ceStampBitmap(it0){
   const dg = it0.digits, it = Object.assign({}, it0, { top:uddahDigits(it0.top, dg), bot:uddahDigits(it0.bot, dg), l1:uddahDigits(it0.l1, dg), l2:uddahDigits(it0.l2, dg), l3:uddahDigits(it0.l3, dg), l4:uddahDigits(it0.l4, dg) });
-  const key = [it.top, it.bot, it.l1, it.l2, it.l3, it.l4, it.font, it.color, it.thick, it.wear, it.seed, it.rings, ce.epoch].join('|');
+  const key = [it.top, it.bot, it.l1, it.l2, it.l3, it.l4, it.font, it.color, it.thick, it.wear, it.seed, it.rings, it.tsC, it.tsR, ce.epoch].join('|');
   if(ce.stampCache.has(key)) return ce.stampCache.get(key);
   const S = 900, cv = document.createElement('canvas'); cv.width = cv.height = S; const ctx = cv.getContext('2d');
   const col = it.color, lw = S * 0.0085 * it.thick, cx = S / 2, cy = S / 2, R0 = S / 2 - lw * 3, hasRing = !!(it.top || it.bot);
@@ -12116,13 +12142,13 @@ function ceStampBitmap(it0){
   const ringW = hasRing ? S * 0.135 : S * 0.04, R1 = R0 - ringW - (x3 ? lw * 3.2 : 0);
   if(it.rings !== 1){ ctx.lineWidth = lw * 1.2; ctx.beginPath(); ctx.arc(cx, cy, R1, 0, 7); ctx.stroke(); }
   if(hasRing){
-    const Rt = (R0 - (x3 ? lw * 3.2 : 0) + R1) / 2, fs = ringW * 0.6;
+    const Rt = (R0 - (x3 ? lw * 3.2 : 0) + R1) / 2, fs = ringW * 0.6 * (it.tsR || 100) / 100;
     ceCurveText(ctx, it.top, cx, cy, Rt, 0, true, fs, 700, it.font, col, Math.PI * 0.78);
     ceCurveText(ctx, it.bot, cx, cy, Rt, Math.PI, false, fs, 700, it.font, col, Math.PI * 0.78);
   }
   const lines = [[it.l1, 1], [it.l2, 0.5], [it.l3, 0.5], [it.l4, 0.4]].filter(l=> l[0] && l[0].trim());
   if(lines.length){
-    const avail = R1 * 1.78, base = R1 * 0.56; const sizes = lines.map(([tx, f])=>{ let fs = base * f * (f === 1 ? 1.3 : 1.05); ctx.font = `${f === 1 ? 800 : 600} ${fs}px ${it.font}`; while(fs > 8 && ctx.measureText(tx).width > avail){ fs -= 1; ctx.font = `${f === 1 ? 800 : 600} ${fs}px ${it.font}`; } return fs; });
+    const cs = (it.tsC || 100) / 100, avail = R1 * 1.78 * Math.max(1, cs), base = R1 * 0.56 * cs; const sizes = lines.map(([tx, f])=>{ let fs = base * f * (f === 1 ? 1.3 : 1.05); ctx.font = `${f === 1 ? 800 : 600} ${fs}px ${it.font}`; while(fs > 8 && ctx.measureText(tx).width > avail){ fs -= 1; ctx.font = `${f === 1 ? 800 : 600} ${fs}px ${it.font}`; } return fs; });
     const tot = sizes.reduce((a, b)=> a + b * 1.3, 0); let y = cy - tot / 2;
     lines.forEach(([tx, f], i)=>{ const fs = sizes[i]; y += fs * 0.65; ctx.font = `${f === 1 ? 800 : 600} ${fs}px ${it.font}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = /[֐-ࣿ]/.test(tx) ? 'rtl' : 'ltr'; ctx.fillStyle = col; ctx.fillText(tx, cx, y); y += fs * 0.65; });
   }
@@ -12213,7 +12239,10 @@ function ceRenderSide(ctx, side, items, withUi){
         if(sel){ [[it.x1, it.y1], [it.x2, it.y2]].forEach(([hx, hy])=>{ ctx.beginPath(); ctx.arc(hx, hy, r, 0, 7); ctx.fill(); ctx.stroke(); }); }
       }else{
         ctx.strokeRect(it.x, it.y, it.w, it.h);
-        if(sel){ ctx.setLineDash([]); [[it.x, it.y], [it.x + it.w, it.y], [it.x, it.y + it.h], [it.x + it.w, it.y + it.h]].forEach(([hx, hy])=>{ ctx.beginPath(); ctx.arc(hx, hy, r, 0, 7); ctx.fill(); ctx.stroke(); }); }
+        if(sel){
+          ctx.setLineDash([]); [[it.x, it.y], [it.x + it.w, it.y], [it.x, it.y + it.h], [it.x + it.w, it.y + it.h]].forEach(([hx, hy])=>{ ctx.beginPath(); ctx.arc(hx, hy, r, 0, 7); ctx.fill(); ctx.stroke(); });
+          if(it.type !== 'stamp'){ const q = r * 0.85; [[it.x + it.w / 2, it.y], [it.x + it.w / 2, it.y + it.h], [it.x, it.y + it.h / 2], [it.x + it.w, it.y + it.h / 2]].forEach(([hx, hy])=>{ ctx.beginPath(); ctx.rect(hx - q, hy - q, q * 2, q * 2); ctx.fill(); ctx.stroke(); }); }
+        }
       }
       ctx.restore();
     });
@@ -12238,7 +12267,7 @@ function ceSelect(i){
   g('ce-text-opts').style.display = ty === 'text' ? '' : 'none'; g('ce-stamp-opts').style.display = ty === 'stamp' ? '' : 'none'; g('ce-fr-opts').style.display = ty === 'frame' ? '' : 'none'; g('ce-line-opts').style.display = ty === 'line' ? '' : 'none';
   g('ce-cover-wrap').style.display = ce.mode === 'img' ? '' : 'none';
   if(ty === 'text'){ g('ce-text').value = it.text; g('ce-font').value = it.font; g('ce-size').value = it.size; g('ce-color').value = it.color; g('ce-align').value = it.align; g('ce-cover').value = it.cover; g('ce-covercolor').value = it.coverColor; g('ce-bold').checked = it.bold; g('ce-split').checked = !!it.split; g('ce-digits').value = it.digits || 'keep'; ce.lastText = it; g('ce-covercolor-wrap').style.display = it.cover === 'custom' ? '' : 'none'; }
-  if(ty === 'stamp'){ g('ce-st-top').value = it.top; g('ce-st-bot').value = it.bot; g('ce-st-l1').value = it.l1; g('ce-st-l2').value = it.l2; g('ce-st-l3').value = it.l3; g('ce-st-l4').value = it.l4; g('ce-st-font').value = it.font; g('ce-st-color').value = it.color; g('ce-st-thick').value = it.thick; g('ce-st-op').value = Math.round(it.opacity * 100); g('ce-st-wear').value = it.wear; g('ce-st-rot').value = it.rot; g('ce-st-rings').value = String(it.rings); g('ce-st-digits').value = it.digits || 'keep'; g('ce-st-mult').checked = it.mult; }
+  if(ty === 'stamp'){ g('ce-st-top').value = it.top; g('ce-st-bot').value = it.bot; g('ce-st-l1').value = it.l1; g('ce-st-l2').value = it.l2; g('ce-st-l3').value = it.l3; g('ce-st-l4').value = it.l4; g('ce-st-font').value = it.font; g('ce-st-color').value = it.color; g('ce-st-thick').value = it.thick; g('ce-st-op').value = Math.round(it.opacity * 100); g('ce-st-wear').value = it.wear; g('ce-st-rot').value = it.rot; g('ce-st-rings').value = String(it.rings); g('ce-st-digits').value = it.digits || 'keep'; g('ce-st-tsc').value = it.tsC || 100; g('ce-st-tsr').value = it.tsR || 100; g('ce-st-tsc-v').textContent = it.tsC || 100; g('ce-st-tsr-v').textContent = it.tsR || 100; g('ce-st-mult').checked = it.mult; }
   if(ty === 'frame'){ g('ce-fr-color').value = it.color; g('ce-fr-width').value = it.width; g('ce-fr-radius').value = it.radius; g('ce-fr-style').value = it.style; g('ce-fr-lines').value = String(it.lines); g('ce-fr-fill').value = it.fill; g('ce-fr-fillc').value = it.fillColor; g('ce-fr-fillc-wrap').style.display = it.fill === 'custom' ? '' : 'none'; }
   if(ty === 'line'){ g('ce-ln-color').value = it.color; g('ce-ln-width').value = it.width; g('ce-ln-style').value = it.style; }
   ceRedraw();
@@ -12257,7 +12286,11 @@ function ceHit(pt){
   const it = ce.items[ce.sel], tol = 16 * pt.k;
   if(it){
     if(it.type === 'line'){ if(Math.hypot(pt.x - it.x1, pt.y - it.y1) <= tol) return { i:ce.sel, mode:'p1' }; if(Math.hypot(pt.x - it.x2, pt.y - it.y2) <= tol) return { i:ce.sel, mode:'p2' }; }
-    else for(const [cx, cy, n] of [[it.x, it.y, 'nw'], [it.x + it.w, it.y, 'ne'], [it.x, it.y + it.h, 'sw'], [it.x + it.w, it.y + it.h, 'se']]) if(Math.abs(pt.x - cx) <= tol && Math.abs(pt.y - cy) <= tol) return { i:ce.sel, mode:n };
+    else{
+      const hs = [[it.x, it.y, 'nw'], [it.x + it.w, it.y, 'ne'], [it.x, it.y + it.h, 'sw'], [it.x + it.w, it.y + it.h, 'se']];
+      if(it.type !== 'stamp') hs.push([it.x + it.w / 2, it.y, 'n'], [it.x + it.w / 2, it.y + it.h, 's'], [it.x, it.y + it.h / 2, 'w'], [it.x + it.w, it.y + it.h / 2, 'e']);
+      for(const [cx, cy, n] of hs) if(Math.abs(pt.x - cx) <= tol && Math.abs(pt.y - cy) <= tol) return { i:ce.sel, mode:n };
+    }
   }
   for(let i = ce.items.length - 1; i >= 0; i--){
     const t = ce.items[i];
@@ -12299,14 +12332,14 @@ function ceFillFormats(){
 }
 function ceShowWork(mode){
   ce.mode = mode; const g = id => document.getElementById(id);
-  g('ce-start').style.display = 'none'; g('ce-work').style.display = '';
+  g('ce-start').style.display = 'none'; g('ce-tpl-start').style.display = 'none'; g('ce-work').style.display = '';
   g('ce-newopts').style.display = mode === 'new' ? '' : 'none'; g('ce-note-cover').style.display = mode === 'img' ? '' : 'none';
   ce.sideItems = { front:[], back:[] }; ce.stampCache.clear(); ceFillFormats(); g('ce-status').innerHTML = '';
   ceSetSide('front');
 }
 function ceResetAll(){
   ce.mode = ''; ce.base = null; ce.W = ce.H = 0; ce.data = null; ce.sideItems = { front:[], back:[] }; ce.items = ce.sideItems.front; ce.sel = -1;
-  document.getElementById('ce-file').value = ''; document.getElementById('ce-work').style.display = 'none'; document.getElementById('ce-start').style.display = '';
+  document.getElementById('ce-file').value = ''; document.getElementById('ce-work').style.display = 'none'; document.getElementById('ce-start').style.display = ''; document.getElementById('ce-tpl-start').style.display = ''; if(window.ceTplRender) window.ceTplRender();
 }
 async function ceRenderCanvas(side, fmt){
   const c = document.createElement('canvas'); c.width = ce.W; c.height = ce.H; const ctx = c.getContext('2d');
@@ -12325,7 +12358,7 @@ async function ceRenderCanvas(side, fmt){
   });
   cv.addEventListener('pointermove', e=>{
     if(!ce.base) return; const pt = ceFromEvent(e);
-    if(!ce.drag){ const h = ceHit(pt); cv.style.cursor = !h ? 'default' : (h.mode === 'move' ? 'move' : (h.mode === 'nw' || h.mode === 'se' ? 'nwse-resize' : (h.mode === 'p1' || h.mode === 'p2' ? 'crosshair' : 'nesw-resize'))); return; }
+    if(!ce.drag){ const h = ceHit(pt); cv.style.cursor = !h ? 'default' : (h.mode === 'move' ? 'move' : (h.mode === 'nw' || h.mode === 'se' ? 'nwse-resize' : (h.mode === 'p1' || h.mode === 'p2' ? 'crosshair' : (h.mode === 'n' || h.mode === 's' ? 'ns-resize' : (h.mode === 'e' || h.mode === 'w' ? 'ew-resize' : 'nesw-resize'))))); return; }
     const it = ce.items[ce.sel], d = ce.drag, dx = pt.x - d.sx, dy = pt.y - d.sy, o = d.o, MIN = 12;
     if(it.type === 'line'){
       if(d.mode === 'move'){
@@ -12348,15 +12381,16 @@ async function ceRenderCanvas(side, fmt){
     }
     else{
       let x0 = o.x, y0 = o.y, x1 = o.x + o.w, y1 = o.y + o.h;
-      if(d.mode.includes('w')) x0 = Math.min(o.x + dx, x1 - MIN); else x1 = Math.max(o.x + o.w + dx, x0 + MIN);
-      if(d.mode.includes('n')) y0 = Math.min(o.y + dy, y1 - MIN); else y1 = Math.max(o.y + o.h + dy, y0 + MIN);
-      if(it.type !== 'stamp' && it.type !== 'img'){
-        const T = ceTargets(), th = 8 * pt.k, gx = d.mode.includes('w') ? x0 : x1, gy = d.mode.includes('n') ? y0 : y1, sx = ceNear([gx], T.xs, th), sy = ceNear([gy], T.ys, th);
+      const mX = /[we]/.test(d.mode), mY = /[ns]/.test(d.mode), lock = it.type === 'stamp' || (it.type === 'img' && d.mode.length === 2);
+      if(mX){ if(d.mode.includes('w')) x0 = Math.min(o.x + dx, x1 - MIN); else x1 = Math.max(o.x + o.w + dx, x0 + MIN); }
+      if(mY){ if(d.mode.includes('n')) y0 = Math.min(o.y + dy, y1 - MIN); else y1 = Math.max(o.y + o.h + dy, y0 + MIN); }
+      if(!lock){
+        const T = ceTargets(), th = 8 * pt.k, gx = d.mode.includes('w') ? x0 : x1, gy = d.mode.includes('n') ? y0 : y1, sx = mX ? ceNear([gx], T.xs, th) : null, sy = mY ? ceNear([gy], T.ys, th) : null;
         if(sx){ if(d.mode.includes('w')) x0 = Math.min(x0 + sx.d, x1 - MIN); else x1 = Math.max(x1 + sx.d, x0 + MIN); }
         if(sy){ if(d.mode.includes('n')) y0 = Math.min(y0 + sy.d, y1 - MIN); else y1 = Math.max(y1 + sy.d, y0 + MIN); }
-        ce.guides = { v:ceMatches([d.mode.includes('w') ? x0 : x1], T.xs), h:ceMatches([d.mode.includes('n') ? y0 : y1], T.ys) };
+        ce.guides = { v:mX ? ceMatches([d.mode.includes('w') ? x0 : x1], T.xs) : [], h:mY ? ceMatches([d.mode.includes('n') ? y0 : y1], T.ys) : [] };
       }
-      if(it.type === 'stamp' || it.type === 'img'){
+      if(lock){
         const ratio = it.type === 'img' ? o.w / o.h : 1, w = Math.max(x1 - x0, MIN), hh = w / ratio;
         if(d.mode.includes('w')) x0 = x1 - w; else x1 = x0 + w; if(d.mode.includes('n')) y0 = y1 - hh; else y1 = y0 + hh;
       }
@@ -12372,9 +12406,9 @@ async function ceRenderCanvas(side, fmt){
   ['ce-text','ce-font','ce-size','ce-color','ce-align','ce-cover','ce-covercolor','ce-bold','ce-split','ce-digits'].forEach(id=>{ const el = g(id); el.addEventListener('input', updText); el.addEventListener('change', updText); });
   const updStamp = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'stamp') return;
     it.top = g('ce-st-top').value; it.bot = g('ce-st-bot').value; it.l1 = g('ce-st-l1').value; it.l2 = g('ce-st-l2').value; it.l3 = g('ce-st-l3').value; it.l4 = g('ce-st-l4').value; it.font = g('ce-st-font').value; it.color = g('ce-st-color').value;
-    it.thick = parseFloat(g('ce-st-thick').value) || 1.6; it.opacity = (parseFloat(g('ce-st-op').value) || 85) / 100; it.wear = parseFloat(g('ce-st-wear').value) || 0; it.rot = parseFloat(g('ce-st-rot').value) || 0; it.rings = parseInt(g('ce-st-rings').value, 10) || 2; it.digits = g('ce-st-digits').value; it.mult = g('ce-st-mult').checked;
+    it.thick = parseFloat(g('ce-st-thick').value) || 1.6; it.opacity = (parseFloat(g('ce-st-op').value) || 85) / 100; it.wear = parseFloat(g('ce-st-wear').value) || 0; it.rot = parseFloat(g('ce-st-rot').value) || 0; it.rings = parseInt(g('ce-st-rings').value, 10) || 2; it.digits = g('ce-st-digits').value; it.tsC = parseFloat(g('ce-st-tsc').value) || 100; it.tsR = parseFloat(g('ce-st-tsr').value) || 100; g('ce-st-tsc-v').textContent = it.tsC; g('ce-st-tsr-v').textContent = it.tsR; it.mult = g('ce-st-mult').checked;
     ceLoadFont(it.font, 700); ceRedraw(); };
-  ['ce-st-top','ce-st-bot','ce-st-l1','ce-st-l2','ce-st-l3','ce-st-l4','ce-st-font','ce-st-color','ce-st-thick','ce-st-op','ce-st-wear','ce-st-rot','ce-st-rings','ce-st-digits','ce-st-mult'].forEach(id=>{ const el = g(id); el.addEventListener('input', updStamp); el.addEventListener('change', updStamp); });
+  ['ce-st-top','ce-st-bot','ce-st-l1','ce-st-l2','ce-st-l3','ce-st-l4','ce-st-font','ce-st-color','ce-st-thick','ce-st-op','ce-st-wear','ce-st-rot','ce-st-rings','ce-st-digits','ce-st-tsc','ce-st-tsr','ce-st-mult'].forEach(id=>{ const el = g(id); el.addEventListener('input', updStamp); el.addEventListener('change', updStamp); });
   g('ce-st-seed').addEventListener('click', ()=>{ const it = ce.items[ce.sel]; if(it && it.type === 'stamp'){ it.seed = (Math.random() * 1e9) | 0; ceRedraw(); } });
   const updLine = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'line') return; it.color = g('ce-ln-color').value; it.width = Math.max(1, parseFloat(g('ce-ln-width').value) || 3); it.style = g('ce-ln-style').value; ceRedraw(); };
   ['ce-ln-color','ce-ln-width','ce-ln-style'].forEach(id=>{ const el = g(id); el.addEventListener('input', updLine); el.addEventListener('change', updLine); });
@@ -12409,7 +12443,7 @@ async function ceRenderCanvas(side, fmt){
   });
   g('ce-add-stamp').addEventListener('click', ()=>{
     if(!ce.base) return; const t = I18N[currentLang], sz = Math.min(ce.W, ce.H) * 0.6, f = ERASE_FONT_OPTIONS[0].v;
-    ce.items.push({ type:'stamp', x:(ce.W - sz) / 2, y:(ce.H - sz) / 2, w:sz, h:sz, top:t.ceStDefTop, bot:t.ceStDefBot, l1:t.ceStDefL1, l2:t.ceStDefL2, l3:t.ceStDefL3, l4:t.ceStDefL4, font:f, color:'#c8202a', thick:1.6, opacity:0.85, wear:45, rot:-8, rings:2, mult:true, seed:(Math.random() * 1e9) | 0 });
+    ce.items.push({ type:'stamp', x:(ce.W - sz) / 2, y:(ce.H - sz) / 2, w:sz, h:sz, top:t.ceStDefTop, bot:t.ceStDefBot, l1:t.ceStDefL1, l2:t.ceStDefL2, l3:t.ceStDefL3, l4:t.ceStDefL4, font:f, color:'#c8202a', thick:1.6, opacity:0.85, wear:45, rot:-8, rings:2, tsC:100, tsR:100, mult:true, seed:(Math.random() * 1e9) | 0 });
     ceLoadFont(f, 700); ceSelect(ce.items.length - 1);
   });
   g('ce-add-line').addEventListener('click', ()=>{
@@ -12486,6 +12520,71 @@ async function ceRenderCanvas(side, fmt){
       setStatus(st, t.ceDone, 'ok');
     }catch(err){ console.error(err); setStatus(st, t.ceBad, 'err'); }
   });
+})();
+
+/* ---- templates: save / open / export / import (kept in this browser's IndexedDB) ---- */
+(function ceTemplates(){
+  const g = id => document.getElementById(id), T = k => I18N[currentLang][k] || k;
+  let dbp = null; const stId = ()=> ce.base ? 'ce-tpl-status' : 'ce-tpl-status-start';
+  const db = ()=> dbp || (dbp = new Promise((res, rej)=>{ const r = indexedDB.open('uddah', 1); r.onupgradeneeded = ()=> r.result.createObjectStore('ce_tpl', { keyPath:'id' }); r.onsuccess = ()=> res(r.result); r.onerror = ()=> rej(r.error); }));
+  const tx = async (mode, fn)=>{ const d = await db(); return new Promise((res, rej)=>{ const t = d.transaction('ce_tpl', mode), st = t.objectStore('ce_tpl'), rq = fn(st); t.oncomplete = ()=> res(rq && rq.result); t.onerror = ()=> rej(t.error); t.onabort = ()=> rej(t.error); }); };
+  const all = async ()=>{ try{ return (await tx('readonly', st=> st.getAll())) || []; }catch(e){ return []; } };
+  const put = o=> tx('readwrite', st=> st.put(o)), del = id=> tx('readwrite', st=> st.delete(id));
+  const imgToUrl = im=>{ const c = document.createElement('canvas'); c.width = im.naturalWidth || im.width; c.height = im.naturalHeight || im.height; c.getContext('2d').drawImage(im, 0, 0); return c.toDataURL('image/png'); };
+  const itemOut = it=>{ const o = Object.assign({}, it); delete o._wo; if(it.type === 'img') o.img = imgToUrl(it.img); return o; };
+  const loadImg = url=> new Promise((res, rej)=>{ const i = new Image(); i.onload = ()=> res(i); i.onerror = rej; i.src = url; });
+  const itemIn = async o=>{ const it = Object.assign({}, o); if(it.type === 'img') it.img = await loadImg(o.img); return it; };
+  const snapshot = (name)=>({
+    app:'uddah-card', v:1, id:name, name, saved:Date.now(), mode:ce.mode, W:ce.W, H:ce.H,
+    preset:g('ce-preset').value, cw:g('ce-cw').value, ch:g('ce-ch').value, bg:g('ce-bg').value, decor:g('ce-decor').value, decorColor:g('ce-decor-color').value, decorSide:g('ce-decor-side').value,
+    base: ce.mode === 'img' ? ce.base.toDataURL('image/jpeg', 0.92) : null,
+    front: ce.sideItems.front.map(itemOut), back: ce.sideItems.back.map(itemOut)
+  });
+  async function openTpl(t, keepAuto){
+    if(!t || t.app !== 'uddah-card') { setStatus(stId(), T('ceTplBad'), 'err'); return; }
+    if(ce.base && !keepAuto && (ce.sideItems.front.length + ce.sideItems.back.length)){ try{ await put(snapshot('__auto')); }catch(e){} }
+    const front = await Promise.all(t.front.map(itemIn)), back = await Promise.all(t.back.map(itemIn));
+    if(t.mode === 'img'){
+      const im = await loadImg(t.base), c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight; c.getContext('2d').drawImage(im, 0, 0);
+      ce.base = c; ce.W = c.width; ce.H = c.height; ce.cache.clear(); ce.data = c.getContext('2d').getImageData(0, 0, ce.W, ce.H);
+      g('ce-canvas').width = ce.W; g('ce-canvas').height = ce.H; ceShowWork('img');
+    }else{
+      g('ce-preset').value = t.preset; g('ce-cw').value = t.cw; g('ce-ch').value = t.ch; g('ce-bg').value = t.bg; g('ce-decor').value = t.decor; g('ce-decor-color').value = t.decorColor; g('ce-decor-side').value = t.decorSide;
+      g('ce-custom-wrap').style.display = t.preset === 'custom' ? '' : 'none'; ce.W = ce.H = 0; ceShowWork('new'); ceBuildNewBase();
+    }
+    ce.sideItems = { front, back }; ce.stampCache.clear(); ceSetSide('front'); g('ce-tpl-name').value = t.id === '__auto' ? '' : t.name;
+    front.concat(back).filter(i=> i.type === 'text').forEach(i=> ceLoadFont(i.font, i.bold ? 700 : 400)); ceRedraw(); render();
+    setStatus(stId(), T('ceTplOpened'), 'ok');
+  }
+  async function render(){
+    const list = await all(); list.sort((a, b)=> b.saved - a.saved);
+    ['ce-tpl-list-start', 'ce-tpl-list'].forEach(id=>{
+      const box = g(id); box.textContent = '';
+      if(!list.length){ const p = document.createElement('p'); p.className = 'note'; p.style.margin = '0'; p.textContent = T('ceTplNone'); box.appendChild(p); return; }
+      list.forEach(t=>{
+        const row = document.createElement('div'); row.style.cssText = 'display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--border);';
+        const nm = document.createElement('span'); nm.style.cssText = 'flex:1 1 140px;font-weight:600;'; nm.textContent = t.id === '__auto' ? T('ceTplAuto') : t.name;
+        const mk = (label, fn)=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary'; b.style.cssText = 'padding:6px 14px;min-height:0;font-size:.9rem;'; b.textContent = label; b.addEventListener('click', fn); return b; };
+        row.appendChild(nm); row.appendChild(mk(T('ceTplOpen'), ()=> openTpl(t)));
+        row.appendChild(mk('⬇️', ()=> downloadBlob(new Blob([JSON.stringify(t)], { type:'application/json' }), 'قالب_' + (t.name || 'card').replace(/[\\/:*?"<>|]+/g, '_') + '.json')));
+        row.appendChild(mk('🗑️', async ()=>{ try{ await del(t.id); }catch(e){} render(); })); box.appendChild(row);
+      });
+    });
+  }
+  g('ce-tpl-save').addEventListener('click', async ()=>{
+    if(!ce.base) return; const name = (g('ce-tpl-name').value || '').trim() || T('ceTplNameDef');
+    try{ await put(snapshot(name)); g('ce-tpl-name').value = name; setStatus('ce-tpl-status', T('ceTplSaved'), 'ok'); render(); }catch(e){ console.error(e); setStatus('ce-tpl-status', T('ceTplFail'), 'err'); }
+  });
+  g('ce-tpl-exp').addEventListener('click', ()=>{
+    if(!ce.base) return; const name = (g('ce-tpl-name').value || '').trim() || T('ceTplNameDef');
+    downloadBlob(new Blob([JSON.stringify(snapshot(name))], { type:'application/json' }), 'قالب_' + name.replace(/[\\/:*?"<>|]+/g, '_') + '.json');
+  });
+  g('ce-tpl-imp').addEventListener('click', ()=> g('ce-tpl-file').click());
+  g('ce-tpl-file').addEventListener('change', async ()=>{
+    const f = g('ce-tpl-file').files[0]; if(!f) return; g('ce-tpl-file').value = '';
+    try{ const t = JSON.parse(await f.text()); if(t.app !== 'uddah-card') throw 0; t.id = t.name = t.name || 'card'; t.saved = Date.now(); try{ await put(t); }catch(e){} await openTpl(t, true); }catch(e){ setStatus(stId(), T('ceTplBad'), 'err'); }
+  });
+  window.ceTplRender = render; render();
 })();
 // Loads an image / SVG file into a canvas no larger than maxSide on its longest side
 async function ceLoadFile(file, maxSide){
