@@ -2655,6 +2655,8 @@
         <label for="text-content" data-i18n="textContentLabel">النص</label>
         <textarea id="text-content" rows="3" placeholder="اكتب النص هنا..." data-i18n-ph="writeTextPh" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
       </div>
+      <button type="button" class="btn secondary" id="text-add-more" style="margin-bottom:12px;" data-i18n="textAddMore">➕ حفظ هذا النص وإضافة نص آخر</button>
+      <div id="text-items" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;"></div>
 
       <div class="row">
         <div class="field">
@@ -4006,6 +4008,7 @@ const I18N = {
     ceDup: '⧉ تكرار', ceCopy: '📄 نسخ', cePaste: '📋 لصق',
     ceAddFrame: 'برواز', ceFrRadius: 'استدارة الزوايا', ceFrLines: 'عدد الخطوط', ceFr1: 'خط واحد', ceFr2: 'خطان (مزدوج)', ceFrFill: 'تعبئة داخل البرواز', ceFrNoFill: 'بدون', ceFrWhite: 'أبيض', ceFrCustom: 'لون مخصص', ceFrFillC: 'لون التعبئة', ceOptsFrame: 'خيارات البرواز',
     ceSplit: 'وضع حقلين: العنوان في جهة والقيمة في الجهة الأخرى (مثل: Card number: 2238). يقسم النص عند أول نقطتين ( : )', ceLines: '📑 كل سطر في صندوق مستقل بنفس النسق', ceNewSplit: 'العنوان: القيمة',
+    textAddMore: '➕ حفظ هذا النص وإضافة نص آخر', textItemHint: 'اضغط على النص في المعاينة أو في القائمة لتعديله', textNoneYet: 'اكتب نصاً أولاً.',
     toolsOptSvg: '🎨 تحويل ملف SVG إلى صورة أو PDF', svgTitle: 'تحويل SVG إلى صورة أو PDF', svgHint: 'ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.',
     svgFormat: 'الصيغة', svgScale: 'مقياس الجودة', svgWidth: 'أو عرض مخصص بالبكسل (اختياري)', svgBg: 'الخلفية', svgBgTransparent: 'شفافة (PNG / WebP)', svgBgWhite: 'بيضاء', svgBgCustom: 'لون مخصص', svgBgColor: 'لون الخلفية',
     svgMerge: 'دمج كل الملفات في ملف PDF واحد (صفحة لكل ملف)', svgPreview: 'معاينة (أول ملف)', svgBtn: 'تحويل وتنزيل', svgBusy: 'جارٍ التحويل...', svgDone: 'تم التحويل', svgNoFile: 'اختر ملف SVG أولاً.', svgBad: 'تعذّر قراءة الملف. تأكد أنه ملف SVG سليم:',
@@ -4799,6 +4802,7 @@ const I18N = {
     ceDup: '⧉ Duplicate', ceCopy: '📄 Copy', cePaste: '📋 Paste',
     ceAddFrame: 'Frame', ceFrRadius: 'Corner roundness', ceFrLines: 'Number of lines', ceFr1: 'Single line', ceFr2: 'Double line', ceFrFill: 'Fill inside the frame', ceFrNoFill: 'None', ceFrWhite: 'White', ceFrCustom: 'Custom color', ceFrFillC: 'Fill color', ceOptsFrame: 'Frame options',
     ceSplit: 'Two-field mode: label on one side and value on the other (like: Card number: 2238). Splits the text at the first colon ( : )', ceLines: '📑 Put each line in its own box with the same style', ceNewSplit: 'Label: value',
+    textAddMore: '➕ Save this text and add another', textItemHint: 'Tap a text in the preview or the list to edit it', textNoneYet: 'Write some text first.',
     toolsOptSvg: '🎨 Convert SVG to image or PDF', svgTitle: 'Convert SVG to image or PDF', svgHint: 'Upload one or several SVG files and choose the format and quality. Conversion happens in your browser; nothing is uploaded.',
     svgFormat: 'Format', svgScale: 'Quality scale', svgWidth: 'Or custom width in pixels (optional)', svgBg: 'Background', svgBgTransparent: 'Transparent (PNG / WebP)', svgBgWhite: 'White', svgBgCustom: 'Custom colour', svgBgColor: 'Background colour',
     svgMerge: 'Merge all files into one PDF (one page per file)', svgPreview: 'Preview (first file)', svgBtn: 'Convert and download', svgBusy: 'Converting...', svgDone: 'Converted', svgNoFile: 'Choose an SVG file first.', svgBad: 'Could not read the file. Make sure it is a valid SVG:',
@@ -8357,6 +8361,42 @@ let textCanvasData = null;   // preview-resolution text
 let textSrc = { kind:null, file:null, pdf:null, img:null, imgUrl:null, pw:595, ph:842, k:1 };
 let textPos = null;          // {x,y} top-left of text box in page units, y from TOP
 const TEXT_PREVIEW_W = 360;
+let textItems = [];          // texts already saved: { content, size, color, pos:{x,y}, data }
+
+function textRenderList(){
+  const box = document.getElementById('text-items'); box.textContent = '';
+  textItems.forEach((it, i)=>{
+    const chip = document.createElement('span'); chip.style.cssText = 'display:inline-flex;align-items:center;gap:6px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:999px;padding:6px 6px 6px 12px;max-width:100%;';
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary'; b.style.cssText = 'padding:2px 10px;min-height:0;border-radius:999px;font-size:.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;'; b.textContent = (i + 1) + '. ' + it.content.replace(/\s+/g, ' ').slice(0, 24); b.addEventListener('click', ()=> textEditItem(i));
+    const x = document.createElement('button'); x.type = 'button'; x.className = 'btn secondary'; x.style.cssText = 'padding:2px 9px;min-height:0;border-radius:999px;font-size:.9rem;'; x.textContent = '✕'; x.setAttribute('aria-label', 'delete'); x.addEventListener('click', ()=>{ textItems.splice(i, 1); textRenderList(); updateTextPreview(false); });
+    chip.appendChild(b); chip.appendChild(x); box.appendChild(chip);
+  });
+}
+function textEditItem(i){
+  const it = textItems[i]; if(!it) return;
+  if(textCanvasData && textPos) textCommitCurrent();
+  textItems.splice(i, 1);
+  document.getElementById('text-content').value = it.content; document.getElementById('text-size').value = it.size; document.getElementById('text-color').value = it.color;
+  textPos = { x:it.pos.x, y:it.pos.y }; textRenderList(); refreshTextCanvas();
+}
+function textCommitCurrent(){
+  if(!textCanvasData || !textPos) return false;
+  textItems.push({ content:document.getElementById('text-content').value, size:parseFloat(document.getElementById('text-size').value) || 24, color:document.getElementById('text-color').value, pos:{ x:textPos.x, y:textPos.y }, data:textCanvasData });
+  return true;
+}
+function textAllItems(){
+  const all = textItems.map(it=> ({ content:it.content, size:it.size, color:it.color, pos:it.pos }));
+  if(textCanvasData && textPos) all.push({ content:document.getElementById('text-content').value, size:parseFloat(document.getElementById('text-size').value) || 24, color:document.getElementById('text-color').value, pos:textPos });
+  return all;
+}
+document.getElementById('text-add-more').addEventListener('click', ()=>{
+  if(!textCommitCurrent()){ setStatus('text-status', I18N[currentLang].textNoneYet, 'err'); return; }
+  const last = textItems[textItems.length - 1];
+  document.getElementById('text-content').value = '';
+  textPos = { x:last.pos.x, y:Math.min(textSrc.ph - 20, last.pos.y + last.data.heightPt * 1.35) };
+  textCanvasData = null; textRenderList(); updateTextPreview(true);
+  document.getElementById('text-content').focus();
+});
 
 function textIsOnPage(){ return !!(textSrc.kind && textCanvasData); }
 
@@ -8414,8 +8454,18 @@ function textPreviewScale(){
   return (TEXT_PREVIEW_W * zoomPct/100) / textSrc.pw;
 }
 
+function textPositionExtras(){
+  const overlay = document.getElementById('text-preview-overlay'), host = overlay.parentElement, s = textPreviewScale();
+  host.querySelectorAll('img.text-extra').forEach(n=> n.remove());
+  textItems.forEach((it, i)=>{
+    const im = document.createElement('img'); im.className = 'text-extra'; im.alt = ''; im.draggable = false; im.src = it.data.canvas.toDataURL('image/png');
+    im.style.cssText = `position:absolute;cursor:pointer;outline:1px dashed rgba(120,120,120,.6);left:${it.pos.x * s}px;top:${it.pos.y * s}px;width:${it.data.widthPt * s}px;height:${it.data.heightPt * s}px;`;
+    im.addEventListener('pointerdown', e=>{ e.preventDefault(); e.stopPropagation(); textEditItem(i); }); host.appendChild(im);
+  });
+}
 function positionTextOverlay(){
   const overlay = document.getElementById('text-preview-overlay');
+  if(textSrc.kind) textPositionExtras();
   if(!textCanvasData || !textPos){ overlay.style.display='none'; return; }
   const s = textPreviewScale();
   overlay.style.display = 'block';
@@ -8481,7 +8531,7 @@ async function updateTextPreview(rebuildPage){
         textSyncSliders();
       }
     }
-    wrap.style.display = textCanvasData ? 'block' : 'none';
+    wrap.style.display = (textCanvasData || textItems.length) ? 'block' : 'none';
     positionTextOverlay();
   }catch(e){
     wrap.style.display = 'none';
@@ -8568,7 +8618,8 @@ document.getElementById('text-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('text-file').files[0];
   const btn = document.getElementById('text-btn');
   if(!file){ setStatus('text-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
-  if(!textCanvasData || !textPos){ setStatus('text-status', I18N[currentLang].textErrWrite, 'err'); return; }
+  const allTexts = textAllItems();
+  if(!allTexts.length){ setStatus('text-status', I18N[currentLang].textErrWrite, 'err'); return; }
   if(!textSrc.kind || textSrc.file !== file){ try{ await loadTextSource(file); }catch(e){} }
 
   setBusy(btn, true, I18N[currentLang].addingBusy, I18N[currentLang].pdfTextBtn);
@@ -8588,10 +8639,12 @@ document.getElementById('text-btn').addEventListener('click', async ()=>{
       const { height: ph } = targetPage.getSize();
 
       // Text rasterised at very high resolution (~1000 DPI) — page content stays untouched/vector.
-      const hi = renderTextToCanvas(content, fontSize, color, null, 14);
-      const textBytes = await (await textCanvasToBlob(hi.canvas, 'image/png')).arrayBuffer();
-      const textImage = await pdfDoc.embedPng(textBytes);
-      targetPage.drawImage(textImage, { x: textPos.x, y: ph - textPos.y - hi.heightPt, width: hi.widthPt, height: hi.heightPt });
+      for(const tx of allTexts){
+        const hi = renderTextToCanvas(tx.content, tx.size, tx.color, null, 14);
+        const textBytes = await (await textCanvasToBlob(hi.canvas, 'image/png')).arrayBuffer();
+        const textImage = await pdfDoc.embedPng(textBytes);
+        targetPage.drawImage(textImage, { x: tx.pos.x, y: ph - tx.pos.y - hi.heightPt, width: hi.widthPt, height: hi.heightPt });
+      }
 
       const outBytes = await pdfDoc.save();
       downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'نص_مضاف.pdf');
@@ -8611,8 +8664,7 @@ document.getElementById('text-btn').addEventListener('click', async ()=>{
       const fmt = document.getElementById('text-format').value;
       if(fmt === 'jpg'){ ctx.fillStyle = '#fff'; ctx.fillRect(0,0,cw,ch); }
       ctx.drawImage(img, 0, 0, cw, ch);   // original pixels, no downscale
-      const t = renderTextToCanvas(content, fontSize, color, null, Math.max(k, 1));
-      ctx.drawImage(t.canvas, textPos.x*k, textPos.y*k, t.widthPt*k, t.heightPt*k);
+      allTexts.forEach(tx=>{ const t = renderTextToCanvas(tx.content, tx.size, tx.color, null, Math.max(k, 1)); ctx.drawImage(t.canvas, tx.pos.x*k, tx.pos.y*k, t.widthPt*k, t.heightPt*k); });
 
       if(fmt === 'png'){
         downloadBlob(await textCanvasToBlob(out, 'image/png'), 'نص_مضاف.png');
