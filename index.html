@@ -2058,6 +2058,40 @@
           <div id="ce-tpl-status"></div>
         </div>
 
+        <details class="ce-more ce-box" id="ce-a4box" style="margin-top:14px;">
+          <summary><b data-i18n="ceA4Title">📄 صفحة A4 بالمقاس الحقيقي (مع المسطرة)</b></summary>
+          <p class="note" style="margin:8px 0;" data-i18n="ceA4Note">الورقة تظهر بحجمها الأصلي ٢١٠×٢٩٧ مم والكرت عليها بمقاسه الحقيقي. المس الكرت لتحديده ثم اسحبه لمكانه، أو اكتب مكانه بالأرقام.</p>
+          <div class="row">
+            <div class="field"><label for="ce-a4-orient" data-i18n="ceA4Orient">اتجاه الورقة</label><select id="ce-a4-orient"><option value="p" data-i18n="ceA4P">طولي</option><option value="l" data-i18n="ceA4L">عرضي</option></select></div>
+            <div class="field"><label for="ce-a4-zoom" data-i18n="ceA4Zoom">العرض</label><select id="ce-a4-zoom"><option value="fit" data-i18n="ceA4Fit">ملء الشاشة</option><option value="real" data-i18n="ceA4Real">حجم حقيقي ١٠٠٪</option></select></div>
+          </div>
+          <label style="display:flex;align-items:center;gap:6px;margin:0 0 8px;"><input type="checkbox" id="ce-a4-back" checked> <span data-i18n="ceA4Back">إضافة الظهر على نفس الورقة</span></label>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:0 0 8px;">
+            <button type="button" class="btn secondary" id="ce-a4-auto" data-i18n="ceA4Auto">ترتيب تلقائي</button>
+            <button type="button" class="btn secondary" id="ce-a4-refresh" data-i18n="ceA4Refresh">🔄 تحديث من التصميم</button>
+          </div>
+          <div id="ce-a4-stage" style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;">
+            <div id="ce-a4-wrap" dir="ltr" style="display:inline-block;position:relative;padding:18px 0 0 24px;vertical-align:top;">
+              <canvas id="ce-a4-rt" style="position:absolute;top:0;left:24px;background:var(--bg-elev);border-bottom:1px solid var(--border);pointer-events:none;"></canvas>
+              <canvas id="ce-a4-rl" style="position:absolute;top:18px;left:0;background:var(--bg-elev);border-right:1px solid var(--border);pointer-events:none;"></canvas>
+              <canvas id="ce-a4-canvas" style="display:block;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.25);touch-action:pan-y;"></canvas>
+            </div>
+          </div>
+          <div class="row" style="margin-top:8px;">
+            <div class="field"><label for="ce-a4-fx"><span data-i18n="ceA4Front">الوجه</span>: <span data-i18n="ceMmX">من اليسار</span> (<span class="ce-mm-u">سم</span>)</label><input type="number" id="ce-a4-fx" step="0.01" dir="ltr"></div>
+            <div class="field"><label for="ce-a4-fy"><span data-i18n="ceA4Front">الوجه</span>: <span data-i18n="ceMmY">من الأعلى</span> (<span class="ce-mm-u">سم</span>)</label><input type="number" id="ce-a4-fy" step="0.01" dir="ltr"></div>
+          </div>
+          <div class="row" id="ce-a4-brow">
+            <div class="field"><label for="ce-a4-bx"><span data-i18n="ceA4BackL">الظهر</span>: <span data-i18n="ceMmX">من اليسار</span> (<span class="ce-mm-u">سم</span>)</label><input type="number" id="ce-a4-bx" step="0.01" dir="ltr"></div>
+            <div class="field"><label for="ce-a4-by"><span data-i18n="ceA4BackL">الظهر</span>: <span data-i18n="ceMmY">من الأعلى</span> (<span class="ce-mm-u">سم</span>)</label><input type="number" id="ce-a4-by" step="0.01" dir="ltr"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:8px;">
+            <button type="button" class="btn" id="ce-a4-pdf" data-i18n="ceA4Pdf">تنزيل A4 (PDF)</button>
+            <button type="button" class="btn secondary" id="ce-a4-png" data-i18n="ceA4Png">تنزيل A4 (صورة)</button>
+          </div>
+          <div id="ce-a4-status"></div>
+        </details>
+
         <div class="ce-box" style="margin-top:14px;">
           <div class="row">
             <div class="field"><label for="ce-format" data-i18n="ceFormat">تنزيل بصيغة</label><select id="ce-format"></select></div>
@@ -4084,6 +4118,7 @@ const I18N = {
     digAuto: 'حسب لغة كل نص (تلقائي)',
     digKeep: 'كما كتبتها', digAr: 'أرقام عربية (٠١٢٣)', digEn: 'أرقام إنجليزية (0123)', digLabel: 'نوع الأرقام',
     ceRulerOn: '📏 إظهار المسطرة', ceRulerUnit: 'وحدة القياس', ceUnitCm: 'سم', ceUnitMm: 'مم', ceRealW: 'عرض الكرت الحقيقي (مم)', ceMmX: 'من اليسار', ceMmY: 'من الأعلى', ceMmW: 'العرض', ceMmH: 'الارتفاع', ceSizeIs: 'مقاس الكرت', ceFmtPdfBoth: 'PDF وجه وظهر (صفحتان بمقاس الكرت)', ceFmtPdfA4: 'PDF وجه وظهر على ورقة A4 بالمقاس الحقيقي',
+    ceA4Title: '📄 صفحة A4 بالمقاس الحقيقي (مع المسطرة)', ceA4Note: 'الورقة تظهر بحجمها الأصلي ٢١٠×٢٩٧ مم والكرت عليها بمقاسه الحقيقي. المس الكرت لتحديده ثم اسحبه لمكانه، أو اكتب مكانه بالأرقام.', ceA4Orient: 'اتجاه الورقة', ceA4P: 'طولي', ceA4L: 'عرضي', ceA4Zoom: 'العرض', ceA4Fit: 'ملء الشاشة', ceA4Real: 'حجم حقيقي ١٠٠٪', ceA4Back: 'إضافة الظهر على نفس الورقة', ceA4Auto: 'ترتيب تلقائي', ceA4Refresh: '🔄 تحديث من التصميم', ceA4Front: 'الوجه', ceA4BackL: 'الظهر', ceA4Pdf: 'تنزيل A4 (PDF)', ceA4Png: 'تنزيل A4 (صورة)', ceA4Big: 'الكرت أكبر من الورقة — صغّر مقاسه أو غيّر اتجاه الورقة.',
     ceStTsAll: 'حجم كل النصوص داخل الختم', ceStRingW: 'سماكة حلقة الكتابة', ceStTsT: 'النص العلوي', ceStTsB: 'النص السفلي', ceStTs1: 'السطر 1 (وسط)', ceStTs2: 'السطر 2 (وسط)', ceStTs3: 'السطر 3 (وسط)', ceStTs4: 'السطر 4 (وسط)',
     ceStTsC: 'حجم كتابة الوسط', ceStTsR: 'حجم الكتابة الدائرية',
     ceTplTitle: '📁 قوالبي المحفوظة', ceTplSave: '💾 حفظ كقالب', ceTplName: 'اسم القالب', ceTplNameDef: 'قالب الكرت', ceTplSaved: 'تم حفظ القالب ✓ يبقى في هذا المتصفح، وللاحتياط صدّره كملف.', ceTplFail: 'تعذّر الحفظ في المتصفح. صدّر القالب كملف بدلاً من ذلك.', ceTplOpen: 'فتح', ceTplDel: 'حذف', ceTplExp: '⬇️ تصدير القالب كملف', ceTplImp: '⬆️ استيراد قالب من ملف', ceTplNone: 'ما فيه قوالب محفوظة بعد.', ceTplBad: 'هذا الملف ليس قالب كرت صالحاً.', ceTplAuto: 'نسخة تلقائية قبل الفتح', ceTplOpened: 'تم فتح القالب ✓',
@@ -4885,6 +4920,7 @@ const I18N = {
     digAuto: 'By each text\'s language (auto)',
     digKeep: 'As typed', digAr: 'Arabic digits (٠١٢٣)', digEn: 'English digits (0123)', digLabel: 'Digit style',
     ceRulerOn: '📏 Show ruler', ceRulerUnit: 'Unit', ceUnitCm: 'cm', ceUnitMm: 'mm', ceRealW: 'Real card width (mm)', ceMmX: 'From left', ceMmY: 'From top', ceMmW: 'Width', ceMmH: 'Height', ceSizeIs: 'Card size', ceFmtPdfBoth: 'PDF front + back (2 pages, card size)', ceFmtPdfA4: 'PDF front + back on A4 at real size',
+    ceA4Title: '📄 A4 page at real size (with ruler)', ceA4Note: 'The sheet is shown at its real 210×297 mm size with the card on it at its real size. Tap the card to select it, then drag it, or type its position.', ceA4Orient: 'Page orientation', ceA4P: 'Portrait', ceA4L: 'Landscape', ceA4Zoom: 'View', ceA4Fit: 'Fit to screen', ceA4Real: 'Real size 100%', ceA4Back: 'Put the back on the same sheet', ceA4Auto: 'Auto arrange', ceA4Refresh: '🔄 Refresh from design', ceA4Front: 'Front', ceA4BackL: 'Back', ceA4Pdf: 'Download A4 (PDF)', ceA4Png: 'Download A4 (image)', ceA4Big: 'The card is bigger than the sheet — make it smaller or switch the orientation.',
     ceStTsAll: 'Size of all stamp text', ceStRingW: 'Text ring thickness', ceStTsT: 'Top text', ceStTsB: 'Bottom text', ceStTs1: 'Line 1 (centre)', ceStTs2: 'Line 2 (centre)', ceStTs3: 'Line 3 (centre)', ceStTs4: 'Line 4 (centre)',
     ceStTsC: 'Centre text size', ceStTsR: 'Curved text size',
     ceTplTitle: '📁 My saved templates', ceTplSave: '💾 Save as template', ceTplName: 'Template name', ceTplNameDef: 'Card template', ceTplSaved: 'Template saved ✓ It stays in this browser; export it as a file as a backup.', ceTplFail: 'Could not save in the browser. Export the template as a file instead.', ceTplOpen: 'Open', ceTplDel: 'Delete', ceTplExp: '⬇️ Export template as a file', ceTplImp: '⬆️ Import a template from a file', ceTplNone: 'No saved templates yet.', ceTplBad: 'This file is not a valid card template.', ceTplAuto: 'Automatic copy before opening', ceTplOpened: 'Template opened ✓',
@@ -12666,8 +12702,8 @@ async function ceRenderCanvas(side, fmt){
       };
       if(ce.mode === 'new'){
         const [wmm, hmm] = ceCardMm(), pw = wmm * 72 / 25.4, ph = hmm * 72 / 25.4;
-        if(fmt === 'png-front') downloadBlob(await psCanvasBlob(await ceRenderCanvas('front', 'jpg'), 'image/png'), 'card_front.png');
-        else if(fmt === 'png-back') downloadBlob(await psCanvasBlob(await ceRenderCanvas('back', 'jpg'), 'image/png'), 'card_back.png');
+        if(fmt === 'png-front') downloadBlob(await uddahSetDpi(await psCanvasBlob(await ceRenderCanvas('front', 'jpg'), 'image/png'), CE_DPI), 'card_front.png');
+        else if(fmt === 'png-back') downloadBlob(await uddahSetDpi(await psCanvasBlob(await ceRenderCanvas('back', 'jpg'), 'image/png'), CE_DPI), 'card_back.png');
         else if(fmt === 'pdf2' || fmt === 'pdf-a4'){
           const cs = [await ceRenderCanvas('front', 'jpg'), await ceRenderCanvas('back', 'jpg')];
           if(fmt === 'pdf2') downloadBlob(await pdfOf(cs, pw, ph), 'card_front_back.pdf');
@@ -12691,7 +12727,7 @@ async function ceRenderCanvas(side, fmt){
       }else{
         const c = await ceRenderCanvas('front', fmt);
         if(fmt === 'pdf'){ const [rw, rh] = ceRealMm(); downloadBlob(await pdfOf([c], rw * 72 / 25.4, rh * 72 / 25.4), 'card_edited.pdf'); }
-        else downloadBlob(await psCanvasBlob(c, fmt === 'jpg' ? 'image/jpeg' : 'image/png', 0.95), 'card_edited.' + fmt);
+        else downloadBlob(await uddahSetDpi(await psCanvasBlob(c, fmt === 'jpg' ? 'image/jpeg' : 'image/png', 0.95), ce.W / (ceRealMm()[0] / 25.4)), 'card_edited.' + fmt);
       }
       setStatus(st, t.ceDone, 'ok');
     }catch(err){ console.error(err); setStatus(st, t.ceBad, 'err'); }
@@ -12762,6 +12798,99 @@ function ceRulerDraw(){
   ['ce-mm-x', 'ce-mm-y', 'ce-mm-w', 'ce-mm-h'].forEach(id=> g(id).addEventListener('input', apply));
   ['ce-ruler-on', 'ce-ruler-unit', 'ce-real-w'].forEach(id=>{ g(id).addEventListener('input', ceRedraw); g(id).addEventListener('change', ceRedraw); });
   try{ if(window.ResizeObserver) new ResizeObserver(()=>{ if(ce.base) ceRulerDraw(); }).observe(g('ce-canvas')); }catch(e){}
+})();
+
+
+/* ---- PNG / JPG with real print density (so Word, printers and viewers show the true size) ---- */
+let _uddahCrcT = null;
+function uddahCrc(buf){ if(!_uddahCrcT){ _uddahCrcT = new Uint32Array(256); for(let n = 0; n < 256; n++){ let c = n; for(let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; _uddahCrcT[n] = c >>> 0; } } let c = 0xFFFFFFFF; for(let i = 0; i < buf.length; i++) c = _uddahCrcT[(c ^ buf[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+async function uddahSetDpi(blob, dpi){
+  try{
+    const u = new Uint8Array(await blob.arrayBuffer()); dpi = Math.max(1, Math.round(dpi));
+    if(u[0] === 0x89 && u[1] === 0x50 && u[12] === 0x49){
+      const ppm = Math.round(dpi / 0.0254), ch = new Uint8Array(21), dv = new DataView(ch.buffer);
+      dv.setUint32(0, 9); ch.set([0x70, 0x48, 0x59, 0x73], 4); dv.setUint32(8, ppm); dv.setUint32(12, ppm); ch[16] = 1; dv.setUint32(17, uddahCrc(ch.subarray(4, 17)));
+      const out = new Uint8Array(u.length + 21); out.set(u.subarray(0, 33)); out.set(ch, 33); out.set(u.subarray(33), 54); return new Blob([out], { type:'image/png' });
+    }
+    if(u[0] === 0xFF && u[1] === 0xD8 && u[2] === 0xFF && u[3] === 0xE0 && u[6] === 0x4A){ u[13] = 1; u[14] = dpi >> 8; u[15] = dpi & 255; u[16] = dpi >> 8; u[17] = dpi & 255; return new Blob([u], { type:'image/jpeg' }); }
+  }catch(e){}
+  return blob;
+}
+
+/* ---- A4 sheet at real size, with rulers: place the front and the back of the card, then download ---- */
+(function ceA4(){
+  const g = id => document.getElementById(id), T = k => I18N[currentLang][k] || k;
+  const st = ce.a4 = { land:false, back:true, pos:{ front:[0, 0], back:[0, 0] }, cv:{ front:null, back:null }, sel:null, drag:null, key:'' };
+  const dims = ()=> st.land ? [297, 210] : [210, 297];
+  const side = ()=> st.back && ce.mode === 'new' ? ['front', 'back'] : ['front'];
+  function auto(){
+    const [W, H] = dims(), [w, h] = ceRealMm(), gap = 8, mx = v => Math.max(5, v);
+    if(side().length === 1) st.pos.front = [mx((W - w) / 2), mx((H - h) / 2)];
+    else if(!st.land){ const top = mx((H - (2 * h + gap)) / 2); st.pos.front = [mx((W - w) / 2), top]; st.pos.back = [mx((W - w) / 2), top + h + gap]; }
+    else { const left = mx((W - (2 * w + gap)) / 2); st.pos.front = [left, mx((H - h) / 2)]; st.pos.back = [left + w + gap, mx((H - h) / 2)]; }
+  }
+  function draw(cv, dpi, ui){
+    const [W, H] = dims(), [w, h] = ceRealMm(), k = dpi / 25.4; cv.width = Math.round(W * k); cv.height = Math.round(H * k);
+    const x = cv.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, cv.width, cv.height);
+    side().forEach(sd=>{
+      const [px, py] = st.pos[sd]; if(st.cv[sd]) x.drawImage(st.cv[sd], px * k, py * k, w * k, h * k);
+      x.save(); x.strokeStyle = '#b9b9b9'; x.lineWidth = Math.max(1, 0.25 * k); x.strokeRect(px * k, py * k, w * k, h * k); x.restore();
+      if(ui && st.sel === sd){ x.save(); x.strokeStyle = '#2b6cb0'; x.lineWidth = Math.max(2, 0.6 * k); x.setLineDash([2 * k, 1.2 * k]); x.strokeRect(px * k, py * k, w * k, h * k); x.restore(); }
+    });
+  }
+  function paint(){
+    const box = g('ce-a4box'); if(!box.open) return;
+    const cv = g('ce-a4-canvas'), [W, H] = dims(), [w, h] = ceRealMm(), unitCm = ceUnitK() === 0.1, k = ceUnitK(), d = unitCm ? 2 : 1, uName = unitCm ? T('ceUnitCm') : T('ceUnitMm');
+    g('ce-a4-brow').style.display = side().length === 2 ? '' : 'none';
+    g('ce-a4-back').parentNode.style.display = ce.mode === 'new' ? '' : 'none';
+    draw(cv, 150, true);
+    const avail = Math.max(200, g('ce-a4-stage').clientWidth - 16 - 24), real = W * 96 / 25.4, wpx = g('ce-a4-zoom').value === 'real' ? real : Math.min(avail, real * 1.15);
+    cv.style.width = wpx + 'px'; cv.style.height = (wpx * H / W) + 'px'; cv.style.maxWidth = 'none';
+    ceDrawRuler(g('ce-a4-rt'), wpx, W, true, unitCm, st.sel ? [st.pos[st.sel][0], st.pos[st.sel][0] + w] : null);
+    ceDrawRuler(g('ce-a4-rl'), wpx * H / W, H, false, unitCm, st.sel ? [st.pos[st.sel][1], st.pos[st.sel][1] + h] : null);
+    box.querySelectorAll('.ce-mm-u').forEach(e=> e.textContent = uName);
+    [['front', 'ce-a4-fx', 'ce-a4-fy'], ['back', 'ce-a4-bx', 'ce-a4-by']].forEach(([sd, ix, iy])=>{ [[ix, 0], [iy, 1]].forEach(([id, n])=>{ const el = g(id); if(document.activeElement !== el) el.value = (st.pos[sd][n] * k).toFixed(d); el.step = unitCm ? '0.01' : '0.1'; }); });
+    const big = w > W - 4 || h > H - 4 || (side().length === 2 && !st.land && 2 * h + 8 > H) ; setStatus('ce-a4-status', big ? T('ceA4Big') : '', big ? 'err' : 'ok');
+  }
+  async function refresh(force){
+    if(!ce.base) return;
+    const all = [...ce.sideItems.front, ...ce.sideItems.back];
+    await Promise.all(all.filter(i=> i.font).map(i=> document.fonts.load(`${i.bold === false ? 400 : 700} 40px ${i.font}`).catch(()=>0))); ce.epoch++;
+    st.cv.front = await ceRenderCanvas('front', 'jpg'); st.cv.back = ce.mode === 'new' ? await ceRenderCanvas('back', 'jpg') : null;
+    const [w, h] = ceRealMm(), key = [w, h, st.land, st.back, ce.mode].join('|'); if(force || key !== st.key){ st.key = key; auto(); }
+    paint();
+  }
+  g('ce-a4box').addEventListener('toggle', ()=>{ if(g('ce-a4box').open){ if(ce.mode === 'new'){ st.back = !!(ce.sideItems.back.length || (g('ce-decor').value !== 'none' && g('ce-decor-side').value !== 'front')); g('ce-a4-back').checked = st.back; } else st.back = false; refresh(true); } });
+  g('ce-a4-refresh').addEventListener('click', ()=> refresh(false)); g('ce-a4-auto').addEventListener('click', ()=>{ auto(); paint(); });
+  g('ce-a4-orient').addEventListener('change', ()=>{ st.land = g('ce-a4-orient').value === 'l'; st.key = ''; refresh(true); });
+  g('ce-a4-back').addEventListener('change', ()=>{ st.back = g('ce-a4-back').checked; st.key = ''; refresh(true); });
+  g('ce-a4-zoom').addEventListener('change', paint); g('ce-ruler-unit').addEventListener('change', paint); window.addEventListener('resize', paint);
+  [['ce-a4-fx', 'front', 0], ['ce-a4-fy', 'front', 1], ['ce-a4-bx', 'back', 0], ['ce-a4-by', 'back', 1]].forEach(([id, sd, n])=> g(id).addEventListener('input', ()=>{ const v = parseFloat(g(id).value); if(isFinite(v)){ st.pos[sd][n] = v / ceUnitK(); paint(); } }));
+  // drag a card on the sheet (tap selects first, then drag, so the page still scrolls on a phone)
+  const cv = g('ce-a4-canvas'), pt = e=>{ const r = cv.getBoundingClientRect(), [W, H] = dims(); return [(e.clientX - r.left) / r.width * W, (e.clientY - r.top) / r.height * H]; };
+  const hit = ([x, y])=>{ const [w, h] = ceRealMm(); return side().slice().reverse().find(sd=> x >= st.pos[sd][0] && x <= st.pos[sd][0] + w && y >= st.pos[sd][1] && y <= st.pos[sd][1] + h) || null; };
+  cv.addEventListener('pointerdown', e=>{
+    const p = pt(e), sd = hit(p);
+    if(sd && st.sel === sd){ st.drag = { sd, dx:p[0] - st.pos[sd][0], dy:p[1] - st.pos[sd][1] }; try{ cv.setPointerCapture(e.pointerId); }catch(_){} e.preventDefault(); }
+    else{ st.sel = sd; cv.style.touchAction = sd ? 'none' : 'pan-y'; paint(); }
+  });
+  cv.addEventListener('pointermove', e=>{ if(!st.drag) return; const p = pt(e); st.pos[st.drag.sd] = [p[0] - st.drag.dx, p[1] - st.drag.dy]; paint(); e.preventDefault(); });
+  const up = ()=>{ st.drag = null; }; cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+  async function build(){ await refresh(false); }
+  g('ce-a4-png').addEventListener('click', async ()=>{
+    try{ await build(); const c = document.createElement('canvas'); draw(c, 300, false); downloadBlob(await uddahSetDpi(await psCanvasBlob(c, 'image/png'), 300), 'card_A4.png'); setStatus('ce-a4-status', T('ceDone'), 'ok'); }catch(err){ console.error(err); setStatus('ce-a4-status', T('ceBad'), 'err'); }
+  });
+  g('ce-a4-pdf').addEventListener('click', async ()=>{
+    try{
+      await build(); const [W, H] = dims(), [w, h] = ceRealMm(), q = 72 / 25.4, doc = await PDFDocument.create(), page = doc.addPage([W * q, H * q]);
+      for(const sd of side()){
+        if(!st.cv[sd]) continue; const im = await doc.embedPng(await (await psCanvasBlob(st.cv[sd], 'image/png')).arrayBuffer()), [px, py] = st.pos[sd];
+        page.drawImage(im, { x:px * q, y:(H - py - h) * q, width:w * q, height:h * q });
+        if(page.drawRectangle && PDFLib.rgb) page.drawRectangle({ x:px * q, y:(H - py - h) * q, width:w * q, height:h * q, borderColor:PDFLib.rgb(0.72, 0.72, 0.72), borderWidth:0.5 });
+      }
+      downloadBlob(new Blob([await doc.save()], { type:'application/pdf' }), 'card_A4.pdf'); setStatus('ce-a4-status', T('ceDone'), 'ok');
+    }catch(err){ console.error(err); setStatus('ce-a4-status', T('ceBad'), 'err'); }
+  });
 })();
 
 /* ---- templates: save / open / export / import (kept in this browser's IndexedDB) ---- */
