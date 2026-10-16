@@ -1954,8 +1954,24 @@
                 <select id="ce-st-rings"><option value="1" data-i18n="ceRing1">دائرة واحدة</option><option value="2" selected data-i18n="ceRing2">دائرتان</option><option value="3" data-i18n="ceRing3">ثلاث دوائر</option></select></div>
             </div>
             <div class="row">
+              <div class="field"><label for="ce-st-tsall"><span data-i18n="ceStTsAll">حجم كل النصوص داخل الختم</span> <span id="ce-st-tsall-v">100</span>٪</label><input type="range" id="ce-st-tsall" min="40" max="220" step="2" value="100"></div>
+              <div class="field"><label for="ce-st-ringw"><span data-i18n="ceStRingW">سماكة حلقة الكتابة</span> <span id="ce-st-ringw-v">100</span>٪</label><input type="range" id="ce-st-ringw" min="60" max="200" step="2" value="100"></div>
+            </div>
+            <div class="row">
               <div class="field"><label for="ce-st-tsc"><span data-i18n="ceStTsC">حجم كتابة الوسط</span> <span id="ce-st-tsc-v">100</span>٪</label><input type="range" id="ce-st-tsc" min="50" max="160" step="2" value="100"></div>
               <div class="field"><label for="ce-st-tsr"><span data-i18n="ceStTsR">حجم الكتابة الدائرية</span> <span id="ce-st-tsr-v">100</span>٪</label><input type="range" id="ce-st-tsr" min="50" max="150" step="2" value="100"></div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="ce-st-tst"><span data-i18n="ceStTsT">النص العلوي</span> <span id="ce-st-tst-v">100</span>٪</label><input type="range" id="ce-st-tst" min="40" max="300" step="2" value="100"></div>
+              <div class="field"><label for="ce-st-tsb"><span data-i18n="ceStTsB">النص السفلي</span> <span id="ce-st-tsb-v">100</span>٪</label><input type="range" id="ce-st-tsb" min="40" max="300" step="2" value="100"></div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="ce-st-ts1"><span data-i18n="ceStTs1">السطر 1 (وسط)</span> <span id="ce-st-ts1-v">100</span>٪</label><input type="range" id="ce-st-ts1" min="40" max="250" step="2" value="100"></div>
+              <div class="field"><label for="ce-st-ts2"><span data-i18n="ceStTs2">السطر 2 (وسط)</span> <span id="ce-st-ts2-v">100</span>٪</label><input type="range" id="ce-st-ts2" min="40" max="250" step="2" value="100"></div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="ce-st-ts3"><span data-i18n="ceStTs3">السطر 3 (وسط)</span> <span id="ce-st-ts3-v">100</span>٪</label><input type="range" id="ce-st-ts3" min="40" max="250" step="2" value="100"></div>
+              <div class="field"><label for="ce-st-ts4"><span data-i18n="ceStTs4">السطر 4 (وسط)</span> <span id="ce-st-ts4-v">100</span>٪</label><input type="range" id="ce-st-ts4" min="40" max="250" step="2" value="100"></div>
             </div>
             <div class="row">
               <div class="field"><label for="ce-st-digits" data-i18n="digLabel">نوع الأرقام</label><select id="ce-st-digits"><option value="keep" data-i18n="digKeep">كما كتبتها</option><option value="ar" data-i18n="digAr">أرقام عربية (٠١٢٣)</option><option value="en" data-i18n="digEn">أرقام إنجليزية (0123)</option><option value="auto" data-i18n="digAuto">حسب لغة كل نص (تلقائي)</option></select></div>
@@ -4051,6 +4067,7 @@ const I18N = {
     textAddMore: '➕ حفظ هذا النص وإضافة نص آخر', textItemHint: 'اضغط على النص في المعاينة أو في القائمة لتعديله', textNoneYet: 'اكتب نصاً أولاً.',
     digAuto: 'حسب لغة كل نص (تلقائي)',
     digKeep: 'كما كتبتها', digAr: 'أرقام عربية (٠١٢٣)', digEn: 'أرقام إنجليزية (0123)', digLabel: 'نوع الأرقام',
+    ceStTsAll: 'حجم كل النصوص داخل الختم', ceStRingW: 'سماكة حلقة الكتابة', ceStTsT: 'النص العلوي', ceStTsB: 'النص السفلي', ceStTs1: 'السطر 1 (وسط)', ceStTs2: 'السطر 2 (وسط)', ceStTs3: 'السطر 3 (وسط)', ceStTs4: 'السطر 4 (وسط)',
     ceStTsC: 'حجم كتابة الوسط', ceStTsR: 'حجم الكتابة الدائرية',
     ceTplTitle: '📁 قوالبي المحفوظة', ceTplSave: '💾 حفظ كقالب', ceTplName: 'اسم القالب', ceTplNameDef: 'قالب الكرت', ceTplSaved: 'تم حفظ القالب ✓ يبقى في هذا المتصفح، وللاحتياط صدّره كملف.', ceTplFail: 'تعذّر الحفظ في المتصفح. صدّر القالب كملف بدلاً من ذلك.', ceTplOpen: 'فتح', ceTplDel: 'حذف', ceTplExp: '⬇️ تصدير القالب كملف', ceTplImp: '⬆️ استيراد قالب من ملف', ceTplNone: 'ما فيه قوالب محفوظة بعد.', ceTplBad: 'هذا الملف ليس قالب كرت صالحاً.', ceTplAuto: 'نسخة تلقائية قبل الفتح', ceTplOpened: 'تم فتح القالب ✓',
     signNameLabel: '✍️ اكتب اسمك وحوّله إلى توقيع', signNamePh: 'اكتب الاسم هنا', signInkLabel: 'لون الحبر', signStyleHint: 'اختر شكل التوقيع من الأشكال تحت، وبعدها تقدر تسحبه وتغيّر حجمه مثل أي توقيع.',
@@ -4850,6 +4867,7 @@ const I18N = {
     textAddMore: '➕ Save this text and add another', textItemHint: 'Tap a text in the preview or the list to edit it', textNoneYet: 'Write some text first.',
     digAuto: 'By each text\'s language (auto)',
     digKeep: 'As typed', digAr: 'Arabic digits (٠١٢٣)', digEn: 'English digits (0123)', digLabel: 'Digit style',
+    ceStTsAll: 'Size of all stamp text', ceStRingW: 'Text ring thickness', ceStTsT: 'Top text', ceStTsB: 'Bottom text', ceStTs1: 'Line 1 (centre)', ceStTs2: 'Line 2 (centre)', ceStTs3: 'Line 3 (centre)', ceStTs4: 'Line 4 (centre)',
     ceStTsC: 'Centre text size', ceStTsR: 'Curved text size',
     ceTplTitle: '📁 My saved templates', ceTplSave: '💾 Save as template', ceTplName: 'Template name', ceTplNameDef: 'Card template', ceTplSaved: 'Template saved ✓ It stays in this browser; export it as a file as a backup.', ceTplFail: 'Could not save in the browser. Export the template as a file instead.', ceTplOpen: 'Open', ceTplDel: 'Delete', ceTplExp: '⬇️ Export template as a file', ceTplImp: '⬆️ Import a template from a file', ceTplNone: 'No saved templates yet.', ceTplBad: 'This file is not a valid card template.', ceTplAuto: 'Automatic copy before opening', ceTplOpened: 'Template opened ✓',
     signNameLabel: '✍️ Type your name and turn it into a signature', signNamePh: 'Type the name here', signInkLabel: 'Ink colour', signStyleHint: 'Pick a signature style below, then drag and resize it like any signature.',
@@ -12236,11 +12254,12 @@ function ceAutoColor(it){
   ce.cache.set(key, c); return c;
 }
 /* ---- curved text: the string is drawn straight first (so Arabic letters stay joined), then bent along the arc in thin strips ---- */
-function ceCurveText(ctx, text, cx, cy, R, centerAng, top, size, weight, font, color, maxSpan){
+function ceCurveText(ctx, text, cx, cy, R, centerAng, top, size, weight, font, color, maxSpan, scale, hardSpan){
   if(!text) return;
   const t = document.createElement('canvas').getContext('2d'); let fs = size;
   const meas = ()=>{ t.font = `${weight} ${fs}px ${font}`; return t.measureText(text).width; };
   let w = meas(); while(fs > 8 && w / R > maxSpan){ fs -= 1; w = meas(); }
+  if(scale && scale !== 1){ fs = Math.max(6, fs * scale); w = meas(); const hard = hardSpan || Math.PI * 0.97; while(fs > 6 && w / R > hard){ fs -= 1; w = meas(); } }
   const pad = fs * 0.4, tw = Math.ceil(w + pad * 2), th = Math.ceil(fs * 1.7);
   const tmp = document.createElement('canvas'); tmp.width = tw; tmp.height = th; const c = tmp.getContext('2d');
   c.font = `${weight} ${fs}px ${font}`; c.fillStyle = color; c.textBaseline = 'middle'; c.textAlign = 'center'; c.direction = /[֐-ࣿ]/.test(text) ? 'rtl' : 'ltr';
@@ -12254,23 +12273,24 @@ function ceCurveText(ctx, text, cx, cy, R, centerAng, top, size, weight, font, c
 }
 function ceStampBitmap(it0){
   const dg = it0.digits, it = Object.assign({}, it0, { top:uddahDigits(it0.top, dg), bot:uddahDigits(it0.bot, dg), l1:uddahDigits(it0.l1, dg), l2:uddahDigits(it0.l2, dg), l3:uddahDigits(it0.l3, dg), l4:uddahDigits(it0.l4, dg) });
-  const key = [it.top, it.bot, it.l1, it.l2, it.l3, it.l4, it.font, it.color, it.thick, it.wear, it.seed, it.rings, it.tsC, it.tsR, ce.epoch].join('|');
+  const key = [it.top, it.bot, it.l1, it.l2, it.l3, it.l4, it.font, it.color, it.thick, it.wear, it.seed, it.rings, it.tsC, it.tsR, it.tsAll, it.ringW, it.tsT, it.tsB, it.ts1, it.ts2, it.ts3, it.ts4, ce.epoch].join('|');
   if(ce.stampCache.has(key)) return ce.stampCache.get(key);
   const S = 900, cv = document.createElement('canvas'); cv.width = cv.height = S; const ctx = cv.getContext('2d');
   const col = it.color, lw = S * 0.0085 * it.thick, cx = S / 2, cy = S / 2, R0 = S / 2 - lw * 3, hasRing = !!(it.top || it.bot);
   ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = lw * 1.5;
   ctx.beginPath(); ctx.arc(cx, cy, R0, 0, 7); ctx.stroke();
   const x3 = it.rings === 3; if(x3){ ctx.lineWidth = lw * 0.8; ctx.beginPath(); ctx.arc(cx, cy, R0 - lw * 3.2, 0, 7); ctx.stroke(); }
-  const ringW = hasRing ? S * 0.135 : S * 0.04, R1 = R0 - ringW - (x3 ? lw * 3.2 : 0);
+  const ringW = hasRing ? S * 0.135 * (it.ringW || 100) / 100 : S * 0.04, R1 = R0 - ringW - (x3 ? lw * 3.2 : 0);
   if(it.rings !== 1){ ctx.lineWidth = lw * 1.2; ctx.beginPath(); ctx.arc(cx, cy, R1, 0, 7); ctx.stroke(); }
   if(hasRing){
-    const Rt = (R0 - (x3 ? lw * 3.2 : 0) + R1) / 2, fs = ringW * 0.6 * (it.tsR || 100) / 100;
-    ceCurveText(ctx, it.top, cx, cy, Rt, 0, true, fs, 700, it.font, col, Math.PI * 0.78);
-    ceCurveText(ctx, it.bot, cx, cy, Rt, Math.PI, false, fs, 700, it.font, col, Math.PI * 0.78);
+    const Rt = (R0 - (x3 ? lw * 3.2 : 0) + R1) / 2, fs = S * 0.135 * 0.6, all = (it.tsAll || 100) / 100 * (it.tsR || 100) / 100;
+    ceCurveText(ctx, it.top, cx, cy, Rt, 0, true, fs, 700, it.font, col, Math.PI * 0.78, all * (it.tsT || 100) / 100, it.bot ? Math.PI * 0.97 : Math.PI * 1.8);
+    ceCurveText(ctx, it.bot, cx, cy, Rt, Math.PI, false, fs, 700, it.font, col, Math.PI * 0.78, all * (it.tsB || 100) / 100, it.top ? Math.PI * 0.97 : Math.PI * 1.8);
   }
-  const lines = [[it.l1, 1], [it.l2, 0.5], [it.l3, 0.5], [it.l4, 0.4]].filter(l=> l[0] && l[0].trim());
+  const lsc = [it.ts1, it.ts2, it.ts3, it.ts4].map(v=> (v || 100) / 100 * (it.tsAll || 100) / 100);
+  const lines = [[it.l1, 1, lsc[0]], [it.l2, 0.5, lsc[1]], [it.l3, 0.5, lsc[2]], [it.l4, 0.4, lsc[3]]].filter(l=> l[0] && l[0].trim());
   if(lines.length){
-    const cs = (it.tsC || 100) / 100, avail = R1 * 1.78 * Math.max(1, cs), base = R1 * 0.56 * cs; const sizes = lines.map(([tx, f])=>{ let fs = base * f * (f === 1 ? 1.3 : 1.05); ctx.font = `${f === 1 ? 800 : 600} ${fs}px ${it.font}`; while(fs > 8 && ctx.measureText(tx).width > avail){ fs -= 1; ctx.font = `${f === 1 ? 800 : 600} ${fs}px ${it.font}`; } return fs; });
+    const cs = (it.tsC || 100) / 100, avail = R1 * 1.78; const sizes = lines.map(([tx, f, ls])=>{ const wt = f === 1 ? 800 : 600; let fs = R1 * 0.56 * f * (f === 1 ? 1.3 : 1.05); ctx.font = `${wt} ${fs}px ${it.font}`; while(fs > 8 && ctx.measureText(tx).width > avail){ fs -= 1; ctx.font = `${wt} ${fs}px ${it.font}`; } fs *= cs * ls; ctx.font = `${wt} ${fs}px ${it.font}`; while(fs > 6 && ctx.measureText(tx).width > R1 * 2.05){ fs -= 1; ctx.font = `${wt} ${fs}px ${it.font}`; } return fs; });
     const tot = sizes.reduce((a, b)=> a + b * 1.3, 0); let y = cy - tot / 2;
     lines.forEach(([tx, f], i)=>{ const fs = sizes[i]; y += fs * 0.65; ctx.font = `${f === 1 ? 800 : 600} ${fs}px ${it.font}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = /[֐-ࣿ]/.test(tx) ? 'rtl' : 'ltr'; ctx.fillStyle = col; ctx.fillText(tx, cx, y); y += fs * 0.65; });
   }
@@ -12389,7 +12409,7 @@ function ceSelect(i){
   g('ce-text-opts').style.display = ty === 'text' ? '' : 'none'; g('ce-stamp-opts').style.display = ty === 'stamp' ? '' : 'none'; g('ce-fr-opts').style.display = ty === 'frame' ? '' : 'none'; g('ce-line-opts').style.display = ty === 'line' ? '' : 'none';
   g('ce-cover-wrap').style.display = ce.mode === 'img' ? '' : 'none';
   if(ty === 'text'){ g('ce-text').value = it.text; g('ce-font').value = it.font; g('ce-size').value = it.size; g('ce-color').value = it.color; g('ce-align').value = it.align; g('ce-cover').value = it.cover; g('ce-covercolor').value = it.coverColor; g('ce-bold').checked = it.bold; g('ce-split').checked = !!it.split; g('ce-digits').value = it.digits || 'keep'; ce.lastText = it; g('ce-covercolor-wrap').style.display = it.cover === 'custom' ? '' : 'none'; }
-  if(ty === 'stamp'){ g('ce-st-top').value = it.top; g('ce-st-bot').value = it.bot; g('ce-st-l1').value = it.l1; g('ce-st-l2').value = it.l2; g('ce-st-l3').value = it.l3; g('ce-st-l4').value = it.l4; g('ce-st-font').value = it.font; g('ce-st-color').value = it.color; g('ce-st-thick').value = it.thick; g('ce-st-op').value = Math.round(it.opacity * 100); g('ce-st-wear').value = it.wear; g('ce-st-rot').value = it.rot; g('ce-st-rings').value = String(it.rings); g('ce-st-digits').value = it.digits || 'keep'; g('ce-st-tsc').value = it.tsC || 100; g('ce-st-tsr').value = it.tsR || 100; g('ce-st-tsc-v').textContent = it.tsC || 100; g('ce-st-tsr-v').textContent = it.tsR || 100; g('ce-st-mult').checked = it.mult; }
+  if(ty === 'stamp'){ g('ce-st-top').value = it.top; g('ce-st-bot').value = it.bot; g('ce-st-l1').value = it.l1; g('ce-st-l2').value = it.l2; g('ce-st-l3').value = it.l3; g('ce-st-l4').value = it.l4; g('ce-st-font').value = it.font; g('ce-st-color').value = it.color; g('ce-st-thick').value = it.thick; g('ce-st-op').value = Math.round(it.opacity * 100); g('ce-st-wear').value = it.wear; g('ce-st-rot').value = it.rot; g('ce-st-rings').value = String(it.rings); g('ce-st-digits').value = it.digits || 'keep'; g('ce-st-tsc').value = it.tsC || 100; g('ce-st-tsr').value = it.tsR || 100; g('ce-st-tsc-v').textContent = it.tsC || 100; g('ce-st-tsr-v').textContent = it.tsR || 100; ['tsAll:tsall','ringW:ringw','tsT:tst','tsB:tsb','ts1:ts1','ts2:ts2','ts3:ts3','ts4:ts4'].forEach(m=>{ const [k, id] = m.split(':'); g('ce-st-' + id).value = it[k] || 100; g('ce-st-' + id + '-v').textContent = it[k] || 100; }); g('ce-st-mult').checked = it.mult; }
   if(ty === 'frame'){ g('ce-fr-color').value = it.color; g('ce-fr-width').value = it.width; g('ce-fr-radius').value = it.radius; g('ce-fr-style').value = it.style; g('ce-fr-lines').value = String(it.lines); g('ce-fr-fill').value = it.fill; g('ce-fr-fillc').value = it.fillColor; g('ce-fr-fillc-wrap').style.display = it.fill === 'custom' ? '' : 'none'; }
   if(ty === 'line'){ g('ce-ln-color').value = it.color; g('ce-ln-width').value = it.width; g('ce-ln-style').value = it.style; }
   ceRedraw();
@@ -12528,9 +12548,9 @@ async function ceRenderCanvas(side, fmt){
   ['ce-text','ce-font','ce-size','ce-color','ce-align','ce-cover','ce-covercolor','ce-bold','ce-split','ce-digits'].forEach(id=>{ const el = g(id); el.addEventListener('input', updText); el.addEventListener('change', updText); });
   const updStamp = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'stamp') return;
     it.top = g('ce-st-top').value; it.bot = g('ce-st-bot').value; it.l1 = g('ce-st-l1').value; it.l2 = g('ce-st-l2').value; it.l3 = g('ce-st-l3').value; it.l4 = g('ce-st-l4').value; it.font = g('ce-st-font').value; it.color = g('ce-st-color').value;
-    it.thick = parseFloat(g('ce-st-thick').value) || 1.6; it.opacity = (parseFloat(g('ce-st-op').value) || 85) / 100; it.wear = parseFloat(g('ce-st-wear').value) || 0; it.rot = parseFloat(g('ce-st-rot').value) || 0; it.rings = parseInt(g('ce-st-rings').value, 10) || 2; it.digits = g('ce-st-digits').value; it.tsC = parseFloat(g('ce-st-tsc').value) || 100; it.tsR = parseFloat(g('ce-st-tsr').value) || 100; g('ce-st-tsc-v').textContent = it.tsC; g('ce-st-tsr-v').textContent = it.tsR; it.mult = g('ce-st-mult').checked;
+    it.thick = parseFloat(g('ce-st-thick').value) || 1.6; it.opacity = (parseFloat(g('ce-st-op').value) || 85) / 100; it.wear = parseFloat(g('ce-st-wear').value) || 0; it.rot = parseFloat(g('ce-st-rot').value) || 0; it.rings = parseInt(g('ce-st-rings').value, 10) || 2; it.digits = g('ce-st-digits').value; it.tsC = parseFloat(g('ce-st-tsc').value) || 100; it.tsR = parseFloat(g('ce-st-tsr').value) || 100; g('ce-st-tsc-v').textContent = it.tsC; g('ce-st-tsr-v').textContent = it.tsR; ['tsAll:tsall','ringW:ringw','tsT:tst','tsB:tsb','ts1:ts1','ts2:ts2','ts3:ts3','ts4:ts4'].forEach(m=>{ const [k, id] = m.split(':'); it[k] = parseFloat(g('ce-st-' + id).value) || 100; g('ce-st-' + id + '-v').textContent = it[k]; }); it.mult = g('ce-st-mult').checked;
     ceLoadFont(it.font, 700); ceRedraw(); };
-  ['ce-st-top','ce-st-bot','ce-st-l1','ce-st-l2','ce-st-l3','ce-st-l4','ce-st-font','ce-st-color','ce-st-thick','ce-st-op','ce-st-wear','ce-st-rot','ce-st-rings','ce-st-digits','ce-st-tsc','ce-st-tsr','ce-st-mult'].forEach(id=>{ const el = g(id); el.addEventListener('input', updStamp); el.addEventListener('change', updStamp); });
+  ['ce-st-top','ce-st-bot','ce-st-l1','ce-st-l2','ce-st-l3','ce-st-l4','ce-st-font','ce-st-color','ce-st-thick','ce-st-op','ce-st-wear','ce-st-rot','ce-st-rings','ce-st-digits','ce-st-tsc','ce-st-tsr','ce-st-tsall','ce-st-ringw','ce-st-tst','ce-st-tsb','ce-st-ts1','ce-st-ts2','ce-st-ts3','ce-st-ts4','ce-st-mult'].forEach(id=>{ const el = g(id); el.addEventListener('input', updStamp); el.addEventListener('change', updStamp); });
   g('ce-st-seed').addEventListener('click', ()=>{ const it = ce.items[ce.sel]; if(it && it.type === 'stamp'){ it.seed = (Math.random() * 1e9) | 0; ceRedraw(); } });
   const updLine = ()=>{ const it = ce.items[ce.sel]; if(!it || it.type !== 'line') return; it.color = g('ce-ln-color').value; it.width = Math.max(1, parseFloat(g('ce-ln-width').value) || 3); it.style = g('ce-ln-style').value; ceRedraw(); };
   ['ce-ln-color','ce-ln-width','ce-ln-style'].forEach(id=>{ const el = g(id); el.addEventListener('input', updLine); el.addEventListener('change', updLine); });
@@ -12565,7 +12585,7 @@ async function ceRenderCanvas(side, fmt){
   });
   g('ce-add-stamp').addEventListener('click', ()=>{
     if(!ce.base) return; const t = I18N[currentLang], sz = Math.min(ce.W, ce.H) * 0.6, f = ERASE_FONT_OPTIONS[0].v;
-    ce.items.push({ type:'stamp', x:(ce.W - sz) / 2, y:(ce.H - sz) / 2, w:sz, h:sz, top:t.ceStDefTop, bot:t.ceStDefBot, l1:t.ceStDefL1, l2:t.ceStDefL2, l3:t.ceStDefL3, l4:t.ceStDefL4, font:f, color:'#c8202a', thick:1.6, opacity:0.85, wear:45, rot:-8, rings:2, tsC:100, tsR:100, digits:'auto', mult:true, seed:(Math.random() * 1e9) | 0 });
+    ce.items.push({ type:'stamp', x:(ce.W - sz) / 2, y:(ce.H - sz) / 2, w:sz, h:sz, top:t.ceStDefTop, bot:t.ceStDefBot, l1:t.ceStDefL1, l2:t.ceStDefL2, l3:t.ceStDefL3, l4:t.ceStDefL4, font:f, color:'#c8202a', thick:1.6, opacity:0.85, wear:45, rot:-8, rings:2, tsC:100, tsR:100, tsAll:100, ringW:100, tsT:100, tsB:100, ts1:100, ts2:100, ts3:100, ts4:100, digits:'auto', mult:true, seed:(Math.random() * 1e9) | 0 });
     ceLoadFont(f, 700); ceSelect(ce.items.length - 1);
   });
   g('ce-add-line').addEventListener('click', ()=>{
