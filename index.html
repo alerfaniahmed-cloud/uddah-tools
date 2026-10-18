@@ -2166,6 +2166,8 @@
           <div class="field"><label for="cv-shape" data-cvl="shape">شكل الصورة</label>
             <select id="cv-shape"><option value="circle" data-cvl="shCircle">دائرة</option><option value="round" data-cvl="shRound">مربع مدوّر</option><option value="square" data-cvl="shSquare">مربع</option></select></div>
         </div>
+        <div class="field"><label for="cv-border" data-cvl="border">إطار الصفحة</label>
+          <select id="cv-border"><option value="none" data-cvl="bNone">بدون</option><option value="thin" data-cvl="bThin">خط رفيع</option><option value="double" data-cvl="bDouble">إطار مزدوج</option></select></div>
         <div class="field"><label for="cv-size"><span data-cvl="size">حجم الخط</span> <span id="cv-size-v">100</span>٪</label><input type="range" id="cv-size" min="85" max="120" step="1" value="100"></div>
       </div>
 
@@ -2242,6 +2244,9 @@
       <div id="cv-warn"></div>
       <div id="cv-prev" style="display:flex;flex-direction:column;gap:12px;align-items:center;margin:10px 0;"></div>
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+        <div class="field" style="margin-bottom:10px;"><label for="cv-res" data-cvl="res">دقة التصدير</label>
+          <select id="cv-res"><option value="200" data-cvl="resStd">عادية (200 DPI)</option><option value="300" data-cvl="resHigh" selected>عالية (300 DPI)</option><option value="450" data-cvl="resUltra">فائقة (450 DPI)</option></select>
+          <p class="note" style="margin:4px 0 0;" data-cvl="resNote">الدقة الفائقة تحتاج ذاكرة أكبر وقد لا تعمل على بعض الجوالات.</p></div>
         <button type="button" class="btn" id="cv-pdf" data-cvl="dlPdf">تنزيل PDF</button>
         <button type="button" class="btn secondary" id="cv-png" data-cvl="dlPng">تنزيل صورة (الصفحة 1)</button>
       </div>
@@ -13302,13 +13307,13 @@ document.getElementById('fuel-btn').addEventListener('click', ()=>{
    Pages are laid out as drawing commands (A4, 595x842 pt) and painted on canvases.
    ============================================================ */
 const CVL = {
-  ar:{ tplTitle:'القالب', accent:'اللون الرئيسي', font:'الخط', dir:'لغة واتجاه السيرة', dirAuto:'تلقائي حسب النص', dirAr:'عربي (من اليمين)', dirEn:'English (من اليسار)', shape:'شكل الصورة', shCircle:'دائرة', shRound:'مربع مدوّر', shSquare:'مربع', size:'حجم الخط',
+  ar:{ tplTitle:'القالب', accent:'اللون الرئيسي', font:'الخط', dir:'لغة واتجاه السيرة', dirAuto:'تلقائي حسب النص', dirAr:'عربي (من اليمين)', dirEn:'English (من اليسار)', border:'إطار الصفحة', bNone:'بدون', bThin:'خط رفيع', bDouble:'إطار مزدوج', res:'دقة التصدير', resStd:'عادية (200 DPI)', resHigh:'عالية (300 DPI)', resUltra:'فائقة (450 DPI)', resNote:'الدقة الفائقة تحتاج ذاكرة أكبر وقد لا تعمل على بعض الجوالات.', shape:'شكل الصورة', shCircle:'دائرة', shRound:'مربع مدوّر', shSquare:'مربع', size:'حجم الخط',
     secPersonal:'البيانات الشخصية', name:'الاسم الكامل', jobtitle:'المسمى الوظيفي', phone:'الجوال', email:'البريد الإلكتروني', city:'المدينة / الدولة', link:'رابط (لينكدإن / موقع)', extra:'معلومة إضافية (الجنسية، العمر، رخصة القيادة...)', photo:'الصورة الشخصية', photoClear:'🗑️ حذف الصورة', photoPick:'📷 اختيار صورة', photoHint:'اضغط للاختيار أو اسحب الصورة هنا', slot:'إظهار خانة الصورة في السيرة', zoom:'التكبير', posX:'الموضع أفقيًا', posY:'الموضع رأسيًا',
     secSummary:'النبذة المختصرة', secExp:'الخبرات العملية', addExp:'➕ إضافة خبرة', secEdu:'التعليم', addEdu:'➕ إضافة مؤهل', secSkills:'المهارات', skillsHint:'مهارة في كل سطر (أو افصل بفاصلة)', secLangs:'اللغات', addLang:'➕ إضافة لغة', secCerts:'الدورات والشهادات', certsHint:'عنصر في كل سطر', secExtra:'قسم إضافي (اختياري)', xtitle:'عنوان القسم (مثال: الهوايات، التطوع)', xlines:'عنصر في كل سطر',
     sample:'✨ تعبئة بيانات تجريبية', clear:'🧹 مسح الكل', remember:'تذكّر بياناتي في هذا المتصفح (بدون الصورة)', dlPdf:'تنزيل PDF', dlPng:'تنزيل صورة (الصفحة 1)', note:'كل شيء يتم داخل متصفحك. الملف يُنزَّل بصفحات عالية الجودة للطباعة، لكن بعض أنظمة التقديم الآلية لا تقرأ النص من هذا النوع من الملفات.',
     role:'المسمى الوظيفي', org:'جهة العمل', when:'الفترة (مثال: 2020 - الآن)', desc:'المهام والإنجازات (سطر لكل نقطة)', deg:'المؤهل / التخصص', school:'الجامعة / المعهد', years:'السنوات', lang:'اللغة', level:'المستوى', del:'حذف',
     warnSide:'الشريط الجانبي ممتلئ: بعض العناصر لم تظهر، صغّر حجم الخط أو اختر قالبًا آخر.', done:'تم التنزيل ✓', bad:'تعذّر إنشاء الملف' },
-  en:{ tplTitle:'Template', accent:'Main colour', font:'Font', dir:'CV language & direction', dirAuto:'Auto (from the text)', dirAr:'العربية (right to left)', dirEn:'English (left to right)', shape:'Photo shape', shCircle:'Circle', shRound:'Rounded square', shSquare:'Square', size:'Text size',
+  en:{ tplTitle:'Template', accent:'Main colour', font:'Font', dir:'CV language & direction', dirAuto:'Auto (from the text)', dirAr:'العربية (right to left)', dirEn:'English (left to right)', border:'Page border', bNone:'None', bThin:'Thin line', bDouble:'Double frame', res:'Export quality', resStd:'Standard (200 DPI)', resHigh:'High (300 DPI)', resUltra:'Ultra (450 DPI)', resNote:'Ultra needs more memory and may fail on some phones.', shape:'Photo shape', shCircle:'Circle', shRound:'Rounded square', shSquare:'Square', size:'Text size',
     secPersonal:'Personal details', name:'Full name', jobtitle:'Job title', phone:'Phone', email:'Email', city:'City / Country', link:'Link (LinkedIn / website)', extra:'Extra info (nationality, age, driving licence...)', photo:'Photo', photoClear:'🗑️ Remove photo', photoPick:'📷 Choose photo', photoHint:'Click to choose or drop a photo here', slot:'Show the photo frame in the CV', zoom:'Zoom', posX:'Horizontal position', posY:'Vertical position',
     secSummary:'Summary', secExp:'Work experience', addExp:'➕ Add experience', secEdu:'Education', addEdu:'➕ Add education', secSkills:'Skills', skillsHint:'One skill per line (or comma separated)', secLangs:'Languages', addLang:'➕ Add language', secCerts:'Courses & certificates', certsHint:'One item per line', secExtra:'Extra section (optional)', xtitle:'Section title (e.g. Hobbies, Volunteering)', xlines:'One item per line',
     sample:'✨ Fill sample data', clear:'🧹 Clear all', remember:'Remember my data in this browser (without the photo)', dlPdf:'Download PDF', dlPng:'Download image (page 1)', note:'Everything runs in your browser. The PDF is made of high-quality pages for printing, but some automatic applicant-tracking systems cannot read text from this kind of file.',
@@ -13542,20 +13547,30 @@ const CV_TPLS = [
       const mw = PW - SWd - M - 24, mx = RTL ? PW - M - mw : M, F = { x:mx, w:mw, y:BH + 14, top:BH + 14, bot:PH - M, main:true, deco, top2:M };
       mainSections(F, D, t, o, ['summary', 'exp', 'edu', 'extra']);
     }
+    addBorder();
+  }
+
+  function addBorder(){
+    const b = $('cv-border').value; if(b === 'none') return; const c = ACC;
+    pages.forEach(p=>{ if(b === 'thin') p.push({ k:'r', x:14, y:14, w:PW - 28, h:PH - 28, stroke:c, lw:1.1 }); else{ p.push({ k:'r', x:11, y:11, w:PW - 22, h:PH - 22, stroke:c, lw:2 }); p.push({ k:'r', x:17, y:17, w:PW - 34, h:PH - 34, stroke:c, lw:0.7 }); } });
   }
 
   /* ---------- painting ---------- */
   function rr(ctx, x, y, w, h, r){ r = Math.min(r, w / 2, h / 2); ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
   function paint(cmds, ctx){
     cmds.forEach(c=>{
-      if(c.k === 'r'){ rr(ctx, c.x, c.y, c.w, c.h, c.r || 0); if(c.fill){ ctx.fillStyle = c.fill; ctx.fill(); } if(c.stroke){ ctx.strokeStyle = c.stroke; ctx.lineWidth = 0.8; ctx.stroke(); } }
+      if(c.k === 'r'){ rr(ctx, c.x, c.y, c.w, c.h, c.r || 0); if(c.fill){ ctx.fillStyle = c.fill; ctx.fill(); } if(c.stroke){ ctx.strokeStyle = c.stroke; ctx.lineWidth = c.lw || 0.8; ctx.stroke(); } }
       else if(c.k === 'l'){ ctx.beginPath(); ctx.moveTo(c.x1, c.y1); ctx.lineTo(c.x2, c.y2); ctx.strokeStyle = c.c; ctx.lineWidth = c.lw; ctx.stroke(); }
       else if(c.k === 'c'){ ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, 7); ctx.fillStyle = c.c; ctx.fill(); }
-      else if(c.k === 'i'){ ctx.save(); if(c.shape === 'circle'){ ctx.beginPath(); ctx.arc(c.x + c.w / 2, c.y + c.h / 2, c.w / 2, 0, 7); ctx.closePath(); } else rr(ctx, c.x, c.y, c.w, c.h, c.shape === 'round' ? c.w * 0.18 : 0); ctx.clip(); ctx.drawImage(c.cv, c.x, c.y, c.w, c.h); ctx.restore();
-        if(c.ring){ ctx.save(); ctx.lineWidth = 2.2; ctx.strokeStyle = c.ring; if(c.shape === 'circle'){ ctx.beginPath(); ctx.arc(c.x + c.w / 2, c.y + c.h / 2, c.w / 2, 0, 7); } else rr(ctx, c.x, c.y, c.w, c.h, c.shape === 'round' ? c.w * 0.18 : 0); ctx.stroke(); ctx.restore(); } }
-      else if(c.k === 'ph'){ ctx.save(); const cx = c.x + c.w / 2, path = ()=>{ if(c.shape === 'circle'){ ctx.beginPath(); ctx.arc(cx, c.y + c.h / 2, c.w / 2, 0, 7); ctx.closePath(); } else rr(ctx, c.x, c.y, c.w, c.h, c.shape === 'round' ? c.w * 0.18 : 0); };
-        path(); ctx.fillStyle = '#eef1f5'; ctx.fill(); ctx.clip(); ctx.fillStyle = '#c3ccd8'; ctx.beginPath(); ctx.arc(cx, c.y + c.h * 0.4, c.w * 0.17, 0, 7); ctx.fill(); ctx.beginPath(); ctx.ellipse(cx, c.y + c.h * 0.98, c.w * 0.34, c.h * 0.36, 0, 0, 7); ctx.fill(); ctx.restore();
-        ctx.save(); ctx.lineWidth = 2; ctx.strokeStyle = c.ring || '#d3dae3'; path(); ctx.stroke(); ctx.restore(); }
+      else if(c.k === 'i' || c.k === 'ph'){
+        const pth = g=>{ const x = c.x - g, y = c.y - g, w = c.w + 2 * g, h = c.h + 2 * g; if(c.shape === 'circle'){ ctx.beginPath(); ctx.arc(c.x + c.w / 2, c.y + c.h / 2, w / 2, 0, 7); ctx.closePath(); } else rr(ctx, x, y, w, h, c.shape === 'round' ? w * 0.18 : 0); };
+        ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.22)'; ctx.shadowBlur = 7; ctx.shadowOffsetY = 2; pth(4.5); ctx.fillStyle = '#ffffff'; ctx.fill(); ctx.restore(); // white mat + soft shadow
+        ctx.save(); pth(0); ctx.clip();
+        if(c.k === 'i') ctx.drawImage(c.cv, c.x, c.y, c.w, c.h);
+        else{ const cx = c.x + c.w / 2; ctx.fillStyle = '#eef1f5'; ctx.fillRect(c.x, c.y, c.w, c.h); ctx.fillStyle = '#c3ccd8'; ctx.beginPath(); ctx.arc(cx, c.y + c.h * 0.4, c.w * 0.17, 0, 7); ctx.fill(); ctx.beginPath(); ctx.ellipse(cx, c.y + c.h * 0.98, c.w * 0.34, c.h * 0.36, 0, 0, 7); ctx.fill(); }
+        ctx.restore();
+        ctx.save(); ctx.lineWidth = 0.6; ctx.strokeStyle = 'rgba(0,0,0,.18)'; pth(0); ctx.stroke(); ctx.lineWidth = 1.7; ctx.strokeStyle = c.ring || '#c9d1db'; pth(4.5); ctx.stroke(); ctx.restore();
+      }
       else if(c.k === 'ic'){ icon(ctx, c); }
       else if(c.k === 't'){ ctx.font = c.f; ctx.fillStyle = c.c; ctx.textAlign = c.al; ctx.direction = hasAr(c.s) ? 'rtl' : 'ltr'; ctx.fillText(c.s, c.x, c.y); }
     });
@@ -13594,34 +13609,35 @@ const CV_TPLS = [
 
   /* ---------- storage, labels, export ---------- */
   const KEY = 'uddah-cv-data';
-  function save(){ try{ if($('cv-remember').checked){ localStorage.setItem(KEY, JSON.stringify({ d:readData(), t:tplId, a:$('cv-acc').value, f:$('cv-font').value, dir:$('cv-dir').value, sh:$('cv-shape').value, sz:$('cv-size').value, slot:$('cv-slot').checked })); } }catch(e){} }
+  function save(){ try{ if($('cv-remember').checked){ localStorage.setItem(KEY, JSON.stringify({ d:readData(), t:tplId, a:$('cv-acc').value, f:$('cv-font').value, dir:$('cv-dir').value, sh:$('cv-shape').value, sz:$('cv-size').value, slot:$('cv-slot').checked, bd:$('cv-border').value, res:$('cv-res').value })); } }catch(e){} }
   function applyLabels(){
     const L = lang(); document.querySelectorAll('#tools-cv [data-cvl]').forEach(el=>{ const v = L[el.getAttribute('data-cvl')]; if(v !== undefined) el.textContent = v; });
     document.querySelectorAll('#tools-cv .cv-in').forEach(el=>{ /* labels handled above */ }); fillLevels(); buildGallery(); schedule();
   }
   window.cvApplyLang = applyLabels;
+  const expScale = ()=> (parseInt($('cv-res').value, 10) || 300) / 72;
   async function exportPdf(){
     try{
       await Promise.all(['400', '700'].map(w=> document.fonts.load(`${w} 12px "${$('cv-font').value}"`).catch(()=>0)));
-      const D = configure(), cvs = renderAll(2.4, null, D), doc = await PDFDocument.create();
-      for(const c of cvs){ const img = await doc.embedJpg(await (await psCanvasBlob(c, 'image/jpeg', 0.93)).arrayBuffer()); doc.addPage([595.28, 841.89]).drawImage(img, { x:0, y:0, width:595.28, height:841.89 }); }
+      const D = configure(), cvs = renderAll(expScale(), null, D), doc = await PDFDocument.create();
+      for(const c of cvs){ const img = await doc.embedPng(await (await psCanvasBlob(c, 'image/png')).arrayBuffer()); doc.addPage([595.28, 841.89]).drawImage(img, { x:0, y:0, width:595.28, height:841.89 }); }
       downloadBlob(new Blob([await doc.save()], { type:'application/pdf' }), 'CV_' + ((D.name || 'cv').replace(/[\\/:*?"<>|]+/g, '_')) + '.pdf'); setStatus('cv-status', lang().done, 'ok');
     }catch(e){ console.error(e); setStatus('cv-status', lang().bad, 'err'); }
   }
   async function exportPng(){
-    try{ await document.fonts.load(`700 12px "${$('cv-font').value}"`).catch(()=>0); const D = configure(), c = renderAll(2.4, null, D, 1)[0]; downloadBlob(await psCanvasBlob(c, 'image/png'), 'CV_' + ((D.name || 'cv').replace(/[\\/:*?"<>|]+/g, '_')) + '.png'); setStatus('cv-status', lang().done, 'ok'); }catch(e){ console.error(e); setStatus('cv-status', lang().bad, 'err'); }
+    try{ await document.fonts.load(`700 12px "${$('cv-font').value}"`).catch(()=>0); const D = configure(), c = renderAll(expScale(), null, D, 1)[0]; downloadBlob(await psCanvasBlob(c, 'image/png'), 'CV_' + ((D.name || 'cv').replace(/[\\/:*?"<>|]+/g, '_')) + '.png'); setStatus('cv-status', lang().done, 'ok'); }catch(e){ console.error(e); setStatus('cv-status', lang().bad, 'err'); }
   }
   let photoSrc = null;
   function buildPhoto(){
     const th = $('cv-ph-thumb'); th.textContent = '';
     if(!photoSrc){ photo = null; th.innerHTML = '<span style="font-size:2rem;">📷</span>'; $('cv-ph-edit').style.display = 'none'; return; }
     const z = (parseFloat($('cv-ph-zoom').value) || 100) / 100, px = (parseFloat($('cv-ph-x').value) || 0) / 100, py = (parseFloat($('cv-ph-y').value) || 0) / 100, w = photoSrc.width, h = photoSrc.height, sd = Math.min(w, h) / z;
-    const sx = (w - sd) / 2 + px * (w - sd) / 2, sy = (h - sd) / 2 + py * (h - sd) / 2, c = document.createElement('canvas'); c.width = c.height = Math.max(8, Math.min(520, Math.round(sd))); c.getContext('2d').drawImage(photoSrc, Math.max(0, Math.min(w - sd, sx)), Math.max(0, Math.min(h - sd, sy)), sd, sd, 0, 0, c.width, c.height); photo = c;
+    const sx = (w - sd) / 2 + px * (w - sd) / 2, sy = (h - sd) / 2 + py * (h - sd) / 2, c = document.createElement('canvas'); c.width = c.height = Math.max(8, Math.min(1000, Math.round(sd))); c.getContext('2d').drawImage(photoSrc, Math.max(0, Math.min(w - sd, sx)), Math.max(0, Math.min(h - sd, sy)), sd, sd, 0, 0, c.width, c.height); photo = c;
     const t = document.createElement('canvas'); t.width = t.height = 96; t.getContext('2d').drawImage(c, 0, 0, 96, 96); t.style.cssText = 'width:100%;height:100%;display:block;'; th.appendChild(t); $('cv-ph-edit').style.display = '';
   }
   async function loadPhoto(file){
     const url = URL.createObjectURL(file);
-    try{ const im = await new Promise((res, rej)=>{ const i = new Image(); i.onload = ()=> res(i); i.onerror = rej; i.src = url; }); const k = Math.min(1, 1400 / Math.max(im.naturalWidth, im.naturalHeight)), c = document.createElement('canvas'); c.width = Math.round(im.naturalWidth * k); c.height = Math.round(im.naturalHeight * k); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); photoSrc = c; $('cv-ph-zoom').value = 100; $('cv-ph-x').value = 0; $('cv-ph-y').value = 0; $('cv-slot').checked = true; }
+    try{ const im = await new Promise((res, rej)=>{ const i = new Image(); i.onload = ()=> res(i); i.onerror = rej; i.src = url; }); const k = Math.min(1, 2400 / Math.max(im.naturalWidth, im.naturalHeight)), c = document.createElement('canvas'); c.width = Math.round(im.naturalWidth * k); c.height = Math.round(im.naturalHeight * k); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); photoSrc = c; $('cv-ph-zoom').value = 100; $('cv-ph-x').value = 0; $('cv-ph-y').value = 0; $('cv-slot').checked = true; }
     catch(e){ photoSrc = null; } finally{ setTimeout(()=> URL.revokeObjectURL(url), 2000); }
     buildPhoto(); refresh();
   }
@@ -13642,7 +13658,7 @@ const CV_TPLS = [
   document.fonts && document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', schedule);
   // init: remembered data, else the sample
   let init = null; try{ init = JSON.parse(localStorage.getItem(KEY) || 'null'); }catch(e){}
-  if(init && init.d){ writeData(init.d); tplId = init.t || tplId; $('cv-acc').value = init.a || T().acc; $('cv-font').value = init.f || 'Cairo'; $('cv-dir').value = init.dir || 'auto'; $('cv-shape').value = init.sh || 'circle'; $('cv-size').value = init.sz || 100; $('cv-slot').checked = init.slot !== false; $('cv-remember').checked = true; }
+  if(init && init.d){ writeData(init.d); tplId = init.t || tplId; $('cv-acc').value = init.a || T().acc; $('cv-font').value = init.f || 'Cairo'; $('cv-dir').value = init.dir || 'auto'; $('cv-shape').value = init.sh || 'circle'; $('cv-size').value = init.sz || 100; $('cv-slot').checked = init.slot !== false; $('cv-border').value = init.bd || 'none'; $('cv-res').value = init.res || '300'; $('cv-remember').checked = true; }
   else{ writeData(CV_SAMPLE[currentLang === 'en' ? 'en' : 'ar']); $('cv-acc').value = T().acc; }
   buildPhoto(); applyLabels();
   window.cvRefresh = refresh;
