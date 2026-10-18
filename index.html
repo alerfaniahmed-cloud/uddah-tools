@@ -2170,6 +2170,22 @@
       </div>
 
       <details class="ce-more ce-box" open><summary><b data-cvl="secPersonal">البيانات الشخصية</b></summary>
+        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:10px 0 14px;padding:12px;border:1px solid var(--border);border-radius:14px;">
+          <div id="cv-ph-thumb" style="width:104px;height:104px;border:2px dashed var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;background:var(--bg-elev-2);flex:0 0 auto;"></div>
+          <div style="flex:1 1 200px;">
+            <b data-cvl="photo">الصورة الشخصية</b>
+            <p class="note" style="margin:4px 0 8px;" data-cvl="photoHint">اضغط للاختيار أو اسحب الصورة هنا</p>
+            <div class="ce-row" style="margin-bottom:8px;"><button type="button" class="btn secondary" id="cv-ph-pick" data-cvl="photoPick">📷 اختيار صورة</button><button type="button" class="btn secondary" id="cv-photo-clear" data-cvl="photoClear">🗑️ حذف الصورة</button></div>
+            <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="cv-slot" checked> <span data-cvl="slot">إظهار خانة الصورة في السيرة</span></label>
+          </div>
+          <div id="cv-ph-edit" style="display:none;flex:1 1 100%;">
+            <div class="field"><label for="cv-ph-zoom" data-cvl="zoom">التكبير</label><input type="range" id="cv-ph-zoom" min="100" max="300" step="1" value="100"></div>
+            <div class="row"><div class="field"><label for="cv-ph-x" data-cvl="posX">الموضع أفقيًا</label><input type="range" id="cv-ph-x" min="-100" max="100" step="1" value="0"></div>
+            <div class="field"><label for="cv-ph-y" data-cvl="posY">الموضع رأسيًا</label><input type="range" id="cv-ph-y" min="-100" max="100" step="1" value="0"></div></div>
+          </div>
+          <input type="file" id="cv-photo" accept="image/*" style="display:none;">
+        </div>
+
         <div class="row" style="margin-top:10px;">
           <div class="field"><label for="cv-name" data-cvl="name">الاسم الكامل</label><input type="text" id="cv-name"></div>
           <div class="field"><label for="cv-jobtitle" data-cvl="jobtitle">المسمى الوظيفي</label><input type="text" id="cv-jobtitle"></div>
@@ -2182,11 +2198,7 @@
           <div class="field"><label for="cv-city" data-cvl="city">المدينة / الدولة</label><input type="text" id="cv-city"></div>
           <div class="field"><label for="cv-link" data-cvl="link">رابط (لينكدإن / موقع)</label><input type="text" id="cv-link" dir="ltr"></div>
         </div>
-        <div class="row">
-          <div class="field"><label for="cv-extra" data-cvl="extra">معلومة إضافية (الجنسية، العمر، رخصة القيادة...)</label><input type="text" id="cv-extra"></div>
-          <div class="field"><label for="cv-photo" data-cvl="photo">الصورة الشخصية (اختياري)</label><input type="file" id="cv-photo" accept="image/*"></div>
-        </div>
-        <button type="button" class="btn secondary" id="cv-photo-clear" data-cvl="photoClear" style="margin-bottom:4px;">حذف الصورة</button>
+        <div class="field"><label for="cv-extra" data-cvl="extra">معلومة إضافية (الجنسية، العمر، رخصة القيادة...)</label><input type="text" id="cv-extra"></div>
       </details>
 
       <details class="ce-more ce-box"><summary><b data-cvl="secSummary">النبذة المختصرة</b></summary>
@@ -13291,13 +13303,13 @@ document.getElementById('fuel-btn').addEventListener('click', ()=>{
    ============================================================ */
 const CVL = {
   ar:{ tplTitle:'القالب', accent:'اللون الرئيسي', font:'الخط', dir:'لغة واتجاه السيرة', dirAuto:'تلقائي حسب النص', dirAr:'عربي (من اليمين)', dirEn:'English (من اليسار)', shape:'شكل الصورة', shCircle:'دائرة', shRound:'مربع مدوّر', shSquare:'مربع', size:'حجم الخط',
-    secPersonal:'البيانات الشخصية', name:'الاسم الكامل', jobtitle:'المسمى الوظيفي', phone:'الجوال', email:'البريد الإلكتروني', city:'المدينة / الدولة', link:'رابط (لينكدإن / موقع)', extra:'معلومة إضافية (الجنسية، العمر، رخصة القيادة...)', photo:'الصورة الشخصية (اختياري)', photoClear:'حذف الصورة',
+    secPersonal:'البيانات الشخصية', name:'الاسم الكامل', jobtitle:'المسمى الوظيفي', phone:'الجوال', email:'البريد الإلكتروني', city:'المدينة / الدولة', link:'رابط (لينكدإن / موقع)', extra:'معلومة إضافية (الجنسية، العمر، رخصة القيادة...)', photo:'الصورة الشخصية', photoClear:'🗑️ حذف الصورة', photoPick:'📷 اختيار صورة', photoHint:'اضغط للاختيار أو اسحب الصورة هنا', slot:'إظهار خانة الصورة في السيرة', zoom:'التكبير', posX:'الموضع أفقيًا', posY:'الموضع رأسيًا',
     secSummary:'النبذة المختصرة', secExp:'الخبرات العملية', addExp:'➕ إضافة خبرة', secEdu:'التعليم', addEdu:'➕ إضافة مؤهل', secSkills:'المهارات', skillsHint:'مهارة في كل سطر (أو افصل بفاصلة)', secLangs:'اللغات', addLang:'➕ إضافة لغة', secCerts:'الدورات والشهادات', certsHint:'عنصر في كل سطر', secExtra:'قسم إضافي (اختياري)', xtitle:'عنوان القسم (مثال: الهوايات، التطوع)', xlines:'عنصر في كل سطر',
     sample:'✨ تعبئة بيانات تجريبية', clear:'🧹 مسح الكل', remember:'تذكّر بياناتي في هذا المتصفح (بدون الصورة)', dlPdf:'تنزيل PDF', dlPng:'تنزيل صورة (الصفحة 1)', note:'كل شيء يتم داخل متصفحك. الملف يُنزَّل بصفحات عالية الجودة للطباعة، لكن بعض أنظمة التقديم الآلية لا تقرأ النص من هذا النوع من الملفات.',
     role:'المسمى الوظيفي', org:'جهة العمل', when:'الفترة (مثال: 2020 - الآن)', desc:'المهام والإنجازات (سطر لكل نقطة)', deg:'المؤهل / التخصص', school:'الجامعة / المعهد', years:'السنوات', lang:'اللغة', level:'المستوى', del:'حذف',
     warnSide:'الشريط الجانبي ممتلئ: بعض العناصر لم تظهر، صغّر حجم الخط أو اختر قالبًا آخر.', done:'تم التنزيل ✓', bad:'تعذّر إنشاء الملف' },
   en:{ tplTitle:'Template', accent:'Main colour', font:'Font', dir:'CV language & direction', dirAuto:'Auto (from the text)', dirAr:'العربية (right to left)', dirEn:'English (left to right)', shape:'Photo shape', shCircle:'Circle', shRound:'Rounded square', shSquare:'Square', size:'Text size',
-    secPersonal:'Personal details', name:'Full name', jobtitle:'Job title', phone:'Phone', email:'Email', city:'City / Country', link:'Link (LinkedIn / website)', extra:'Extra info (nationality, age, driving licence...)', photo:'Photo (optional)', photoClear:'Remove photo',
+    secPersonal:'Personal details', name:'Full name', jobtitle:'Job title', phone:'Phone', email:'Email', city:'City / Country', link:'Link (LinkedIn / website)', extra:'Extra info (nationality, age, driving licence...)', photo:'Photo', photoClear:'🗑️ Remove photo', photoPick:'📷 Choose photo', photoHint:'Click to choose or drop a photo here', slot:'Show the photo frame in the CV', zoom:'Zoom', posX:'Horizontal position', posY:'Vertical position',
     secSummary:'Summary', secExp:'Work experience', addExp:'➕ Add experience', secEdu:'Education', addEdu:'➕ Add education', secSkills:'Skills', skillsHint:'One skill per line (or comma separated)', secLangs:'Languages', addLang:'➕ Add language', secCerts:'Courses & certificates', certsHint:'One item per line', secExtra:'Extra section (optional)', xtitle:'Section title (e.g. Hobbies, Volunteering)', xlines:'One item per line',
     sample:'✨ Fill sample data', clear:'🧹 Clear all', remember:'Remember my data in this browser (without the photo)', dlPdf:'Download PDF', dlPng:'Download image (page 1)', note:'Everything runs in your browser. The PDF is made of high-quality pages for printing, but some automatic applicant-tracking systems cannot read text from this kind of file.',
     role:'Job title', org:'Company', when:'Period (e.g. 2020 - Present)', desc:'Duties & achievements (one point per line)', deg:'Degree / major', school:'University / institute', years:'Years', lang:'Language', level:'Level', del:'Delete',
@@ -13326,11 +13338,11 @@ const CV_SAMPLE = {
     certs:'Project Management Professional (PMP)\nProfessional Engineer licence\nOSHA 30 safety course', xtitle:'Interests', xlines:'Reading\nSwimming\nVolunteering' }
 };
 const CV_TPLS = [
-  { id:'classic',   n:{ ar:'كلاسيك', en:'Classic' },     acc:'#1f4e79', layout:'single',  head:'start',  sec:'rule' },
+  { id:'classic',   n:{ ar:'كلاسيك', en:'Classic' },     acc:'#1f4e79', layout:'single',  head:'start',  sec:'rule', band:true },
   { id:'modern',    n:{ ar:'عصري', en:'Modern' },        acc:'#0f766e', layout:'sidebar', side:'start', sideStyle:'dark', sec:'bar' },
   { id:'executive', n:{ ar:'تنفيذي', en:'Executive' },   acc:'#1b2a41', layout:'banner',  sec:'fill' },
   { id:'minimal',   n:{ ar:'بسيط', en:'Minimal' },       acc:'#475569', layout:'single',  head:'center', sec:'center' },
-  { id:'creative',  n:{ ar:'إبداعي', en:'Creative' },    acc:'#c2410c', layout:'sidebar', side:'end', sideStyle:'tint', sec:'dot' },
+  { id:'creative',  n:{ ar:'إبداعي', en:'Creative' },    acc:'#c2410c', layout:'sidebar', side:'end', sideStyle:'tint', sec:'dot', nameBlock:true },
   { id:'timeline',  n:{ ar:'خط زمني', en:'Timeline' },   acc:'#6d28d9', layout:'single',  head:'start',  sec:'dot', tl:true }
 ];
 
@@ -13407,19 +13419,20 @@ const CV_TPLS = [
     const sza = (oa.sz || 10) * S; para(sub, a, oa); F.y = Math.max(sub.y, y0 + szb * 1.5);
     if(b) emit({ k:'t', x:RTL ? F.x : F.x + F.w, y:y0 + sza * 1.05, s:b, f:fnt(szb, ob.wt || 400), c:ob.c || '#777', al:RTL ? 'left' : 'right' });
   }
-  // wrapped chips / plain items (optionally centred)
+  // wrapped chips / plain items (optionally centred); an item can be a string or {s, ic}
   function chips(F, items, o){
-    o = Object.assign({ sz:8.8, c:'#333', bg:null, bd:null, plain:false, gap:5, center:false, sep:false, r:9 }, o); const sz = o.sz * S, h = sz + (o.plain ? 2 : 8), padx = o.plain ? 0 : 7, gap = o.plain ? 14 : o.gap, rowsA = []; let cur = [], cw = 0;
-    items.filter(Boolean).forEach(s=>{ const w = tw(s, sz, o.wt || 400) + padx * 2; if(cur.length && cw + gap + w > F.w){ rowsA.push({ it:cur, w:cw }); cur = []; cw = 0; } cur.push({ s, w }); cw += (cur.length > 1 ? gap : 0) + w; });
+    o = Object.assign({ sz:8.8, c:'#333', bg:null, bd:null, plain:false, gap:5, center:false, sep:false, r:9, icc:null }, o); const sz = o.sz * S, h = sz + (o.plain ? 3 : 8), padx = o.plain ? 0 : 7, gap = o.plain ? 16 : o.gap, rowsA = [], iw = sz * 1.45; let cur = [], cw = 0;
+    items.filter(Boolean).forEach(it=>{ const s = typeof it === 'string' ? it : it.s, ic = typeof it === 'string' ? null : it.ic, w = tw(s, sz, o.wt || 400) + padx * 2 + (ic ? iw : 0); if(cur.length && cw + gap + w > F.w){ rowsA.push({ it:cur, w:cw }); cur = []; cw = 0; } cur.push({ s, ic, w }); cw += (cur.length > 1 ? gap : 0) + w; });
     if(cur.length) rowsA.push({ it:cur, w:cw });
     let y = F.y;
     rowsA.forEach(r=>{
       let off = o.center ? (F.w - r.w) / 2 : 0;
       r.it.forEach((e, i)=>{
-        if(i > 0 && o.sep){ const sx = RTL ? F.x + F.w - off + gap / 2 : F.x + off - gap / 2; dot(o.center ? (RTL ? F.x + F.w - off + gap / 2 : F.x + off - gap / 2) : sx, y + h / 2, 1.4, o.sepc || '#999'); }
+        if(i > 0 && o.sep){ const sx = RTL ? F.x + F.w - off + gap / 2 : F.x + off - gap / 2; dot(sx, y + h / 2, 1.3, o.sepc || '#aaa'); }
         const x = RTL ? F.x + F.w - off - e.w : F.x + off;
         if(!o.plain) rect(x, y, e.w, h, { r:o.r, fill:o.bg, stroke:o.bd });
-        emit({ k:'t', x:x + e.w / 2, y:y + h / 2 + sz * 0.34, s:e.s, f:fnt(sz, o.wt || 400), c:o.c, al:'center' });
+        if(e.ic){ emit({ k:'ic', t:e.ic, x:RTL ? x + e.w - iw / 2 : x + iw / 2, y:y + h / 2, s:sz * 1.05, c:o.icc || o.c }); emit({ k:'t', x:RTL ? x + e.w - iw : x + iw, y:y + h / 2 + sz * 0.34, s:e.s, f:fnt(sz, o.wt || 400), c:o.c, al:RTL ? 'right' : 'left' }); }
+        else emit({ k:'t', x:x + e.w / 2, y:y + h / 2 + sz * 0.34, s:e.s, f:fnt(sz, o.wt || 400), c:o.c, al:'center' });
         off += e.w + gap;
       });
       y += h + (o.plain ? 3 : 5);
@@ -13431,7 +13444,10 @@ const CV_TPLS = [
     for(let i = 0; i < 5; i++){ const dx = RTL ? F.x + 3 + i * 9.5 : F.x + F.w - 3 - i * 9.5; dot(dx, y0 + sz * 0.75, 2.7, i < lv ? o.on : o.off); }
     F.y = Math.max(sub.y, y0 + sz * 1.5) + 2;
   }
-  function photoAt(x, y, sz, shape, ring){ if(photo) emit({ k:'i', cv:photo, x, y, w:sz, h:sz, shape, ring }); }
+  let lastSlot = null; const slotOn = ()=> $('cv-slot').checked;
+  function photoAt(x, y, sz, shape, ring){ if(!DRY) lastSlot = { x, y, w:sz, h:sz }; if(photo) emit({ k:'i', cv:photo, x, y, w:sz, h:sz, shape, ring }); else emit({ k:'ph', x, y, w:sz, h:sz, shape, ring }); }
+  function panel(F, pad, fill, r, fn){ const inner = { x:F.x + pad, w:F.w - 2 * pad, y:F.y + pad }, c = Object.assign({}, inner); DRY = true; fn(c); DRY = false; const h = Math.max(c.y - inner.y, 0); rect(F.x, F.y, F.w, h + 2 * pad, { fill, r }); fn(inner); F.y = inner.y + h + pad; }
+
 
   /* ---------- sections ---------- */
   function secTitle(F, text, st, o){
@@ -13473,10 +13489,11 @@ const CV_TPLS = [
       if(k === 'langs' && D.langs.length){ block(F, F=>{ secTitle(F, LB.langs, st, o); chips(F, D.langs.map(l=> l.n + ' · ' + LB.levels[l.l - 1]), { c:o.dark || '#222', bg:mix(o.acc, '#ffffff', 0.9), bd:rgba(o.acc, 0.25), after:2 }); }); }
     });
   }
-  function contactItems(D){ return [[LB.phone, D.phone], [LB.email, D.email], [LB.city, D.city], [LB.link, D.link], ['', D.extra]].filter(x=> x[1]); }
-  function sideContent(F, D, t, o){ // sidebar / side column: contact, skills, languages
+  function contactItems(D){ return [['phone', D.phone], ['mail', D.email], ['pin', D.city], ['link', D.link], ['user', D.extra]].filter(x=> x[1]); }
+  const contactChips = D => contactItems(D).map(x=> ({ s:x[1], ic:x[0] }));
+  function sideContent(F, D, t, o, noContact){
     const lim = PH - 24, ok = () => F.y < lim;
-    if(contactItems(D).length){ secTitle(F, LB.contact, 'side', o); contactItems(D).forEach(([lb, v])=>{ if(!ok()) return; if(lb) para(F, lb, { sz:7.8, c:o.label, lh:1.3 }); para(F, v, { sz:9, c:o.text, lh:1.4, gap:4, wt:600 }); }); }
+    if(!noContact && contactItems(D).length){ secTitle(F, LB.contact, 'side', o); contactItems(D).forEach(([ic, v])=>{ if(!ok()) return; emit({ k:'ic', t:ic, x:RTL ? F.x + F.w - 5 : F.x + 5, y:F.y + 6.4 * S, s:9.5 * S, c:o.icon }); para(F, v, { sz:9, c:o.text, lh:1.4, gap:5, wt:600, inset:18 }); }); }
     if(D.skills.length && ok()){ secTitle(F, LB.skills, 'side', o); chips(F, D.skills, { sz:8.4, c:o.text, bg:o.chipBg, bd:o.chipBd, after:2 }); }
     if(D.langs.length && ok()){ secTitle(F, LB.langs, 'side', o); D.langs.forEach(l=> dotsRow(F, l.n, l.l, { c:o.text, on:o.dotOn, off:o.dotOff })); }
     if(D.certs && D.certs.length && t.layout === 'banner' && ok()){ secTitle(F, LB.certs, 'side', o); D.certs.forEach(s=> para(F, s, { sz:8.6, c:o.text, bullet:true, bc:o.dotOn, inset:9, lh:1.4, gap:2 })); }
@@ -13485,40 +13502,43 @@ const CV_TPLS = [
 
   /* ---------- layouts ---------- */
   function layout(D){
-    const t = T(), acc = ACC, dark = mix(acc, '#000000', 0.45); pages = [[]]; DRY = false; warn = false; const o = { acc, dark, tl:!!t.tl };
+    const t = T(), acc = ACC, dark = mix(acc, '#000000', 0.45); pages = [[]]; DRY = false; warn = false; lastSlot = null; const o = { acc, dark, tl:!!t.tl }, shape = $('cv-shape').value, hasP = slotOn();
     if(t.layout === 'single'){
-      const F = { x:M, w:PW - 2 * M, y:M, top:M, bot:PH - M, main:true }; const hasP = !!photo, ps = t.head === 'center' ? 72 : 78, shape = $('cv-shape').value;
+      const F = { x:M, w:PW - 2 * M, y:M, top:M, bot:PH - M, main:true }, ps = t.head === 'center' ? 78 : 86;
       if(t.head === 'center'){
-        let y = M; if(hasP){ photoAt((PW - ps) / 2, y, ps, shape, rgba(acc, 0.5)); y += ps + 10; }
-        const H_ = { x:M, w:F.w, y }; para(H_, D.name, { sz:26, wt:700, c:acc, al:'center', lh:1.25 }); para(H_, D.title, { sz:12.5, c:'#5b6470', al:'center', gap:6 });
-        chips(H_, contactItems(D).map(x=> x[1]), { plain:true, sep:true, center:true, c:'#444', sz:9, sepc:acc }); F.y = H_.y + 6; line(M, F.y, PW - M, F.y, rgba(acc, 0.5), 1.1); F.y += 4;
+        let y = M; if(hasP){ photoAt((PW - ps) / 2, y, ps, shape, rgba(acc, 0.55)); y += ps + 12; }
+        const H_ = { x:M, w:F.w, y }; para(H_, D.name, { sz:27, wt:700, c:acc, al:'center', lh:1.25 }); para(H_, D.title, { sz:12.5, c:'#5b6470', al:'center', gap:7 });
+        chips(H_, contactChips(D), { plain:true, sep:true, center:true, c:'#444', sz:9, sepc:acc, icc:acc }); F.y = H_.y + 6; line(M, F.y, PW - M, F.y, rgba(acc, 0.5), 1.1); F.y += 4;
       }else{
-        const textX = RTL && hasP ? M + ps + 14 : M, textW = F.w - (hasP ? ps + 14 : 0), H_ = { x:textX, w:textW, y:M };
-        if(hasP) photoAt(RTL ? M : PW - M - ps, M, ps, shape, rgba(acc, 0.5));
-        para(H_, D.name, { sz:26, wt:700, c:acc, lh:1.25 }); para(H_, D.title, { sz:12.5, c:'#5b6470', gap:6 }); chips(H_, contactItems(D).map(x=> x[1]), { plain:true, sep:true, c:'#444', sz:9, sepc:acc });
-        F.y = Math.max(H_.y, hasP ? M + ps : 0) + 4; line(M, F.y, PW - M, F.y, acc, 1.6); F.y += 4;
+        const head = (H0)=>{ const textX = RTL && hasP ? M + ps + 16 : M, textW = F.w - (hasP ? ps + 16 : 0), H_ = { x:textX, w:textW, y:H0 };
+          if(hasP) photoAt(RTL ? M : PW - M - ps, H0, ps, shape, rgba(acc, 0.55));
+          para(H_, D.name, { sz:27, wt:700, c:t.band ? dark : acc, lh:1.25 }); para(H_, D.title, { sz:12.5, c:'#5b6470', gap:7, wt:600 }); chips(H_, contactChips(D), { plain:true, sep:true, c:'#444', sz:9, sepc:acc, icc:acc });
+          return Math.max(H_.y, hasP ? H0 + ps : 0); };
+        if(t.band){ const hy = head(M + 4); rect(0, 0, PW, hy + 16, { fill:mix(acc, '#ffffff', 0.92) }); rect(0, hy + 16, PW, 3, { fill:acc }); const n = pages[0].length; pages[0].unshift(pages[0].pop(), pages[0].pop()); F.y = hy + 16 + 3 + 10; }
+        else{ const hy = head(M); F.y = hy + 4; line(M, F.y, PW - M, F.y, acc, 1.6); F.y += 4; }
       }
       F.top = F.y; mainSections(F, D, t, o, ['summary', 'exp', 'edu', 'skills', 'langs', 'certs', 'extra']);
     }
     else if(t.layout === 'sidebar'){
-      const SW = 188, pad = 22, dk = t.sideStyle === 'dark', sideRight = t.side === 'start' ? RTL : !RTL, sx = sideRight ? PW - SW : 0, bg = dk ? mix(acc, '#000000', 0.25) : mix(acc, '#ffffff', 0.9);
+      const SW = 190, pad = 22, dk = t.sideStyle === 'dark', sideRight = t.side === 'start' ? RTL : !RTL, sx = sideRight ? PW - SW : 0, bg = dk ? mix(acc, '#000000', 0.25) : mix(acc, '#ffffff', 0.9);
       const deco = i=> rect(sx, 0, SW, PH, { fill:bg });
-      const so = { acc, dark, text:dk ? '#ffffff' : '#222222', label:dk ? rgba('#ffffff', 0.62) : acc, c:dk ? '#ffffff' : acc, rule:dk ? rgba('#ffffff', 0.35) : rgba(acc, 0.4), chipBg:dk ? rgba('#ffffff', 0.14) : '#ffffff', chipBd:dk ? rgba('#ffffff', 0.25) : rgba(acc, 0.3), dotOn:dk ? '#ffffff' : acc, dotOff:dk ? rgba('#ffffff', 0.28) : rgba(acc, 0.22) };
+      const so = { acc, dark, text:dk ? '#ffffff' : '#222222', label:dk ? rgba('#ffffff', 0.62) : acc, c:dk ? '#ffffff' : acc, icon:dk ? rgba('#ffffff', 0.85) : acc, rule:dk ? rgba('#ffffff', 0.35) : rgba(acc, 0.4), chipBg:dk ? rgba('#ffffff', 0.14) : '#ffffff', chipBd:dk ? rgba('#ffffff', 0.25) : rgba(acc, 0.3), dotOn:dk ? '#ffffff' : acc, dotOff:dk ? rgba('#ffffff', 0.28) : rgba(acc, 0.22) };
       deco(0); const Fs = { x:sx + pad, w:SW - 2 * pad, y:32 };
-      if(photo){ const ps = 100; photoAt(sx + (SW - ps) / 2, Fs.y, ps, $('cv-shape').value, dk ? rgba('#ffffff', 0.7) : acc); Fs.y += ps + 16; }
+      if(hasP){ const ps = 104; photoAt(sx + (SW - ps) / 2, Fs.y, ps, shape, dk ? rgba('#ffffff', 0.75) : acc); Fs.y += ps + 18; }
       sideContent(Fs, D, t, so);
-      const mx = sideRight ? M : SW + 28, mw = PW - SW - 28 - M, F = { x:mx, w:mw, y:M + 6, top:M + 6, bot:PH - M, main:true, deco, top2:M };
-      para(F, D.name, { sz:25, wt:700, c:dk ? dark : acc, lh:1.22 }); para(F, D.title, { sz:12.5, c:dk ? acc : '#5b6470', wt:700, gap:2 }); rect(RTL ? F.x + F.w - 46 : F.x, F.y + 4, 46, 3, { fill:acc }); F.y += 12; F.top = F.y;
-      mainSections(F, D, t, o, ['summary', 'exp', 'edu', 'certs', 'extra']);
+      const mx = sideRight ? M : SW + 28, mw = PW - SW - 28 - M, F = { x:mx, w:mw, y:M, top:M, bot:PH - M, main:true, deco, top2:M };
+      if(t.nameBlock){ panel(F, 16, acc, 10, c=>{ para(c, D.name, { sz:23, wt:700, c:'#ffffff', lh:1.22 }); para(c, D.title, { sz:12, c:rgba('#ffffff', 0.9), wt:600 }); }); F.y += 10; }
+      else{ para(F, D.name, { sz:26, wt:700, c:dark, lh:1.22 }); para(F, D.title, { sz:12.5, c:acc, wt:700, gap:2 }); rect(RTL ? F.x + F.w - 46 : F.x, F.y + 4, 46, 3, { fill:acc }); F.y += 12; }
+      F.top = F.y; mainSections(F, D, t, o, ['summary', 'exp', 'edu', 'certs', 'extra']);
     }
-    else{ // banner
-      const BH = 150, SWd = 178, sideRight = !RTL, sx = sideRight ? PW - SWd : 0, bgS = mix(acc, '#ffffff', 0.93);
+    else{
+      const BH = 172, SWd = 178, sideRight = !RTL, sx = sideRight ? PW - SWd : 0, bgS = mix(acc, '#ffffff', 0.93);
       const deco = i=>{ rect(sx, i === 0 ? BH : 0, SWd, PH, { fill:bgS }); if(i === 0) rect(0, 0, PW, BH, { fill:acc }); };
-      deco(0); const so = { acc, dark, text:'#222222', label:acc, c:acc, rule:rgba(acc, 0.4), chipBg:'#ffffff', chipBd:rgba(acc, 0.3), dotOn:acc, dotOff:rgba(acc, 0.22) };
-      const hasP = !!photo, ps = 92, shape = $('cv-shape').value, tx = RTL && hasP ? M + ps + 16 : M, tw_ = PW - 2 * M - (hasP ? ps + 16 : 0), Hh = { x:tx, w:tw_, y:36 };
+      deco(0); const so = { acc, dark, text:'#222222', label:acc, c:acc, icon:acc, rule:rgba(acc, 0.4), chipBg:'#ffffff', chipBd:rgba(acc, 0.3), dotOn:acc, dotOff:rgba(acc, 0.22) };
+      const ps = 100, tx = RTL && hasP ? M + ps + 20 : M, tw_ = PW - 2 * M - (hasP ? ps + 20 : 0), Hh = { x:tx, w:tw_, y:34 };
       if(hasP) photoAt(RTL ? M : PW - M - ps, (BH - ps) / 2, ps, shape, '#ffffff');
-      para(Hh, D.name, { sz:27, wt:700, c:'#ffffff', lh:1.22 }); para(Hh, D.title, { sz:13, c:rgba('#ffffff', 0.85), gap:2 });
-      const Fs = { x:sx + 18, w:SWd - 36, y:BH + 22 }; sideContent(Fs, D, t, so);
+      para(Hh, D.name, { sz:27, wt:700, c:'#ffffff', lh:1.22 }); para(Hh, D.title, { sz:13, c:rgba('#ffffff', 0.88), gap:8, wt:600 }); chips(Hh, contactChips(D), { plain:true, c:'#ffffff', icc:'#ffffff', sz:8.8, gap:14 });
+      const Fs = { x:sx + 18, w:SWd - 36, y:BH + 22 }; sideContent(Fs, D, t, so, true);
       const mw = PW - SWd - M - 24, mx = RTL ? PW - M - mw : M, F = { x:mx, w:mw, y:BH + 14, top:BH + 14, bot:PH - M, main:true, deco, top2:M };
       mainSections(F, D, t, o, ['summary', 'exp', 'edu', 'extra']);
     }
@@ -13533,8 +13553,21 @@ const CV_TPLS = [
       else if(c.k === 'c'){ ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, 7); ctx.fillStyle = c.c; ctx.fill(); }
       else if(c.k === 'i'){ ctx.save(); if(c.shape === 'circle'){ ctx.beginPath(); ctx.arc(c.x + c.w / 2, c.y + c.h / 2, c.w / 2, 0, 7); ctx.closePath(); } else rr(ctx, c.x, c.y, c.w, c.h, c.shape === 'round' ? c.w * 0.18 : 0); ctx.clip(); ctx.drawImage(c.cv, c.x, c.y, c.w, c.h); ctx.restore();
         if(c.ring){ ctx.save(); ctx.lineWidth = 2.2; ctx.strokeStyle = c.ring; if(c.shape === 'circle'){ ctx.beginPath(); ctx.arc(c.x + c.w / 2, c.y + c.h / 2, c.w / 2, 0, 7); } else rr(ctx, c.x, c.y, c.w, c.h, c.shape === 'round' ? c.w * 0.18 : 0); ctx.stroke(); ctx.restore(); } }
+      else if(c.k === 'ph'){ ctx.save(); const cx = c.x + c.w / 2, path = ()=>{ if(c.shape === 'circle'){ ctx.beginPath(); ctx.arc(cx, c.y + c.h / 2, c.w / 2, 0, 7); ctx.closePath(); } else rr(ctx, c.x, c.y, c.w, c.h, c.shape === 'round' ? c.w * 0.18 : 0); };
+        path(); ctx.fillStyle = '#eef1f5'; ctx.fill(); ctx.clip(); ctx.fillStyle = '#c3ccd8'; ctx.beginPath(); ctx.arc(cx, c.y + c.h * 0.4, c.w * 0.17, 0, 7); ctx.fill(); ctx.beginPath(); ctx.ellipse(cx, c.y + c.h * 0.98, c.w * 0.34, c.h * 0.36, 0, 0, 7); ctx.fill(); ctx.restore();
+        ctx.save(); ctx.lineWidth = 2; ctx.strokeStyle = c.ring || '#d3dae3'; path(); ctx.stroke(); ctx.restore(); }
+      else if(c.k === 'ic'){ icon(ctx, c); }
       else if(c.k === 't'){ ctx.font = c.f; ctx.fillStyle = c.c; ctx.textAlign = c.al; ctx.direction = hasAr(c.s) ? 'rtl' : 'ltr'; ctx.fillText(c.s, c.x, c.y); }
     });
+  }
+  function icon(ctx, c){
+    const s = c.s, x = c.x, y = c.y; ctx.save(); ctx.strokeStyle = c.c; ctx.fillStyle = c.c; ctx.lineWidth = Math.max(0.9, s * 0.1); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    if(c.t === 'phone'){ rr(ctx, x - s * 0.27, y - s * 0.46, s * 0.54, s * 0.92, s * 0.1); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x - s * 0.1, y + s * 0.32); ctx.lineTo(x + s * 0.1, y + s * 0.32); ctx.stroke(); }
+    else if(c.t === 'mail'){ rr(ctx, x - s * 0.46, y - s * 0.32, s * 0.92, s * 0.64, s * 0.08); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x - s * 0.44, y - s * 0.28); ctx.lineTo(x, y + s * 0.05); ctx.lineTo(x + s * 0.44, y - s * 0.28); ctx.stroke(); }
+    else if(c.t === 'pin'){ ctx.beginPath(); ctx.moveTo(x, y + s * 0.5); ctx.bezierCurveTo(x - s * 0.52, y + s * 0.02, x - s * 0.36, y - s * 0.5, x, y - s * 0.5); ctx.bezierCurveTo(x + s * 0.36, y - s * 0.5, x + s * 0.52, y + s * 0.02, x, y + s * 0.5); ctx.stroke(); ctx.beginPath(); ctx.arc(x, y - s * 0.12, s * 0.12, 0, 7); ctx.fill(); }
+    else if(c.t === 'link'){ ctx.beginPath(); ctx.arc(x, y, s * 0.42, 0, 7); ctx.stroke(); ctx.beginPath(); ctx.ellipse(x, y, s * 0.18, s * 0.42, 0, 0, 7); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x - s * 0.42, y); ctx.lineTo(x + s * 0.42, y); ctx.stroke(); }
+    else{ ctx.beginPath(); ctx.arc(x, y - s * 0.16, s * 0.17, 0, 7); ctx.stroke(); ctx.beginPath(); ctx.arc(x, y + s * 0.5, s * 0.34, Math.PI * 1.1, Math.PI * 1.9); ctx.stroke(); }
+    ctx.restore();
   }
   function configure(){
     const t = T(); ACC = $('cv-acc').value || t.acc; FONT = $('cv-font').value || 'Cairo'; S = (parseFloat($('cv-size').value) || 100) / 100; $('cv-size-v').textContent = Math.round(S * 100);
@@ -13561,7 +13594,7 @@ const CV_TPLS = [
 
   /* ---------- storage, labels, export ---------- */
   const KEY = 'uddah-cv-data';
-  function save(){ try{ if($('cv-remember').checked){ localStorage.setItem(KEY, JSON.stringify({ d:readData(), t:tplId, a:$('cv-acc').value, f:$('cv-font').value, dir:$('cv-dir').value, sh:$('cv-shape').value, sz:$('cv-size').value })); } }catch(e){} }
+  function save(){ try{ if($('cv-remember').checked){ localStorage.setItem(KEY, JSON.stringify({ d:readData(), t:tplId, a:$('cv-acc').value, f:$('cv-font').value, dir:$('cv-dir').value, sh:$('cv-shape').value, sz:$('cv-size').value, slot:$('cv-slot').checked })); } }catch(e){} }
   function applyLabels(){
     const L = lang(); document.querySelectorAll('#tools-cv [data-cvl]').forEach(el=>{ const v = L[el.getAttribute('data-cvl')]; if(v !== undefined) el.textContent = v; });
     document.querySelectorAll('#tools-cv .cv-in').forEach(el=>{ /* labels handled above */ }); fillLevels(); buildGallery(); schedule();
@@ -13578,25 +13611,40 @@ const CV_TPLS = [
   async function exportPng(){
     try{ await document.fonts.load(`700 12px "${$('cv-font').value}"`).catch(()=>0); const D = configure(), c = renderAll(2.4, null, D, 1)[0]; downloadBlob(await psCanvasBlob(c, 'image/png'), 'CV_' + ((D.name || 'cv').replace(/[\\/:*?"<>|]+/g, '_')) + '.png'); setStatus('cv-status', lang().done, 'ok'); }catch(e){ console.error(e); setStatus('cv-status', lang().bad, 'err'); }
   }
+  let photoSrc = null;
+  function buildPhoto(){
+    const th = $('cv-ph-thumb'); th.textContent = '';
+    if(!photoSrc){ photo = null; th.innerHTML = '<span style="font-size:2rem;">📷</span>'; $('cv-ph-edit').style.display = 'none'; return; }
+    const z = (parseFloat($('cv-ph-zoom').value) || 100) / 100, px = (parseFloat($('cv-ph-x').value) || 0) / 100, py = (parseFloat($('cv-ph-y').value) || 0) / 100, w = photoSrc.width, h = photoSrc.height, sd = Math.min(w, h) / z;
+    const sx = (w - sd) / 2 + px * (w - sd) / 2, sy = (h - sd) / 2 + py * (h - sd) / 2, c = document.createElement('canvas'); c.width = c.height = Math.max(8, Math.min(520, Math.round(sd))); c.getContext('2d').drawImage(photoSrc, Math.max(0, Math.min(w - sd, sx)), Math.max(0, Math.min(h - sd, sy)), sd, sd, 0, 0, c.width, c.height); photo = c;
+    const t = document.createElement('canvas'); t.width = t.height = 96; t.getContext('2d').drawImage(c, 0, 0, 96, 96); t.style.cssText = 'width:100%;height:100%;display:block;'; th.appendChild(t); $('cv-ph-edit').style.display = '';
+  }
   async function loadPhoto(file){
-    const url = URL.createObjectURL(file); try{ const im = await new Promise((res, rej)=>{ const i = new Image(); i.onload = ()=> res(i); i.onerror = rej; i.src = url; }); const s = Math.min(im.naturalWidth, im.naturalHeight), c = document.createElement('canvas'); c.width = c.height = Math.min(500, s); c.getContext('2d').drawImage(im, (im.naturalWidth - s) / 2, (im.naturalHeight - s) / 2, s, s, 0, 0, c.width, c.height); photo = c; }catch(e){ photo = null; } finally{ setTimeout(()=> URL.revokeObjectURL(url), 2000); }
-    refresh();
+    const url = URL.createObjectURL(file);
+    try{ const im = await new Promise((res, rej)=>{ const i = new Image(); i.onload = ()=> res(i); i.onerror = rej; i.src = url; }); const k = Math.min(1, 1400 / Math.max(im.naturalWidth, im.naturalHeight)), c = document.createElement('canvas'); c.width = Math.round(im.naturalWidth * k); c.height = Math.round(im.naturalHeight * k); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); photoSrc = c; $('cv-ph-zoom').value = 100; $('cv-ph-x').value = 0; $('cv-ph-y').value = 0; $('cv-slot').checked = true; }
+    catch(e){ photoSrc = null; } finally{ setTimeout(()=> URL.revokeObjectURL(url), 2000); }
+    buildPhoto(); refresh();
   }
 
   /* ---------- wiring ---------- */
   $('cv-exp-add').addEventListener('click', ()=>{ addRow('cv-exp-list', EXP_F); schedule(); }); $('cv-edu-add').addEventListener('click', ()=>{ addRow('cv-edu-list', EDU_F); schedule(); }); $('cv-lang-add').addEventListener('click', ()=>{ addRow('cv-lang-list', LNG_F); schedule(); });
   $('tools-cv').addEventListener('input', e=>{ if(e.target.id === 'cv-remember') return; schedule(); }); $('tools-cv').addEventListener('change', e=>{ if(e.target.id === 'cv-photo') return; schedule(); });
-  $('cv-photo').addEventListener('change', ()=>{ const f = $('cv-photo').files[0]; if(f) loadPhoto(f); }); $('cv-photo-clear').addEventListener('click', ()=>{ photo = null; $('cv-photo').value = ''; refresh(); });
+  $('cv-photo').addEventListener('change', ()=>{ const f = $('cv-photo').files[0]; if(f) loadPhoto(f); $('cv-photo').value = ''; }); $('cv-photo-clear').addEventListener('click', ()=>{ photoSrc = null; buildPhoto(); refresh(); });
+  $('cv-ph-thumb').addEventListener('click', ()=> $('cv-photo').click()); $('cv-ph-pick').addEventListener('click', ()=> $('cv-photo').click());
+  ['cv-ph-zoom', 'cv-ph-x', 'cv-ph-y'].forEach(id=> $(id).addEventListener('input', ()=>{ buildPhoto(); refresh(); }));
+  const th = $('cv-ph-thumb'); ['dragover', 'dragenter'].forEach(ev=> th.addEventListener(ev, e=>{ e.preventDefault(); th.style.borderColor = '#b8863b'; })); th.addEventListener('dragleave', ()=> th.style.borderColor = ''); th.addEventListener('drop', e=>{ e.preventDefault(); th.style.borderColor = ''; const f = e.dataTransfer.files && e.dataTransfer.files[0]; if(f && /^image\//.test(f.type)) loadPhoto(f); });
+  const prev = $('cv-prev'), slotHit = e=>{ const cv = e.target; if(!lastSlot || cv.tagName !== 'CANVAS' || cv !== prev.firstElementChild) return false; const r = cv.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * PW, y = (e.clientY - r.top) / r.height * PH; return x >= lastSlot.x && x <= lastSlot.x + lastSlot.w && y >= lastSlot.y && y <= lastSlot.y + lastSlot.h; };
+  prev.addEventListener('click', e=>{ if(slotHit(e)) $('cv-photo').click(); }); prev.addEventListener('mousemove', e=>{ const c = e.target; if(c && c.tagName === 'CANVAS') c.style.cursor = slotHit(e) ? 'pointer' : 'default'; });
   $('cv-sample').addEventListener('click', ()=>{ writeData(CV_SAMPLE[currentLang === 'en' ? 'en' : 'ar']); $('cv-dir').value = 'auto'; refresh(); });
-  $('cv-clear').addEventListener('click', ()=>{ writeData({}); photo = null; $('cv-photo').value = ''; refresh(); });
+  $('cv-clear').addEventListener('click', ()=>{ writeData({}); photoSrc = null; buildPhoto(); refresh(); });
   $('cv-remember').addEventListener('change', ()=>{ try{ if($('cv-remember').checked) save(); else localStorage.removeItem(KEY); }catch(e){} });
   $('cv-pdf').addEventListener('click', exportPdf); $('cv-png').addEventListener('click', exportPng);
   document.fonts && document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', schedule);
   // init: remembered data, else the sample
   let init = null; try{ init = JSON.parse(localStorage.getItem(KEY) || 'null'); }catch(e){}
-  if(init && init.d){ writeData(init.d); tplId = init.t || tplId; $('cv-acc').value = init.a || T().acc; $('cv-font').value = init.f || 'Cairo'; $('cv-dir').value = init.dir || 'auto'; $('cv-shape').value = init.sh || 'circle'; $('cv-size').value = init.sz || 100; $('cv-remember').checked = true; }
+  if(init && init.d){ writeData(init.d); tplId = init.t || tplId; $('cv-acc').value = init.a || T().acc; $('cv-font').value = init.f || 'Cairo'; $('cv-dir').value = init.dir || 'auto'; $('cv-shape').value = init.sh || 'circle'; $('cv-size').value = init.sz || 100; $('cv-slot').checked = init.slot !== false; $('cv-remember').checked = true; }
   else{ writeData(CV_SAMPLE[currentLang === 'en' ? 'en' : 'ar']); $('cv-acc').value = T().acc; }
-  applyLabels();
+  buildPhoto(); applyLabels();
   window.cvRefresh = refresh;
 })();
 
