@@ -1052,6 +1052,7 @@
           <option value="cert" data-i18n="toolsOptCert">🎓 شهادة شكر وتقدير (مدارس وأكاديميات)</option>
           <option value="cardedit" data-i18n="toolsOptCe">🪪 مصمم الكروت (كرت جديد أو تعديل كرت جاهز)</option>
           <option value="svgconv" data-i18n="toolsOptSvg">🎨 تحويل ملف SVG إلى صورة أو PDF</option>
+          <option value="cv" data-i18n="toolsOptCv">📄 السيرة الذاتية (CV) — قوالب جاهزة</option>
           <option value="iban" data-i18n="toolsOptIban">🏦 مدقق رقم الآيبان السعودي (IBAN)</option>
         </select>
       </div>
@@ -2147,6 +2148,95 @@
       <div id="svg-status"></div>
       <p class="note" data-i18n="svgNote">ملاحظة: الخطوط غير المضمّنة داخل ملف SVG تُعرض بخطوط جهازك، والصور الخارجية المرتبطة برابط قد لا تظهر. الأفضل أن يكون الملف مستقلاً.</p>
     </div>
+    <div class="card tools-card" id="tools-cv">
+      <h2 data-i18n="cvTitle">السيرة الذاتية (CV) — قوالب جاهزة</h2>
+      <p class="hint" data-i18n="cvHint">اختر قالبًا احترافيًا، عبّئ بياناتك فقط، وانزّل سيرتك PDF جاهزة للطباعة والتقديم. كل شيء يعمل داخل متصفحك ولا يُرفع أي شيء.</p>
+
+      <div class="ce-box">
+        <b data-cvl="tplTitle">القالب</b>
+        <div id="cv-tpls" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;"></div>
+        <div class="row">
+          <div class="field"><label for="cv-acc" data-cvl="accent">اللون الرئيسي</label><input type="color" id="cv-acc" value="#1f4e79"></div>
+          <div class="field"><label for="cv-font" data-cvl="font">الخط</label>
+            <select id="cv-font"><option>Cairo</option><option>Tajawal</option><option>Almarai</option><option>IBM Plex Sans Arabic</option><option>Amiri</option><option>Noto Naskh Arabic</option><option>Montserrat</option><option>Lato</option><option>Open Sans</option><option>Roboto</option></select></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="cv-dir" data-cvl="dir">لغة واتجاه السيرة</label>
+            <select id="cv-dir"><option value="auto" data-cvl="dirAuto">تلقائي حسب النص</option><option value="rtl" data-cvl="dirAr">عربي (من اليمين)</option><option value="ltr" data-cvl="dirEn">English (left to right)</option></select></div>
+          <div class="field"><label for="cv-shape" data-cvl="shape">شكل الصورة</label>
+            <select id="cv-shape"><option value="circle" data-cvl="shCircle">دائرة</option><option value="round" data-cvl="shRound">مربع مدوّر</option><option value="square" data-cvl="shSquare">مربع</option></select></div>
+        </div>
+        <div class="field"><label for="cv-size"><span data-cvl="size">حجم الخط</span> <span id="cv-size-v">100</span>٪</label><input type="range" id="cv-size" min="85" max="120" step="1" value="100"></div>
+      </div>
+
+      <details class="ce-more ce-box" open><summary><b data-cvl="secPersonal">البيانات الشخصية</b></summary>
+        <div class="row" style="margin-top:10px;">
+          <div class="field"><label for="cv-name" data-cvl="name">الاسم الكامل</label><input type="text" id="cv-name"></div>
+          <div class="field"><label for="cv-jobtitle" data-cvl="jobtitle">المسمى الوظيفي</label><input type="text" id="cv-jobtitle"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="cv-phone" data-cvl="phone">الجوال</label><input type="text" id="cv-phone" dir="ltr"></div>
+          <div class="field"><label for="cv-email" data-cvl="email">البريد الإلكتروني</label><input type="text" id="cv-email" dir="ltr"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="cv-city" data-cvl="city">المدينة / الدولة</label><input type="text" id="cv-city"></div>
+          <div class="field"><label for="cv-link" data-cvl="link">رابط (لينكدإن / موقع)</label><input type="text" id="cv-link" dir="ltr"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="cv-extra" data-cvl="extra">معلومة إضافية (الجنسية، العمر، رخصة القيادة...)</label><input type="text" id="cv-extra"></div>
+          <div class="field"><label for="cv-photo" data-cvl="photo">الصورة الشخصية (اختياري)</label><input type="file" id="cv-photo" accept="image/*"></div>
+        </div>
+        <button type="button" class="btn secondary" id="cv-photo-clear" data-cvl="photoClear" style="margin-bottom:4px;">حذف الصورة</button>
+      </details>
+
+      <details class="ce-more ce-box"><summary><b data-cvl="secSummary">النبذة المختصرة</b></summary>
+        <div class="field" style="margin-top:10px;"><textarea id="cv-summary" rows="4"></textarea></div>
+      </details>
+
+      <details class="ce-more ce-box"><summary><b data-cvl="secExp">الخبرات العملية</b></summary>
+        <div id="cv-exp-list" style="margin-top:10px;"></div>
+        <button type="button" class="btn secondary" id="cv-exp-add" data-cvl="addExp">➕ إضافة خبرة</button>
+      </details>
+
+      <details class="ce-more ce-box"><summary><b data-cvl="secEdu">التعليم</b></summary>
+        <div id="cv-edu-list" style="margin-top:10px;"></div>
+        <button type="button" class="btn secondary" id="cv-edu-add" data-cvl="addEdu">➕ إضافة مؤهل</button>
+      </details>
+
+      <details class="ce-more ce-box"><summary><b data-cvl="secSkills">المهارات</b></summary>
+        <div class="field" style="margin-top:10px;"><label for="cv-skills" data-cvl="skillsHint">مهارة في كل سطر (أو افصل بفاصلة)</label><textarea id="cv-skills" rows="5"></textarea></div>
+      </details>
+
+      <details class="ce-more ce-box"><summary><b data-cvl="secLangs">اللغات</b></summary>
+        <div id="cv-lang-list" style="margin-top:10px;"></div>
+        <button type="button" class="btn secondary" id="cv-lang-add" data-cvl="addLang">➕ إضافة لغة</button>
+      </details>
+
+      <details class="ce-more ce-box"><summary><b data-cvl="secCerts">الدورات والشهادات</b></summary>
+        <div class="field" style="margin-top:10px;"><label for="cv-certs" data-cvl="certsHint">عنصر في كل سطر</label><textarea id="cv-certs" rows="4"></textarea></div>
+      </details>
+
+      <details class="ce-more ce-box"><summary><b data-cvl="secExtra">قسم إضافي (اختياري)</b></summary>
+        <div class="field" style="margin-top:10px;"><label for="cv-xtitle" data-cvl="xtitle">عنوان القسم (مثال: الهوايات، التطوع)</label><input type="text" id="cv-xtitle"></div>
+        <div class="field"><label for="cv-xlines" data-cvl="xlines">عنصر في كل سطر</label><textarea id="cv-xlines" rows="3"></textarea></div>
+      </details>
+
+      <div class="ce-row">
+        <button type="button" class="btn secondary" id="cv-sample" data-cvl="sample">✨ تعبئة بيانات تجريبية</button>
+        <button type="button" class="btn secondary" id="cv-clear" data-cvl="clear">🧹 مسح الكل</button>
+      </div>
+      <label style="display:flex;align-items:center;gap:6px;margin:4px 0 12px;"><input type="checkbox" id="cv-remember"> <span data-cvl="remember">تذكّر بياناتي في هذا المتصفح (بدون الصورة)</span></label>
+
+      <div id="cv-warn"></div>
+      <div id="cv-prev" style="display:flex;flex-direction:column;gap:12px;align-items:center;margin:10px 0;"></div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+        <button type="button" class="btn" id="cv-pdf" data-cvl="dlPdf">تنزيل PDF</button>
+        <button type="button" class="btn secondary" id="cv-png" data-cvl="dlPng">تنزيل صورة (الصفحة 1)</button>
+      </div>
+      <div id="cv-status"></div>
+      <p class="note" data-cvl="note">كل شيء يتم داخل متصفحك. الملف يُنزَّل كصور داخل PDF بجودة عالية للطباعة. بعض أنظمة التقديم الآلية لا تقرأ النص من هذا النوع من الملفات.</p>
+    </div>
+
     <div class="card tools-card" id="tools-iban">
       <h2 data-i18n="ibanTitle">مدقق رقم الآيبان السعودي (IBAN)</h2>
       <p class="hint" data-i18n="ibanHint">تحقق هل رقم الآيبان السعودي صحيح شكلياً ورياضياً قبل استخدامه بأي تحويل، ويطلع لك اسم البنك تلقائياً لو كان رقمه معروف.</p>
@@ -4123,6 +4213,7 @@ const I18N = {
     ceEncField: '🔒 كلمة سر التشفير (إن تركتها فارغة سيُطلب منك إدخالها)', ceEncSetTitle: '🔒 تشفير القالب', ceEncOpenTitle: '🔓 قالب مشفّر', ceEncSaveTitle: 'هذا القالب مشفّر — اكتب كلمة السر لحفظ التعديل', ceEncPass: 'كلمة السر', ceEncPass2: 'أعد كتابة كلمة السر', ceEncOk: 'تأكيد', ceEncCancel: 'إلغاء', ceEncMismatch: 'كلمتا السر غير متطابقتين', ceEncShort: 'كلمة السر قصيرة (٤ أحرف على الأقل)', ceEncWrong: 'كلمة السر غير صحيحة', ceEncLockedDone: 'تم تشفير القالب ✓ لا يُفتح إلا بكلمة السر. لا توجد طريقة لاستعادتها إن نسيتها.', ceEncUnlocked: 'تمت إزالة التشفير', ceEncNoCrypto: 'التشفير غير متاح في هذا المتصفح', ceEncLock: 'تشفير', ceEncUnlock: 'إزالة التشفير', ceEncLockedImp: 'القالب مشفّر: حُفظ في القائمة، ولم يُفتح لأن كلمة السر لم تُدخل.',
     ceEncDelTitle: '🗑️ حذف قالب مشفّر — اكتب كلمة السر للتأكيد',
     ceEncExpTitle: '⬇️ تنزيل القالب مشفّرًا — اختر كلمة سر',
+    toolsOptCv: '📄 السيرة الذاتية (CV) — قوالب جاهزة', cvTitle: 'السيرة الذاتية (CV) — قوالب جاهزة', cvHint: 'اختر قالبًا احترافيًا، عبّئ بياناتك فقط، وانزّل سيرتك PDF جاهزة للطباعة والتقديم. كل شيء يعمل داخل متصفحك ولا يُرفع أي شيء.',
     ceStTsAll: 'حجم كل النصوص داخل الختم', ceStRingW: 'سماكة حلقة الكتابة', ceStTsT: 'النص العلوي', ceStTsB: 'النص السفلي', ceStTs1: 'السطر 1 (وسط)', ceStTs2: 'السطر 2 (وسط)', ceStTs3: 'السطر 3 (وسط)', ceStTs4: 'السطر 4 (وسط)',
     ceStTsC: 'حجم كتابة الوسط', ceStTsR: 'حجم الكتابة الدائرية',
     ceTplTitle: '📁 قوالبي المحفوظة', ceTplSave: '💾 حفظ كقالب', ceTplName: 'اسم القالب', ceTplNameDef: 'قالب الكرت', ceTplSaved: 'تم حفظ القالب ✓ يبقى في هذا المتصفح، وللاحتياط صدّره كملف.', ceTplFail: 'تعذّر الحفظ في المتصفح. صدّر القالب كملف بدلاً من ذلك.', ceTplOpen: 'فتح', ceTplDel: 'حذف', ceTplExp: '⬇️ تصدير القالب كملف', ceTplImp: '⬆️ استيراد قالب من ملف', ceTplNone: 'ما فيه قوالب محفوظة بعد.', ceTplBad: 'هذا الملف ليس قالب كرت صالحاً.', ceTplAuto: 'نسخة تلقائية قبل الفتح', ceTplOpened: 'تم فتح القالب ✓',
@@ -4928,6 +5019,7 @@ const I18N = {
     ceEncField: '🔒 Encryption password (leave empty and you will be asked)', ceEncSetTitle: '🔒 Encrypt template', ceEncOpenTitle: '🔓 Encrypted template', ceEncSaveTitle: 'This template is encrypted — enter its password to save changes', ceEncPass: 'Password', ceEncPass2: 'Repeat the password', ceEncOk: 'Confirm', ceEncCancel: 'Cancel', ceEncMismatch: 'The passwords do not match', ceEncShort: 'Password too short (at least 4 characters)', ceEncWrong: 'Wrong password', ceEncLockedDone: 'Template encrypted ✓ it only opens with the password. There is no way to recover it if you forget it.', ceEncUnlocked: 'Encryption removed', ceEncNoCrypto: 'Encryption is not available in this browser', ceEncLock: 'Encrypt', ceEncUnlock: 'Remove encryption', ceEncLockedImp: 'The template is encrypted: it was added to the list but not opened because no password was entered.',
     ceEncDelTitle: '🗑️ Delete encrypted template — enter the password to confirm',
     ceEncExpTitle: '⬇️ Download the template encrypted — choose a password',
+    toolsOptCv: '📄 CV / Resume — ready templates', cvTitle: 'CV / Resume — ready-made templates', cvHint: 'Pick a professional template, fill in your details only, and download a print-ready PDF. Everything runs in your browser — nothing is uploaded.',
     ceStTsAll: 'Size of all stamp text', ceStRingW: 'Text ring thickness', ceStTsT: 'Top text', ceStTsB: 'Bottom text', ceStTs1: 'Line 1 (centre)', ceStTs2: 'Line 2 (centre)', ceStTs3: 'Line 3 (centre)', ceStTs4: 'Line 4 (centre)',
     ceStTsC: 'Centre text size', ceStTsR: 'Curved text size',
     ceTplTitle: '📁 My saved templates', ceTplSave: '💾 Save as template', ceTplName: 'Template name', ceTplNameDef: 'Card template', ceTplSaved: 'Template saved ✓ It stays in this browser; export it as a file as a backup.', ceTplFail: 'Could not save in the browser. Export the template as a file instead.', ceTplOpen: 'Open', ceTplDel: 'Delete', ceTplExp: '⬇️ Export template as a file', ceTplImp: '⬆️ Import a template from a file', ceTplNone: 'No saved templates yet.', ceTplBad: 'This file is not a valid card template.', ceTplAuto: 'Automatic copy before opening', ceTplOpened: 'Template opened ✓',
@@ -5161,6 +5253,7 @@ function applyLanguage(lang){
   });
 
   if(typeof certFillPresetSelect === 'function') certFillPresetSelect();
+  if(typeof cvApplyLang === 'function') cvApplyLang();
   if(typeof paBuildCitySelect === 'function'){ paBuildCitySelect(); paRefreshLabels(); }
   paintStamp();
   if(typeof populateUnitSelects === 'function') populateUnitSelects();
@@ -13191,6 +13284,321 @@ document.getElementById('fuel-btn').addEventListener('click', ()=>{
   document.getElementById('fuel-cost').textContent = cost.toLocaleString('en-US',{maximumFractionDigits:2});
   document.getElementById('fuel-result').style.display = 'block';
 });
+
+/* ============================================================
+   CV BUILDER — ready-made professional templates, fill in the data only
+   Pages are laid out as drawing commands (A4, 595x842 pt) and painted on canvases.
+   ============================================================ */
+const CVL = {
+  ar:{ tplTitle:'القالب', accent:'اللون الرئيسي', font:'الخط', dir:'لغة واتجاه السيرة', dirAuto:'تلقائي حسب النص', dirAr:'عربي (من اليمين)', dirEn:'English (من اليسار)', shape:'شكل الصورة', shCircle:'دائرة', shRound:'مربع مدوّر', shSquare:'مربع', size:'حجم الخط',
+    secPersonal:'البيانات الشخصية', name:'الاسم الكامل', jobtitle:'المسمى الوظيفي', phone:'الجوال', email:'البريد الإلكتروني', city:'المدينة / الدولة', link:'رابط (لينكدإن / موقع)', extra:'معلومة إضافية (الجنسية، العمر، رخصة القيادة...)', photo:'الصورة الشخصية (اختياري)', photoClear:'حذف الصورة',
+    secSummary:'النبذة المختصرة', secExp:'الخبرات العملية', addExp:'➕ إضافة خبرة', secEdu:'التعليم', addEdu:'➕ إضافة مؤهل', secSkills:'المهارات', skillsHint:'مهارة في كل سطر (أو افصل بفاصلة)', secLangs:'اللغات', addLang:'➕ إضافة لغة', secCerts:'الدورات والشهادات', certsHint:'عنصر في كل سطر', secExtra:'قسم إضافي (اختياري)', xtitle:'عنوان القسم (مثال: الهوايات، التطوع)', xlines:'عنصر في كل سطر',
+    sample:'✨ تعبئة بيانات تجريبية', clear:'🧹 مسح الكل', remember:'تذكّر بياناتي في هذا المتصفح (بدون الصورة)', dlPdf:'تنزيل PDF', dlPng:'تنزيل صورة (الصفحة 1)', note:'كل شيء يتم داخل متصفحك. الملف يُنزَّل بصفحات عالية الجودة للطباعة، لكن بعض أنظمة التقديم الآلية لا تقرأ النص من هذا النوع من الملفات.',
+    role:'المسمى الوظيفي', org:'جهة العمل', when:'الفترة (مثال: 2020 - الآن)', desc:'المهام والإنجازات (سطر لكل نقطة)', deg:'المؤهل / التخصص', school:'الجامعة / المعهد', years:'السنوات', lang:'اللغة', level:'المستوى', del:'حذف',
+    warnSide:'الشريط الجانبي ممتلئ: بعض العناصر لم تظهر، صغّر حجم الخط أو اختر قالبًا آخر.', done:'تم التنزيل ✓', bad:'تعذّر إنشاء الملف' },
+  en:{ tplTitle:'Template', accent:'Main colour', font:'Font', dir:'CV language & direction', dirAuto:'Auto (from the text)', dirAr:'العربية (right to left)', dirEn:'English (left to right)', shape:'Photo shape', shCircle:'Circle', shRound:'Rounded square', shSquare:'Square', size:'Text size',
+    secPersonal:'Personal details', name:'Full name', jobtitle:'Job title', phone:'Phone', email:'Email', city:'City / Country', link:'Link (LinkedIn / website)', extra:'Extra info (nationality, age, driving licence...)', photo:'Photo (optional)', photoClear:'Remove photo',
+    secSummary:'Summary', secExp:'Work experience', addExp:'➕ Add experience', secEdu:'Education', addEdu:'➕ Add education', secSkills:'Skills', skillsHint:'One skill per line (or comma separated)', secLangs:'Languages', addLang:'➕ Add language', secCerts:'Courses & certificates', certsHint:'One item per line', secExtra:'Extra section (optional)', xtitle:'Section title (e.g. Hobbies, Volunteering)', xlines:'One item per line',
+    sample:'✨ Fill sample data', clear:'🧹 Clear all', remember:'Remember my data in this browser (without the photo)', dlPdf:'Download PDF', dlPng:'Download image (page 1)', note:'Everything runs in your browser. The PDF is made of high-quality pages for printing, but some automatic applicant-tracking systems cannot read text from this kind of file.',
+    role:'Job title', org:'Company', when:'Period (e.g. 2020 - Present)', desc:'Duties & achievements (one point per line)', deg:'Degree / major', school:'University / institute', years:'Years', lang:'Language', level:'Level', del:'Delete',
+    warnSide:'The side column is full: some items were not shown. Reduce the text size or pick another template.', done:'Downloaded ✓', bad:'Could not create the file' }
+};
+const CVLBL = {
+  ar:{ summary:'نبذة مختصرة', exp:'الخبرات العملية', edu:'التعليم', skills:'المهارات', langs:'اللغات', certs:'الدورات والشهادات', contact:'التواصل', phone:'الجوال', email:'البريد', city:'المدينة', link:'الرابط', levels:['أساسي', 'متوسط', 'جيد', 'جيد جدًا', 'ممتاز / لغة أم'] },
+  en:{ summary:'Profile', exp:'Work experience', edu:'Education', skills:'Skills', langs:'Languages', certs:'Courses & certificates', contact:'Contact', phone:'Phone', email:'Email', city:'Location', link:'Link', levels:['Basic', 'Intermediate', 'Good', 'Very good', 'Fluent / native'] }
+};
+const CV_SAMPLE = {
+  ar:{ name:'محمد عبدالله الشهري', title:'مدير مشاريع هندسية', phone:'+966 50 123 4567', email:'m.alshehri@example.com', city:'الرياض، المملكة العربية السعودية', link:'linkedin.com/in/m-alshehri', extra:'سعودي الجنسية • رخصة قيادة سارية',
+    summary:'مهندس مدني بخبرة تتجاوز ٩ سنوات في إدارة وتنفيذ المشاريع الإنشائية والبنية التحتية، أتقن إعداد الجداول الزمنية والميزانيات وقيادة الفرق الميدانية، وأسعى لتقديم مشاريع بجودة عالية وضمن الوقت والتكلفة المحددة.',
+    exp:[{ role:'مدير مشاريع', org:'شركة الإنشاءات المتقدمة', when:'2021 - الآن', desc:'قيادة فريق من ٢٥ مهندسًا وفنيًا في مشاريع سكنية وتجارية بقيمة تتجاوز ١٢٠ مليون ريال\nخفض التكاليف التشغيلية بنسبة ١٨٪ عبر إعادة هيكلة عقود الموردين\nتسليم ٦ مشاريع قبل الموعد المحدد وبدون ملاحظات جوهرية' },
+          { role:'مهندس موقع أول', org:'مجموعة العمران للمقاولات', when:'2017 - 2021', desc:'الإشراف اليومي على التنفيذ ومطابقة الأعمال للمخططات والمواصفات\nإعداد تقارير التقدم الأسبوعية ومتابعة جداول الأعمال' },
+          { role:'مهندس مدني', org:'مكتب الرؤية الهندسي', when:'2014 - 2017', desc:'إعداد الرسومات التنفيذية وحصر الكميات وتقدير التكاليف' }],
+    edu:[{ deg:'بكالوريوس الهندسة المدنية', org:'جامعة الملك سعود', years:'2009 - 2014', desc:'تقدير ممتاز مع مرتبة الشرف' }],
+    skills:'إدارة المشاريع\nMS Project / Primavera\nAutoCAD\nإدارة العقود\nالتخطيط والجدولة\nقيادة الفرق\nمراقبة الجودة', langs:[{ n:'العربية', l:5 }, { n:'الإنجليزية', l:4 }],
+    certs:'شهادة إدارة المشاريع الاحترافية PMP\nعضوية الهيئة السعودية للمهندسين\nدورة السلامة المهنية OSHA 30', xtitle:'الهوايات', xlines:'القراءة\nالسباحة\nالعمل التطوعي' },
+  en:{ name:'Daniel R. Whitmore', title:'Senior Project Manager', phone:'+1 415 555 0142', email:'daniel.whitmore@example.com', city:'San Francisco, USA', link:'linkedin.com/in/dwhitmore', extra:'Full driving licence',
+    summary:'Civil engineer with 9+ years of experience delivering construction and infrastructure projects. Strong in scheduling, budgeting and leading site teams, with a record of finishing projects early and under budget.',
+    exp:[{ role:'Project Manager', org:'Meridian Construction Group', when:'2021 - Present', desc:'Lead a team of 25 engineers and technicians on residential and commercial projects worth over $30M\nCut operating costs by 18% by restructuring supplier contracts\nDelivered 6 projects ahead of schedule with no major punch-list items' },
+          { role:'Senior Site Engineer', org:'Northbridge Contractors', when:'2017 - 2021', desc:'Supervised daily execution and checked works against drawings and specifications\nPrepared weekly progress reports and tracked work schedules' },
+          { role:'Civil Engineer', org:'Vision Engineering Office', when:'2014 - 2017', desc:'Produced construction drawings, quantity take-offs and cost estimates' }],
+    edu:[{ deg:'B.Sc. in Civil Engineering', org:'University of California', years:'2009 - 2014', desc:'First class honours' }],
+    skills:'Project management\nMS Project / Primavera\nAutoCAD\nContract management\nPlanning & scheduling\nTeam leadership\nQuality control', langs:[{ n:'English', l:5 }, { n:'Arabic', l:3 }],
+    certs:'Project Management Professional (PMP)\nProfessional Engineer licence\nOSHA 30 safety course', xtitle:'Interests', xlines:'Reading\nSwimming\nVolunteering' }
+};
+const CV_TPLS = [
+  { id:'classic',   n:{ ar:'كلاسيك', en:'Classic' },     acc:'#1f4e79', layout:'single',  head:'start',  sec:'rule' },
+  { id:'modern',    n:{ ar:'عصري', en:'Modern' },        acc:'#0f766e', layout:'sidebar', side:'start', sideStyle:'dark', sec:'bar' },
+  { id:'executive', n:{ ar:'تنفيذي', en:'Executive' },   acc:'#1b2a41', layout:'banner',  sec:'fill' },
+  { id:'minimal',   n:{ ar:'بسيط', en:'Minimal' },       acc:'#475569', layout:'single',  head:'center', sec:'center' },
+  { id:'creative',  n:{ ar:'إبداعي', en:'Creative' },    acc:'#c2410c', layout:'sidebar', side:'end', sideStyle:'tint', sec:'dot' },
+  { id:'timeline',  n:{ ar:'خط زمني', en:'Timeline' },   acc:'#6d28d9', layout:'single',  head:'start',  sec:'dot', tl:true }
+];
+
+(function cvTool(){
+  const $ = id => document.getElementById(id), PW = 595, PH = 842, M = 40;
+  const mctx = document.createElement('canvas').getContext('2d');
+  const hasAr = s => /[؀-ۿݐ-ݿࢠ-ࣿ]/.test(s || '');
+  const hexRgb = h => { h = h.replace('#', ''); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; };
+  const mix = (h, t, k) => { const a = hexRgb(h), b = hexRgb(t); return '#' + a.map((v, i)=> Math.round(v + (b[i] - v) * k).toString(16).padStart(2, '0')).join(''); };
+  const rgba = (h, a) => { const c = hexRgb(h); return `rgba(${c[0]},${c[1]},${c[2]},${a})`; };
+  let tplId = 'classic', photo = null, pages = [], DRY = false, RTL = true, S = 1, FONT = 'Cairo', ACC = '#1f4e79', LB = CVLBL.ar, warn = false;
+  const lang = () => CVL[currentLang] || CVL.ar;
+
+  /* ---------- ui: repeaters ---------- */
+  function addRow(listId, fields, vals){
+    const L = lang(), box = document.createElement('div'); box.className = 'ce-box'; box.style.cssText = 'padding:10px;margin-bottom:8px;';
+    fields.forEach(f=>{
+      const w = document.createElement('div'); w.className = 'field'; const lb = document.createElement('label'); lb.setAttribute('data-cvl', f.k); lb.textContent = L[f.k];
+      let el; if(f.t === 'ta'){ el = document.createElement('textarea'); el.rows = 3; } else if(f.t === 'lv'){ el = document.createElement('select'); for(let i = 1; i <= 5; i++){ const o = document.createElement('option'); o.value = i; el.appendChild(o); } } else { el = document.createElement('input'); el.type = 'text'; }
+      el.dataset.f = f.k; el.className = 'cv-in'; if(vals && vals[f.k] !== undefined) el.value = vals[f.k]; w.appendChild(lb); w.appendChild(el); box.appendChild(w);
+    });
+    const d = document.createElement('button'); d.type = 'button'; d.className = 'btn secondary'; d.setAttribute('data-cvl', 'del'); d.textContent = L.del; d.addEventListener('click', ()=>{ box.remove(); schedule(); }); box.appendChild(d);
+    $(listId).appendChild(box); fillLevels(); return box;
+  }
+  const EXP_F = [{ k:'role' }, { k:'org' }, { k:'when' }, { k:'desc', t:'ta' }], EDU_F = [{ k:'deg' }, { k:'school' }, { k:'years' }, { k:'desc', t:'ta' }], LNG_F = [{ k:'lang' }, { k:'level', t:'lv' }];
+  const rows = id => [...$(id).children].map(b=>{ const o = {}; b.querySelectorAll('.cv-in').forEach(e=> o[e.dataset.f] = e.value); return o; });
+  function fillLevels(){ const lv = (CVLBL[currentLang] || CVLBL.ar).levels; document.querySelectorAll('#cv-lang-list select').forEach(s=>{ const cur = s.value; [...s.options].forEach((o, i)=> o.textContent = lv[i]); if(cur) s.value = cur; }); }
+  function setList(id, fields, arr, map){ $(id).textContent = ''; (arr || []).forEach(v=> addRow(id, fields, map ? map(v) : v)); }
+
+  function readData(){
+    const g = id => $(id).value.trim(), skills = g('cv-skills').split(/[\n,،]+/).map(s=> s.trim()).filter(Boolean);
+    return { name:g('cv-name'), title:g('cv-jobtitle'), phone:g('cv-phone'), email:g('cv-email'), city:g('cv-city'), link:g('cv-link'), extra:g('cv-extra'), summary:g('cv-summary'),
+      exp:rows('cv-exp-list').filter(e=> e.role || e.org || e.desc), edu:rows('cv-edu-list').filter(e=> e.deg || e.school), skills,
+      langs:rows('cv-lang-list').filter(e=> e.lang).map(e=> ({ n:e.lang, l:parseInt(e.level, 10) || 3 })), certs:g('cv-certs').split('\n').map(s=> s.trim()).filter(Boolean), xtitle:g('cv-xtitle'), xlines:g('cv-xlines').split('\n').map(s=> s.trim()).filter(Boolean) };
+  }
+  function writeData(d){
+    const set = (id, v)=> $(id).value = v || '';
+    set('cv-name', d.name); set('cv-jobtitle', d.title); set('cv-phone', d.phone); set('cv-email', d.email); set('cv-city', d.city); set('cv-link', d.link); set('cv-extra', d.extra); set('cv-summary', d.summary);
+    setList('cv-exp-list', EXP_F, d.exp); setList('cv-edu-list', EDU_F, d.edu, e=> ({ deg:e.deg, school:e.org || e.school, years:e.years, desc:e.desc }));
+    setList('cv-lang-list', LNG_F, d.langs, l=> ({ lang:l.n, level:l.l })); fillLevels();
+    set('cv-skills', Array.isArray(d.skills) ? d.skills.join('\n') : d.skills); set('cv-certs', Array.isArray(d.certs) ? d.certs.join('\n') : d.certs); set('cv-xtitle', d.xtitle); set('cv-xlines', Array.isArray(d.xlines) ? d.xlines.join('\n') : d.xlines);
+  }
+
+  /* ---------- drawing primitives (all coordinates in pt) ---------- */
+  const fnt = (sz, wt)=> `${wt || 400} ${sz}px "${FONT}", "Cairo", sans-serif`;
+  const tw = (s, sz, wt)=>{ mctx.font = fnt(sz, wt); return mctx.measureText(s).width; };
+  function wrap(s, sz, wt, maxW){
+    const out = [];
+    String(s).split('\n').forEach(p=>{ const words = p.split(/\s+/).filter(Boolean); if(!words.length){ out.push(''); return; } let cur = ''; words.forEach(w=>{ const t = cur ? cur + ' ' + w : w; if(!cur || tw(t, sz, wt) <= maxW) cur = t; else{ out.push(cur); cur = w; } }); out.push(cur); });
+    return out;
+  }
+  const emit = c=>{ if(!DRY) pages[pages.length - 1].push(c); };
+  const rect = (x, y, w, h, o)=> emit(Object.assign({ k:'r', x, y, w, h }, o));
+  const line = (x1, y1, x2, y2, c, lw)=> emit({ k:'l', x1, y1, x2, y2, c, lw:lw || 0.8 });
+  const dot = (x, y, r, c, st)=> emit({ k:'c', x, y, r, c, st });
+  // paragraph inside flow F = {x, w, y}; start edge = right in RTL
+  function para(F, s, o){
+    if(s === undefined || s === null || s === '') return 0;
+    o = Object.assign({ sz:9.6, wt:400, c:'#333', lh:1.5, inset:0, bullet:false, al:'start', gap:0 }, o); const sz = o.sz * S, lh = sz * o.lh, lines = wrap(s, sz, o.wt, F.w - o.inset);
+    const startRight = o.al === 'center' ? null : (RTL === (o.al === 'start'));
+    lines.forEach((ln, i)=>{
+      const y = F.y + lh * i + sz * 1.05; let x, al;
+      if(startRight === null){ x = F.x + F.w / 2; al = 'center'; }
+      else if(startRight){ x = F.x + F.w - (o.al === 'start' ? o.inset : 0); al = 'right'; }
+      else { x = F.x + (o.al === 'start' ? o.inset : 0); al = 'left'; }
+      emit({ k:'t', x, y, s:ln, f:fnt(sz, o.wt), c:o.c, al });
+      if(o.bullet && i === 0) dot(startRight ? F.x + F.w - 2.5 : F.x + 2.5, y - sz * 0.3, 1.9 * S, o.bc || o.c);
+    });
+    F.y += lines.length * lh + o.gap * S; return lines.length * lh;
+  }
+  // start text + end text on the same line (role ... dates)
+  function row2(F, a, b, oa, ob){
+    const szb = (ob.sz || 8.6) * S, wb = b ? tw(b, szb, ob.wt || 400) + 10 : 0, y0 = F.y, sub = { x:RTL ? F.x + wb : F.x, w:F.w - wb, y:F.y };
+    const sza = (oa.sz || 10) * S; para(sub, a, oa); F.y = Math.max(sub.y, y0 + szb * 1.5);
+    if(b) emit({ k:'t', x:RTL ? F.x : F.x + F.w, y:y0 + sza * 1.05, s:b, f:fnt(szb, ob.wt || 400), c:ob.c || '#777', al:RTL ? 'left' : 'right' });
+  }
+  // wrapped chips / plain items (optionally centred)
+  function chips(F, items, o){
+    o = Object.assign({ sz:8.8, c:'#333', bg:null, bd:null, plain:false, gap:5, center:false, sep:false, r:9 }, o); const sz = o.sz * S, h = sz + (o.plain ? 2 : 8), padx = o.plain ? 0 : 7, gap = o.plain ? 14 : o.gap, rowsA = []; let cur = [], cw = 0;
+    items.filter(Boolean).forEach(s=>{ const w = tw(s, sz, o.wt || 400) + padx * 2; if(cur.length && cw + gap + w > F.w){ rowsA.push({ it:cur, w:cw }); cur = []; cw = 0; } cur.push({ s, w }); cw += (cur.length > 1 ? gap : 0) + w; });
+    if(cur.length) rowsA.push({ it:cur, w:cw });
+    let y = F.y;
+    rowsA.forEach(r=>{
+      let off = o.center ? (F.w - r.w) / 2 : 0;
+      r.it.forEach((e, i)=>{
+        if(i > 0 && o.sep){ const sx = RTL ? F.x + F.w - off + gap / 2 : F.x + off - gap / 2; dot(o.center ? (RTL ? F.x + F.w - off + gap / 2 : F.x + off - gap / 2) : sx, y + h / 2, 1.4, o.sepc || '#999'); }
+        const x = RTL ? F.x + F.w - off - e.w : F.x + off;
+        if(!o.plain) rect(x, y, e.w, h, { r:o.r, fill:o.bg, stroke:o.bd });
+        emit({ k:'t', x:x + e.w / 2, y:y + h / 2 + sz * 0.34, s:e.s, f:fnt(sz, o.wt || 400), c:o.c, al:'center' });
+        off += e.w + gap;
+      });
+      y += h + (o.plain ? 3 : 5);
+    });
+    F.y = y + (o.after || 0);
+  }
+  function dotsRow(F, name, lv, o){ // language name + 5 dots at the end edge
+    const sz = (o.sz || 9.2) * S, y0 = F.y; const sub = { x:RTL ? F.x + 52 : F.x, w:F.w - 52, y:F.y }; para(sub, name, { sz:o.sz || 9.2, c:o.c, wt:600 });
+    for(let i = 0; i < 5; i++){ const dx = RTL ? F.x + 3 + i * 9.5 : F.x + F.w - 3 - i * 9.5; dot(dx, y0 + sz * 0.75, 2.7, i < lv ? o.on : o.off); }
+    F.y = Math.max(sub.y, y0 + sz * 1.5) + 2;
+  }
+  function photoAt(x, y, sz, shape, ring){ if(photo) emit({ k:'i', cv:photo, x, y, w:sz, h:sz, shape, ring }); }
+
+  /* ---------- sections ---------- */
+  function secTitle(F, text, st, o){
+    F.y += 8 * S; const sz = 11.4 * S, acc = o.acc, c = o.c || acc;
+    if(st === 'rule'){ para(F, text, { sz:11.4, wt:700, c:acc }); line(F.x, F.y + 1, F.x + F.w, F.y + 1, rgba(acc, 0.55), 0.9); F.y += 7 * S; }
+    else if(st === 'bar'){ rect(RTL ? F.x + F.w - 3.5 : F.x, F.y + 1.5, 3.5, sz * 1.2, { fill:acc }); para(F, text, { sz:11.4, wt:700, c:o.dark || '#222', inset:11 }); F.y += 3 * S; }
+    else if(st === 'fill'){ const w = tw(text, sz, 700); para(F, text, { sz:11.4, wt:700, c:acc }); const yy = F.y - sz * 0.62; line(RTL ? F.x : F.x + w + 10, yy, RTL ? F.x + F.w - w - 10 : F.x + F.w, yy, rgba(acc, 0.35), 0.9); F.y += 3 * S; }
+    else if(st === 'center'){ const w = tw(text, sz, 700), yy = F.y + sz * 0.62; para(F, text, { sz:11.4, wt:700, c:acc, al:'center' }); line(F.x, yy, F.x + F.w / 2 - w / 2 - 10, yy, rgba(acc, 0.4)); line(F.x + F.w / 2 + w / 2 + 10, yy, F.x + F.w, yy, rgba(acc, 0.4)); F.y += 4 * S; }
+    else if(st === 'dot'){ dot(RTL ? F.x + F.w - 4 : F.x + 4, F.y + sz * 0.62, 4, acc); para(F, text, { sz:11.4, wt:700, c:o.dark || '#222', inset:15 }); F.y += 3 * S; }
+    else if(st === 'side'){ para(F, text, { sz:10.4, wt:700, c:c }); line(F.x, F.y + 0.5, F.x + F.w, F.y + 0.5, o.rule || rgba('#ffffff', 0.35), 0.8); F.y += 6 * S; }
+  }
+  const T = () => CV_TPLS.find(t=> t.id === tplId) || CV_TPLS[0];
+  function newPage(F){ pages.push([]); if(F.deco) F.deco(pages.length - 1); F.y = F.top2 === undefined ? M : F.top2; }
+  function block(F, fn){
+    const y0 = F.y; DRY = true; fn(F); const h = F.y - y0; DRY = false; F.y = y0;
+    if(F.main && F.y + h > F.bot && F.y > F.top + 4) newPage(F);
+    fn(F);
+  }
+  function entry(F, e, kind, o){
+    const dark = o.dark || '#1a1a1a', grey = '#6b7280', tl = o.tl; let y0 = F.y;
+    const G = tl ? { x:RTL ? F.x : F.x + 17, w:F.w - 17, y:F.y, main:false } : F;
+    if(kind === 'exp'){
+      row2(G, e.role, e.when, { sz:10.4, wt:700, c:dark }, { sz:8.6, c:grey }); if(e.org) para(G, e.org, { sz:9.4, wt:700, c:o.acc, gap:1 });
+      (e.desc || '').split('\n').map(s=> s.trim()).filter(Boolean).forEach(s=> para(G, s, { sz:9.2, c:'#3a3f47', lh:1.42, bullet:true, bc:o.acc, inset:10 }));
+    }else{
+      row2(G, e.deg, e.years, { sz:10.2, wt:700, c:dark }, { sz:8.6, c:grey }); if(e.school) para(G, e.school, { sz:9.4, wt:700, c:o.acc, gap:1 }); if(e.desc) para(G, e.desc, { sz:9.2, c:'#3a3f47', lh:1.42 });
+    }
+    G.y += 6 * S; if(tl){ const x = RTL ? F.x + F.w - 4 : F.x + 4; line(x, y0 + 12 * S, x, G.y + 2, rgba(o.acc, 0.35), 1.2); dot(x, y0 + 6.5 * S, 4.2, o.acc); dot(x, y0 + 6.5 * S, 1.7, '#fff'); } F.y = G.y;
+  }
+  function mainSections(F, D, t, o, list){
+    const st = t.sec;
+    list.forEach(k=>{
+      if(k === 'summary' && D.summary){ block(F, F=>{ secTitle(F, LB.summary, st, o); para(F, D.summary, { sz:9.6, c:'#3a3f47', lh:1.55 }); }); }
+      if(k === 'exp' && D.exp.length){ F.y += 0; block(F, F=> secTitle(F, LB.exp, st, o)); D.exp.forEach(e=> block(F, F=> entry(F, e, 'exp', o))); }
+      if(k === 'edu' && D.edu.length){ block(F, F=> secTitle(F, LB.edu, st, o)); D.edu.forEach(e=> block(F, F=> entry(F, e, 'edu', o))); }
+      if(k === 'certs' && D.certs.length){ block(F, F=>{ secTitle(F, LB.certs, st, o); D.certs.forEach(s=> para(F, s, { sz:9.2, c:'#3a3f47', bullet:true, bc:o.acc, inset:10, lh:1.45 })); }); }
+      if(k === 'extra' && D.xlines.length){ block(F, F=>{ secTitle(F, D.xtitle || '—', st, o); D.xlines.forEach(s=> para(F, s, { sz:9.2, c:'#3a3f47', bullet:true, bc:o.acc, inset:10, lh:1.45 })); }); }
+      if(k === 'skills' && D.skills.length){ block(F, F=>{ secTitle(F, LB.skills, st, o); chips(F, D.skills, { c:o.dark || '#222', bg:mix(o.acc, '#ffffff', 0.9), bd:rgba(o.acc, 0.25), after:2 }); }); }
+      if(k === 'langs' && D.langs.length){ block(F, F=>{ secTitle(F, LB.langs, st, o); chips(F, D.langs.map(l=> l.n + ' · ' + LB.levels[l.l - 1]), { c:o.dark || '#222', bg:mix(o.acc, '#ffffff', 0.9), bd:rgba(o.acc, 0.25), after:2 }); }); }
+    });
+  }
+  function contactItems(D){ return [[LB.phone, D.phone], [LB.email, D.email], [LB.city, D.city], [LB.link, D.link], ['', D.extra]].filter(x=> x[1]); }
+  function sideContent(F, D, t, o){ // sidebar / side column: contact, skills, languages
+    const lim = PH - 24, ok = () => F.y < lim;
+    if(contactItems(D).length){ secTitle(F, LB.contact, 'side', o); contactItems(D).forEach(([lb, v])=>{ if(!ok()) return; if(lb) para(F, lb, { sz:7.8, c:o.label, lh:1.3 }); para(F, v, { sz:9, c:o.text, lh:1.4, gap:4, wt:600 }); }); }
+    if(D.skills.length && ok()){ secTitle(F, LB.skills, 'side', o); chips(F, D.skills, { sz:8.4, c:o.text, bg:o.chipBg, bd:o.chipBd, after:2 }); }
+    if(D.langs.length && ok()){ secTitle(F, LB.langs, 'side', o); D.langs.forEach(l=> dotsRow(F, l.n, l.l, { c:o.text, on:o.dotOn, off:o.dotOff })); }
+    if(D.certs && D.certs.length && t.layout === 'banner' && ok()){ secTitle(F, LB.certs, 'side', o); D.certs.forEach(s=> para(F, s, { sz:8.6, c:o.text, bullet:true, bc:o.dotOn, inset:9, lh:1.4, gap:2 })); }
+    if(F.y > lim + 2) warn = true;
+  }
+
+  /* ---------- layouts ---------- */
+  function layout(D){
+    const t = T(), acc = ACC, dark = mix(acc, '#000000', 0.45); pages = [[]]; DRY = false; warn = false; const o = { acc, dark, tl:!!t.tl };
+    if(t.layout === 'single'){
+      const F = { x:M, w:PW - 2 * M, y:M, top:M, bot:PH - M, main:true }; const hasP = !!photo, ps = t.head === 'center' ? 72 : 78, shape = $('cv-shape').value;
+      if(t.head === 'center'){
+        let y = M; if(hasP){ photoAt((PW - ps) / 2, y, ps, shape, rgba(acc, 0.5)); y += ps + 10; }
+        const H_ = { x:M, w:F.w, y }; para(H_, D.name, { sz:26, wt:700, c:acc, al:'center', lh:1.25 }); para(H_, D.title, { sz:12.5, c:'#5b6470', al:'center', gap:6 });
+        chips(H_, contactItems(D).map(x=> x[1]), { plain:true, sep:true, center:true, c:'#444', sz:9, sepc:acc }); F.y = H_.y + 6; line(M, F.y, PW - M, F.y, rgba(acc, 0.5), 1.1); F.y += 4;
+      }else{
+        const textX = RTL && hasP ? M + ps + 14 : M, textW = F.w - (hasP ? ps + 14 : 0), H_ = { x:textX, w:textW, y:M };
+        if(hasP) photoAt(RTL ? M : PW - M - ps, M, ps, shape, rgba(acc, 0.5));
+        para(H_, D.name, { sz:26, wt:700, c:acc, lh:1.25 }); para(H_, D.title, { sz:12.5, c:'#5b6470', gap:6 }); chips(H_, contactItems(D).map(x=> x[1]), { plain:true, sep:true, c:'#444', sz:9, sepc:acc });
+        F.y = Math.max(H_.y, hasP ? M + ps : 0) + 4; line(M, F.y, PW - M, F.y, acc, 1.6); F.y += 4;
+      }
+      F.top = F.y; mainSections(F, D, t, o, ['summary', 'exp', 'edu', 'skills', 'langs', 'certs', 'extra']);
+    }
+    else if(t.layout === 'sidebar'){
+      const SW = 188, pad = 22, dk = t.sideStyle === 'dark', sideRight = t.side === 'start' ? RTL : !RTL, sx = sideRight ? PW - SW : 0, bg = dk ? mix(acc, '#000000', 0.25) : mix(acc, '#ffffff', 0.9);
+      const deco = i=> rect(sx, 0, SW, PH, { fill:bg });
+      const so = { acc, dark, text:dk ? '#ffffff' : '#222222', label:dk ? rgba('#ffffff', 0.62) : acc, c:dk ? '#ffffff' : acc, rule:dk ? rgba('#ffffff', 0.35) : rgba(acc, 0.4), chipBg:dk ? rgba('#ffffff', 0.14) : '#ffffff', chipBd:dk ? rgba('#ffffff', 0.25) : rgba(acc, 0.3), dotOn:dk ? '#ffffff' : acc, dotOff:dk ? rgba('#ffffff', 0.28) : rgba(acc, 0.22) };
+      deco(0); const Fs = { x:sx + pad, w:SW - 2 * pad, y:32 };
+      if(photo){ const ps = 100; photoAt(sx + (SW - ps) / 2, Fs.y, ps, $('cv-shape').value, dk ? rgba('#ffffff', 0.7) : acc); Fs.y += ps + 16; }
+      sideContent(Fs, D, t, so);
+      const mx = sideRight ? M : SW + 28, mw = PW - SW - 28 - M, F = { x:mx, w:mw, y:M + 6, top:M + 6, bot:PH - M, main:true, deco, top2:M };
+      para(F, D.name, { sz:25, wt:700, c:dk ? dark : acc, lh:1.22 }); para(F, D.title, { sz:12.5, c:dk ? acc : '#5b6470', wt:700, gap:2 }); rect(RTL ? F.x + F.w - 46 : F.x, F.y + 4, 46, 3, { fill:acc }); F.y += 12; F.top = F.y;
+      mainSections(F, D, t, o, ['summary', 'exp', 'edu', 'certs', 'extra']);
+    }
+    else{ // banner
+      const BH = 150, SWd = 178, sideRight = !RTL, sx = sideRight ? PW - SWd : 0, bgS = mix(acc, '#ffffff', 0.93);
+      const deco = i=>{ rect(sx, i === 0 ? BH : 0, SWd, PH, { fill:bgS }); if(i === 0) rect(0, 0, PW, BH, { fill:acc }); };
+      deco(0); const so = { acc, dark, text:'#222222', label:acc, c:acc, rule:rgba(acc, 0.4), chipBg:'#ffffff', chipBd:rgba(acc, 0.3), dotOn:acc, dotOff:rgba(acc, 0.22) };
+      const hasP = !!photo, ps = 92, shape = $('cv-shape').value, tx = RTL && hasP ? M + ps + 16 : M, tw_ = PW - 2 * M - (hasP ? ps + 16 : 0), Hh = { x:tx, w:tw_, y:36 };
+      if(hasP) photoAt(RTL ? M : PW - M - ps, (BH - ps) / 2, ps, shape, '#ffffff');
+      para(Hh, D.name, { sz:27, wt:700, c:'#ffffff', lh:1.22 }); para(Hh, D.title, { sz:13, c:rgba('#ffffff', 0.85), gap:2 });
+      const Fs = { x:sx + 18, w:SWd - 36, y:BH + 22 }; sideContent(Fs, D, t, so);
+      const mw = PW - SWd - M - 24, mx = RTL ? PW - M - mw : M, F = { x:mx, w:mw, y:BH + 14, top:BH + 14, bot:PH - M, main:true, deco, top2:M };
+      mainSections(F, D, t, o, ['summary', 'exp', 'edu', 'extra']);
+    }
+  }
+
+  /* ---------- painting ---------- */
+  function rr(ctx, x, y, w, h, r){ r = Math.min(r, w / 2, h / 2); ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+  function paint(cmds, ctx){
+    cmds.forEach(c=>{
+      if(c.k === 'r'){ rr(ctx, c.x, c.y, c.w, c.h, c.r || 0); if(c.fill){ ctx.fillStyle = c.fill; ctx.fill(); } if(c.stroke){ ctx.strokeStyle = c.stroke; ctx.lineWidth = 0.8; ctx.stroke(); } }
+      else if(c.k === 'l'){ ctx.beginPath(); ctx.moveTo(c.x1, c.y1); ctx.lineTo(c.x2, c.y2); ctx.strokeStyle = c.c; ctx.lineWidth = c.lw; ctx.stroke(); }
+      else if(c.k === 'c'){ ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, 7); ctx.fillStyle = c.c; ctx.fill(); }
+      else if(c.k === 'i'){ ctx.save(); if(c.shape === 'circle'){ ctx.beginPath(); ctx.arc(c.x + c.w / 2, c.y + c.h / 2, c.w / 2, 0, 7); ctx.closePath(); } else rr(ctx, c.x, c.y, c.w, c.h, c.shape === 'round' ? c.w * 0.18 : 0); ctx.clip(); ctx.drawImage(c.cv, c.x, c.y, c.w, c.h); ctx.restore();
+        if(c.ring){ ctx.save(); ctx.lineWidth = 2.2; ctx.strokeStyle = c.ring; if(c.shape === 'circle'){ ctx.beginPath(); ctx.arc(c.x + c.w / 2, c.y + c.h / 2, c.w / 2, 0, 7); } else rr(ctx, c.x, c.y, c.w, c.h, c.shape === 'round' ? c.w * 0.18 : 0); ctx.stroke(); ctx.restore(); } }
+      else if(c.k === 't'){ ctx.font = c.f; ctx.fillStyle = c.c; ctx.textAlign = c.al; ctx.direction = hasAr(c.s) ? 'rtl' : 'ltr'; ctx.fillText(c.s, c.x, c.y); }
+    });
+  }
+  function configure(){
+    const t = T(); ACC = $('cv-acc').value || t.acc; FONT = $('cv-font').value || 'Cairo'; S = (parseFloat($('cv-size').value) || 100) / 100; $('cv-size-v').textContent = Math.round(S * 100);
+    const D = readData(), dir = $('cv-dir').value; RTL = dir === 'rtl' || (dir === 'auto' && hasAr(D.name + D.title + D.summary + (D.exp[0] ? D.exp[0].role : ''))); LB = RTL ? CVLBL.ar : CVLBL.en; return D;
+  }
+  function renderAll(scale, tplOverride, D0, maxPages){
+    const keep = tplId, keepAcc = ACC; const D = D0 || configure(); if(tplOverride){ tplId = tplOverride; ACC = (CV_TPLS.find(t=> t.id === tplOverride) || CV_TPLS[0]).acc; } layout(D); tplId = keep; ACC = keepAcc;
+    return pages.slice(0, maxPages || 99).map(cmds=>{ const cv = document.createElement('canvas'); cv.width = Math.round(PW * scale); cv.height = Math.round(PH * scale); const ctx = cv.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height); ctx.scale(scale, scale); paint(cmds, ctx); return cv; });
+  }
+  let timer = 0; function schedule(){ clearTimeout(timer); timer = setTimeout(refresh, 90); }
+  function refresh(){
+    const host = $('cv-prev'), D = configure(), w = host.clientWidth || 360, sc = Math.min(2, Math.max(1, (Math.min(w, 720) * (window.devicePixelRatio || 1)) / PW));
+    const cvs = renderAll(sc, null, D), warnSel = warn; $('cv-warn').innerHTML = warnSel ? `<div class="msg err">${lang().warnSide}</div>` : '';
+    host.textContent = ''; cvs.forEach(c=>{ c.style.cssText = 'width:100%;max-width:720px;height:auto;border:1px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.12);background:#fff;'; host.appendChild(c); });
+    // template gallery: every template shown with the live data and its own colour
+    $('cv-tpls').querySelectorAll('button').forEach(b=>{ const id = b.dataset.t, c = renderAll(0.24, id, D, 1)[0]; c.style.cssText = 'width:100%;height:auto;display:block;border-radius:4px;'; const slot = b.querySelector('.cv-th'); slot.textContent = ''; slot.appendChild(c); b.style.outline = id === tplId ? '3px solid var(--brass, #b8863b)' : '1px solid var(--border)'; });
+    save();
+  }
+  function buildGallery(){
+    const g = $('cv-tpls'); g.textContent = '';
+    CV_TPLS.forEach(t=>{ const b = document.createElement('button'); b.type = 'button'; b.dataset.t = t.id; b.style.cssText = 'padding:5px;border:0;border-radius:8px;background:var(--bg-elev);cursor:pointer;text-align:center;'; b.innerHTML = '<div class="cv-th"></div><div style="font-size:.85rem;margin-top:4px;font-weight:600;"></div>'; b.lastChild.textContent = t.n[currentLang] || t.n.ar;
+      b.addEventListener('click', ()=>{ tplId = t.id; $('cv-acc').value = t.acc; refresh(); }); g.appendChild(b); });
+  }
+
+  /* ---------- storage, labels, export ---------- */
+  const KEY = 'uddah-cv-data';
+  function save(){ try{ if($('cv-remember').checked){ localStorage.setItem(KEY, JSON.stringify({ d:readData(), t:tplId, a:$('cv-acc').value, f:$('cv-font').value, dir:$('cv-dir').value, sh:$('cv-shape').value, sz:$('cv-size').value })); } }catch(e){} }
+  function applyLabels(){
+    const L = lang(); document.querySelectorAll('#tools-cv [data-cvl]').forEach(el=>{ const v = L[el.getAttribute('data-cvl')]; if(v !== undefined) el.textContent = v; });
+    document.querySelectorAll('#tools-cv .cv-in').forEach(el=>{ /* labels handled above */ }); fillLevels(); buildGallery(); schedule();
+  }
+  window.cvApplyLang = applyLabels;
+  async function exportPdf(){
+    try{
+      await Promise.all(['400', '700'].map(w=> document.fonts.load(`${w} 12px "${$('cv-font').value}"`).catch(()=>0)));
+      const D = configure(), cvs = renderAll(2.4, null, D), doc = await PDFDocument.create();
+      for(const c of cvs){ const img = await doc.embedJpg(await (await psCanvasBlob(c, 'image/jpeg', 0.93)).arrayBuffer()); doc.addPage([595.28, 841.89]).drawImage(img, { x:0, y:0, width:595.28, height:841.89 }); }
+      downloadBlob(new Blob([await doc.save()], { type:'application/pdf' }), 'CV_' + ((D.name || 'cv').replace(/[\\/:*?"<>|]+/g, '_')) + '.pdf'); setStatus('cv-status', lang().done, 'ok');
+    }catch(e){ console.error(e); setStatus('cv-status', lang().bad, 'err'); }
+  }
+  async function exportPng(){
+    try{ await document.fonts.load(`700 12px "${$('cv-font').value}"`).catch(()=>0); const D = configure(), c = renderAll(2.4, null, D, 1)[0]; downloadBlob(await psCanvasBlob(c, 'image/png'), 'CV_' + ((D.name || 'cv').replace(/[\\/:*?"<>|]+/g, '_')) + '.png'); setStatus('cv-status', lang().done, 'ok'); }catch(e){ console.error(e); setStatus('cv-status', lang().bad, 'err'); }
+  }
+  async function loadPhoto(file){
+    const url = URL.createObjectURL(file); try{ const im = await new Promise((res, rej)=>{ const i = new Image(); i.onload = ()=> res(i); i.onerror = rej; i.src = url; }); const s = Math.min(im.naturalWidth, im.naturalHeight), c = document.createElement('canvas'); c.width = c.height = Math.min(500, s); c.getContext('2d').drawImage(im, (im.naturalWidth - s) / 2, (im.naturalHeight - s) / 2, s, s, 0, 0, c.width, c.height); photo = c; }catch(e){ photo = null; } finally{ setTimeout(()=> URL.revokeObjectURL(url), 2000); }
+    refresh();
+  }
+
+  /* ---------- wiring ---------- */
+  $('cv-exp-add').addEventListener('click', ()=>{ addRow('cv-exp-list', EXP_F); schedule(); }); $('cv-edu-add').addEventListener('click', ()=>{ addRow('cv-edu-list', EDU_F); schedule(); }); $('cv-lang-add').addEventListener('click', ()=>{ addRow('cv-lang-list', LNG_F); schedule(); });
+  $('tools-cv').addEventListener('input', e=>{ if(e.target.id === 'cv-remember') return; schedule(); }); $('tools-cv').addEventListener('change', e=>{ if(e.target.id === 'cv-photo') return; schedule(); });
+  $('cv-photo').addEventListener('change', ()=>{ const f = $('cv-photo').files[0]; if(f) loadPhoto(f); }); $('cv-photo-clear').addEventListener('click', ()=>{ photo = null; $('cv-photo').value = ''; refresh(); });
+  $('cv-sample').addEventListener('click', ()=>{ writeData(CV_SAMPLE[currentLang === 'en' ? 'en' : 'ar']); $('cv-dir').value = 'auto'; refresh(); });
+  $('cv-clear').addEventListener('click', ()=>{ writeData({}); photo = null; $('cv-photo').value = ''; refresh(); });
+  $('cv-remember').addEventListener('change', ()=>{ try{ if($('cv-remember').checked) save(); else localStorage.removeItem(KEY); }catch(e){} });
+  $('cv-pdf').addEventListener('click', exportPdf); $('cv-png').addEventListener('click', exportPng);
+  document.fonts && document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', schedule);
+  // init: remembered data, else the sample
+  let init = null; try{ init = JSON.parse(localStorage.getItem(KEY) || 'null'); }catch(e){}
+  if(init && init.d){ writeData(init.d); tplId = init.t || tplId; $('cv-acc').value = init.a || T().acc; $('cv-font').value = init.f || 'Cairo'; $('cv-dir').value = init.dir || 'auto'; $('cv-shape').value = init.sh || 'circle'; $('cv-size').value = init.sz || 100; $('cv-remember').checked = true; }
+  else{ writeData(CV_SAMPLE[currentLang === 'en' ? 'en' : 'ar']); $('cv-acc').value = T().acc; }
+  applyLabels();
+  window.cvRefresh = refresh;
+})();
 
 applyLanguage(localStorage.getItem('uddah-lang') || 'ar');
 </script>
