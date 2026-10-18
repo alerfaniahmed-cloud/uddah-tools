@@ -1852,7 +1852,7 @@
         <b data-i18n="ceTplTitle">📁 قوالبي المحفوظة</b>
         <div id="ce-tpl-list-start" style="margin:10px 0;"></div>
         <button type="button" class="btn secondary" id="ce-tpl-imp" data-i18n="ceTplImp">⬆️ استيراد قالب من ملف</button>
-        <input type="file" id="ce-tpl-file" accept=".json,application/json" hidden>
+        <input type="file" id="ce-tpl-file" accept=".json,.uddah,application/json" hidden>
         <div id="ce-tpl-status-start"></div>
       </div>
 
@@ -2052,6 +2052,7 @@
           <b data-i18n="ceTplTitle">📁 قوالبي المحفوظة</b>
           <div class="row" style="margin-top:10px;">
             <div class="field"><label for="ce-tpl-name" data-i18n="ceTplName">اسم القالب</label><input type="text" id="ce-tpl-name"></div>
+            <div class="field"><label for="ce-tpl-pass" data-i18n="ceEncField">🔒 كلمة سر لتشفير القالب (اختياري)</label><input type="password" id="ce-tpl-pass" autocomplete="new-password" dir="ltr"></div>
           </div>
           <div class="ce-row"><button type="button" class="btn" id="ce-tpl-save" data-i18n="ceTplSave">💾 حفظ كقالب</button><button type="button" class="btn secondary" id="ce-tpl-exp" data-i18n="ceTplExp">⬇️ تصدير القالب كملف</button></div>
           <div id="ce-tpl-list" style="margin:4px 0 8px;"></div>
@@ -4119,6 +4120,7 @@ const I18N = {
     digKeep: 'كما كتبتها', digAr: 'أرقام عربية (٠١٢٣)', digEn: 'أرقام إنجليزية (0123)', digLabel: 'نوع الأرقام',
     ceRulerOn: '📏 إظهار المسطرة', ceRulerUnit: 'وحدة القياس', ceUnitCm: 'سم', ceUnitMm: 'مم', ceRealW: 'عرض الكرت الحقيقي (مم)', ceMmX: 'من اليسار', ceMmY: 'من الأعلى', ceMmW: 'العرض', ceMmH: 'الارتفاع', ceSizeIs: 'مقاس الكرت', ceFmtPdfBoth: 'PDF وجه وظهر (صفحتان بمقاس الكرت)', ceFmtPdfA4: 'PDF وجه وظهر على ورقة A4 بالمقاس الحقيقي',
     ceA4Title: '📄 صفحة A4 بالمقاس الحقيقي (مع المسطرة)', ceA4Note: 'الورقة تظهر بحجمها الأصلي ٢١٠×٢٩٧ مم والكرت عليها بمقاسه الحقيقي. المس الكرت لتحديده ثم اسحبه لمكانه، أو اكتب مكانه بالأرقام.', ceA4Orient: 'اتجاه الورقة', ceA4P: 'طولي', ceA4L: 'عرضي', ceA4Zoom: 'العرض', ceA4Fit: 'ملء الشاشة', ceA4Real: 'حجم حقيقي ١٠٠٪', ceA4Back: 'إضافة الظهر على نفس الورقة', ceA4Auto: 'ترتيب تلقائي', ceA4Refresh: '🔄 تحديث من التصميم', ceA4Front: 'الوجه', ceA4BackL: 'الظهر', ceA4Pdf: 'تنزيل A4 (PDF)', ceA4Png: 'تنزيل A4 (صورة)', ceA4Big: 'الكرت أكبر من الورقة — صغّر مقاسه أو غيّر اتجاه الورقة.',
+    ceEncField: '🔒 كلمة سر لتشفير القالب (اختياري)', ceEncSetTitle: '🔒 تشفير القالب', ceEncOpenTitle: '🔓 قالب مشفّر', ceEncSaveTitle: 'هذا القالب مشفّر — اكتب كلمة السر لحفظ التعديل', ceEncPass: 'كلمة السر', ceEncPass2: 'أعد كتابة كلمة السر', ceEncOk: 'تأكيد', ceEncCancel: 'إلغاء', ceEncMismatch: 'كلمتا السر غير متطابقتين', ceEncShort: 'كلمة السر قصيرة (٤ أحرف على الأقل)', ceEncWrong: 'كلمة السر غير صحيحة', ceEncLockedDone: 'تم تشفير القالب ✓ لا يُفتح إلا بكلمة السر. لا توجد طريقة لاستعادتها إن نسيتها.', ceEncUnlocked: 'تمت إزالة التشفير', ceEncNoCrypto: 'التشفير غير متاح في هذا المتصفح', ceEncLock: 'تشفير', ceEncUnlock: 'إزالة التشفير', ceEncLockedImp: 'القالب مشفّر: حُفظ في القائمة، ولم يُفتح لأن كلمة السر لم تُدخل.',
     ceStTsAll: 'حجم كل النصوص داخل الختم', ceStRingW: 'سماكة حلقة الكتابة', ceStTsT: 'النص العلوي', ceStTsB: 'النص السفلي', ceStTs1: 'السطر 1 (وسط)', ceStTs2: 'السطر 2 (وسط)', ceStTs3: 'السطر 3 (وسط)', ceStTs4: 'السطر 4 (وسط)',
     ceStTsC: 'حجم كتابة الوسط', ceStTsR: 'حجم الكتابة الدائرية',
     ceTplTitle: '📁 قوالبي المحفوظة', ceTplSave: '💾 حفظ كقالب', ceTplName: 'اسم القالب', ceTplNameDef: 'قالب الكرت', ceTplSaved: 'تم حفظ القالب ✓ يبقى في هذا المتصفح، وللاحتياط صدّره كملف.', ceTplFail: 'تعذّر الحفظ في المتصفح. صدّر القالب كملف بدلاً من ذلك.', ceTplOpen: 'فتح', ceTplDel: 'حذف', ceTplExp: '⬇️ تصدير القالب كملف', ceTplImp: '⬆️ استيراد قالب من ملف', ceTplNone: 'ما فيه قوالب محفوظة بعد.', ceTplBad: 'هذا الملف ليس قالب كرت صالحاً.', ceTplAuto: 'نسخة تلقائية قبل الفتح', ceTplOpened: 'تم فتح القالب ✓',
@@ -4921,6 +4923,7 @@ const I18N = {
     digKeep: 'As typed', digAr: 'Arabic digits (٠١٢٣)', digEn: 'English digits (0123)', digLabel: 'Digit style',
     ceRulerOn: '📏 Show ruler', ceRulerUnit: 'Unit', ceUnitCm: 'cm', ceUnitMm: 'mm', ceRealW: 'Real card width (mm)', ceMmX: 'From left', ceMmY: 'From top', ceMmW: 'Width', ceMmH: 'Height', ceSizeIs: 'Card size', ceFmtPdfBoth: 'PDF front + back (2 pages, card size)', ceFmtPdfA4: 'PDF front + back on A4 at real size',
     ceA4Title: '📄 A4 page at real size (with ruler)', ceA4Note: 'The sheet is shown at its real 210×297 mm size with the card on it at its real size. Tap the card to select it, then drag it, or type its position.', ceA4Orient: 'Page orientation', ceA4P: 'Portrait', ceA4L: 'Landscape', ceA4Zoom: 'View', ceA4Fit: 'Fit to screen', ceA4Real: 'Real size 100%', ceA4Back: 'Put the back on the same sheet', ceA4Auto: 'Auto arrange', ceA4Refresh: '🔄 Refresh from design', ceA4Front: 'Front', ceA4BackL: 'Back', ceA4Pdf: 'Download A4 (PDF)', ceA4Png: 'Download A4 (image)', ceA4Big: 'The card is bigger than the sheet — make it smaller or switch the orientation.',
+    ceEncField: '🔒 Password to encrypt the template (optional)', ceEncSetTitle: '🔒 Encrypt template', ceEncOpenTitle: '🔓 Encrypted template', ceEncSaveTitle: 'This template is encrypted — enter its password to save changes', ceEncPass: 'Password', ceEncPass2: 'Repeat the password', ceEncOk: 'Confirm', ceEncCancel: 'Cancel', ceEncMismatch: 'The passwords do not match', ceEncShort: 'Password too short (at least 4 characters)', ceEncWrong: 'Wrong password', ceEncLockedDone: 'Template encrypted ✓ it only opens with the password. There is no way to recover it if you forget it.', ceEncUnlocked: 'Encryption removed', ceEncNoCrypto: 'Encryption is not available in this browser', ceEncLock: 'Encrypt', ceEncUnlock: 'Remove encryption', ceEncLockedImp: 'The template is encrypted: it was added to the list but not opened because no password was entered.',
     ceStTsAll: 'Size of all stamp text', ceStRingW: 'Text ring thickness', ceStTsT: 'Top text', ceStTsB: 'Bottom text', ceStTs1: 'Line 1 (centre)', ceStTs2: 'Line 2 (centre)', ceStTs3: 'Line 3 (centre)', ceStTs4: 'Line 4 (centre)',
     ceStTsC: 'Centre text size', ceStTsR: 'Curved text size',
     ceTplTitle: '📁 My saved templates', ceTplSave: '💾 Save as template', ceTplName: 'Template name', ceTplNameDef: 'Card template', ceTplSaved: 'Template saved ✓ It stays in this browser; export it as a file as a backup.', ceTplFail: 'Could not save in the browser. Export the template as a file instead.', ceTplOpen: 'Open', ceTplDel: 'Delete', ceTplExp: '⬇️ Export template as a file', ceTplImp: '⬆️ Import a template from a file', ceTplNone: 'No saved templates yet.', ceTplBad: 'This file is not a valid card template.', ceTplAuto: 'Automatic copy before opening', ceTplOpened: 'Template opened ✓',
@@ -12893,6 +12896,40 @@ async function uddahSetDpi(blob, dpi){
   });
 })();
 
+
+/* ---- password encryption (AES-256-GCM, key from PBKDF2-SHA256): everything happens in the browser ---- */
+const UDDAH_ITER = 250000;
+function uddahB64(u8){ let s = ''; for(let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000)); return btoa(s); }
+function uddahUnB64(b){ const s = atob(b), u = new Uint8Array(s.length); for(let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; }
+async function uddahKey(pass, salt, iter){ const km = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']); return crypto.subtle.deriveKey({ name:'PBKDF2', salt, iterations:iter, hash:'SHA-256' }, km, { name:'AES-GCM', length:256 }, false, ['encrypt', 'decrypt']); }
+async function uddahEncrypt(text, pass){
+  const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12)), key = await uddahKey(pass, salt, UDDAH_ITER);
+  const ct = new Uint8Array(await crypto.subtle.encrypt({ name:'AES-GCM', iv }, key, new TextEncoder().encode(text)));
+  return { alg:'AES-256-GCM', kdf:'PBKDF2-SHA256', iter:UDDAH_ITER, salt:uddahB64(salt), iv:uddahB64(iv), ct:uddahB64(ct) };
+}
+async function uddahDecrypt(enc, pass){ // throws when the password is wrong or the data was altered
+  const key = await uddahKey(pass, uddahUnB64(enc.salt), enc.iter || UDDAH_ITER);
+  return new TextDecoder().decode(await crypto.subtle.decrypt({ name:'AES-GCM', iv:uddahUnB64(enc.iv) }, key, uddahUnB64(enc.ct)));
+}
+// small in-page password box; resolves with the password or null
+function uddahAskPass(title, confirm){
+  const T = k => I18N[currentLang][k] || k;
+  return new Promise(res=>{
+    const ov = document.createElement('div'); ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;';
+    const bx = document.createElement('div'); bx.style.cssText = 'background:var(--bg-elev,#fff);color:var(--text,#222);border:1px solid var(--border,#ccc);border-radius:14px;padding:18px;width:100%;max-width:360px;box-shadow:0 10px 40px rgba(0,0,0,.35);';
+    const h = document.createElement('b'); h.textContent = title; h.style.cssText = 'display:block;margin-bottom:12px;font-size:1.05rem;';
+    const mk = ph=>{ const i = document.createElement('input'); i.type = 'password'; i.placeholder = ph; i.dir = 'ltr'; i.autocomplete = confirm ? 'new-password' : 'current-password'; i.style.cssText = 'width:100%;margin-bottom:8px;'; return i; };
+    const a = mk(T('ceEncPass')), b = confirm ? mk(T('ceEncPass2')) : null, er = document.createElement('div'); er.style.cssText = 'color:#b3261e;font-size:.9rem;min-height:1.2em;margin-bottom:6px;';
+    const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:8px;';
+    const ok = document.createElement('button'), no = document.createElement('button'); ok.type = no.type = 'button'; ok.className = 'btn'; no.className = 'btn secondary'; ok.textContent = T('ceEncOk'); no.textContent = T('ceEncCancel'); ok.style.flex = no.style.flex = '1';
+    const done = v=>{ document.removeEventListener('keydown', kd, true); ov.remove(); res(v); };
+    const submit = ()=>{ if(!a.value){ a.focus(); return; } if(confirm){ if(a.value.length < 4){ er.textContent = T('ceEncShort'); return; } if(a.value !== b.value){ er.textContent = T('ceEncMismatch'); return; } } done(a.value); };
+    const kd = e=>{ if(e.key === 'Escape'){ e.preventDefault(); done(null); } else if(e.key === 'Enter'){ e.preventDefault(); submit(); } };
+    ok.addEventListener('click', submit); no.addEventListener('click', ()=> done(null)); document.addEventListener('keydown', kd, true);
+    row.appendChild(ok); row.appendChild(no); bx.appendChild(h); bx.appendChild(a); if(b) bx.appendChild(b); bx.appendChild(er); bx.appendChild(row); ov.appendChild(bx); document.body.appendChild(ov); setTimeout(()=> a.focus(), 30);
+  });
+}
+
 /* ---- templates: save / open / export / import (kept in this browser's IndexedDB) ---- */
 (function ceTemplates(){
   const g = id => document.getElementById(id), T = k => I18N[currentLang][k] || k;
@@ -12911,6 +12948,18 @@ async function uddahSetDpi(blob, dpi){
     base: ce.mode === 'img' ? ce.base.toDataURL('image/jpeg', 0.92) : null,
     front: ce.sideItems.front.map(itemOut), back: ce.sideItems.back.map(itemOut)
   });
+  const hasCrypto = ()=> !!(window.crypto && crypto.subtle);
+  const encRecord = async (snap, pass)=> ({ app:'uddah-card-enc', v:1, id:snap.id, name:snap.name, saved:snap.saved, enc:await uddahEncrypt(JSON.stringify(snap), pass) });
+  let lockedOpen = false; // while an encrypted template is on screen we never write a readable copy of it to the "auto" backup
+  async function openAny(t){
+    if(t && t.app === 'uddah-card-enc'){
+      if(!hasCrypto()){ setStatus(stId(), T('ceEncNoCrypto'), 'err'); return; }
+      const pass = await uddahAskPass(T('ceEncOpenTitle') + ' — ' + t.name, false); if(!pass) return;
+      let dec; try{ dec = JSON.parse(await uddahDecrypt(t.enc, pass)); }catch(e){ setStatus(stId(), T('ceEncWrong'), 'err'); return; }
+      const skip = lockedOpen; await openTpl(dec, skip); lockedOpen = true; return;
+    }
+    const skip = lockedOpen; await openTpl(t, skip); lockedOpen = false;
+  }
   async function openTpl(t, keepAuto){
     if(!t || t.app !== 'uddah-card') { setStatus(stId(), T('ceTplBad'), 'err'); return; }
     if(ce.base && !keepAuto && (ce.sideItems.front.length + ce.sideItems.back.length)){ try{ await put(snapshot('__auto')); }catch(e){} }
@@ -12934,26 +12983,56 @@ async function uddahSetDpi(blob, dpi){
       if(!list.length){ const p = document.createElement('p'); p.className = 'note'; p.style.margin = '0'; p.textContent = T('ceTplNone'); box.appendChild(p); return; }
       list.forEach(t=>{
         const row = document.createElement('div'); row.style.cssText = 'display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--border);';
-        const nm = document.createElement('span'); nm.style.cssText = 'flex:1 1 140px;font-weight:600;'; nm.textContent = t.id === '__auto' ? T('ceTplAuto') : t.name;
+        const nm = document.createElement('span'); nm.style.cssText = 'flex:1 1 140px;font-weight:600;'; nm.textContent = t.id === '__auto' ? T('ceTplAuto') : (t.app === 'uddah-card-enc' ? '🔒 ' : '') + t.name;
         const mk = (label, fn)=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary'; b.style.cssText = 'padding:6px 14px;min-height:0;font-size:.9rem;'; b.textContent = label; b.addEventListener('click', fn); return b; };
-        row.appendChild(nm); row.appendChild(mk(T('ceTplOpen'), ()=> openTpl(t)));
-        row.appendChild(mk('⬇️', ()=> downloadBlob(new Blob([JSON.stringify(t)], { type:'application/json' }), 'قالب_' + (t.name || 'card').replace(/[\\/:*?"<>|]+/g, '_') + '.json')));
+        row.appendChild(nm); row.appendChild(mk(T('ceTplOpen'), ()=> openAny(t)));
+        row.appendChild(mk('⬇️', ()=> downloadBlob(new Blob([JSON.stringify(t)], { type:'application/json' }), 'قالب_' + (t.name || 'card').replace(/[\\/:*?"<>|]+/g, '_') + (t.app === 'uddah-card-enc' ? '.uddah' : '.json'))));
+        if(t.id !== '__auto'){
+          if(t.app === 'uddah-card-enc') row.appendChild(mk('🔓', async ()=>{
+            const pass = await uddahAskPass(T('ceEncUnlock') + ' — ' + t.name, false); if(!pass) return;
+            try{ const dec = JSON.parse(await uddahDecrypt(t.enc, pass)); await put(dec); setStatus(stId(), T('ceEncUnlocked'), 'ok'); render(); }catch(e){ setStatus(stId(), T('ceEncWrong'), 'err'); }
+          }));
+          else row.appendChild(mk('🔒', async ()=>{
+            if(!hasCrypto()){ setStatus(stId(), T('ceEncNoCrypto'), 'err'); return; }
+            const pass = await uddahAskPass(T('ceEncSetTitle') + ' — ' + t.name, true); if(!pass) return;
+            try{ await put(await encRecord(t, pass)); setStatus(stId(), T('ceEncLockedDone'), 'ok'); render(); }catch(e){ console.error(e); setStatus(stId(), T('ceTplFail'), 'err'); }
+          }));
+        }
         row.appendChild(mk('🗑️', async ()=>{ try{ await del(t.id); }catch(e){} render(); })); box.appendChild(row);
       });
     });
   }
   g('ce-tpl-save').addEventListener('click', async ()=>{
     if(!ce.base) return; const name = (g('ce-tpl-name').value || '').trim() || T('ceTplNameDef');
-    try{ await put(snapshot(name)); g('ce-tpl-name').value = name; setStatus('ce-tpl-status', T('ceTplSaved'), 'ok'); render(); }catch(e){ console.error(e); setStatus('ce-tpl-status', T('ceTplFail'), 'err'); }
+    try{
+      let pass = g('ce-tpl-pass').value; const ex = (await all()).find(x=> x.id === name);
+      if(!pass && ex && ex.app === 'uddah-card-enc'){ // never silently replace an encrypted template with a readable copy
+        pass = await uddahAskPass(T('ceEncSaveTitle'), false); if(!pass) return;
+        try{ await uddahDecrypt(ex.enc, pass); }catch(e){ setStatus('ce-tpl-status', T('ceEncWrong'), 'err'); return; }
+      }
+      if(pass && !hasCrypto()){ setStatus('ce-tpl-status', T('ceEncNoCrypto'), 'err'); return; }
+      if(pass && pass.length < 4){ setStatus('ce-tpl-status', T('ceEncShort'), 'err'); return; }
+      const snap = snapshot(name); await put(pass ? await encRecord(snap, pass) : snap); g('ce-tpl-name').value = name; g('ce-tpl-pass').value = '';
+      if(pass) lockedOpen = true;
+      setStatus('ce-tpl-status', pass ? T('ceEncLockedDone') : T('ceTplSaved'), 'ok'); render();
+    }catch(e){ console.error(e); setStatus('ce-tpl-status', T('ceTplFail'), 'err'); }
   });
   g('ce-tpl-exp').addEventListener('click', ()=>{
     if(!ce.base) return; const name = (g('ce-tpl-name').value || '').trim() || T('ceTplNameDef');
-    downloadBlob(new Blob([JSON.stringify(snapshot(name))], { type:'application/json' }), 'قالب_' + name.replace(/[\\/:*?"<>|]+/g, '_') + '.json');
+    (async ()=>{
+      const pass = g('ce-tpl-pass').value, snap = snapshot(name), fn = 'قالب_' + name.replace(/[\\/:*?"<>|]+/g, '_');
+      if(pass){ if(!hasCrypto()){ setStatus('ce-tpl-status', T('ceEncNoCrypto'), 'err'); return; } if(pass.length < 4){ setStatus('ce-tpl-status', T('ceEncShort'), 'err'); return; } downloadBlob(new Blob([JSON.stringify(await encRecord(snap, pass))], { type:'application/json' }), fn + '.uddah'); }
+      else downloadBlob(new Blob([JSON.stringify(snap)], { type:'application/json' }), fn + '.json');
+    })();
   });
   g('ce-tpl-imp').addEventListener('click', ()=> g('ce-tpl-file').click());
   g('ce-tpl-file').addEventListener('change', async ()=>{
     const f = g('ce-tpl-file').files[0]; if(!f) return; g('ce-tpl-file').value = '';
-    try{ const t = JSON.parse(await f.text()); if(t.app !== 'uddah-card') throw 0; t.id = t.name = t.name || 'card'; t.saved = Date.now(); try{ await put(t); }catch(e){} await openTpl(t, true); }catch(e){ setStatus(stId(), T('ceTplBad'), 'err'); }
+    try{
+      const t = JSON.parse(await f.text());
+      if(t.app === 'uddah-card-enc'){ t.id = t.name = t.name || 'card'; t.saved = Date.now(); try{ await put(t); }catch(e){} render(); const before = lockedOpen; await openAny(t); if(!lockedOpen && !before) setStatus(stId(), T('ceEncLockedImp'), 'ok'); return; }
+      if(t.app !== 'uddah-card') throw 0; t.id = t.name = t.name || 'card'; t.saved = Date.now(); try{ await put(t); }catch(e){} await openTpl(t, true); lockedOpen = false;
+    }catch(e){ setStatus(stId(), T('ceTplBad'), 'err'); }
   });
   window.ceTplRender = render; render();
 })();
