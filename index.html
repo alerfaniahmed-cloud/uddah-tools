@@ -2054,7 +2054,7 @@
             <div class="field"><label for="ce-tpl-name" data-i18n="ceTplName">اسم القالب</label><input type="text" id="ce-tpl-name"></div>
             <div class="field"><label for="ce-tpl-pass" data-i18n="ceEncField">🔒 كلمة سر التشفير (إن تركتها فارغة سيُطلب منك إدخالها)</label><input type="password" id="ce-tpl-pass" autocomplete="new-password" dir="ltr"></div>
           </div>
-          <div class="ce-row"><button type="button" class="btn" id="ce-tpl-save" data-i18n="ceTplSave">💾 حفظ كقالب</button><button type="button" class="btn secondary" id="ce-tpl-exp" data-i18n="ceTplExp">⬇️ تصدير القالب كملف</button></div>
+          <div class="ce-row"><button type="button" class="btn" id="ce-tpl-save" data-i18n="ceTplSave">💾 حفظ كقالب</button></div>
           <div id="ce-tpl-list" style="margin:4px 0 8px;"></div>
           <div id="ce-tpl-status"></div>
         </div>
@@ -12991,14 +12991,7 @@ function uddahAskPass(title, confirm){
         const nm = document.createElement('span'); nm.style.cssText = 'flex:1 1 140px;font-weight:600;'; nm.textContent = t.id === '__auto' ? T('ceTplAuto') : (t.app === 'uddah-card-enc' ? '🔒 ' : '') + t.name;
         const mk = (label, fn)=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary'; b.style.cssText = 'padding:6px 14px;min-height:0;font-size:.9rem;'; b.textContent = label; b.addEventListener('click', fn); return b; };
         row.appendChild(nm); row.appendChild(mk(T('ceTplOpen'), ()=> openAny(t)));
-        row.appendChild(mk('⬇️', async ()=>{
-          const fn = 'قالب_' + (t.name || 'card').replace(/[\\/:*?"<>|]+/g, '_') + '.uddah';
-          if(t.app === 'uddah-card-enc'){ downloadBlob(new Blob([JSON.stringify(t)], { type:'application/json' }), fn); return; }
-          if(!hasCrypto()){ setStatus(stId(), T('ceEncNoCrypto'), 'err'); return; }
-          const pass = await uddahAskPass(T('ceEncExpTitle') + ' — ' + t.name, true); if(!pass) return; // plain files are never written out
-          downloadBlob(new Blob([JSON.stringify(await encRecord(t, pass))], { type:'application/json' }), fn);
-        }));
-        if(t.id !== '__auto'){
+                if(t.id !== '__auto'){
           if(t.app === 'uddah-card-enc') row.appendChild(mk('🔓', async ()=>{
             const pass = await uddahAskPass(T('ceEncUnlock') + ' — ' + t.name, false); if(!pass) return;
             try{ const dec = JSON.parse(await uddahDecrypt(t.enc, pass)); await put(dec); setStatus(stId(), T('ceEncUnlocked'), 'ok'); render(); }catch(e){ setStatus(stId(), T('ceEncWrong'), 'err'); }
@@ -13033,16 +13026,6 @@ function uddahAskPass(title, confirm){
       await put(await encRecord(snapshot(name), pass)); g('ce-tpl-name').value = name; g('ce-tpl-pass').value = ''; lockedOpen = true;
       setStatus('ce-tpl-status', T('ceEncLockedDone'), 'ok'); render();
     }catch(e){ console.error(e); setStatus('ce-tpl-status', T('ceTplFail'), 'err'); }
-  });
-  g('ce-tpl-exp').addEventListener('click', ()=>{
-    if(!ce.base) return; const name = (g('ce-tpl-name').value || '').trim() || T('ceTplNameDef');
-    (async ()=>{
-      if(!hasCrypto()){ setStatus('ce-tpl-status', T('ceEncNoCrypto'), 'err'); return; }
-      let pass = g('ce-tpl-pass').value; const snap = snapshot(name), fn = 'قالب_' + name.replace(/[\\/:*?"<>|]+/g, '_');
-      if(!pass){ pass = await uddahAskPass(T('ceEncExpTitle') + ' — ' + name, true); if(!pass) return; }
-      if(pass.length < 4){ setStatus('ce-tpl-status', T('ceEncShort'), 'err'); return; }
-      downloadBlob(new Blob([JSON.stringify(await encRecord(snap, pass))], { type:'application/json' }), fn + '.uddah');
-    })();
   });
   g('ce-tpl-imp').addEventListener('click', ()=> g('ce-tpl-file').click());
   g('ce-tpl-file').addEventListener('change', async ()=>{
