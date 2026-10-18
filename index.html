@@ -2052,7 +2052,7 @@
           <b data-i18n="ceTplTitle">📁 قوالبي المحفوظة</b>
           <div class="row" style="margin-top:10px;">
             <div class="field"><label for="ce-tpl-name" data-i18n="ceTplName">اسم القالب</label><input type="text" id="ce-tpl-name"></div>
-            <div class="field"><label for="ce-tpl-pass" data-i18n="ceEncField">🔒 كلمة سر لتشفير القالب (اختياري)</label><input type="password" id="ce-tpl-pass" autocomplete="new-password" dir="ltr"></div>
+            <div class="field"><label for="ce-tpl-pass" data-i18n="ceEncField">🔒 كلمة سر التشفير (إن تركتها فارغة سيُطلب منك إدخالها)</label><input type="password" id="ce-tpl-pass" autocomplete="new-password" dir="ltr"></div>
           </div>
           <div class="ce-row"><button type="button" class="btn" id="ce-tpl-save" data-i18n="ceTplSave">💾 حفظ كقالب</button><button type="button" class="btn secondary" id="ce-tpl-exp" data-i18n="ceTplExp">⬇️ تصدير القالب كملف</button></div>
           <div id="ce-tpl-list" style="margin:4px 0 8px;"></div>
@@ -4120,8 +4120,9 @@ const I18N = {
     digKeep: 'كما كتبتها', digAr: 'أرقام عربية (٠١٢٣)', digEn: 'أرقام إنجليزية (0123)', digLabel: 'نوع الأرقام',
     ceRulerOn: '📏 إظهار المسطرة', ceRulerUnit: 'وحدة القياس', ceUnitCm: 'سم', ceUnitMm: 'مم', ceRealW: 'عرض الكرت الحقيقي (مم)', ceMmX: 'من اليسار', ceMmY: 'من الأعلى', ceMmW: 'العرض', ceMmH: 'الارتفاع', ceSizeIs: 'مقاس الكرت', ceFmtPdfBoth: 'PDF وجه وظهر (صفحتان بمقاس الكرت)', ceFmtPdfA4: 'PDF وجه وظهر على ورقة A4 بالمقاس الحقيقي',
     ceA4Title: '📄 صفحة A4 بالمقاس الحقيقي (مع المسطرة)', ceA4Note: 'الورقة تظهر بحجمها الأصلي ٢١٠×٢٩٧ مم والكرت عليها بمقاسه الحقيقي. المس الكرت لتحديده ثم اسحبه لمكانه، أو اكتب مكانه بالأرقام.', ceA4Orient: 'اتجاه الورقة', ceA4P: 'طولي', ceA4L: 'عرضي', ceA4Zoom: 'العرض', ceA4Fit: 'ملء الشاشة', ceA4Real: 'حجم حقيقي ١٠٠٪', ceA4Back: 'إضافة الظهر على نفس الورقة', ceA4Auto: 'ترتيب تلقائي', ceA4Refresh: '🔄 تحديث من التصميم', ceA4Front: 'الوجه', ceA4BackL: 'الظهر', ceA4Pdf: 'تنزيل A4 (PDF)', ceA4Png: 'تنزيل A4 (صورة)', ceA4Big: 'الكرت أكبر من الورقة — صغّر مقاسه أو غيّر اتجاه الورقة.',
-    ceEncField: '🔒 كلمة سر لتشفير القالب (اختياري)', ceEncSetTitle: '🔒 تشفير القالب', ceEncOpenTitle: '🔓 قالب مشفّر', ceEncSaveTitle: 'هذا القالب مشفّر — اكتب كلمة السر لحفظ التعديل', ceEncPass: 'كلمة السر', ceEncPass2: 'أعد كتابة كلمة السر', ceEncOk: 'تأكيد', ceEncCancel: 'إلغاء', ceEncMismatch: 'كلمتا السر غير متطابقتين', ceEncShort: 'كلمة السر قصيرة (٤ أحرف على الأقل)', ceEncWrong: 'كلمة السر غير صحيحة', ceEncLockedDone: 'تم تشفير القالب ✓ لا يُفتح إلا بكلمة السر. لا توجد طريقة لاستعادتها إن نسيتها.', ceEncUnlocked: 'تمت إزالة التشفير', ceEncNoCrypto: 'التشفير غير متاح في هذا المتصفح', ceEncLock: 'تشفير', ceEncUnlock: 'إزالة التشفير', ceEncLockedImp: 'القالب مشفّر: حُفظ في القائمة، ولم يُفتح لأن كلمة السر لم تُدخل.',
+    ceEncField: '🔒 كلمة سر التشفير (إن تركتها فارغة سيُطلب منك إدخالها)', ceEncSetTitle: '🔒 تشفير القالب', ceEncOpenTitle: '🔓 قالب مشفّر', ceEncSaveTitle: 'هذا القالب مشفّر — اكتب كلمة السر لحفظ التعديل', ceEncPass: 'كلمة السر', ceEncPass2: 'أعد كتابة كلمة السر', ceEncOk: 'تأكيد', ceEncCancel: 'إلغاء', ceEncMismatch: 'كلمتا السر غير متطابقتين', ceEncShort: 'كلمة السر قصيرة (٤ أحرف على الأقل)', ceEncWrong: 'كلمة السر غير صحيحة', ceEncLockedDone: 'تم تشفير القالب ✓ لا يُفتح إلا بكلمة السر. لا توجد طريقة لاستعادتها إن نسيتها.', ceEncUnlocked: 'تمت إزالة التشفير', ceEncNoCrypto: 'التشفير غير متاح في هذا المتصفح', ceEncLock: 'تشفير', ceEncUnlock: 'إزالة التشفير', ceEncLockedImp: 'القالب مشفّر: حُفظ في القائمة، ولم يُفتح لأن كلمة السر لم تُدخل.',
     ceEncDelTitle: '🗑️ حذف قالب مشفّر — اكتب كلمة السر للتأكيد',
+    ceEncExpTitle: '⬇️ تنزيل القالب مشفّرًا — اختر كلمة سر',
     ceStTsAll: 'حجم كل النصوص داخل الختم', ceStRingW: 'سماكة حلقة الكتابة', ceStTsT: 'النص العلوي', ceStTsB: 'النص السفلي', ceStTs1: 'السطر 1 (وسط)', ceStTs2: 'السطر 2 (وسط)', ceStTs3: 'السطر 3 (وسط)', ceStTs4: 'السطر 4 (وسط)',
     ceStTsC: 'حجم كتابة الوسط', ceStTsR: 'حجم الكتابة الدائرية',
     ceTplTitle: '📁 قوالبي المحفوظة', ceTplSave: '💾 حفظ كقالب', ceTplName: 'اسم القالب', ceTplNameDef: 'قالب الكرت', ceTplSaved: 'تم حفظ القالب ✓ يبقى في هذا المتصفح، وللاحتياط صدّره كملف.', ceTplFail: 'تعذّر الحفظ في المتصفح. صدّر القالب كملف بدلاً من ذلك.', ceTplOpen: 'فتح', ceTplDel: 'حذف', ceTplExp: '⬇️ تصدير القالب كملف', ceTplImp: '⬆️ استيراد قالب من ملف', ceTplNone: 'ما فيه قوالب محفوظة بعد.', ceTplBad: 'هذا الملف ليس قالب كرت صالحاً.', ceTplAuto: 'نسخة تلقائية قبل الفتح', ceTplOpened: 'تم فتح القالب ✓',
@@ -4924,8 +4925,9 @@ const I18N = {
     digKeep: 'As typed', digAr: 'Arabic digits (٠١٢٣)', digEn: 'English digits (0123)', digLabel: 'Digit style',
     ceRulerOn: '📏 Show ruler', ceRulerUnit: 'Unit', ceUnitCm: 'cm', ceUnitMm: 'mm', ceRealW: 'Real card width (mm)', ceMmX: 'From left', ceMmY: 'From top', ceMmW: 'Width', ceMmH: 'Height', ceSizeIs: 'Card size', ceFmtPdfBoth: 'PDF front + back (2 pages, card size)', ceFmtPdfA4: 'PDF front + back on A4 at real size',
     ceA4Title: '📄 A4 page at real size (with ruler)', ceA4Note: 'The sheet is shown at its real 210×297 mm size with the card on it at its real size. Tap the card to select it, then drag it, or type its position.', ceA4Orient: 'Page orientation', ceA4P: 'Portrait', ceA4L: 'Landscape', ceA4Zoom: 'View', ceA4Fit: 'Fit to screen', ceA4Real: 'Real size 100%', ceA4Back: 'Put the back on the same sheet', ceA4Auto: 'Auto arrange', ceA4Refresh: '🔄 Refresh from design', ceA4Front: 'Front', ceA4BackL: 'Back', ceA4Pdf: 'Download A4 (PDF)', ceA4Png: 'Download A4 (image)', ceA4Big: 'The card is bigger than the sheet — make it smaller or switch the orientation.',
-    ceEncField: '🔒 Password to encrypt the template (optional)', ceEncSetTitle: '🔒 Encrypt template', ceEncOpenTitle: '🔓 Encrypted template', ceEncSaveTitle: 'This template is encrypted — enter its password to save changes', ceEncPass: 'Password', ceEncPass2: 'Repeat the password', ceEncOk: 'Confirm', ceEncCancel: 'Cancel', ceEncMismatch: 'The passwords do not match', ceEncShort: 'Password too short (at least 4 characters)', ceEncWrong: 'Wrong password', ceEncLockedDone: 'Template encrypted ✓ it only opens with the password. There is no way to recover it if you forget it.', ceEncUnlocked: 'Encryption removed', ceEncNoCrypto: 'Encryption is not available in this browser', ceEncLock: 'Encrypt', ceEncUnlock: 'Remove encryption', ceEncLockedImp: 'The template is encrypted: it was added to the list but not opened because no password was entered.',
+    ceEncField: '🔒 Encryption password (leave empty and you will be asked)', ceEncSetTitle: '🔒 Encrypt template', ceEncOpenTitle: '🔓 Encrypted template', ceEncSaveTitle: 'This template is encrypted — enter its password to save changes', ceEncPass: 'Password', ceEncPass2: 'Repeat the password', ceEncOk: 'Confirm', ceEncCancel: 'Cancel', ceEncMismatch: 'The passwords do not match', ceEncShort: 'Password too short (at least 4 characters)', ceEncWrong: 'Wrong password', ceEncLockedDone: 'Template encrypted ✓ it only opens with the password. There is no way to recover it if you forget it.', ceEncUnlocked: 'Encryption removed', ceEncNoCrypto: 'Encryption is not available in this browser', ceEncLock: 'Encrypt', ceEncUnlock: 'Remove encryption', ceEncLockedImp: 'The template is encrypted: it was added to the list but not opened because no password was entered.',
     ceEncDelTitle: '🗑️ Delete encrypted template — enter the password to confirm',
+    ceEncExpTitle: '⬇️ Download the template encrypted — choose a password',
     ceStTsAll: 'Size of all stamp text', ceStRingW: 'Text ring thickness', ceStTsT: 'Top text', ceStTsB: 'Bottom text', ceStTs1: 'Line 1 (centre)', ceStTs2: 'Line 2 (centre)', ceStTs3: 'Line 3 (centre)', ceStTs4: 'Line 4 (centre)',
     ceStTsC: 'Centre text size', ceStTsR: 'Curved text size',
     ceTplTitle: '📁 My saved templates', ceTplSave: '💾 Save as template', ceTplName: 'Template name', ceTplNameDef: 'Card template', ceTplSaved: 'Template saved ✓ It stays in this browser; export it as a file as a backup.', ceTplFail: 'Could not save in the browser. Export the template as a file instead.', ceTplOpen: 'Open', ceTplDel: 'Delete', ceTplExp: '⬇️ Export template as a file', ceTplImp: '⬆️ Import a template from a file', ceTplNone: 'No saved templates yet.', ceTplBad: 'This file is not a valid card template.', ceTplAuto: 'Automatic copy before opening', ceTplOpened: 'Template opened ✓',
@@ -12964,7 +12966,7 @@ function uddahAskPass(title, confirm){
   }
   async function openTpl(t, keepAuto){
     if(!t || t.app !== 'uddah-card') { setStatus(stId(), T('ceTplBad'), 'err'); return; }
-    if(ce.base && !keepAuto && (ce.sideItems.front.length + ce.sideItems.back.length)){ try{ await put(snapshot('__auto')); }catch(e){} }
+    
     const front = await Promise.all(t.front.map(itemIn)), back = await Promise.all(t.back.map(itemIn));
     if(t.mode === 'img'){
       const im = await loadImg(t.base), c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight; c.getContext('2d').drawImage(im, 0, 0);
@@ -12979,6 +12981,7 @@ function uddahAskPass(title, confirm){
     setStatus(stId(), T('ceTplOpened'), 'ok');
   }
   async function render(){
+    try{ await del('__auto'); }catch(e){} // old readable "auto" backups are removed
     const list = await all(); list.sort((a, b)=> b.saved - a.saved);
     ['ce-tpl-list-start', 'ce-tpl-list'].forEach(id=>{
       const box = g(id); box.textContent = '';
@@ -12988,7 +12991,13 @@ function uddahAskPass(title, confirm){
         const nm = document.createElement('span'); nm.style.cssText = 'flex:1 1 140px;font-weight:600;'; nm.textContent = t.id === '__auto' ? T('ceTplAuto') : (t.app === 'uddah-card-enc' ? '🔒 ' : '') + t.name;
         const mk = (label, fn)=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary'; b.style.cssText = 'padding:6px 14px;min-height:0;font-size:.9rem;'; b.textContent = label; b.addEventListener('click', fn); return b; };
         row.appendChild(nm); row.appendChild(mk(T('ceTplOpen'), ()=> openAny(t)));
-        row.appendChild(mk('⬇️', ()=> downloadBlob(new Blob([JSON.stringify(t)], { type:'application/json' }), 'قالب_' + (t.name || 'card').replace(/[\\/:*?"<>|]+/g, '_') + (t.app === 'uddah-card-enc' ? '.uddah' : '.json'))));
+        row.appendChild(mk('⬇️', async ()=>{
+          const fn = 'قالب_' + (t.name || 'card').replace(/[\\/:*?"<>|]+/g, '_') + '.uddah';
+          if(t.app === 'uddah-card-enc'){ downloadBlob(new Blob([JSON.stringify(t)], { type:'application/json' }), fn); return; }
+          if(!hasCrypto()){ setStatus(stId(), T('ceEncNoCrypto'), 'err'); return; }
+          const pass = await uddahAskPass(T('ceEncExpTitle') + ' — ' + t.name, true); if(!pass) return; // plain files are never written out
+          downloadBlob(new Blob([JSON.stringify(await encRecord(t, pass))], { type:'application/json' }), fn);
+        }));
         if(t.id !== '__auto'){
           if(t.app === 'uddah-card-enc') row.appendChild(mk('🔓', async ()=>{
             const pass = await uddahAskPass(T('ceEncUnlock') + ' — ' + t.name, false); if(!pass) return;
@@ -13014,23 +13023,25 @@ function uddahAskPass(title, confirm){
     if(!ce.base) return; const name = (g('ce-tpl-name').value || '').trim() || T('ceTplNameDef');
     try{
       let pass = g('ce-tpl-pass').value; const ex = (await all()).find(x=> x.id === name);
-      if(!pass && ex && ex.app === 'uddah-card-enc'){ // never silently replace an encrypted template with a readable copy
+      if(!hasCrypto()){ setStatus('ce-tpl-status', T('ceEncNoCrypto'), 'err'); return; }
+      if(!pass && ex && ex.app === 'uddah-card-enc'){ // overwriting an encrypted template: prove you know its password
         pass = await uddahAskPass(T('ceEncSaveTitle'), false); if(!pass) return;
         try{ await uddahDecrypt(ex.enc, pass); }catch(e){ setStatus('ce-tpl-status', T('ceEncWrong'), 'err'); return; }
       }
-      if(pass && !hasCrypto()){ setStatus('ce-tpl-status', T('ceEncNoCrypto'), 'err'); return; }
-      if(pass && pass.length < 4){ setStatus('ce-tpl-status', T('ceEncShort'), 'err'); return; }
-      const snap = snapshot(name); await put(pass ? await encRecord(snap, pass) : snap); g('ce-tpl-name').value = name; g('ce-tpl-pass').value = '';
-      if(pass) lockedOpen = true;
-      setStatus('ce-tpl-status', pass ? T('ceEncLockedDone') : T('ceTplSaved'), 'ok'); render();
+      if(!pass){ pass = await uddahAskPass(T('ceEncSetTitle') + ' — ' + name, true); if(!pass) return; } // every saved template is encrypted
+      if(pass.length < 4){ setStatus('ce-tpl-status', T('ceEncShort'), 'err'); return; }
+      await put(await encRecord(snapshot(name), pass)); g('ce-tpl-name').value = name; g('ce-tpl-pass').value = ''; lockedOpen = true;
+      setStatus('ce-tpl-status', T('ceEncLockedDone'), 'ok'); render();
     }catch(e){ console.error(e); setStatus('ce-tpl-status', T('ceTplFail'), 'err'); }
   });
   g('ce-tpl-exp').addEventListener('click', ()=>{
     if(!ce.base) return; const name = (g('ce-tpl-name').value || '').trim() || T('ceTplNameDef');
     (async ()=>{
-      const pass = g('ce-tpl-pass').value, snap = snapshot(name), fn = 'قالب_' + name.replace(/[\\/:*?"<>|]+/g, '_');
-      if(pass){ if(!hasCrypto()){ setStatus('ce-tpl-status', T('ceEncNoCrypto'), 'err'); return; } if(pass.length < 4){ setStatus('ce-tpl-status', T('ceEncShort'), 'err'); return; } downloadBlob(new Blob([JSON.stringify(await encRecord(snap, pass))], { type:'application/json' }), fn + '.uddah'); }
-      else downloadBlob(new Blob([JSON.stringify(snap)], { type:'application/json' }), fn + '.json');
+      if(!hasCrypto()){ setStatus('ce-tpl-status', T('ceEncNoCrypto'), 'err'); return; }
+      let pass = g('ce-tpl-pass').value; const snap = snapshot(name), fn = 'قالب_' + name.replace(/[\\/:*?"<>|]+/g, '_');
+      if(!pass){ pass = await uddahAskPass(T('ceEncExpTitle') + ' — ' + name, true); if(!pass) return; }
+      if(pass.length < 4){ setStatus('ce-tpl-status', T('ceEncShort'), 'err'); return; }
+      downloadBlob(new Blob([JSON.stringify(await encRecord(snap, pass))], { type:'application/json' }), fn + '.uddah');
     })();
   });
   g('ce-tpl-imp').addEventListener('click', ()=> g('ce-tpl-file').click());
@@ -13039,7 +13050,9 @@ function uddahAskPass(title, confirm){
     try{
       const t = JSON.parse(await f.text());
       if(t.app === 'uddah-card-enc'){ t.id = t.name = t.name || 'card'; t.saved = Date.now(); try{ await put(t); }catch(e){} render(); const before = lockedOpen; await openAny(t); if(!lockedOpen && !before) setStatus(stId(), T('ceEncLockedImp'), 'ok'); return; }
-      if(t.app !== 'uddah-card') throw 0; t.id = t.name = t.name || 'card'; t.saved = Date.now(); try{ await put(t); }catch(e){} await openTpl(t, true); lockedOpen = false;
+      if(t.app !== 'uddah-card') throw 0; t.id = t.name = t.name || 'card'; t.saved = Date.now();
+      if(hasCrypto()){ const pass = await uddahAskPass(T('ceEncSetTitle') + ' — ' + t.name, true); if(pass){ try{ await put(await encRecord(t, pass)); }catch(e){} render(); } } // a readable file is stored encrypted only
+      await openTpl(t, true); lockedOpen = true;
     }catch(e){ setStatus(stId(), T('ceTplBad'), 'err'); }
   });
   window.ceTplRender = render; render();
