@@ -2239,7 +2239,14 @@
         <button type="button" class="btn secondary" id="cv-sample" data-cvl="sample">✨ تعبئة بيانات تجريبية</button>
         <button type="button" class="btn secondary" id="cv-clear" data-cvl="clear">🧹 مسح الكل</button>
       </div>
-      <label style="display:flex;align-items:center;gap:6px;margin:4px 0 12px;"><input type="checkbox" id="cv-remember"> <span data-cvl="remember">تذكّر بياناتي في هذا المتصفح (بدون الصورة)</span></label>
+      <div class="ce-box" style="padding:12px;margin:12px 0;">
+        <b data-cvl="sv">🔒 حفظ السيرة مشفّرة</b>
+        <div class="row" style="margin-top:8px;align-items:end;"><div class="field"><label for="cv-sv-name" data-cvl="svName">اسم السيرة</label><input type="text" id="cv-sv-name"></div>
+        <div class="field"><button type="button" class="btn" id="cv-sv-save" data-cvl="svBtn">💾 حفظ مشفّرة</button></div></div>
+        <div id="cv-sv-list" style="margin:4px 0;"></div>
+        <p class="note" style="margin:6px 0 0;" data-cvl="svNote"></p>
+        <div id="cv-sv-status"></div>
+      </div>
 
       <div id="cv-warn"></div>
       <div id="cv-prev" style="display:flex;flex-direction:column;gap:12px;align-items:center;margin:10px 0;"></div>
@@ -13307,13 +13314,13 @@ document.getElementById('fuel-btn').addEventListener('click', ()=>{
    Pages are laid out as drawing commands (A4, 595x842 pt) and painted on canvases.
    ============================================================ */
 const CVL = {
-  ar:{ tplTitle:'القالب', accent:'اللون الرئيسي', font:'الخط', dir:'لغة واتجاه السيرة', dirAuto:'تلقائي حسب النص', dirAr:'عربي (من اليمين)', dirEn:'English (من اليسار)', border:'إطار الصفحة', bNone:'بدون', bThin:'خط رفيع', bDouble:'إطار مزدوج', res:'دقة التصدير', resStd:'عادية (200 DPI)', resHigh:'عالية (300 DPI)', resUltra:'فائقة (450 DPI)', resNote:'الدقة الفائقة تحتاج ذاكرة أكبر وقد لا تعمل على بعض الجوالات.', shape:'شكل الصورة', shCircle:'دائرة', shRound:'مربع مدوّر', shSquare:'مربع', size:'حجم الخط',
+  ar:{ tplTitle:'القالب', accent:'اللون الرئيسي', font:'الخط', dir:'لغة واتجاه السيرة', dirAuto:'تلقائي حسب النص', dirAr:'عربي (من اليمين)', dirEn:'English (من اليسار)', sv:'🔒 حفظ السيرة مشفّرة', svName:'اسم السيرة', svBtn:'💾 حفظ مشفّرة', svNone:'لا توجد سير محفوظة', svOpen:'فتح', svNote:'تُحفظ مشفّرة داخل هذا المتصفح فقط (AES-256) ولا يمكن فتحها أو حذفها بدون كلمة السر. لا يوجد ملف للتنزيل، ولو مُسحت بيانات المتصفح تضيع. كلمة السر لا تُسترجع.', svSetT:'🔒 كلمة سر السيرة', svOpenT:'🔓 فتح السيرة', svDelT:'🗑️ حذف السيرة — اكتب كلمة السر', svOverT:'هذه السيرة مشفّرة — اكتب كلمة سرها للحفظ فوقها', svWrong:'كلمة السر غير صحيحة', svSaved:'تم حفظ السيرة مشفّرة ✓', svOpened:'تم فتح السيرة ✓', svFail:'تعذّر الحفظ في هذا المتصفح', svNoCrypto:'التشفير غير متاح في هذا المتصفح (يحتاج اتصالًا آمنًا https)', svDefName:'سيرتي', border:'إطار الصفحة', bNone:'بدون', bThin:'خط رفيع', bDouble:'إطار مزدوج', res:'دقة التصدير', resStd:'عادية (200 DPI)', resHigh:'عالية (300 DPI)', resUltra:'فائقة (450 DPI)', resNote:'الدقة الفائقة تحتاج ذاكرة أكبر وقد لا تعمل على بعض الجوالات.', shape:'شكل الصورة', shCircle:'دائرة', shRound:'مربع مدوّر', shSquare:'مربع', size:'حجم الخط',
     secPersonal:'البيانات الشخصية', name:'الاسم الكامل', jobtitle:'المسمى الوظيفي', phone:'الجوال', email:'البريد الإلكتروني', city:'المدينة / الدولة', link:'رابط (لينكدإن / موقع)', extra:'معلومة إضافية (الجنسية، العمر، رخصة القيادة...)', photo:'الصورة الشخصية', photoClear:'🗑️ حذف الصورة', photoPick:'📷 اختيار صورة', photoHint:'اضغط للاختيار أو اسحب الصورة هنا', slot:'إظهار خانة الصورة في السيرة', zoom:'التكبير', posX:'الموضع أفقيًا', posY:'الموضع رأسيًا',
     secSummary:'النبذة المختصرة', secExp:'الخبرات العملية', addExp:'➕ إضافة خبرة', secEdu:'التعليم', addEdu:'➕ إضافة مؤهل', secSkills:'المهارات', skillsHint:'مهارة في كل سطر (أو افصل بفاصلة)', secLangs:'اللغات', addLang:'➕ إضافة لغة', secCerts:'الدورات والشهادات', certsHint:'عنصر في كل سطر', secExtra:'قسم إضافي (اختياري)', xtitle:'عنوان القسم (مثال: الهوايات، التطوع)', xlines:'عنصر في كل سطر',
     sample:'✨ تعبئة بيانات تجريبية', clear:'🧹 مسح الكل', remember:'تذكّر بياناتي في هذا المتصفح (بدون الصورة)', dlPdf:'تنزيل PDF', dlPng:'تنزيل صورة (الصفحة 1)', note:'كل شيء يتم داخل متصفحك. الملف يُنزَّل بصفحات عالية الجودة للطباعة، لكن بعض أنظمة التقديم الآلية لا تقرأ النص من هذا النوع من الملفات.',
     role:'المسمى الوظيفي', org:'جهة العمل', when:'الفترة (مثال: 2020 - الآن)', desc:'المهام والإنجازات (سطر لكل نقطة)', deg:'المؤهل / التخصص', school:'الجامعة / المعهد', years:'السنوات', lang:'اللغة', level:'المستوى', del:'حذف',
     warnSide:'الشريط الجانبي ممتلئ: بعض العناصر لم تظهر، صغّر حجم الخط أو اختر قالبًا آخر.', done:'تم التنزيل ✓', bad:'تعذّر إنشاء الملف' },
-  en:{ tplTitle:'Template', accent:'Main colour', font:'Font', dir:'CV language & direction', dirAuto:'Auto (from the text)', dirAr:'العربية (right to left)', dirEn:'English (left to right)', border:'Page border', bNone:'None', bThin:'Thin line', bDouble:'Double frame', res:'Export quality', resStd:'Standard (200 DPI)', resHigh:'High (300 DPI)', resUltra:'Ultra (450 DPI)', resNote:'Ultra needs more memory and may fail on some phones.', shape:'Photo shape', shCircle:'Circle', shRound:'Rounded square', shSquare:'Square', size:'Text size',
+  en:{ tplTitle:'Template', accent:'Main colour', font:'Font', dir:'CV language & direction', dirAuto:'Auto (from the text)', dirAr:'العربية (right to left)', dirEn:'English (left to right)', sv:'🔒 Save CV (encrypted)', svName:'CV name', svBtn:'💾 Save encrypted', svNone:'No saved CVs', svOpen:'Open', svNote:'Saved encrypted inside this browser only (AES-256); it cannot be opened or deleted without the password. There is no file to download, and clearing browser data erases it. The password cannot be recovered.', svSetT:'🔒 CV password', svOpenT:'🔓 Open CV', svDelT:'🗑️ Delete CV — enter its password', svOverT:'This CV is encrypted — enter its password to overwrite it', svWrong:'Wrong password', svSaved:'CV saved, encrypted ✓', svOpened:'CV opened ✓', svFail:'Could not save in this browser', svNoCrypto:'Encryption is unavailable here (needs a secure https connection)', svDefName:'My CV', border:'Page border', bNone:'None', bThin:'Thin line', bDouble:'Double frame', res:'Export quality', resStd:'Standard (200 DPI)', resHigh:'High (300 DPI)', resUltra:'Ultra (450 DPI)', resNote:'Ultra needs more memory and may fail on some phones.', shape:'Photo shape', shCircle:'Circle', shRound:'Rounded square', shSquare:'Square', size:'Text size',
     secPersonal:'Personal details', name:'Full name', jobtitle:'Job title', phone:'Phone', email:'Email', city:'City / Country', link:'Link (LinkedIn / website)', extra:'Extra info (nationality, age, driving licence...)', photo:'Photo', photoClear:'🗑️ Remove photo', photoPick:'📷 Choose photo', photoHint:'Click to choose or drop a photo here', slot:'Show the photo frame in the CV', zoom:'Zoom', posX:'Horizontal position', posY:'Vertical position',
     secSummary:'Summary', secExp:'Work experience', addExp:'➕ Add experience', secEdu:'Education', addEdu:'➕ Add education', secSkills:'Skills', skillsHint:'One skill per line (or comma separated)', secLangs:'Languages', addLang:'➕ Add language', secCerts:'Courses & certificates', certsHint:'One item per line', secExtra:'Extra section (optional)', xtitle:'Section title (e.g. Hobbies, Volunteering)', xlines:'One item per line',
     sample:'✨ Fill sample data', clear:'🧹 Clear all', remember:'Remember my data in this browser (without the photo)', dlPdf:'Download PDF', dlPng:'Download image (page 1)', note:'Everything runs in your browser. The PDF is made of high-quality pages for printing, but some automatic applicant-tracking systems cannot read text from this kind of file.',
@@ -13609,7 +13616,7 @@ const CV_TPLS = [
 
   /* ---------- storage, labels, export ---------- */
   const KEY = 'uddah-cv-data';
-  function save(){ try{ if($('cv-remember').checked){ localStorage.setItem(KEY, JSON.stringify({ d:readData(), t:tplId, a:$('cv-acc').value, f:$('cv-font').value, dir:$('cv-dir').value, sh:$('cv-shape').value, sz:$('cv-size').value, slot:$('cv-slot').checked, bd:$('cv-border').value, res:$('cv-res').value })); } }catch(e){} }
+  function save(){}
   function applyLabels(){
     const L = lang(); document.querySelectorAll('#tools-cv [data-cvl]').forEach(el=>{ const v = L[el.getAttribute('data-cvl')]; if(v !== undefined) el.textContent = v; });
     document.querySelectorAll('#tools-cv .cv-in').forEach(el=>{ /* labels handled above */ }); fillLevels(); buildGallery(); schedule();
@@ -13644,7 +13651,7 @@ const CV_TPLS = [
 
   /* ---------- wiring ---------- */
   $('cv-exp-add').addEventListener('click', ()=>{ addRow('cv-exp-list', EXP_F); schedule(); }); $('cv-edu-add').addEventListener('click', ()=>{ addRow('cv-edu-list', EDU_F); schedule(); }); $('cv-lang-add').addEventListener('click', ()=>{ addRow('cv-lang-list', LNG_F); schedule(); });
-  $('tools-cv').addEventListener('input', e=>{ if(e.target.id === 'cv-remember') return; schedule(); }); $('tools-cv').addEventListener('change', e=>{ if(e.target.id === 'cv-photo') return; schedule(); });
+  $('tools-cv').addEventListener('input', e=>{ if(e.target.id === 'cv-sv-name') return; schedule(); }); $('tools-cv').addEventListener('change', e=>{ if(e.target.id === 'cv-photo') return; schedule(); });
   $('cv-photo').addEventListener('change', ()=>{ const f = $('cv-photo').files[0]; if(f) loadPhoto(f); $('cv-photo').value = ''; }); $('cv-photo-clear').addEventListener('click', ()=>{ photoSrc = null; buildPhoto(); refresh(); });
   $('cv-ph-thumb').addEventListener('click', ()=> $('cv-photo').click()); $('cv-ph-pick').addEventListener('click', ()=> $('cv-photo').click());
   ['cv-ph-zoom', 'cv-ph-x', 'cv-ph-y'].forEach(id=> $(id).addEventListener('input', ()=>{ buildPhoto(); refresh(); }));
@@ -13653,14 +13660,53 @@ const CV_TPLS = [
   prev.addEventListener('click', e=>{ if(slotHit(e)) $('cv-photo').click(); }); prev.addEventListener('mousemove', e=>{ const c = e.target; if(c && c.tagName === 'CANVAS') c.style.cursor = slotHit(e) ? 'pointer' : 'default'; });
   $('cv-sample').addEventListener('click', ()=>{ writeData(CV_SAMPLE[currentLang === 'en' ? 'en' : 'ar']); $('cv-dir').value = 'auto'; refresh(); });
   $('cv-clear').addEventListener('click', ()=>{ writeData({}); photoSrc = null; buildPhoto(); refresh(); });
-  $('cv-remember').addEventListener('change', ()=>{ try{ if($('cv-remember').checked) save(); else localStorage.removeItem(KEY); }catch(e){} });
   $('cv-pdf').addEventListener('click', exportPdf); $('cv-png').addEventListener('click', exportPng);
   document.fonts && document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', schedule);
   // init: remembered data, else the sample
-  let init = null; try{ init = JSON.parse(localStorage.getItem(KEY) || 'null'); }catch(e){}
-  if(init && init.d){ writeData(init.d); tplId = init.t || tplId; $('cv-acc').value = init.a || T().acc; $('cv-font').value = init.f || 'Cairo'; $('cv-dir').value = init.dir || 'auto'; $('cv-shape').value = init.sh || 'circle'; $('cv-size').value = init.sz || 100; $('cv-slot').checked = init.slot !== false; $('cv-border').value = init.bd || 'none'; $('cv-res').value = init.res || '300'; $('cv-remember').checked = true; }
-  else{ writeData(CV_SAMPLE[currentLang === 'en' ? 'en' : 'ar']); $('cv-acc').value = T().acc; }
+  try{ localStorage.removeItem(KEY); }catch(e){} // older versions kept readable data here
+  writeData(CV_SAMPLE[currentLang === 'en' ? 'en' : 'ar']); $('cv-acc').value = T().acc;
   buildPhoto(); applyLabels();
+
+  /* ---------- encrypted saved CVs (IndexedDB 'uddah_cv', every record is AES-256-GCM) ---------- */
+  (function(){
+    const I = k => (I18N[currentLang] || I18N.ar)[k] || k, L = k => lang()[k] || k; let dbp = null;
+    const db = ()=> dbp || (dbp = new Promise((res, rej)=>{ const r = indexedDB.open('uddah_cv', 1); r.onupgradeneeded = ()=> r.result.createObjectStore('cvs', { keyPath:'id' }); r.onsuccess = ()=> res(r.result); r.onerror = ()=> rej(r.error); }));
+    const tx = async (mode, fn)=>{ const d = await db(); return new Promise((res, rej)=>{ const t = d.transaction('cvs', mode), rq = fn(t.objectStore('cvs')); t.oncomplete = ()=> res(rq && rq.result); t.onerror = ()=> rej(t.error); t.onabort = ()=> rej(t.error); }); };
+    const all = async ()=>{ try{ return (await tx('readonly', s=> s.getAll())) || []; }catch(e){ return []; } };
+    const hasCrypto = ()=> !!(window.crypto && crypto.subtle), st = (m, k)=> setStatus('cv-sv-status', m, k);
+    const snapshot = ()=>{ let ph = null; if(photoSrc){ ph = photoSrc.toDataURL('image/jpeg', 0.92); } return { v:1, data:readData(), t:tplId, a:$('cv-acc').value, f:$('cv-font').value, dir:$('cv-dir').value, sh:$('cv-shape').value, sz:$('cv-size').value, slot:$('cv-slot').checked, bd:$('cv-border').value, res:$('cv-res').value, ph, z:$('cv-ph-zoom').value, px:$('cv-ph-x').value, py:$('cv-ph-y').value }; };
+    async function apply(s){
+      writeData(s.data || {}); tplId = s.t || tplId; $('cv-acc').value = s.a || T().acc; $('cv-font').value = s.f || 'Cairo'; $('cv-dir').value = s.dir || 'auto'; $('cv-shape').value = s.sh || 'circle'; $('cv-size').value = s.sz || 100; $('cv-slot').checked = s.slot !== false; $('cv-border').value = s.bd || 'none'; $('cv-res').value = s.res || '300';
+      photoSrc = null;
+      if(s.ph){ try{ const im = await new Promise((res, rej)=>{ const i = new Image(); i.onload = ()=> res(i); i.onerror = rej; i.src = s.ph; }), c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight; c.getContext('2d').drawImage(im, 0, 0); photoSrc = c; }catch(e){} }
+      $('cv-ph-zoom').value = s.z || 100; $('cv-ph-x').value = s.px || 0; $('cv-ph-y').value = s.py || 0; buildPhoto(); refresh();
+    }
+    async function render(){
+      const box = $('cv-sv-list'), list = await all(); list.sort((a, b)=> b.saved - a.saved); box.textContent = '';
+      if(!list.length){ const p = document.createElement('p'); p.className = 'note'; p.style.margin = '0'; p.textContent = L('svNone'); box.appendChild(p); return; }
+      list.forEach(r=>{
+        const row = document.createElement('div'); row.style.cssText = 'display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--border);';
+        const nm = document.createElement('span'); nm.style.cssText = 'flex:1 1 140px;font-weight:600;'; nm.textContent = '🔒 ' + r.name;
+        const mk = (label, fn)=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary'; b.style.cssText = 'padding:6px 14px;min-height:0;font-size:.9rem;'; b.textContent = label; b.addEventListener('click', fn); return b; };
+        row.appendChild(nm);
+        row.appendChild(mk(L('svOpen'), async ()=>{ const pass = await uddahAskPass(L('svOpenT') + ' — ' + r.name, false); if(!pass) return; let dec; try{ dec = JSON.parse(await uddahDecrypt(r.enc, pass)); }catch(e){ st(L('svWrong'), 'err'); return; } await apply(dec); $('cv-sv-name').value = r.name; st(L('svOpened'), 'ok'); }));
+        row.appendChild(mk('🗑️', async ()=>{ const pass = await uddahAskPass(L('svDelT') + ' — ' + r.name, false); if(!pass) return; try{ await uddahDecrypt(r.enc, pass); }catch(e){ st(L('svWrong'), 'err'); return; } try{ await tx('readwrite', s=> s.delete(r.id)); }catch(e){} render(); }));
+        box.appendChild(row);
+      });
+    }
+    $('cv-sv-save').addEventListener('click', async ()=>{
+      if(!hasCrypto()){ st(L('svNoCrypto'), 'err'); return; }
+      const name = ($('cv-sv-name').value || '').trim() || L('svDefName');
+      try{
+        const ex = (await all()).find(x=> x.id === name); let pass;
+        if(ex){ pass = await uddahAskPass(L('svOverT'), false); if(!pass) return; try{ await uddahDecrypt(ex.enc, pass); }catch(e){ st(L('svWrong'), 'err'); return; } }
+        else{ pass = await uddahAskPass(L('svSetT') + ' — ' + name, true); if(!pass) return; }
+        const enc = await uddahEncrypt(JSON.stringify(snapshot()), pass);
+        await tx('readwrite', s=> s.put({ app:'uddah-cv-enc', v:1, id:name, name, saved:Date.now(), enc })); $('cv-sv-name').value = name; st(L('svSaved'), 'ok'); render();
+      }catch(e){ console.error(e); st(L('svFail'), 'err'); }
+    });
+    render(); const _al = applyLabels; window.cvApplyLang = ()=>{ _al(); render(); };
+  })();
   window.cvRefresh = refresh;
 })();
 
