@@ -1053,6 +1053,7 @@
           <option value="cardedit" data-i18n="toolsOptCe">🪪 مصمم الكروت (كرت جديد أو تعديل كرت جاهز)</option>
           <option value="svgconv" data-i18n="toolsOptSvg">🎨 تحويل ملف SVG إلى صورة أو PDF</option>
           <option value="cv" data-i18n="toolsOptCv">📄 السيرة الذاتية (CV) — قوالب جاهزة</option>
+          <option value="link" data-i18n="toolsOptLink">🔗 مصلّح الروابط (يفتح أي رابط)</option>
           <option value="iban" data-i18n="toolsOptIban">🏦 مدقق رقم الآيبان السعودي (IBAN)</option>
         </select>
       </div>
@@ -2267,6 +2268,18 @@
       <p class="note" data-cvl="note">كل شيء يتم داخل متصفحك. الملف يُنزَّل كصور داخل PDF بجودة عالية للطباعة. بعض أنظمة التقديم الآلية لا تقرأ النص من هذا النوع من الملفات.</p>
     </div>
 
+    <div class="card tools-card" id="tools-link">
+      <h2 data-i18n="lkTitle">مصلّح الروابط</h2>
+      <p class="hint" data-i18n="lkHint"></p>
+      <div class="field"><label for="lk-in" data-i18n="lkIn">الروابط</label><textarea id="lk-in" rows="5" dir="ltr" data-i18n-ph="lkPh" placeholder="" style="width:100%;"></textarea></div>
+      <label style="display:flex;align-items:center;gap:8px;margin:4px 0;"><input type="checkbox" id="lk-www" checked style="width:auto;"> <span data-i18n="lkWww">إضافة www. عند الإمكان</span></label>
+      <label style="display:flex;align-items:center;gap:8px;margin:4px 0;"><input type="checkbox" id="lk-https" checked style="width:auto;"> <span data-i18n="lkHttps">تحويل إلى https</span></label>
+      <label style="display:flex;align-items:center;gap:8px;margin:4px 0 10px;"><input type="checkbox" id="lk-clean" style="width:auto;"> <span data-i18n="lkClean">حذف رموز التتبّع</span></label>
+      <div class="ce-row" style="margin-bottom:8px;"><button type="button" class="btn secondary" id="lk-sample" data-i18n="lkSample">✨ مثال</button><button type="button" class="btn secondary" id="lk-copyall" data-i18n="lkCopyAll">نسخ الكل</button></div>
+      <div id="lk-out" style="margin:8px 0;"></div>
+      <p class="note" data-i18n="lkNote"></p>
+      <div id="lk-status"></div>
+    </div>
     <div class="card tools-card" id="tools-iban">
       <h2 data-i18n="ibanTitle">مدقق رقم الآيبان السعودي (IBAN)</h2>
       <p class="hint" data-i18n="ibanHint">تحقق هل رقم الآيبان السعودي صحيح شكلياً ورياضياً قبل استخدامه بأي تحويل، ويطلع لك اسم البنك تلقائياً لو كان رقمه معروف.</p>
@@ -4251,7 +4264,7 @@ const I18N = {
     ceEncDelTitle: '🗑️ حذف قالب مشفّر — اكتب كلمة السر للتأكيد',
     ceEncExpTitle: '⬇️ تنزيل القالب مشفّرًا — اختر كلمة سر',
     toolsOptCv: '📄 السيرة الذاتية (CV) — قوالب جاهزة', cvTitle: 'السيرة الذاتية (CV) — قوالب جاهزة', cvHint: 'اختر قالبًا احترافيًا، عبّئ بياناتك فقط، وانزّل سيرتك PDF جاهزة للطباعة والتقديم. كل شيء يعمل داخل متصفحك ولا يُرفع أي شيء.',
-    ceStTsAll: 'حجم كل النصوص داخل الختم', ceStRingW: 'سماكة حلقة الكتابة', ceStTsT: 'النص العلوي', ceStTsB: 'النص السفلي', ceStTs1: 'السطر 1 (وسط)', ceStTs2: 'السطر 2 (وسط)', ceStTs3: 'السطر 3 (وسط)', ceStTs4: 'السطر 4 (وسط)',
+    toolsOptLink:'🔗 مصلّح الروابط (يفتح أي رابط)', lkTitle:'مصلّح الروابط', lkHint:'الصق أي رابط أو أكثر (كل رابط في سطر) أو إحداثيات أو رقم جوال، وسأحوّله إلى رابط صحيح يفتح مباشرة.', lkIn:'الروابط', lkPh:'مثال: google.com أو 24.418529, 46.842052 أو 0555555555', lkWww:'إضافة www. عند الإمكان', lkHttps:'تحويل إلى https', lkClean:'حذف رموز التتبّع (utm وfbclid ونحوها)', lkOpen:'فتح', lkCopy:'نسخ', lkCopyAll:'نسخ الكل', lkCopied:'تم النسخ ✓', lkNone:'الصق رابطًا في الأعلى.', lkNote:'ملاحظة: إضافة www. تناسب أغلب المواقع، لكن بعضها لا يعمل معها، ولذلك أتجنبها في الروابط المختصرة وروابط واتساب ويوتيوب والنطاقات الفرعية. افتح الرابط للتأكد منه قبل اعتماده.', lkSample:'✨ مثال', lkBad:'لم أفهم هذا السطر، تأكد من كتابته', lkF_https:'أُضيف https', lkF_www:'أُضيف www', lkF_coord:'إحداثيات → رابط خرائط قوقل', lkF_swap:'قُلب ترتيب الإحداثيات لأنها خارج موقعها (خط العرض أولًا)', lkF_clean:'حُذف التتبّع', lkF_wa:'رقم جوال → رابط واتساب', lkF_mail:'بريد إلكتروني → رابط مراسلة', lkF_skip:'لم يُضف www (رابط مختصر أو نطاق فرعي أو خاص)', lkF_ok:'الرابط سليم', lkF_dms:'درجات ودقائق → إحداثيات عشرية', ceStTsAll: 'حجم كل النصوص داخل الختم', ceStRingW: 'سماكة حلقة الكتابة', ceStTsT: 'النص العلوي', ceStTsB: 'النص السفلي', ceStTs1: 'السطر 1 (وسط)', ceStTs2: 'السطر 2 (وسط)', ceStTs3: 'السطر 3 (وسط)', ceStTs4: 'السطر 4 (وسط)',
     ceStTsC: 'حجم كتابة الوسط', ceStTsR: 'حجم الكتابة الدائرية',
     ceTplTitle: '📁 قوالبي المحفوظة', ceTplSave: '💾 حفظ كقالب', ceTplName: 'اسم القالب', ceTplNameDef: 'قالب الكرت', ceTplSaved: 'تم حفظ القالب ✓ يبقى في هذا المتصفح، وللاحتياط صدّره كملف.', ceTplFail: 'تعذّر الحفظ في المتصفح. صدّر القالب كملف بدلاً من ذلك.', ceTplOpen: 'فتح', ceTplDel: 'حذف', ceTplExp: '⬇️ تصدير القالب كملف', ceTplImp: '⬆️ استيراد قالب من ملف', ceTplNone: 'ما فيه قوالب محفوظة بعد.', ceTplBad: 'هذا الملف ليس قالب كرت صالحاً.', ceTplAuto: 'نسخة تلقائية قبل الفتح', ceTplOpened: 'تم فتح القالب ✓',
     signNameLabel: '✍️ اكتب اسمك وحوّله إلى توقيع', signNamePh: 'اكتب الاسم هنا', signInkLabel: 'لون الحبر', signStyleHint: 'اختر شكل التوقيع من الأشكال تحت، وبعدها تقدر تسحبه وتغيّر حجمه مثل أي توقيع.',
@@ -5057,7 +5070,7 @@ const I18N = {
     ceEncDelTitle: '🗑️ Delete encrypted template — enter the password to confirm',
     ceEncExpTitle: '⬇️ Download the template encrypted — choose a password',
     toolsOptCv: '📄 CV / Resume — ready templates', cvTitle: 'CV / Resume — ready-made templates', cvHint: 'Pick a professional template, fill in your details only, and download a print-ready PDF. Everything runs in your browser — nothing is uploaded.',
-    ceStTsAll: 'Size of all stamp text', ceStRingW: 'Text ring thickness', ceStTsT: 'Top text', ceStTsB: 'Bottom text', ceStTs1: 'Line 1 (centre)', ceStTs2: 'Line 2 (centre)', ceStTs3: 'Line 3 (centre)', ceStTs4: 'Line 4 (centre)',
+    toolsOptLink:'🔗 Link fixer (make any link open)', lkTitle:'Link fixer', lkHint:'Paste one or more links (one per line), coordinates or a phone number, and I will turn each into a valid link that opens directly.', lkIn:'Links', lkPh:'e.g. google.com or 24.418529, 46.842052 or 0555555555', lkWww:'Add www. when possible', lkHttps:'Upgrade to https', lkClean:'Remove tracking parameters (utm, fbclid…)', lkOpen:'Open', lkCopy:'Copy', lkCopyAll:'Copy all', lkCopied:'Copied ✓', lkNone:'Paste a link above.', lkNote:'Note: adding www. suits most sites but breaks some, so I skip it for short links, WhatsApp, YouTube and subdomains. Open the link to check it before relying on it.', lkSample:'✨ Example', lkBad:'I could not understand this line, check how it is written', lkF_https:'https added', lkF_www:'www added', lkF_coord:'Coordinates → Google Maps link', lkF_swap:'Coordinate order flipped (latitude first) because it was out of place', lkF_clean:'Tracking removed', lkF_wa:'Phone number → WhatsApp link', lkF_mail:'Email → mail link', lkF_skip:'www not added (short link, subdomain or special)', lkF_ok:'Link is fine', lkF_dms:'Degrees/minutes → decimal coordinates', ceStTsAll: 'Size of all stamp text', ceStRingW: 'Text ring thickness', ceStTsT: 'Top text', ceStTsB: 'Bottom text', ceStTs1: 'Line 1 (centre)', ceStTs2: 'Line 2 (centre)', ceStTs3: 'Line 3 (centre)', ceStTs4: 'Line 4 (centre)',
     ceStTsC: 'Centre text size', ceStTsR: 'Curved text size',
     ceTplTitle: '📁 My saved templates', ceTplSave: '💾 Save as template', ceTplName: 'Template name', ceTplNameDef: 'Card template', ceTplSaved: 'Template saved ✓ It stays in this browser; export it as a file as a backup.', ceTplFail: 'Could not save in the browser. Export the template as a file instead.', ceTplOpen: 'Open', ceTplDel: 'Delete', ceTplExp: '⬇️ Export template as a file', ceTplImp: '⬆️ Import a template from a file', ceTplNone: 'No saved templates yet.', ceTplBad: 'This file is not a valid card template.', ceTplAuto: 'Automatic copy before opening', ceTplOpened: 'Template opened ✓',
     signNameLabel: '✍️ Type your name and turn it into a signature', signNamePh: 'Type the name here', signInkLabel: 'Ink colour', signStyleHint: 'Pick a signature style below, then drag and resize it like any signature.',
@@ -5291,6 +5304,7 @@ function applyLanguage(lang){
 
   if(typeof certFillPresetSelect === 'function') certFillPresetSelect();
   if(typeof cvApplyLang === 'function') cvApplyLang();
+  if(typeof lkRender === 'function') lkRender();
   if(typeof paBuildCitySelect === 'function'){ paBuildCitySelect(); paRefreshLabels(); }
   paintStamp();
   if(typeof populateUnitSelects === 'function') populateUnitSelects();
@@ -9289,6 +9303,102 @@ document.getElementById('barcode-btn').addEventListener('click', async ()=>{
   setBusy(btn, false, '', I18N[currentLang].bcBtn);
 });
 barcodeTypeChanged();
+
+/* ============================================================
+   LINK FIXER — any link / coordinates / phone -> a valid link that opens
+   ============================================================ */
+(function linkFixer(){
+  const g = id => document.getElementById(id), T = k => (I18N[currentLang] || I18N.ar)[k] || k;
+  const NO_WWW = new Set(['wa.me', 'youtu.be', 't.me', 'goo.gl', 'bit.ly', 'tinyurl.com', 't.co', 'g.co', 'lnkd.in', 'fb.me', 'is.gd', 'cutt.ly', 'rb.gy', 'ow.ly', 'snapchat.com', 'maps.app.goo.gl', 'localhost']);
+  const SLD = new Set(['com', 'net', 'org', 'gov', 'edu', 'med', 'sch', 'co', 'ac', 'id', 'pl']);
+  const TRACK = /^(utm_[a-z]+|fbclid|gclid|igshid|mc_cid|mc_eid|ref_src|si|feature|_ga|yclid|msclkid)$/i;
+  const digits = s => String(s).replace(/[٠-٩]/g, d=> d.charCodeAt(0) - 0x0660).replace(/[۰-۹]/g, d=> d.charCodeAt(0) - 0x06F0).replace(/٫/g, '.').replace(/[،؛]/g, ',');
+  const inSA = (lat, lng)=> lat >= 15 && lat <= 33 && lng >= 34 && lng <= 60;
+  // decide which number is the latitude; flags a swap when the pair only makes sense the other way round (Arabia: lat 15-33, lng 34-60)
+  function orderPair(a, b){
+    if(Math.abs(a) > 90 && Math.abs(b) <= 90) return { lat:b, lng:a, swap:true };
+    if(Math.abs(b) > 180 || Math.abs(a) > 180) return null;
+    if(inSA(b, a) && !inSA(a, b)) return { lat:b, lng:a, swap:true };
+    if(Math.abs(a) <= 90) return { lat:a, lng:b, swap:false };
+    return null;
+  }
+  const mapsUrl = (lat, lng)=> 'https://www.google.com/maps/search/?api=1&query=' + lat + ',' + lng;
+  const num = x => String(parseFloat(x.toFixed(6)));
+  function parseDMS(t){
+    const re = /([NSEW])?\s*(\d{1,3})\s*°\s*(\d{1,2})\s*['′’]\s*(\d{1,2}(?:\.\d+)?)\s*(?:["″”]|'')?\s*([NSEW])?/gi, m = []; let x;
+    while((x = re.exec(t)) && m.length < 2){ const h = (x[1] || x[5] || '').toUpperCase(), v = parseFloat(x[2]) + parseFloat(x[3]) / 60 + parseFloat(x[4]) / 3600; m.push({ h, v }); }
+    if(m.length !== 2) return null;
+    let lat = null, lng = null; m.forEach(o=>{ if(o.h === 'N') lat = o.v; else if(o.h === 'S') lat = -o.v; else if(o.h === 'E') lng = o.v; else if(o.h === 'W') lng = -o.v; });
+    if(lat === null && lng === null && !m[0].h && !m[1].h){ lat = m[0].v; lng = m[1].v; }
+    if(lat === null || lng === null){ if(lat === null && lng !== null && !m.find(o=> !o.h)) return null; }
+    if(lat === null) lat = m.find(o=> !o.h && o.v !== lng)?.v ?? null; if(lng === null) lng = m.find(o=> !o.h && o.v !== lat)?.v ?? null;
+    return (lat === null || lng === null) ? null : { lat, lng };
+  }
+  function fixLine(raw, opt){
+    const notes = []; let t = digits(raw).replace(/[​-‏‪-‮﻿]/g, '').trim();
+    if(!t) return null;
+    t = t.replace(/^[<"'“«(\[]+/, '').replace(/[>"'”»)\].,;:!?،]+$/, '').trim();
+    // 1) degrees / minutes / seconds
+    const dms = parseDMS(t); if(dms && !/^[a-z]+:\/\//i.test(t)){ const o = orderPair(dms.lat, dms.lng); if(o){ notes.push('lkF_dms', 'lkF_coord'); if(o.swap) notes.push('lkF_swap'); return { out:mapsUrl(num(o.lat), num(o.lng)), notes }; } }
+    // 2) bare coordinates
+    let m = t.match(/^\(?\s*(-?\d{1,3}(?:\.\d+)?)\s*(?:,|;|\s)\s*(-?\d{1,3}(?:\.\d+)?)\s*\)?$/);
+    if(m){ const o = orderPair(parseFloat(m[1]), parseFloat(m[2])); if(o){ notes.push('lkF_coord'); if(o.swap) notes.push('lkF_swap'); return { out:mapsUrl(num(o.lat), num(o.lng)), notes }; } }
+    // 3) phone number -> WhatsApp
+    const ph = t.replace(/[\s\-().]/g, '');
+    if(/^\+?\d{9,15}$/.test(ph) && !/^\d{1,3}\.\d/.test(t)){ let n = ph.replace(/^\+/, ''); if(/^05\d{8}$/.test(n)) n = '966' + n.slice(1); else if(/^5\d{8}$/.test(n)) n = '966' + n; else if(/^00/.test(n)) n = n.slice(2); notes.push('lkF_wa'); return { out:'https://wa.me/' + n, notes }; }
+    // 4) email
+    if(/^[^\s@\/]+@[^\s@\/]+\.[a-z]{2,}$/i.test(t)){ notes.push('lkF_mail'); return { out:'mailto:' + t, notes }; }
+    // 5) web address
+    let url = t.replace(/\s+/g, '%20');
+    if(/^\/\//.test(url)){ url = 'https:' + url; notes.push('lkF_https'); }
+    else if(!/^[a-z][a-z0-9+.-]*:\/\//i.test(url)){
+      if(/^[a-z][a-z0-9+.-]*:/i.test(url) && !/^[\w.-]+:\d+/.test(url)){ return { out:url, notes:['lkF_ok'], plain:true }; } // tel:, mailto:, etc.
+      if(!/^(?:[\p{L}\p{N}-]+\.)+[\p{L}]{2,}(?::\d+)?(?:[\/?#].*)?$/u.test(url) && !/^\d{1,3}(?:\.\d{1,3}){3}(?::\d+)?(?:[\/?#].*)?$/.test(url) && !/^localhost(?::\d+)?(?:[\/?#].*)?$/i.test(url)) return { bad:true, out:raw.trim(), notes:['lkBad'] };
+      url = 'http://' + url; notes.push('lkF_https_added');
+    }
+    let u; try{ u = new URL(url); }catch(e){ return { bad:true, out:raw.trim(), notes:['lkBad'] }; }
+    if(!/^https?:$/.test(u.protocol)) return { out:u.href, notes:['lkF_ok'], plain:true };
+    const isIp = /^\d{1,3}(\.\d{1,3}){3}$/.test(u.hostname), local = u.hostname === 'localhost' || isIp;
+    // google maps links whose coordinates are in the path/query in the wrong order
+    if(/(^|\.)google\.[a-z.]+$/.test(u.hostname) && /\/maps/.test(u.pathname)){
+      const c = decodeURIComponent(u.pathname + u.search).match(/(-?\d{1,3}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/);
+      if(c){ const o = orderPair(parseFloat(c[1]), parseFloat(c[2])); if(o && !/@|data=|!3d/.test(u.href)){ notes.push('lkF_coord'); if(o.swap) notes.push('lkF_swap'); return { out:mapsUrl(num(o.lat), num(o.lng)), notes }; } }
+    }
+    if(opt.https && u.protocol === 'http:' && !local){ u.protocol = 'https:'; if(!notes.includes('lkF_https_added') && !notes.includes('lkF_https')) notes.push('lkF_https'); }
+    if(notes.includes('lkF_https_added')){ notes.splice(notes.indexOf('lkF_https_added'), 1); if(u.protocol === 'https:') notes.push('lkF_https'); }
+    if(opt.clean){ let ch = false; [...u.searchParams.keys()].forEach(k=>{ if(TRACK.test(k)){ u.searchParams.delete(k); ch = true; } }); if(ch) notes.push('lkF_clean'); }
+    const host = u.hostname.toLowerCase();
+    if(opt.www && !local && !host.startsWith('www.')){
+      const lab = host.split('.'), reg = lab.length >= 3 && SLD.has(lab[lab.length - 2]) && lab[lab.length - 1].length === 2 ? 3 : 2;
+      if(lab.length === reg && !NO_WWW.has(host)){ u.hostname = 'www.' + host; notes.push('lkF_www'); }
+      else notes.push('lkF_skip');
+    }
+    if(!notes.length) notes.push('lkF_ok');
+    return { out:u.href, notes };
+  }
+  function render(){
+    const box = g('lk-out'), opt = { www:g('lk-www').checked, https:g('lk-https').checked, clean:g('lk-clean').checked }, lines = g('lk-in').value.split(/\n+/).map(s=> s.trim()).filter(Boolean);
+    box.textContent = ''; window.__lkResults = [];
+    if(!lines.length){ const p = document.createElement('p'); p.className = 'note'; p.textContent = T('lkNone'); box.appendChild(p); return; }
+    lines.forEach(line=>{
+      const r = fixLine(line, opt); if(!r) return; window.__lkResults.push(r.bad ? '' : r.out);
+      const row = document.createElement('div'); row.style.cssText = 'padding:10px 0;border-bottom:1px solid var(--border);';
+      const o = document.createElement('div'); o.dir = 'ltr'; o.style.cssText = 'font-family:monospace;word-break:break-all;font-weight:600;' + (r.bad ? 'color:#b3261e;' : ''); o.textContent = r.out; row.appendChild(o);
+      const nt = document.createElement('div'); nt.className = 'note'; nt.style.margin = '4px 0 6px'; nt.textContent = r.notes.filter(n=> n !== 'lkF_https_added').map(T).join(' • '); if(r.bad) nt.style.color = '#b3261e'; row.appendChild(nt);
+      if(!r.bad){
+        const br = document.createElement('div'); br.className = 'ce-row';
+        const a = document.createElement('a'); a.className = 'btn secondary'; a.style.cssText = 'padding:6px 14px;min-height:0;font-size:.9rem;text-decoration:none;'; a.textContent = T('lkOpen'); a.target = '_blank'; a.rel = 'noopener noreferrer'; if(/^(https?:|mailto:|tel:)/i.test(r.out)) a.href = r.out; br.appendChild(a);
+        const c = document.createElement('button'); c.type = 'button'; c.className = 'btn secondary'; c.style.cssText = 'padding:6px 14px;min-height:0;font-size:.9rem;'; c.textContent = T('lkCopy'); c.addEventListener('click', ()=> copy(r.out)); br.appendChild(c); row.appendChild(br);
+      }
+      box.appendChild(row);
+    });
+  }
+  async function copy(s){ try{ await navigator.clipboard.writeText(s); }catch(e){ const t = document.createElement('textarea'); t.value = s; document.body.appendChild(t); t.select(); try{ document.execCommand('copy'); }catch(_){} t.remove(); } setStatus('lk-status', T('lkCopied'), 'ok'); }
+  ['lk-in', 'lk-www', 'lk-https', 'lk-clean'].forEach(id=>{ g(id).addEventListener('input', render); g(id).addEventListener('change', render); });
+  g('lk-copyall').addEventListener('click', ()=>{ const a = (window.__lkResults || []).filter(Boolean); if(a.length) copy(a.join('\n')); });
+  g('lk-sample').addEventListener('click', ()=>{ g('lk-in').value = 'google.com\nhttp://www.google.com/maps/place/46.842052,24.418529\n24°25\'06.7"N 46°50\'31.4"E\n0555555555\nhttps://example.com/page?utm_source=x&id=5'; render(); });
+  window.lkRender = render; render();
+})();
 
 /* ============================================================
    INVOICE MAKER (sales / purchase) — canvas-drawn A4, ZATCA phase-1 TLV QR, Code128 invoice number
