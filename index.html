@@ -2274,9 +2274,10 @@
       <div class="field"><label for="lk-in" data-i18n="lkIn">الروابط</label><textarea id="lk-in" rows="5" dir="ltr" data-i18n-ph="lkPh" placeholder="" style="width:100%;"></textarea></div>
       <label style="display:flex;align-items:center;gap:8px;margin:4px 0;"><input type="checkbox" id="lk-www" checked style="width:auto;"> <span data-i18n="lkWww">إضافة www. عند الإمكان</span></label>
       <label style="display:flex;align-items:center;gap:8px;margin:4px 0;"><input type="checkbox" id="lk-https" checked style="width:auto;"> <span data-i18n="lkHttps">تحويل إلى https</span></label>
-      <label style="display:flex;align-items:center;gap:8px;margin:4px 0 10px;"><input type="checkbox" id="lk-clean" style="width:auto;"> <span data-i18n="lkClean">حذف رموز التتبّع</span></label>
+      <label style="display:flex;align-items:center;gap:8px;margin:4px 0 10px;"><input type="checkbox" id="lk-clean" checked style="width:auto;"> <span data-i18n="lkClean">حذف رموز التتبّع</span></label>
       <div class="ce-row" style="margin-bottom:8px;"><button type="button" class="btn secondary" id="lk-sample" data-i18n="lkSample">✨ مثال</button><button type="button" class="btn secondary" id="lk-copyall" data-i18n="lkCopyAll">نسخ الكل</button></div>
       <div id="lk-out" style="margin:8px 0;"></div>
+      <p class="note" data-i18n="lkShortNote"></p>
       <p class="note" data-i18n="lkNote"></p>
       <div id="lk-status"></div>
     </div>
@@ -4264,7 +4265,7 @@ const I18N = {
     ceEncDelTitle: '🗑️ حذف قالب مشفّر — اكتب كلمة السر للتأكيد',
     ceEncExpTitle: '⬇️ تنزيل القالب مشفّرًا — اختر كلمة سر',
     toolsOptCv: '📄 السيرة الذاتية (CV) — قوالب جاهزة', cvTitle: 'السيرة الذاتية (CV) — قوالب جاهزة', cvHint: 'اختر قالبًا احترافيًا، عبّئ بياناتك فقط، وانزّل سيرتك PDF جاهزة للطباعة والتقديم. كل شيء يعمل داخل متصفحك ولا يُرفع أي شيء.',
-    toolsOptLink:'🔗 مصلّح الروابط (يفتح أي رابط)', lkTitle:'مصلّح الروابط', lkHint:'الصق أي رابط أو أكثر (كل رابط في سطر) أو إحداثيات أو رقم جوال، وسأحوّله إلى رابط صحيح يفتح مباشرة.', lkIn:'الروابط', lkPh:'مثال: google.com أو 24.418529, 46.842052 أو 0555555555', lkWww:'إضافة www. عند الإمكان', lkHttps:'تحويل إلى https', lkClean:'حذف رموز التتبّع (utm وfbclid ونحوها)', lkOpen:'فتح', lkCopy:'نسخ', lkCopyAll:'نسخ الكل', lkCopied:'تم النسخ ✓', lkNone:'الصق رابطًا في الأعلى.', lkNote:'ملاحظة: إضافة www. تناسب أغلب المواقع، لكن بعضها لا يعمل معها، ولذلك أتجنبها في الروابط المختصرة وروابط واتساب ويوتيوب والنطاقات الفرعية. افتح الرابط للتأكد منه قبل اعتماده.', lkSample:'✨ مثال', lkBad:'لم أفهم هذا السطر، تأكد من كتابته', lkF_https:'أُضيف https', lkF_www:'أُضيف www', lkF_coord:'إحداثيات → رابط خرائط قوقل', lkF_swap:'قُلب ترتيب الإحداثيات لأنها خارج موقعها (خط العرض أولًا)', lkF_clean:'حُذف التتبّع', lkF_wa:'رقم جوال → رابط واتساب', lkF_mail:'بريد إلكتروني → رابط مراسلة', lkF_skip:'لم يُضف www (رابط مختصر أو نطاق فرعي أو خاص)', lkF_ok:'الرابط سليم', lkF_dms:'درجات ودقائق → إحداثيات عشرية', ceStTsAll: 'حجم كل النصوص داخل الختم', ceStRingW: 'سماكة حلقة الكتابة', ceStTsT: 'النص العلوي', ceStTsB: 'النص السفلي', ceStTs1: 'السطر 1 (وسط)', ceStTs2: 'السطر 2 (وسط)', ceStTs3: 'السطر 3 (وسط)', ceStTs4: 'السطر 4 (وسط)',
+    toolsOptLink:'🔗 مصلّح الروابط (يفتح أي رابط)', lkTitle:'مصلّح الروابط', lkHint:'الصق أي رابط أو أكثر (كل رابط في سطر) أو إحداثيات أو رقم جوال، وسأحوّله إلى رابط صحيح يفتح مباشرة.', lkIn:'الروابط', lkPh:'مثال: google.com أو 24.418529, 46.842052 أو 0555555555', lkWww:'إضافة www. عند الإمكان', lkHttps:'تحويل إلى https', lkClean:'تبسيط الرابط (حذف التتبّع والإضافات غير اللازمة)', lkLabel:'النص المعروض بدل الرابط', lkLabelPh:'مثال: www.goog', lkRich:'نسخ كرابط بنص', lkMd:'Markdown', lkHtml:'HTML', lkShort:'✂️ تقصير', lkShortBusy:'جارٍ التقصير…', lkShortFail:'تعذّر التقصير (يحتاج إنترنت، وقد تحجب بعض الشبكات الخدمة)', lkShortNote:'التقصير يرسل الرابط إلى خدمة is.gd الخارجية، فلا تقصّر روابط خاصة أو حساسة.', lkF_short:'قُصّر عبر is.gd', lkF_simp:'بُسّط الرابط', lkCopiedRich:'تم النسخ، الصقه في Word أو البريد ليظهر كرابط بنص ✓', lkOpen:'فتح', lkCopy:'نسخ', lkCopyAll:'نسخ الكل', lkCopied:'تم النسخ ✓', lkNone:'الصق رابطًا في الأعلى.', lkNote:'ملاحظة: إضافة www. تناسب أغلب المواقع، لكن بعضها لا يعمل معها، ولذلك أتجنبها في الروابط المختصرة وروابط واتساب ويوتيوب والنطاقات الفرعية. افتح الرابط للتأكد منه قبل اعتماده.', lkSample:'✨ مثال', lkBad:'لم أفهم هذا السطر، تأكد من كتابته', lkF_https:'أُضيف https', lkF_www:'أُضيف www', lkF_coord:'إحداثيات → رابط خرائط قوقل', lkF_swap:'قُلب ترتيب الإحداثيات لأنها خارج موقعها (خط العرض أولًا)', lkF_clean:'حُذف التتبّع', lkF_wa:'رقم جوال → رابط واتساب', lkF_mail:'بريد إلكتروني → رابط مراسلة', lkF_skip:'لم يُضف www (رابط مختصر أو نطاق فرعي أو خاص)', lkF_ok:'الرابط سليم', lkF_dms:'درجات ودقائق → إحداثيات عشرية', ceStTsAll: 'حجم كل النصوص داخل الختم', ceStRingW: 'سماكة حلقة الكتابة', ceStTsT: 'النص العلوي', ceStTsB: 'النص السفلي', ceStTs1: 'السطر 1 (وسط)', ceStTs2: 'السطر 2 (وسط)', ceStTs3: 'السطر 3 (وسط)', ceStTs4: 'السطر 4 (وسط)',
     ceStTsC: 'حجم كتابة الوسط', ceStTsR: 'حجم الكتابة الدائرية',
     ceTplTitle: '📁 قوالبي المحفوظة', ceTplSave: '💾 حفظ كقالب', ceTplName: 'اسم القالب', ceTplNameDef: 'قالب الكرت', ceTplSaved: 'تم حفظ القالب ✓ يبقى في هذا المتصفح، وللاحتياط صدّره كملف.', ceTplFail: 'تعذّر الحفظ في المتصفح. صدّر القالب كملف بدلاً من ذلك.', ceTplOpen: 'فتح', ceTplDel: 'حذف', ceTplExp: '⬇️ تصدير القالب كملف', ceTplImp: '⬆️ استيراد قالب من ملف', ceTplNone: 'ما فيه قوالب محفوظة بعد.', ceTplBad: 'هذا الملف ليس قالب كرت صالحاً.', ceTplAuto: 'نسخة تلقائية قبل الفتح', ceTplOpened: 'تم فتح القالب ✓',
     signNameLabel: '✍️ اكتب اسمك وحوّله إلى توقيع', signNamePh: 'اكتب الاسم هنا', signInkLabel: 'لون الحبر', signStyleHint: 'اختر شكل التوقيع من الأشكال تحت، وبعدها تقدر تسحبه وتغيّر حجمه مثل أي توقيع.',
@@ -5070,7 +5071,7 @@ const I18N = {
     ceEncDelTitle: '🗑️ Delete encrypted template — enter the password to confirm',
     ceEncExpTitle: '⬇️ Download the template encrypted — choose a password',
     toolsOptCv: '📄 CV / Resume — ready templates', cvTitle: 'CV / Resume — ready-made templates', cvHint: 'Pick a professional template, fill in your details only, and download a print-ready PDF. Everything runs in your browser — nothing is uploaded.',
-    toolsOptLink:'🔗 Link fixer (make any link open)', lkTitle:'Link fixer', lkHint:'Paste one or more links (one per line), coordinates or a phone number, and I will turn each into a valid link that opens directly.', lkIn:'Links', lkPh:'e.g. google.com or 24.418529, 46.842052 or 0555555555', lkWww:'Add www. when possible', lkHttps:'Upgrade to https', lkClean:'Remove tracking parameters (utm, fbclid…)', lkOpen:'Open', lkCopy:'Copy', lkCopyAll:'Copy all', lkCopied:'Copied ✓', lkNone:'Paste a link above.', lkNote:'Note: adding www. suits most sites but breaks some, so I skip it for short links, WhatsApp, YouTube and subdomains. Open the link to check it before relying on it.', lkSample:'✨ Example', lkBad:'I could not understand this line, check how it is written', lkF_https:'https added', lkF_www:'www added', lkF_coord:'Coordinates → Google Maps link', lkF_swap:'Coordinate order flipped (latitude first) because it was out of place', lkF_clean:'Tracking removed', lkF_wa:'Phone number → WhatsApp link', lkF_mail:'Email → mail link', lkF_skip:'www not added (short link, subdomain or special)', lkF_ok:'Link is fine', lkF_dms:'Degrees/minutes → decimal coordinates', ceStTsAll: 'Size of all stamp text', ceStRingW: 'Text ring thickness', ceStTsT: 'Top text', ceStTsB: 'Bottom text', ceStTs1: 'Line 1 (centre)', ceStTs2: 'Line 2 (centre)', ceStTs3: 'Line 3 (centre)', ceStTs4: 'Line 4 (centre)',
+    toolsOptLink:'🔗 Link fixer (make any link open)', lkTitle:'Link fixer', lkHint:'Paste one or more links (one per line), coordinates or a phone number, and I will turn each into a valid link that opens directly.', lkIn:'Links', lkPh:'e.g. google.com or 24.418529, 46.842052 or 0555555555', lkWww:'Add www. when possible', lkHttps:'Upgrade to https', lkClean:'Simplify the link (remove tracking and unneeded extras)', lkLabel:'Display text instead of the link', lkLabelPh:'e.g. www.goog', lkRich:'Copy as link with text', lkMd:'Markdown', lkHtml:'HTML', lkShort:'✂️ Shorten', lkShortBusy:'Shortening…', lkShortFail:'Could not shorten (needs internet; some networks block the service)', lkShortNote:'Shortening sends the link to the external is.gd service, so do not shorten private or sensitive links.', lkF_short:'Shortened via is.gd', lkF_simp:'Link simplified', lkCopiedRich:'Copied; paste it into Word or email to get a link with text ✓', lkOpen:'Open', lkCopy:'Copy', lkCopyAll:'Copy all', lkCopied:'Copied ✓', lkNone:'Paste a link above.', lkNote:'Note: adding www. suits most sites but breaks some, so I skip it for short links, WhatsApp, YouTube and subdomains. Open the link to check it before relying on it.', lkSample:'✨ Example', lkBad:'I could not understand this line, check how it is written', lkF_https:'https added', lkF_www:'www added', lkF_coord:'Coordinates → Google Maps link', lkF_swap:'Coordinate order flipped (latitude first) because it was out of place', lkF_clean:'Tracking removed', lkF_wa:'Phone number → WhatsApp link', lkF_mail:'Email → mail link', lkF_skip:'www not added (short link, subdomain or special)', lkF_ok:'Link is fine', lkF_dms:'Degrees/minutes → decimal coordinates', ceStTsAll: 'Size of all stamp text', ceStRingW: 'Text ring thickness', ceStTsT: 'Top text', ceStTsB: 'Bottom text', ceStTs1: 'Line 1 (centre)', ceStTs2: 'Line 2 (centre)', ceStTs3: 'Line 3 (centre)', ceStTs4: 'Line 4 (centre)',
     ceStTsC: 'Centre text size', ceStTsR: 'Curved text size',
     ceTplTitle: '📁 My saved templates', ceTplSave: '💾 Save as template', ceTplName: 'Template name', ceTplNameDef: 'Card template', ceTplSaved: 'Template saved ✓ It stays in this browser; export it as a file as a backup.', ceTplFail: 'Could not save in the browser. Export the template as a file instead.', ceTplOpen: 'Open', ceTplDel: 'Delete', ceTplExp: '⬇️ Export template as a file', ceTplImp: '⬆️ Import a template from a file', ceTplNone: 'No saved templates yet.', ceTplBad: 'This file is not a valid card template.', ceTplAuto: 'Automatic copy before opening', ceTplOpened: 'Template opened ✓',
     signNameLabel: '✍️ Type your name and turn it into a signature', signNamePh: 'Type the name here', signInkLabel: 'Ink colour', signStyleHint: 'Pick a signature style below, then drag and resize it like any signature.',
@@ -9311,7 +9312,8 @@ barcodeTypeChanged();
   const g = id => document.getElementById(id), T = k => (I18N[currentLang] || I18N.ar)[k] || k;
   const NO_WWW = new Set(['wa.me', 'youtu.be', 't.me', 'goo.gl', 'bit.ly', 'tinyurl.com', 't.co', 'g.co', 'lnkd.in', 'fb.me', 'is.gd', 'cutt.ly', 'rb.gy', 'ow.ly', 'snapchat.com', 'maps.app.goo.gl', 'localhost']);
   const SLD = new Set(['com', 'net', 'org', 'gov', 'edu', 'med', 'sch', 'co', 'ac', 'id', 'pl']);
-  const TRACK = /^(utm_[a-z]+|fbclid|gclid|igshid|mc_cid|mc_eid|ref_src|si|feature|_ga|yclid|msclkid)$/i;
+  const TRACK = /^(utm_.+|fbclid|gclid|gbraid|wbraid|igshid|igsh|mc_cid|mc_eid|ref_src|ref_url|si|feature|pp|_ga|yclid|msclkid|g_st|g_ep|share|trk|trkid|fb_source|s_kwcid)$/i;
+  const DROP_ALL = /(^|\.)(maps\.app\.goo\.gl|goo\.gl|instagram\.com|x\.com|twitter\.com|tiktok\.com|linkedin\.com|amazon\.[a-z.]+)$/i;
   const digits = s => String(s).replace(/[٠-٩]/g, d=> d.charCodeAt(0) - 0x0660).replace(/[۰-۹]/g, d=> d.charCodeAt(0) - 0x06F0).replace(/٫/g, '.').replace(/[،؛]/g, ',');
   const inSA = (lat, lng)=> lat >= 15 && lat <= 33 && lng >= 34 && lng <= 60;
   // decide which number is the latitude; flags a swap when the pair only makes sense the other way round (Arabia: lat 15-33, lng 34-60)
@@ -9366,7 +9368,15 @@ barcodeTypeChanged();
     }
     if(opt.https && u.protocol === 'http:' && !local){ u.protocol = 'https:'; if(!notes.includes('lkF_https_added') && !notes.includes('lkF_https')) notes.push('lkF_https'); }
     if(notes.includes('lkF_https_added')){ notes.splice(notes.indexOf('lkF_https_added'), 1); if(u.protocol === 'https:') notes.push('lkF_https'); }
-    if(opt.clean){ let ch = false; [...u.searchParams.keys()].forEach(k=>{ if(TRACK.test(k)){ u.searchParams.delete(k); ch = true; } }); if(ch) notes.push('lkF_clean'); }
+    if(opt.clean){
+      const before = u.search + u.hash, hn = u.hostname.toLowerCase().replace(/^www\./, '');
+      if(DROP_ALL.test(hn)){ u.search = ''; if(/amazon\./.test(hn)) u.pathname = u.pathname.replace(/\/ref=.*$/, ''); }
+      else if(/(^|\.)youtube\.com$/.test(hn) && u.pathname === '/watch'){ [...u.searchParams.keys()].forEach(k=>{ if(!['v', 't', 'list'].includes(k)) u.searchParams.delete(k); }); }
+      else if(hn === 'youtu.be'){ [...u.searchParams.keys()].forEach(k=>{ if(k !== 't') u.searchParams.delete(k); }); }
+      else if(/(^|\.)google\.[a-z.]+$/.test(hn) && u.pathname === '/search'){ [...u.searchParams.keys()].forEach(k=>{ if(k !== 'q') u.searchParams.delete(k); }); }
+      else [...u.searchParams.keys()].forEach(k=>{ if(TRACK.test(k)) u.searchParams.delete(k); });
+      if(u.search + u.hash !== before) notes.push('lkF_simp');
+    }
     const host = u.hostname.toLowerCase();
     if(opt.www && !local && !host.startsWith('www.')){
       const lab = host.split('.'), reg = lab.length >= 3 && SLD.has(lab[lab.length - 2]) && lab[lab.length - 1].length === 2 ? 3 : 2;
@@ -9376,28 +9386,49 @@ barcodeTypeChanged();
     if(!notes.length) notes.push('lkF_ok');
     return { out:u.href, notes };
   }
-  function render(){
+  const labels = {}, shortMap = {};
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const defLabel = u => { try{ const x = new URL(u); return x.host; }catch(e){ return u; } };
+  async function copyRich(url, label){
+    const html = '<a href="' + esc(url) + '">' + esc(label) + '</a>';
+    try{ await navigator.clipboard.write([new ClipboardItem({ 'text/html':new Blob([html], { type:'text/html' }), 'text/plain':new Blob([label + '\n' + url], { type:'text/plain' }) })]); setStatus('lk-status', T('lkCopiedRich'), 'ok'); return; }catch(e){}
+    try{ const d = document.createElement('div'); d.contentEditable = 'true'; d.style.cssText = 'position:fixed;left:-9999px;top:0;'; d.innerHTML = html; document.body.appendChild(d); const r = document.createRange(); r.selectNodeContents(d); const s = getSelection(); s.removeAllRanges(); s.addRange(r); document.execCommand('copy'); s.removeAllRanges(); d.remove(); setStatus('lk-status', T('lkCopiedRich'), 'ok'); }catch(e){ copy(label + '\n' + url); }
+  }
+  async function shorten(url){
+    const r = await fetch('https://is.gd/create.php?format=json&url=' + encodeURIComponent(url)), j = await r.json();
+    if(!j.shorturl) throw new Error(j.errormessage || 'fail'); return j.shorturl;
+  }
+  let lastKey = null;
+  function render(force){
     const box = g('lk-out'), opt = { www:g('lk-www').checked, https:g('lk-https').checked, clean:g('lk-clean').checked }, lines = g('lk-in').value.split(/\n+/).map(s=> s.trim()).filter(Boolean);
+    const key = JSON.stringify([lines, opt, currentLang]); if(force !== true && key === lastKey) return; lastKey = key; // a blur 'change' event must not wipe what the person is typing in a row
     box.textContent = ''; window.__lkResults = [];
     if(!lines.length){ const p = document.createElement('p'); p.className = 'note'; p.textContent = T('lkNone'); box.appendChild(p); return; }
-    lines.forEach(line=>{
-      const r = fixLine(line, opt); if(!r) return; window.__lkResults.push(r.bad ? '' : r.out);
-      const row = document.createElement('div'); row.style.cssText = 'padding:10px 0;border-bottom:1px solid var(--border);';
-      const o = document.createElement('div'); o.dir = 'ltr'; o.style.cssText = 'font-family:monospace;word-break:break-all;font-weight:600;' + (r.bad ? 'color:#b3261e;' : ''); o.textContent = r.out; row.appendChild(o);
-      const nt = document.createElement('div'); nt.className = 'note'; nt.style.margin = '4px 0 6px'; nt.textContent = r.notes.filter(n=> n !== 'lkF_https_added').map(T).join(' • '); if(r.bad) nt.style.color = '#b3261e'; row.appendChild(nt);
-      if(!r.bad){
-        const br = document.createElement('div'); br.className = 'ce-row';
-        const a = document.createElement('a'); a.className = 'btn secondary'; a.style.cssText = 'padding:6px 14px;min-height:0;font-size:.9rem;text-decoration:none;'; a.textContent = T('lkOpen'); a.target = '_blank'; a.rel = 'noopener noreferrer'; if(/^(https?:|mailto:|tel:)/i.test(r.out)) a.href = r.out; br.appendChild(a);
-        const c = document.createElement('button'); c.type = 'button'; c.className = 'btn secondary'; c.style.cssText = 'padding:6px 14px;min-height:0;font-size:.9rem;'; c.textContent = T('lkCopy'); c.addEventListener('click', ()=> copy(r.out)); br.appendChild(c); row.appendChild(br);
-      }
-      box.appendChild(row);
+    lines.forEach((line, idx)=>{
+      const r = fixLine(line, opt); if(!r) return; const slot = window.__lkResults.length; window.__lkResults.push(r.bad ? '' : r.out);
+      const row = document.createElement('div'); row.style.cssText = 'padding:10px 0;border-bottom:1px solid var(--border);'; box.appendChild(row);
+      const draw = ()=>{
+        row.textContent = ''; const out = shortMap[r.out] || r.out; window.__lkResults[slot] = r.bad ? '' : out;
+        const o = document.createElement('div'); o.dir = 'ltr'; o.style.cssText = 'font-family:monospace;word-break:break-all;font-weight:600;' + (r.bad ? 'color:#b3261e;' : ''); o.textContent = out; row.appendChild(o);
+        const nt = document.createElement('div'); nt.className = 'note'; nt.style.margin = '4px 0 6px'; nt.textContent = r.notes.concat(shortMap[r.out] ? ['lkF_short'] : []).filter(n=> n !== 'lkF_https_added').map(T).join(' • '); if(r.bad) nt.style.color = '#b3261e'; row.appendChild(nt);
+        if(r.bad) return;
+        const lb = document.createElement('input'); lb.type = 'text'; lb.dir = 'ltr'; lb.placeholder = T('lkLabelPh') + '  (' + defLabel(out) + ')'; lb.value = labels[line] || ''; lb.title = T('lkLabel'); lb.style.cssText = 'width:100%;margin:0 0 6px;'; lb.addEventListener('input', ()=>{ labels[line] = lb.value; }); row.appendChild(lb);
+        const label = ()=> (lb.value.trim() || defLabel(out));
+        const br = document.createElement('div'); br.className = 'ce-row'; br.style.flexWrap = 'wrap';
+        const mk = (txt, fn)=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary'; b.style.cssText = 'padding:6px 12px;min-height:0;font-size:.9rem;'; b.textContent = txt; b.addEventListener('click', fn); br.appendChild(b); return b; };
+        const a = document.createElement('a'); a.className = 'btn secondary'; a.style.cssText = 'padding:6px 12px;min-height:0;font-size:.9rem;text-decoration:none;'; a.textContent = T('lkOpen'); a.target = '_blank'; a.rel = 'noopener noreferrer'; if(/^(https?:|mailto:|tel:)/i.test(out)) a.href = out; br.appendChild(a);
+        mk(T('lkCopy'), ()=> copy(out)); mk(T('lkRich'), ()=> copyRich(out, label())); mk(T('lkMd'), ()=> copy('[' + label() + '](' + out + ')')); mk(T('lkHtml'), ()=> copy('<a href="' + esc(out) + '">' + esc(label()) + '</a>'));
+        if(/^https?:/i.test(out) && !shortMap[r.out]){ const sb = mk(T('lkShort'), async ()=>{ sb.disabled = true; sb.textContent = T('lkShortBusy'); try{ shortMap[r.out] = await shorten(out); draw(); }catch(e){ sb.disabled = false; sb.textContent = T('lkShort'); setStatus('lk-status', T('lkShortFail'), 'err'); } }); }
+        row.appendChild(br);
+      };
+      draw();
     });
   }
   async function copy(s){ try{ await navigator.clipboard.writeText(s); }catch(e){ const t = document.createElement('textarea'); t.value = s; document.body.appendChild(t); t.select(); try{ document.execCommand('copy'); }catch(_){} t.remove(); } setStatus('lk-status', T('lkCopied'), 'ok'); }
   ['lk-in', 'lk-www', 'lk-https', 'lk-clean'].forEach(id=>{ g(id).addEventListener('input', render); g(id).addEventListener('change', render); });
   g('lk-copyall').addEventListener('click', ()=>{ const a = (window.__lkResults || []).filter(Boolean); if(a.length) copy(a.join('\n')); });
   g('lk-sample').addEventListener('click', ()=>{ g('lk-in').value = 'google.com\nhttp://www.google.com/maps/place/46.842052,24.418529\n24°25\'06.7"N 46°50\'31.4"E\n0555555555\nhttps://example.com/page?utm_source=x&id=5'; render(); });
-  window.lkRender = render; render();
+  window.lkRender = ()=> render(true); render(true);
 })();
 
 /* ============================================================
