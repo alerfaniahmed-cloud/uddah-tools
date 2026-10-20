@@ -1084,6 +1084,12 @@
           </select>
         </div>
       </div>
+      <div class="row" style="align-items:end;">
+        <div class="field"><label for="qr-fg" data-i18n="bcColorFg">لون الرمز</label><input type="color" id="qr-fg" value="#000000" style="width:100%;height:44px;padding:2px;"></div>
+        <div class="field"><label for="qr-bg" data-i18n="bcColorBg">لون الخلفية</label><input type="color" id="qr-bg" value="#ffffff" style="width:100%;height:44px;padding:2px;"></div>
+      </div>
+      <div class="ce-row" style="margin:0 0 6px;"><button type="button" class="btn secondary" id="qr-colreset" data-i18n="bcColorReset" style="padding:6px 14px;min-height:0;font-size:.9rem;">↺ الأسود والأبيض</button></div>
+      <div id="qr-colnote" class="note" style="margin:0 0 10px;min-height:1.2em;"></div>
       <button class="btn" id="qr-btn" data-i18n="qrBtn">توليد الرمز</button>
       <div id="qr-output-wrap" style="display:none;margin-top:18px;text-align:center;">
         <div id="qr-canvas-holder" style="display:inline-block;padding:16px;background:#fff;border-radius:8px;border:1px solid var(--border);"></div>
@@ -2968,6 +2974,13 @@
         <label for="barcode-text" data-i18n="bcTextLabel">المحتوى</label>
         <input type="text" id="barcode-text" placeholder="https://example.com" data-i18n-ph="bcTextPh">
       </div>
+      <div class="row" style="align-items:end;">
+        <div class="field"><label for="barcode-fg" data-i18n="bcColorFg">لون الرمز</label><input type="color" id="barcode-fg" value="#000000" style="width:100%;height:44px;padding:2px;"></div>
+        <div class="field"><label for="barcode-bg" data-i18n="bcColorBg">لون الخلفية</label><input type="color" id="barcode-bg" value="#ffffff" style="width:100%;height:44px;padding:2px;"></div>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;margin:0 0 8px;"><input type="checkbox" id="barcode-transp" style="width:auto;"> <span data-i18n="bcTransp">خلفية شفافة</span></label>
+      <div class="ce-row" style="margin:0 0 6px;"><button type="button" class="btn secondary" id="barcode-colreset" data-i18n="bcColorReset" style="padding:6px 14px;min-height:0;font-size:.9rem;">↺ الأسود والأبيض</button></div>
+      <div id="barcode-colnote" class="note" style="margin:0 0 10px;min-height:1.2em;"></div>
       <div class="row">
         <div class="field">
           <label for="barcode-size" data-i18n="bcSizeLabel">العرض (نقطة)</label>
@@ -3714,7 +3727,7 @@ const I18N = {
     pdfOptBarcode: '▦ إضافة باركود / QR على PDF أو صورة',
     bcTitle: 'إضافة باركود / QR على PDF أو صورة',
     bcHint: 'ارفع ملف PDF أو صورة، اكتب النص أو الرابط أو الرقم، اختر نوع الرمز، ثم اسحبه بحرية فوق المعاينة وضعه في أي مكان. يمكن إضافته على صفحة واحدة أو على كل الصفحات.',
-    bcTypeLabel: 'نوع الرمز', bcTypeQr: 'QR (يدعم العربي والروابط)', bcTypeCode128: 'باركود خطي Code 128 (أرقام وإنجليزي)',
+    bcColorFg:'لون الرمز', bcColorBg:'لون الخلفية', bcTransp:'خلفية شفافة', bcColorReset:'↺ الأسود والأبيض', bcLowContrast:'⚠️ التباين ضعيف بين اللونين، وقد لا يقرأ الماسح الرمز. اختر لونًا غامقًا للرمز وفاتحًا للخلفية.', bcInverted:'⚠️ الرمز أفتح من خلفيته؛ كثير من الماسحات لا تقرأ هذا النوع. جرّبه بالماسح قبل الاعتماد عليه.', bcColorOk:'✓ التباين جيد للقراءة', bcTypeLabel: 'نوع الرمز', bcTypeQr: 'QR (يدعم العربي والروابط)', bcTypeCode128: 'باركود خطي Code 128 (أرقام وإنجليزي)',
     bcTextLabel: 'المحتوى', bcTextPh: 'https://example.com',
     bcSizeLabel: 'العرض (نقطة)', bcShowText: 'إظهار الرقم تحت الباركود', bcAllPages: 'إضافته على كل الصفحات',
     bcBtn: 'إضافة الرمز وتنزيل',
@@ -4520,7 +4533,7 @@ const I18N = {
     pdfOptBarcode: '▦ Add Barcode / QR to PDF or Image',
     bcTitle: 'Add Barcode / QR to PDF or Image',
     bcHint: 'Upload a PDF or an image, type the text, link or number, choose the code type, then drag it freely over the preview to place it anywhere. It can go on one page or on every page.',
-    bcTypeLabel: 'Code type', bcTypeQr: 'QR (supports Arabic and links)', bcTypeCode128: 'Linear barcode Code 128 (digits & English)',
+    bcColorFg:'Code colour', bcColorBg:'Background colour', bcTransp:'Transparent background', bcColorReset:'↺ Black & white', bcLowContrast:'⚠️ Low contrast between the colours; scanners may not read the code. Use a dark code on a light background.', bcInverted:'⚠️ The code is lighter than its background; many scanners cannot read this. Test it before relying on it.', bcColorOk:'✓ Contrast is good for scanning', bcTypeLabel: 'Code type', bcTypeQr: 'QR (supports Arabic and links)', bcTypeCode128: 'Linear barcode Code 128 (digits & English)',
     bcTextLabel: 'Content', bcTextPh: 'https://example.com',
     bcSizeLabel: 'Width (pt)', bcShowText: 'Show the number under the barcode', bcAllPages: 'Add to every page',
     bcBtn: 'Add Code and Download',
@@ -6005,17 +6018,21 @@ function qrBuild(holder, text, size){
     text: qrSafeText(text),
     width: size,
     height: size,
-    colorDark: '#000000',
-    colorLight: '#ffffff',
+    colorDark: document.getElementById('qr-fg').value || '#000000',
+    colorLight: document.getElementById('qr-bg').value || '#ffffff',
     correctLevel: QRCode.CorrectLevel[lvl] || QRCode.CorrectLevel.M
   });
 }
+function qrColorChanged(){ bcNote('qr-colnote', document.getElementById('qr-fg').value, document.getElementById('qr-bg').value, false); const w = document.getElementById('qr-output-wrap'); if(w.style.display !== 'none') document.getElementById('qr-btn').click(); }
+['qr-fg', 'qr-bg'].forEach(id=> document.getElementById(id).addEventListener('input', qrColorChanged));
+document.getElementById('qr-colreset').addEventListener('click', ()=>{ document.getElementById('qr-fg').value = '#000000'; document.getElementById('qr-bg').value = '#ffffff'; qrColorChanged(); });
 document.getElementById('qr-btn').addEventListener('click', ()=>{
   const text = document.getElementById('qr-input').value.trim();
   const holder = document.getElementById('qr-canvas-holder');
   const wrap = document.getElementById('qr-output-wrap');
   if(!text) return;
   currentQR = qrBuild(holder, text, 220);
+  holder.style.background = document.getElementById('qr-bg').value || '#fff';
   wrap.style.display = 'block';
 });
 
@@ -9076,10 +9093,14 @@ function code128Modules(text){
   return mods;
 }
 
+function bcLum(hex){ const n = parseInt(hex.slice(1), 16), c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(v=>{ v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
+function bcNote(id, fg, bg, transp){ const el = document.getElementById(id); if(!el) return; const T = I18N[currentLang]; if(transp){ el.textContent = ''; return; } const a = bcLum(fg), b = bcLum(bg), r = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05); el.style.color = ''; if(r < 3){ el.textContent = T.bcLowContrast; el.style.color = '#b3261e'; } else if(a > b){ el.textContent = T.bcInverted; el.style.color = '#b3261e'; } else el.textContent = T.bcColorOk; }
 let barcodeCanvas = null; // current rendered code (white background, quiet zone included)
 function barcodeBuild(){
   const type = document.getElementById('barcode-type').value;
   const text = document.getElementById('barcode-text').value.trim();
+  const FG = document.getElementById('barcode-fg').value || '#000000', BG = document.getElementById('barcode-bg').value || '#ffffff', TR = document.getElementById('barcode-transp').checked;
+  bcNote('barcode-colnote', FG, BG, TR);
   if(!text) return null;
   if(type === 'qr'){
     const S = 1024;
@@ -9100,8 +9121,13 @@ function barcodeBuild(){
     const out = document.createElement('canvas');
     out.width = S + pad*2; out.height = S + pad*2;
     const ctx = out.getContext('2d');
-    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, out.width, out.height);
-    if(qrCanvas){ ctx.imageSmoothingEnabled = false; ctx.drawImage(qrCanvas, pad, pad, S, S); }
+    if(!TR){ ctx.fillStyle = BG; ctx.fillRect(0, 0, out.width, out.height); }
+    if(qrCanvas){ // recolour: dark modules -> chosen colour, light -> transparent (the background is already painted)
+      const m = document.createElement('canvas'); m.width = S; m.height = S; const mc = m.getContext('2d'); mc.imageSmoothingEnabled = false; mc.drawImage(qrCanvas, 0, 0, S, S);
+      const id = mc.getImageData(0, 0, S, S), d = id.data, fr = parseInt(FG.slice(1, 3), 16), fgc = parseInt(FG.slice(3, 5), 16), fb = parseInt(FG.slice(5, 7), 16);
+      for(let i = 0; i < d.length; i += 4){ if(d[i] + d[i + 1] + d[i + 2] < 384){ d[i] = fr; d[i + 1] = fgc; d[i + 2] = fb; d[i + 3] = 255; } else d[i + 3] = 0; }
+      mc.putImageData(id, 0, 0); ctx.imageSmoothingEnabled = false; ctx.drawImage(m, pad, pad, S, S);
+    }
     tmp.remove();
     return out;
   }
@@ -9115,8 +9141,8 @@ function barcodeBuild(){
   const out = document.createElement('canvas');
   out.width = total * m; out.height = barH + textH + m*3;
   const ctx = out.getContext('2d');
-  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, out.width, out.height);
-  ctx.fillStyle = '#000';
+  if(!TR){ ctx.fillStyle = BG; ctx.fillRect(0, 0, out.width, out.height); }
+  ctx.fillStyle = FG;
   for(let i = 0; i < mods.length; i++){
     if(mods[i] === '1'){
       let j = i; while(j < mods.length && mods[j] === '1') j++;
@@ -9198,11 +9224,12 @@ function barcodeTypeChanged(){
   barcodeRefresh();
 }
 document.getElementById('barcode-type').addEventListener('change', barcodeTypeChanged);
-['barcode-text','barcode-level','barcode-showtext'].forEach(id=>{
+['barcode-text','barcode-level','barcode-showtext','barcode-fg','barcode-bg','barcode-transp'].forEach(id=>{
   document.getElementById(id).addEventListener('input', barcodeRefresh);
   document.getElementById(id).addEventListener('change', barcodeRefresh);
 });
 document.getElementById('barcode-size').addEventListener('input', barcodeReposition);
+document.getElementById('barcode-colreset').addEventListener('click', ()=>{ document.getElementById('barcode-fg').value = '#000000'; document.getElementById('barcode-bg').value = '#ffffff'; document.getElementById('barcode-transp').checked = false; barcodeRefresh(); });
 document.getElementById('barcode-file').addEventListener('change', ()=>{ PS_CACHE.barcode = null; updateBarcodePreview(true); });
 document.getElementById('barcode-page').addEventListener('input', ()=> updateBarcodePreview(true));
 function barcodeSliderInput(){
