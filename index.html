@@ -3118,6 +3118,14 @@
         </div>
       </div>
 
+      <div id="txsv" style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border);">
+        <b id="txsv-title"></b>
+        <div class="row" style="margin-top:8px;align-items:end;"><div class="field"><label for="txsv-name" id="txsv-namel"></label><input type="text" id="txsv-name"></div>
+        <div class="field"><button type="button" class="btn" id="txsv-save"></button></div></div>
+        <div id="txsv-list" style="margin:4px 0;"></div>
+        <p class="note" id="txsv-note"></p>
+        <div id="txsv-status"></div>
+      </div>
       <button class="btn" id="text-btn" style="margin-top:14px;" data-i18n="pdfTextBtn">إضافة النص وتنزيل</button>
       <div id="text-status"></div>
       <p class="note" data-i18n="pdfTextNote">النص يُرسم ويُضاف بالكامل داخل متصفحك — لا يُرفع ملفك أو نصك لأي سيرفر خارجي.</p>
@@ -5473,6 +5481,7 @@ function applyLanguage(lang){
   if(typeof cvApplyLang === 'function') cvApplyLang();
   if(typeof lkRender === 'function') lkRender();
   if(typeof shApplyLang === 'function') shApplyLang();
+  if(window.txsvRender) window.txsvRender();
   if(window.cewRender) window.cewRender();
   if(typeof paBuildCitySelect === 'function'){ paBuildCitySelect(); paRefreshLabels(); }
   paintStamp();
@@ -14934,6 +14943,64 @@ const CV_TPLS = [
     render(); const _al = applyLabels; window.cvApplyLang = ()=>{ _al(); render(); };
   })();
   window.cvRefresh = refresh;
+})();
+
+/* ---------- encrypted saved sessions for the add-text tool (IndexedDB 'uddah_txt': the file + every text, AES-256-GCM) ---------- */
+(function(){
+  const $ = id => document.getElementById(id), DB = 'uddah_txt', ST = 'sess';
+  const TX = {
+    ar:{ t:'🔒 حفظ الملف مع النصوص (مشفّر)', n:'اسم الحفظ', b:'💾 حفظ مشفّرًا', none:'لا يوجد شيء محفوظ', open:'فتح', setT:'🔒 كلمة سر الحفظ', openT:'🔓 فتح المحفوظ', delT:'🗑️ حذف — اكتب كلمة السر', overT:'هذا الحفظ مشفّر — اكتب كلمة سره للحفظ فوقه', wrong:'كلمة السر غير صحيحة', saved:'تم الحفظ مشفّرًا ✓', opened:'تم فتح الملف مع نصوصه ✓', fail:'تعذّر الحفظ في هذا المتصفح', nocrypto:'التشفير غير متاح هنا (يحتاج اتصالًا آمنًا https)', nofile:'اختر ملفًا وأضف نصًا أولًا', def:'نموذجي', note:'يُحفظ الملف مع كل النصوص ومواضعها وأحجامها وألوانها مشفّرًا (AES-256) داخل هذا المتصفح فقط، ولا يوجد ملف للتنزيل. يبقى بعد تحديثات الموقع، لكن لو مُسحت بيانات المتصفح يضيع. كلمة السر لا تُسترجع.' },
+    en:{ t:'🔒 Save file with texts (encrypted)', n:'Save name', b:'💾 Save encrypted', none:'Nothing saved yet', open:'Open', setT:'🔒 Password for this save', openT:'🔓 Open saved', delT:'🗑️ Delete — enter its password', overT:'This save is encrypted — enter its password to overwrite it', wrong:'Wrong password', saved:'Saved, encrypted ✓', opened:'File opened with its texts ✓', fail:'Could not save in this browser', nocrypto:'Encryption is unavailable here (needs a secure https connection)', nofile:'Choose a file and add a text first', def:'My form', note:'The file and all texts with their positions, sizes and colours are saved encrypted (AES-256) inside this browser only; there is no file to download. It survives site updates, but clearing browser data erases it. The password cannot be recovered.' }
+  };
+  const L = k => (TX[currentLang] || TX.ar)[k] || k, st = (m, k)=> setStatus('txsv-status', m, k);
+  let dbp = null;
+  const db = ()=> dbp || (dbp = new Promise((res, rej)=>{ const r = indexedDB.open(DB, 1); r.onupgradeneeded = ()=> r.result.createObjectStore(ST, { keyPath:'id' }); r.onsuccess = ()=> res(r.result); r.onerror = ()=> rej(r.error); }));
+  const tx = async (mode, fn)=>{ const d = await db(); return new Promise((res, rej)=>{ const t = d.transaction(ST, mode), rq = fn(t.objectStore(ST)); t.oncomplete = ()=> res(rq && rq.result); t.onerror = ()=> rej(t.error); t.onabort = ()=> rej(t.error); }); };
+  const all = async ()=>{ try{ return (await tx('readonly', s=> s.getAll())) || []; }catch(e){ return []; } };
+  const hasCrypto = ()=> !!(window.crypto && crypto.subtle);
+
+  async function snapshot(){
+    const f = $('text-file').files[0]; if(!f) return null;
+    const items = textAllItems(); if(!items.length) return null;
+    return { v:1, file:{ name:f.name, type:f.type, b64:uddahB64(new Uint8Array(await f.arrayBuffer())) }, items, digits:$('text-digits').value, size:$('text-size').value, color:$('text-color').value, page:$('text-page').value, fmt:$('text-format').value };
+  }
+  async function apply(s){
+    const f = new File([uddahUnB64(s.file.b64)], s.file.name, { type:s.file.type || (/\.pdf$/i.test(s.file.name) ? 'application/pdf' : '') });
+    const dt = new DataTransfer(); dt.items.add(f); $('text-file').files = dt.files; $('text-file').dispatchEvent(new Event('change'));
+    for(let i = 0; i < 100 && !(textSrc.kind && textSrc.file && textSrc.file.name === f.name); i++) await new Promise(r=> setTimeout(r, 50));
+    $('text-digits').value = s.digits || 'keep'; $('text-size').value = s.size || 24; $('text-color').value = s.color || '#2B2A28'; $('text-page').value = s.page || 1; if(s.fmt) $('text-format').value = s.fmt;
+    await document.fonts.ready;
+    $('text-content').value = ''; textCanvasData = null; textPos = null;
+    textItems = s.items.map(it=> ({ content:it.content, size:it.size, color:it.color, pos:{ x:it.pos.x, y:it.pos.y }, data:renderTextToCanvas(it.content, it.size, it.color, null, 6) }));
+    textRenderList(); await updateTextPreview(true);
+  }
+  async function render(){
+    $('txsv-title').textContent = L('t'); $('txsv-namel').textContent = L('n'); $('txsv-save').textContent = L('b'); $('txsv-note').textContent = L('note');
+    const box = $('txsv-list'), list = await all(); list.sort((a, b)=> b.saved - a.saved); box.textContent = '';
+    if(!list.length){ const p = document.createElement('p'); p.className = 'note'; p.style.margin = '0'; p.textContent = L('none'); box.appendChild(p); return; }
+    list.forEach(r=>{
+      const row = document.createElement('div'); row.style.cssText = 'display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--border);';
+      const nm = document.createElement('span'); nm.style.cssText = 'flex:1 1 140px;font-weight:600;'; nm.textContent = '🔒 ' + r.name;
+      const mk = (label, fn)=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary'; b.style.cssText = 'padding:6px 14px;min-height:0;font-size:.9rem;'; b.textContent = label; b.addEventListener('click', fn); return b; };
+      row.appendChild(nm);
+      row.appendChild(mk(L('open'), async ()=>{ const pass = await uddahAskPass(L('openT') + ' — ' + r.name, false); if(!pass) return; let dec; try{ dec = JSON.parse(await uddahDecrypt(r.enc, pass)); }catch(e){ st(L('wrong'), 'err'); return; } try{ await apply(dec); $('txsv-name').value = r.name; st(L('opened'), 'ok'); }catch(e){ console.error(e); st(L('fail'), 'err'); } }));
+      row.appendChild(mk('🗑️', async ()=>{ const pass = await uddahAskPass(L('delT') + ' — ' + r.name, false); if(!pass) return; try{ await uddahDecrypt(r.enc, pass); }catch(e){ st(L('wrong'), 'err'); return; } try{ await tx('readwrite', s=> s.delete(r.id)); }catch(e){} render(); }));
+      box.appendChild(row);
+    });
+  }
+  $('txsv-save').addEventListener('click', async ()=>{
+    if(!hasCrypto()){ st(L('nocrypto'), 'err'); return; }
+    const name = ($('txsv-name').value || '').trim() || L('def');
+    try{
+      const snap = await snapshot(); if(!snap){ st(L('nofile'), 'err'); return; }
+      const ex = (await all()).find(x=> x.id === name); let pass;
+      if(ex){ pass = await uddahAskPass(L('overT'), false); if(!pass) return; try{ await uddahDecrypt(ex.enc, pass); }catch(e){ st(L('wrong'), 'err'); return; } }
+      else{ pass = await uddahAskPass(L('setT') + ' — ' + name, true); if(!pass) return; }
+      const enc = await uddahEncrypt(JSON.stringify(snap), pass);
+      await tx('readwrite', s=> s.put({ app:'uddah-text-enc', v:1, id:name, name, saved:Date.now(), enc })); $('txsv-name').value = name; st(L('saved'), 'ok'); render();
+    }catch(e){ console.error(e); st(L('fail'), 'err'); }
+  });
+  window.txsvRender = render; render();
 })();
 
 applyLanguage(localStorage.getItem('uddah-lang') || 'ar');
