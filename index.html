@@ -7947,7 +7947,7 @@ document.getElementById('merge-btn').addEventListener('click', async ()=>{
     const merged = await PDFDocument.create();
     for(const file of files){
       const bytes = await file.arrayBuffer();
-      const src = await PDFDocument.load(bytes, {ignoreEncryption:true});
+      const src = await pdfLoadSafe(bytes);
       const pages = await merged.copyPages(src, src.getPageIndices());
       pages.forEach(p=>merged.addPage(p));
     }
@@ -7978,7 +7978,7 @@ document.getElementById('mergepairs-btn').addEventListener('click', async ()=>{
   setBusy(btn, true, I18N[currentLang].mergingBusy, I18N[currentLang].mergeAndDownloadBtn);
   try{
     const bytes = await file.arrayBuffer();
-    const srcDoc = await PDFDocument.load(bytes, {ignoreEncryption:true});
+    const srcDoc = await pdfLoadSafe(bytes);
     const outDoc = await PDFDocument.create();
     const total = srcDoc.getPageCount();
     const embeddedAll = await outDoc.embedPages(srcDoc.getPages());
@@ -8046,7 +8046,7 @@ document.getElementById('extract-btn').addEventListener('click', async ()=>{
   setBusy(btn, true, I18N[currentLang].extractingBusy, I18N[currentLang].extractBtn);
   try{
     const bytes = await file.arrayBuffer();
-    const src = await PDFDocument.load(bytes, {ignoreEncryption:true});
+    const src = await pdfLoadSafe(bytes);
     const indices = parseRange(range, src.getPageCount());
     if(!indices.length) throw new Error('empty');
     const out = await PDFDocument.create();
@@ -8608,7 +8608,7 @@ document.getElementById('sign-btn').addEventListener('click', async ()=>{
       return;
     }
     const pdfBytes = await file.arrayBuffer();
-    const pdfDoc = await PDFDocument.load(pdfBytes, {ignoreEncryption:true});
+    const pdfDoc = await pdfLoadSafe(pdfBytes);
     const pages = pdfDoc.getPages();
 
     let pageNum = parseInt(document.getElementById('sign-page').value, 10);
@@ -8842,7 +8842,7 @@ document.getElementById('stamp-btn').addEventListener('click', async ()=>{
       return;
     }
     const pdfBytes = await file.arrayBuffer();
-    const pdfDoc = await PDFDocument.load(pdfBytes, {ignoreEncryption:true});
+    const pdfDoc = await pdfLoadSafe(pdfBytes);
     const pages = pdfDoc.getPages();
 
     let pageNum = parseInt(document.getElementById('stamp-page').value, 10);
@@ -8882,6 +8882,25 @@ function uddahDigits(str, mode){
   if(mode === 'auto') return str.split('\n').map(l=> /[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(l) ? uddahDigits(l, 'ar') : uddahDigits(l, 'en')).join('\n');
   if(mode === 'en') return str.replace(/[٠-٩]/g, d=> String(d.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, d=> String(d.charCodeAt(0) - 1776));
   return str;
+}
+/* Opens a PDF for editing. Encrypted PDFs cannot be re-saved by pdf-lib (the result is a corrupt file: "root object is missing"),
+   so they are rebuilt page by page from a high-resolution render, which always gives a valid, openable file. */
+async function pdfLoadSafe(bytes){
+  const d = await PDFDocument.load(bytes, {ignoreEncryption:true});
+  if(!d.isEncrypted) return d;
+  const src = await pdfjsLib.getDocument({ data: new Uint8Array(bytes).slice() }).promise;
+  const out = await PDFDocument.create();
+  for(let i = 1; i <= src.numPages; i++){
+    const pg = await src.getPage(i), base = pg.getViewport({scale:1});
+    const sc = Math.min(3.5, 4200 / base.width, 4200 / base.height), vp = pg.getViewport({scale:sc});
+    const c = document.createElement('canvas'); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+    const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+    await pg.render({canvasContext:x, viewport:vp}).promise;
+    const blob = await new Promise(r=> c.toBlob(r, 'image/jpeg', 0.93));
+    const img = await out.embedJpg(await blob.arrayBuffer());
+    out.addPage([base.width, base.height]).drawImage(img, {x:0, y:0, width:base.width, height:base.height});
+  }
+  return out;
 }
 function renderTextToCanvas(text, fontSizePt, color, fontFamily, scale, opts){
   fontFamily = fontFamily || "'IBM Plex Sans Arabic', sans-serif";
@@ -9210,7 +9229,7 @@ document.getElementById('text-btn').addEventListener('click', async ()=>{
 
     if(textSrc.kind === 'pdf'){
       const pdfBytes = await file.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(pdfBytes, {ignoreEncryption:true});
+      const pdfDoc = await pdfLoadSafe(pdfBytes);
       const pages = pdfDoc.getPages();
       let pageNum = parseInt(document.getElementById('text-page').value, 10);
       if(!pageNum || pageNum < 1 || pageNum > pages.length) pageNum = pages.length;
@@ -9472,7 +9491,7 @@ document.getElementById('barcode-btn').addEventListener('click', async ()=>{
       });
       setStatus('barcode-status', I18N[currentLang].psSuccessImg, 'ok');
     }else{
-      const pdfDoc = await PDFDocument.load(await file.arrayBuffer(), {ignoreEncryption:true});
+      const pdfDoc = await pdfLoadSafe(await file.arrayBuffer());
       const pages = pdfDoc.getPages();
       const png = await pdfDoc.embedPng(await (await psCanvasBlob(barcodeCanvas, 'image/png')).arrayBuffer());
       let pageNum = parseInt(document.getElementById('barcode-page').value, 10);
@@ -12483,7 +12502,7 @@ document.getElementById('erase-btn').addEventListener('click', async ()=>{
     }else{
       // ---------- PDF ----------
       const pdfBytes = await file.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(pdfBytes, {ignoreEncryption:true});
+      const pdfDoc = await pdfLoadSafe(pdfBytes);
       const pages = pdfDoc.getPages();
       let pageNum = parseInt(document.getElementById('erase-page').value, 10);
       if(!pageNum || pageNum < 1 || pageNum > pages.length) pageNum = pages.length;
@@ -12622,7 +12641,7 @@ document.getElementById('watermark-btn').addEventListener('click', async ()=>{
     }
 
     const pdfBytes = await file.arrayBuffer();
-    const pdfDoc = await PDFDocument.load(pdfBytes, {ignoreEncryption:true});
+    const pdfDoc = await pdfLoadSafe(pdfBytes);
     const pages = pdfDoc.getPages();
 
     const imageCache = {};
@@ -12867,7 +12886,7 @@ document.getElementById('pagesize-btn').addEventListener('click', async ()=>{
       setStatus('pagesize-status', containFit ? I18N[currentLang].pagesizeImageSuccess : I18N[currentLang].pagesizeSuccess, 'ok');
     } else {
       const pdfBytes = await file.arrayBuffer();
-      const srcDoc = await PDFDocument.load(pdfBytes, {ignoreEncryption:true});
+      const srcDoc = await pdfLoadSafe(pdfBytes);
       const outDoc = await PDFDocument.create();
       const embeddedPages = await outDoc.embedPages(srcDoc.getPages());
       const srcPages = srcDoc.getPages();
