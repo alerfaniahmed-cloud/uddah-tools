@@ -1051,6 +1051,7 @@
           <option value="invoice" data-i18n="toolsOptInvoice">🧾 إنشاء فاتورة (مبيعات / مشتريات)</option>
           <option value="cert" data-i18n="toolsOptCert">🎓 شهادة شكر وتقدير (مدارس وأكاديميات)</option>
           <option value="cardedit" data-i18n="toolsOptCe">🪪 مصمم الكروت (كرت جديد أو تعديل كرت جاهز)</option>
+          <option value="sheet" data-i18n="toolsOptSheet">🗂️ ورقة A4 متعددة الصور (كروت)</option>
           <option value="svgconv" data-i18n="toolsOptSvg">🎨 تحويل ملف SVG إلى صورة أو PDF</option>
           <option value="cv" data-i18n="toolsOptCv">📄 السيرة الذاتية (CV) — قوالب جاهزة</option>
           <option value="eos" data-i18n="toolsOptEos">🧮 حاسبة نهاية الخدمة والإجازة (نظام العمل)</option>
@@ -1855,6 +1856,15 @@
       <div id="ce-start" class="ce-row">
         <button type="button" class="ce-big" id="ce-start-new"><span class="ce-ico">🆕</span><b data-i18n="ceStartNew">كرت جديد</b><small data-i18n="ceStartNewSub">ابدأ من كرت فاضي بالمقاس اللي تبغاه</small></button>
         <button type="button" class="ce-big" id="ce-start-img"><span class="ce-ico">📷</span><b data-i18n="ceStartImg">كرت جاهز</b><small data-i18n="ceStartImgSub">ارفع صورة كرت وعدّل عليها</small></button>
+        <button type="button" class="ce-big" id="ce-start-wed"><span class="ce-ico">💍</span><b data-i18n="ceStartWed">قوالب الأفراح والمناسبات</b><small data-i18n="ceStartWedSub">جاهزة، عدّل عليها بمرونة</small></button>
+        <button type="button" class="ce-big" id="ce-start-sheet"><span class="ce-ico">🗂️</span><b data-i18n="ceStartSheet">ورقة A4 متعددة</b><small data-i18n="ceStartSheetSub">عدة صور وكروت على صفحة</small></button>
+      </div>
+
+      <div id="ce-wed-gal" class="ce-box" style="display:none;margin-top:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:6px;"><b data-i18n="ceWedTitle">💍 قوالب الأفراح والمناسبات</b><button type="button" class="btn secondary" id="ce-wed-back" style="padding:6px 14px;min-height:0;" data-i18n="ceWedBack">⬅️ رجوع</button></div>
+        <p class="note" style="margin:0 0 8px;" data-i18n="ceWedNote">اختر قالباً ثم غيّر الأسماء والتواريخ والألوان والخطوط وحرّك أي عنصر بحرية. تقدر تحفظه كقالب مشفّر أو تنزّله PDF / صورة.</p>
+        <div id="ce-wed-cats" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
+        <div id="ce-wed-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;"></div>
       </div>
 
       <div id="ce-tpl-start" class="ce-box" style="margin-top:12px;">
@@ -1873,7 +1883,15 @@
                 <option value="c90x50" data-i18n="ceSzCard">بطاقة 9×5 سم (أفقي)</option>
                 <option value="c50x90" data-i18n="ceSzCardV">بطاقة 5×9 سم (عمودي)</option>
                 <option value="id" data-i18n="ceSzId">بطاقة هوية 8.56×5.4 سم</option>
+                <option value="s60x40" data-i18n="ceSzSmH">صغير — أفقي 6×4 سم</option>
+                <option value="s40x60" data-i18n="ceSzSmV">صغير — عمودي 4×6 سم</option>
+                <option value="m100x70" data-i18n="ceSzMdH">متوسط — أفقي 10×7 سم</option>
+                <option value="m70x100" data-i18n="ceSzMdV">متوسط — عمودي 7×10 سم</option>
+                <option value="l150x100" data-i18n="ceSzLgH">كبير — أفقي 15×10 سم</option>
+                <option value="l100x150" data-i18n="ceSzLgV">كبير — عمودي 10×15 سم</option>
+                <option value="w120x170" data-i18n="ceSzInv">دعوة 12×17 سم (عمودي)</option>
                 <option value="a6" data-i18n="ceSzA6">A6 (10.5×14.8 سم)</option>
+                <option value="a5" data-i18n="ceSzA5">A5 (14.8×21 سم)</option>
                 <option value="sq" data-i18n="ceSzSq">مربع 8×8 سم</option>
                 <option value="custom" data-i18n="ceSzCustom">مقاس مخصص</option>
               </select></div>
@@ -1913,6 +1931,12 @@
           <button type="button" class="btn secondary" id="ce-dup" data-i18n="ceDup">⧉ تكرار</button>
           <button type="button" class="btn secondary" id="ce-del" data-i18n="ceDel">🗑️ حذف</button>
         </div>
+        <div id="ce-fmtbar" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 6px;">
+          <button type="button" class="btn secondary" id="ce-fmt-copy" data-i18n="ceFmtCopy">🎨 نسخ التنسيق</button>
+          <button type="button" class="btn secondary" id="ce-fmt-sel" data-i18n="ceFmtSel">🎯 تطبيق على المحدد</button>
+          <button type="button" class="btn secondary" id="ce-fmt-all" data-i18n="ceFmtAll">🧩 تطبيق على كل المشابه</button>
+        </div>
+        <label style="display:flex;align-items:center;gap:6px;margin:0 0 8px;"><input type="checkbox" id="ce-fmt-both"> <span data-i18n="ceFmtBoth">تطبيق على الوجهين</span></label>
         <div id="ce-rbar" style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin:0 0 8px;">
           <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="ce-ruler-on" checked> <span data-i18n="ceRulerOn">📏 إظهار المسطرة</span></label>
           <div class="field" style="margin:0;min-width:110px;"><label for="ce-ruler-unit" data-i18n="ceRulerUnit">وحدة القياس</label><select id="ce-ruler-unit"><option value="cm" data-i18n="ceUnitCm">سم</option><option value="mm" data-i18n="ceUnitMm">مم</option></select></div>
@@ -2111,6 +2135,122 @@
         </div>
         <p class="note" id="ce-note-cover" data-i18n="ceNote">التغطية التلقائية تعطي أفضل نتيجة على الخلفيات ذات اللون الواحد. إن كانت الخلفية متدرجة أو فيها زخرفة فاختر لوناً يدوياً أو غطِّ منطقة أصغر.</p>
       </div>
+    </div>
+    <div class="card tools-card" id="tools-sheet">
+      <h2 data-sh="title">ورقة A4 متعددة الصور (كروت)</h2>
+      <p class="hint" data-sh="hint">ضع عدة صور أو كروت على صفحة A4 بمقاسها الحقيقي: كبّر وصغّر وحرّك كل صورة بيدك، أو اختر مقاس صغير / متوسط / كبير، وانسخ التنسيق وطبّقه على بعض الصور أو كلها. كل شيء يتم داخل متصفحك ولا يُرفع أي ملف.</p>
+      <input type="file" id="sh-file" accept="image/*,.svg" multiple style="display:none;">
+
+      <div class="ce-row" id="sh-addrow">
+        <button type="button" class="ce-big" id="sh-add"><span class="ce-ico">🖼️</span><b data-sh="addImgs">إضافة صور</b><small data-sh="addImgsSub">اختر صورة أو عدة صور دفعة واحدة</small></button>
+        <button type="button" class="ce-big" id="sh-addce"><span class="ce-ico">🪪</span><b data-sh="addCard">الكرت من المصمم</b><small data-sh="addCardSub">الوجه والظهر بمقاسه الحقيقي</small></button>
+      </div>
+
+      <div class="ce-box" style="margin-top:12px;">
+        <div class="row">
+          <div class="field"><label for="sh-orient" data-sh="orient">اتجاه الورقة</label><select id="sh-orient"><option value="p" data-sh="orientP">طولي</option><option value="l" data-sh="orientL">عرضي</option></select></div>
+          <div class="field"><label for="sh-margin"><span data-sh="margin">الهامش</span> (<span data-sh="mm">مم</span>)</label><input type="number" id="sh-margin" min="0" max="40" step="1" value="10" dir="ltr"></div>
+          <div class="field"><label for="sh-gap"><span data-sh="gap">المسافة بين الصور</span> (<span data-sh="mm">مم</span>)</label><input type="number" id="sh-gap" min="0" max="40" step="1" value="4" dir="ltr"></div>
+          <div class="field"><label for="sh-bg" data-sh="bg">لون الورقة</label><input type="color" id="sh-bg" value="#ffffff"></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
+          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-autoadd" checked> <span data-sh="autoAdd">ترتيب تلقائي عند إضافة صور</span></label>
+          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-grid"> <span data-sh="grid">📏 شبكة (كل ١ سم)</span></label>
+          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-snap" checked> <span data-sh="snap">مغناطيس الحواف</span></label>
+        </div>
+      </div>
+
+      <div class="ce-box" style="margin-top:12px;">
+        <b data-sh="sizesTitle">📐 مقاسات الكروت</b>
+        <p class="note" style="margin:6px 0 8px;" data-sh="sizesNote">تنطبق على الصور المحددة، وإن لم تحدد شيئاً فعلى كل الصور.</p>
+        <div id="sh-sizes" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px;">
+          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="s"><span data-sh="szS">صغير</span><br><small>6 × 4 <span data-sh="cm">سم</span></small></button>
+          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="m"><span data-sh="szM">متوسط</span><br><small>9 × 6 <span data-sh="cm">سم</span></small></button>
+          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="l"><span data-sh="szL">كبير</span><br><small>14 × 9.5 <span data-sh="cm">سم</span></small></button>
+          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="id"><span data-sh="szId">بطاقة هوية</span><br><small>8.56 × 5.4 <span data-sh="cm">سم</span></small></button>
+          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="full"><span data-sh="szFull">ملء الصفحة</span><br><small data-sh="szFullSub">داخل الهوامش</small></button>
+        </div>
+        <label style="display:flex;align-items:center;gap:6px;margin:10px 0 0;"><input type="checkbox" id="sh-keep" checked> <span data-sh="keep">الحفاظ على نسبة كل صورة (بدون قص)</span></label>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;">
+          <button type="button" class="btn secondary" id="sh-up10">＋10%</button>
+          <button type="button" class="btn secondary" id="sh-dn10">－10%</button>
+          <button type="button" class="btn secondary" id="sh-eqw" data-sh="eqW">نفس العرض</button>
+          <button type="button" class="btn secondary" id="sh-eqh" data-sh="eqH">نفس الارتفاع</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:8px;">
+          <button type="button" class="btn" id="sh-arrange" data-sh="arrange">🧩 ترتيب تلقائي</button>
+          <button type="button" class="btn secondary" id="sh-center" data-sh="center">⏺️ توسيط على الصفحة</button>
+        </div>
+      </div>
+
+      <div id="sh-tbar" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0 8px;">
+        <button type="button" class="btn secondary" id="sh-selall" data-sh="selAll">☑️ تحديد الكل</button>
+        <button type="button" class="btn secondary" id="sh-multi" data-sh="multi">➕ تحديد متعدد</button>
+        <button type="button" class="btn secondary" id="sh-dup" data-sh="dup">⧉ تكرار</button>
+        <button type="button" class="btn secondary" id="sh-del" data-sh="del">🗑️ حذف</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 8px;">
+        <button type="button" class="btn secondary" id="sh-front" data-sh="toFront">⬆️ للأمام</button>
+        <button type="button" class="btn secondary" id="sh-back" data-sh="toBack">⬇️ للخلف</button>
+        <button type="button" class="btn secondary" id="sh-pgprev" data-sh="pgPrev">▶ صفحة سابقة</button>
+        <button type="button" class="btn secondary" id="sh-pgnext" data-sh="pgNext">◀ صفحة تالية</button>
+      </div>
+      <p class="note" id="sh-pginfo" style="margin:0 0 6px;font-weight:600;"></p>
+      <p class="note" style="margin:0 0 8px;" data-sh="dragNote">المس صورة لتحديدها ثم اسحبها لتحريكها، أو اسحب الدوائر في زواياها لتكبيرها وتصغيرها. اضغط Shift أو Ctrl مع الصور لتحديد أكثر من صورة.</p>
+
+      <div id="sh-stage" style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;text-align:center;">
+        <div dir="ltr" style="display:inline-block;max-width:100%;vertical-align:top;">
+          <canvas id="sh-canvas" style="display:block;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.25);touch-action:pan-y;"></canvas>
+        </div>
+      </div>
+
+      <div id="sh-props" class="ce-box" style="display:none;margin-top:12px;">
+        <b id="sh-ptitle" style="font-size:1.05rem;"></b>
+        <div class="row" style="margin-top:10px;">
+          <div class="field"><label for="sh-x"><span data-sh="px">من اليسار</span> (<span data-sh="cm">سم</span>)</label><input type="number" id="sh-x" step="0.1" dir="ltr"></div>
+          <div class="field"><label for="sh-y"><span data-sh="py">من الأعلى</span> (<span data-sh="cm">سم</span>)</label><input type="number" id="sh-y" step="0.1" dir="ltr"></div>
+          <div class="field"><label for="sh-w"><span data-sh="pw">العرض</span> (<span data-sh="cm">سم</span>)</label><input type="number" id="sh-w" step="0.1" min="0.5" dir="ltr"></div>
+          <div class="field"><label for="sh-h"><span data-sh="ph">الارتفاع</span> (<span data-sh="cm">سم</span>)</label><input type="number" id="sh-h" step="0.1" min="0.5" dir="ltr"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="sh-pg" data-sh="pgNo">رقم الصفحة</label><input type="number" id="sh-pg" min="1" max="20" step="1" value="1" dir="ltr"></div>
+          <div class="field"><label for="sh-rot"><span data-sh="rot">الدوران</span> <span id="sh-rot-v">0</span>°</label><input type="range" id="sh-rot" min="-180" max="180" step="1" value="0"></div>
+          <div class="field"><label for="sh-fit" data-sh="fit">ملاءمة الصورة</label><select id="sh-fit"><option value="cover" data-sh="fitCover">تعبئة (قص الزائد)</option><option value="contain" data-sh="fitContain">كاملة (بدون قص)</option><option value="stretch" data-sh="fitStretch">تمديد</option></select></div>
+          <div class="field"><label for="sh-op"><span data-sh="op">الشفافية</span> <span id="sh-op-v">100</span>٪</label><input type="range" id="sh-op" min="10" max="100" step="1" value="100"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="sh-bw"><span data-sh="bw">سُمك الإطار</span> (<span data-sh="mm">مم</span>)</label><input type="number" id="sh-bw" min="0" max="10" step="0.1" value="0" dir="ltr"></div>
+          <div class="field"><label for="sh-bc" data-sh="bc">لون الإطار</label><input type="color" id="sh-bc" value="#000000"></div>
+          <div class="field"><label for="sh-br"><span data-sh="br">استدارة الزوايا</span> (<span data-sh="mm">مم</span>)</label><input type="number" id="sh-br" min="0" max="50" step="0.5" value="0" dir="ltr"></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
+          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-lock" checked> <span data-sh="lock">تثبيت نسبة العرض للارتفاع</span></label>
+          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-shadow"> <span data-sh="shadow">ظل خفيف</span></label>
+        </div>
+        <div class="ce-box" style="margin-top:12px;">
+          <b data-sh="fmtTitle">🎨 نسخ التنسيق</b>
+          <p class="note" style="margin:6px 0 8px;" data-sh="fmtNote">انسخ إطار وظل وشفافية صورة، ثم طبّقها على صور أخرى. فعّل «مع المقاس» لنسخ الحجم أيضاً.</p>
+          <label style="display:flex;align-items:center;gap:6px;margin:0 0 8px;"><input type="checkbox" id="sh-fmt-size"> <span data-sh="fmtSize">مع المقاس</span></label>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+            <button type="button" class="btn secondary" id="sh-fmt-copy" data-sh="fmtCopy">🎨 نسخ تنسيق المحددة</button>
+            <button type="button" class="btn secondary" id="sh-fmt-sel" data-sh="fmtSel">🎯 تطبيق على المحدد</button>
+            <button type="button" class="btn secondary" id="sh-fmt-all" data-sh="fmtAll">🧩 تطبيق على الكل</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ce-box" style="margin-top:14px;">
+        <div class="row">
+          <div class="field"><label for="sh-dpi" data-sh="dpi">الدقة</label><select id="sh-dpi"><option value="200">200 DPI</option><option value="300" selected>300 DPI (<span>A4 2480×3508</span>)</option><option value="450">450 DPI</option></select></div>
+          <div class="field"><label for="sh-cut" data-sh="cut">علامات القص</label><select id="sh-cut"><option value="0" data-sh="cutNo">بدون</option><option value="1" data-sh="cutYes">علامات صغيرة عند الزوايا</option></select></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
+          <button type="button" class="btn" id="sh-pdf" data-sh="dlPdf">تنزيل PDF (كل الصفحات)</button>
+          <button type="button" class="btn secondary" id="sh-png" data-sh="dlPng">تنزيل صورة (الصفحة الحالية)</button>
+        </div>
+        <div id="sh-status"></div>
+      </div>
+      <p class="note" data-sh="privacy">الصور تبقى على جهازك فقط ولا تُحفظ في أي مكان: إن أغلقت الصفحة تُمسح.</p>
     </div>
     <div class="card tools-card" id="tools-svgconv">
       <h2 data-i18n="svgTitle">تحويل SVG إلى صورة أو PDF</h2>
@@ -3118,20 +3258,22 @@
         <p class="note" style="margin-top:2px;font-weight:600;" data-i18n="eraseClickNote">👆 اضغط مباشرة على أي نص موجود بالصفحة لتعديله فوراً في نفس مكانه — زي "فحص العنصر" بالضبط.</p>
         <p class="note" style="margin-top:2px;font-weight:600;" data-i18n="eraseDrawNote">🖊️ اسحب على مكان فاضي بالصورة لترسم منطقة مسح جديدة، أو اسحب داخل منطقة موجودة لتحريك نصها بحرية كاملة.</p>
         <p class="note" style="margin-top:2px;" data-i18n="eraseDashNote">الخط المتقطع البرتقالي حوالين كل منطقة مسح يظهر بالمعاينة بس عشان تشوف مكانها بوضوح — ما يظهر إطلاقاً بالملف النهائي.</p>
+        <label style="display:flex;align-items:center;gap:8px;margin:6px 0 4px;"><input type="checkbox" id="erase-snap" checked> <span>🎯 ضبط حدود المسح تلقائياً على الحبر الفعلي (لا يقطع حرفاً ولا يلمس الأقواس المجاورة)</span></label>
         <label style="display:flex;align-items:center;gap:8px;margin:6px 0 10px;"><input type="checkbox" id="erase-show-outline" checked onchange="renderErasePreview()"> <span data-i18n="eraseShowOutline">إظهار حدود مناطق المسح في المعاينة (للضبط فقط — لا تظهر في الملف النهائي)</span></label>
         <div class="row" style="align-items:center;margin-bottom:8px;">
           <div class="field" style="flex:2;margin-bottom:0;">
             <label for="erase-zoom"><span data-i18n="zoomLabel">تكبير المعاينة:</span> <span id="erase-zoom-val">100</span>٪</label>
-            <input type="range" id="erase-zoom" min="50" max="250" step="10" value="100" style="width:100%;">
+            <input type="range" id="erase-zoom" min="50" max="400" step="10" value="100" style="width:100%;">
           </div>
           <div style="flex:0 0 auto;display:flex;gap:6px;">
             <button type="button" class="btn secondary" id="erase-zoom-out" style="padding:7px 12px;font-size:1rem;line-height:1;">−</button>
             <button type="button" class="btn secondary" id="erase-zoom-in" style="padding:7px 12px;font-size:1rem;line-height:1;">+</button>
           </div>
         </div>
+        <div id="erase-chips" style="display:none;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:10px;margin-bottom:8px;"></div>
         <div style="max-width:100%;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:8px;">
           <div id="erase-preview-container" style="position:relative;display:inline-block;line-height:0;background:#fff;">
-            <canvas id="erase-preview-page"></canvas>
+            <canvas id="erase-preview-page" style="direction:ltr;"></canvas>
             <div id="erase-text-layer" class="erase-text-layer"></div>
             <input type="text" id="erase-inline-editor" style="position:absolute;display:none;border:2px solid #2b6cb0;border-radius:3px;background:rgba(255,255,255,0.97);padding:0;margin:0;font-family:var(--font-display);box-sizing:border-box;z-index:20;">
           </div>
@@ -4289,7 +4431,7 @@ const I18N = {
     ceEncDelTitle: '🗑️ حذف قالب مشفّر — اكتب كلمة السر للتأكيد',
     ceEncExpTitle: '⬇️ تنزيل القالب مشفّرًا — اختر كلمة سر',
     toolsOptCv: '📄 السيرة الذاتية (CV) — قوالب جاهزة', cvTitle: 'السيرة الذاتية (CV) — قوالب جاهزة', cvHint: 'اختر قالبًا احترافيًا، عبّئ بياناتك فقط، وانزّل سيرتك PDF جاهزة للطباعة والتقديم. كل شيء يعمل داخل متصفحك ولا يُرفع أي شيء.',
-    toolsOptLink:'🔗 مصلّح الروابط (يفتح أي رابط)', lkTitle:'مصلّح الروابط', lkHint:'الصق أي رابط أو أكثر (كل رابط في سطر) أو إحداثيات أو رقم جوال، وسأحوّله إلى رابط صحيح يفتح مباشرة.', lkIn:'الروابط', lkPh:'مثال: google.com أو 24.418529, 46.842052 أو 0555555555', lkWww:'إضافة www. عند الإمكان', lkHttps:'تحويل إلى https', lkClean:'تبسيط الرابط (حذف التتبّع والإضافات غير اللازمة)', lkLabel:'النص المعروض بدل الرابط', lkLabelPh:'مثال: www.goog', lkRich:'نسخ كرابط بنص', lkMd:'Markdown', lkHtml:'HTML', lkShort:'✂️ تقصير', lkShortBusy:'جارٍ التقصير…', lkShortFail:'تعذّر التقصير (يحتاج إنترنت، وقد تحجب بعض الشبكات الخدمة)', lkShortNote:'التقصير يرسل الرابط إلى خدمة is.gd الخارجية، فلا تقصّر روابط خاصة أو حساسة.', lkF_short:'قُصّر عبر is.gd', lkF_simp:'بُسّط الرابط', lkCopiedRich:'تم النسخ، الصقه في Word أو البريد ليظهر كرابط بنص ✓', lkOpen:'فتح', lkCopy:'نسخ', lkCopyAll:'نسخ الكل', lkCopied:'تم النسخ ✓', lkNone:'الصق رابطًا في الأعلى.', lkNote:'ملاحظة: إضافة www. تناسب أغلب المواقع، لكن بعضها لا يعمل معها، ولذلك أتجنبها في الروابط المختصرة وروابط واتساب ويوتيوب والنطاقات الفرعية. افتح الرابط للتأكد منه قبل اعتماده.', lkSample:'✨ مثال', lkBad:'لم أفهم هذا السطر، تأكد من كتابته', lkF_https:'أُضيف https', lkF_www:'أُضيف www', lkF_coord:'إحداثيات → رابط خرائط قوقل', lkF_swap:'قُلب ترتيب الإحداثيات لأنها خارج موقعها (خط العرض أولًا)', lkF_clean:'حُذف التتبّع', lkF_wa:'رقم جوال → رابط واتساب', lkF_mail:'بريد إلكتروني → رابط مراسلة', lkF_skip:'لم يُضف www (رابط مختصر أو نطاق فرعي أو خاص)', lkF_ok:'الرابط سليم', lkF_dms:'درجات ودقائق → إحداثيات عشرية', toolsOptEos:'🧮 حاسبة نهاية الخدمة والإجازة (نظام العمل)', eosTitle:'حاسبة مكافأة نهاية الخدمة والإجازة', eosHint:'احسب مستحقاتك عند انتهاء العمل حسب نظام العمل السعودي: مكافأة نهاية الخدمة وبدل الإجازة المتبقية.', eosStart:'تاريخ بداية العمل', eosEnd:'تاريخ نهاية العمل', eosWage:'آخر أجر شهري كامل (الأساسي + البدلات الثابتة)', eosReason:'سبب انتهاء العلاقة', eosR1:'إنهاء العقد من صاحب العمل أو انتهاء مدته', eosR2:'استقالة العامل', eosR3:'استقالة بسبب إخلال صاحب العمل بالتزاماته (المادة 81)', eosR4:'استقالة لظرف قاهر خارج إرادة العامل', eosR5:'استقالة العاملة خلال 6 أشهر من الزواج أو 3 أشهر من الولادة', eosR6:'فصل من صاحب العمل في حالات المادة 80 (لا مكافأة)', eosLeave:'رصيد الإجازة المتبقية (بالأيام)', eosBtn:'احسب', eosBad:'تأكد من التواريخ والأجر: تاريخ النهاية بعد تاريخ البداية والأجر أكبر من صفر.', eosRes:'النتيجة', eosDur:'مدة الخدمة', eosY:'سنة', eosM:'شهر', eosD:'يوم', eosFirst:'أول 5 سنوات (نصف شهر عن كل سنة)', eosAfter:'ما بعد 5 سنوات (شهر كامل عن كل سنة)', eosGross:'إجمالي المكافأة النظامية', eosFrac:'النسبة المستحقة', eosEos:'مكافأة نهاية الخدمة المستحقة', eosLeavePay:'بدل الإجازة المتبقية (الأجر ÷ 30 × الأيام)', eosTotal:'الإجمالي', eosCurr:'ريال', eosNone:'لا تستحق مكافأة (أقل من سنتين في الاستقالة)', eosFull:'كاملة', eosThird:'ثلث', eosTwoThirds:'ثلثان', eosNoReward:'لا مكافأة', eosCopy:'نسخ النتيجة', eosCopied:'تم النسخ ✓', eosNote:'تقدير استرشادي مبني على المواد 84 و85 من نظام العمل: نصف شهر عن كل سنة من أول 5 سنوات وشهر كامل بعدها، وفي الاستقالة تُمنح ثلث المكافأة بعد سنتين وثلثيها بعد 5 سنوات وكاملة بعد 10. تُحسب الكسور بالأشهر والأيام ويُحتسب يوم النهاية يومًا عاملًا. قد يكون عقدك أو لائحة شركتك أفضل للعامل، فيُعمل بها. لا تدخل هنا مستحقات أخرى كالأجر المتأخر وبدل الإشعار. راجع نظام العمل ووزارة الموارد البشرية للحالات الخاصة.', ceStTsAll: 'حجم كل النصوص داخل الختم', ceStRingW: 'سماكة حلقة الكتابة', ceStTsT: 'النص العلوي', ceStTsB: 'النص السفلي', ceStTs1: 'السطر 1 (وسط)', ceStTs2: 'السطر 2 (وسط)', ceStTs3: 'السطر 3 (وسط)', ceStTs4: 'السطر 4 (وسط)',
+    toolsOptLink:'🔗 مصلّح الروابط (يفتح أي رابط)', lkTitle:'مصلّح الروابط', lkHint:'الصق أي رابط أو أكثر (كل رابط في سطر) أو إحداثيات أو رقم جوال، وسأحوّله إلى رابط صحيح يفتح مباشرة.', lkIn:'الروابط', lkPh:'مثال: google.com أو 24.418529, 46.842052 أو 0555555555', lkWww:'إضافة www. عند الإمكان', lkHttps:'تحويل إلى https', lkClean:'تبسيط الرابط (حذف التتبّع والإضافات غير اللازمة)', lkLabel:'النص المعروض بدل الرابط', lkLabelPh:'مثال: www.goog', lkRich:'نسخ كرابط بنص', lkMd:'Markdown', lkHtml:'HTML', lkShort:'✂️ تقصير', lkShortBusy:'جارٍ التقصير…', lkShortFail:'تعذّر التقصير (يحتاج إنترنت، وقد تحجب بعض الشبكات الخدمة)', lkShortNote:'التقصير يرسل الرابط إلى خدمة is.gd الخارجية، فلا تقصّر روابط خاصة أو حساسة.', lkF_short:'قُصّر عبر is.gd', lkF_simp:'بُسّط الرابط', lkCopiedRich:'تم النسخ، الصقه في Word أو البريد ليظهر كرابط بنص ✓', lkOpen:'فتح', lkCopy:'نسخ', lkCopyAll:'نسخ الكل', lkCopied:'تم النسخ ✓', lkNone:'الصق رابطًا في الأعلى.', lkNote:'ملاحظة: إضافة www. تناسب أغلب المواقع، لكن بعضها لا يعمل معها، ولذلك أتجنبها في الروابط المختصرة وروابط واتساب ويوتيوب والنطاقات الفرعية. افتح الرابط للتأكد منه قبل اعتماده.', lkSample:'✨ مثال', lkBad:'لم أفهم هذا السطر، تأكد من كتابته', lkF_https:'أُضيف https', lkF_www:'أُضيف www', lkF_coord:'إحداثيات → رابط خرائط قوقل', lkF_swap:'قُلب ترتيب الإحداثيات لأنها خارج موقعها (خط العرض أولًا)', lkF_clean:'حُذف التتبّع', lkF_wa:'رقم جوال → رابط واتساب', lkF_mail:'بريد إلكتروني → رابط مراسلة', lkF_skip:'لم يُضف www (رابط مختصر أو نطاق فرعي أو خاص)', lkF_ok:'الرابط سليم', lkF_dms:'درجات ودقائق → إحداثيات عشرية', toolsOptEos:'🧮 حاسبة نهاية الخدمة والإجازة (نظام العمل)', eosTitle:'حاسبة مكافأة نهاية الخدمة والإجازة', eosHint:'احسب مستحقاتك عند انتهاء العمل حسب نظام العمل السعودي: مكافأة نهاية الخدمة وبدل الإجازة المتبقية.', eosStart:'تاريخ بداية العمل', eosEnd:'تاريخ نهاية العمل', eosWage:'آخر أجر شهري كامل (الأساسي + البدلات الثابتة)', eosReason:'سبب انتهاء العلاقة', eosR1:'إنهاء العقد من صاحب العمل أو انتهاء مدته', eosR2:'استقالة العامل', eosR3:'استقالة بسبب إخلال صاحب العمل بالتزاماته (المادة 81)', eosR4:'استقالة لظرف قاهر خارج إرادة العامل', eosR5:'استقالة العاملة خلال 6 أشهر من الزواج أو 3 أشهر من الولادة', eosR6:'فصل من صاحب العمل في حالات المادة 80 (لا مكافأة)', eosLeave:'رصيد الإجازة المتبقية (بالأيام)', eosBtn:'احسب', eosBad:'تأكد من التواريخ والأجر: تاريخ النهاية بعد تاريخ البداية والأجر أكبر من صفر.', eosRes:'النتيجة', eosDur:'مدة الخدمة', eosY:'سنة', eosM:'شهر', eosD:'يوم', eosFirst:'أول 5 سنوات (نصف شهر عن كل سنة)', eosAfter:'ما بعد 5 سنوات (شهر كامل عن كل سنة)', eosGross:'إجمالي المكافأة النظامية', eosFrac:'النسبة المستحقة', eosEos:'مكافأة نهاية الخدمة المستحقة', eosLeavePay:'بدل الإجازة المتبقية (الأجر ÷ 30 × الأيام)', eosTotal:'الإجمالي', eosCurr:'ريال', eosNone:'لا تستحق مكافأة (أقل من سنتين في الاستقالة)', eosFull:'كاملة', eosThird:'ثلث', eosTwoThirds:'ثلثان', eosNoReward:'لا مكافأة', eosCopy:'نسخ النتيجة', eosCopied:'تم النسخ ✓', eosNote:'تقدير استرشادي مبني على المواد 84 و85 من نظام العمل: نصف شهر عن كل سنة من أول 5 سنوات وشهر كامل بعدها، وفي الاستقالة تُمنح ثلث المكافأة بعد سنتين وثلثيها بعد 5 سنوات وكاملة بعد 10. تُحسب الكسور بالأشهر والأيام ويُحتسب يوم النهاية يومًا عاملًا. قد يكون عقدك أو لائحة شركتك أفضل للعامل، فيُعمل بها. لا تدخل هنا مستحقات أخرى كالأجر المتأخر وبدل الإشعار. راجع نظام العمل ووزارة الموارد البشرية للحالات الخاصة.', ceSzSmH:'صغير — أفقي 6×4 سم', ceSzSmV:'صغير — عمودي 4×6 سم', ceSzMdH:'متوسط — أفقي 10×7 سم', ceSzMdV:'متوسط — عمودي 7×10 سم', ceSzLgH:'كبير — أفقي 15×10 سم', ceSzLgV:'كبير — عمودي 10×15 سم', ceSzA5:'A5 (14.8×21 سم)', ceSzInv:'دعوة 12×17 سم (عمودي)', ceFmtCopy:'🎨 نسخ التنسيق', ceFmtSel:'🎯 تطبيق على المحدد', ceFmtAll:'🧩 تطبيق على كل المشابه', ceFmtBoth:'تطبيق على الوجهين', ceStartWed:'قوالب الأفراح والمناسبات', ceStartWedSub:'جاهزة، عدّل عليها بمرونة', ceStartSheet:'ورقة A4 متعددة', ceStartSheetSub:'عدة صور وكروت على صفحة', ceWedTitle:'💍 قوالب الأفراح والمناسبات', ceWedNote:'اختر قالباً ثم غيّر الأسماء والتواريخ والألوان والخطوط وحرّك أي عنصر بحرية. تقدر تحفظه كقالب مشفّر أو تنزّله PDF / صورة.', ceWedBack:'⬅️ رجوع', toolsOptSheet:'🗂️ ورقة A4 متعددة الصور (كروت)', ceStTsAll: 'حجم كل النصوص داخل الختم', ceStRingW: 'سماكة حلقة الكتابة', ceStTsT: 'النص العلوي', ceStTsB: 'النص السفلي', ceStTs1: 'السطر 1 (وسط)', ceStTs2: 'السطر 2 (وسط)', ceStTs3: 'السطر 3 (وسط)', ceStTs4: 'السطر 4 (وسط)',
     ceStTsC: 'حجم كتابة الوسط', ceStTsR: 'حجم الكتابة الدائرية',
     ceTplTitle: '📁 قوالبي المحفوظة', ceTplSave: '💾 حفظ كقالب', ceTplName: 'اسم القالب', ceTplNameDef: 'قالب الكرت', ceTplSaved: 'تم حفظ القالب ✓ يبقى في هذا المتصفح، وللاحتياط صدّره كملف.', ceTplFail: 'تعذّر الحفظ في المتصفح. صدّر القالب كملف بدلاً من ذلك.', ceTplOpen: 'فتح', ceTplDel: 'حذف', ceTplExp: '⬇️ تصدير القالب كملف', ceTplImp: '⬆️ استيراد قالب من ملف', ceTplNone: 'ما فيه قوالب محفوظة بعد.', ceTplBad: 'هذا الملف ليس قالب كرت صالحاً.', ceTplAuto: 'نسخة تلقائية قبل الفتح', ceTplOpened: 'تم فتح القالب ✓',
     signNameLabel: '✍️ اكتب اسمك وحوّله إلى توقيع', signNamePh: 'اكتب الاسم هنا', signInkLabel: 'لون الحبر', signStyleHint: 'اختر شكل التوقيع من الأشكال تحت، وبعدها تقدر تسحبه وتغيّر حجمه مثل أي توقيع.',
@@ -5095,7 +5237,7 @@ const I18N = {
     ceEncDelTitle: '🗑️ Delete encrypted template — enter the password to confirm',
     ceEncExpTitle: '⬇️ Download the template encrypted — choose a password',
     toolsOptCv: '📄 CV / Resume — ready templates', cvTitle: 'CV / Resume — ready-made templates', cvHint: 'Pick a professional template, fill in your details only, and download a print-ready PDF. Everything runs in your browser — nothing is uploaded.',
-    toolsOptLink:'🔗 Link fixer (make any link open)', lkTitle:'Link fixer', lkHint:'Paste one or more links (one per line), coordinates or a phone number, and I will turn each into a valid link that opens directly.', lkIn:'Links', lkPh:'e.g. google.com or 24.418529, 46.842052 or 0555555555', lkWww:'Add www. when possible', lkHttps:'Upgrade to https', lkClean:'Simplify the link (remove tracking and unneeded extras)', lkLabel:'Display text instead of the link', lkLabelPh:'e.g. www.goog', lkRich:'Copy as link with text', lkMd:'Markdown', lkHtml:'HTML', lkShort:'✂️ Shorten', lkShortBusy:'Shortening…', lkShortFail:'Could not shorten (needs internet; some networks block the service)', lkShortNote:'Shortening sends the link to the external is.gd service, so do not shorten private or sensitive links.', lkF_short:'Shortened via is.gd', lkF_simp:'Link simplified', lkCopiedRich:'Copied; paste it into Word or email to get a link with text ✓', lkOpen:'Open', lkCopy:'Copy', lkCopyAll:'Copy all', lkCopied:'Copied ✓', lkNone:'Paste a link above.', lkNote:'Note: adding www. suits most sites but breaks some, so I skip it for short links, WhatsApp, YouTube and subdomains. Open the link to check it before relying on it.', lkSample:'✨ Example', lkBad:'I could not understand this line, check how it is written', lkF_https:'https added', lkF_www:'www added', lkF_coord:'Coordinates → Google Maps link', lkF_swap:'Coordinate order flipped (latitude first) because it was out of place', lkF_clean:'Tracking removed', lkF_wa:'Phone number → WhatsApp link', lkF_mail:'Email → mail link', lkF_skip:'www not added (short link, subdomain or special)', lkF_ok:'Link is fine', lkF_dms:'Degrees/minutes → decimal coordinates', toolsOptEos:'🧮 End-of-service & leave calculator (Saudi Labor Law)', eosTitle:'End-of-service award & leave pay calculator', eosHint:'Work out what you are owed when employment ends under the Saudi Labor Law: the end-of-service award and unused leave pay.', eosStart:'Start date', eosEnd:'End date', eosWage:'Last full monthly wage (basic + fixed allowances)', eosReason:'Reason employment ended', eosR1:'Terminated by the employer or contract expired', eosR2:'Employee resigns', eosR3:'Resignation due to employer breach (Article 81)', eosR4:'Resignation due to force majeure beyond the employee’s control', eosR5:'Female employee resigns within 6 months of marriage or 3 months of childbirth', eosR6:'Dismissed in the cases of Article 80 (no award)', eosLeave:'Unused leave balance (days)', eosBtn:'Calculate', eosBad:'Check the dates and wage: the end date must be after the start date and the wage above zero.', eosRes:'Result', eosDur:'Length of service', eosY:'y', eosM:'m', eosD:'d', eosFirst:'First 5 years (half a month per year)', eosAfter:'After 5 years (a full month per year)', eosGross:'Statutory award (total)', eosFrac:'Share payable', eosEos:'End-of-service award payable', eosLeavePay:'Unused leave pay (wage ÷ 30 × days)', eosTotal:'Total', eosCurr:'SAR', eosNone:'No award (under 2 years on resignation)', eosFull:'Full', eosThird:'One third', eosTwoThirds:'Two thirds', eosNoReward:'No award', eosCopy:'Copy result', eosCopied:'Copied ✓', eosNote:'Indicative estimate based on Articles 84 and 85 of the Labor Law: half a month per year for the first 5 years and a full month after that; on resignation one third after 2 years, two thirds after 5 and the full award after 10. Fractions are counted in months and days and the end date counts as a worked day. Your contract or company policy may be more favourable and then applies. Other dues such as unpaid wages and notice pay are not included. Check the Labor Law and the Ministry of Human Resources for special cases.', ceStTsAll: 'Size of all stamp text', ceStRingW: 'Text ring thickness', ceStTsT: 'Top text', ceStTsB: 'Bottom text', ceStTs1: 'Line 1 (centre)', ceStTs2: 'Line 2 (centre)', ceStTs3: 'Line 3 (centre)', ceStTs4: 'Line 4 (centre)',
+    toolsOptLink:'🔗 Link fixer (make any link open)', lkTitle:'Link fixer', lkHint:'Paste one or more links (one per line), coordinates or a phone number, and I will turn each into a valid link that opens directly.', lkIn:'Links', lkPh:'e.g. google.com or 24.418529, 46.842052 or 0555555555', lkWww:'Add www. when possible', lkHttps:'Upgrade to https', lkClean:'Simplify the link (remove tracking and unneeded extras)', lkLabel:'Display text instead of the link', lkLabelPh:'e.g. www.goog', lkRich:'Copy as link with text', lkMd:'Markdown', lkHtml:'HTML', lkShort:'✂️ Shorten', lkShortBusy:'Shortening…', lkShortFail:'Could not shorten (needs internet; some networks block the service)', lkShortNote:'Shortening sends the link to the external is.gd service, so do not shorten private or sensitive links.', lkF_short:'Shortened via is.gd', lkF_simp:'Link simplified', lkCopiedRich:'Copied; paste it into Word or email to get a link with text ✓', lkOpen:'Open', lkCopy:'Copy', lkCopyAll:'Copy all', lkCopied:'Copied ✓', lkNone:'Paste a link above.', lkNote:'Note: adding www. suits most sites but breaks some, so I skip it for short links, WhatsApp, YouTube and subdomains. Open the link to check it before relying on it.', lkSample:'✨ Example', lkBad:'I could not understand this line, check how it is written', lkF_https:'https added', lkF_www:'www added', lkF_coord:'Coordinates → Google Maps link', lkF_swap:'Coordinate order flipped (latitude first) because it was out of place', lkF_clean:'Tracking removed', lkF_wa:'Phone number → WhatsApp link', lkF_mail:'Email → mail link', lkF_skip:'www not added (short link, subdomain or special)', lkF_ok:'Link is fine', lkF_dms:'Degrees/minutes → decimal coordinates', toolsOptEos:'🧮 End-of-service & leave calculator (Saudi Labor Law)', eosTitle:'End-of-service award & leave pay calculator', eosHint:'Work out what you are owed when employment ends under the Saudi Labor Law: the end-of-service award and unused leave pay.', eosStart:'Start date', eosEnd:'End date', eosWage:'Last full monthly wage (basic + fixed allowances)', eosReason:'Reason employment ended', eosR1:'Terminated by the employer or contract expired', eosR2:'Employee resigns', eosR3:'Resignation due to employer breach (Article 81)', eosR4:'Resignation due to force majeure beyond the employee’s control', eosR5:'Female employee resigns within 6 months of marriage or 3 months of childbirth', eosR6:'Dismissed in the cases of Article 80 (no award)', eosLeave:'Unused leave balance (days)', eosBtn:'Calculate', eosBad:'Check the dates and wage: the end date must be after the start date and the wage above zero.', eosRes:'Result', eosDur:'Length of service', eosY:'y', eosM:'m', eosD:'d', eosFirst:'First 5 years (half a month per year)', eosAfter:'After 5 years (a full month per year)', eosGross:'Statutory award (total)', eosFrac:'Share payable', eosEos:'End-of-service award payable', eosLeavePay:'Unused leave pay (wage ÷ 30 × days)', eosTotal:'Total', eosCurr:'SAR', eosNone:'No award (under 2 years on resignation)', eosFull:'Full', eosThird:'One third', eosTwoThirds:'Two thirds', eosNoReward:'No award', eosCopy:'Copy result', eosCopied:'Copied ✓', eosNote:'Indicative estimate based on Articles 84 and 85 of the Labor Law: half a month per year for the first 5 years and a full month after that; on resignation one third after 2 years, two thirds after 5 and the full award after 10. Fractions are counted in months and days and the end date counts as a worked day. Your contract or company policy may be more favourable and then applies. Other dues such as unpaid wages and notice pay are not included. Check the Labor Law and the Ministry of Human Resources for special cases.', ceSzSmH:'Small — landscape 6×4 cm', ceSzSmV:'Small — portrait 4×6 cm', ceSzMdH:'Medium — landscape 10×7 cm', ceSzMdV:'Medium — portrait 7×10 cm', ceSzLgH:'Large — landscape 15×10 cm', ceSzLgV:'Large — portrait 10×15 cm', ceSzA5:'A5 (14.8×21 cm)', ceSzInv:'Invitation 12×17 cm (portrait)', ceFmtCopy:'🎨 Copy format', ceFmtSel:'🎯 Apply to selected', ceFmtAll:'🧩 Apply to all similar', ceFmtBoth:'Apply to both sides', ceStartWed:'Wedding & occasion templates', ceStartWedSub:'Ready-made, fully editable', ceStartSheet:'Multi-image A4 sheet', ceStartSheetSub:'Many pictures and cards on a page', ceWedTitle:'💍 Wedding & occasion templates', ceWedNote:'Pick a template, then change names, dates, colours and fonts and move anything freely. Save it as an encrypted template or download PDF / image.', ceWedBack:'⬅️ Back', toolsOptSheet:'🗂️ Multi-image A4 sheet (cards)', ceStTsAll: 'Size of all stamp text', ceStRingW: 'Text ring thickness', ceStTsT: 'Top text', ceStTsB: 'Bottom text', ceStTs1: 'Line 1 (centre)', ceStTs2: 'Line 2 (centre)', ceStTs3: 'Line 3 (centre)', ceStTs4: 'Line 4 (centre)',
     ceStTsC: 'Centre text size', ceStTsR: 'Curved text size',
     ceTplTitle: '📁 My saved templates', ceTplSave: '💾 Save as template', ceTplName: 'Template name', ceTplNameDef: 'Card template', ceTplSaved: 'Template saved ✓ It stays in this browser; export it as a file as a backup.', ceTplFail: 'Could not save in the browser. Export the template as a file instead.', ceTplOpen: 'Open', ceTplDel: 'Delete', ceTplExp: '⬇️ Export template as a file', ceTplImp: '⬆️ Import a template from a file', ceTplNone: 'No saved templates yet.', ceTplBad: 'This file is not a valid card template.', ceTplAuto: 'Automatic copy before opening', ceTplOpened: 'Template opened ✓',
     signNameLabel: '✍️ Type your name and turn it into a signature', signNamePh: 'Type the name here', signInkLabel: 'Ink colour', signStyleHint: 'Pick a signature style below, then drag and resize it like any signature.',
@@ -5330,6 +5472,8 @@ function applyLanguage(lang){
   if(typeof certFillPresetSelect === 'function') certFillPresetSelect();
   if(typeof cvApplyLang === 'function') cvApplyLang();
   if(typeof lkRender === 'function') lkRender();
+  if(typeof shApplyLang === 'function') shApplyLang();
+  if(window.cewRender) window.cewRender();
   if(typeof paBuildCitySelect === 'function'){ paBuildCitySelect(); paRefreshLabels(); }
   paintStamp();
   if(typeof populateUnitSelects === 'function') populateUnitSelects();
@@ -8739,14 +8883,15 @@ function uddahDigits(str, mode){
   if(mode === 'en') return str.replace(/[٠-٩]/g, d=> String(d.charCodeAt(0) - 1632)).replace(/[۰-۹]/g, d=> String(d.charCodeAt(0) - 1776));
   return str;
 }
-function renderTextToCanvas(text, fontSizePt, color, fontFamily, scale){
+function renderTextToCanvas(text, fontSizePt, color, fontFamily, scale, opts){
   fontFamily = fontFamily || "'IBM Plex Sans Arabic', sans-serif";
   scale = scale || 4;
+  const wt = (opts && opts.weight) || 600;
   // Keep canvas within safe browser limits
   const lines = text.split('\n');
   const probe = document.createElement('canvas').getContext('2d');
   const measure = (s)=>{
-    probe.font = `600 ${fontSizePt*s}px ${fontFamily}`;
+    probe.font = `${wt} ${fontSizePt*s}px ${fontFamily}`;
     let m = 10; lines.forEach(l=>{ const w = probe.measureText(l).width; if(w>m) m=w; }); return m;
   };
   let maxW = measure(scale);
@@ -8758,12 +8903,31 @@ function renderTextToCanvas(text, fontSizePt, color, fontFamily, scale){
   }
   const fontPx = fontSizePt * scale;
   const lineHeight = fontPx * 1.35;
+  if(opts && opts.inkFit && lines.length === 1){
+    // Ink-fitted canvas: the glyphs' real top/bottom define the canvas, so centring the canvas centres the visible text.
+    probe.font = `${wt} ${fontPx}px ${fontFamily}`;
+    probe.direction = 'rtl';
+    const m = probe.measureText(lines[0]);
+    const asc = Math.max(1, m.actualBoundingBoxAscent || fontPx*0.72), desc = Math.max(0, m.actualBoundingBoxDescent || 0);
+    const padI = Math.max(2, Math.ceil(scale * 0.5));
+    const cv = document.createElement('canvas');
+    cv.width = Math.ceil(maxW) + padI*2;
+    cv.height = Math.ceil(asc + desc) + padI*2;
+    const cx = cv.getContext('2d');
+    cx.font = `${wt} ${fontPx}px ${fontFamily}`;
+    cx.fillStyle = color;
+    cx.textBaseline = 'alphabetic';
+    cx.direction = 'rtl';
+    cx.textAlign = 'right';
+    cx.fillText(lines[0], cv.width - padI, padI + asc);
+    return { canvas: cv, widthPt: cv.width/scale, heightPt: cv.height/scale, scale, padPt: padI/scale };
+  }
   const pad = Math.ceil(scale);
   const canvas = document.createElement('canvas');
   canvas.width = Math.ceil(maxW) + pad*2;
   canvas.height = Math.ceil(lineHeight * lines.length) + pad*2;
   const ctx = canvas.getContext('2d');
-  ctx.font = `600 ${fontPx}px ${fontFamily}`;
+  ctx.font = `${wt} ${fontPx}px ${fontFamily}`;
   ctx.fillStyle = color;
   ctx.textBaseline = 'top';
   ctx.direction = 'rtl';
@@ -11170,6 +11334,15 @@ const ERASE_FONT_OPTIONS = [
   { v:"'Courier New', monospace", l:'Courier New (أحادي المسافة)' }
 ];
 
+const ERASE_NUDGES = [
+  ['L','+','يسار +','توسيع من اليسار'],['L','-','يسار −','تقليص من اليسار'],
+  ['R','+','يمين +','توسيع من اليمين'],['R','-','يمين −','تقليص من اليمين'],
+  ['T','+','أعلى +','توسيع من الأعلى'],['T','-','أعلى −','تقليص من الأعلى'],
+  ['B','+','أسفل +','توسيع من الأسفل'],['B','-','أسفل −','تقليص من الأسفل'],
+  ['MX','-','◀','تحريك يساراً'],['MX','+','▶','تحريك يميناً'],
+  ['MY','+','▲','تحريك للأعلى'],['MY','-','▼','تحريك للأسفل']
+];
+
 function eraseCreateEditRow(edit, index){
   const row = document.createElement('div');
   row.className = 'erase-edit-row';
@@ -11184,10 +11357,16 @@ function eraseCreateEditRow(edit, index){
     '</div>' +
     '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
     '<div style="flex:1;min-width:130px;"><label style="font-size:.75rem;color:var(--bone-dim);">الموضع الأفقي: <span class="erase-edit-x-val">' + Number(edit.xPct).toFixed(1) + '</span>٪</label>' +
-    '<input type="range" class="erase-edit-x" min="0" max="100" step="0.1" value="' + edit.xPct + '" style="width:100%;"></div>' +
+    '<input type="range" class="erase-edit-x" min="0" max="100" step="0.01" value="' + edit.xPct + '" style="width:100%;"></div>' +
     '<div style="flex:1;min-width:130px;"><label style="font-size:.75rem;color:var(--bone-dim);">الموضع الرأسي: <span class="erase-edit-y-val">' + Number(edit.yPct).toFixed(1) + '</span>٪</label>' +
-    '<input type="range" class="erase-edit-y" min="0" max="100" step="0.1" value="' + edit.yPct + '" style="width:100%;"></div>' +
+    '<input type="range" class="erase-edit-y" min="0" max="100" step="0.01" value="' + edit.yPct + '" style="width:100%;"></div>' +
     '</div>' +
+    '<div class="erase-nudge" style="margin-top:8px;border:1px dashed var(--border);border-radius:8px;padding:8px;">' +
+    '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-size:.75rem;color:var(--bone-dim);">ضبط دقيق · الخطوة (نقطة):</span>' +
+    '<input type="text" inputmode="decimal" class="erase-nudge-step" value="0.25" style="width:64px;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:5px 6px;font-family:var(--font-mono);font-size:.8rem;"></div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">' +
+    ERASE_NUDGES.map(function(z){return '<button type="button" class="erase-nudge-btn" data-e="'+z[0]+'" data-s="'+z[1]+'" title="'+z[3]+'" style="padding:5px 9px;border-radius:7px;border:1px solid var(--border);background:var(--bg-elev);color:var(--bone);cursor:pointer;font-size:.78rem;">'+z[2]+'</button>';}).join('') +
+    '</div></div>' +
     '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
     '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">عرض منطقة المسح (نقطة)</label>' +
     '<input type="text" inputmode="decimal" class="erase-edit-width" value="' + edit.widthPt + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
@@ -11196,6 +11375,11 @@ function eraseCreateEditRow(edit, index){
     '<div style="flex:1;min-width:90px;"><label style="font-size:.75rem;color:var(--bone-dim);">حجم الخط</label>' +
     '<input type="text" inputmode="decimal" class="erase-edit-fontsize" value="' + edit.fontSize + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
     '</div>' +
+    '<div style="margin-top:8px;"><label style="font-size:.75rem;color:var(--bone-dim);">سماكة الخط</label>' +
+    '<select class="erase-edit-weight" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-size:.85rem;">' +
+    '<option value="400"' + ((edit.weight||600)==400?' selected':'') + '>عادي (مثل أغلب المستندات)</option>' +
+    '<option value="600"' + ((edit.weight||600)==600?' selected':'') + '>سميك</option>' +
+    '</select></div>' +
     '<div style="margin-top:8px;"><label style="font-size:.75rem;color:var(--bone-dim);">نوع الخط</label>' +
     '<select class="erase-edit-font" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-size:.85rem;">' + fontOptionsHtml + '</select></div>' +
     '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
@@ -11233,6 +11417,8 @@ function eraseCreateEditRow(edit, index){
   const heightInput = row.querySelector('.erase-edit-height');
   const fontSizeInput = row.querySelector('.erase-edit-fontsize');
   const fontInput = row.querySelector('.erase-edit-font');
+  const weightInput = row.querySelector('.erase-edit-weight');
+  weightInput.addEventListener('change', ()=>{ eraseEdits[index].weight = parseInt(weightInput.value, 10) || 600; renderErasePreview(); });
   const alignInput = row.querySelector('.erase-edit-align');
   const offsetXInput = row.querySelector('.erase-edit-offsetx');
   const offsetYInput = row.querySelector('.erase-edit-offsety');
@@ -11254,7 +11440,14 @@ function eraseCreateEditRow(edit, index){
   offsetYInput.addEventListener('input', ()=>{ eraseEdits[index].offsetY = parseFloat(offsetYInput.value) || 0; renderErasePreview(); });
   textColorInput.addEventListener('input', ()=>{ eraseEdits[index].textColor = textColorInput.value; renderErasePreview(); });
   eraseColorInput.addEventListener('input', ()=>{ eraseEdits[index].eraseColor = eraseColorInput.value; eraseEdits[index].eraseMode = 'manual'; modeInput.value = 'manual'; renderErasePreview(); });
+  row.querySelectorAll('.erase-nudge-btn').forEach(function(bn){
+    bn.addEventListener('click', function(){
+      const st = parseFloat(String(row.querySelector('.erase-nudge-step').value).replace(',','.')) || 0.25;
+      eraseNudge(index, bn.dataset.e, bn.dataset.s === '+' ? st : -st);
+    });
+  });
   removeBtn.addEventListener('click', ()=>{
+    eraseClearSel();
     eraseEdits.splice(index, 1);
     eraseRenderEditsList();
     renderErasePreview();
@@ -11468,8 +11661,9 @@ function eraseInpaint(dstCtx, src, bx, by, bw, bh){
 
 function eraseFillRegion(dstCtx, srcCanvas, bx, by, bw, bh, mode, manual, t){
   const W = srcCanvas.width, H = srcCanvas.height;
-  bx = Math.max(0, Math.floor(bx)); by = Math.max(0, Math.floor(by));
-  bw = Math.min(W - bx, Math.ceil(bw)); bh = Math.min(H - by, Math.ceil(bh));
+  { const ex0 = Math.max(0, Math.round(bx)), ey0 = Math.max(0, Math.round(by));
+    const ex1 = Math.min(W, Math.max(ex0 + 1, Math.round(bx + bw))), ey1 = Math.min(H, Math.max(ey0 + 1, Math.round(by + bh)));
+    bx = ex0; by = ey0; bw = ex1 - ex0; bh = ey1 - ey0; }
   if(bw <= 0 || bh <= 0) return null;
   if(mode === 'manual'){ dstCtx.fillStyle = manual; dstCtx.fillRect(bx, by, bw, bh); return manual; }
   if(mode === 'auto' || mode === 'blend'){ const fl = eraseInpaint(dstCtx, srcCanvas, bx, by, bw, bh); if(fl) return fl; }
@@ -11559,16 +11753,19 @@ function eraseDrawEditsOnCanvas(ctx, pw, ph, scale, liveBox){
     }
     if(edit.text.trim()){
       ctx.fillStyle = edit.textColor;
-      ctx.font = `600 ${Math.max(6, edit.fontSize*scale)}px ${edit.fontFamily || "'IBM Plex Sans Arabic', sans-serif"}`;
+      ctx.font = `${edit.weight || 600} ${Math.max(6, edit.fontSize*scale)}px ${edit.fontFamily || "'IBM Plex Sans Arabic', sans-serif"}`;
       ctx.direction = 'rtl';
       const align = edit.textAlign || 'right';
       let anchorX;
-      if(align === 'left'){ ctx.textAlign = 'left'; anchorX = px + 3; }
+      const mg = edit.tight ? 0 : 3;
+      if(align === 'left'){ ctx.textAlign = 'left'; anchorX = px + mg; }
       else if(align === 'center'){ ctx.textAlign = 'center'; anchorX = px + pxW/2; }
-      else { ctx.textAlign = 'right'; anchorX = px + pxW - 3; }
-      ctx.textBaseline = 'middle';
+      else { ctx.textAlign = 'right'; anchorX = px + pxW - mg; }
+      ctx.textBaseline = 'alphabetic';
       const offX = (edit.offsetX || 0) * scale, offY = (edit.offsetY || 0) * scale;
-      ctx.fillText(eraseTxt(edit), anchorX + offX, py + pxH/2 - offY);
+      const tt = eraseTxt(edit), mm = ctx.measureText(tt);
+      const asc = mm.actualBoundingBoxAscent || edit.fontSize*scale*0.72, dsc = mm.actualBoundingBoxDescent || 0;
+      ctx.fillText(tt, anchorX + offX, py + pxH/2 + (asc - dsc)/2 - offY);
     }
   });
   if(liveBox){
@@ -11621,6 +11818,7 @@ async function renderErasePreview(){
     eraseBaseCanvas.height = canvas.height;
     eraseBaseCanvas.getContext('2d').drawImage(canvas, 0, 0);
 
+    if(eraseSel && Math.abs(eraseSel.scale - scale) > 1e-6) eraseClearSel();
     eraseCurrentScale = scale;
     eraseCurrentPw = pw;
     eraseCurrentPh = ph;
@@ -11654,7 +11852,7 @@ async function buildEraseTextLayer(page, viewport){
       if(!span.textContent.trim()) return;
       span.addEventListener('click', (e)=>{
         e.stopPropagation();
-        eraseOpenInlineEditorForSpan(span);
+        eraseOpenInlineEditorForSpan(span, e);
       });
     });
   }catch(e){
@@ -11671,13 +11869,13 @@ function eraseRelBox(el, containerEl){
 
 function erasePxBoxToPt(box){
   const scale = eraseCurrentScale, pw = eraseCurrentPw, ph = eraseCurrentPh;
-  const widthPt = Math.max(5, Math.round(box.pxW / scale * 10) / 10);
-  const heightPt = Math.max(5, Math.round(box.pxH / scale * 10) / 10);
+  const widthPt = Math.max(1.5, Math.round(box.pxW / scale * 100) / 100);
+  const heightPt = Math.max(1.5, Math.round(box.pxH / scale * 100) / 100);
   const xPt = box.px / scale;
   const yPtFromTop = box.py / scale;
   const yPt = ph - yPtFromTop - heightPt;
-  const xPct = Math.max(0, Math.min(100, Math.round((xPt / Math.max(1, pw - widthPt)) * 10000) / 100));
-  const yPct = Math.max(0, Math.min(100, Math.round((yPt / Math.max(1, ph - heightPt)) * 10000) / 100));
+  const xPct = Math.max(0, Math.min(100, Math.round((xPt / Math.max(1, pw - widthPt)) * 1000000) / 10000));
+  const yPct = Math.max(0, Math.min(100, Math.round((yPt / Math.max(1, ph - heightPt)) * 1000000) / 10000));
   return { xPct, yPct, widthPt, heightPt };
 }
 
@@ -11691,50 +11889,349 @@ function eraseSyncTextField(index){
   if(t) t.value = eraseEdits[index].text;
 }
 
-function eraseOpenInlineEditorForSpan(span){
-  const container = document.getElementById('erase-preview-container');
-  const box = eraseRelBox(span, container);
-  const centerX = box.px + box.pxW/2, centerY = box.py + box.pxH/2;
+/* ---------- precise selection / snapping helpers ---------- */
+let eraseSel = null; // { index, text, rects, a, b, anchor, scale, hasAr, fontSize }
+let eraseHiCache = null;
 
-  // If an edit already covers this spot, reopen it instead of creating a duplicate
-  let index = -1;
-  for(let i = eraseEdits.length - 1; i >= 0; i--){
-    const b = eraseEdits[i]._box;
-    if(b && centerX >= b.px && centerX <= b.px+b.pxW && centerY >= b.py && centerY <= b.py+b.pxH){
-      index = i; break;
+function eraseT(ar, en){ return (typeof currentLang !== 'undefined' && currentLang === 'en') ? en : ar; }
+function eraseClearSel(){ eraseSel = null; const el = document.getElementById('erase-chips'); if(el){ el.style.display = 'none'; el.innerHTML = ''; } }
+
+function eraseGetBoxPt(edit){
+  const pw = eraseCurrentPw, ph = eraseCurrentPh;
+  const w = edit.widthPt, h = edit.heightPt;
+  const x = (edit.xPct/100) * (pw - w);
+  const y = (edit.yPct/100) * (ph - h);
+  return { x, yTop: ph - y - h, w, h };
+}
+function eraseSetBoxPt(edit, x, yTop, w, h){
+  const pw = eraseCurrentPw, ph = eraseCurrentPh;
+  w = Math.max(1, w); h = Math.max(1, h);
+  const y = ph - yTop - h;
+  edit.widthPt = Math.round(w * 100) / 100;
+  edit.heightPt = Math.round(h * 100) / 100;
+  edit.xPct = Math.max(0, Math.min(100, Math.round((x / Math.max(1, pw - w)) * 1000000) / 10000));
+  edit.yPct = Math.max(0, Math.min(100, Math.round((y / Math.max(1, ph - h)) * 1000000) / 10000));
+}
+function eraseSyncRowFields(index){
+  const row = document.querySelectorAll('#erase-edits-list .erase-edit-row')[index];
+  const e = eraseEdits[index];
+  if(!row || !e) return;
+  const set = (sel, v)=>{ const el = row.querySelector(sel); if(el) el.value = v; };
+  set('.erase-edit-x', e.xPct); set('.erase-edit-y', e.yPct);
+  set('.erase-edit-width', e.widthPt); set('.erase-edit-height', e.heightPt);
+  const xv = row.querySelector('.erase-edit-x-val'), yv = row.querySelector('.erase-edit-y-val');
+  if(xv) xv.textContent = Number(e.xPct).toFixed(2); if(yv) yv.textContent = Number(e.yPct).toFixed(2);
+}
+function eraseNudge(index, edge, d){
+  const e = eraseEdits[index];
+  if(!e) return;
+  let { x, yTop, w, h } = eraseGetBoxPt(e);
+  if(edge === 'L'){ x -= d; w += d; }
+  else if(edge === 'R'){ w += d; }
+  else if(edge === 'T'){ yTop -= d; h += d; }
+  else if(edge === 'B'){ h += d; }
+  else if(edge === 'MX'){ x += d; }
+  else if(edge === 'MY'){ yTop -= d; }
+  eraseSetBoxPt(e, x, yTop, w, h);
+  eraseSyncRowFields(index);
+  renderErasePreview();
+}
+
+function eraseCharRects(span){
+  const node = span.firstChild;
+  if(!node || node.nodeType !== 3) return null;
+  const container = document.getElementById('erase-preview-container');
+  const cr = container.getBoundingClientRect();
+  const rg = document.createRange();
+  const out = [];
+  for(let i = 0; i < node.length; i++){
+    rg.setStart(node, i); rg.setEnd(node, i + 1);
+    const r = rg.getBoundingClientRect();
+    out.push({ l: r.left - cr.left, t: r.top - cr.top, r: r.right - cr.left, b: r.bottom - cr.top });
+  }
+  return out;
+}
+function eraseTokenRange(text, ci){
+  const BR = '()[]{}<>«»"“”‘’\'';
+  let a, b;
+  if(ci < 0 || /\s/.test(text[ci] || ' ')){
+    a = 0; b = text.length - 1;
+    while(a < b && /\s/.test(text[a])) a++;
+    while(b > a && /\s/.test(text[b])) b--;
+  }else{
+    a = ci; b = ci;
+    while(a > 0 && !/\s/.test(text[a-1])) a--;
+    while(b < text.length - 1 && !/\s/.test(text[b+1])) b++;
+  }
+  const a0 = a, b0 = b;
+  while(a < b && BR.indexOf(text[a]) >= 0) a++;
+  while(b > a && BR.indexOf(text[b]) >= 0) b--;
+  if(a === b && BR.indexOf(text[a]) >= 0){ a = a0; b = b0; }
+  return [a, b];
+}
+
+async function eraseGetHi(){
+  const pv = document.getElementById('erase-preview-page');
+  if(eraseSrc.kind === 'pdf'){
+    const pdf = eraseSrc.pdf;
+    let pageNum = parseInt(document.getElementById('erase-page').value, 10);
+    if(!pageNum || pageNum < 1 || pageNum > pdf.numPages) pageNum = pdf.numPages;
+    const key = eraseSrc.file.name + '|' + eraseSrc.file.size + '|' + pageNum;
+    if(!eraseHiCache || eraseHiCache.key !== key){
+      const page = await pdf.getPage(pageNum);
+      const base = page.getViewport({scale:1});
+      const hs = Math.min(6, Math.max(2.5, 2200 / base.width));
+      const vp = page.getViewport({scale: hs});
+      const c = document.createElement('canvas');
+      c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+      const cx = c.getContext('2d', {willReadFrequently:true});
+      cx.fillStyle = '#fff'; cx.fillRect(0, 0, c.width, c.height);
+      await page.render({canvasContext: cx, viewport: vp}).promise;
+      eraseHiCache = { key, canvas: c };
+    }
+  }else{
+    const key = 'img|' + eraseSrc.file.name + '|' + eraseSrc.file.size;
+    if(!eraseHiCache || eraseHiCache.key !== key){
+      const img = eraseSrc.img;
+      const W = Math.min(2200, img.naturalWidth), H = Math.round(img.naturalHeight * W / img.naturalWidth);
+      const c = document.createElement('canvas'); c.width = W; c.height = H;
+      const cx = c.getContext('2d', {willReadFrequently:true});
+      cx.fillStyle = '#fff'; cx.fillRect(0, 0, W, H);
+      cx.imageSmoothingQuality = 'high';
+      cx.drawImage(img, 0, 0, W, H);
+      eraseHiCache = { key, canvas: c };
     }
   }
+  return { canvas: eraseHiCache.canvas, f: eraseHiCache.canvas.width / pv.width };
+}
 
-  let editBox;
-  if(index === -1){
-    const ptBox = erasePxBoxToPt(box);
-    const fontSize = Math.max(6, Math.round(ptBox.heightPt * 0.78));
-    eraseEdits.push({
-      text: span.textContent, xPct: ptBox.xPct, yPct: ptBox.yPct,
-      widthPt: ptBox.widthPt, heightPt: ptBox.heightPt, fontSize,
-      textColor:'#000000', eraseMode:'auto', eraseColor:'#ffffff',
-      fontFamily:"'IBM Plex Sans Arabic', sans-serif", textAlign:'right', offsetX:0, offsetY:0
-    });
-    index = eraseEdits.length - 1;
-    editBox = box; // the freshly-clicked box is already accurate; avoids waiting on the async re-render below
-    eraseRenderEditsList();
-    renderErasePreview();
-  } else {
-    editBox = eraseEdits[index]._box || box;
+function eraseInkMask(cv, x0, y0, x1, y1){
+  x0 = Math.max(0, Math.floor(x0)); y0 = Math.max(0, Math.floor(y0));
+  x1 = Math.min(cv.width, Math.ceil(x1)); y1 = Math.min(cv.height, Math.ceil(y1));
+  const w = x1 - x0, h = y1 - y0;
+  if(w <= 1 || h <= 1) return null;
+  const d = cv.getContext('2d', {willReadFrequently:true}).getImageData(x0, y0, w, h).data;
+  const bins = new Map();
+  for(let i = 0; i < d.length; i += 4){
+    const k = ((d[i]>>4)<<8) | ((d[i+1]>>4)<<4) | (d[i+2]>>4);
+    let e = bins.get(k);
+    if(!e){ e = {n:0,r:0,g:0,b:0}; bins.set(k, e); }
+    e.n++; e.r += d[i]; e.g += d[i+1]; e.b += d[i+2];
   }
+  let best = null;
+  bins.forEach(e=>{ if(!best || e.n > best.n) best = e; });
+  const bg = [best.r/best.n, best.g/best.n, best.b/best.n];
+  const ink = new Uint8Array(w * h);
+  for(let p = 0, i = 0; p < w * h; p++, i += 4){
+    const dist = Math.abs(d[i]-bg[0]) + Math.abs(d[i+1]-bg[1]) + Math.abs(d[i+2]-bg[2]);
+    ink[p] = dist > 70 ? 1 : 0;
+  }
+  return { x0, y0, w, h, ink, bg };
+}
 
+async function eraseSnapSelection(sel){
+  const hi = await eraseGetHi();
+  const f = hi.f, a = sel.a, b = sel.b, text = sel.text, rects = sel.rects;
+  const sl = Math.min(...rects.map(r=>r.l)), sr = Math.max(...rects.map(r=>r.r));
+  const st = Math.min(...rects.map(r=>r.t)), sb = Math.max(...rects.map(r=>r.b));
+  const sh = Math.max(1, sb - st);
+  const m = eraseInkMask(hi.canvas, (sl - 3) * f, (st - 0.12 * sh) * f, (sr + 3) * f, (sb + 0.12 * sh) * f);
+  if(!m) return null;
+  const col = new Uint8Array(m.w);
+  for(let y = 0; y < m.h; y++) for(let x = 0; x < m.w; x++) if(m.ink[y*m.w + x]) col[x] = 1;
+  const segs = [];
+  for(let x = 0; x < m.w; x++){
+    if(col[x]){ let e = x; while(e + 1 < m.w && col[e+1]) e++; segs.push({s:x, e}); x = e; }
+  }
+  if(!segs.length) return null;
+  const nsIdx = [];
+  for(let i = 0; i < text.length; i++) if(!/\s/.test(text[i])) nsIdx.push(i);
+  const sel2 = [];
+  let exact = false;
+  if(!sel.hasAr && segs.length === nsIdx.length){
+    exact = true;
+    for(let k = 0; k < nsIdx.length; k++) if(nsIdx[k] >= a && nsIdx[k] <= b) sel2.push(k);
+  }else{
+    const L = Math.min(...rects.slice(a, b+1).map(r=>r.l)) * f - m.x0;
+    const R = Math.max(...rects.slice(a, b+1).map(r=>r.r)) * f - m.x0;
+    segs.forEach((g, k)=>{
+      const ov = Math.max(0, Math.min(g.e + 1, R) - Math.max(g.s, L));
+      if(ov / (g.e + 1 - g.s) >= 0.5) sel2.push(k);
+    });
+  }
+  if(!sel2.length) return null;
+  const k0 = sel2[0], k1 = sel2[sel2.length - 1];
+  const pad = Math.max(1, Math.ceil(f * 0.4));
+  let left = segs[k0].s - pad, right = segs[k1].e + 1 + pad;
+  if(k0 > 0) left = Math.max(left, segs[k0-1].e + 1);
+  if(k1 < segs.length - 1) right = Math.min(right, segs[k1+1].s);
+  left = Math.max(0, left); right = Math.min(m.w, right);
+  // vertical extent from the ink of the chosen columns only
+  const rows = new Uint8Array(m.h);
+  for(let y = 0; y < m.h; y++) for(let x = segs[k0].s; x <= segs[k1].e; x++) if(m.ink[y*m.w + x]){ rows[y] = 1; break; }
+  const runs = [];
+  for(let y = 0; y < m.h; y++){
+    if(rows[y]){ let e = y; while(e + 1 < m.h && rows[e+1]) e++; runs.push({s:y, e}); y = e; }
+  }
+  let top = 0, bottom = m.h;
+  if(runs.length){
+    const midY = ((st + sb) / 2) * f - m.y0;
+    let pick = runs[0], bd = 1e9;
+    runs.forEach(r=>{ const d = (midY >= r.s && midY <= r.e) ? 0 : Math.min(Math.abs(midY - r.s), Math.abs(midY - r.e)); if(d < bd){ bd = d; pick = r; } });
+    top = Math.max(0, pick.s - pad); bottom = Math.min(m.h, pick.e + 1 + pad);
+  }
+  // sample the real text colour: average of the darkest-contrast ink pixels inside the chosen glyphs
+  let color = null;
+  try{
+    const bx0 = m.x0 + segs[k0].s, bx1 = m.x0 + segs[k1].e + 1, by0 = m.y0 + top, by1 = m.y0 + bottom;
+    const dd = hi.canvas.getContext('2d', {willReadFrequently:true}).getImageData(bx0, by0, Math.max(1, bx1 - bx0), Math.max(1, by1 - by0)).data;
+    const bgv = m.bg;
+    let mx = 0;
+    for(let i = 0; i < dd.length; i += 4){ const q = Math.abs(dd[i]-bgv[0]) + Math.abs(dd[i+1]-bgv[1]) + Math.abs(dd[i+2]-bgv[2]); if(q > mx) mx = q; }
+    let sr2 = 0, sg2 = 0, sb2 = 0, nn = 0;
+    for(let i = 0; i < dd.length; i += 4){ const q = Math.abs(dd[i]-bgv[0]) + Math.abs(dd[i+1]-bgv[1]) + Math.abs(dd[i+2]-bgv[2]); if(q >= mx * 0.85){ sr2 += dd[i]; sg2 += dd[i+1]; sb2 += dd[i+2]; nn++; } }
+    if(nn){ const h = v=>('0' + Math.round(v / nn).toString(16)).slice(-2); color = '#' + h(sr2) + h(sg2) + h(sb2); }
+  }catch(_){}
+  return { l: (m.x0 + left) / f, r: (m.x0 + right) / f, t: (m.y0 + top) / f, b: (m.y0 + bottom) / f, exact, color };
+}
+
+async function eraseSnapManual(box){
+  const hi = await eraseGetHi();
+  const f = hi.f, E = 6;
+  const m = eraseInkMask(hi.canvas, (box.l - E) * f, (box.t - E) * f, (box.r + E) * f, (box.b + E) * f);
+  if(!m) return null;
+  const ink = (x,y)=> (x < 0 || y < 0 || x >= m.w || y >= m.h) ? 0 : m.ink[y*m.w + x];
+  let L = Math.round(box.l * f) - m.x0, R = Math.round(box.r * f) - m.x0, T = Math.round(box.t * f) - m.y0, B = Math.round(box.b * f) - m.y0;
+  const maxD = Math.round(4 * f);
+  const cutV = (e, y0, y1)=>{ for(let y = y0; y < y1; y++) if(ink(e-1, y) && ink(e, y)) return true; return false; };
+  const cutH = (e, x0, x1)=>{ for(let x = x0; x < x1; x++) if(ink(x, e-1) && ink(x, e)) return true; return false; };
+  const snap = (e, cut)=>{ if(!cut(e)) return e; for(let d = 1; d <= maxD; d++){ if(!cut(e - d)) return e - d; if(!cut(e + d)) return e + d; } return e; };
+  L = snap(L, e=>cutV(e, T, B)); R = snap(R, e=>cutV(e, T, B));
+  if(R - L < 3) return null;
+  T = snap(T, e=>cutH(e, L, R)); B = snap(B, e=>cutH(e, L, R));
+  if(B - T < 3) return null;
+  return { l: (m.x0 + L) / f, r: (m.x0 + R) / f, t: (m.y0 + T) / f, b: (m.y0 + B) / f };
+}
+
+function eraseRenderChips(){
+  const el = document.getElementById('erase-chips');
+  if(!el) return;
+  const s = eraseSel;
+  if(!s){ el.style.display = 'none'; el.innerHTML = ''; return; }
+  el.style.display = 'block';
+  el.innerHTML = '';
+  const title = document.createElement('div');
+  title.style.cssText = 'font-size:.8rem;color:var(--bone-dim);margin-bottom:6px;font-weight:600;';
+  title.textContent = eraseT('اختر الجزء المراد تغييره بالضبط: اضغط أول حرف ثم آخر حرف (الأقواس والرموز المجاورة تبقى كما هي).', 'Pick exactly what to change: tap the first and then the last character (neighbouring brackets/symbols stay untouched).');
+  el.appendChild(title);
+  const row = document.createElement('div');
+  row.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px;';
+  row.dir = s.hasAr ? 'rtl' : 'ltr';
+  for(let i = 0; i < s.text.length; i++){
+    const on = i >= s.a && i <= s.b;
+    const bn = document.createElement('button');
+    bn.type = 'button';
+    bn.className = 'erase-chip' + (on ? ' on' : '');
+    bn.textContent = /\s/.test(s.text[i]) ? '␣' : s.text[i];
+    bn.dataset.i = i;
+    bn.style.cssText = 'min-width:30px;padding:6px 8px;border-radius:7px;font-family:var(--font-mono);font-size:.95rem;cursor:pointer;border:1px solid ' + (on ? '#d9662f' : 'var(--border)') + ';background:' + (on ? 'rgba(217,102,47,.18)' : 'var(--bg-elev)') + ';color:var(--bone);' + (s.anchor === i ? 'outline:2px solid #2b6cb0;' : '');
+    bn.addEventListener('click', ()=>{
+      if(s.anchor < 0){ s.a = i; s.b = i; s.anchor = i; }
+      else{ s.a = Math.min(s.anchor, i); s.b = Math.max(s.anchor, i); s.anchor = -1; }
+      eraseApplySel();
+    });
+    row.appendChild(bn);
+  }
+  el.appendChild(row);
+  const tools = document.createElement('div');
+  tools.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;';
+  const mk = (label, fn)=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary'; b.style.cssText = 'padding:6px 12px;font-size:.8rem;'; b.textContent = label; b.addEventListener('click', fn); tools.appendChild(b); };
+  mk(eraseT('الكلمة/الرقم فقط (بدون الأقواس)', 'Token only (no brackets)'), ()=>{ const r = eraseTokenRange(s.text, s.ci); s.a = r[0]; s.b = r[1]; s.anchor = -1; eraseApplySel(); });
+  mk(eraseT('كل النص', 'Whole text'), ()=>{ const r = eraseTokenRange(s.text, -1); s.a = r[0]; s.b = r[1]; s.anchor = -1; eraseApplySel(); });
+  el.appendChild(tools);
+}
+
+async function eraseApplySel(){
+  const s = eraseSel;
+  if(!s) return;
+  const ed = eraseEdits[s.index];
+  if(!ed) return;
+  const rs = s.rects.slice(s.a, s.b + 1);
+  let box = { l: Math.min(...rs.map(r=>r.l)), r: Math.max(...rs.map(r=>r.r)), t: Math.min(...rs.map(r=>r.t)), b: Math.max(...rs.map(r=>r.b)) };
+  let tight = false;
+  const cb = document.getElementById('erase-snap');
+  if(!cb || cb.checked){
+    try{ const sb = await eraseSnapSelection(s); if(sb){ box = sb; tight = true; } }catch(_){}
+  }
+  if(eraseSel !== s || !eraseEdits[s.index]) return;
+  const pt = erasePxBoxToPt({ px: box.l, py: box.t, pxW: box.r - box.l, pxH: box.b - box.t });
+  Object.assign(ed, pt, { text: s.text.slice(s.a, s.b + 1), tight, fontSize: s.fontSize });
+  if(box.color && !s.colorLocked){ ed.textColor = box.color; }
+  eraseRenderEditsList();
+  renderErasePreview();
+  eraseRenderChips();
+  eraseShowInlineEditor(s.index, { px: box.l, py: box.t, pxW: box.r - box.l, pxH: box.b - box.t });
+}
+
+function eraseShowInlineEditor(index, editBox){
   eraseInlineEditIndex = index;
   const editor = document.getElementById('erase-inline-editor');
   editor.style.left = editBox.px + 'px';
   editor.style.top = editBox.py + 'px';
   editor.style.width = Math.max(40, editBox.pxW) + 'px';
-  editor.style.height = editBox.pxH + 'px';
+  editor.style.height = Math.max(14, editBox.pxH) + 'px';
   editor.style.fontSize = Math.max(8, editBox.pxH*0.7) + 'px';
   editor.style.color = eraseEdits[index].textColor;
   editor.value = eraseEdits[index].text;
   editor.style.display = 'block';
   editor.focus();
   editor.select();
+}
+
+async function eraseOpenInlineEditorForSpan(span, ev){
+  const container = document.getElementById('erase-preview-container');
+  const spanBox = eraseRelBox(span, container);
+  const cr = container.getBoundingClientRect();
+  const cx = ev ? ev.clientX - cr.left : spanBox.px + spanBox.pxW/2;
+  const cy = ev ? ev.clientY - cr.top : spanBox.py + spanBox.pxH/2;
+
+  // If an edit already covers the clicked spot, reopen it instead of creating a duplicate
+  for(let i = eraseEdits.length - 1; i >= 0; i--){
+    const b = eraseEdits[i]._box;
+    if(b && cx >= b.px && cx <= b.px+b.pxW && cy >= b.py && cy <= b.py+b.pxH){
+      eraseClearSel();
+      eraseShowInlineEditor(i, b);
+      return;
+    }
+  }
+
+  const text = span.textContent;
+  const rects = eraseCharRects(span);
+  const fontSize = Math.max(6, Math.round(spanBox.pxH / eraseCurrentScale * 10) / 10);
+  const hasAr = /[؀-ۿݐ-ݿ]/.test(text);
+  const ptBox = erasePxBoxToPt(spanBox);
+  eraseEdits.push({
+    text, xPct: ptBox.xPct, yPct: ptBox.yPct,
+    widthPt: ptBox.widthPt, heightPt: ptBox.heightPt, fontSize,
+    textColor:'#000000', eraseMode:'auto', eraseColor:'#ffffff', tight:false, weight:400,
+    fontFamily:"'IBM Plex Sans Arabic', sans-serif", textAlign: hasAr ? 'right' : 'left', offsetX:0, offsetY:0
+  });
+  const index = eraseEdits.length - 1;
+
+  if(rects && rects.length === text.length && text.trim()){
+    let ci = -1;
+    for(let i = 0; i < rects.length; i++) if(cx >= rects[i].l && cx <= rects[i].r){ ci = i; break; }
+    if(ci < 0){ let bd = 1e9; rects.forEach((r, i)=>{ const d = Math.abs(cx - (r.l + r.r)/2); if(d < bd){ bd = d; ci = i; } }); }
+    const rg = eraseTokenRange(text, ci);
+    eraseSel = { index, text, rects, a: rg[0], b: rg[1], anchor: -1, ci, scale: eraseCurrentScale, hasAr, fontSize };
+    eraseRenderEditsList();
+    await eraseApplySel();
+  }else{
+    eraseClearSel();
+    eraseRenderEditsList();
+    renderErasePreview();
+    eraseShowInlineEditor(index, spanBox);
+  }
 }
 
 (function setupEraseInlineEditor(){
@@ -11754,7 +12251,7 @@ function eraseOpenInlineEditorForSpan(span){
   });
 })();
 
-document.getElementById('erase-file').addEventListener('change', ()=>{ erasePreviewPdfDoc = null; erasePreviewFileRef = null; eraseSrc = null; renderErasePreview(); });
+document.getElementById('erase-file').addEventListener('change', ()=>{ eraseClearSel(); eraseHiCache = null; erasePreviewPdfDoc = null; erasePreviewFileRef = null; eraseSrc = null; renderErasePreview(); });
 document.getElementById('erase-page').addEventListener('input', renderErasePreview);
 
 function eraseSyncOffsetFields(index){
@@ -11834,7 +12331,7 @@ function eraseSyncOffsetFields(index){
     eraseDrawEditsOnCanvas(ctx, eraseCurrentPw, eraseCurrentPh, eraseCurrentScale, box);
   }
 
-  function finish(clientX, clientY){
+  async function finish(clientX, clientY){
     if(!active) return;
     active = false;
     canvas.style.cursor = 'crosshair';
@@ -11846,20 +12343,27 @@ function eraseSyncOffsetFields(index){
     }
 
     const pos = getCanvasPos(clientX, clientY);
-    const leftPx = Math.min(startPx, pos.x), topPx = Math.min(startPy, pos.y);
-    const boxWpx = Math.abs(pos.x - startPx), boxHpx = Math.abs(pos.y - startPy);
+    let leftPx = Math.min(startPx, pos.x), topPx = Math.min(startPy, pos.y);
+    let boxWpx = Math.abs(pos.x - startPx), boxHpx = Math.abs(pos.y - startPy);
 
     if(boxWpx < 6 || boxHpx < 6){ renderErasePreview(); return; }
+    const snapCb = document.getElementById('erase-snap');
+    if(snapCb && snapCb.checked){
+      try{
+        const sb = await eraseSnapManual({l:leftPx, t:topPx, r:leftPx+boxWpx, b:topPx+boxHpx});
+        if(sb){ leftPx = sb.l; topPx = sb.t; boxWpx = sb.r - sb.l; boxHpx = sb.b - sb.t; }
+      }catch(_){}
+    }
 
     const scale = eraseCurrentScale, pw = eraseCurrentPw, ph = eraseCurrentPh;
-    const widthPt = Math.round(boxWpx / scale * 10) / 10;
-    const heightPt = Math.round(boxHpx / scale * 10) / 10;
+    const widthPt = Math.round(boxWpx / scale * 100) / 100;
+    const heightPt = Math.round(boxHpx / scale * 100) / 100;
     const xPt = leftPx / scale;
     const yPtFromTop = topPx / scale;
     const yPt = ph - yPtFromTop - heightPt;
 
-    const xPct = Math.max(0, Math.min(100, Math.round((xPt / Math.max(1, pw - widthPt)) * 10000) / 100));
-    const yPct = Math.max(0, Math.min(100, Math.round((yPt / Math.max(1, ph - heightPt)) * 10000) / 100));
+    const xPct = Math.max(0, Math.min(100, Math.round((xPt / Math.max(1, pw - widthPt)) * 1000000) / 10000));
+    const yPct = Math.max(0, Math.min(100, Math.round((yPt / Math.max(1, ph - heightPt)) * 1000000) / 10000));
 
     eraseEdits.push({ text:'', xPct, yPct, widthPt, heightPt, fontSize:14, textColor:'#000000', eraseMode:'auto', eraseColor:'#ffffff', fontFamily:"'IBM Plex Sans Arabic', sans-serif", textAlign:'right', offsetX:0, offsetY:0 });
     eraseRenderEditsList();
@@ -11895,7 +12399,7 @@ document.getElementById('erase-zoom').addEventListener('input', ()=>{
 });
 document.getElementById('erase-zoom-in').addEventListener('click', ()=>{
   const zoomInput = document.getElementById('erase-zoom');
-  zoomInput.value = Math.min(250, (parseFloat(zoomInput.value) || 100) + 20);
+  zoomInput.value = Math.min(400, (parseFloat(zoomInput.value) || 100) + 20);
   document.getElementById('erase-zoom-val').textContent = zoomInput.value;
   renderErasePreview();
 });
@@ -11917,9 +12421,11 @@ function eraseBoxPx(edit, pw, ph, sc){
 function eraseTextPlacement(edit, rendered, x, y){
   const align = edit.textAlign || 'right';
   let txtX;
-  if(align === 'left') txtX = x + 3;
+  const mg = edit.tight ? 0 : 3;
+  const pd = (edit.tight && rendered.padPt) ? rendered.padPt : 0;
+  if(align === 'left') txtX = x + mg - pd;
   else if(align === 'center') txtX = x + (edit.widthPt - rendered.widthPt)/2;
-  else txtX = x + edit.widthPt - rendered.widthPt - 3;
+  else txtX = x + edit.widthPt - rendered.widthPt - mg + pd;
   const txtY = y + (edit.heightPt - rendered.heightPt)/2 + (edit.offsetY || 0);
   return { x: txtX + (edit.offsetX || 0), y: txtY };
 }
@@ -11957,7 +12463,7 @@ document.getElementById('erase-btn').addEventListener('click', async ()=>{
         const bx = eraseBoxPx(edit, pw, ph, k);
         eraseFillRegion(octx, clean, bx.px, bx.py, bx.pw_, bx.ph_, edit.eraseMode || 'auto', edit.eraseColor, Math.max(2, Math.round(k*1.5)));
         if(edit.text.trim()){
-          const rendered = renderTextToCanvas(eraseTxt(edit), edit.fontSize, edit.textColor, edit.fontFamily, Math.max(k, 1));
+          const rendered = renderTextToCanvas(eraseTxt(edit), edit.fontSize, edit.textColor, edit.fontFamily, Math.max(k, 1), {inkFit:true, weight: edit.weight || 600});
           const pos = eraseTextPlacement(edit, rendered, bx.x, bx.y);
           octx.drawImage(rendered.canvas, pos.x*k, (ph - pos.y - rendered.heightPt)*k, rendered.widthPt*k, rendered.heightPt*k);
         }
@@ -11990,7 +12496,7 @@ document.getElementById('erase-btn').addEventListener('click', async ()=>{
         const pg = await eraseSrc.pdf.getPage(pageNum);
         const base = pg.getViewport({scale:1});
         pw = base.width; ph = base.height;
-        sc = Math.min(flatten ? 4 : 3, 7000/pw, 7000/ph, Math.sqrt(50e6/(pw*ph)));
+        sc = Math.min(flatten ? 5 : 4, 7000/pw, 7000/ph, Math.sqrt(60e6/(pw*ph)));
         const vp = pg.getViewport({scale: sc});
         clean = document.createElement('canvas');
         clean.width = Math.floor(vp.width); clean.height = Math.floor(vp.height);
@@ -12025,8 +12531,8 @@ document.getElementById('erase-btn').addEventListener('click', async ()=>{
             // colour-matched patch cut from the high-resolution render of this page
             const dctx = dst.getContext('2d');
             eraseFillRegion(dctx, clean, bx.px, bx.py, bx.pw_, bx.ph_, mode, edit.eraseColor, Math.max(2, Math.round(sc*1.5)));
-            const x0 = Math.max(0, Math.floor(bx.px)), y0 = Math.max(0, Math.floor(bx.py));
-            const x1 = Math.min(dst.width, Math.ceil(bx.px + bx.pw_)), y1 = Math.min(dst.height, Math.ceil(bx.py + bx.ph_));
+            const x0 = Math.max(0, Math.round(bx.px)), y0 = Math.max(0, Math.round(bx.py));
+            const x1 = Math.min(dst.width, Math.max(x0 + 1, Math.round(bx.px + bx.pw_))), y1 = Math.min(dst.height, Math.max(y0 + 1, Math.round(bx.py + bx.ph_)));
             if(x1 > x0 && y1 > y0){
               const patch = document.createElement('canvas'); patch.width = x1 - x0; patch.height = y1 - y0;
               patch.getContext('2d').drawImage(dst, x0, y0, patch.width, patch.height, 0, 0, patch.width, patch.height);
@@ -12036,7 +12542,7 @@ document.getElementById('erase-btn').addEventListener('click', async ()=>{
           }
         }
         if(edit.text.trim()){
-          const rendered = renderTextToCanvas(eraseTxt(edit), edit.fontSize, edit.textColor, edit.fontFamily, 12);
+          const rendered = renderTextToCanvas(eraseTxt(edit), edit.fontSize, edit.textColor, edit.fontFamily, 12, {inkFit:true, weight: edit.weight || 600});
           const embeddedImg = await pdfDoc.embedPng(await (await eraseCanvasToBlob(rendered.canvas, 'image/png')).arrayBuffer());
           const pos = eraseTextPlacement(edit, rendered, bx.x, bx.y);
           targetPage.drawImage(embeddedImg, { x: pos.x, y: pos.y, width: rendered.widthPt, height: rendered.heightPt });
@@ -12646,7 +13152,7 @@ document.getElementById('svg-btn').addEventListener('click', async ()=>{
 /* ============================================================
    CARD DESIGNER — new card (front/back) or edit a ready-made card image: text, stamps, lines, logos
    ============================================================ */
-const CE_DPI = 300, CE_MM = { c90x50:[90, 50], c50x90:[50, 90], id:[85.6, 54], a6:[105, 148], sq:[80, 80] };
+const CE_DPI = 300, CE_MM = { c90x50:[90, 50], c50x90:[50, 90], id:[85.6, 54], a6:[105, 148], sq:[80, 80], s60x40:[60, 40], s40x60:[40, 60], m100x70:[100, 70], m70x100:[70, 100], l150x100:[150, 100], l100x150:[100, 150], a5:[148, 210], w120x170:[120, 170] };
 const ce = { mode:'', base:null, W:0, H:0, data:null, items:[], sideItems:{ front:[], back:[] }, side:'front', sel:-1, drag:null, cache:new Map(), stampCache:new Map(), epoch:0 };
 ['ce-font','ce-st-font'].forEach(id=>{ const f = document.getElementById(id); ERASE_FONT_OPTIONS.forEach(o=>{ const e = document.createElement('option'); e.value = o.v; e.textContent = o.l; f.appendChild(e); }); });
 function ceMedian(a){ a.sort((x, y)=> x - y); return a[a.length >> 1]; }
@@ -12768,10 +13274,10 @@ function ceDrawItem(ctx, it){
     ctx.direction = /[֐-ࣿ]/.test(l) ? 'rtl' : 'ltr'; ctx.fillText(l, ax, top + i * lh); });
   ctx.restore();
 }
-function ceDecor(ctx, w, h){
-  const style = document.getElementById('ce-decor').value; if(style === 'none') return;
-  const side = document.getElementById('ce-decor-side').value; if(!(side === 'both' || side === ce.side)) return;
-  const color = document.getElementById('ce-decor-color').value, margin = Math.min(w, h) * 0.1, size = Math.min(w, h) * 0.11;
+function ceDecor(ctx, w, h, opt){
+  const style = opt ? opt.style : document.getElementById('ce-decor').value; if(style === 'none') return;
+  const side = opt ? opt.side : document.getElementById('ce-decor-side').value; if(!(side === 'both' || side === (opt ? opt.cur : ce.side))) return;
+  const color = opt ? opt.color : document.getElementById('ce-decor-color').value, margin = Math.min(w, h) * 0.1, size = Math.min(w, h) * 0.11;
   const fn = style.indexOf('hearts') === 0 ? card2sDrawHeart : (style.indexOf('flowers') === 0 ? card2sDrawFlower : card2sDrawStar);
   if(style.endsWith('-corners')){ fn(ctx, margin, margin, size, color); fn(ctx, w - margin, margin, size, color); fn(ctx, margin, h - margin, size, color); fn(ctx, w - margin, h - margin, size, color); }
   else if(style === 'hearts-sides'){ fn(ctx, margin * 0.8, h / 2, size, color); fn(ctx, w - margin * 0.8, h / 2, size, color); }
@@ -13033,6 +13539,7 @@ async function ceRenderCanvas(side, fmt){
   });
   g('ce-start-new').addEventListener('click', ()=>{ ce.W = ce.H = 0; ceShowWork('new'); ceBuildNewBase(); });
   g('ce-start-img').addEventListener('click', ()=> g('ce-file').click());
+  g('ce-start-sheet').addEventListener('click', ()=>{ const ts = g('tools-select'); ts.value = 'sheet'; ts.dispatchEvent(new Event('change')); window.scrollTo({ top:0, behavior:'smooth' }); });
   g('ce-file').addEventListener('change', async ()=>{
     const f = g('ce-file').files[0]; if(!f) return;
     try{
@@ -13390,6 +13897,124 @@ function uddahAskPass(title, confirm){
   });
   window.ceTplRender = render; render();
 })();
+/* ============================================================
+   READY-MADE OCCASION CARDS (weddings, engagement, baby, graduation…) — every text, colour and frame stays editable
+   ============================================================ */
+const CEW_F = { ru:"'Aref Ruqaa', serif", am:"'Amiri', serif", ca:"'IBM Plex Sans Arabic', sans-serif", ta:"'IBM Plex Sans Arabic', sans-serif", ra:"'Rakkas', cursive", ka:"'Katibeh', cursive", ti:"'Times New Roman', serif", mo:"'Montserrat', sans-serif" };
+const CEW_BASMALA = 'بسم الله الرحمن الرحيم';
+const CEW_VERSE = '﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ\nأَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ﴾';
+const CEW_BACK = [['شاكرين لكم حسن حضوركم', 2.2, 'name'], 0.8, ['نسعد بتواجدكم معنا\nفي هذه المناسبة السعيدة', 1.2, 'body'], 1.4, ['للاستفسار والتواصل', 1, 'title'], ['٠٥٠٠٠٠٠٠٠٠', 1.2, 'body'], 0.8, ['موقع المناسبة: [اسم المكان / الحي / المدينة]', 1, 'small']];
+const CEW = [
+  { id:'wed-gold', cat:'wed', ar:'زواج — ذهبي كلاسيكي', en:'Wedding — classic gold', preset:'w120x170', bg:'#fffaf0', accent:'#b08a3e', ink:'#5a4520', ft:'ru', fb:'am', decor:'none', frame:{ lines:2, r:2 },
+    front:[[CEW_BASMALA, 1, 'title'], 0.5, [CEW_VERSE, 1, 'small'], 0.8, ['يتشرف [اسم ولي الأمر] بدعوتكم', 1, 'body'], ['لحضور حفل زفاف ابنه / ابنته', 1, 'body'], 0.6, ['فهد', 2.4, 'name'], ['و', 1, 'title'], ['نورة', 2.4, 'name'], 0.8, ['وذلك يوم الجمعة ٢٥ / ٣ / ١٤٤٧هـ', 1, 'body'], ['بعد صلاة العشاء', 1, 'body'], ['قاعة [اسم القاعة] — [المدينة]', 1, 'body'], 0.8, ['وجودكم يُسعدنا ويشرّفنا', 1.1, 'title']], back:CEW_BACK },
+  { id:'wed-rose', cat:'wed', ar:'زواج — وردي بالقلوب', en:'Wedding — rose hearts', preset:'w120x170', bg:'#fff5f7', accent:'#c2456b', ink:'#6b2d3e', ft:'ru', fb:'ca', decor:'hearts-corners', dc:'#d94f70', frame:{ lines:1, r:6 },
+    front:[[CEW_BASMALA, 1, 'title'], 1, ['تدعوكم أسرة [اسم العائلة]', 1, 'body'], ['لحضور حفل زفاف', 1.2, 'body'], 0.6, ['فهد', 2.5, 'name'], ['❤', 1.2, 'title'], ['نورة', 2.5, 'name'], 1, ['الجمعة ٢٥ / ٣ / ١٤٤٧هـ', 1, 'body'], ['الساعة ٨:٣٠ مساءً', 1, 'body'], ['[اسم القاعة] — [المدينة]', 1, 'body'], 1, ['بحضوركم تكتمل فرحتنا', 1.1, 'title']], back:CEW_BACK },
+  { id:'wed-emerald', cat:'wed', ar:'زواج — أخضر زمردي', en:'Wedding — emerald', preset:'w120x170', bg:'#f3faf6', accent:'#1f7a5a', ink:'#1d3d33', ft:'am', fb:'ta', decor:'stars-corners', dc:'#1f7a5a', frame:{ lines:2, r:10 }, boldTitle:true,
+    front:[[CEW_BASMALA, 1, 'title'], 0.8, ['بكل الحب والسرور', 1, 'body'], ['يدعوكم أهل العريس والعروس', 1, 'body'], ['لحضور حفل الزفاف', 1.2, 'title'], 0.5, ['فهد', 2.4, 'name'], ['&', 1, 'title'], ['نورة', 2.4, 'name'], 0.8, ['يوم الجمعة الموافق ٢٥ / ٣ / ١٤٤٧هـ', 1, 'body'], ['استقبال الضيوف الساعة ٨:٠٠ مساءً', 1, 'body'], ['[اسم القاعة] — [العنوان]', 1, 'body'], 0.8, ['نتشرف بحضوركم', 1.1, 'title']], back:CEW_BACK },
+  { id:'wed-navy', cat:'wed', ar:'زواج — كحلي وذهبي', en:'Wedding — navy & gold', preset:'w120x170', bg:'#0f2747', accent:'#e3c47a', ink:'#f4ecd8', ft:'ru', fb:'am', decor:'none', frame:{ lines:2, r:2, color:'#e3c47a' },
+    front:[[CEW_BASMALA, 1, 'title'], 0.5, [CEW_VERSE, 1, 'small'], 0.8, ['يسعد أسرة [اسم العائلة] دعوتكم', 1, 'body'], ['لحضور حفل زفاف نجلهم', 1, 'body'], 0.6, ['فهد', 2.6, 'name'], ['و', 1, 'title'], ['نورة', 2.6, 'name'], 0.8, ['يوم الجمعة ٢٥ / ٣ / ١٤٤٧هـ', 1, 'body'], ['بعد صلاة العشاء', 1, 'body'], ['[اسم القاعة] — [المدينة]', 1, 'body'], 0.8, ['وجودكم شرف لنا', 1.1, 'title']], back:CEW_BACK },
+  { id:'wed-floral', cat:'wed', ar:'زواج — إطار زهور', en:'Wedding — floral border', preset:'w120x170', bg:'#fffdf7', accent:'#b5527a', ink:'#5b3a46', ft:'ra', fb:'ca', decor:'flowers-border', dc:'#e7a6bd', frame:null, inset:0.08,
+    front:[[CEW_BASMALA, 1, 'title'], 1, ['ندعوكم لمشاركتنا فرحة', 1, 'body'], ['حفل زفاف', 1.5, 'title'], 0.6, ['فهد', 2.4, 'name'], ['و', 1, 'title'], ['نورة', 2.4, 'name'], 1, ['الجمعة ٢٥ / ٣ / ١٤٤٧هـ', 1, 'body'], ['بعد صلاة العشاء', 1, 'body'], ['[اسم القاعة] — [المدينة]', 1, 'body'], 1, ['في انتظاركم', 1.1, 'title']], back:CEW_BACK },
+  { id:'wed-min', cat:'wed', ar:'زواج — بسيط عصري', en:'Wedding — modern minimal', preset:'w120x170', bg:'#ffffff', accent:'#111111', ink:'#333333', ft:'ca', fb:'ta', decor:'none', frame:{ lines:1, r:0, thin:true }, boldTitle:true,
+    front:[['حفل زفاف', 1.3, 'title'], 1.4, ['فهد', 2.8, 'name'], ['&', 1.2, 'title'], ['نورة', 2.8, 'name'], 1.4, ['الجمعة ٢٥ / ٣ / ١٤٤٧هـ', 1, 'body'], ['٨:٣٠ مساءً', 1, 'body'], 0.6, ['[اسم القاعة] — [المدينة]', 1, 'body'], 1.4, ['يسعدنا حضوركم', 1, 'small']], back:CEW_BACK },
+  { id:'wed-en', cat:'wed', ar:'زواج — إنجليزي أنيق', en:'Wedding — elegant English', preset:'w120x170', bg:'#faf7f2', accent:'#8a6d3b', ink:'#3b3b3b', ft:'ti', fb:'ti', decor:'none', frame:{ lines:2, r:2 }, boldTitle:false,
+    front:[['TOGETHER WITH THEIR FAMILIES', 1, 'small'], 0.8, ['Ahmed', 2.6, 'name'], ['&', 1.2, 'title'], ['Sara', 2.6, 'name'], 0.8, ['request the pleasure of your company', 1, 'body'], ['at their wedding celebration', 1, 'body'], 0.8, ['Friday, September 18, 2026', 1.1, 'title'], ['at 8:30 in the evening', 1, 'body'], 0.5, ['[Venue name] — [City]', 1, 'body'], 1, ['Dinner and dancing to follow', 1, 'small']],
+    back:[['Thank you', 2.4, 'name'], 0.8, ['for celebrating with us', 1.2, 'body'], 1.4, ['RSVP', 1, 'title'], ['+966 5X XXX XXXX', 1.2, 'body'], 0.8, ['[Address / map link]', 1, 'small']] },
+  { id:'engage', cat:'eng', ar:'خطوبة', en:'Engagement', preset:'w120x170', bg:'#fbf6ff', accent:'#7a4bb5', ink:'#43305e', ft:'ru', fb:'ca', decor:'hearts-corners', dc:'#a98bd6', frame:{ lines:2, r:8 },
+    front:[[CEW_BASMALA, 1, 'title'], 1, ['يسرّ أسرة [اسم العائلة]', 1, 'body'], ['دعوتكم لحضور', 1, 'body'], ['حفل خطوبة', 2, 'title'], 0.6, ['فهد', 2.4, 'name'], ['و', 1, 'title'], ['نورة', 2.4, 'name'], 1, ['الخميس ٢٤ / ٣ / ١٤٤٧هـ', 1, 'body'], ['الساعة ٨:٠٠ مساءً', 1, 'body'], ['[المكان] — [المدينة]', 1, 'body'], 1, ['بحضوركم تزداد فرحتنا', 1.1, 'title']], back:CEW_BACK },
+  { id:'nikah', cat:'wed', ar:'عقد قران (ملكة)', en:'Marriage contract (Nikah)', preset:'w120x170', bg:'#f6fbf4', accent:'#2f7d4f', ink:'#244634', ft:'ru', fb:'am', decor:'none', frame:{ lines:2, r:3 },
+    front:[[CEW_BASMALA, 1, 'title'], 0.6, ['يتشرف [اسم ولي الأمر]', 1, 'body'], ['بدعوتكم لحضور مراسم', 1, 'body'], ['عقد القران', 2.2, 'title'], 0.6, ['فهد', 2.4, 'name'], ['على كريمته', 1, 'body'], ['نورة', 2.4, 'name'], 0.8, ['وذلك يوم الأربعاء ٢٣ / ٣ / ١٤٤٧هـ', 1, 'body'], ['بعد صلاة المغرب', 1, 'body'], ['منزل / [المكان] — [المدينة]', 1, 'body'], 0.8, ['وعشاء بهذه المناسبة', 1, 'small']], back:CEW_BACK },
+  { id:'baby', cat:'baby', ar:'بشارة مولود', en:'New baby', preset:'w120x170', bg:'#f1f8ff', accent:'#3d7fc4', ink:'#2c4663', ft:'ra', fb:'ca', decor:'stars-corners', dc:'#8fbbe8', frame:{ lines:1, r:12 },
+    front:[[CEW_BASMALA, 1, 'title'], 1, ['بكل الحمد والشكر لله', 1, 'body'], ['رُزقنا بمولودنا', 1.4, 'body'], 0.6, ['[اسم المولود]', 3, 'name'], 0.6, ['نسأل الله أن يجعله قرة عين لنا', 1, 'body'], ['وأن يُنبته نباتاً حسناً', 1, 'body'], 1, ['وُلد بتاريخ ١ / ٣ / ١٤٤٧هـ', 1, 'body'], ['الوزن: ٣٫٢ كجم', 1, 'small'], 1, ['والداه: [الأب] و [الأم]', 1.1, 'title']], back:[['شكراً لتهانيكم ودعواتكم', 2, 'name'], 1, ['جزاكم الله خيراً', 1.2, 'body'], 1.5, ['للتواصل', 1, 'title'], ['٠٥٠٠٠٠٠٠٠٠', 1.2, 'body']] },
+  { id:'grad', cat:'grad', ar:'حفل تخرج', en:'Graduation party', preset:'w120x170', bg:'#0f2747', accent:'#e3c47a', ink:'#f4ecd8', ft:'ru', fb:'ca', decor:'stars-corners', dc:'#e3c47a', frame:{ lines:2, r:2, color:'#e3c47a' },
+    front:[[CEW_BASMALA, 1, 'title'], 1, ['يسعدنا دعوتكم لحضور', 1, 'body'], ['حفل تخرج', 2.2, 'title'], 0.6, ['[اسم الخريج / الخريجة]', 2.6, 'name'], 0.6, ['بكالوريوس / [التخصص]', 1, 'body'], ['[اسم الجامعة]', 1, 'body'], 1, ['يوم السبت ٢٦ / ٣ / ١٤٤٧هـ', 1, 'body'], ['الساعة ٧:٠٠ مساءً', 1, 'body'], ['[المكان] — [المدينة]', 1, 'body'], 1, ['بحضوركم نكتمل', 1.1, 'title']], back:CEW_BACK },
+  { id:'invite', cat:'gen', ar:'دعوة عامة (أي مناسبة)', en:'General invitation', preset:'w120x170', bg:'#fffdf8', accent:'#a8552a', ink:'#4a3326', ft:'ca', fb:'ta', decor:'none', frame:{ lines:1, r:6 }, boldTitle:true,
+    front:[['دعوة', 2.4, 'name'], 0.8, ['يتشرف [اسم الداعي]', 1, 'body'], ['بدعوتكم لحضور', 1, 'body'], ['[اسم المناسبة]', 2, 'title'], 0.8, ['التاريخ: [اليوم والتاريخ]', 1, 'body'], ['الوقت: [الساعة]', 1, 'body'], ['المكان: [اسم المكان]', 1, 'body'], ['العنوان: [الحي — المدينة]', 1, 'body'], 1, ['يسعدنا حضوركم', 1.1, 'title']], back:CEW_BACK },
+  { id:'thanks', cat:'gen', ar:'بطاقة شكر (أفقي)', en:'Thank-you card (landscape)', preset:'m100x70', bg:'#fff8ee', accent:'#b5527a', ink:'#5b3a46', ft:'ru', fb:'ca', decor:'flowers-corners', dc:'#e7a6bd', frame:{ lines:1, r:8 }, margin:0.1,
+    front:[['شكراً لحضوركم', 2.6, 'name'], 0.6, ['سعدنا بوجودكم ومشاركتكم فرحتنا', 1, 'body'], 0.8, ['فهد و نورة', 1.6, 'title']], back:[['جزاكم الله خيراً', 2, 'name'], 0.6, ['ودمتم لنا سنداً وأهلاً', 1, 'body']] }
+];
+function cewBuildItems(t, side, W, H){
+  const lines = side === 'back' ? (t.back || CEW_BACK) : t.front, mm = Math.min(W, H), inset = (t.inset || 0.045) * mm, items = [];
+  const bold = t.boldTitle !== false;
+  if(t.frame && side){
+    const fc = t.frame.color || t.accent, lw = Math.max(2, Math.round(W * (t.frame.thin ? 0.0025 : 0.005)));
+    items.push({ type:'frame', x:inset, y:inset, w:W - inset * 2, h:H - inset * 2, color:fc, width:lw, radius:t.frame.r, style:'solid', lines:t.frame.lines, fill:'none', fillColor:'#ffffff' });
+  }
+  const padY = (t.frame || t.decor !== 'none' ? 0.1 : 0.07) * H * (W > H ? 1.1 : 1), y0 = padY, y1 = H - padY, span = y1 - y0;
+  const sum = lines.reduce((a, l)=> a + (typeof l === 'number' ? l : l[1] * l[0].split('\n').length), 0), unit = span / sum, px = W * (t.margin || 0.1);
+  let y = y0;
+  lines.forEach(l=>{
+    if(typeof l === 'number'){ y += l * unit; return; }
+    const [text, wgt, role] = l, n = text.split('\n').length, h = wgt * n * unit;
+    const isT = role === 'title' || role === 'name', color = isT ? t.accent : t.ink, font = role === 'name' || role === 'title' ? CEW_F[t.ft] : CEW_F[t.fb];
+    items.push({ type:'text', x:px, y, w:W - px * 2, h, text, font, size:0, color, align:'center', cover:'none', coverColor:'#ffffff', bold:role === 'name' ? true : (role === 'title' ? bold : false), split:false, digits:'keep' });
+    y += h;
+  });
+  return items;
+}
+function cewThumb(t, side, wpx){
+  const mm = CE_MM[t.preset], k = wpx / mm[0], W = Math.round(mm[0] * k), H = Math.round(mm[1] * k), c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d'); x.fillStyle = t.bg; x.fillRect(0, 0, W, H);
+  ceDecor(x, W, H, { style:t.decor || 'none', color:t.dc || '#d94f70', side:'both', cur:side });
+  cewBuildItems(t, side, W, H).forEach(it=> ceDrawItem(x, it)); return c;
+}
+function cewApply(t){
+  const g = id => document.getElementById(id);
+  g('ce-preset').value = t.preset; g('ce-bg').value = t.bg; g('ce-decor').value = t.decor || 'none'; g('ce-decor-color').value = t.dc || '#d94f70'; g('ce-decor-side').value = 'both'; g('ce-custom-wrap').style.display = 'none';
+  ce.W = ce.H = 0; ceShowWork('new'); ceBuildNewBase();
+  ce.sideItems = { front:cewBuildItems(t, 'front', ce.W, ce.H), back:cewBuildItems(t, 'back', ce.W, ce.H) }; ce.stampCache.clear(); ceSetSide('front');
+  ce.sideItems.front.concat(ce.sideItems.back).filter(i=> i.type === 'text').forEach(i=> ceLoadFont(i.font, i.bold ? 700 : 400));
+  g('ce-wed-gal').style.display = 'none'; ceRedraw(); setStatus('ce-status', cewT('applied'), 'ok');
+}
+const CEW_TXT = { ar:{ applied:'تم تحميل القالب — اضغط أي نص لتعديله، أو اسحبه وكبّره بحرية', use:'استخدام القالب', all:'الكل', wed:'زواج', eng:'خطوبة', baby:'مولود', grad:'تخرج', gen:'دعوات وشكر', back:'رجوع', front:'الوجه', backS:'الظهر', fontsNote:'الخطوط الزخرفية تحتاج إنترنت لتظهر كما في المعاينة.' },
+  en:{ applied:'Template loaded — tap any text to edit it, or drag and resize freely', use:'Use template', all:'All', wed:'Wedding', eng:'Engagement', baby:'Baby', grad:'Graduation', gen:'Invitations & thanks', back:'Back', front:'Front', backS:'Back', fontsNote:'Decorative fonts need internet to look like the preview.' } };
+const cewT = k => (CEW_TXT[currentLang] || CEW_TXT.ar)[k] || k;
+(function cewGallery(){
+  const g = id => document.getElementById(id); let cat = 'all', fontsReady = false;
+  function render(){
+    const box = g('ce-wed-list'); if(!box) return; box.textContent = '';
+    const chips = g('ce-wed-cats'); chips.textContent = '';
+    ['all', 'wed', 'eng', 'baby', 'grad', 'gen'].forEach(c=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary'; b.style.cssText = 'padding:6px 14px;min-height:0;font-size:.9rem;' + (c === cat ? 'outline:2px solid #2b6cb0;' : ''); b.textContent = cewT(c); b.addEventListener('click', ()=>{ cat = c; render(); }); chips.appendChild(b); });
+    CEW.filter(t=> cat === 'all' || t.cat === cat).forEach(t=>{
+      const card = document.createElement('div'); card.style.cssText = 'border:1px solid var(--border);border-radius:10px;padding:8px;background:var(--bg-elev);display:flex;flex-direction:column;gap:6px;';
+      const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:6px;justify-content:center;align-items:flex-start;';
+      ['front', 'back'].forEach(s=>{ const c = cewThumb(t, s, 150); c.style.cssText = 'width:48%;height:auto;border:1px solid var(--border);border-radius:4px;background:#fff;'; row.appendChild(c); });
+      const nm = document.createElement('b'); nm.style.cssText = 'font-size:.9rem;text-align:center;'; nm.textContent = currentLang === 'en' ? t.en : t.ar;
+      const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.style.cssText = 'padding:8px 10px;min-height:0;font-size:.9rem;'; bt.textContent = cewT('use'); bt.addEventListener('click', ()=> cewApply(t));
+      card.appendChild(row); card.appendChild(nm); card.appendChild(bt); box.appendChild(card);
+    });
+  }
+  async function open(){
+    g('ce-wed-gal').style.display = ''; g('ce-start').style.display = 'none'; g('ce-tpl-start').style.display = 'none'; render();
+    if(!fontsReady){ fontsReady = true; try{ await Promise.all(Object.values(CEW_F).map(f=> document.fonts.load(`700 40px ${f}`).catch(()=>0))); render(); }catch(e){} }
+  }
+  g('ce-start-wed').addEventListener('click', open);
+  g('ce-wed-back').addEventListener('click', ()=>{ g('ce-wed-gal').style.display = 'none'; g('ce-start').style.display = ''; g('ce-tpl-start').style.display = ''; });
+  window.cewRender = ()=>{ if(g('ce-wed-gal').style.display !== 'none') render(); };
+})();
+
+/* ---- copy format between elements of the same kind ---- */
+(function ceFormatCopy(){
+  const g = id => document.getElementById(id);
+  const KEYS = { text:['font', 'size', 'color', 'align', 'bold', 'digits'], frame:['color', 'width', 'radius', 'style', 'lines', 'fill', 'fillColor'], line:['color', 'width', 'style'], stamp:['color', 'font', 'thick', 'opacity', 'wear', 'rot', 'rings', 'mult', 'tsC', 'tsR', 'tsAll', 'ringW', 'tsT', 'tsB', 'ts1', 'ts2', 'ts3', 'ts4', 'digits'], img:['opacity', 'white', 'mult'] };
+  const T = { ar:{ copied:'تم نسخ التنسيق ✓ — حدّد عنصراً مشابهاً وطبّقه', none:'حدّد عنصراً وانسخ تنسيقه أولاً', pick:'حدّد العنصر الذي تريد تطبيق التنسيق عليه', type:'نوع العنصر مختلف عن المنسوخ', done:'تم تطبيق التنسيق ✓', n:'عنصر' }, en:{ copied:'Format copied ✓ — select a similar element and apply it', none:'Select an element and copy its format first', pick:'Select the element to apply the format to', type:'This element is a different kind from the copied one', done:'Format applied ✓', n:'elements' } };
+  const t = k => (T[currentLang] || T.ar)[k];
+  let fmt = null;
+  g('ce-fmt-copy').addEventListener('click', ()=>{
+    const it = ce.items[ce.sel]; if(!it){ setStatus('ce-status', t('none'), 'err'); return; }
+    fmt = { type:it.type, props:{} }; (KEYS[it.type] || []).forEach(k=> fmt.props[k] = it[k]); setStatus('ce-status', t('copied'), 'ok');
+  });
+  const apply = it=>{ (KEYS[fmt.type] || []).forEach(k=>{ if(fmt.props[k] !== undefined) it[k] = fmt.props[k]; }); if(it.type === 'text' || it.type === 'stamp') ceLoadFont(it.font, it.bold === false ? 400 : 700); };
+  g('ce-fmt-sel').addEventListener('click', ()=>{
+    if(!fmt){ setStatus('ce-status', t('none'), 'err'); return; } const it = ce.items[ce.sel]; if(!it){ setStatus('ce-status', t('pick'), 'err'); return; }
+    if(it.type !== fmt.type){ setStatus('ce-status', t('type'), 'err'); return; } apply(it); ceSelect(ce.sel); setStatus('ce-status', t('done'), 'ok');
+  });
+  g('ce-fmt-all').addEventListener('click', ()=>{
+    if(!fmt){ setStatus('ce-status', t('none'), 'err'); return; } let n = 0; const sides = g('ce-fmt-both').checked ? ['front', 'back'] : [ce.side];
+    sides.forEach(s=> ce.sideItems[s].forEach(it=>{ if(it.type === fmt.type){ apply(it); n++; } })); ceSelect(ce.sel); setStatus('ce-status', t('done') + ' (' + n + ' ' + t('n') + ')', n ? 'ok' : 'err');
+  });
+})();
+
 // Loads an image / SVG file into a canvas no larger than maxSide on its longest side
 async function ceLoadFile(file, maxSide){
   let im;
@@ -13404,6 +14029,355 @@ async function ceLoadFile(file, maxSide){
   c.width = Math.max(1, Math.round(im.naturalWidth * k)); c.height = Math.max(1, Math.round(im.naturalHeight * k));
   c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); return c;
 }
+
+/* ============================================================
+   MULTI-IMAGE A4 SHEET — many pictures / cards on A4 pages: move, resize, presets, copy format, auto layout, 300 DPI export
+   ============================================================ */
+const SH_TXT = {
+  ar:{ title:'ورقة A4 متعددة الصور (كروت)', hint:'ضع عدة صور أو كروت على صفحة A4 بمقاسها الحقيقي: كبّر وصغّر وحرّك كل صورة بيدك، أو اختر مقاس صغير / متوسط / كبير، وانسخ التنسيق وطبّقه على بعض الصور أو كلها. كل شيء يتم داخل متصفحك ولا يُرفع أي ملف.',
+    addImgs:'إضافة صور', addImgsSub:'اختر صورة أو عدة صور دفعة واحدة', addCard:'الكرت من المصمم', addCardSub:'الوجه والظهر بمقاسه الحقيقي', orient:'اتجاه الورقة', orientP:'طولي', orientL:'عرضي', margin:'الهامش', mm:'مم', cm:'سم', gap:'المسافة بين الصور', bg:'لون الورقة',
+    autoAdd:'ترتيب تلقائي عند إضافة صور', grid:'📏 شبكة (كل ١ سم)', snap:'مغناطيس الحواف', sizesTitle:'📐 مقاسات الكروت', sizesNote:'تنطبق على الصور المحددة، وإن لم تحدد شيئاً فعلى كل الصور.', szS:'صغير', szM:'متوسط', szL:'كبير', szId:'بطاقة هوية', szFull:'ملء الصفحة', szFullSub:'داخل الهوامش',
+    keep:'الحفاظ على نسبة كل صورة (بدون قص)', eqW:'نفس العرض', eqH:'نفس الارتفاع', arrange:'🧩 ترتيب تلقائي', center:'⏺️ توسيط على الصفحة', selAll:'☑️ تحديد الكل', multi:'➕ تحديد متعدد', dup:'⧉ تكرار', del:'🗑️ حذف', toFront:'⬆️ للأمام', toBack:'⬇️ للخلف', pgPrev:'▶ صفحة سابقة', pgNext:'◀ صفحة تالية', pgNo:'رقم الصفحة',
+    dragNote:'المس صورة لتحديدها ثم اسحبها لتحريكها، أو اسحب الدوائر في زواياها لتكبيرها وتصغيرها. اضغط Shift أو Ctrl مع الصور لتحديد أكثر من صورة.', px:'من اليسار', py:'من الأعلى', pw:'العرض', ph:'الارتفاع', rot:'الدوران', fit:'ملاءمة الصورة', fitCover:'تعبئة (قص الزائد)', fitContain:'كاملة (بدون قص)', fitStretch:'تمديد', op:'الشفافية',
+    bw:'سُمك الإطار', bc:'لون الإطار', br:'استدارة الزوايا', lock:'تثبيت نسبة العرض للارتفاع', shadow:'ظل خفيف', fmtTitle:'🎨 نسخ التنسيق', fmtNote:'انسخ إطار وظل وشفافية صورة، ثم طبّقها على صور أخرى. فعّل «مع المقاس» لنسخ الحجم أيضاً.', fmtSize:'مع المقاس', fmtCopy:'🎨 نسخ تنسيق المحددة', fmtSel:'🎯 تطبيق على المحدد', fmtAll:'🧩 تطبيق على الكل',
+    dpi:'الدقة', cut:'علامات القص', cutNo:'بدون', cutYes:'علامات صغيرة عند الزوايا', dlPdf:'تنزيل PDF (كل الصفحات)', dlPng:'تنزيل صورة (الصفحة الحالية)', privacy:'الصور تبقى على جهازك فقط ولا تُحفظ في أي مكان: إن أغلقت الصفحة تُمسح.',
+    pTitleOne:'الصورة المحددة', pTitleMany:'صور محددة', page:'الصفحة', of:'من', items:'صورة', empty:'أضف صوراً لتظهر هنا.', added:'تمت إضافة الصور', bad:'تعذّر فتح بعض الملفات', noCard:'افتح مصمم الكروت وصمّم كرتاً أولاً', cardAdded:'أُضيف الكرت بمقاسه الحقيقي',
+    overflow:'بعض الصور لا تتسع في الصفحة فنُقلت لصفحة جديدة', fmtCopied:'تم نسخ التنسيق ✓', fmtNone:'انسخ تنسيق صورة أولاً', fmtDone:'تم تطبيق التنسيق ✓', done:'تم التنزيل ✓', noItems:'لا توجد صور بعد', busy:'جارٍ التجهيز…', fail:'تعذّر إنشاء الملف', arranged:'تم الترتيب', centered:'تم التوسيط', sel:'محدد' },
+  en:{ title:'Multi-image A4 sheet (cards)', hint:'Place several pictures or cards on a real-size A4 page: move and resize each one by hand, pick small / medium / large sizes, and copy a format onto some pictures or all. Everything runs in your browser; no file is uploaded.',
+    addImgs:'Add pictures', addImgsSub:'Pick one or many images at once', addCard:'Card from designer', addCardSub:'Front and back at real size', orient:'Page orientation', orientP:'Portrait', orientL:'Landscape', margin:'Margin', mm:'mm', cm:'cm', gap:'Gap between pictures', bg:'Page colour',
+    autoAdd:'Auto-arrange when adding pictures', grid:'📏 Grid (every 1 cm)', snap:'Edge snapping', sizesTitle:'📐 Card sizes', sizesNote:'Applies to the selected pictures, or to all pictures when none is selected.', szS:'Small', szM:'Medium', szL:'Large', szId:'ID card', szFull:'Fill page', szFullSub:'inside margins',
+    keep:'Keep each picture’s proportions (no cropping)', eqW:'Same width', eqH:'Same height', arrange:'🧩 Auto-arrange', center:'⏺️ Centre on page', selAll:'☑️ Select all', multi:'➕ Multi-select', dup:'⧉ Duplicate', del:'🗑️ Delete', toFront:'⬆️ Forward', toBack:'⬇️ Backward', pgPrev:'▶ Previous page', pgNext:'◀ Next page', pgNo:'Page number',
+    dragNote:'Tap a picture to select it, then drag to move, or drag the circles on its corners to resize. Hold Shift or Ctrl to select several.', px:'From left', py:'From top', pw:'Width', ph:'Height', rot:'Rotation', fit:'Picture fit', fitCover:'Fill (crop extra)', fitContain:'Whole (no crop)', fitStretch:'Stretch', op:'Opacity',
+    bw:'Border width', bc:'Border colour', br:'Corner radius', lock:'Lock aspect ratio', shadow:'Soft shadow', fmtTitle:'🎨 Copy format', fmtNote:'Copy the border, shadow and opacity of a picture and apply them to others. Tick “With size” to copy the size too.', fmtSize:'With size', fmtCopy:'🎨 Copy format of selected', fmtSel:'🎯 Apply to selected', fmtAll:'🧩 Apply to all',
+    dpi:'Resolution', cut:'Crop marks', cutNo:'None', cutYes:'Small marks at corners', dlPdf:'Download PDF (all pages)', dlPng:'Download image (current page)', privacy:'Pictures stay on your device only and are not stored anywhere: closing the page clears them.',
+    pTitleOne:'Selected picture', pTitleMany:'Selected pictures', page:'Page', of:'of', items:'pictures', empty:'Add pictures to see them here.', added:'Pictures added', bad:'Some files could not be opened', noCard:'Open the card designer and design a card first', cardAdded:'Card added at real size',
+    overflow:'Some pictures did not fit and moved to a new page', fmtCopied:'Format copied ✓', fmtNone:'Copy a picture’s format first', fmtDone:'Format applied ✓', done:'Downloaded ✓', noItems:'No pictures yet', busy:'Preparing…', fail:'Could not create the file', arranged:'Arranged', centered:'Centred', sel:'selected' }
+};
+const shT = k => (SH_TXT[currentLang] || SH_TXT.ar)[k] || SH_TXT.ar[k] || k;
+function shApplyLang(){
+  document.querySelectorAll('#tools-sheet [data-sh]').forEach(el=>{ el.textContent = shT(el.dataset.sh); });
+  if(window.shUpdateUi) window.shUpdateUi();
+}
+(function sheetTool(){
+  const g = id => document.getElementById(id), cv = g('sh-canvas');
+  const SIZES = { s:[60, 40], m:[90, 60], l:[140, 95], id:[85.6, 54] };
+  const sh = { orient:'p', page:0, extra:1, items:[], sel:[], prim:null, nextId:1, multi:false, fmt:null, drag:null, guides:null, k:2 };
+  const PW = ()=> sh.orient === 'p' ? 210 : 297, PH = ()=> sh.orient === 'p' ? 297 : 210;
+  const num = (id, d)=>{ const v = parseFloat(g(id).value); return isFinite(v) ? v : d; };
+  const margin = ()=> Math.max(0, num('sh-margin', 10)), gapMm = ()=> Math.max(0, num('sh-gap', 4));
+  const pages = ()=> Math.max(1, sh.extra, ...sh.items.map(i=> i.p + 1));
+  const byId = id => sh.items.find(i=> i.id === id);
+  const cur = ()=> sh.items.filter(i=> i.p === sh.page);
+  const selItems = ()=> sh.sel.map(byId).filter(Boolean);
+  const scope = ()=> { const s = selItems(); return s.length ? s : sh.items; };
+  const status = (m, t)=> setStatus('sh-status', m, t);
+  const rad = d => d * Math.PI / 180;
+  const clamp = (v, a, b)=> Math.min(b, Math.max(a, v));
+  const round2 = v => Math.round(v * 100) / 100;
+
+  function mkItem(img, w, h){
+    const it = { id:sh.nextId++, img, iw:img.width, ih:img.height, p:sh.page, x:0, y:0, w, h, rot:0, fit:'cover', op:1, bw:0, bc:'#000000', br:0, shadow:false, lock:true };
+    sh.items.push(it); return it;
+  }
+  function fitInto(it, bw, bh, keep){
+    const portrait = it.ih > it.iw * 1.02, boxW = portrait ? Math.min(bw, bh) : Math.max(bw, bh), boxH = portrait ? Math.max(bw, bh) : Math.min(bw, bh);
+    if(keep){ const s = Math.min(boxW / it.iw, boxH / it.ih); it.w = it.iw * s; it.h = it.ih * s; it.fit = 'cover'; }
+    else{ it.w = boxW; it.h = boxH; it.fit = 'cover'; }
+  }
+  function presetBox(key){
+    if(key === 'full'){ const m = margin(); return [PW() - 2 * m, PH() - 2 * m]; }
+    return SIZES[key];
+  }
+  function limitToPage(it){
+    const m = margin(), aw = PW() - 2 * m, ah = PH() - 2 * m;
+    if(it.w > aw || it.h > ah){ const s = Math.min(aw / it.w, ah / it.h); it.w *= s; it.h *= s; }
+  }
+
+  /* ---------- layout ---------- */
+  function arrange(list){
+    const m = margin(), gp = gapMm(), aw = PW() - 2 * m, ah = PH() - 2 * m;
+    list.forEach(limitToPage);
+    const pageRows = [[]]; let row = { items:[], w:0, h:0 }, pageH = 0, page = 0;
+    const closeRow = ()=>{ if(!row.items.length) return; pageRows[page].push(row); pageH += row.h + gp; row = { items:[], w:0, h:0 }; };
+    list.forEach(it=>{
+      const need = row.items.length ? row.w + gp + it.w : it.w;
+      if(row.items.length && need > aw + 0.01) closeRow();
+      const newH = Math.max(row.h, it.h);
+      if(pageH + newH > ah + 0.01){ if(row.items.length) closeRow(); if(pageRows[page].length){ page++; pageRows.push([]); pageH = 0; } }
+      row.w = row.items.length ? row.w + gp + it.w : it.w; row.items.push(it); row.h = Math.max(row.h, it.h);
+    });
+    closeRow();
+    pageRows.forEach((rows, p)=>{ let yy = m; rows.forEach(r=>{ let xx = m + (aw - r.w) / 2; r.items.forEach(it=>{ it.p = p; it.x = round2(xx); it.y = round2(yy); xx += it.w + gp; }); yy += r.h + gp; }); });
+    sh.extra = Math.max(1, ...sh.items.map(i=> i.p + 1));
+    return pageRows.length > 1;
+  }
+
+  /* ---------- drawing ---------- */
+  function rr(ctx, x, y, w, h, r){ r = Math.max(0, Math.min(r, w / 2, h / 2)); ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+  function drawItem(ctx, it, k){
+    const w = it.w * k, h = it.h * k; ctx.save();
+    ctx.translate((it.x + it.w / 2) * k, (it.y + it.h / 2) * k); ctx.rotate(rad(it.rot)); ctx.globalAlpha = it.op;
+    const r = it.br * k;
+    if(it.shadow){ ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.38)'; ctx.shadowBlur = k * 2.2; ctx.shadowOffsetX = k * 0.4; ctx.shadowOffsetY = k * 0.9; ctx.fillStyle = '#fff'; rr(ctx, -w / 2, -h / 2, w, h, r); ctx.fill(); ctx.restore(); }
+    ctx.save(); rr(ctx, -w / 2, -h / 2, w, h, r); ctx.clip();
+    let dw = w, dh = h;
+    if(it.fit === 'cover'){ const s = Math.max(w / it.iw, h / it.ih); dw = it.iw * s; dh = it.ih * s; }
+    else if(it.fit === 'contain'){ const s = Math.min(w / it.iw, h / it.ih); dw = it.iw * s; dh = it.ih * s; }
+    ctx.imageSmoothingQuality = 'high'; ctx.drawImage(it.img, -dw / 2, -dh / 2, dw, dh); ctx.restore();
+    if(it.bw > 0){ const lw = it.bw * k; ctx.strokeStyle = it.bc; ctx.lineWidth = lw; rr(ctx, -w / 2 + lw / 2, -h / 2 + lw / 2, w - lw, h - lw, Math.max(0, r - lw / 2)); ctx.stroke(); }
+    ctx.restore();
+  }
+  function corners(it){
+    const cx = it.x + it.w / 2, cy = it.y + it.h / 2, c = Math.cos(rad(it.rot)), s = Math.sin(rad(it.rot));
+    const P = (lx, ly)=> ({ x:cx + lx * c - ly * s, y:cy + lx * s + ly * c });
+    return { nw:P(-it.w / 2, -it.h / 2), ne:P(it.w / 2, -it.h / 2), se:P(it.w / 2, it.h / 2), sw:P(-it.w / 2, it.h / 2), n:P(0, -it.h / 2), e:P(it.w / 2, 0), s:P(0, it.h / 2), w:P(-it.w / 2, 0) };
+  }
+  function draw(ctx, k, list, ui, cut){
+    const W = PW() * k, H = PH() * k;
+    ctx.fillStyle = g('sh-bg').value; ctx.fillRect(0, 0, W, H);
+    if(ui && g('sh-grid').checked){ ctx.save(); ctx.strokeStyle = 'rgba(0,0,0,.09)'; ctx.lineWidth = 1; for(let x = 10; x < PW(); x += 10){ ctx.beginPath(); ctx.moveTo(x * k, 0); ctx.lineTo(x * k, H); ctx.stroke(); } for(let y = 10; y < PH(); y += 10){ ctx.beginPath(); ctx.moveTo(0, y * k); ctx.lineTo(W, y * k); ctx.stroke(); } ctx.restore(); }
+    list.forEach(it=> drawItem(ctx, it, k));
+    if(cut){ ctx.save(); ctx.strokeStyle = '#000'; ctx.lineWidth = Math.max(1, 0.12 * k); const L = 3 * k, o = 1 * k;
+      list.forEach(it=>{ if(it.rot % 90 !== 0) return; const x0 = it.x * k, y0 = it.y * k, x1 = (it.x + it.w) * k, y1 = (it.y + it.h) * k;
+        [[x0, y0, -1, -1], [x1, y0, 1, -1], [x0, y1, -1, 1], [x1, y1, 1, 1]].forEach(([x, y, sx, sy])=>{ ctx.beginPath(); ctx.moveTo(x + sx * o, y); ctx.lineTo(x + sx * (o + L), y); ctx.moveTo(x, y + sy * o); ctx.lineTo(x, y + sy * (o + L)); ctx.stroke(); }); }); ctx.restore(); }
+    if(!ui) return;
+    const hr = 5.5; // handle radius in css px
+    list.forEach(it=>{
+      const sel = sh.sel.indexOf(it.id) >= 0, c = corners(it); ctx.save(); ctx.lineWidth = sel ? 2 : 1; ctx.strokeStyle = sel ? '#2b6cb0' : 'rgba(43,108,176,.35)'; ctx.setLineDash(sel ? [] : [5, 4]);
+      ctx.beginPath(); ctx.moveTo(c.nw.x * k, c.nw.y * k); [c.ne, c.se, c.sw].forEach(p=> ctx.lineTo(p.x * k, p.y * k)); ctx.closePath(); ctx.stroke();
+      if(sel && sh.sel.length === 1){ ctx.setLineDash([]); ctx.fillStyle = '#fff'; ['nw', 'ne', 'se', 'sw'].forEach(n=>{ ctx.beginPath(); ctx.arc(c[n].x * k, c[n].y * k, hr * 1.25, 0, 7); ctx.fill(); ctx.stroke(); });
+        ['n', 'e', 's', 'w'].forEach(n=>{ ctx.beginPath(); ctx.rect(c[n].x * k - hr * 0.85, c[n].y * k - hr * 0.85, hr * 1.7, hr * 1.7); ctx.fill(); ctx.stroke(); }); }
+      ctx.restore();
+    });
+    if(sh.guides){ ctx.save(); ctx.strokeStyle = '#e0218a'; ctx.lineWidth = 1; ctx.setLineDash([5, 4]); (sh.guides.v || []).forEach(x=>{ ctx.beginPath(); ctx.moveTo(x * k, 0); ctx.lineTo(x * k, H); ctx.stroke(); }); (sh.guides.h || []).forEach(y=>{ ctx.beginPath(); ctx.moveTo(0, y * k); ctx.lineTo(W, y * k); ctx.stroke(); }); ctx.restore(); }
+  }
+  function layoutCanvas(){
+    const stage = g('sh-stage'), avail = Math.max(240, (stage.clientWidth || 600) - 18), maxW = Math.min(avail, PW() === 210 ? 560 : 760);
+    sh.k = maxW / PW(); const dpr = Math.min(2, window.devicePixelRatio || 1);
+    cv.style.width = Math.round(PW() * sh.k) + 'px'; cv.style.height = Math.round(PH() * sh.k) + 'px';
+    cv.width = Math.round(PW() * sh.k * dpr); cv.height = Math.round(PH() * sh.k * dpr);
+    sh.dpr = cv.width / PW() / sh.k;
+  }
+  function redraw(){
+    const ctx = cv.getContext('2d'); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.setTransform(sh.dpr, 0, 0, sh.dpr, 0, 0); draw(ctx, sh.k, cur(), true, false); ctx.setTransform(1, 0, 0, 1, 0, 0);
+  }
+
+  /* ---------- UI sync ---------- */
+  function updateUi(){
+    const items = selItems(), pr = g('sh-props'); pr.style.display = items.length ? '' : 'none';
+    const n = pages(); if(sh.page >= n) sh.page = n - 1;
+    g('sh-pginfo').textContent = sh.items.length ? `${shT('page')} ${sh.page + 1} ${shT('of')} ${n} — ${sh.items.length} ${shT('items')}` + (items.length ? ` — ${items.length} ${shT('sel')}` : '') : shT('empty');
+    g('sh-multi').style.outline = sh.multi ? '2px solid #2b6cb0' : '';
+    if(items.length){
+      const p = byId(sh.prim) || items[0]; g('sh-ptitle').textContent = items.length > 1 ? `${shT('pTitleMany')} (${items.length})` : shT('pTitleOne');
+      const set = (id, v)=>{ const el = g(id); if(document.activeElement !== el) el.value = v; };
+      set('sh-x', round2(p.x / 10)); set('sh-y', round2(p.y / 10)); set('sh-w', round2(p.w / 10)); set('sh-h', round2(p.h / 10));
+      g('sh-x').disabled = g('sh-y').disabled = items.length > 1;
+      set('sh-pg', p.p + 1); set('sh-rot', Math.round(p.rot)); g('sh-rot-v').textContent = Math.round(p.rot); g('sh-fit').value = p.fit; set('sh-op', Math.round(p.op * 100)); g('sh-op-v').textContent = Math.round(p.op * 100);
+      set('sh-bw', p.bw); g('sh-bc').value = p.bc; set('sh-br', p.br); g('sh-lock').checked = !!p.lock; g('sh-shadow').checked = !!p.shadow;
+    }
+    cv.style.touchAction = items.length ? 'none' : 'pan-y';
+    ['sh-dup', 'sh-del', 'sh-front', 'sh-back'].forEach(id=>{ const b = g(id); b.disabled = !items.length; b.style.opacity = items.length ? '' : '.45'; });
+  }
+  window.shUpdateUi = updateUi;
+  function refresh(){ sh.extra = Math.max(1, ...sh.items.map(i=> i.p + 1)); layoutCanvas(); redraw(); updateUi(); }
+  function select(ids, prim){ sh.sel = ids; sh.prim = prim != null ? prim : (ids[ids.length - 1] || null); updateUi(); redraw(); }
+
+  /* ---------- adding ---------- */
+  async function addFiles(files){
+    let bad = 0; const added = [];
+    for(const f of files){
+      try{ const im = await ceLoadFile(f, 3200); const it = mkItem(im, 90, 60); fitInto(it, SIZES.m[0], SIZES.m[1], true); limitToPage(it); added.push(it); }
+      catch(e){ bad++; }
+    }
+    if(added.length){
+      if(g('sh-autoadd').checked){ const over = arrange(sh.items); if(over) status(shT('overflow'), 'ok'); else status(shT('added'), 'ok'); }
+      else{ added.forEach((it, i)=>{ it.x = margin() + i * 6; it.y = margin() + i * 6; it.p = sh.page; }); status(shT('added'), 'ok'); }
+      sh.page = added[0].p; select(added.length === 1 ? [added[0].id] : []);
+    }
+    if(bad) status(shT('bad'), 'err');
+    refresh();
+  }
+  g('sh-add').addEventListener('click', ()=> g('sh-file').click());
+  g('sh-file').addEventListener('change', async e=>{ const fs = Array.from(e.target.files || []); e.target.value = ''; if(fs.length) await addFiles(fs); });
+  g('sh-addce').addEventListener('click', async ()=>{
+    if(!ce.base || ce.mode !== 'new' && ce.mode !== 'img'){ status(shT('noCard'), 'err'); return; }
+    try{
+      const [rw, rh] = ceRealMm(); const sides = ce.mode === 'new' ? ['front'].concat((ce.sideItems.back.length || (g('ce-decor').value !== 'none' && g('ce-decor-side').value !== 'front')) ? ['back'] : []) : ['front'];
+      const ids = [];
+      for(const s of sides){ const c = await ceRenderCanvas(s, 'jpg'); const it = mkItem(c, rw, rh); it.fit = 'stretch'; ids.push(it.id); }
+      if(g('sh-autoadd').checked) arrange(sh.items);
+      status(shT('cardAdded'), 'ok'); select(ids); sh.page = byId(ids[0]).p;
+    }catch(e){ console.error(e); status(shT('fail'), 'err'); }
+    refresh();
+  });
+
+  /* ---------- sizes / arrange / alignment ---------- */
+  function applySize(key){
+    const box = presetBox(key), keep = g('sh-keep').checked; scope().forEach(it=>{
+      const cx = it.x + it.w / 2, cy = it.y + it.h / 2; fitInto(it, box[0], box[1], keep); limitToPage(it); it.x = cx - it.w / 2; it.y = cy - it.h / 2; });
+    if(g('sh-autoadd').checked && !selItems().length) arrange(sh.items);
+    else scope().forEach(it=> clampInside(it));
+    refresh();
+  }
+  function clampInside(it){ const m = 0; it.x = clamp(it.x, m - it.w * 0.5, PW() - it.w * 0.5); it.y = clamp(it.y, m - it.h * 0.5, PH() - it.h * 0.5); }
+  document.querySelectorAll('#sh-sizes [data-size]').forEach(b=> b.addEventListener('click', ()=>{ if(!sh.items.length){ status(shT('noItems'), 'err'); return; } applySize(b.dataset.size); }));
+  function scaleScope(f){ scope().forEach(it=>{ const cx = it.x + it.w / 2, cy = it.y + it.h / 2; it.w = Math.max(5, it.w * f); it.h = Math.max(5, it.h * f); limitToPage(it); it.x = cx - it.w / 2; it.y = cy - it.h / 2; }); refresh(); }
+  g('sh-up10').addEventListener('click', ()=> scaleScope(1.1)); g('sh-dn10').addEventListener('click', ()=> scaleScope(1 / 1.1));
+  function equalize(dim){
+    const s = scope(); if(s.length < 1) return; const ref = byId(sh.prim) || s[0];
+    s.forEach(it=>{ if(it === ref) return; const cx = it.x + it.w / 2, cy = it.y + it.h / 2; if(dim === 'w'){ const r = it.h / it.w; it.w = ref.w; if(it.lock) it.h = it.w * r; } else { const r = it.w / it.h; it.h = ref.h; if(it.lock) it.w = it.h * r; } limitToPage(it); it.x = cx - it.w / 2; it.y = cy - it.h / 2; }); refresh();
+  }
+  g('sh-eqw').addEventListener('click', ()=> equalize('w')); g('sh-eqh').addEventListener('click', ()=> equalize('h'));
+  g('sh-arrange').addEventListener('click', ()=>{ if(!sh.items.length){ status(shT('noItems'), 'err'); return; } const s = selItems(); arrange(s.length > 1 ? s : sh.items); status(shT('arranged'), 'ok'); sh.page = Math.min(sh.page, pages() - 1); refresh(); });
+  g('sh-center').addEventListener('click', ()=>{
+    const s = scope(); if(!s.length) return;
+    if(s.length === 1){ s[0].x = (PW() - s[0].w) / 2; s[0].y = (PH() - s[0].h) / 2; }
+    else{ const pg = {}; s.forEach(it=> (pg[it.p] = pg[it.p] || []).push(it)); Object.keys(pg).forEach(p=>{ const L = pg[p], x0 = Math.min(...L.map(i=> i.x)), y0 = Math.min(...L.map(i=> i.y)), x1 = Math.max(...L.map(i=> i.x + i.w)), y1 = Math.max(...L.map(i=> i.y + i.h)), dx = (PW() - (x1 - x0)) / 2 - x0, dy = (PH() - (y1 - y0)) / 2 - y0; L.forEach(i=>{ i.x += dx; i.y += dy; }); }); }
+    status(shT('centered'), 'ok'); refresh();
+  });
+  ['sh-orient'].forEach(id=> g(id).addEventListener('change', ()=>{ sh.orient = g('sh-orient').value; sh.items.forEach(it=>{ limitToPage(it); }); if(g('sh-autoadd').checked && sh.items.length) arrange(sh.items); refresh(); }));
+  ['sh-margin', 'sh-gap'].forEach(id=> g(id).addEventListener('change', ()=>{ if(g('sh-autoadd').checked && sh.items.length) arrange(sh.items); refresh(); }));
+  ['sh-bg', 'sh-grid'].forEach(id=> g(id).addEventListener('input', redraw));
+
+  /* ---------- selection tools ---------- */
+  g('sh-selall').addEventListener('click', ()=> select(cur().map(i=> i.id)));
+  g('sh-multi').addEventListener('click', ()=>{ sh.multi = !sh.multi; updateUi(); });
+  function dupSel(){ const s = selItems(); if(!s.length) return; const ids = []; s.forEach(it=>{ const c = Object.assign({}, it, { id:sh.nextId++, x:it.x + 4, y:it.y + 4 }); sh.items.push(c); ids.push(c.id); }); select(ids); redraw(); }
+  g('sh-dup').addEventListener('click', dupSel);
+  function delSel(){ const ids = sh.sel.slice(); if(!ids.length) return; sh.items = sh.items.filter(i=> ids.indexOf(i.id) < 0); sh.sel = []; sh.prim = null; if(!sh.items.length) sh.extra = 1; refresh(); }
+  g('sh-del').addEventListener('click', delSel);
+  g('sh-front').addEventListener('click', ()=>{ const ids = sh.sel; const s = sh.items.filter(i=> ids.indexOf(i.id) >= 0), r = sh.items.filter(i=> ids.indexOf(i.id) < 0); sh.items = r.concat(s); redraw(); });
+  g('sh-back').addEventListener('click', ()=>{ const ids = sh.sel; const s = sh.items.filter(i=> ids.indexOf(i.id) >= 0), r = sh.items.filter(i=> ids.indexOf(i.id) < 0); sh.items = s.concat(r); redraw(); });
+  g('sh-pgprev').addEventListener('click', ()=>{ sh.page = Math.max(0, sh.page - 1); redraw(); updateUi(); });
+  g('sh-pgnext').addEventListener('click', ()=>{ sh.page = Math.min(pages() - 1, sh.page + 1); redraw(); updateUi(); });
+
+  /* ---------- properties ---------- */
+  function onNum(id, fn){ g(id).addEventListener('input', ()=>{ const v = parseFloat(g(id).value); if(!isFinite(v)) return; fn(v); redraw(); updateUi(); }); }
+  onNum('sh-x', v=>{ const p = byId(sh.prim); if(p && sh.sel.length === 1) p.x = v * 10; });
+  onNum('sh-y', v=>{ const p = byId(sh.prim); if(p && sh.sel.length === 1) p.y = v * 10; });
+  function sizeFrom(dim, v){
+    const mm = Math.max(5, v * 10); selItems().forEach(it=>{ const cx = it.x + it.w / 2, cy = it.y + it.h / 2;
+      if(dim === 'w'){ const r = it.h / it.w; it.w = mm; if(it.lock) it.h = mm * r; } else { const r = it.w / it.h; it.h = mm; if(it.lock) it.w = mm * r; }
+      it.x = cx - it.w / 2; it.y = cy - it.h / 2; });
+  }
+  onNum('sh-w', v=> sizeFrom('w', v)); onNum('sh-h', v=> sizeFrom('h', v));
+  onNum('sh-pg', v=>{ const n = clamp(Math.round(v) - 1, 0, pages()); selItems().forEach(i=> i.p = n); sh.page = n; sh.extra = Math.max(1, ...sh.items.map(i=> i.p + 1)); });
+  onNum('sh-rot', v=>{ selItems().forEach(i=> i.rot = v); });
+  onNum('sh-op', v=>{ selItems().forEach(i=> i.op = clamp(v, 10, 100) / 100); });
+  onNum('sh-bw', v=>{ selItems().forEach(i=> i.bw = clamp(v, 0, 10)); });
+  onNum('sh-br', v=>{ selItems().forEach(i=> i.br = clamp(v, 0, 50)); });
+  g('sh-bc').addEventListener('input', ()=>{ selItems().forEach(i=> i.bc = g('sh-bc').value); redraw(); });
+  g('sh-fit').addEventListener('change', ()=>{ selItems().forEach(i=> i.fit = g('sh-fit').value); redraw(); });
+  g('sh-lock').addEventListener('change', ()=>{ selItems().forEach(i=> i.lock = g('sh-lock').checked); });
+  g('sh-shadow').addEventListener('change', ()=>{ selItems().forEach(i=> i.shadow = g('sh-shadow').checked); redraw(); });
+
+  /* ---------- copy format ---------- */
+  const FMT = ['op', 'bw', 'bc', 'br', 'shadow', 'fit', 'rot'];
+  g('sh-fmt-copy').addEventListener('click', ()=>{
+    const p = byId(sh.prim) || selItems()[0]; if(!p){ status(shT('fmtNone'), 'err'); return; }
+    sh.fmt = {}; FMT.forEach(k=> sh.fmt[k] = p[k]); sh.fmt.w = p.w; sh.fmt.h = p.h; status(shT('fmtCopied'), 'ok');
+  });
+  function applyFmt(list){
+    if(!sh.fmt){ status(shT('fmtNone'), 'err'); return; }
+    list.forEach(it=>{ FMT.forEach(k=> it[k] = sh.fmt[k]);
+      if(g('sh-fmt-size').checked){ const cx = it.x + it.w / 2, cy = it.y + it.h / 2; it.w = sh.fmt.w; it.h = sh.fmt.h; limitToPage(it); it.x = cx - it.w / 2; it.y = cy - it.h / 2; } });
+    status(shT('fmtDone'), 'ok'); redraw(); updateUi();
+  }
+  g('sh-fmt-sel').addEventListener('click', ()=> applyFmt(selItems()));
+  g('sh-fmt-all').addEventListener('click', ()=> applyFmt(sh.items));
+
+  /* ---------- pointer interaction ---------- */
+  const pt = e=>{ const r = cv.getBoundingClientRect(); return { x:(e.clientX - r.left) / r.width * PW(), y:(e.clientY - r.top) / r.height * PH(), px:(e.clientX - r.left), py:(e.clientY - r.top) }; };
+  function local(it, p){ const cx = it.x + it.w / 2, cy = it.y + it.h / 2, c = Math.cos(rad(-it.rot)), s = Math.sin(rad(-it.rot)), dx = p.x - cx, dy = p.y - cy; return { x:dx * c - dy * s, y:dx * s + dy * c }; }
+  function hitItem(p){ const L = cur(); for(let i = L.length - 1; i >= 0; i--){ const it = L[i], l = local(it, p); if(Math.abs(l.x) <= it.w / 2 && Math.abs(l.y) <= it.h / 2) return it; } return null; }
+  function hitHandle(p){
+    if(sh.sel.length !== 1) return null; const it = byId(sh.sel[0]); if(!it || it.p !== sh.page) return null; const c = corners(it), tol = 12 / sh.k;
+    for(const n of ['nw', 'ne', 'se', 'sw', 'n', 'e', 's', 'w']) if(Math.hypot(p.x - c[n].x, p.y - c[n].y) <= tol) return { it, mode:n };
+    return null;
+  }
+  const HV = { nw:[-1, -1], ne:[1, -1], se:[1, 1], sw:[-1, 1], n:[0, -1], s:[0, 1], e:[1, 0], w:[-1, 0] };
+  cv.addEventListener('pointerdown', e=>{
+    const p = pt(e), h = hitHandle(p), multi = e.shiftKey || e.ctrlKey || e.metaKey || sh.multi;
+    if(h){ const it = h.it; sh.drag = { type:'resize', mode:h.mode, o:{ x:it.x, y:it.y, w:it.w, h:it.h, rot:it.rot }, id:it.id }; cv.setPointerCapture(e.pointerId); e.preventDefault(); return; }
+    const it = hitItem(p);
+    if(!it){ if(!multi) select([]); return; }
+    const touch = e.pointerType === 'touch';
+    if(multi){ const i = sh.sel.indexOf(it.id); if(i >= 0){ const ids = sh.sel.slice(); ids.splice(i, 1); select(ids); return; } select(sh.sel.concat([it.id]), it.id); }
+    else if(sh.sel.indexOf(it.id) < 0){ select([it.id]); if(touch) return; }
+    sh.prim = it.id;
+    sh.drag = { type:'move', sx:p.x, sy:p.y, start:selItems().map(i=> ({ id:i.id, x:i.x, y:i.y })) };
+    cv.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  cv.addEventListener('pointermove', e=>{
+    const p = pt(e), d = sh.drag;
+    if(!d){ const h = hitHandle(p); cv.style.cursor = h ? (h.mode.length === 2 ? 'nwse-resize' : 'ew-resize') : (hitItem(p) ? 'move' : 'default'); return; }
+    if(d.type === 'move'){
+      let dx = p.x - d.sx, dy = p.y - d.sy; const main = d.start.find(s=> s.id === sh.prim) || d.start[0], mi = byId(main.id);
+      if(g('sh-snap').checked && mi){
+        const th = 6 / sh.k, mm = margin(), xs = [0, PW() / 2, PW(), mm, PW() - mm], ys = [0, PH() / 2, PH(), mm, PH() - mm];
+        cur().forEach(o=>{ if(sh.sel.indexOf(o.id) >= 0) return; xs.push(o.x, o.x + o.w / 2, o.x + o.w); ys.push(o.y, o.y + o.h / 2, o.y + o.h); });
+        const X = [main.x + dx, main.x + dx + mi.w / 2, main.x + dx + mi.w], Y = [main.y + dy, main.y + dy + mi.h / 2, main.y + dy + mi.h]; let bx = null, by = null;
+        X.forEach(v=> xs.forEach(t=>{ const q = t - v; if(Math.abs(q) <= th && (bx === null || Math.abs(q) < Math.abs(bx))) bx = q; })); Y.forEach(v=> ys.forEach(t=>{ const q = t - v; if(Math.abs(q) <= th && (by === null || Math.abs(q) < Math.abs(by))) by = q; }));
+        if(bx !== null) dx += bx; if(by !== null) dy += by;
+        const gx = [], gy = []; const X2 = [main.x + dx, main.x + dx + mi.w / 2, main.x + dx + mi.w], Y2 = [main.y + dy, main.y + dy + mi.h / 2, main.y + dy + mi.h]; xs.forEach(t=>{ if(X2.some(v=> Math.abs(v - t) < 0.3)) gx.push(t); }); ys.forEach(t=>{ if(Y2.some(v=> Math.abs(v - t) < 0.3)) gy.push(t); }); sh.guides = { v:gx, h:gy };
+      }else sh.guides = null;
+      d.start.forEach(s=>{ const it = byId(s.id); if(it){ it.x = s.x + dx; it.y = s.y + dy; } });
+    }else{
+      const it = byId(d.id); if(!it) return; const [sx, sy] = HV[d.mode], o = d.o, c = Math.cos(rad(o.rot)), s = Math.sin(rad(o.rot));
+      const R = (lx, ly)=> ({ x:lx * c - ly * s, y:lx * s + ly * c }), cx0 = o.x + o.w / 2, cy0 = o.y + o.h / 2, A0 = R(-sx * o.w / 2, -sy * o.h / 2), A = { x:cx0 + A0.x, y:cy0 + A0.y };
+      const dv = { x:p.x - A.x, y:p.y - A.y }, d2 = { x:dv.x * c + dv.y * s, y:-dv.x * s + dv.y * c }; // pointer in item axes relative to the fixed anchor
+      let w = sx ? Math.max(5, sx * d2.x) : o.w, h = sy ? Math.max(5, sy * d2.y) : o.h;
+      if(it.lock && sx && sy){ const f = Math.max(w / o.w, h / o.h); w = o.w * f; h = o.h * f; }
+      else if(it.lock && (sx || sy)){ /* edge handles stretch one side only */ }
+      const C = R(sx * w / 2, sy * h / 2); it.w = w; it.h = h; const nx = A.x + C.x, ny = A.y + C.y; it.x = nx - w / 2; it.y = ny - h / 2;
+    }
+    redraw(); updateUi(); e.preventDefault();
+  });
+  const endDrag = ()=>{ if(sh.drag){ sh.drag = null; sh.guides = null; redraw(); updateUi(); } };
+  cv.addEventListener('pointerup', endDrag); cv.addEventListener('pointercancel', endDrag);
+  document.addEventListener('keydown', e=>{
+    if(g('tools-sheet').offsetParent === null || /^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement || {}).tagName || '')) return;
+    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'a'){ select(cur().map(i=> i.id)); e.preventDefault(); return; }
+    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'd'){ dupSel(); e.preventDefault(); return; }
+    if(e.key === 'Delete' || e.key === 'Backspace'){ if(sh.sel.length){ delSel(); e.preventDefault(); } return; }
+    if(e.key === 'Escape'){ select([]); return; }
+    const st = e.shiftKey ? 5 : 0.5, mv = { ArrowLeft:[-st, 0], ArrowRight:[st, 0], ArrowUp:[0, -st], ArrowDown:[0, st] }[e.key];
+    if(mv && sh.sel.length){ selItems().forEach(i=>{ i.x += mv[0]; i.y += mv[1]; }); redraw(); updateUi(); e.preventDefault(); }
+  });
+  window.addEventListener('resize', ()=>{ if(g('tools-sheet').offsetParent !== null) refresh(); });
+  g('tools-select').addEventListener('change', ()=>{ if(g('tools-select').value === 'sheet') setTimeout(refresh, 30); });
+
+  /* ---------- export ---------- */
+  async function pageCanvas(p, dpi){
+    const k = dpi / 25.4, c = document.createElement('canvas'); c.width = Math.round(PW() * k); c.height = Math.round(PH() * k);
+    const ctx = c.getContext('2d'); draw(ctx, k, sh.items.filter(i=> i.p === p), false, g('sh-cut').value === '1'); return c;
+  }
+  g('sh-pdf').addEventListener('click', async ()=>{
+    if(!sh.items.length){ status(shT('noItems'), 'err'); return; }
+    const btn = g('sh-pdf'); setBusy(btn, true, shT('busy'), shT('dlPdf'));
+    try{
+      const dpi = parseInt(g('sh-dpi').value, 10) || 300, doc = await PDFDocument.create(), wpt = PW() * 72 / 25.4, hpt = PH() * 72 / 25.4;
+      for(let p = 0; p < pages(); p++){
+        const c = await pageCanvas(p, dpi), img = await doc.embedJpg(await (await psCanvasBlob(c, 'image/jpeg', 0.95)).arrayBuffer());
+        doc.addPage([wpt, hpt]).drawImage(img, { x:0, y:0, width:wpt, height:hpt });
+      }
+      downloadBlob(new Blob([await doc.save()], { type:'application/pdf' }), 'cards_A4.pdf'); status(shT('done'), 'ok');
+    }catch(e){ console.error(e); status(shT('fail'), 'err'); }
+    setBusy(btn, false, '', shT('dlPdf'));
+  });
+  g('sh-png').addEventListener('click', async ()=>{
+    if(!sh.items.length){ status(shT('noItems'), 'err'); return; }
+    const btn = g('sh-png'); setBusy(btn, true, shT('busy'), shT('dlPng'));
+    try{ const dpi = parseInt(g('sh-dpi').value, 10) || 300, c = await pageCanvas(sh.page, dpi); downloadBlob(await uddahSetDpi(await psCanvasBlob(c, 'image/png'), dpi), `cards_A4_${sh.page + 1}.png`); status(shT('done'), 'ok'); }
+    catch(e){ console.error(e); status(shT('fail'), 'err'); }
+    setBusy(btn, false, '', shT('dlPng'));
+  });
+  window.shDebug = sh;
+  shApplyLang(); refresh();
+})();
+
 
 /* ============================================================
    PDF TOOLS PICKER (sub-tab select + 9 tools)
