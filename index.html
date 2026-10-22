@@ -239,6 +239,10 @@
     background:rgba(43,108,176,0.25);
     outline:1px dashed #2b6cb0;
   }
+  /* pen (colour eraser) mode: the text layer must not catch the strokes */
+  .erase-brush-mode .erase-text-layer span{pointer-events:none;cursor:crosshair;}
+  .erase-brush-mode .erase-text-layer span:hover{background:none;outline:none;}
+  #erase-brush-pick.sh-active{background:var(--brass);border-color:var(--brass);color:#1C1B1A;}
 
   .file-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
   .file-chip{
@@ -3289,6 +3293,21 @@
         <p class="note" style="margin-top:2px;" data-i18n="eraseDashNote">الخط المتقطع البرتقالي حوالين كل منطقة مسح يظهر بالمعاينة بس عشان تشوف مكانها بوضوح — ما يظهر إطلاقاً بالملف النهائي.</p>
         <label style="display:flex;align-items:center;gap:8px;margin:6px 0 4px;"><input type="checkbox" id="erase-snap" checked> <span>🎯 ضبط حدود المسح تلقائياً على الحبر الفعلي (لا يقطع حرفاً ولا يلمس الأقواس المجاورة)</span></label>
         <label style="display:flex;align-items:center;gap:8px;margin:6px 0 10px;"><input type="checkbox" id="erase-show-outline" checked onchange="renderErasePreview()"> <span data-i18n="eraseShowOutline">إظهار حدود مناطق المسح في المعاينة (للضبط فقط — لا تظهر في الملف النهائي)</span></label>
+        <div class="ce-box" id="erase-brush-box" style="margin:6px 0 10px;">
+          <label style="display:flex;align-items:center;gap:8px;margin:0;font-weight:600;"><input type="checkbox" id="erase-brush-on" style="width:auto;"> <span data-i18n="eraseBrushOn">🖌️ قلم التلوين (ممحاة): ارسم بلون فوق النص لإخفائه</span></label>
+          <div id="erase-brush-opts" style="display:none;margin-top:10px;">
+            <p class="note" style="margin:0 0 8px;" data-i18n="eraseBrushHint">اختر لوناً (الأبيض يخفي أي نص على ورقة بيضاء)، ثم اسحب بإصبعك أو بالماوس فوق النص. إن كانت الخلفية ملوّنة اضغط «التقاط لون الصفحة» ثم المس الخلفية بجانب النص. لإزالة النص الأصلي نهائياً من الملف فعّل «حذف النص الأصلي نهائياً» بالأعلى.</p>
+            <div class="row" style="align-items:flex-end;">
+              <div class="field" style="flex:0 0 90px;margin-bottom:8px;"><label for="erase-brush-color" data-i18n="eraseBrushColor">اللون</label><input type="color" id="erase-brush-color" value="#ffffff" style="width:100%;height:44px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:4px;"></div>
+              <div class="field" style="flex:1;margin-bottom:8px;"><label for="erase-brush-size"><span data-i18n="eraseBrushSize">حجم القلم</span>: <span id="erase-brush-size-val">14</span></label><input type="range" id="erase-brush-size" min="2" max="80" step="1" value="14" style="width:100%;"></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              <button type="button" class="btn secondary" id="erase-brush-pick" style="padding:7px 12px;font-size:.82rem;" data-i18n="eraseBrushPick">🎯 التقاط لون الصفحة</button>
+              <button type="button" class="btn secondary" id="erase-brush-undo" style="padding:7px 12px;font-size:.82rem;" data-i18n="eraseBrushUndo">↩️ تراجع عن آخر خط</button>
+              <button type="button" class="btn secondary" id="erase-brush-clear" style="padding:7px 12px;font-size:.82rem;" data-i18n="eraseBrushClear">🗑️ مسح كل الرسم</button>
+            </div>
+          </div>
+        </div>
         <div class="row" style="align-items:center;margin-bottom:8px;">
           <div class="field" style="flex:2;margin-bottom:0;">
             <label for="erase-zoom"><span data-i18n="zoomLabel">تكبير المعاينة:</span> <span id="erase-zoom-val">100</span>٪</label>
@@ -4587,6 +4606,14 @@ const I18N = {
     eraseDrawNote: '🖊️ اسحب على مكان فاضي بالصورة لترسم منطقة مسح جديدة، أو اسحب داخل منطقة موجودة لتحريك نصها بحرية كاملة.',
     eraseEditsLabel: 'التعديلات (كل تعديل = منطقة مسح + نص جديد)',
     eraseAddEditBtn: '+ إضافة تعديل',
+    eraseBrushOn: '🖌️ قلم التلوين (ممحاة): ارسم بلون فوق النص لإخفائه',
+    eraseBrushHint: 'اختر لوناً (الأبيض يخفي أي نص على ورقة بيضاء)، ثم اسحب بإصبعك أو بالماوس فوق النص. إن كانت الخلفية ملوّنة اضغط «التقاط لون الصفحة» ثم المس الخلفية بجانب النص. لإزالة النص الأصلي نهائياً من الملف فعّل «حذف النص الأصلي نهائياً» بالأعلى.',
+    eraseBrushColor: 'اللون',
+    eraseBrushSize: 'حجم القلم',
+    eraseBrushPick: '🎯 التقاط لون الصفحة',
+    eraseBrushPicking: '👆 المس لون الخلفية في الصفحة',
+    eraseBrushUndo: '↩️ تراجع عن آخر خط',
+    eraseBrushClear: '🗑️ مسح كل الرسم',
     erasePreviewLabel: 'معاينة الصفحة',
     eraseDashNote: 'الخط المتقطع البرتقالي حوالين كل منطقة مسح يظهر بالمعاينة بس عشان تشوف مكانها بوضوح — ما يظهر إطلاقاً بالملف النهائي.',
     eraseBtn: 'تطبيق التعديلات وتنزيل',
@@ -5393,6 +5420,14 @@ const I18N = {
     eraseDrawNote: '🖊️ Drag on an empty part of the image to draw a new erase area, or drag inside an existing area to move its text completely freely.',
     eraseEditsLabel: 'Edits (each edit = an erase area + new text)',
     eraseAddEditBtn: '+ Add Edit',
+    eraseBrushOn: '🖌️ Pen (colour eraser): paint a colour over text to hide it',
+    eraseBrushHint: 'Pick a colour (white hides any text on white paper), then drag with your finger or mouse over the text. If the background is coloured, tap “Pick page colour” and then touch the background next to the text. To remove the original text from the file completely, tick “Delete original text permanently” above.',
+    eraseBrushColor: 'Colour',
+    eraseBrushSize: 'Pen size',
+    eraseBrushPick: '🎯 Pick page colour',
+    eraseBrushPicking: '👆 Touch the background colour on the page',
+    eraseBrushUndo: '↩️ Undo last stroke',
+    eraseBrushClear: '🗑️ Clear all painting',
     erasePreviewLabel: 'Page Preview',
     eraseDashNote: "The orange dashed outline around each erase area only shows in the preview so you can see its location clearly — it never appears in the final file.",
     eraseBtn: 'Apply Edits and Download',
@@ -11552,6 +11587,38 @@ async function eraseLoadSource(file){
 let eraseBaseCanvas = null;
 let eraseCurrentScale = 1;
 let eraseCurrentPw = 0, eraseCurrentPh = 0;
+let eraseCurrentPageNo = 1;
+
+/* ---------- pen tool (colour eraser): free strokes painted over the page ----------
+   A stroke is { page, color, size (page points), pts:[[x, yFromTop], ...] } in page points, so it scales with zoom and export. */
+let eraseStrokes = [];
+let erasePicking = false;
+function eraseDrawStrokes(ctx, k, page){
+  eraseStrokes.forEach(s=>{
+    if(s.page !== page || !s.pts.length) return;
+    ctx.save();
+    ctx.strokeStyle = s.color; ctx.fillStyle = s.color; ctx.lineWidth = s.size * k; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.setLineDash([]);
+    if(s.pts.length === 1){ ctx.beginPath(); ctx.arc(s.pts[0][0] * k, s.pts[0][1] * k, s.size * k / 2, 0, Math.PI * 2); ctx.fill(); }
+    else{ ctx.beginPath(); ctx.moveTo(s.pts[0][0] * k, s.pts[0][1] * k); for(let i = 1; i < s.pts.length; i++) ctx.lineTo(s.pts[i][0] * k, s.pts[i][1] * k); ctx.stroke(); }
+    ctx.restore();
+  });
+}
+function eraseDrawStrokesPdf(page, ph, list){
+  list.forEach(s=>{
+    const c = s.color, color = PDFLib.rgb(parseInt(c.slice(1,3),16)/255, parseInt(c.slice(3,5),16)/255, parseInt(c.slice(5,7),16)/255);
+    if(s.pts.length === 1){ page.drawCircle({ x: s.pts[0][0], y: ph - s.pts[0][1], size: s.size / 2, color }); return; }
+    for(let i = 1; i < s.pts.length; i++){
+      page.drawLine({ start:{ x: s.pts[i-1][0], y: ph - s.pts[i-1][1] }, end:{ x: s.pts[i][0], y: ph - s.pts[i][1] }, thickness: s.size, color, lineCap: PDFLib.LineCapStyle.Round });
+    }
+  });
+}
+function eraseSampleHex(canvas, px, py){
+  const x = Math.max(1, Math.min(canvas.width - 2, Math.round(px))), y = Math.max(1, Math.min(canvas.height - 2, Math.round(py)));
+  const d = canvas.getContext('2d').getImageData(x - 1, y - 1, 3, 3).data; let r = 0, g = 0, b = 0;
+  for(let i = 0; i < 36; i += 4){ r += d[i]; g += d[i+1]; b += d[i+2]; }
+  const h = v => Math.round(v / 9).toString(16).padStart(2, '0');
+  return '#' + h(r) + h(g) + h(b);
+}
 
 /* Smart background fill: samples the pixels just OUTSIDE the box on the clean page render, so the erased area
    takes the page's own colour (or its gradient) instead of pure white. */
@@ -11781,6 +11848,7 @@ function eraseFillRegion(dstCtx, srcCanvas, bx, by, bw, bh, mode, manual, t){
 }
 
 function eraseDrawEditsOnCanvas(ctx, pw, ph, scale, liveBox){
+  eraseDrawStrokes(ctx, scale, eraseCurrentPageNo); // pen strokes sit under the erase boxes and new text
   eraseEdits.forEach(edit=>{
     const x = (edit.xPct/100) * (pw - edit.widthPt);
     const y = (edit.yPct/100) * (ph - edit.heightPt);
@@ -11847,6 +11915,7 @@ async function renderErasePreview(){
       let pageNum = parseInt(document.getElementById('erase-page').value, 10);
       if(!pageNum || pageNum < 1 || pageNum > pdf.numPages) pageNum = pdf.numPages;
       page = await pdf.getPage(pageNum);
+      eraseCurrentPageNo = pageNum;
       const baseViewport = page.getViewport({scale:1});
       pw = baseViewport.width; ph = baseViewport.height;
       scale = previewWidth / pw;
@@ -11856,6 +11925,7 @@ async function renderErasePreview(){
       await page.render({canvasContext: canvas.getContext('2d'), viewport}).promise;
     }else{
       const img = eraseSrc.img;
+      eraseCurrentPageNo = 1;
       pw = 595; ph = img.naturalHeight * 595 / img.naturalWidth;
       scale = previewWidth / pw;
       drawImageHighQuality(img, canvas, Math.round(pw*scale), Math.round(ph*scale));
@@ -12300,7 +12370,7 @@ async function eraseOpenInlineEditorForSpan(span, ev){
   });
 })();
 
-document.getElementById('erase-file').addEventListener('change', ()=>{ eraseClearSel(); eraseHiCache = null; erasePreviewPdfDoc = null; erasePreviewFileRef = null; eraseSrc = null; renderErasePreview(); });
+document.getElementById('erase-file').addEventListener('change', ()=>{ eraseStrokes = []; eraseSetPicking(false); eraseClearSel(); eraseHiCache = null; erasePreviewPdfDoc = null; erasePreviewFileRef = null; eraseSrc = null; renderErasePreview(); });
 document.getElementById('erase-page').addEventListener('input', renderErasePreview);
 
 function eraseSyncOffsetFields(index){
@@ -12317,9 +12387,11 @@ function eraseSyncOffsetFields(index){
   const canvas = document.getElementById('erase-preview-page');
   canvas.style.cursor = 'crosshair';
   let active = false;
-  let mode = 'draw'; // 'draw' = new erase box, 'move' = dragging an existing edit's text freely
+  let mode = 'draw'; // 'draw' = new erase box, 'move' = dragging an existing edit's text freely, 'brush' = pen stroke
   let startPx, startPy;
   let moveIndex = -1, moveStartOffsetX = 0, moveStartOffsetY = 0;
+  let curStroke = null;
+  const brushOn = ()=> document.getElementById('erase-brush-on').checked;
 
   function getCanvasPos(clientX, clientY){
     const rect = canvas.getBoundingClientRect();
@@ -12340,6 +12412,19 @@ function eraseSyncOffsetFields(index){
   function begin(clientX, clientY){
     if(!eraseBaseCanvas) return;
     const pos = getCanvasPos(clientX, clientY);
+    if(brushOn()){
+      if(erasePicking){ // eyedropper: take the colour from the untouched page render
+        document.getElementById('erase-brush-color').value = eraseSampleHex(eraseBaseCanvas, pos.x, pos.y);
+        eraseSetPicking(false);
+        return;
+      }
+      const sc = eraseCurrentScale || 1, ctx = canvas.getContext('2d');
+      curStroke = { page: eraseCurrentPageNo, color: document.getElementById('erase-brush-color').value, size: parseFloat(document.getElementById('erase-brush-size').value) || 14, pts: [[pos.x / sc, pos.y / sc]] };
+      eraseStrokes.push(curStroke);
+      ctx.save(); ctx.fillStyle = curStroke.color; ctx.beginPath(); ctx.arc(pos.x, pos.y, curStroke.size * sc / 2, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+      mode = 'brush'; active = true;
+      return;
+    }
     const hitIndex = hitTestEdit(pos.x, pos.y);
     if(hitIndex >= 0){
       mode = 'move';
@@ -12358,6 +12443,16 @@ function eraseSyncOffsetFields(index){
     if(!active) return;
     const pos = getCanvasPos(clientX, clientY);
     const ctx = canvas.getContext('2d');
+
+    if(mode === 'brush' && curStroke){
+      const sc = eraseCurrentScale || 1, last = curStroke.pts[curStroke.pts.length - 1], nx = pos.x / sc, ny = pos.y / sc;
+      const dx = nx - last[0], dy = ny - last[1];
+      if(dx * dx + dy * dy < Math.pow(1.2 / sc, 2)) return; // skip sub-pixel jitter
+      curStroke.pts.push([nx, ny]);
+      ctx.save(); ctx.strokeStyle = curStroke.color; ctx.lineWidth = curStroke.size * sc; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.beginPath(); ctx.moveTo(last[0] * sc, last[1] * sc); ctx.lineTo(nx * sc, ny * sc); ctx.stroke(); ctx.restore();
+      return;
+    }
 
     if(mode === 'move'){
       const scale = eraseCurrentScale || 1;
@@ -12384,6 +12479,8 @@ function eraseSyncOffsetFields(index){
     if(!active) return;
     active = false;
     canvas.style.cursor = 'crosshair';
+
+    if(mode === 'brush'){ curStroke = null; return; } // the stroke is already painted on the preview
 
     if(mode === 'move'){
       eraseSyncOffsetFields(moveIndex);
@@ -12441,6 +12538,28 @@ function eraseSyncOffsetFields(index){
   });
 })();
 
+function eraseSetPicking(on){
+  erasePicking = !!on;
+  const b = document.getElementById('erase-brush-pick'); if(!b) return;
+  const key = erasePicking ? 'eraseBrushPicking' : 'eraseBrushPick', L = I18N[currentLang] || I18N.ar;
+  b.classList.toggle('sh-active', erasePicking); b.setAttribute('data-i18n', key); if(L[key]) b.textContent = L[key];
+}
+(function setupEraseBrush(){
+  const g = id => document.getElementById(id), on = g('erase-brush-on');
+  on.addEventListener('change', ()=>{
+    g('erase-brush-opts').style.display = on.checked ? 'block' : 'none';
+    g('erase-preview-container').classList.toggle('erase-brush-mode', on.checked);
+    eraseSetPicking(false);
+  });
+  g('erase-brush-size').addEventListener('input', ()=>{ g('erase-brush-size-val').textContent = g('erase-brush-size').value; });
+  g('erase-brush-pick').addEventListener('click', ()=> eraseSetPicking(!erasePicking));
+  g('erase-brush-undo').addEventListener('click', ()=>{
+    for(let i = eraseStrokes.length - 1; i >= 0; i--){ if(eraseStrokes[i].page === eraseCurrentPageNo){ eraseStrokes.splice(i, 1); break; } }
+    renderErasePreview();
+  });
+  g('erase-brush-clear').addEventListener('click', ()=>{ eraseStrokes = eraseStrokes.filter(s=> s.page !== eraseCurrentPageNo); renderErasePreview(); });
+})();
+
 document.getElementById('erase-digits').addEventListener('change', ()=> renderErasePreview());
 document.getElementById('erase-zoom').addEventListener('input', ()=>{
   document.getElementById('erase-zoom-val').textContent = document.getElementById('erase-zoom').value;
@@ -12483,7 +12602,7 @@ document.getElementById('erase-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('erase-file').files[0];
   const btn = document.getElementById('erase-btn');
   if(!file){ setStatus('erase-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
-  if(!eraseEdits.length){ setStatus('erase-status', I18N[currentLang].eraseErrNoEdits, 'err'); return; }
+  if(!eraseEdits.length && !eraseStrokes.length){ setStatus('erase-status', I18N[currentLang].eraseErrNoEdits, 'err'); return; }
 
   setBusy(btn, true, I18N[currentLang].addingBusy, I18N[currentLang].eraseBtn);
   try{
@@ -12508,6 +12627,7 @@ document.getElementById('erase-btn').addEventListener('click', async ()=>{
       octx.drawImage(clean, 0, 0);
       const pw = 595, ph = img.naturalHeight * 595 / img.naturalWidth;
       const k = cw / pw;
+      eraseDrawStrokes(octx, k, 1); // pen strokes first, then erase boxes and new text on top
       for(const edit of eraseEdits){
         const bx = eraseBoxPx(edit, pw, ph, k);
         eraseFillRegion(octx, clean, bx.px, bx.py, bx.pw_, bx.ph_, edit.eraseMode || 'auto', edit.eraseColor, Math.max(2, Math.round(k*1.5)));
@@ -12558,6 +12678,7 @@ document.getElementById('erase-btn').addEventListener('click', async ()=>{
 
       if(flatten){
         const dctx = dst.getContext('2d');
+        eraseDrawStrokes(dctx, sc, pageNum); // baked into the flattened page image
         for(const edit of eraseEdits){
           const bx = eraseBoxPx(edit, pw, ph, sc);
           eraseFillRegion(dctx, clean, bx.px, bx.py, bx.pw_, bx.ph_, edit.eraseMode || 'auto', edit.eraseColor, Math.max(2, Math.round(sc*1.5)));
@@ -12566,6 +12687,8 @@ document.getElementById('erase-btn').addEventListener('click', async ()=>{
         pdfDoc.removePage(pageNum - 1);
         targetPage = pdfDoc.insertPage(pageNum - 1, [pw, ph]);
         targetPage.drawImage(png, {x:0, y:0, width:pw, height:ph});
+      }else{
+        eraseDrawStrokesPdf(targetPage, ph, eraseStrokes.filter(s=> s.page === pageNum)); // vector strokes under the erase patches
       }
 
       for(const edit of eraseEdits){
