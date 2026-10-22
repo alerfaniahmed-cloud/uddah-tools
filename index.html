@@ -393,6 +393,21 @@
   #ce-actions .btn{width:100%;min-height:44px;padding:8px 2px;font-size:.88rem;white-space:nowrap;margin:0;}
   details.ce-more{margin:6px 0 10px;}
   details.ce-more summary{cursor:pointer;color:var(--brass-light);font-weight:600;min-height:36px;display:flex;align-items:center;}
+  /* multi-image sheet: sticky action bar */
+  #sh-bar{position:sticky;top:0;z-index:20;display:flex;gap:4px;align-items:stretch;margin:12px -4px 6px;padding:6px 4px;background:var(--bg-elev);border:1px solid var(--border);border-radius:12px;box-shadow:0 2px 8px rgba(43,42,40,.10);}
+  #sh-bar .sh-tb{flex:1 1 0;min-width:0;min-height:48px;padding:4px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border:1px solid var(--border);border-radius:9px;background:var(--bg-elev-2);color:var(--bone);font-family:var(--font-display);cursor:pointer;line-height:1.15;}
+  #sh-bar .sh-tb .ti{font-size:1.15rem;}
+  #sh-bar .sh-tb small{font-size:.66rem;color:var(--bone-dim);white-space:nowrap;}
+  #sh-bar .sh-tb:hover{border-color:var(--brass);}
+  #sh-bar .sh-tb:active{transform:scale(.96);}
+  #sh-bar .sh-tb:disabled{opacity:.4;cursor:default;}
+  #sh-bar .sh-tb.sh-on{border-color:var(--brass);background:var(--brass);color:#1C1B1A;}
+  #sh-bar .sh-tb.sh-on small{color:#1C1B1A;}
+  #sh-bar .sh-sep{width:1px;background:var(--border);margin:2px 2px;flex:0 0 1px;}
+  #sh-tmsg{min-height:22px;margin:0 0 4px;font-size:.85rem;font-weight:600;color:var(--brass-light);}
+  #sh-tmsg.t-err{color:#B05A32;}
+  #sh-fmtline{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin:0 0 8px;font-size:.85rem;color:var(--bone-dim);}
+  #sh-fmtline label{display:flex;align-items:center;gap:6px;margin:0;}
   @media print{.toolbar,nav.tabs,#prayer-bar{display:none !important;}}
 </style>
 </head>
@@ -2146,54 +2161,32 @@
         <button type="button" class="ce-big" id="sh-addce"><span class="ce-ico">🪪</span><b data-sh="addCard">الكرت من المصمم</b><small data-sh="addCardSub">الوجه والظهر بمقاسه الحقيقي</small></button>
       </div>
 
-      <div class="ce-box" style="margin-top:12px;">
-        <div class="row">
-          <div class="field"><label for="sh-orient" data-sh="orient">اتجاه الورقة</label><select id="sh-orient"><option value="p" data-sh="orientP">طولي</option><option value="l" data-sh="orientL">عرضي</option></select></div>
-          <div class="field"><label for="sh-margin"><span data-sh="margin">الهامش</span> (<span data-sh="mm">مم</span>)</label><input type="number" id="sh-margin" min="0" max="40" step="1" value="10" dir="ltr"></div>
-          <div class="field"><label for="sh-gap"><span data-sh="gap">المسافة بين الصور</span> (<span data-sh="mm">مم</span>)</label><input type="number" id="sh-gap" min="0" max="40" step="1" value="4" dir="ltr"></div>
-          <div class="field"><label for="sh-bg" data-sh="bg">لون الورقة</label><input type="color" id="sh-bg" value="#ffffff"></div>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
-          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-autoadd" checked> <span data-sh="autoAdd">ترتيب تلقائي عند إضافة صور</span></label>
-          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-grid"> <span data-sh="grid">📏 شبكة (كل ١ سم)</span></label>
-          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-snap" checked> <span data-sh="snap">مغناطيس الحواف</span></label>
-        </div>
+      <div id="sh-bar" role="toolbar">
+        <button type="button" class="sh-tb" id="sh-selall"><span class="ti">☑️</span><small data-sh="tbAll">الكل</small></button>
+        <button type="button" class="sh-tb" id="sh-multi"><span class="ti">➕</span><small data-sh="tbMulti">متعدد</small></button>
+        <button type="button" class="sh-tb" id="sh-dup"><span class="ti">⧉</span><small data-sh="tbDup">تكرار</small></button>
+        <button type="button" class="sh-tb" id="sh-del"><span class="ti">🗑️</span><small data-sh="tbDel">حذف</small></button>
+        <span class="sh-sep"></span>
+        <button type="button" class="sh-tb" id="sh-fmt-copy"><span class="ti">🎨</span><small data-sh="tbCopy">نسخ تنسيق</small></button>
+        <button type="button" class="sh-tb" id="sh-fmt-sel"><span class="ti">🎯</span><small data-sh="tbPaste">لصق</small></button>
+        <button type="button" class="sh-tb" id="sh-fmt-all"><span class="ti">🧩</span><small data-sh="tbPasteAll">لصق للكل</small></button>
+      </div>
+      <p id="sh-tmsg" aria-live="polite"></p>
+      <div id="sh-fmtline">
+        <label><input type="checkbox" id="sh-fmt-size"> <span data-sh="fmtSize">مع المقاس</span></label>
+        <span id="sh-fmt-chip"></span>
       </div>
 
-      <div class="ce-box" style="margin-top:12px;">
-        <b data-sh="sizesTitle">📐 مقاسات الكروت</b>
-        <p class="note" style="margin:6px 0 8px;" data-sh="sizesNote">تنطبق على الصور المحددة، وإن لم تحدد شيئاً فعلى كل الصور.</p>
-        <div id="sh-sizes" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px;">
-          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="s"><span data-sh="szS">صغير</span><br><small>6 × 4 <span data-sh="cm">سم</span></small></button>
-          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="m"><span data-sh="szM">متوسط</span><br><small>9 × 6 <span data-sh="cm">سم</span></small></button>
-          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="l"><span data-sh="szL">كبير</span><br><small>14 × 9.5 <span data-sh="cm">سم</span></small></button>
-          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="id"><span data-sh="szId">بطاقة هوية</span><br><small>8.56 × 5.4 <span data-sh="cm">سم</span></small></button>
-          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="full"><span data-sh="szFull">ملء الصفحة</span><br><small data-sh="szFullSub">داخل الهوامش</small></button>
-        </div>
-        <label style="display:flex;align-items:center;gap:6px;margin:10px 0 0;"><input type="checkbox" id="sh-keep" checked> <span data-sh="keep">الحفاظ على نسبة كل صورة (بدون قص)</span></label>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;">
-          <button type="button" class="btn secondary" id="sh-up10">＋10%</button>
-          <button type="button" class="btn secondary" id="sh-dn10">－10%</button>
-          <button type="button" class="btn secondary" id="sh-eqw" data-sh="eqW">نفس العرض</button>
-          <button type="button" class="btn secondary" id="sh-eqh" data-sh="eqH">نفس الارتفاع</button>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:8px;">
-          <button type="button" class="btn" id="sh-arrange" data-sh="arrange">🧩 ترتيب تلقائي</button>
-          <button type="button" class="btn secondary" id="sh-center" data-sh="center">⏺️ توسيط على الصفحة</button>
-        </div>
-      </div>
-
-      <div id="sh-tbar" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0 8px;">
-        <button type="button" class="btn secondary" id="sh-selall" data-sh="selAll">☑️ تحديد الكل</button>
-        <button type="button" class="btn secondary" id="sh-multi" data-sh="multi">➕ تحديد متعدد</button>
-        <button type="button" class="btn secondary" id="sh-dup" data-sh="dup">⧉ تكرار</button>
-        <button type="button" class="btn secondary" id="sh-del" data-sh="del">🗑️ حذف</button>
-      </div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 8px;">
-        <button type="button" class="btn secondary" id="sh-front" data-sh="toFront">⬆️ للأمام</button>
-        <button type="button" class="btn secondary" id="sh-back" data-sh="toBack">⬇️ للخلف</button>
-        <button type="button" class="btn secondary" id="sh-pgprev" data-sh="pgPrev">▶ صفحة سابقة</button>
-        <button type="button" class="btn secondary" id="sh-pgnext" data-sh="pgNext">◀ صفحة تالية</button>
+        <button type="button" class="btn secondary" id="sh-front" data-sh="toFront" style="padding:8px 2px;min-height:0;font-size:.85rem;">⬆️ للأمام</button>
+        <button type="button" class="btn secondary" id="sh-back" data-sh="toBack" style="padding:8px 2px;min-height:0;font-size:.85rem;">⬇️ للخلف</button>
+        <button type="button" class="btn secondary" id="sh-arrange" data-sh="arrange" style="padding:8px 2px;min-height:0;font-size:.85rem;">🧩 ترتيب تلقائي</button>
+        <button type="button" class="btn secondary" id="sh-center" data-sh="center" style="padding:8px 2px;min-height:0;font-size:.85rem;">⏺️ توسيط على الصفحة</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:6px;margin:0 0 8px;align-items:stretch;">
+        <select id="sh-orient" aria-label="اتجاه الورقة" style="min-height:40px;"><option value="p" data-sh="orientP">طولي</option><option value="l" data-sh="orientL">عرضي</option></select>
+        <button type="button" class="btn secondary" id="sh-pgprev" data-sh="pgPrev" style="padding:8px 2px;min-height:0;font-size:.85rem;">▶ صفحة سابقة</button>
+        <button type="button" class="btn secondary" id="sh-pgnext" data-sh="pgNext" style="padding:8px 2px;min-height:0;font-size:.85rem;">◀ صفحة تالية</button>
       </div>
       <p class="note" id="sh-pginfo" style="margin:0 0 6px;font-weight:600;"></p>
       <p class="note" style="margin:0 0 8px;" data-sh="dragNote">المس صورة لتحديدها ثم اسحبها لتحريكها، أو اسحب الدوائر في زواياها لتكبيرها وتصغيرها. اضغط Shift أو Ctrl مع الصور لتحديد أكثر من صورة.</p>
@@ -2213,31 +2206,59 @@
           <div class="field"><label for="sh-h"><span data-sh="ph">الارتفاع</span> (<span data-sh="cm">سم</span>)</label><input type="number" id="sh-h" step="0.1" min="0.5" dir="ltr"></div>
         </div>
         <div class="row">
-          <div class="field"><label for="sh-pg" data-sh="pgNo">رقم الصفحة</label><input type="number" id="sh-pg" min="1" max="20" step="1" value="1" dir="ltr"></div>
           <div class="field"><label for="sh-rot"><span data-sh="rot">الدوران</span> <span id="sh-rot-v">0</span>°</label><input type="range" id="sh-rot" min="-180" max="180" step="1" value="0"></div>
-          <div class="field"><label for="sh-fit" data-sh="fit">ملاءمة الصورة</label><select id="sh-fit"><option value="cover" data-sh="fitCover">تعبئة (قص الزائد)</option><option value="contain" data-sh="fitContain">كاملة (بدون قص)</option><option value="stretch" data-sh="fitStretch">تمديد</option></select></div>
           <div class="field"><label for="sh-op"><span data-sh="op">الشفافية</span> <span id="sh-op-v">100</span>٪</label><input type="range" id="sh-op" min="10" max="100" step="1" value="100"></div>
         </div>
-        <div class="row">
-          <div class="field"><label for="sh-bw"><span data-sh="bw">سُمك الإطار</span> (<span data-sh="mm">مم</span>)</label><input type="number" id="sh-bw" min="0" max="10" step="0.1" value="0" dir="ltr"></div>
-          <div class="field"><label for="sh-bc" data-sh="bc">لون الإطار</label><input type="color" id="sh-bc" value="#000000"></div>
-          <div class="field"><label for="sh-br"><span data-sh="br">استدارة الزوايا</span> (<span data-sh="mm">مم</span>)</label><input type="number" id="sh-br" min="0" max="50" step="0.5" value="0" dir="ltr"></div>
+        <details class="ce-more">
+          <summary data-sh="moreProps">🎛️ المزيد: الإطار والظل وملاءمة الصورة</summary>
+          <div class="row">
+            <div class="field"><label for="sh-fit" data-sh="fit">ملاءمة الصورة</label><select id="sh-fit"><option value="cover" data-sh="fitCover">تعبئة (قص الزائد)</option><option value="contain" data-sh="fitContain">كاملة (بدون قص)</option><option value="stretch" data-sh="fitStretch">تمديد</option></select></div>
+            <div class="field"><label for="sh-pg" data-sh="pgNo">رقم الصفحة</label><input type="number" id="sh-pg" min="1" max="20" step="1" value="1" dir="ltr"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="sh-bw"><span data-sh="bw">سُمك الإطار</span> (<span data-sh="mm">مم</span>)</label><input type="number" id="sh-bw" min="0" max="10" step="0.1" value="0" dir="ltr"></div>
+            <div class="field"><label for="sh-bc" data-sh="bc">لون الإطار</label><input type="color" id="sh-bc" value="#000000"></div>
+            <div class="field"><label for="sh-br"><span data-sh="br">استدارة الزوايا</span> (<span data-sh="mm">مم</span>)</label><input type="number" id="sh-br" min="0" max="50" step="0.5" value="0" dir="ltr"></div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
+            <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-lock" checked> <span data-sh="lock">تثبيت نسبة العرض للارتفاع</span></label>
+            <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-shadow"> <span data-sh="shadow">ظل خفيف</span></label>
+          </div>
+        </details>
+      </div>
+
+      <details class="ce-more ce-box" style="margin-top:12px;">
+        <summary data-sh="sizesTitle">📐 مقاسات الكروت</summary>
+        <p class="note" style="margin:6px 0 8px;" data-sh="sizesNote">تنطبق على الصور المحددة، وإن لم تحدد شيئاً فعلى كل الصور.</p>
+        <div id="sh-sizes" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px;">
+          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="s"><span data-sh="szS">صغير</span><br><small>6 × 4 <span data-sh="cm">سم</span></small></button>
+          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="m"><span data-sh="szM">متوسط</span><br><small>9 × 6 <span data-sh="cm">سم</span></small></button>
+          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="l"><span data-sh="szL">كبير</span><br><small>14 × 9.5 <span data-sh="cm">سم</span></small></button>
+          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="id"><span data-sh="szId">بطاقة هوية</span><br><small>8.56 × 5.4 <span data-sh="cm">سم</span></small></button>
+          <button type="button" class="btn secondary" style="padding:8px 4px;min-height:0;" data-size="full"><span data-sh="szFull">ملء الصفحة</span><br><small data-sh="szFullSub">داخل الهوامش</small></button>
+        </div>
+        <label style="display:flex;align-items:center;gap:6px;margin:10px 0 0;"><input type="checkbox" id="sh-keep" checked> <span data-sh="keep">الحفاظ على نسبة كل صورة (بدون قص)</span></label>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;">
+          <button type="button" class="btn secondary" id="sh-up10">＋10%</button>
+          <button type="button" class="btn secondary" id="sh-dn10">－10%</button>
+          <button type="button" class="btn secondary" id="sh-eqw" data-sh="eqW">نفس العرض</button>
+          <button type="button" class="btn secondary" id="sh-eqh" data-sh="eqH">نفس الارتفاع</button>
+        </div>
+      </details>
+
+      <details class="ce-more ce-box">
+        <summary data-sh="setTitle">⚙️ إعدادات الورقة</summary>
+        <div class="row" style="margin-top:8px;">
+          <div class="field"><label for="sh-margin"><span data-sh="margin">الهامش</span> (<span data-sh="mm">مم</span>)</label><input type="number" id="sh-margin" min="0" max="40" step="1" value="10" dir="ltr"></div>
+          <div class="field"><label for="sh-gap"><span data-sh="gap">المسافة بين الصور</span> (<span data-sh="mm">مم</span>)</label><input type="number" id="sh-gap" min="0" max="40" step="1" value="4" dir="ltr"></div>
+          <div class="field"><label for="sh-bg" data-sh="bg">لون الورقة</label><input type="color" id="sh-bg" value="#ffffff"></div>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;">
-          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-lock" checked> <span data-sh="lock">تثبيت نسبة العرض للارتفاع</span></label>
-          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-shadow"> <span data-sh="shadow">ظل خفيف</span></label>
+          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-autoadd" checked> <span data-sh="autoAdd">ترتيب تلقائي عند إضافة صور</span></label>
+          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-grid"> <span data-sh="grid">📏 شبكة (كل ١ سم)</span></label>
+          <label style="display:flex;align-items:center;gap:6px;margin:0;"><input type="checkbox" id="sh-snap" checked> <span data-sh="snap">مغناطيس الحواف</span></label>
         </div>
-        <div class="ce-box" style="margin-top:12px;">
-          <b data-sh="fmtTitle">🎨 نسخ التنسيق</b>
-          <p class="note" style="margin:6px 0 8px;" data-sh="fmtNote">انسخ إطار وظل وشفافية صورة، ثم طبّقها على صور أخرى. فعّل «مع المقاس» لنسخ الحجم أيضاً.</p>
-          <label style="display:flex;align-items:center;gap:6px;margin:0 0 8px;"><input type="checkbox" id="sh-fmt-size"> <span data-sh="fmtSize">مع المقاس</span></label>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
-            <button type="button" class="btn secondary" id="sh-fmt-copy" data-sh="fmtCopy">🎨 نسخ تنسيق المحددة</button>
-            <button type="button" class="btn secondary" id="sh-fmt-sel" data-sh="fmtSel">🎯 تطبيق على المحدد</button>
-            <button type="button" class="btn secondary" id="sh-fmt-all" data-sh="fmtAll">🧩 تطبيق على الكل</button>
-          </div>
-        </div>
-      </div>
+      </details>
 
       <div class="ce-box" style="margin-top:14px;">
         <div class="row">
@@ -14070,7 +14091,9 @@ const SH_TXT = {
     bw:'سُمك الإطار', bc:'لون الإطار', br:'استدارة الزوايا', lock:'تثبيت نسبة العرض للارتفاع', shadow:'ظل خفيف', fmtTitle:'🎨 نسخ التنسيق', fmtNote:'انسخ إطار وظل وشفافية صورة، ثم طبّقها على صور أخرى. فعّل «مع المقاس» لنسخ الحجم أيضاً.', fmtSize:'مع المقاس', fmtCopy:'🎨 نسخ تنسيق المحددة', fmtSel:'🎯 تطبيق على المحدد', fmtAll:'🧩 تطبيق على الكل',
     dpi:'الدقة', cut:'علامات القص', cutNo:'بدون', cutYes:'علامات صغيرة عند الزوايا', dlPdf:'تنزيل PDF (كل الصفحات)', dlPng:'تنزيل صورة (الصفحة الحالية)', privacy:'الصور تبقى على جهازك فقط ولا تُحفظ في أي مكان: إن أغلقت الصفحة تُمسح.',
     pTitleOne:'الصورة المحددة', pTitleMany:'صور محددة', page:'الصفحة', of:'من', items:'صورة', empty:'أضف صوراً لتظهر هنا.', added:'تمت إضافة الصور', bad:'تعذّر فتح بعض الملفات', noCard:'افتح مصمم الكروت وصمّم كرتاً أولاً', cardAdded:'أُضيف الكرت بمقاسه الحقيقي',
-    overflow:'بعض الصور لا تتسع في الصفحة فنُقلت لصفحة جديدة', fmtCopied:'تم نسخ التنسيق ✓', fmtNone:'انسخ تنسيق صورة أولاً', fmtDone:'تم تطبيق التنسيق ✓', done:'تم التنزيل ✓', noItems:'لا توجد صور بعد', busy:'جارٍ التجهيز…', fail:'تعذّر إنشاء الملف', arranged:'تم الترتيب', centered:'تم التوسيط', sel:'محدد' },
+    overflow:'بعض الصور لا تتسع في الصفحة فنُقلت لصفحة جديدة', fmtCopied:'تم نسخ التنسيق ✓', fmtNone:'انسخ تنسيق صورة أولاً', fmtDone:'تم تطبيق التنسيق ✓', done:'تم التنزيل ✓', noItems:'لا توجد صور بعد', busy:'جارٍ التجهيز…', fail:'تعذّر إنشاء الملف', arranged:'تم الترتيب', centered:'تم التوسيط', sel:'محدد',
+    tbAll:'الكل', tbMulti:'متعدد', tbDup:'تكرار', tbDel:'حذف', tbCopy:'نسخ تنسيق', tbPaste:'لصق', tbPasteAll:'لصق للكل', moreProps:'🎛️ المزيد: الإطار والظل وملاءمة الصورة', setTitle:'⚙️ إعدادات الورقة',
+    pickFirst:'حدد صورة أولاً ثم اضغط', fmtOn:'التنسيق المنسوخ:', fmtEmpty:'لم تنسخ تنسيقاً بعد: حدد صورة ثم اضغط «نسخ تنسيق»', fmtNoBorder:'بدون إطار', fmtBorder:'إطار', fmtRadius:'زوايا', fmtShadow:'ظل', fmtOpacity:'شفافية', fmtSizeTxt:'مقاس', fmtAppliedN:'تم لصق التنسيق على', fmtPicN:'صورة', multiOn:'التحديد المتعدد شغّال: المس الصور لإضافتها أو إزالتها', multiOff:'التحديد المتعدد متوقف' },
   en:{ title:'Multi-image A4 sheet (cards)', hint:'Place several pictures or cards on a real-size A4 page: move and resize each one by hand, pick small / medium / large sizes, and copy a format onto some pictures or all. Everything runs in your browser; no file is uploaded.',
     addImgs:'Add pictures', addImgsSub:'Pick one or many images at once', addCard:'Card from designer', addCardSub:'Front and back at real size', orient:'Page orientation', orientP:'Portrait', orientL:'Landscape', margin:'Margin', mm:'mm', cm:'cm', gap:'Gap between pictures', bg:'Page colour',
     autoAdd:'Auto-arrange when adding pictures', grid:'📏 Grid (every 1 cm)', snap:'Edge snapping', sizesTitle:'📐 Card sizes', sizesNote:'Applies to the selected pictures, or to all pictures when none is selected.', szS:'Small', szM:'Medium', szL:'Large', szId:'ID card', szFull:'Fill page', szFullSub:'inside margins',
@@ -14079,7 +14102,9 @@ const SH_TXT = {
     bw:'Border width', bc:'Border colour', br:'Corner radius', lock:'Lock aspect ratio', shadow:'Soft shadow', fmtTitle:'🎨 Copy format', fmtNote:'Copy the border, shadow and opacity of a picture and apply them to others. Tick “With size” to copy the size too.', fmtSize:'With size', fmtCopy:'🎨 Copy format of selected', fmtSel:'🎯 Apply to selected', fmtAll:'🧩 Apply to all',
     dpi:'Resolution', cut:'Crop marks', cutNo:'None', cutYes:'Small marks at corners', dlPdf:'Download PDF (all pages)', dlPng:'Download image (current page)', privacy:'Pictures stay on your device only and are not stored anywhere: closing the page clears them.',
     pTitleOne:'Selected picture', pTitleMany:'Selected pictures', page:'Page', of:'of', items:'pictures', empty:'Add pictures to see them here.', added:'Pictures added', bad:'Some files could not be opened', noCard:'Open the card designer and design a card first', cardAdded:'Card added at real size',
-    overflow:'Some pictures did not fit and moved to a new page', fmtCopied:'Format copied ✓', fmtNone:'Copy a picture’s format first', fmtDone:'Format applied ✓', done:'Downloaded ✓', noItems:'No pictures yet', busy:'Preparing…', fail:'Could not create the file', arranged:'Arranged', centered:'Centred', sel:'selected' }
+    overflow:'Some pictures did not fit and moved to a new page', fmtCopied:'Format copied ✓', fmtNone:'Copy a picture’s format first', fmtDone:'Format applied ✓', done:'Downloaded ✓', noItems:'No pictures yet', busy:'Preparing…', fail:'Could not create the file', arranged:'Arranged', centered:'Centred', sel:'selected',
+    tbAll:'All', tbMulti:'Multi', tbDup:'Copy', tbDel:'Delete', tbCopy:'Copy style', tbPaste:'Paste', tbPasteAll:'Paste all', moreProps:'🎛️ More: border, shadow and fit', setTitle:'⚙️ Sheet settings',
+    pickFirst:'Select a picture first, then tap', fmtOn:'Copied format:', fmtEmpty:'Nothing copied yet: select a picture, then tap “Copy style”', fmtNoBorder:'no border', fmtBorder:'border', fmtRadius:'corners', fmtShadow:'shadow', fmtOpacity:'opacity', fmtSizeTxt:'size', fmtAppliedN:'Format pasted onto', fmtPicN:'picture(s)', multiOn:'Multi-select is on: tap pictures to add or remove them', multiOff:'Multi-select is off' }
 };
 const shT = k => (SH_TXT[currentLang] || SH_TXT.ar)[k] || SH_TXT.ar[k] || k;
 function shApplyLang(){
@@ -14098,7 +14123,12 @@ function shApplyLang(){
   const cur = ()=> sh.items.filter(i=> i.p === sh.page);
   const selItems = ()=> sh.sel.map(byId).filter(Boolean);
   const scope = ()=> { const s = selItems(); return s.length ? s : sh.items; };
-  const status = (m, t)=> setStatus('sh-status', m, t);
+  let tmsgTimer = null;
+  const status = (m, t)=>{
+    setStatus('sh-status', m, t);
+    const el = g('sh-tmsg'); if(!el) return; // short message right under the toolbar, so it is seen where the person is working
+    el.textContent = m; el.className = t === 'err' ? 't-err' : ''; clearTimeout(tmsgTimer); tmsgTimer = setTimeout(()=>{ el.textContent = ''; }, 3500);
+  };
   const rad = d => d * Math.PI / 180;
   const clamp = (v, a, b)=> Math.min(b, Math.max(a, v));
   const round2 = v => Math.round(v * 100) / 100;
@@ -14196,7 +14226,12 @@ function shApplyLang(){
     const items = selItems(), pr = g('sh-props'); pr.style.display = items.length ? '' : 'none';
     const n = pages(); if(sh.page >= n) sh.page = n - 1;
     g('sh-pginfo').textContent = sh.items.length ? `${shT('page')} ${sh.page + 1} ${shT('of')} ${n} — ${sh.items.length} ${shT('items')}` + (items.length ? ` — ${items.length} ${shT('sel')}` : '') : shT('empty');
-    g('sh-multi').style.outline = sh.multi ? '2px solid #2b6cb0' : '';
+    g('sh-multi').classList.toggle('sh-on', !!sh.multi);
+    g('sh-fmt-copy').classList.toggle('sh-on', !!sh.fmt);
+    g('sh-fmt-copy').style.opacity = items.length ? '' : '.55';
+    g('sh-fmt-sel').style.opacity = items.length && sh.fmt ? '' : '.55';
+    g('sh-fmt-all').style.opacity = sh.items.length && sh.fmt ? '' : '.55';
+    g('sh-fmt-chip').textContent = fmtText();
     if(items.length){
       const p = byId(sh.prim) || items[0]; g('sh-ptitle').textContent = items.length > 1 ? `${shT('pTitleMany')} (${items.length})` : shT('pTitleOne');
       const set = (id, v)=>{ const el = g(id); if(document.activeElement !== el) el.value = v; };
@@ -14271,7 +14306,7 @@ function shApplyLang(){
 
   /* ---------- selection tools ---------- */
   g('sh-selall').addEventListener('click', ()=> select(cur().map(i=> i.id)));
-  g('sh-multi').addEventListener('click', ()=>{ sh.multi = !sh.multi; updateUi(); });
+  g('sh-multi').addEventListener('click', ()=>{ sh.multi = !sh.multi; status(shT(sh.multi ? 'multiOn' : 'multiOff'), 'ok'); updateUi(); });
   function dupSel(){ const s = selItems(); if(!s.length) return; const ids = []; s.forEach(it=>{ const c = Object.assign({}, it, { id:sh.nextId++, x:it.x + 4, y:it.y + 4 }); sh.items.push(c); ids.push(c.id); }); select(ids); redraw(); }
   g('sh-dup').addEventListener('click', dupSel);
   function delSel(){ const ids = sh.sel.slice(); if(!ids.length) return; sh.items = sh.items.filter(i=> ids.indexOf(i.id) < 0); sh.sel = []; sh.prim = null; if(!sh.items.length) sh.extra = 1; refresh(); }
@@ -14302,19 +14337,31 @@ function shApplyLang(){
   g('sh-shadow').addEventListener('change', ()=>{ selItems().forEach(i=> i.shadow = g('sh-shadow').checked); redraw(); });
 
   /* ---------- copy format ---------- */
-  const FMT = ['op', 'bw', 'bc', 'br', 'shadow', 'fit', 'rot'];
+  const FMT = ['op', 'bw', 'bc', 'br', 'shadow', 'fit']; // rotation is not copied: it is rarely wanted on every picture
+  function fmtText(){
+    if(!sh.fmt) return shT('fmtEmpty');
+    const f = sh.fmt, parts = [f.bw > 0 ? `${shT('fmtBorder')} ${f.bw} ${shT('mm')}` : shT('fmtNoBorder')];
+    if(f.br > 0) parts.push(`${shT('fmtRadius')} ${f.br}`);
+    if(f.shadow) parts.push(shT('fmtShadow'));
+    if(f.op < 1) parts.push(`${shT('fmtOpacity')} ${Math.round(f.op * 100)}٪`);
+    if(g('sh-fmt-size').checked) parts.push(`${shT('fmtSizeTxt')} ${round2(f.w / 10)}×${round2(f.h / 10)} ${shT('cm')}`);
+    return shT('fmtOn') + ' ' + parts.join(' · ');
+  }
   g('sh-fmt-copy').addEventListener('click', ()=>{
-    const p = byId(sh.prim) || selItems()[0]; if(!p){ status(shT('fmtNone'), 'err'); return; }
-    sh.fmt = {}; FMT.forEach(k=> sh.fmt[k] = p[k]); sh.fmt.w = p.w; sh.fmt.h = p.h; status(shT('fmtCopied'), 'ok');
+    const pr = byId(sh.prim), p = pr && sh.sel.indexOf(pr.id) >= 0 ? pr : selItems()[0];
+    if(!p){ status(`${shT('pickFirst')} «${shT('tbCopy')}»`, 'err'); return; }
+    sh.fmt = {}; FMT.forEach(k=> sh.fmt[k] = p[k]); sh.fmt.w = p.w; sh.fmt.h = p.h; status(shT('fmtCopied'), 'ok'); updateUi();
   });
-  function applyFmt(list){
+  function applyFmt(list, all){
     if(!sh.fmt){ status(shT('fmtNone'), 'err'); return; }
+    if(!list.length){ status(all ? shT('noItems') : `${shT('pickFirst')} «${shT('tbPaste')}»`, 'err'); return; }
     list.forEach(it=>{ FMT.forEach(k=> it[k] = sh.fmt[k]);
       if(g('sh-fmt-size').checked){ const cx = it.x + it.w / 2, cy = it.y + it.h / 2; it.w = sh.fmt.w; it.h = sh.fmt.h; limitToPage(it); it.x = cx - it.w / 2; it.y = cy - it.h / 2; } });
-    status(shT('fmtDone'), 'ok'); redraw(); updateUi();
+    status(`${shT('fmtAppliedN')} ${list.length} ${shT('fmtPicN')} ✓`, 'ok'); redraw(); updateUi();
   }
-  g('sh-fmt-sel').addEventListener('click', ()=> applyFmt(selItems()));
-  g('sh-fmt-all').addEventListener('click', ()=> applyFmt(sh.items));
+  g('sh-fmt-sel').addEventListener('click', ()=> applyFmt(selItems(), false));
+  g('sh-fmt-all').addEventListener('click', ()=> applyFmt(sh.items, true));
+  g('sh-fmt-size').addEventListener('change', updateUi);
 
   /* ---------- pointer interaction ---------- */
   const pt = e=>{ const r = cv.getBoundingClientRect(); return { x:(e.clientX - r.left) / r.width * PW(), y:(e.clientY - r.top) / r.height * PH(), px:(e.clientX - r.left), py:(e.clientY - r.top) }; };
