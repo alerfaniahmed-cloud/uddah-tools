@@ -1076,6 +1076,8 @@
           <option value="eos" data-i18n="toolsOptEos">🧮 حاسبة نهاية الخدمة والإجازة (نظام العمل)</option>
           <option value="link" data-i18n="toolsOptLink">🔗 مصلّح الروابط (يفتح أي رابط)</option>
           <option value="iban" data-i18n="toolsOptIban">🏦 مدقق رقم الآيبان السعودي (IBAN)</option>
+          <option value="tafqeet" data-i18n="toolsOptTafqeet">🔤 تفقيط المبلغ (كتابة المبلغ بالحروف)</option>
+          <option value="voucher" data-i18n="toolsOptVoucher">🧾 سند قبض / سند صرف</option>
         </select>
       </div>
     </div>
@@ -1601,6 +1603,7 @@
           <select id="inv-type" class="inv-ctl">
             <option value="sales" data-i18n="invTypeSales">فاتورة مبيعات</option>
             <option value="purchase" data-i18n="invTypePurchase">فاتورة مشتريات</option>
+            <option value="quote" data-i18n="invTypeQuote">عرض سعر</option>
           </select>
         </div>
         <div class="field">
@@ -1688,6 +1691,18 @@
         <label style="display:flex;gap:8px;align-items:center;cursor:pointer;">
           <input type="checkbox" id="inv-incl" class="inv-ctl" style="width:auto;">
           <span data-i18n="invInclLabel">الأسعار المدخلة تشمل ضريبة القيمة المضافة</span>
+        </label>
+      </div>
+      <div class="row" id="inv-quote-row" style="display:none;">
+        <div class="field">
+          <label for="inv-valid" data-i18n="invValidLabel">صلاحية العرض (بالأيام)</label>
+          <input type="number" id="inv-valid" class="inv-ctl" value="15" min="1" max="365" inputmode="numeric" style="direction:ltr;text-align:left;">
+        </div>
+      </div>
+      <div class="field">
+        <label style="display:flex;gap:8px;align-items:center;cursor:pointer;">
+          <input type="checkbox" id="inv-words" class="inv-ctl" checked style="width:auto;">
+          <span data-i18n="invWordsLabel">كتابة المبلغ بالحروف (تفقيط)</span>
         </label>
       </div>
       <div class="field">
@@ -2482,6 +2497,125 @@
         <div class="big" id="iban-out"></div>
         <p class="note" id="iban-sub"></p>
       </div>
+    </div>
+
+    <div class="card tools-card" id="tools-tafqeet">
+      <h2 data-i18n="tafTitle">تفقيط المبلغ — كتابة المبلغ بالحروف</h2>
+      <p class="hint" data-i18n="tafHint"></p>
+      <div class="row">
+        <div class="field">
+          <label for="taf-amount" data-i18n="tafAmountLabel">المبلغ</label>
+          <input type="text" id="taf-amount" inputmode="decimal" lang="en" placeholder="1250.50" style="direction:ltr;text-align:left;font-family:var(--font-mono);font-size:1.1rem;">
+        </div>
+        <div class="field">
+          <label for="taf-cur" data-i18n="tafCurLabel">العملة</label>
+          <select id="taf-cur">
+            <option value="SAR" data-i18n="tafCurSar">ريال سعودي</option>
+            <option value="AED" data-i18n="tafCurAed">درهم إماراتي</option>
+            <option value="USD" data-i18n="tafCurUsd">دولار أمريكي</option>
+            <option value="EGP" data-i18n="tafCurEgp">جنيه مصري</option>
+            <option value="NONE" data-i18n="tafCurNone">بدون عملة</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox" id="taf-frame" checked style="width:auto;"><span data-i18n="tafFrameLabel">إضافة «فقط ... لا غير»</span></label>
+      </div>
+      <div id="taf-msg" class="note" style="color:var(--rust);min-height:1.2em;"></div>
+      <div class="result" id="taf-result" style="display:none;">
+        <p class="note" data-i18n="tafArLabel">بالعربي</p>
+        <div class="big" id="taf-ar" style="font-size:1.15rem;line-height:1.9;"></div>
+        <button class="btn secondary" type="button" id="taf-copy-ar" data-i18n="tafCopy">نسخ</button>
+        <p class="note" style="margin-top:14px;" data-i18n="tafEnLabel">بالإنجليزي</p>
+        <div class="big" id="taf-en" dir="ltr" style="font-size:1.05rem;line-height:1.7;text-align:left;"></div>
+        <button class="btn secondary" type="button" id="taf-copy-en" data-i18n="tafCopy">نسخ</button>
+      </div>
+    </div>
+
+    <div class="card tools-card" id="tools-voucher">
+      <h2 data-i18n="vcTitle">سند قبض / سند صرف</h2>
+      <p class="hint" data-i18n="vcHint"></p>
+      <div class="row">
+        <div class="field">
+          <label for="vc-type" data-i18n="vcTypeLabel">نوع السند</label>
+          <select id="vc-type" class="vc-ctl">
+            <option value="receipt" data-i18n="vcTypeRecv">سند قبض (استلام مبلغ)</option>
+            <option value="payment" data-i18n="vcTypePay">سند صرف (دفع مبلغ)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="vc-no" data-i18n="vcNoLabel">رقم السند</label>
+          <input type="text" id="vc-no" class="vc-ctl" lang="en" style="direction:ltr;text-align:left;">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="vc-date" data-i18n="vcDateLabel">التاريخ</label>
+          <input type="text" id="vc-date" class="vc-ctl" lang="en" inputmode="numeric" style="direction:ltr;text-align:left;">
+        </div>
+        <div class="field">
+          <label for="vc-amount" data-i18n="vcAmountLabel">المبلغ (ريال سعودي)</label>
+          <input type="text" id="vc-amount" class="vc-ctl" lang="en" inputmode="decimal" style="direction:ltr;text-align:left;font-family:var(--font-mono);">
+        </div>
+      </div>
+      <div class="field">
+        <label for="vc-party" id="vc-party-label" data-i18n="vcPartyRecv">استلمنا من السيد/ة</label>
+        <input type="text" id="vc-party" class="vc-ctl" maxlength="80">
+      </div>
+      <div class="field">
+        <label for="vc-reason" data-i18n="vcReasonLabel">وذلك عن (البيان)</label>
+        <textarea id="vc-reason" class="vc-ctl" rows="2" maxlength="200" style="width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="vc-method" data-i18n="vcMethodLabel">طريقة الدفع</label>
+          <select id="vc-method" class="vc-ctl">
+            <option value="cash" data-i18n="vcMCash">نقداً</option>
+            <option value="transfer" data-i18n="vcMTransfer">تحويل بنكي</option>
+            <option value="cheque" data-i18n="vcMCheque">شيك</option>
+            <option value="card" data-i18n="vcMCard">بطاقة / شبكة</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="vc-ref" data-i18n="vcRefLabel">رقم الشيك / المرجع (اختياري)</label>
+          <input type="text" id="vc-ref" class="vc-ctl" lang="en" maxlength="40" style="direction:ltr;text-align:left;">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="vc-biz" data-i18n="vcBizLabel">اسم المنشأة</label>
+          <input type="text" id="vc-biz" class="vc-ctl" maxlength="80">
+        </div>
+        <div class="field">
+          <label for="vc-vat" data-i18n="vcVatLabel">الرقم الضريبي (اختياري)</label>
+          <input type="text" id="vc-vat" class="vc-ctl" lang="en" inputmode="numeric" maxlength="15" style="direction:ltr;text-align:left;">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="vc-sig1" data-i18n="vcSig1Label">عنوان التوقيع الأول</label>
+          <input type="text" id="vc-sig1" class="vc-ctl" maxlength="30" value="المستلم">
+        </div>
+        <div class="field">
+          <label for="vc-sig2" data-i18n="vcSig2Label">عنوان التوقيع الثاني</label>
+          <input type="text" id="vc-sig2" class="vc-ctl" maxlength="30" value="المحاسب">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox" id="vc-two" class="vc-ctl" style="width:auto;"><span data-i18n="vcTwoCopies">نسختان في صفحة A4 (للعميل + للأرشيف)</span></label>
+        </div>
+        <div class="field">
+          <label for="vc-accent" data-i18n="vcAccentLabel">لون السند</label>
+          <input type="color" id="vc-accent" class="vc-ctl" value="#1f3a5f" style="width:100%;height:44px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:4px;">
+        </div>
+      </div>
+      <div id="vc-preview" style="margin:12px 0;"></div>
+      <div class="row">
+        <button class="btn" type="button" id="vc-pdf-btn" data-i18n="vcPdfBtn">تحميل PDF</button>
+        <button class="btn secondary" type="button" id="vc-png-btn" data-i18n="vcPngBtn">تحميل صورة PNG</button>
+      </div>
+      <div id="vc-status"></div>
     </div>
   </section>
 
@@ -3966,7 +4100,7 @@ const I18N = {
     toolsOptInvoice: '🧾 إنشاء فاتورة (مبيعات / مشتريات)',
     invTitle: 'إنشاء فاتورة (مبيعات / مشتريات)',
     invHint: 'أنشئ فاتورة ضريبية مبسطة جاهزة للطباعة بالعربي والإنجليزي، مع حساب ضريبة القيمة المضافة تلقائياً، ورمز QR بصيغة هيئة الزكاة والضريبة والجمارك (المرحلة الأولى) وباركود لرقم الفاتورة.',
-    invTypeLabel: 'نوع الفاتورة', invTypeSales: 'فاتورة مبيعات', invTypePurchase: 'فاتورة مشتريات',
+    invTypeLabel: 'نوع الفاتورة', invTypeSales: 'فاتورة مبيعات', invTypePurchase: 'فاتورة مشتريات', invTypeQuote: 'عرض سعر', invValidLabel: 'صلاحية العرض (بالأيام)', invWordsLabel: 'كتابة المبلغ بالحروف (تفقيط)',
     invNoLabel: 'رقم الفاتورة', invDateLabel: 'التاريخ والوقت (YYYY-MM-DD HH:MM)', invPayLabel: 'طريقة الدفع',
     invPayCash: 'نقدي', invPayCard: 'بطاقة / شبكة', invPayTransfer: 'تحويل بنكي', invPayCredit: 'آجل',
     invSellerSales: 'بيانات منشأتي (البائع)', invSellerPurchase: 'بيانات المورّد (البائع)',
@@ -4448,6 +4582,21 @@ const I18N = {
     toolsOptPw: '🔑 مولد كلمات المرور',
     toolsOptId: '🪪 مدقق رقم الهوية / الإقامة',
     toolsOptIban: '🏦 مدقق رقم الآيبان السعودي (IBAN)',
+    toolsOptTafqeet: '🔤 تفقيط المبلغ (كتابة المبلغ بالحروف)',
+    tafTitle: 'تفقيط المبلغ — كتابة المبلغ بالحروف',
+    tafHint: 'اكتب المبلغ بالأرقام (يقبل الأرقام العربية والفواصل) ويطلع لك نصه بالحروف بالعربي والإنجليزي بصيغة جاهزة للشيكات والسندات والعقود.',
+    tafAmountLabel: 'المبلغ', tafCurLabel: 'العملة', tafCurSar: 'ريال سعودي', tafCurAed: 'درهم إماراتي', tafCurUsd: 'دولار أمريكي', tafCurEgp: 'جنيه مصري', tafCurNone: 'بدون عملة',
+    tafFrameLabel: 'إضافة «فقط ... لا غير»', tafArLabel: 'بالعربي', tafEnLabel: 'بالإنجليزي', tafCopy: 'نسخ', tafCopied: 'تم النسخ ✓', tafBad: 'اكتب مبلغاً صحيحاً (حتى 999 تريليون).',
+    toolsOptVoucher: '🧾 سند قبض / سند صرف',
+    vcTitle: 'سند قبض / سند صرف',
+    vcHint: 'أنشئ سند قبض أو سند صرف احترافي بالعربي والإنجليزي، مع المبلغ بالحروف تلقائياً وخانات التوقيع، وحمّله PDF أو صورة. اختر «نسختان في A4» لتطبع نسخة للعميل ونسخة للأرشيف.',
+    vcTypeLabel: 'نوع السند', vcTypeRecv: 'سند قبض (استلام مبلغ)', vcTypePay: 'سند صرف (دفع مبلغ)',
+    vcNoLabel: 'رقم السند', vcDateLabel: 'التاريخ', vcAmountLabel: 'المبلغ (ريال سعودي)',
+    vcPartyRecv: 'استلمنا من السيد/ة', vcPartyPay: 'صرفنا إلى السيد/ة', vcReasonLabel: 'وذلك عن (البيان)',
+    vcMethodLabel: 'طريقة الدفع', vcMCash: 'نقداً', vcMTransfer: 'تحويل بنكي', vcMCheque: 'شيك', vcMCard: 'بطاقة / شبكة',
+    vcRefLabel: 'رقم الشيك / المرجع (اختياري)', vcBizLabel: 'اسم المنشأة', vcVatLabel: 'الرقم الضريبي (اختياري)',
+    vcSig1Label: 'عنوان التوقيع الأول', vcSig2Label: 'عنوان التوقيع الثاني', vcTwoCopies: 'نسختان في صفحة A4 (للعميل + للأرشيف)', vcAccentLabel: 'لون السند',
+    vcPdfBtn: 'تحميل PDF', vcPngBtn: 'تحميل صورة PNG', vcErrAmount: 'اكتب المبلغ أولاً.', vcOk: 'تم التحميل ✓', vcErr: 'تعذّر إنشاء السند.',
     ceAddStamp: '+ ختم', ceAddLine: '+ خط', ceStTop: 'النص العلوي (منحني)', ceStBot: 'النص السفلي (منحني)', ceStL1: 'السطر الرئيسي بالمنتصف (كبير)', ceStL2: 'سطر المنتصف 2', ceStL3: 'سطر المنتصف 3', ceStL4: 'سطر المنتصف 4',
     ceStColor: 'لون الحبر', ceStThick: 'سُمك الخطوط', ceStOp: 'قوة الحبر', ceStWear: 'التآكل (جزء يخفّ وجزء يثقل)', ceStRot: 'الدوران', ceStDbl: 'إطار مزدوج', ceStMult: 'يندمج مع الخلفية مثل الحبر', ceStSeed: '🎲 نمط تآكل جديد',
     ceLnColor: 'لون الخط', ceLnWidth: 'سُمك الخط', ceLnStyle: 'نوع الخط', ceLnSolid: 'متصل', ceLnDashed: 'متقطع', ceLnDotted: 'منقّط',
@@ -4780,7 +4929,7 @@ const I18N = {
     toolsOptInvoice: '🧾 Invoice Maker (Sales / Purchases)',
     invTitle: 'Invoice Maker (Sales / Purchases)',
     invHint: 'Create a print-ready simplified tax invoice in Arabic and English, with automatic VAT calculation, a ZATCA phase-1 QR code and a barcode for the invoice number.',
-    invTypeLabel: 'Invoice type', invTypeSales: 'Sales invoice', invTypePurchase: 'Purchase invoice',
+    invTypeLabel: 'Invoice type', invTypeSales: 'Sales invoice', invTypePurchase: 'Purchase invoice', invTypeQuote: 'Quotation', invValidLabel: 'Quote validity (days)', invWordsLabel: 'Amount in words',
     invNoLabel: 'Invoice number', invDateLabel: 'Date & time (YYYY-MM-DD HH:MM)', invPayLabel: 'Payment method',
     invPayCash: 'Cash', invPayCard: 'Card', invPayTransfer: 'Bank transfer', invPayCredit: 'Credit',
     invSellerSales: 'My business (seller)', invSellerPurchase: 'Supplier (seller)',
@@ -5262,6 +5411,21 @@ const I18N = {
     toolsOptPw: '🔑 Password Generator',
     toolsOptId: '🪪 National ID / Iqama Validator',
     toolsOptIban: '🏦 Saudi IBAN Validator',
+    toolsOptTafqeet: '🔤 Amount in Words (Arabic / English)',
+    tafTitle: 'Amount in Words',
+    tafHint: 'Type the amount in digits (Arabic digits and separators are accepted) and get it written in words in Arabic and English, ready for cheques, vouchers and contracts.',
+    tafAmountLabel: 'Amount', tafCurLabel: 'Currency', tafCurSar: 'Saudi riyal', tafCurAed: 'UAE dirham', tafCurUsd: 'US dollar', tafCurEgp: 'Egyptian pound', tafCurNone: 'No currency',
+    tafFrameLabel: 'Add the “only” wording', tafArLabel: 'Arabic', tafEnLabel: 'English', tafCopy: 'Copy', tafCopied: 'Copied ✓', tafBad: 'Enter a valid amount (up to 999 trillion).',
+    toolsOptVoucher: '🧾 Receipt / Payment Voucher',
+    vcTitle: 'Receipt / Payment Voucher',
+    vcHint: 'Create a professional bilingual receipt or payment voucher with the amount in words and signature boxes, then download it as PDF or image. Choose “two copies on A4” to print a customer copy and an archive copy.',
+    vcTypeLabel: 'Voucher type', vcTypeRecv: 'Receipt voucher (money received)', vcTypePay: 'Payment voucher (money paid)',
+    vcNoLabel: 'Voucher no.', vcDateLabel: 'Date', vcAmountLabel: 'Amount (SAR)',
+    vcPartyRecv: 'Received from', vcPartyPay: 'Paid to', vcReasonLabel: 'For (description)',
+    vcMethodLabel: 'Payment method', vcMCash: 'Cash', vcMTransfer: 'Bank transfer', vcMCheque: 'Cheque', vcMCard: 'Card',
+    vcRefLabel: 'Cheque / reference no. (optional)', vcBizLabel: 'Business name', vcVatLabel: 'VAT number (optional)',
+    vcSig1Label: 'First signature title', vcSig2Label: 'Second signature title', vcTwoCopies: 'Two copies on one A4 page (customer + archive)', vcAccentLabel: 'Voucher colour',
+    vcPdfBtn: 'Download PDF', vcPngBtn: 'Download PNG', vcErrAmount: 'Enter the amount first.', vcOk: 'Downloaded ✓', vcErr: 'Could not create the voucher.',
     ceAddStamp: '+ Stamp', ceAddLine: '+ Line', ceStTop: 'Top text (curved)', ceStBot: 'Bottom text (curved)', ceStL1: 'Main centre line (large)', ceStL2: 'Centre line 2', ceStL3: 'Centre line 3', ceStL4: 'Centre line 4',
     ceStColor: 'Ink colour', ceStThick: 'Line thickness', ceStOp: 'Ink strength', ceStWear: 'Wear (parts fade, parts stay heavy)', ceStRot: 'Rotation', ceStDbl: 'Double border', ceStMult: 'Blend with the background like ink', ceStSeed: '🎲 New wear pattern',
     ceLnColor: 'Line colour', ceLnWidth: 'Line width', ceLnStyle: 'Line style', ceLnSolid: 'Solid', ceLnDashed: 'Dashed', ceLnDotted: 'Dotted',
@@ -9767,6 +9931,177 @@ const INV_BAR_W = 190, INV_BAR_H = 60;
 function invNum(v){ const n = parseFloat(String(v).replace(/[٠-٩]/g, d=>d.charCodeAt(0)-0x0660).replace(/[۰-۹]/g, d=>d.charCodeAt(0)-0x06F0).replace(/,/g,'.')); return isNaN(n) ? 0 : n; }
 function invRound(n){ return Math.round((n + Number.EPSILON) * 100) / 100; }
 function invFmt(n){ return n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+/* ============================================================
+   TAFQEET — amount in words (Arabic + English). Pure functions, no DOM.
+   uddahTafqeet.ar(amount, 'SAR', { frame:true })  ->  "فقط ألف ومائتان وخمسون ريالاً وخمسون هللة لا غير"
+   uddahTafqeet.en(amount, 'SAR', { frame:true })  ->  "One thousand two hundred and fifty Saudi riyals and fifty halalas only"
+   ============================================================ */
+const uddahTafqeet = (function(){
+  const M1 = ['', 'واحد', 'اثنان', 'ثلاثة', 'أربعة', 'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة'];
+  const F1 = ['', 'واحدة', 'اثنتان', 'ثلاث', 'أربع', 'خمس', 'ست', 'سبع', 'ثماني', 'تسع'];
+  const F1C = ['', 'إحدى', 'اثنتان', 'ثلاث', 'أربع', 'خمس', 'ست', 'سبع', 'ثماني', 'تسع'];   // feminine units when joined to tens
+  const T10 = { m: 'عشرة', f: 'عشر' };
+  const T11 = {
+    m: ['', 'أحد عشر', 'اثنا عشر', 'ثلاثة عشر', 'أربعة عشر', 'خمسة عشر', 'ستة عشر', 'سبعة عشر', 'ثمانية عشر', 'تسعة عشر'],
+    f: ['', 'إحدى عشرة', 'اثنتا عشرة', 'ثلاث عشرة', 'أربع عشرة', 'خمس عشرة', 'ست عشرة', 'سبع عشرة', 'ثماني عشرة', 'تسع عشرة']
+  };
+  const TENS = ['', '', 'عشرون', 'ثلاثون', 'أربعون', 'خمسون', 'ستون', 'سبعون', 'ثمانون', 'تسعون'];
+  const HUND = ['', 'مائة', 'مائتان', 'ثلاثمائة', 'أربعمائة', 'خمسمائة', 'ستمائة', 'سبعمائة', 'ثمانمائة', 'تسعمائة'];
+  // s = singular, d = dual, dc = dual in construct (before a counted noun), p = plural (3-10), t = singular with tanween (11-99)
+  const SCALES = [
+    { s: 'ألف', d: 'ألفان', dc: 'ألفا', p: 'آلاف', t: 'ألفاً' },
+    { s: 'مليون', d: 'مليونان', dc: 'مليونا', p: 'ملايين', t: 'مليوناً' },
+    { s: 'مليار', d: 'ملياران', dc: 'مليارا', p: 'مليارات', t: 'ملياراً' },
+    { s: 'تريليون', d: 'تريليونان', dc: 'تريليونا', p: 'تريليونات', t: 'تريليوناً' }
+  ];
+  const MAX = 999999999999999;   // < 1e15 (stays exact as a JS number)
+
+  function below1000(n, fem){           // 1..999
+    const g = fem ? 'f' : 'm', h = Math.floor(n / 100), r = n % 100, parts = [];
+    if(h) parts.push(HUND[h]);
+    if(r){
+      if(r < 10) parts.push(fem ? F1[r] : M1[r]);
+      else if(r === 10) parts.push(T10[g]);
+      else if(r < 20) parts.push(T11[g][r - 10]);
+      else{
+        const u = r % 10, t = Math.floor(r / 10);
+        parts.push(u ? (fem ? F1C[u] : M1[u]) + ' و' + TENS[t] : TENS[t]);
+      }
+    }
+    return parts.join(' و');
+  }
+
+  /* number -> words. opts.fem: feminine counted noun; opts.endNoun: a counted noun follows, so the last scale word takes its construct form */
+  function words(n, opts){
+    opts = opts || {};
+    const groups = [];
+    let x = n, i = 0;
+    while(x > 0){ groups.push(x % 1000); x = Math.floor(x / 1000); i++; }
+    let lastIdx = 0;
+    for(let k = 0; k < groups.length; k++){ if(groups[k]) { lastIdx = k; break; } }
+    const out = [];
+    for(let k = groups.length - 1; k >= 0; k--){
+      const c = groups[k]; if(!c) continue;
+      const isLast = k === lastIdx, noun = isLast && opts.endNoun;
+      if(k === 0){
+        let s = below1000(c, opts.fem);
+        if(noun && c === 200) s = 'مائتا';
+        out.push(s); continue;
+      }
+      const sc = SCALES[k - 1], r = c % 100;
+      if(c === 1){ out.push(sc.s); continue; }
+      if(c === 2){ out.push(noun ? sc.dc : sc.d); continue; }
+      let base = below1000(c, false);
+      if(c === 200) base = 'مائتا';
+      if(c < 100){ out.push(base + ' ' + (c <= 10 ? sc.p : (noun ? sc.s : sc.t))); continue; }
+      if(r === 0 || r === 1) out.push(base + ' ' + sc.s);
+      else if(r === 2) out.push(base.replace(/اثنان$/, 'اثنا') + ' ' + sc.s);
+      else if(r <= 10) out.push(base + ' ' + sc.p);
+      else out.push(base + ' ' + (noun ? sc.s : sc.t));
+    }
+    return out.join(' و');
+  }
+
+  /* a counted amount with its noun, e.g. 1250 + riyal -> "ألف ومائتان وخمسون ريالاً" */
+  function counted(n, u){
+    if(n === 1) return u.s + ' ' + (u.fem ? 'واحدة' : 'واحد');
+    if(n === 2) return u.d;
+    const r = n % 100;
+    if(r === 1) return words(n - 1, { fem: u.fem }) + ' و' + u.s + ' ' + (u.fem ? 'واحدة' : 'واحد');
+    if(r === 2) return words(n - 2, { fem: u.fem }) + ' و' + u.d;
+    if(r === 0) return words(n, { fem: u.fem, endNoun: true }) + ' ' + u.s;
+    return words(n, { fem: u.fem }) + ' ' + (r <= 10 ? u.p : u.t);
+  }
+
+  const CUR = {
+    SAR: { ar: { main: { s: 'ريال', d: 'ريالان', p: 'ريالات', t: 'ريالاً' }, sub: { s: 'هللة', d: 'هللتان', p: 'هللات', t: 'هللة', fem: true } }, en: ['Saudi riyal', 'Saudi riyals', 'halala', 'halalas'] },
+    AED: { ar: { main: { s: 'درهم', d: 'درهمان', p: 'دراهم', t: 'درهماً' }, sub: { s: 'فلس', d: 'فلسان', p: 'فلوس', t: 'فلساً' } }, en: ['UAE dirham', 'UAE dirhams', 'fils', 'fils'] },
+    USD: { ar: { main: { s: 'دولار', d: 'دولاران', p: 'دولارات', t: 'دولاراً' }, sub: { s: 'سنت', d: 'سنتان', p: 'سنتات', t: 'سنتاً' } }, en: ['US dollar', 'US dollars', 'cent', 'cents'] },
+    EGP: { ar: { main: { s: 'جنيه', d: 'جنيهان', p: 'جنيهات', t: 'جنيهاً' }, sub: { s: 'قرش', d: 'قرشان', p: 'قروش', t: 'قرشاً' } }, en: ['Egyptian pound', 'Egyptian pounds', 'piastre', 'piastres'] },
+    NONE: null
+  };
+
+  /* accepts numbers or text with Arabic-Indic digits, "," thousands and "٫" decimal marks */
+  function parseAmount(v){
+    if(typeof v === 'number') return v;
+    let s = String(v == null ? '' : v).trim()
+      .replace(/[٠-٩]/g, d => d.charCodeAt(0) - 0x0660)
+      .replace(/[۰-۹]/g, d => d.charCodeAt(0) - 0x06F0)
+      .replace(/[٬,\s]/g, '').replace(/٫/g, '.');
+    const n = parseFloat(s);
+    return isFinite(n) ? n : NaN;
+  }
+  function split(amount){
+    const v = parseAmount(amount);
+    if(!isFinite(v) || v < 0 || v > MAX) return null;
+    const parts = (Math.round(v * 100) / 100).toFixed(2).split('.');
+    return { n: parseInt(parts[0], 10), h: parseInt(parts[1], 10) };
+  }
+
+  function ar(amount, cur, opts){
+    opts = opts || {};
+    const sp = split(amount); if(!sp) return '';
+    const c = CUR[cur === undefined ? 'SAR' : cur];
+    let body;
+    if(!c){
+      body = sp.n === 0 && sp.h === 0 ? 'صفر' : (sp.n ? words(sp.n) : 'صفر');
+      if(sp.h) body += ' و' + words(sp.h) + ' من مائة';
+    }else{
+      const p = [];
+      if(sp.n) p.push(counted(sp.n, c.ar.main));
+      if(sp.h) p.push(counted(sp.h, c.ar.sub));
+      body = p.length ? p.join(' و') : 'صفر ' + c.ar.main.s;
+    }
+    return opts.frame === false ? body : 'فقط ' + body + ' لا غير';
+  }
+
+  /* ---------------- English ---------------- */
+  const E1 = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+  const ETY = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+  const ESC = ['', 'thousand', 'million', 'billion', 'trillion'];
+  function e3(n){
+    const h = Math.floor(n / 100), r = n % 100, out = [];
+    if(h) out.push(E1[h] + ' hundred');
+    if(r){
+      let t = r < 20 ? E1[r] : ETY[Math.floor(r / 10)] + (r % 10 ? '-' + E1[r % 10] : '');
+      out.push(h ? 'and ' + t : t);
+    }
+    return out.join(' ');
+  }
+  function ewords(n){
+    if(n === 0) return 'zero';
+    const g = []; let x = n;
+    while(x > 0){ g.push(x % 1000); x = Math.floor(x / 1000); }
+    const out = [];
+    for(let k = g.length - 1; k >= 0; k--){
+      if(!g[k]) continue;
+      let s = e3(g[k]) + (ESC[k] ? ' ' + ESC[k] : '');
+      if(k === 0 && out.length && g[0] < 100) s = 'and ' + s;     // "one thousand and five"
+      out.push(s);
+    }
+    return out.join(' ');
+  }
+  function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+  function en(amount, cur, opts){
+    opts = opts || {};
+    const sp = split(amount); if(!sp) return '';
+    const c = CUR[cur === undefined ? 'SAR' : cur];
+    let body;
+    if(!c){
+      body = ewords(sp.n);
+      if(sp.h) body += ' point ' + String(sp.h).padStart(2, '0').split('').map(d => d === '0' ? 'zero' : E1[+d]).join(' ');
+    }else{
+      const p = [];
+      if(sp.n) p.push(ewords(sp.n) + ' ' + (sp.n === 1 ? c.en[0] : c.en[1]));
+      if(sp.h) p.push(ewords(sp.h) + ' ' + (sp.h === 1 ? c.en[2] : c.en[3]));
+      body = p.length ? p.join(' and ') : 'zero ' + c.en[1];
+    }
+    return cap(body) + (opts.frame === false ? '' : ' only');
+  }
+
+  return { ar, en, words, parseAmount, CUR, MAX };
+})();
+
 function invDigits(s){ return String(s).replace(/[٠-٩]/g, d=>d.charCodeAt(0)-0x0660).replace(/[۰-۹]/g, d=>d.charCodeAt(0)-0x06F0); }
 function invPad(n, w){ return String(n).padStart(w, '0'); }
 function invNowText(){
@@ -9777,7 +10112,7 @@ function invCounterKey(type){ return 'uddah-invoice-counter-' + type; }
 function invNextNumber(type){
   let n = 0;
   try{ n = parseInt(localStorage.getItem(invCounterKey(type)), 10) || 0; }catch(e){}
-  return (type === 'sales' ? 'INV-' : 'PUR-') + invPad(n + 1, 4);
+  return (type === 'purchase' ? 'PUR-' : type === 'quote' ? 'QT-' : 'INV-') + invPad(n + 1, 4);
 }
 function invBumpCounter(type, numberText){
   const m = /(\d+)\s*$/.exec(numberText || '');
@@ -9814,12 +10149,13 @@ function invCollect(){
     no: g('inv-no').value.trim(),
     date: invDigits(g('inv-date').value.trim()),
     pay: g('inv-pay').value,
+    valid: Math.max(1, Math.min(365, parseInt(g('inv-valid').value, 10) || 15)), words: g('inv-words').checked,
     sellerName: g('inv-seller-name').value.trim(), sellerVat: invDigits(g('inv-seller-vat').value.trim()),
     sellerAddr: g('inv-seller-addr').value.trim(), sellerCr: g('inv-seller-cr').value.trim(),
     buyerName: g('inv-buyer-name').value.trim(), buyerVat: invDigits(g('inv-buyer-vat').value.trim()),
     buyerAddr: g('inv-buyer-addr').value.trim(),
     incl: g('inv-incl').checked, notes: g('inv-notes').value.trim(),
-    showQr: g('inv-show-qr').checked, showBar: g('inv-show-bar').checked,
+    showQr: g('inv-show-qr').checked && type !== 'quote', showBar: g('inv-show-bar').checked,
     accent: g('inv-accent').value || '#1f3a5f',
     items: invItems.map(it=>({ desc: String(it.desc || '').trim(), qty: invNum(it.qty), price: invNum(it.price), disc: invNum(it.disc), rate: invNum(it.rate) }))
   };
@@ -9896,6 +10232,7 @@ function invWrap(ctx, text, maxW){
 
 const INV_LABELS = {
   sales:    { titleAr:'فاتورة ضريبية مبسطة', titleEn:'Simplified Tax Invoice', partyA:['البائع','Seller'], partyB:['العميل','Customer'] },
+  quote:    { titleAr:'عرض سعر', titleEn:'Quotation', partyA:['مقدّم العرض','Quotation by'], partyB:['العميل','Customer'] },
   purchase: { titleAr:'فاتورة مشتريات',       titleEn:'Purchase Invoice',       partyA:['المورّد (البائع)','Supplier (Seller)'], partyB:['المشتري (منشأتي)','Buyer (my business)'] }
 };
 const INV_PAY = { cash:['نقدي','Cash'], card:['بطاقة / شبكة','Card'], transfer:['تحويل بنكي','Bank transfer'], credit:['آجل','Credit'] };
@@ -9964,8 +10301,8 @@ async function invRender(scale){
   /* ---------- page 1 header ---------- */
   newPage();
   // top: seller name (right) + logo (left)
-  const topName = d.sellerName || (d.type === 'sales' ? 'اسم المنشأة' : 'اسم المورّد');
-  if(d.type === 'sales' || d.sellerName){
+  const topName = d.sellerName || (d.type !== 'purchase' ? 'اسم المنشأة' : 'اسم المورّد');
+  if(d.type !== 'purchase' || d.sellerName){
     T(topName, R, y + 14, { w:700, s:19 });
   }
   // invoice-number barcode: top-left, beside the business name
@@ -9996,10 +10333,11 @@ async function invRender(scale){
   // meta cells
   const metaW = (R - Lx - 16) / 3;
   const pay = INV_PAY[d.pay] || INV_PAY.cash;
+  const isQ = d.type === 'quote';
   const meta = [
-    ['رقم الفاتورة  Invoice No', d.no || '—', 'ltr'],
+    [isQ ? 'رقم العرض  Quote No' : 'رقم الفاتورة  Invoice No', d.no || '—', 'ltr'],
     ['التاريخ والوقت  Date & time', d.date || '—', 'ltr'],
-    ['طريقة الدفع  Payment', pay[0] + ' / ' + pay[1], 'rtl']
+    isQ ? ['صلاحية العرض  Valid for', d.valid + ' يوم / days', 'rtl'] : ['طريقة الدفع  Payment', pay[0] + ' / ' + pay[1], 'rtl']
   ];
   meta.forEach((m, i)=>{
     const x1 = R - i * (metaW + 8);
@@ -10013,7 +10351,7 @@ async function invRender(scale){
   const partyW = (R - Lx - 12) / 2;
   const sellerLines = [d.sellerName || '—', d.sellerVat ? 'الرقم الضريبي / VAT: ' + d.sellerVat : '', d.sellerAddr, d.sellerCr ? 'س.ت / CR: ' + d.sellerCr : ''].filter(Boolean);
   const buyerLines  = [d.buyerName  || '—', d.buyerVat  ? 'الرقم الضريبي / VAT: ' + d.buyerVat  : '', d.buyerAddr].filter(Boolean);
-  const mineIsSeller = d.type === 'sales';
+  const mineIsSeller = d.type !== 'purchase';
   const partyData = [
     { title: L.partyA, lines: sellerLines },
     { title: L.partyB, lines: buyerLines }
@@ -10065,10 +10403,23 @@ async function invRender(scale){
 
   /* ---------- totals + codes (kept together on the last page) ---------- */
   const footTop = INV_H - INV_M - 160;      // QR (bottom-right) and barcode (bottom-centre) are anchored to the page bottom
-  if(y + 14 + 90 > footTop - 8){
+  const wordsOn = d.words && calc.total > 0;
+  if(y + 14 + 90 + (wordsOn ? 46 : 0) > footTop - 8){
     newPage();
   }
   y += 14;
+  if(wordsOn){
+    const ar = uddahTafqeet.ar(calc.total, 'SAR'), en = uddahTafqeet.en(calc.total, 'SAR');
+    ctx.font = `600 11px ${FONT}`;
+    const arLines = invWrap(ctx, ar, R - Lx - 20).slice(0, 2);
+    const wh = 10 + arLines.length * 15 + 16;
+    box(Lx, y, R - Lx, wh, '#fbfcfe', line);
+    arLines.forEach((ln, i)=> T(ln, R - 10, y + 12 + i * 15, { w:600, s:11 }));
+    ctx.font = `400 9px ${FONT}`;
+    const enFit = ctx.measureText(en).width > R - Lx - 20 ? invWrap(ctx, en, R - Lx - 20)[0] + '…' : en;
+    T(enFit, R - 10, y + 12 + arLines.length * 15 + 2, { s:9, c:grey, dir:'ltr', a:'right' });
+    y += wh + 8;
+  }
   // totals box (left side)
   const tw = 270, tx = Lx;
   const tot = [
@@ -10254,11 +10605,12 @@ function invLoadProfile(){
 }
 // Which side is "my business": seller in sales, buyer in purchases. The profile fills MY side.
 function invApplyType(){
-  const type = document.getElementById('inv-type').value;
-  document.getElementById('inv-seller-title').textContent = I18N[currentLang][type === 'sales' ? 'invSellerSales' : 'invSellerPurchase'];
-  document.getElementById('inv-buyer-title').textContent = I18N[currentLang][type === 'sales' ? 'invBuyerSales' : 'invBuyerPurchase'];
-  document.getElementById('inv-seller-title').setAttribute('data-i18n', type === 'sales' ? 'invSellerSales' : 'invSellerPurchase');
-  document.getElementById('inv-buyer-title').setAttribute('data-i18n', type === 'sales' ? 'invBuyerSales' : 'invBuyerPurchase');
+  const type = document.getElementById('inv-type').value, mine = type !== 'purchase';
+  document.getElementById('inv-seller-title').textContent = I18N[currentLang][mine ? 'invSellerSales' : 'invSellerPurchase'];
+  document.getElementById('inv-buyer-title').textContent = I18N[currentLang][mine ? 'invBuyerSales' : 'invBuyerPurchase'];
+  document.getElementById('inv-seller-title').setAttribute('data-i18n', mine ? 'invSellerSales' : 'invSellerPurchase');
+  document.getElementById('inv-buyer-title').setAttribute('data-i18n', mine ? 'invBuyerSales' : 'invBuyerPurchase');
+  document.getElementById('inv-quote-row').style.display = type === 'quote' ? '' : 'none';
   document.getElementById('inv-no').value = invNextNumber(type);
 }
 
@@ -10341,19 +10693,8 @@ async function invDownload(kind){
     const d0 = invCollect();
     if(!compute_ok(d0)){ setStatus(status, I18N[currentLang].invErrNoItems, 'err'); return; }
     const out = await invRender(3);
-    const base = (d0.type === 'sales' ? 'فاتورة_مبيعات_' : 'فاتورة_مشتريات_') + (d0.no || 'invoice').replace(/[^\w\-؀-ۿ]+/g, '_');
-    if(kind === 'pdf' && d.qr && d.qrMode === 'file'){
-      const pw = d.port ? 595.28 : 841.89, ph = d.port ? 841.89 : 595.28, files = [];
-      for(let ni = 0; ni < names.length; ni++){
-        const c = await certRender(d, names[ni], sc, ni, names.length);
-        const doc = await PDFDocument.create();
-        const img = await doc.embedPng(await (await psCanvasBlob(c, 'image/png')).arrayBuffer());
-        doc.addPage([pw, ph]).drawImage(img, { x:0, y:0, width:pw, height:ph });
-        files.push({ name: certFileName(certNoFor(d, ni, names.length)) + '.pdf', data: await doc.save() });
-      }
-      if(files.length === 1) downloadBlob(new Blob([files[0].data], {type:'application/pdf'}), files[0].name);
-      else { const zip = new JSZip(); files.forEach(f=> zip.file(f.name, f.data)); downloadBlob(await zip.generateAsync({type:'blob'}), 'certs.zip'); }
-    }else if(kind === 'pdf'){
+    const base = (d0.type === 'purchase' ? 'فاتورة_مشتريات_' : d0.type === 'quote' ? 'عرض_سعر_' : 'فاتورة_مبيعات_') + (d0.no || 'invoice').replace(/[^\w\-؀-ۿ]+/g, '_');
+    if(kind === 'pdf'){
       const doc = await PDFDocument.create();
       for(const pg of out.pages){
         const png = await doc.embedPng(await (await psCanvasBlob(pg, 'image/png')).arrayBuffer());
@@ -10385,6 +10726,187 @@ document.getElementById('inv-png-btn').addEventListener('click', ()=> invDownloa
   invApplyType();
   invRenderItems();
   invSchedule();
+})();
+
+
+/* ============================================================
+   TAFQEET TOOL — amount in words (engine: uddahTafqeet, defined above the invoice code)
+   ============================================================ */
+function uddahCopyText(text, done){
+  const fallback = ()=>{ const ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;opacity:0;'; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} ta.remove(); done(); };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+}
+(function tafqeetInit(){
+  const inp = document.getElementById('taf-amount'), cur = document.getElementById('taf-cur'), fr = document.getElementById('taf-frame');
+  const res = document.getElementById('taf-result'), msg = document.getElementById('taf-msg');
+  function run(){
+    const raw = inp.value.trim();
+    msg.textContent = '';
+    if(!raw){ res.style.display = 'none'; return; }
+    const o = { frame: fr.checked }, ar = uddahTafqeet.ar(raw, cur.value, o), en = uddahTafqeet.en(raw, cur.value, o);
+    if(!ar){ res.style.display = 'none'; msg.textContent = I18N[currentLang].tafBad; return; }
+    document.getElementById('taf-ar').textContent = ar;
+    document.getElementById('taf-en').textContent = en;
+    res.style.display = 'block';
+  }
+  [inp, cur, fr].forEach(el=> el.addEventListener('input', run));
+  cur.addEventListener('change', run);
+  [['taf-copy-ar', 'taf-ar'], ['taf-copy-en', 'taf-en']].forEach(([b, t])=>{
+    const btn = document.getElementById(b);
+    btn.addEventListener('click', ()=> uddahCopyText(document.getElementById(t).textContent, ()=>{
+      const old = btn.textContent; btn.textContent = I18N[currentLang].tafCopied; setTimeout(()=>{ btn.textContent = I18N[currentLang].tafCopy; }, 1400);
+    }));
+  });
+})();
+
+/* ============================================================
+   VOUCHER TOOL — receipt / payment voucher, canvas-drawn (A5 landscape, or two copies on A4)
+   ============================================================ */
+const VC_W = 794, VC_H = 561, VC_FONT = "'IBM Plex Sans Arabic', 'Segoe UI', Arial, sans-serif";
+const VC_T = {
+  receipt: { ar:'سند قبض', en:'Receipt Voucher', pre:'RV-', who:['استلمنا من السيد/ة', 'Received from'], s1:'المستلم', s2:'المحاسب' },
+  payment: { ar:'سند صرف', en:'Payment Voucher', pre:'PV-', who:['صرفنا إلى السيد/ة', 'Paid to'],        s1:'المستلم', s2:'المحاسب' }
+};
+const VC_METH = { cash:['نقداً','Cash'], transfer:['تحويل بنكي','Bank transfer'], cheque:['شيك','Cheque'], card:['بطاقة / شبكة','Card'] };
+const VC_LS = 'uddah-voucher-counter-';
+function vcToday(){ const d = new Date(); return `${d.getFullYear()}-${invPad(d.getMonth() + 1, 2)}-${invPad(d.getDate(), 2)}`; }
+function vcNextNo(type){
+  let n = 0; try{ n = parseInt(localStorage.getItem(VC_LS + type), 10) || 0; }catch(e){}
+  return VC_T[type].pre + invPad(n + 1, 4);
+}
+function vcBump(type, no){
+  const m = /(\d+)\s*$/.exec(no || ''); if(!m) return;
+  try{ const cur = parseInt(localStorage.getItem(VC_LS + type), 10) || 0; localStorage.setItem(VC_LS + type, String(Math.max(cur, parseInt(m[1], 10)))); }catch(e){}
+}
+function vcCollect(){
+  const g = id => document.getElementById(id);
+  return {
+    type: g('vc-type').value, no: g('vc-no').value.trim(), date: invDigits(g('vc-date').value.trim()),
+    amount: invNum(g('vc-amount').value), party: g('vc-party').value.trim(), reason: g('vc-reason').value.trim(),
+    method: g('vc-method').value, ref: g('vc-ref').value.trim(), biz: g('vc-biz').value.trim(), vat: invDigits(g('vc-vat').value.trim()),
+    s1: g('vc-sig1').value.trim(), s2: g('vc-sig2').value.trim(), two: g('vc-two').checked, accent: g('vc-accent').value || '#1f3a5f'
+  };
+}
+/* draws one voucher at vertical offset oy of a 794-wide canvas context (already scaled) */
+function vcDraw(ctx, d, oy, copyTxt){
+  const W = VC_W, H = VC_H, L = 28, R = W - 28, ink = '#1a1a1a', grey = '#666b73', line = '#c9d1dc', tint = '#eef2f7', ac = d.accent, t = VC_T[d.type];
+  const T = (str, x, y, o)=>{ o = o || {}; ctx.font = `${o.w || 400} ${o.s || 13}px ${VC_FONT}`; ctx.fillStyle = o.c || ink; ctx.textBaseline = 'middle'; ctx.direction = o.dir || 'rtl'; ctx.textAlign = o.a || 'right'; ctx.fillText(str, x, oy + y); };
+  ctx.save();
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, oy, W, H);
+  ctx.strokeStyle = ac; ctx.lineWidth = 2; ctx.strokeRect(10, oy + 10, W - 20, H - 20);
+  ctx.strokeStyle = line; ctx.lineWidth = 0.8; ctx.strokeRect(14, oy + 14, W - 28, H - 28);
+  T(d.biz || 'اسم المنشأة', R, 44, { w:700, s:20 });
+  if(d.vat) T('الرقم الضريبي  VAT: ' + d.vat, R, 68, { s:11, c:grey });
+  // number + date cells (left)
+  [['رقم السند  No', d.no || '—', 0], ['التاريخ  Date', d.date || '—', 1]].forEach(([lb, val, i])=>{
+    const x0 = L + i * 128, w = 120;
+    ctx.fillStyle = tint; ctx.fillRect(x0, oy + 30, w, 42); ctx.strokeStyle = line; ctx.lineWidth = 1; ctx.strokeRect(x0, oy + 30, w, 42);
+    T(lb, x0 + w - 6, 42, { s:9.5, c:grey });
+    T(val, x0 + w - 6, 60, { w:600, s:12, dir:'ltr' });
+  });
+  // title band
+  ctx.fillStyle = ac; ctx.fillRect(L, oy + 88, R - L, 44);
+  T(t.ar, (L + R) / 2, 105, { a:'center', w:700, s:19, c:'#fff' });
+  T(t.en, (L + R) / 2, 122, { a:'center', s:11, c:'#d6deea', dir:'ltr' });
+  // amount box (left)
+  const bx = L, bw = 200;
+  ctx.strokeStyle = ac; ctx.lineWidth = 1.5; ctx.strokeRect(bx, oy + 148, bw, 70);
+  ctx.fillStyle = tint; ctx.fillRect(bx, oy + 148, bw, 22);
+  T('المبلغ  Amount (SAR)', bx + bw / 2, 159, { a:'center', w:600, s:10.5, c:ac });
+  T(d.amount > 0 ? invFmt(d.amount) : '—', bx + bw / 2, 195, { a:'center', w:700, s:25, dir:'ltr' });
+  const rw = R - (bx + bw + 16);
+  function row(lbl, val, y, width, maxLines, small){
+    T(lbl, R, y, { w:600, s:11, c:ac });
+    ctx.font = `500 13px ${VC_FONT}`;
+    const ls = invWrap(ctx, val || '', width - 6).slice(0, maxLines);
+    ls.forEach((ln, i)=> T(ln, R - 4, y + 22 + i * 21, { s:13, w:500 }));
+    const bottom = y + 22 + Math.max(1, ls.length) * 21 - 4;
+    ctx.strokeStyle = line; ctx.lineWidth = 0.8; ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(R - width, oy + bottom + 5); ctx.lineTo(R, oy + bottom + 5); ctx.stroke(); ctx.setLineDash([]);
+    return bottom + 10;
+  }
+  let y = 150;
+  const e1 = row(t.who[0] + '  ' + t.who[1], d.party, y, rw, 2);
+  y = Math.max(e1, 232);
+  const words = d.amount > 0 ? uddahTafqeet.ar(d.amount, 'SAR') : '';
+  y = row('مبلغ وقدره  The sum of', words, y, R - L, 2);
+  y = row('وذلك عن  Being', d.reason, y + 4, R - L, 2);
+  const m = VC_METH[d.method] || VC_METH.cash;
+  T('طريقة الدفع  Method:', R, y + 14, { w:600, s:11, c:ac });
+  T(m[0] + ' / ' + m[1] + (d.ref ? '   —   ' + d.ref : ''), R - 130, y + 14, { s:12, w:500 });
+  // signatures
+  const sy = H - 92, cols = [[R, R - 200], [R - 230, R - 430]];
+  [d.s1 || t.s1, d.s2 || t.s2].forEach((nm, i)=>{
+    const [x1, x0] = cols[i];
+    T(nm, (x1 + x0) / 2, sy, { a:'center', w:600, s:11.5, c:ac });
+    ctx.strokeStyle = grey; ctx.lineWidth = 0.8; ctx.beginPath(); ctx.moveTo(x0, oy + sy + 44); ctx.lineTo(x1, oy + sy + 44); ctx.stroke();
+    T('الاسم والتوقيع', (x1 + x0) / 2, sy + 56, { a:'center', s:9, c:grey });
+  });
+  ctx.strokeStyle = line; ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.arc(L + 70, oy + sy + 22, 44, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+  T('الختم', L + 70, sy + 22, { a:'center', s:10, c:grey });
+  if(copyTxt) T(copyTxt, (L + R) / 2, H - 28, { a:'center', s:9, c:grey });
+  ctx.restore();
+}
+async function vcRender(scale, d){
+  try{ await document.fonts.load("600 16px 'IBM Plex Sans Arabic'"); await document.fonts.load("400 16px 'IBM Plex Sans Arabic'"); }catch(e){}
+  d = d || vcCollect();
+  const c = document.createElement('canvas'), n = d.two ? 2 : 1;
+  c.width = Math.round(VC_W * scale); c.height = Math.round(VC_H * n * scale);
+  const ctx = c.getContext('2d'); ctx.setTransform(scale, 0, 0, scale, 0, 0);
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, VC_W, VC_H * n);
+  if(d.two){
+    vcDraw(ctx, d, 0, 'نسخة العميل  Customer copy');
+    vcDraw(ctx, d, VC_H, 'نسخة الأرشيف  Archive copy');
+    ctx.strokeStyle = '#999'; ctx.setLineDash([6, 5]); ctx.lineWidth = 0.8; ctx.beginPath(); ctx.moveTo(0, VC_H); ctx.lineTo(VC_W, VC_H); ctx.stroke(); ctx.setLineDash([]);
+  }else vcDraw(ctx, d, 0, '');
+  return c;
+}
+let vcTimer = null;
+function vcSchedule(){ clearTimeout(vcTimer); vcTimer = setTimeout(vcPreview, 160); }
+async function vcPreview(){
+  try{
+    const c = await vcRender(1.5), host = document.getElementById('vc-preview');
+    c.style.cssText = 'display:block;width:100%;max-width:794px;height:auto;margin:0 auto;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.18);';
+    host.innerHTML = ''; host.appendChild(c);
+  }catch(e){ console.error(e); }
+}
+function vcApplyType(resetNo){
+  const type = document.getElementById('vc-type').value, key = type === 'receipt' ? 'vcPartyRecv' : 'vcPartyPay';
+  const lb = document.getElementById('vc-party-label'); lb.setAttribute('data-i18n', key); lb.textContent = I18N[currentLang][key];
+  if(resetNo) document.getElementById('vc-no').value = vcNextNo(type);
+  const s1 = document.getElementById('vc-sig1'), s2 = document.getElementById('vc-sig2');
+  if(!s1.dataset.touched) s1.value = VC_T[type].s1;
+  if(!s2.dataset.touched) s2.value = VC_T[type].s2;
+}
+async function vcDownload(kind){
+  const status = 'vc-status';
+  try{
+    const d = vcCollect();
+    if(!(d.amount > 0)){ setStatus(status, I18N[currentLang].vcErrAmount, 'err'); return; }
+    const base = (d.type === 'receipt' ? 'سند_قبض_' : 'سند_صرف_') + (d.no || 'voucher').replace(/[^\w\-؀-ۿ]+/g, '_');
+    const c = await vcRender(3, d);
+    if(kind === 'pdf'){
+      const doc = await PDFDocument.create();
+      const img = await doc.embedPng(await (await psCanvasBlob(c, 'image/png')).arrayBuffer());
+      const pw = d.two ? 595.28 : 595.28, ph = d.two ? 841.89 : 419.53;
+      doc.addPage([pw, ph]).drawImage(img, { x:0, y:0, width:pw, height:ph });
+      downloadBlob(new Blob([await doc.save()], {type:'application/pdf'}), base + '.pdf');
+    }else downloadBlob(await psCanvasBlob(c, 'image/png'), base + '.png');
+    vcBump(d.type, d.no);
+    setStatus(status, I18N[currentLang].vcOk, 'ok');
+  }catch(e){ console.error(e); setStatus(status, I18N[currentLang].vcErr, 'err'); }
+}
+(function vcInit(){
+  document.getElementById('vc-date').value = vcToday();
+  try{ const p = JSON.parse(localStorage.getItem('uddah-invoice-profile') || 'null'); if(p){ if(p.name) document.getElementById('vc-biz').value = p.name; if(p.vat) document.getElementById('vc-vat').value = p.vat; if(p.accent) document.getElementById('vc-accent').value = p.accent; } }catch(e){}
+  vcApplyType(true);
+  document.querySelectorAll('.vc-ctl').forEach(el=>{ el.addEventListener('input', vcSchedule); el.addEventListener('change', vcSchedule); });
+  document.getElementById('vc-type').addEventListener('change', ()=>{ vcApplyType(true); vcSchedule(); });
+  ['vc-sig1', 'vc-sig2'].forEach(id=> document.getElementById(id).addEventListener('input', e=>{ e.target.dataset.touched = '1'; }));
+  document.getElementById('vc-pdf-btn').addEventListener('click', ()=> vcDownload('pdf'));
+  document.getElementById('vc-png-btn').addEventListener('click', ()=> vcDownload('png'));
+  vcSchedule();
 })();
 
 /* ============================================================
@@ -10827,7 +11349,18 @@ async function certDownload(kind){
     const many = names.length > 5;
     const sc = names.length > 20 ? 1.8 : (names.length > 5 ? 2.2 : 3);
     const base = 'شهادة_' + (d.title || 'تقدير').replace(/[^\w؀-ۿ]+/g, '_');
-    if(kind === 'pdf'){
+    if(kind === 'pdf' && d.qr && d.qrMode === 'file'){
+      const pw = d.port ? 595.28 : 841.89, ph = d.port ? 841.89 : 595.28, files = [];
+      for(let ni = 0; ni < names.length; ni++){
+        const c = await certRender(d, names[ni], sc, ni, names.length);
+        const doc = await PDFDocument.create();
+        const img = await doc.embedPng(await (await psCanvasBlob(c, 'image/png')).arrayBuffer());
+        doc.addPage([pw, ph]).drawImage(img, { x:0, y:0, width:pw, height:ph });
+        files.push({ name: certFileName(certNoFor(d, ni, names.length)) + '.pdf', data: await doc.save() });
+      }
+      if(files.length === 1) downloadBlob(new Blob([files[0].data], {type:'application/pdf'}), files[0].name);
+      else { const zip = new JSZip(); files.forEach(f=> zip.file(f.name, f.data)); downloadBlob(await zip.generateAsync({type:'blob'}), 'certs.zip'); }
+    }else if(kind === 'pdf'){
       const doc = await PDFDocument.create();
       const pw = d.port ? 595.28 : 841.89, ph = d.port ? 841.89 : 595.28;
       for(let ni = 0; ni < names.length; ni++){
