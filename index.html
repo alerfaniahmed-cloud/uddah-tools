@@ -421,6 +421,8 @@
   #pdf-home-grid .pdf-cat{margin:16px 0 8px;font-weight:700;color:var(--brass-light);font-size:.95rem;}
   #pdf-home-grid .pdf-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
   .pdf-tile{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:start;padding:14px 12px;min-height:96px;border:1px solid var(--border);border-radius:12px;background:var(--bg-elev-2);color:var(--bone);font-family:var(--font-display);cursor:pointer;line-height:1.35;}
+  #tools-home-grid .pdf-cat{margin:16px 0 8px;font-weight:700;color:var(--brass-light);font-size:.95rem;}
+  #tools-home-grid .pdf-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
   .pdf-tile .ico{font-size:1.7rem;line-height:1;}
   .pdf-tile .nm{font-weight:600;font-size:.9rem;}
   .pdf-tile:hover,.pdf-tile:focus-visible{border-color:var(--brass);transform:translateY(-1px);box-shadow:0 3px 10px rgba(43,42,40,.12);}
@@ -1085,7 +1087,15 @@
   <!-- ===================== TAB: MISC TOOLS (QR + PASSWORD) ===================== -->
   <section class="panel" id="panel-tools">
 
-    <div class="card">
+    <div class="card" id="tools-home">
+      <h2 data-i18n="toolsPickerTitle">أدوات متنوعة</h2>
+      <p class="hint" data-i18n="toolsHomeHint"></p>
+      <input type="search" id="tools-home-search" data-i18n-ph="toolsHomeSearch" placeholder="ابحث عن أداة…" style="width:100%;margin-bottom:12px;">
+      <div id="tools-home-grid"></div>
+    </div>
+    <button type="button" class="btn secondary" id="tools-back" style="display:none;margin:0 0 10px;" data-i18n="toolsBack">→ كل الأدوات المتنوعة</button>
+
+    <div class="card" id="tools-picker-card" style="display:none;">
       <h2 data-i18n="toolsPickerTitle">أدوات متنوعة</h2>
       <p class="hint" data-i18n="toolsPickerHint">اختر الأداة اللي تبيها من القائمة.</p>
       <div class="field">
@@ -1097,10 +1107,10 @@
           <option value="resize" data-i18n="toolsOptResize">📐 تغيير حجم الصورة</option>
           <option value="bulkcrop" data-i18n="toolsOptBulkcrop">✂️ قص عدة صور دفعة واحدة</option>
           <option value="pw" data-i18n="toolsOptPw">🔑 مولد كلمات المرور</option>
-          <option value="id" data-i18n="toolsOptId">🪪 مدقق رقم الهوية / الإقامة</option>
+          <option value="id" data-i18n="toolsOptId">🆔 مدقق رقم الهوية / الإقامة</option>
           <option value="invoice" data-i18n="toolsOptInvoice">🧾 إنشاء فاتورة (مبيعات / مشتريات)</option>
           <option value="cert" data-i18n="toolsOptCert">🎓 شهادة شكر وتقدير (مدارس وأكاديميات)</option>
-          <option value="cardedit" data-i18n="toolsOptCe">🪪 مصمم الكروت (كرت جديد أو تعديل كرت جاهز)</option>
+          <option value="cardedit" data-i18n="toolsOptCe">🆔 مصمم الكروت (كرت جديد أو تعديل كرت جاهز)</option>
           <option value="sheet" data-i18n="toolsOptSheet">🗂️ ورقة A4 متعددة الصور (كروت)</option>
           <option value="svgconv" data-i18n="toolsOptSvg">🎨 تحويل ملف SVG إلى صورة أو PDF</option>
           <option value="cv" data-i18n="toolsOptCv">📄 السيرة الذاتية (CV) — قوالب جاهزة</option>
@@ -2208,7 +2218,7 @@
 
       <div class="ce-row" id="sh-addrow">
         <button type="button" class="ce-big" id="sh-add"><span class="ce-ico">🖼️</span><b data-sh="addImgs">إضافة صور</b><small data-sh="addImgsSub">اختر صورة أو عدة صور دفعة واحدة</small></button>
-        <button type="button" class="ce-big" id="sh-addce"><span class="ce-ico">🪪</span><b data-sh="addCard">الكرت من المصمم</b><small data-sh="addCardSub">الوجه والظهر بمقاسه الحقيقي</small></button>
+        <button type="button" class="ce-big" id="sh-addce"><span class="ce-ico">🆔</span><b data-sh="addCard">الكرت من المصمم</b><small data-sh="addCardSub">الوجه والظهر بمقاسه الحقيقي</small></button>
       </div>
 
       <div id="sh-bar" role="toolbar">
@@ -4786,14 +4796,15 @@ const I18N = {
     dateInputPlaceholder: 'يوم/شهر/سنة',
     toolsPickerTitle: 'أدوات متنوعة',
     toolsPickerHint: 'اختر الأداة اللي تبيها من القائمة.',
+    toolsHomeHint: 'كل الأدوات تعمل داخل جهازك — بياناتك وملفاتك ما تُرفع لأي سيرفر.', toolsHomeSearch: 'ابحث عن أداة… (مثال: فاتورة، آيبان، QR)', toolsBack: '→ كل الأدوات المتنوعة', toolsCatDocs: 'مستندات ومعاملات', toolsCatDesign: 'تصميم وصور', toolsCatCalc: 'حسابات وتحقق', toolsCatQuick: 'أدوات سريعة',
     toolsPickerLabel: 'الأداة',
     toolsOptQr: '🔗 مولد رمز QR',
     toolsOptSeal: '🖋️ مولد الأختام',
     toolsOptImg2stamp: '🖼️ تحويل صورة إلى ختم',
-    toolsOptCard2s: '🪪 مولد كرت الوجهين',
+    toolsOptCard2s: '🆔 مولد كرت الوجهين',
     toolsOptBulkcrop: '✂️ قص عدة صور دفعة واحدة',
     toolsOptPw: '🔑 مولد كلمات المرور',
-    toolsOptId: '🪪 مدقق رقم الهوية / الإقامة',
+    toolsOptId: '🆔 مدقق رقم الهوية / الإقامة',
     toolsOptIban: '🏦 مدقق رقم الآيبان السعودي (IBAN)',
     toolsOptTafqeet: '🔤 تفقيط المبلغ (كتابة المبلغ بالحروف)',
     tafTitle: 'تفقيط المبلغ — كتابة المبلغ بالحروف',
@@ -4820,7 +4831,7 @@ const I18N = {
     ceCover: 'تغطية النص القديم', ceCoverAuto: 'تلقائي (لون الخلفية المحيطة)', ceCoverCustom: 'لون أختاره', ceCoverNone: 'بدون تغطية', ceCoverColor: 'لون التغطية', ceBold: 'خط عريض', ceFormat: 'صيغة الملف الناتج',
     ceBtn: 'تنزيل الكرت المعدَّل', ceNoFile: 'ارفع صورة الكرت أولاً.', ceBad: 'تعذّر فتح الصورة.', ceDone: 'تم تجهيز الكرت', ceNewText: 'نص جديد',
     ceNote: 'التغطية التلقائية تعطي أفضل نتيجة على الخلفيات الساذجة (لون واحد). إن كانت الخلفية متدرجة أو فيها زخرفة فاختر لوناً يدوياً أو غطِّ منطقة أصغر.',
-    toolsOptCe: '🪪 مصمم الكروت (كرت جديد أو تعديل كرت جاهز)', ceTitle: 'مصمم الكروت', ceHint: 'اصنع كرتاً جديداً من الصفر، أو ارفع كرتاً جاهزاً وعدّل عليه. أضف نصاً أو ختماً أو خطوطاً أو شعاراً، وحرّكها بإصبعك. كل شيء داخل متصفحك ولا يُرفع أي ملف.',
+    toolsOptCe: '🆔 مصمم الكروت (كرت جديد أو تعديل كرت جاهز)', ceTitle: 'مصمم الكروت', ceHint: 'اصنع كرتاً جديداً من الصفر، أو ارفع كرتاً جاهزاً وعدّل عليه. أضف نصاً أو ختماً أو خطوطاً أو شعاراً، وحرّكها بإصبعك. كل شيء داخل متصفحك ولا يُرفع أي ملف.',
     ceStartNew: 'كرت جديد', ceStartNewSub: 'ابدأ من كرت فاضي بالمقاس اللي تبغاه', ceStartImg: 'كرت جاهز', ceStartImgSub: 'ارفع صورة كرت وعدّل عليها',
     ceSizeLabel: 'مقاس الكرت', ceSzCard: 'بطاقة 9×5 سم (أفقي)', ceSzCardV: 'بطاقة 5×9 سم (عمودي)', ceSzId: 'بطاقة هوية 8.56×5.4 سم', ceSzA6: 'A6 (10.5×14.8 سم)', ceSzSq: 'مربع 8×8 سم', ceSzCustom: 'مقاس مخصص', ceCustomW: 'العرض (سم)', ceCustomH: 'الارتفاع (سم)', ceBgColor: 'لون الكرت',
     ceDecor: 'زخرفة الكرت (اختياري)', ceDecorStyle: 'الشكل', ceSideFront: 'الوجه', ceSideBack: 'الظهر', ceMore: 'خيارات أخرى', ceAdv: 'خيارات متقدمة', ceClear: '🧹 مسح كل العناصر', ceReset: '🔄 البدء من جديد',
@@ -5727,14 +5738,15 @@ const I18N = {
     dateInputPlaceholder: 'dd/mm/yyyy',
     toolsPickerTitle: 'Misc Tools',
     toolsPickerHint: 'Pick the tool you want from the list.',
+    toolsHomeHint: 'Everything runs on your device — your data and files are never uploaded.', toolsHomeSearch: 'Search a tool… (e.g. invoice, IBAN, QR)', toolsBack: '← All misc tools', toolsCatDocs: 'Documents', toolsCatDesign: 'Design & images', toolsCatCalc: 'Calculators & checks', toolsCatQuick: 'Quick tools',
     toolsPickerLabel: 'Tool',
     toolsOptQr: '🔗 QR Code Generator',
     toolsOptSeal: '🖋️ Seal / Stamp Generator',
     toolsOptImg2stamp: '🖼️ Convert Image to Stamp',
-    toolsOptCard2s: '🪪 Two-Sided Card Maker',
+    toolsOptCard2s: '🆔 Two-Sided Card Maker',
     toolsOptBulkcrop: '✂️ Batch Crop Multiple Images',
     toolsOptPw: '🔑 Password Generator',
-    toolsOptId: '🪪 National ID / Iqama Validator',
+    toolsOptId: '🆔 National ID / Iqama Validator',
     toolsOptIban: '🏦 Saudi IBAN Validator',
     toolsOptTafqeet: '🔤 Amount in Words (Arabic / English)',
     tafTitle: 'Amount in Words',
@@ -5761,7 +5773,7 @@ const I18N = {
     ceCover: 'Cover the old text', ceCoverAuto: 'Auto (surrounding background colour)', ceCoverCustom: 'A colour I choose', ceCoverNone: 'No cover', ceCoverColor: 'Cover colour', ceBold: 'Bold', ceFormat: 'Output format',
     ceBtn: 'Download the edited card', ceNoFile: 'Upload the card image first.', ceBad: 'Could not open the image.', ceDone: 'Card ready', ceNewText: 'New text',
     ceNote: 'Auto cover works best on plain one-colour backgrounds. On gradients or patterns choose a colour manually or cover a smaller area.',
-    toolsOptCe: '🪪 Card designer (new card or edit a ready card)', ceTitle: 'Card designer', ceHint: 'Make a new card from scratch, or upload a ready card and edit it. Add text, a stamp, lines or a logo, and move them with your finger. Everything stays in your browser; nothing is uploaded.',
+    toolsOptCe: '🆔 Card designer (new card or edit a ready card)', ceTitle: 'Card designer', ceHint: 'Make a new card from scratch, or upload a ready card and edit it. Add text, a stamp, lines or a logo, and move them with your finger. Everything stays in your browser; nothing is uploaded.',
     ceStartNew: 'New card', ceStartNewSub: 'Start from an empty card in the size you want', ceStartImg: 'Ready card', ceStartImgSub: 'Upload a card image and edit it',
     ceSizeLabel: 'Card size', ceSzCard: 'Card 9×5 cm (landscape)', ceSzCardV: 'Card 5×9 cm (portrait)', ceSzId: 'ID card 8.56×5.4 cm', ceSzA6: 'A6 (10.5×14.8 cm)', ceSzSq: 'Square 8×8 cm', ceSzCustom: 'Custom size', ceCustomW: 'Width (cm)', ceCustomH: 'Height (cm)', ceBgColor: 'Card colour',
     ceDecor: 'Card decoration (optional)', ceDecorStyle: 'Style', ceSideFront: 'Front', ceSideBack: 'Back', ceMore: 'More options', ceAdv: 'Advanced options', ceClear: '🧹 Clear all items', ceReset: '🔄 Start over',
@@ -14300,14 +14312,63 @@ switchSectorCard();
 /* ============================================================
    MISC TOOLS PICKER (sub-tab select + 8 tools)
    ============================================================ */
+let toolsHomeOpen = true;
 function switchToolsCard(){
   const val = document.getElementById('tools-select').value;
   document.querySelectorAll('.tools-card').forEach(card=>{
-    card.style.display = (card.id === 'tools-' + val) ? 'block' : 'none';
+    card.style.display = (!toolsHomeOpen && card.id === 'tools-' + val) ? 'block' : 'none';
   });
+  document.getElementById('tools-home').style.display = toolsHomeOpen ? 'block' : 'none';
+  document.getElementById('tools-back').style.display = toolsHomeOpen ? 'none' : 'block';
 }
-document.getElementById('tools-select').addEventListener('change', switchToolsCard);
+document.getElementById('tools-select').addEventListener('change', ()=>{ toolsHomeOpen = false; switchToolsCard(); });
 switchToolsCard();
+
+/* misc tools home grid (same idea as the PDF home): categories + search */
+const TOOLS_HOME_CATS = [
+  { k:'toolsCatDocs',   items:['invoice', 'voucher', 'cert', 'cv'] },
+  { k:'toolsCatDesign', items:['cardedit', 'sheet', 'seal', 'img2stamp', 'resize', 'bulkcrop', 'svgconv'] },
+  { k:'toolsCatCalc',   items:['tafqeet', 'eos', 'id', 'iban'] },
+  { k:'toolsCatQuick',  items:['qr', 'pw', 'link'] }
+];
+function toolsOptInfo(v){
+  const o = document.querySelector('#tools-select option[value="' + v + '"]'); if(!o) return null;
+  const t = o.textContent.trim(), m = /^([^\p{L}\p{N}]+)\s*(.*)$/u.exec(t);
+  return m ? { ico:m[1].trim(), name:m[2] } : { ico:'🧰', name:t };
+}
+function toolsBuildHome(){
+  const host = document.getElementById('tools-home-grid'); if(!host) return;
+  const q = (document.getElementById('tools-home-search').value || '').trim().toLowerCase();
+  host.innerHTML = '';
+  let any = false;
+  TOOLS_HOME_CATS.forEach(cat=>{
+    const tiles = cat.items.map(v=>({ v, i:toolsOptInfo(v) })).filter(x=> x.i && (!q || x.i.name.toLowerCase().includes(q)));
+    if(!tiles.length) return;
+    any = true;
+    const h = document.createElement('div'); h.className = 'pdf-cat'; h.textContent = I18N[currentLang][cat.k]; host.appendChild(h);
+    const g = document.createElement('div'); g.className = 'pdf-tiles'; host.appendChild(g);
+    tiles.forEach(x=>{
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'pdf-tile'; b.dataset.tool = x.v;
+      b.innerHTML = '<span class="ico"></span><span class="nm"></span>';
+      b.firstChild.textContent = x.i.ico; b.lastChild.textContent = x.i.name;
+      b.addEventListener('click', ()=> toolsOpenTool(x.v));
+      g.appendChild(b);
+    });
+  });
+  if(!any){ const n = document.createElement('p'); n.className = 'note'; n.textContent = I18N[currentLang].pdfHomeNone; host.appendChild(n); }
+}
+function toolsOpenTool(v){
+  const sel = document.getElementById('tools-select'); sel.value = v;
+  sel.dispatchEvent(new Event('change'));
+  try{ document.getElementById('tools-' + v).scrollIntoView({ block:'start' }); }catch(e){}
+}
+document.getElementById('tools-back').addEventListener('click', ()=>{ toolsHomeOpen = true; switchToolsCard(); });
+document.getElementById('tools-home-search').addEventListener('input', toolsBuildHome);
+(function(){
+  let t = null;
+  new MutationObserver(()=>{ clearTimeout(t); t = setTimeout(toolsBuildHome, 60); }).observe(document.getElementById('tools-select'), { childList:true, subtree:true, characterData:true });
+})();
+toolsBuildHome();
 
 
 /* ============================================================
