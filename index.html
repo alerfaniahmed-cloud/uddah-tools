@@ -2995,6 +2995,8 @@
           <option value="pagenum" data-i18n="pdfOptPagenum">🔢 ترقيم صفحات PDF</option>
           <option value="crop" data-i18n="pdfOptCrop">📐 قص هوامش PDF</option>
           <option value="pdf2text" data-i18n="pdfOptPdf2text">📝 استخراج النص من PDF</option>
+          <option value="pdf2word" data-i18n="pdfOptPdf2word">📘 تحويل PDF إلى Word</option>
+          <option value="compare" data-i18n="pdfOptCompare">🔍 مقارنة ملفي PDF</option>
           <option value="meta" data-i18n="pdfOptMeta">🏷️ خصائص الملف (العنوان والمؤلف)</option>
         </select>
       </div>
@@ -3131,6 +3133,26 @@
       <div class="field"><label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox" id="meta-wipe" style="width:auto;"><span data-i18n="metaWipe">مسح كل البيانات (المؤلف والبرنامج والتواريخ)</span></label></div>
       <button class="btn" id="meta-btn" data-i18n="metaBtn">حفظ وتنزيل</button>
       <div id="meta-status"></div>
+    </div>
+
+
+    <div class="card pdf-card" id="pdftool-pdf2word">
+      <h2 data-i18n="p2wTitle">تحويل PDF إلى Word</h2>
+      <p class="hint" data-i18n="p2wHint">يحوّل النص الموجود في الملف إلى مستند Word (.docx) قابل للتعديل، مع دعم العربي واتجاه الفقرات. الصور والجداول والتنسيق المعقّد لا تُنقل، والملفات الممسوحة ضوئياً تحتاج OCR.</p>
+      <div class="field"><input type="file" id="pdf2word-file" accept="application/pdf"><div class="file-list" id="pdf2word-file-list"></div></div>
+      <div class="field"><label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox" id="pdf2word-join" style="width:auto;" checked><span data-i18n="p2wJoin">دمج أسطر الفقرة الواحدة تلقائياً</span></label></div>
+      <button class="btn" id="pdf2word-btn" data-i18n="p2wBtn">تحويل وتنزيل Word</button>
+      <div id="pdf2word-status"></div>
+    </div>
+
+    <div class="card pdf-card" id="pdftool-compare">
+      <h2 data-i18n="cmpTitle">مقارنة ملفي PDF</h2>
+      <p class="hint" data-i18n="cmpHint">اختر نسختين من نفس المستند (مثلاً عقد قبل التعديل وبعده) وشوف الأسطر المحذوفة والمضافة بالألوان.</p>
+      <div class="field"><label data-i18n="cmpA">الملف الأول (القديم)</label><input type="file" id="compare-file" accept="application/pdf"><div class="file-list" id="compare-file-list"></div></div>
+      <div class="field"><label data-i18n="cmpB">الملف الثاني (الجديد)</label><input type="file" id="compare2-file" accept="application/pdf"><div class="file-list" id="compare2-file-list"></div></div>
+      <button class="btn" id="compare-btn" data-i18n="cmpBtn">قارن</button>
+      <div id="compare-status"></div>
+      <div id="compare-out" style="margin-top:10px;"></div>
     </div>
 
     <div class="card pdf-card" id="pdftool-merge">
@@ -4902,6 +4924,21 @@ const I18N = {
     formatPng: 'PNG (بخلفية شفافة)', formatJpeg: 'JPEG', formatPdf: 'PDF',
     resizePdfErr: 'تعذر إنشاء ملف PDF، حاول مرة أخرى.',
     pdfOptPagesize: '📏 تغيير مقاس صفحة PDF',
+    pdfOptPdf2word: '📘 تحويل PDF إلى Word',
+    pdfOptCompare: '🔍 مقارنة ملفي PDF',
+    p2wTitle: 'تحويل PDF إلى Word',
+    p2wHint: 'يحوّل النص الموجود في الملف إلى مستند Word (.docx) قابل للتعديل، مع دعم العربي واتجاه الفقرات. الصور والجداول والتنسيق المعقّد لا تُنقل، والملفات الممسوحة ضوئياً تحتاج OCR.',
+    p2wJoin: 'دمج أسطر الفقرة الواحدة تلقائياً',
+    p2wBtn: 'تحويل وتنزيل Word',
+    cmpTitle: 'مقارنة ملفي PDF',
+    cmpHint: 'اختر نسختين من نفس المستند (مثلاً عقد قبل التعديل وبعده) وشوف الأسطر المحذوفة والمضافة بالألوان.',
+    cmpA: 'الملف الأول (القديم)',
+    cmpB: 'الملف الثاني (الجديد)',
+    cmpBtn: 'قارن',
+    cmpSame: 'الملفان متطابقان من ناحية النص ✓',
+    cmpSummary: 'أسطر محذوفة: {d} — أسطر مضافة: {a}',
+    cmpTooBig: 'الملفات كبيرة جداً للمقارنة التفصيلية.',
+    cmpNoText: 'أحد الملفين ما فيه نص (ممسوح ضوئياً).',
     pdfOptSplit: '✂️ تقسيم ملف PDF',
     pdfOptDelete: '🗑️ حذف صفحات من PDF',
     pdfOptOrganize: '🧩 ترتيب صفحات PDF (سحب وتدوير وحذف)',
@@ -5824,6 +5861,21 @@ const I18N = {
     formatPng: 'PNG (transparent background)', formatJpeg: 'JPEG', formatPdf: 'PDF',
     resizePdfErr: 'Could not create the PDF file, please try again.',
     pdfOptPagesize: '📏 Change PDF Page Size',
+    pdfOptPdf2word: '📘 PDF to Word',
+    pdfOptCompare: '🔍 Compare PDFs',
+    p2wTitle: 'PDF to Word',
+    p2wHint: 'Converts the text in a PDF into an editable Word (.docx) document with Arabic/RTL support. Images, tables and complex layout are not carried over; scanned PDFs need OCR.',
+    p2wJoin: 'Join lines of the same paragraph',
+    p2wBtn: 'Convert & download Word',
+    cmpTitle: 'Compare two PDFs',
+    cmpHint: 'Pick two versions of a document (e.g. a contract before and after edits) and see removed and added lines in colour.',
+    cmpA: 'First file (old)',
+    cmpB: 'Second file (new)',
+    cmpBtn: 'Compare',
+    cmpSame: 'The two files have identical text ✓',
+    cmpSummary: 'Removed lines: {d} — Added lines: {a}',
+    cmpTooBig: 'Files are too large for a detailed comparison.',
+    cmpNoText: 'One file has no text (scanned).',
     pdfOptSplit: '✂️ Split PDF',
     pdfOptDelete: '🗑️ Delete PDF Pages',
     pdfOptOrganize: '🧩 Organize PDF Pages',
@@ -15490,8 +15542,8 @@ document.getElementById('pdftool-select').addEventListener('change', ()=>{ pdfHo
    ============================================================ */
 const PDF_HOME_CATS = [
   { k:'pdfCatOrg',  items:['merge', 'split', 'extract', 'delete', 'organize', 'rotate', 'mergepairs'] },
-  { k:'pdfCatConv', items:['img2pdf', 'pdf2img', 'pdf2text', 'compress', 'pagesize'] },
-  { k:'pdfCatEdit', items:['text', 'erase', 'watermark', 'pagenum', 'crop', 'sign', 'stamp', 'barcode', 'meta'] }
+  { k:'pdfCatConv', items:['img2pdf', 'pdf2img', 'pdf2word', 'pdf2text', 'compress', 'pagesize'] },
+  { k:'pdfCatEdit', items:['text', 'erase', 'watermark', 'pagenum', 'crop', 'sign', 'stamp', 'barcode', 'compare', 'meta'] }
 ];
 let pdfHomeOpen = true;
 function pdfOptInfo(v){
@@ -15549,7 +15601,7 @@ async function ptRun(pre, btn, idleKey, fn){
   setBusy(btn, false, '', ptT(idleKey));
 }
 const ptFail = key => Object.assign(new Error(key), { ptMsg:key });
-['split','delete','organize','rotate','pagenum','crop','pdf2text','meta'].forEach(p=> setupFilePicker(p + '-file', p + '-file-list', false));
+['split','delete','organize','rotate','pagenum','crop','pdf2text','pdf2word','compare','compare2','meta'].forEach(p=> setupFilePicker(p + '-file', p + '-file-list', false));
 
 /* ---------- split ---------- */
 (function ptSplitInit(){
@@ -15806,6 +15858,101 @@ ptOrganizer('rotate',   { del:false, rot:true,  move:false, btnKey:'rotBtn', suf
       d.setKeywords(g('meta-keywords').value.split(/[,،]+/).map(x=> x.trim()).filter(Boolean));
     }
     downloadBlob(new Blob([await d.save({ updateFieldAppearances:false })], { type:'application/pdf' }), ptBaseName(f) + '_props.pdf');
+  }));
+})();
+
+/* ---------- text extraction shared by PDF->Word and compare ---------- */
+async function ptExtractPages(file){
+  const d = await pdfjsLib.getDocument({ data:new Uint8Array(await file.arrayBuffer()) }).promise, pages = [];
+  for(let i = 1; i <= d.numPages; i++){
+    const tc = await (await d.getPage(i)).getTextContent(); let line = '', lastY = null; const lines = [];
+    tc.items.forEach(it=>{
+      if(typeof it.str !== 'string') return;
+      const y = it.transform ? Math.round(it.transform[5]) : 0;
+      if(lastY !== null && Math.abs(y - lastY) > 3){ lines.push(line); line = ''; }
+      line += it.str; lastY = y; if(it.hasEOL){ lines.push(line); line = ''; lastY = null; }
+    });
+    if(line) lines.push(line);
+    pages.push(lines.map(l=> l.replace(/\s+$/, '')).filter(l=> l.trim()));
+  }
+  return pages;
+}
+/* ---------- PDF -> Word (.docx built by hand: zip of three XML parts) ---------- */
+(function ptWordInit(){
+  const esc = t => t.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const isAr = t => /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/.test(t);
+  function paragraphs(lines, join){
+    if(!join) return lines;
+    const max = Math.max(0, ...lines.map(l=> l.length)), out = [];
+    lines.forEach(l=>{
+      const prev = out[out.length - 1];
+      if(prev !== undefined && prev.last > max * 0.6 && !/[.:؟?!؛;)]$/.test(prev.text.trim())) { prev.text += ' ' + l.trim(); prev.last = l.length; }
+      else out.push({ text:l, last:l.length });
+    });
+    return out.map(o=> typeof o === 'string' ? o : o.text);
+  }
+  function build(pages, join){
+    let body = '';
+    pages.forEach((lines, pi)=>{
+      if(pi > 0) body += '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+      paragraphs(lines, join).forEach(t=>{
+        const rtl = isAr(t);
+        body += '<w:p><w:pPr>' + (rtl ? '<w:bidi/>' : '') + '<w:spacing w:after="120"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/>' + (rtl ? '<w:rtl/>' : '') + '<w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:t xml:space="preserve">' + esc(t) + '</w:t></w:r></w:p>';
+      });
+    });
+    if(!body) body = '<w:p/>';
+    const doc = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body + '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>';
+    const zip = new JSZip();
+    zip.file('[Content_Types].xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>');
+    zip.file('_rels/.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
+    zip.file('word/document.xml', doc);
+    return zip.generateAsync({ type:'blob', mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+  }
+  const btn = document.getElementById('pdf2word-btn');
+  btn.addEventListener('click', ()=> ptRun('pdf2word', btn, 'p2wBtn', async ()=>{
+    const f = document.getElementById('pdf2word-file').files[0]; if(!f) throw ptFail('ptNoFile');
+    const pages = await ptExtractPages(f);
+    if(!pages.some(l=> l.length)) throw ptFail('p2tNone');
+    downloadBlob(await build(pages, document.getElementById('pdf2word-join').checked), ptBaseName(f) + '.docx');
+  }));
+})();
+
+/* ---------- compare two PDFs (line diff) ---------- */
+function ptLineDiff(a, b){
+  const n = a.length, m = b.length;
+  if(n * m > 9e6) return null;
+  const w = m + 1, L = new Uint16Array((n + 1) * w);
+  for(let i = n - 1; i >= 0; i--) for(let j = m - 1; j >= 0; j--) L[i * w + j] = a[i] === b[j] ? L[(i + 1) * w + j + 1] + 1 : Math.max(L[(i + 1) * w + j], L[i * w + j + 1]);
+  const out = []; let i = 0, j = 0;
+  while(i < n && j < m){
+    if(a[i] === b[j]){ out.push({ t:'=', s:a[i] }); i++; j++; }
+    else if(L[(i + 1) * w + j] >= L[i * w + j + 1]) out.push({ t:'-', s:a[i++] });
+    else out.push({ t:'+', s:b[j++] });
+  }
+  while(i < n) out.push({ t:'-', s:a[i++] }); while(j < m) out.push({ t:'+', s:b[j++] });
+  return out;
+}
+(function ptCompareInit(){
+  const btn = document.getElementById('compare-btn'), out = document.getElementById('compare-out');
+  const norm = pages => pages.flat().map(l=> l.replace(/\s+/g, ' ').trim()).filter(Boolean);
+  btn.addEventListener('click', ()=> ptRun('compare', btn, 'cmpBtn', async ()=>{
+    const fa = document.getElementById('compare-file').files[0], fb = document.getElementById('compare2-file').files[0];
+    if(!fa || !fb) throw ptFail('ptNoFile');
+    out.innerHTML = '';
+    const A = norm(await ptExtractPages(fa)), B = norm(await ptExtractPages(fb));
+    if(!A.length || !B.length) throw ptFail('cmpNoText');
+    const diff = ptLineDiff(A, B); if(!diff) throw ptFail('cmpTooBig');
+    const dels = diff.filter(x=> x.t === '-').length, adds = diff.filter(x=> x.t === '+').length;
+    if(!dels && !adds){ out.innerHTML = '<div class="msg ok"></div>'; out.firstChild.textContent = ptT('cmpSame'); return; }
+    const sum = document.createElement('p'); sum.className = 'note'; sum.style.fontWeight = '700'; sum.textContent = ptT('cmpSummary').replace('{d}', dels).replace('{a}', adds); out.appendChild(sum);
+    const box = document.createElement('div'); box.style.cssText = 'border:1px solid var(--border);border-radius:10px;overflow:hidden;font-size:.9rem;line-height:1.7;'; out.appendChild(box);
+    let shown = 0;
+    diff.forEach((x, k)=>{
+      const near = x.t !== '=' || (diff[k - 1] && diff[k - 1].t !== '=') || (diff[k + 1] && diff[k + 1].t !== '=');
+      if(!near || shown > 1500) return; shown++;
+      const r = document.createElement('div'); r.style.cssText = 'padding:3px 10px;white-space:pre-wrap;' + (x.t === '-' ? 'background:rgba(176,60,40,.18);' : x.t === '+' ? 'background:rgba(63,120,60,.2);' : 'color:var(--bone-dim);');
+      r.textContent = (x.t === '=' ? '  ' : x.t + ' ') + x.s; box.appendChild(r);
+    });
   }));
 })();
 
