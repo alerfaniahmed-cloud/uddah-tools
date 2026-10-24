@@ -412,6 +412,32 @@
   #sh-tmsg.t-err{color:#B05A32;}
   #sh-fmtline{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin:0 0 8px;font-size:.85rem;color:var(--bone-dim);}
   #sh-fmtline label{display:flex;align-items:center;gap:6px;margin:0;}
+    /* PDF tools home grid */
+  #pdf-home-grid .pdf-cat{margin:16px 0 8px;font-weight:700;color:var(--brass-light);font-size:.95rem;}
+  #pdf-home-grid .pdf-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+  .pdf-tile{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:start;padding:14px 12px;min-height:96px;border:1px solid var(--border);border-radius:12px;background:var(--bg-elev-2);color:var(--bone);font-family:var(--font-display);cursor:pointer;line-height:1.35;}
+  .pdf-tile .ico{font-size:1.7rem;line-height:1;}
+  .pdf-tile .nm{font-weight:600;font-size:.9rem;}
+  .pdf-tile:hover,.pdf-tile:focus-visible{border-color:var(--brass);transform:translateY(-1px);box-shadow:0 3px 10px rgba(43,42,40,.12);}
+  .pdf-tile:active{transform:scale(.98);}
+  /* page organizer */
+  .pt-bar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;}
+  .pt-bar .btn{width:auto;flex:1 1 auto;margin:0;padding:8px 12px;font-size:.85rem;min-height:40px;}
+  .pt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:10px;margin:10px 0;}
+  .pt-pg{border:1px solid var(--border);border-radius:10px;background:var(--bg-elev-2);padding:6px;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative;}
+  .pt-pg.pt-del{opacity:.45;border-color:#B05A32;}
+  .pt-pg.pt-del::after{content:"✕";position:absolute;top:30%;left:0;right:0;text-align:center;font-size:2.6rem;color:#B05A32;pointer-events:none;}
+  .pt-pg.pt-drag{opacity:.4;}
+  .pt-box{width:100%;height:118px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff;border-radius:6px;}
+  .pt-box canvas{max-width:104px;max-height:104px;transition:transform .15s;box-shadow:0 1px 4px rgba(0,0,0,.25);}
+  .pt-num{font-size:.78rem;color:var(--bone-dim);font-family:var(--font-mono);}
+  .pt-acts{display:flex;gap:3px;width:100%;}
+  .pt-acts button{flex:1;min-width:0;min-height:34px;border:1px solid var(--border);border-radius:7px;background:var(--bg-elev);color:var(--bone);cursor:pointer;font-size:.95rem;padding:0;}
+  .pt-acts button:hover{border-color:var(--brass);}
+  #crop-stage{position:relative;display:inline-block;max-width:100%;margin:10px auto;line-height:0;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.25);}
+  #crop-stage canvas{display:block;max-width:100%;height:auto;}
+  #crop-stage .cm{position:absolute;background:rgba(176,60,40,.35);pointer-events:none;}
+  #crop-stage .cb{position:absolute;border:1.5px dashed #B03C28;pointer-events:none;}
   @media print{.toolbar,nav.tabs,#prayer-bar{display:none !important;}}
 </style>
 </head>
@@ -2935,7 +2961,15 @@
   <!-- ===================== TAB 3: PDF TOOLS ===================== -->
   <section class="panel" id="panel-pdf">
 
-    <div class="card">
+    <div class="card" id="pdf-home">
+      <h2 data-i18n="pdfPickerTitle">أدوات PDF</h2>
+      <p class="hint" data-i18n="pdfHomeHint"></p>
+      <input type="search" id="pdf-home-search" data-i18n-ph="pdfHomeSearch" placeholder="ابحث عن أداة…" style="width:100%;margin-bottom:12px;">
+      <div id="pdf-home-grid"></div>
+    </div>
+    <button type="button" class="btn secondary" id="pdf-back" style="display:none;margin:0 0 10px;" data-i18n="pdfBack">→ كل أدوات PDF</button>
+
+    <div class="card" id="pdf-picker-card" style="display:none;">
       <h2 data-i18n="pdfPickerTitle">أدوات PDF</h2>
       <p class="hint" data-i18n="pdfPickerHint">اختر الأداة اللي تبيها من القائمة.</p>
       <div class="field">
@@ -2954,8 +2988,149 @@
           <option value="erase" data-i18n="pdfOptErase">🧽 مسح وإضافة نص على PDF أو صورة</option>
           <option value="watermark" data-i18n="pdfOptWatermark">💧 علامة مائية على PDF أو صورة</option>
           <option value="pagesize" data-i18n="pdfOptPagesize">📏 تغيير مقاس صفحة PDF</option>
+          <option value="split" data-i18n="pdfOptSplit">✂️ تقسيم ملف PDF</option>
+          <option value="delete" data-i18n="pdfOptDelete">🗑️ حذف صفحات من PDF</option>
+          <option value="organize" data-i18n="pdfOptOrganize">🧩 ترتيب صفحات PDF (سحب وتدوير وحذف)</option>
+          <option value="rotate" data-i18n="pdfOptRotate">🔄 تدوير صفحات PDF</option>
+          <option value="pagenum" data-i18n="pdfOptPagenum">🔢 ترقيم صفحات PDF</option>
+          <option value="crop" data-i18n="pdfOptCrop">📐 قص هوامش PDF</option>
+          <option value="pdf2text" data-i18n="pdfOptPdf2text">📝 استخراج النص من PDF</option>
+          <option value="meta" data-i18n="pdfOptMeta">🏷️ خصائص الملف (العنوان والمؤلف)</option>
         </select>
       </div>
+    </div>
+
+
+    <div class="card pdf-card" id="pdftool-split">
+      <h2 data-i18n="splitTitle">تقسيم ملف PDF</h2>
+      <p class="hint" data-i18n="splitHint">قسّم الملف إلى عدة ملفات: حسب نطاقات تحددها، أو كل N صفحة، أو كل صفحة ملف مستقل. الناتج ملف ZIP.</p>
+      <div class="field"><input type="file" id="split-file" accept="application/pdf"><div class="file-list" id="split-file-list"></div></div>
+      <div class="field">
+        <label for="split-mode" data-i18n="splitMode">طريقة التقسيم</label>
+        <select id="split-mode">
+          <option value="ranges" data-i18n="splitModeRanges">حسب نطاقات (مثال: 1-3, 4-6, 7)</option>
+          <option value="every" data-i18n="splitModeEvery">كل عدد معين من الصفحات</option>
+          <option value="each" data-i18n="splitModeEach">كل صفحة في ملف مستقل</option>
+        </select>
+      </div>
+      <div class="field" id="split-ranges-wrap"><label for="split-ranges" data-i18n="splitRangesLabel">النطاقات (افصل بينها بفاصلة، كل نطاق يصير ملف)</label><input type="text" id="split-ranges" placeholder="1-3, 4-6, 7" style="direction:ltr;text-align:left;"></div>
+      <div class="field" id="split-every-wrap" style="display:none;"><label for="split-every" data-i18n="splitEveryLabel">عدد الصفحات في كل ملف</label><input type="number" id="split-every" value="1" min="1" style="direction:ltr;text-align:left;"></div>
+      <button class="btn" id="split-btn" data-i18n="splitBtn">تقسيم وتنزيل</button>
+      <div id="split-status"></div>
+    </div>
+
+    <div class="card pdf-card" id="pdftool-delete">
+      <h2 data-i18n="delTitle">حذف صفحات من PDF</h2>
+      <p class="hint" data-i18n="delHint">اضغط على 🗑️ تحت أي صفحة لحذفها، أو اكتب أرقام الصفحات (مثال: 2,5-7) واضغط «تحديد».</p>
+      <div class="field">
+        <input type="file" id="delete-file" accept="application/pdf">
+        <div class="file-list" id="delete-file-list"></div>
+      </div>
+      <div class="field"><label for="delete-range" data-i18n="delRange">أرقام الصفحات المراد حذفها</label><div style="display:flex;gap:8px;"><input type="text" id="delete-range" placeholder="2, 5-7" style="direction:ltr;text-align:left;flex:1;"><button type="button" class="btn secondary" id="delete-mark" data-i18n="delMark" style="width:auto;margin:0;">تحديد</button></div></div>
+      <div class="pt-bar" id="delete-bar" style="display:none;"></div>
+      <div class="pt-grid" id="delete-grid"></div>
+      <button class="btn" id="delete-btn" data-i18n="delBtn" style="display:none;">حذف المحدد وتنزيل</button>
+      <div id="delete-status"></div>
+    </div>
+
+    <div class="card pdf-card" id="pdftool-organize">
+      <h2 data-i18n="orgTitle">ترتيب صفحات PDF</h2>
+      <p class="hint" data-i18n="orgHint">رتّب الصفحات بالسحب (أو بأسهم ◀ ▶)، دوّر أي صفحة ↻، أو احذفها 🗑️. ثم نزّل الملف الجديد.</p>
+      <div class="field">
+        <input type="file" id="organize-file" accept="application/pdf">
+        <div class="file-list" id="organize-file-list"></div>
+      </div>
+      
+      <div class="pt-bar" id="organize-bar" style="display:none;"><button type="button" class="btn secondary" id="organize-rl" data-i18n="orgRotL">↺ تدوير الكل لليسار</button><button type="button" class="btn secondary" id="organize-rr" data-i18n="orgRotR">↻ تدوير الكل لليمين</button><button type="button" class="btn secondary" id="organize-rev" data-i18n="orgReverse">⇅ عكس الترتيب</button><button type="button" class="btn secondary" id="organize-reset" data-i18n="orgReset">إعادة ضبط</button></div>
+      <div class="pt-grid" id="organize-grid"></div>
+      <button class="btn" id="organize-btn" data-i18n="orgBtn" style="display:none;">تنزيل الملف المرتّب</button>
+      <div id="organize-status"></div>
+    </div>
+
+    <div class="card pdf-card" id="pdftool-rotate">
+      <h2 data-i18n="rotTitle">تدوير صفحات PDF</h2>
+      <p class="hint" data-i18n="rotHint">دوّر كل الصفحات دفعة واحدة، أو دوّر صفحات معينة بزر ↻ تحتها.</p>
+      <div class="field">
+        <input type="file" id="rotate-file" accept="application/pdf">
+        <div class="file-list" id="rotate-file-list"></div>
+      </div>
+      
+      <div class="pt-bar" id="rotate-bar" style="display:none;"><button type="button" class="btn secondary" id="rotate-rl" data-i18n="orgRotL">↺ تدوير الكل لليسار</button><button type="button" class="btn secondary" id="rotate-rr" data-i18n="orgRotR">↻ تدوير الكل لليمين</button><button type="button" class="btn secondary" id="rotate-reset" data-i18n="orgReset">إعادة ضبط</button></div>
+      <div class="pt-grid" id="rotate-grid"></div>
+      <button class="btn" id="rotate-btn" data-i18n="rotBtn" style="display:none;">تنزيل الملف بعد التدوير</button>
+      <div id="rotate-status"></div>
+    </div>
+
+    <div class="card pdf-card" id="pdftool-pagenum">
+      <h2 data-i18n="pnTitle">ترقيم صفحات PDF</h2>
+      <p class="hint" data-i18n="pnHint">أضف رقم الصفحة بالمكان والشكل اللي تبيه، بأرقام عربية أو إنجليزية.</p>
+      <div class="field"><input type="file" id="pagenum-file" accept="application/pdf"><div class="file-list" id="pagenum-file-list"></div></div>
+      <div class="row">
+        <div class="field"><label for="pn-pos" data-i18n="pnPos">مكان الرقم</label>
+          <select id="pn-pos"><option value="bc" data-i18n="pnBC">أسفل — المنتصف</option><option value="br" data-i18n="pnBR">أسفل — اليمين</option><option value="bl" data-i18n="pnBL">أسفل — اليسار</option><option value="tc" data-i18n="pnTC">أعلى — المنتصف</option><option value="tr" data-i18n="pnTR">أعلى — اليمين</option><option value="tl" data-i18n="pnTL">أعلى — اليسار</option></select></div>
+        <div class="field"><label for="pn-fmt" data-i18n="pnFmt">شكل الرقم</label>
+          <select id="pn-fmt"><option value="n" data-i18n="pnFmtN">1</option><option value="of" data-i18n="pnFmtOf">1 / 10</option><option value="page" data-i18n="pnFmtPage">صفحة 1 من 10</option></select></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="pn-dig" data-i18n="pnDigits">نوع الأرقام</label>
+          <select id="pn-dig"><option value="en" data-i18n="pnDigEn">إنجليزية (123)</option><option value="ar" data-i18n="pnDigAr">عربية (١٢٣)</option></select></div>
+        <div class="field"><label for="pn-color" data-i18n="pnColor">اللون</label><input type="color" id="pn-color" value="#333333" style="width:100%;height:44px;padding:4px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="pn-start" data-i18n="pnStart">يبدأ الترقيم من</label><input type="number" id="pn-start" value="1" style="direction:ltr;text-align:left;"></div>
+        <div class="field"><label for="pn-from" data-i18n="pnFrom">ابدأ من الصفحة</label><input type="number" id="pn-from" value="1" min="1" style="direction:ltr;text-align:left;"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="pn-size" data-i18n="pnSize">حجم الخط</label><input type="number" id="pn-size" value="12" min="6" max="48" style="direction:ltr;text-align:left;"></div>
+        <div class="field"><label for="pn-margin" data-i18n="pnMargin">البعد عن الحافة</label><input type="number" id="pn-margin" value="24" min="4" max="120" style="direction:ltr;text-align:left;"></div>
+      </div>
+      <button class="btn" id="pagenum-btn" data-i18n="pnBtn">ترقيم وتنزيل</button>
+      <div id="pagenum-status"></div>
+    </div>
+
+    <div class="card pdf-card" id="pdftool-crop">
+      <h2 data-i18n="cropTitle">قص هوامش PDF</h2>
+      <p class="hint" data-i18n="cropHint">قص الحواف الزائدة من كل صفحات الملف. حرّك المؤشرات وشوف المعاينة (المنطقة المظللة بالأحمر تنحذف).</p>
+      <div class="field"><input type="file" id="crop-file" accept="application/pdf"><div class="file-list" id="crop-file-list"></div></div>
+      <div id="crop-ui" style="display:none;">
+        <div style="text-align:center;"><div id="crop-stage"></div></div>
+        <div class="row">
+          <div class="field"><label for="crop-t"><span data-i18n="cropTop">من الأعلى</span>: <b id="crop-t-v">0</b>%</label><input type="range" id="crop-t" min="0" max="45" value="0"></div>
+          <div class="field"><label for="crop-b"><span data-i18n="cropBottom">من الأسفل</span>: <b id="crop-b-v">0</b>%</label><input type="range" id="crop-b" min="0" max="45" value="0"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="crop-l"><span data-i18n="cropLeft">من اليسار</span>: <b id="crop-l-v">0</b>%</label><input type="range" id="crop-l" min="0" max="45" value="0"></div>
+          <div class="field"><label for="crop-r"><span data-i18n="cropRight">من اليمين</span>: <b id="crop-r-v">0</b>%</label><input type="range" id="crop-r" min="0" max="45" value="0"></div>
+        </div>
+        <button class="btn" id="crop-btn" data-i18n="cropBtn">قص وتنزيل</button>
+      </div>
+      <div id="crop-status"></div>
+    </div>
+
+    <div class="card pdf-card" id="pdftool-pdf2text">
+      <h2 data-i18n="p2tTitle">استخراج النص من PDF</h2>
+      <p class="hint" data-i18n="p2tHint">يستخرج النص المكتوب داخل الملف لتنسخه أو تنزّله كملف نصي. الملفات الممسوحة ضوئياً (صور) ما فيها نص وتحتاج OCR.</p>
+      <div class="field"><input type="file" id="pdf2text-file" accept="application/pdf"><div class="file-list" id="pdf2text-file-list"></div></div>
+      <div class="field"><label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox" id="pdf2text-sep" style="width:auto;" checked><span data-i18n="p2tSep">فصل الصفحات بعنوان (--- صفحة 1 ---)</span></label></div>
+      <button class="btn" id="pdf2text-btn" data-i18n="p2tBtn">استخراج النص</button>
+      <div id="pdf2text-status"></div>
+      <div id="pdf2text-out" style="display:none;">
+        <textarea id="pdf2text-text" rows="12" style="width:100%;margin-top:10px;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:11px 12px;font-family:var(--font-display);font-size:.95rem;resize:vertical;"></textarea>
+        <div class="row"><button class="btn secondary" type="button" id="pdf2text-copy" data-i18n="p2tCopy">نسخ النص</button><button class="btn secondary" type="button" id="pdf2text-save" data-i18n="p2tSave">تنزيل ملف TXT</button></div>
+      </div>
+    </div>
+
+    <div class="card pdf-card" id="pdftool-meta">
+      <h2 data-i18n="metaTitle">خصائص ملف PDF</h2>
+      <p class="hint" data-i18n="metaHint">عدّل العنوان والمؤلف والكلمات المفتاحية، أو امسح بيانات الملف الخفية قبل مشاركته.</p>
+      <div class="field"><input type="file" id="meta-file" accept="application/pdf"><div class="file-list" id="meta-file-list"></div></div>
+      <div class="field"><label for="meta-title" data-i18n="metaT">العنوان</label><input type="text" id="meta-title"></div>
+      <div class="field"><label for="meta-author" data-i18n="metaA">المؤلف</label><input type="text" id="meta-author"></div>
+      <div class="field"><label for="meta-subject" data-i18n="metaS">الموضوع</label><input type="text" id="meta-subject"></div>
+      <div class="field"><label for="meta-keywords" data-i18n="metaK">الكلمات المفتاحية</label><input type="text" id="meta-keywords"></div>
+      <div class="field"><label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox" id="meta-wipe" style="width:auto;"><span data-i18n="metaWipe">مسح كل البيانات (المؤلف والبرنامج والتواريخ)</span></label></div>
+      <button class="btn" id="meta-btn" data-i18n="metaBtn">حفظ وتنزيل</button>
+      <div id="meta-status"></div>
     </div>
 
     <div class="card pdf-card" id="pdftool-merge">
@@ -4727,6 +4902,99 @@ const I18N = {
     formatPng: 'PNG (بخلفية شفافة)', formatJpeg: 'JPEG', formatPdf: 'PDF',
     resizePdfErr: 'تعذر إنشاء ملف PDF، حاول مرة أخرى.',
     pdfOptPagesize: '📏 تغيير مقاس صفحة PDF',
+    pdfOptSplit: '✂️ تقسيم ملف PDF',
+    pdfOptDelete: '🗑️ حذف صفحات من PDF',
+    pdfOptOrganize: '🧩 ترتيب صفحات PDF (سحب وتدوير وحذف)',
+    pdfOptRotate: '🔄 تدوير صفحات PDF',
+    pdfOptPagenum: '🔢 ترقيم صفحات PDF',
+    pdfOptCrop: '📐 قص هوامش PDF',
+    pdfOptPdf2text: '📝 استخراج النص من PDF',
+    pdfOptMeta: '🏷️ خصائص الملف (العنوان والمؤلف)',
+    pdfHomeSearch: 'ابحث عن أداة… (مثال: دمج، ضغط، ترقيم)',
+    pdfHomeNone: 'ما لقينا أداة بهذا الاسم.',
+    pdfBack: '→ كل أدوات PDF',
+    pdfCatOrg: 'تنظيم الملفات',
+    pdfCatConv: 'تحويل وتحسين',
+    pdfCatEdit: 'تعديل وإضافة',
+    pdfHomeHint: 'كل الأدوات تعمل داخل جهازك — ملفاتك ما تُرفع لأي سيرفر.',
+    ptNoFile: 'اختر ملف PDF أولاً.',
+    ptBusy: 'جارٍ التنفيذ…',
+    ptDone: 'تم ✓',
+    ptErr: 'تعذّر تنفيذ العملية، تأكد أن الملف سليم.',
+    ptBadRange: 'أرقام الصفحات غير صحيحة.',
+    ptPages: 'صفحة',
+    ptLoading: 'جارٍ تحميل الصفحات…',
+    splitTitle: 'تقسيم ملف PDF',
+    splitHint: 'قسّم الملف إلى عدة ملفات: حسب نطاقات تحددها، أو كل N صفحة، أو كل صفحة ملف مستقل. الناتج ملف ZIP.',
+    splitMode: 'طريقة التقسيم',
+    splitModeRanges: 'حسب نطاقات (مثال: 1-3, 4-6, 7)',
+    splitModeEvery: 'كل عدد معين من الصفحات',
+    splitModeEach: 'كل صفحة في ملف مستقل',
+    splitRangesLabel: 'النطاقات (افصل بينها بفاصلة، كل نطاق يصير ملف)',
+    splitEveryLabel: 'عدد الصفحات في كل ملف',
+    splitBtn: 'تقسيم وتنزيل',
+    orgFile: 'ملف PDF',
+    delTitle: 'حذف صفحات من PDF',
+    delHint: 'اضغط على 🗑️ تحت أي صفحة لحذفها، أو اكتب أرقام الصفحات (مثال: 2,5-7) واضغط «تحديد».',
+    delRange: 'أرقام الصفحات المراد حذفها',
+    delMark: 'تحديد',
+    delBtn: 'حذف المحدد وتنزيل',
+    orgTitle: 'ترتيب صفحات PDF',
+    orgHint: 'رتّب الصفحات بالسحب (أو بأسهم ◀ ▶)، دوّر أي صفحة ↻، أو احذفها 🗑️. ثم نزّل الملف الجديد.',
+    orgBtn: 'تنزيل الملف المرتّب',
+    rotTitle: 'تدوير صفحات PDF',
+    rotHint: 'دوّر كل الصفحات دفعة واحدة، أو دوّر صفحات معينة بزر ↻ تحتها.',
+    rotBtn: 'تنزيل الملف بعد التدوير',
+    orgRotL: '↺ تدوير الكل لليسار',
+    orgRotR: '↻ تدوير الكل لليمين',
+    orgReverse: '⇅ عكس الترتيب',
+    orgReset: 'إعادة ضبط',
+    orgNeedPage: 'لازم تبقى صفحة واحدة على الأقل.',
+    pnTitle: 'ترقيم صفحات PDF',
+    pnHint: 'أضف رقم الصفحة بالمكان والشكل اللي تبيه، بأرقام عربية أو إنجليزية.',
+    pnPos: 'مكان الرقم',
+    pnBC: 'أسفل — المنتصف',
+    pnBR: 'أسفل — اليمين',
+    pnBL: 'أسفل — اليسار',
+    pnTC: 'أعلى — المنتصف',
+    pnTR: 'أعلى — اليمين',
+    pnTL: 'أعلى — اليسار',
+    pnFmt: 'شكل الرقم',
+    pnFmtN: '1',
+    pnFmtOf: '1 / 10',
+    pnFmtPage: 'صفحة 1 من 10',
+    pnDigits: 'نوع الأرقام',
+    pnDigEn: 'إنجليزية (123)',
+    pnDigAr: 'عربية (١٢٣)',
+    pnStart: 'يبدأ الترقيم من',
+    pnFrom: 'ابدأ من الصفحة',
+    pnSize: 'حجم الخط',
+    pnMargin: 'البعد عن الحافة',
+    pnColor: 'اللون',
+    pnBtn: 'ترقيم وتنزيل',
+    cropTitle: 'قص هوامش PDF',
+    cropHint: 'قص الحواف الزائدة من كل صفحات الملف. حرّك المؤشرات وشوف المعاينة (المنطقة المظللة بالأحمر تنحذف).',
+    cropTop: 'من الأعلى',
+    cropBottom: 'من الأسفل',
+    cropLeft: 'من اليسار',
+    cropRight: 'من اليمين',
+    cropBtn: 'قص وتنزيل',
+    p2tTitle: 'استخراج النص من PDF',
+    p2tHint: 'يستخرج النص المكتوب داخل الملف لتنسخه أو تنزّله كملف نصي. الملفات الممسوحة ضوئياً (صور) ما فيها نص وتحتاج OCR.',
+    p2tSep: 'فصل الصفحات بعنوان (--- صفحة 1 ---)',
+    p2tBtn: 'استخراج النص',
+    p2tCopy: 'نسخ النص',
+    p2tSave: 'تنزيل ملف TXT',
+    p2tCopied: 'تم النسخ ✓',
+    p2tNone: 'ما لقينا نصاً داخل الملف — غالباً ممسوح ضوئياً (صور).',
+    metaTitle: 'خصائص ملف PDF',
+    metaHint: 'عدّل العنوان والمؤلف والكلمات المفتاحية، أو امسح بيانات الملف الخفية قبل مشاركته.',
+    metaT: 'العنوان',
+    metaA: 'المؤلف',
+    metaS: 'الموضوع',
+    metaK: 'الكلمات المفتاحية',
+    metaWipe: 'مسح كل البيانات (المؤلف والبرنامج والتواريخ)',
+    metaBtn: 'حفظ وتنزيل',
     pagesizeTitle: 'تغيير مقاس صفحة PDF',
     pagesizeHint: 'غيّر مقاس ملف PDF أو صورة ليصير بمقاس ورقة قياسي — اختر "تمديد" ليملأ المقاس بالكامل، أو "احتواء بدون تشويه" ليحافظ على النسبة الأصلية مع اختيار الاتجاه.',
     pagesizeMethodLabel: 'طريقة التحجيم',
@@ -5556,6 +5824,99 @@ const I18N = {
     formatPng: 'PNG (transparent background)', formatJpeg: 'JPEG', formatPdf: 'PDF',
     resizePdfErr: 'Could not create the PDF file, please try again.',
     pdfOptPagesize: '📏 Change PDF Page Size',
+    pdfOptSplit: '✂️ Split PDF',
+    pdfOptDelete: '🗑️ Delete PDF Pages',
+    pdfOptOrganize: '🧩 Organize PDF Pages',
+    pdfOptRotate: '🔄 Rotate PDF',
+    pdfOptPagenum: '🔢 Add Page Numbers',
+    pdfOptCrop: '📐 Crop PDF',
+    pdfOptPdf2text: '📝 PDF to Text',
+    pdfOptMeta: '🏷️ Edit PDF Properties',
+    pdfHomeSearch: 'Search a tool… (e.g. merge, compress)',
+    pdfHomeNone: 'No tool matches.',
+    pdfBack: '← All PDF tools',
+    pdfCatOrg: 'Organize',
+    pdfCatConv: 'Convert & optimize',
+    pdfCatEdit: 'Edit & add',
+    pdfHomeHint: 'Everything runs on your device — your files are never uploaded.',
+    ptNoFile: 'Choose a PDF file first.',
+    ptBusy: 'Working…',
+    ptDone: 'Done ✓',
+    ptErr: 'Could not process the file. Make sure it is a valid PDF.',
+    ptBadRange: 'Invalid page numbers.',
+    ptPages: 'pages',
+    ptLoading: 'Loading pages…',
+    splitTitle: 'Split PDF',
+    splitHint: 'Split a PDF by ranges, every N pages, or one file per page. Multiple files are delivered as a ZIP.',
+    splitMode: 'Split mode',
+    splitModeRanges: 'By ranges (e.g. 1-3, 4-6, 7)',
+    splitModeEvery: 'Every N pages',
+    splitModeEach: 'Each page as a file',
+    splitRangesLabel: 'Ranges (comma separated, each becomes a file)',
+    splitEveryLabel: 'Pages per file',
+    splitBtn: 'Split & download',
+    orgFile: 'PDF file',
+    delTitle: 'Delete PDF Pages',
+    delHint: 'Tap 🗑️ under a page to delete it, or type page numbers (e.g. 2,5-7) and press “Mark”.',
+    delRange: 'Pages to delete',
+    delMark: 'Mark',
+    delBtn: 'Delete marked & download',
+    orgTitle: 'Organize PDF Pages',
+    orgHint: 'Reorder pages by dragging (or the ◀ ▶ arrows), rotate ↻ or delete 🗑️ any page, then download.',
+    orgBtn: 'Download organized PDF',
+    rotTitle: 'Rotate PDF',
+    rotHint: 'Rotate all pages at once, or rotate individual pages with ↻.',
+    rotBtn: 'Download rotated PDF',
+    orgRotL: '↺ Rotate all left',
+    orgRotR: '↻ Rotate all right',
+    orgReverse: '⇅ Reverse order',
+    orgReset: 'Reset',
+    orgNeedPage: 'At least one page must remain.',
+    pnTitle: 'Add Page Numbers',
+    pnHint: 'Add page numbers where and how you want, in Arabic or English digits.',
+    pnPos: 'Position',
+    pnBC: 'Bottom centre',
+    pnBR: 'Bottom right',
+    pnBL: 'Bottom left',
+    pnTC: 'Top centre',
+    pnTR: 'Top right',
+    pnTL: 'Top left',
+    pnFmt: 'Format',
+    pnFmtN: '1',
+    pnFmtOf: '1 / 10',
+    pnFmtPage: 'Page 1 of 10',
+    pnDigits: 'Digits',
+    pnDigEn: 'English (123)',
+    pnDigAr: 'Arabic (١٢٣)',
+    pnStart: 'Start numbering at',
+    pnFrom: 'From page',
+    pnSize: 'Font size',
+    pnMargin: 'Edge margin',
+    pnColor: 'Colour',
+    pnBtn: 'Number & download',
+    cropTitle: 'Crop PDF margins',
+    cropHint: 'Trim unwanted edges from every page. Move the sliders and watch the preview (the red shaded area is removed).',
+    cropTop: 'Top',
+    cropBottom: 'Bottom',
+    cropLeft: 'Left',
+    cropRight: 'Right',
+    cropBtn: 'Crop & download',
+    p2tTitle: 'PDF to Text',
+    p2tHint: 'Extracts the text inside a PDF so you can copy it or save it as .txt. Scanned PDFs (images) contain no text and need OCR.',
+    p2tSep: 'Separate pages with headings',
+    p2tBtn: 'Extract text',
+    p2tCopy: 'Copy text',
+    p2tSave: 'Download .txt',
+    p2tCopied: 'Copied ✓',
+    p2tNone: 'No text found — the file is probably a scan (images).',
+    metaTitle: 'PDF Properties',
+    metaHint: 'Edit the title, author and keywords, or wipe hidden metadata before sharing.',
+    metaT: 'Title',
+    metaA: 'Author',
+    metaS: 'Subject',
+    metaK: 'Keywords',
+    metaWipe: 'Wipe all metadata (author, software, dates)',
+    metaBtn: 'Save & download',
     pagesizeTitle: 'Change PDF Page Size',
     pagesizeHint: 'Change a PDF or image to a standard paper size — choose "Stretch" to fill the size completely, or "Contain, no distortion" to keep the original proportions with your choice of orientation.',
     pagesizeMethodLabel: 'Resize method',
@@ -15116,10 +15477,339 @@ function shApplyLang(){
 function switchPdfCard(){
   const val = document.getElementById('pdftool-select').value;
   document.querySelectorAll('.pdf-card').forEach(card=>{
-    card.style.display = (card.id === 'pdftool-' + val) ? 'block' : 'none';
+    card.style.display = (!pdfHomeOpen && card.id === 'pdftool-' + val) ? 'block' : 'none';
   });
+  document.getElementById('pdf-home').style.display = pdfHomeOpen ? 'block' : 'none';
+  document.getElementById('pdf-back').style.display = pdfHomeOpen ? 'none' : 'block';
 }
-document.getElementById('pdftool-select').addEventListener('change', switchPdfCard);
+document.getElementById('pdftool-select').addEventListener('change', ()=>{ pdfHomeOpen = false; switchPdfCard(); });
+
+/* ============================================================
+   PDF TOOLS — HOME GRID (categories + search) and "pro" tools:
+   split, delete pages, organize/rotate, page numbers, crop, PDF->text, properties
+   ============================================================ */
+const PDF_HOME_CATS = [
+  { k:'pdfCatOrg',  items:['merge', 'split', 'extract', 'delete', 'organize', 'rotate', 'mergepairs'] },
+  { k:'pdfCatConv', items:['img2pdf', 'pdf2img', 'pdf2text', 'compress', 'pagesize'] },
+  { k:'pdfCatEdit', items:['text', 'erase', 'watermark', 'pagenum', 'crop', 'sign', 'stamp', 'barcode', 'meta'] }
+];
+let pdfHomeOpen = true;
+function pdfOptInfo(v){
+  const o = document.querySelector('#pdftool-select option[value="' + v + '"]'); if(!o) return null;
+  const t = o.textContent.trim(), m = /^([^\p{L}\p{N}]+)\s*(.*)$/u.exec(t);
+  return m ? { ico:m[1].trim(), name:m[2] } : { ico:'📄', name:t };
+}
+function pdfBuildHome(){
+  const host = document.getElementById('pdf-home-grid'); if(!host) return;
+  const q = (document.getElementById('pdf-home-search').value || '').trim().toLowerCase();
+  host.innerHTML = '';
+  let any = false;
+  PDF_HOME_CATS.forEach(cat=>{
+    const tiles = cat.items.map(v=>({ v, i:pdfOptInfo(v) })).filter(x=> x.i && (!q || x.i.name.toLowerCase().includes(q)));
+    if(!tiles.length) return;
+    any = true;
+    const h = document.createElement('div'); h.className = 'pdf-cat'; h.textContent = I18N[currentLang][cat.k]; host.appendChild(h);
+    const g = document.createElement('div'); g.className = 'pdf-tiles'; host.appendChild(g);
+    tiles.forEach(x=>{
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'pdf-tile'; b.dataset.tool = x.v;
+      b.innerHTML = '<span class="ico"></span><span class="nm"></span>';
+      b.firstChild.textContent = x.i.ico; b.lastChild.textContent = x.i.name;
+      b.addEventListener('click', ()=> pdfOpenTool(x.v));
+      g.appendChild(b);
+    });
+  });
+  if(!any){ const n = document.createElement('p'); n.className = 'note'; n.textContent = I18N[currentLang].pdfHomeNone; host.appendChild(n); }
+}
+function pdfOpenTool(v){
+  const sel = document.getElementById('pdftool-select'); sel.value = v;
+  pdfHomeOpen = false; switchPdfCard();
+  try{ document.getElementById('pdftool-' + v).scrollIntoView({ block:'start' }); }catch(e){}
+}
+function pdfGoHome(){ pdfHomeOpen = true; switchPdfCard(); }
+document.getElementById('pdf-back').addEventListener('click', pdfGoHome);
+document.getElementById('pdf-home-search').addEventListener('input', pdfBuildHome);
+(function(){   // rebuild the tiles when the language switch rewrites the option labels
+  let t = null;
+  new MutationObserver(()=>{ clearTimeout(t); t = setTimeout(pdfBuildHome, 60); }).observe(document.getElementById('pdftool-select'), { childList:true, subtree:true, characterData:true });
+})();
+
+/* ---------- shared helpers ---------- */
+const ptT = k => I18N[currentLang][k];
+function ptBaseName(f){ return (f && f.name ? f.name : 'file').replace(/\.pdf$/i, '').replace(/[^\w\-؀-ۿ ]+/g, '_'); }
+async function ptRun(pre, btn, idleKey, fn){
+  const st = pre + '-status';
+  try{
+    setBusy(btn, true, ptT('ptBusy'), ptT(idleKey));
+    await fn();
+    setStatus(st, ptT('ptDone'), 'ok');
+  }catch(e){
+    console.error(e);
+    setStatus(st, e && e.ptMsg ? ptT(e.ptMsg) : ptT('ptErr'), 'err');
+  }
+  setBusy(btn, false, '', ptT(idleKey));
+}
+const ptFail = key => Object.assign(new Error(key), { ptMsg:key });
+['split','delete','organize','rotate','pagenum','crop','pdf2text','meta'].forEach(p=> setupFilePicker(p + '-file', p + '-file-list', false));
+
+/* ---------- split ---------- */
+(function ptSplitInit(){
+  const mode = document.getElementById('split-mode');
+  const sync = ()=>{ document.getElementById('split-ranges-wrap').style.display = mode.value === 'ranges' ? '' : 'none'; document.getElementById('split-every-wrap').style.display = mode.value === 'every' ? '' : 'none'; };
+  mode.addEventListener('change', sync); sync();
+  const btn = document.getElementById('split-btn');
+  btn.addEventListener('click', ()=> ptRun('split', btn, 'splitBtn', async ()=>{
+    const f = document.getElementById('split-file').files[0]; if(!f) throw ptFail('ptNoFile');
+    const src = await pdfLoadSafe(await f.arrayBuffer()), n = src.getPageCount(), groups = [];
+    if(mode.value === 'each'){ for(let i = 0; i < n; i++) groups.push([i]); }
+    else if(mode.value === 'every'){
+      const k = Math.max(1, parseInt(document.getElementById('split-every').value, 10) || 1);
+      for(let i = 0; i < n; i += k) groups.push(Array.from({ length:Math.min(k, n - i) }, (_, j)=> i + j));
+    }else{
+      const parts = normalizeDigits(document.getElementById('split-ranges').value).split(/[,،;]+/).map(x=> x.trim()).filter(Boolean);
+      parts.forEach(pt=>{ const idx = parseRange(pt, n); if(idx.length) groups.push(idx); });
+      if(!groups.length) throw ptFail('ptBadRange');
+    }
+    const base = ptBaseName(f), files = [];
+    for(let gi = 0; gi < groups.length; gi++){
+      const out = await PDFDocument.create();
+      (await out.copyPages(src, groups[gi])).forEach(p=> out.addPage(p));
+      files.push({ name: `${base}_${String(gi + 1).padStart(2, '0')}.pdf`, data: await out.save() });
+    }
+    if(files.length === 1) downloadBlob(new Blob([files[0].data], { type:'application/pdf' }), files[0].name);
+    else{ const zip = new JSZip(); files.forEach(x=> zip.file(x.name, x.data)); downloadBlob(await zip.generateAsync({ type:'blob' }), base + '_split.zip'); }
+  }));
+})();
+
+/* ---------- organize / delete / rotate (thumbnail grid) ---------- */
+function ptOrganizer(pre, cfg){
+  const $ = s => document.getElementById(pre + '-' + s);
+  let bytes = null, pdfDoc = null, pages = [], fileObj = null, dragFrom = null;
+  const io = ('IntersectionObserver' in window) ? new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ io.unobserve(e.target); drawThumb(e.target._pg); } });
+  }, { rootMargin:'300px' }) : null;
+
+  async function drawThumb(pg){
+    if(pg.drawn) return; pg.drawn = true;
+    try{
+      const page = await pdfDoc.getPage(pg.i + 1), v0 = page.getViewport({ scale:1 });
+      const sc = Math.min(260 / v0.width, 260 / v0.height), vp = page.getViewport({ scale:sc });
+      const c = pg.canvas; c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+      const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+      await page.render({ canvasContext:x, viewport:vp }).promise;
+    }catch(e){ console.error(e); }
+  }
+  function build(pg, idx){
+    const el = document.createElement('div'); el.className = 'pt-pg'; el._pg = pg; pg.el = el;
+    const box = document.createElement('div'); box.className = 'pt-box';
+    const c = document.createElement('canvas'); pg.canvas = c; box.appendChild(c); el.appendChild(box);
+    const num = document.createElement('div'); num.className = 'pt-num'; pg.numEl = num; el.appendChild(num);
+    const acts = document.createElement('div'); acts.className = 'pt-acts'; el.appendChild(acts);
+    const mk = (txt, title, fn)=>{ const b = document.createElement('button'); b.type = 'button'; b.textContent = txt; b.title = title; b.addEventListener('click', fn); acts.appendChild(b); };
+    if(cfg.move) mk('◀', '', ()=>{ const k = pages.indexOf(pg); if(k > 0){ [pages[k - 1], pages[k]] = [pages[k], pages[k - 1]]; layout(); } });
+    if(cfg.rot) mk('↻', '', ()=>{ pg.rot = (pg.rot + 90) % 360; paint(pg); });
+    if(cfg.del) mk('🗑️', '', ()=>{ pg.del = !pg.del; paint(pg); });
+    if(cfg.move) mk('▶', '', ()=>{ const k = pages.indexOf(pg); if(k < pages.length - 1){ [pages[k + 1], pages[k]] = [pages[k], pages[k + 1]]; layout(); } });
+    if(cfg.move){
+      el.draggable = true;
+      el.addEventListener('dragstart', ()=>{ dragFrom = pg; el.classList.add('pt-drag'); });
+      el.addEventListener('dragend', ()=>{ el.classList.remove('pt-drag'); dragFrom = null; });
+      el.addEventListener('dragover', e=> e.preventDefault());
+      el.addEventListener('drop', e=>{
+        e.preventDefault(); if(!dragFrom || dragFrom === pg) return;
+        const a = pages.indexOf(dragFrom), b = pages.indexOf(pg); pages.splice(a, 1); pages.splice(b, 0, dragFrom); layout();
+      });
+    }
+    if(io) io.observe(el); else drawThumb(pg);
+    return el;
+  }
+  function paint(pg){
+    pg.el.classList.toggle('pt-del', !!pg.del);
+    pg.canvas.style.transform = pg.rot ? 'rotate(' + pg.rot + 'deg)' : '';
+  }
+  function layout(){
+    const g = $('grid');
+    pages.forEach((pg, k)=>{ g.appendChild(pg.el); pg.numEl.textContent = (k + 1) + (pg.i !== k ? '  (' + (pg.i + 1) + ')' : ''); paint(pg); });
+  }
+  function reset(){ pages = pages.slice().sort((a, b)=> a.i - b.i); pages.forEach(p=>{ p.rot = 0; p.del = false; }); layout(); }
+  $('file').addEventListener('change', async ()=>{
+    const f = $('file').files[0]; $('grid').innerHTML = ''; pages = []; pdfDoc = null; bytes = null; fileObj = f || null;
+    $('btn').style.display = 'none'; if($('bar')) $('bar').style.display = 'none'; setStatus(pre + '-status', '', '');
+    if(!f) return;
+    try{
+      setStatus(pre + '-status', ptT('ptLoading'), 'info');
+      bytes = await f.arrayBuffer();
+      pdfDoc = await pdfjsLib.getDocument({ data:new Uint8Array(bytes).slice() }).promise;
+      pages = Array.from({ length:pdfDoc.numPages }, (_, i)=>({ i, rot:0, del:false }));
+      pages.forEach((pg, k)=> build(pg, k));
+      layout();
+      $('btn').style.display = ''; if($('bar')) $('bar').style.display = '';
+      setStatus(pre + '-status', '', '');
+    }catch(e){ console.error(e); setStatus(pre + '-status', ptT('ptErr'), 'err'); }
+  });
+  const hook = (id, fn)=>{ const el = $(id); if(el) el.addEventListener('click', fn); };
+  const rotAll = d => { pages.forEach(p=>{ p.rot = (p.rot + d + 360) % 360; }); layout(); };
+  hook('rl', ()=> rotAll(-90)); hook('rr', ()=> rotAll(90));
+  hook('rev', ()=>{ pages.reverse(); layout(); });
+  hook('reset', reset);
+  hook('mark', ()=>{
+    const idx = parseRange($('range').value, pages.length);
+    if(!idx.length){ setStatus(pre + '-status', ptT('ptBadRange'), 'err'); return; }
+    setStatus(pre + '-status', '', '');
+    const set = new Set(idx); pages.forEach(p=>{ if(set.has(p.i)) p.del = true; }); layout();
+  });
+  const btn = $('btn');
+  btn.addEventListener('click', ()=> ptRun(pre, btn, cfg.btnKey, async ()=>{
+    if(!bytes) throw ptFail('ptNoFile');
+    const keep = pages.filter(p=> !p.del);
+    if(!keep.length) throw ptFail('orgNeedPage');
+    const src = await pdfLoadSafe(bytes), out = await PDFDocument.create();
+    for(const p of keep){
+      const [cp] = await out.copyPages(src, [p.i]);
+      if(p.rot) cp.setRotation(PDFLib.degrees((cp.getRotation().angle + p.rot) % 360));
+      out.addPage(cp);
+    }
+    downloadBlob(new Blob([await out.save()], { type:'application/pdf' }), ptBaseName(fileObj) + cfg.suffix + '.pdf');
+  }));
+}
+ptOrganizer('delete',   { del:true,  rot:false, move:false, btnKey:'delBtn', suffix:'_edited' });
+ptOrganizer('organize', { del:true,  rot:true,  move:true,  btnKey:'orgBtn', suffix:'_organized' });
+ptOrganizer('rotate',   { del:false, rot:true,  move:false, btnKey:'rotBtn', suffix:'_rotated' });
+
+/* ---------- page numbers ---------- */
+(function ptPageNumInit(){
+  const btn = document.getElementById('pagenum-btn');
+  const toAr = s => String(s).replace(/\d/g, d=> '٠١٢٣٤٥٦٧٨٩'[d]);
+  btn.addEventListener('click', ()=> ptRun('pagenum', btn, 'pnBtn', async ()=>{
+    const f = document.getElementById('pagenum-file').files[0]; if(!f) throw ptFail('ptNoFile');
+    try{ await document.fonts.load("600 16px 'IBM Plex Sans Arabic'"); }catch(e){}
+    const g = id => document.getElementById(id).value;
+    const doc = await pdfLoadSafe(await f.arrayBuffer()), pgs = doc.getPages(), total = pgs.length;
+    const pos = g('pn-pos'), fmt = g('pn-fmt'), ar = g('pn-dig') === 'ar', size = Math.max(6, Math.min(48, +g('pn-size') || 12)), mg = Math.max(2, +g('pn-margin') || 24);
+    const start = parseInt(g('pn-start'), 10); const first = Math.max(1, parseInt(g('pn-from'), 10) || 1), col = g('pn-color');
+    const s0 = isNaN(start) ? 1 : start, lastNo = s0 + (total - first);
+    const lang = currentLang;
+    for(let i = first - 1; i < total; i++){
+      const no = s0 + (i - (first - 1));
+      let label = String(no);
+      if(fmt === 'of') label = no + ' / ' + lastNo;
+      else if(fmt === 'page') label = lang === 'en' ? 'Page ' + no + ' of ' + lastNo : 'صفحة ' + no + ' من ' + lastNo;
+      if(ar) label = toAr(label);
+      const k = 4, c = document.createElement('canvas'), x = c.getContext('2d');
+      x.font = `600 ${size * k}px 'IBM Plex Sans Arabic', Arial, sans-serif`;
+      const w = Math.ceil(x.measureText(label).width) + 8 * k, h = Math.ceil(size * k * 1.5);
+      c.width = w; c.height = h;
+      x.font = `600 ${size * k}px 'IBM Plex Sans Arabic', Arial, sans-serif`; x.fillStyle = col; x.textBaseline = 'middle'; x.textAlign = 'center'; x.direction = 'ltr';
+      x.fillText(label, w / 2, h / 2 + k);
+      const img = await doc.embedPng(await (await psCanvasBlob(c, 'image/png')).arrayBuffer());
+      const page = pgs[i], { width:pw, height:ph } = page.getSize(), dw = w / k, dh = h / k;
+      let px = (pw - dw) / 2; if(pos[1] === 'l') px = mg; else if(pos[1] === 'r') px = pw - dw - mg;
+      const py = pos[0] === 'b' ? mg - (dh - size) / 2 : ph - dh - mg + (dh - size) / 2;
+      page.drawImage(img, { x:px, y:py, width:dw, height:dh });
+    }
+    downloadBlob(new Blob([await doc.save()], { type:'application/pdf' }), ptBaseName(f) + '_numbered.pdf');
+  }));
+})();
+
+/* ---------- crop ---------- */
+(function ptCropInit(){
+  const ids = ['t', 'b', 'l', 'r'], el = id => document.getElementById(id);
+  let bytes = null, fobj = null;
+  function upd(){
+    const v = {}; ids.forEach(k=>{ v[k] = +el('crop-' + k).value; el('crop-' + k + '-v').textContent = v[k]; });
+    const st = el('crop-stage'); st.querySelectorAll('.cm,.cb').forEach(n=> n.remove());
+    const mk = (cls, css)=>{ const d = document.createElement('div'); d.className = cls; d.style.cssText = css; st.appendChild(d); };
+    mk('cm', `left:0;right:0;top:0;height:${v.t}%`); mk('cm', `left:0;right:0;bottom:0;height:${v.b}%`);
+    mk('cm', `left:0;top:${v.t}%;bottom:${v.b}%;width:${v.l}%`); mk('cm', `right:0;top:${v.t}%;bottom:${v.b}%;width:${v.r}%`);
+    mk('cb', `left:${v.l}%;right:${v.r}%;top:${v.t}%;bottom:${v.b}%`);
+  }
+  ids.forEach(k=> el('crop-' + k).addEventListener('input', upd));
+  el('crop-file').addEventListener('change', async ()=>{
+    const f = el('crop-file').files[0]; fobj = f || null; el('crop-ui').style.display = 'none'; el('crop-stage').innerHTML = ''; ids.forEach(k=> el('crop-' + k).value = 0);
+    if(!f) return;
+    try{
+      bytes = await f.arrayBuffer();
+      const d = await pdfjsLib.getDocument({ data:new Uint8Array(bytes).slice() }).promise, page = await d.getPage(1), v0 = page.getViewport({ scale:1 });
+      const vp = page.getViewport({ scale:Math.min(2, 520 / v0.width) }), c = document.createElement('canvas'); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+      const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); await page.render({ canvasContext:x, viewport:vp }).promise;
+      el('crop-stage').appendChild(c); el('crop-ui').style.display = ''; upd();
+    }catch(e){ console.error(e); setStatus('crop-status', ptT('ptErr'), 'err'); }
+  });
+  const btn = el('crop-btn');
+  btn.addEventListener('click', ()=> ptRun('crop', btn, 'cropBtn', async ()=>{
+    if(!bytes) throw ptFail('ptNoFile');
+    const v = {}; ids.forEach(k=> v[k] = +el('crop-' + k).value / 100);
+    const doc = await pdfLoadSafe(bytes);
+    doc.getPages().forEach(page=>{
+      const mb = page.getMediaBox(), rot = ((page.getRotation().angle % 360) + 360) % 360;
+      // the sliders refer to the page as displayed; map them onto the unrotated box
+      let t = v.t, b = v.b, l = v.l, r = v.r;
+      if(rot === 90){ [t, r, b, l] = [l, t, r, b]; } else if(rot === 180){ [t, b, l, r] = [b, t, r, l]; } else if(rot === 270){ [t, r, b, l] = [r, b, l, t]; }
+      const x = mb.x + mb.width * l, y = mb.y + mb.height * b, w = mb.width * (1 - l - r), h = mb.height * (1 - t - b);
+      page.setCropBox(x, y, w, h); page.setMediaBox(x, y, w, h);
+    });
+    downloadBlob(new Blob([await doc.save()], { type:'application/pdf' }), ptBaseName(fobj) + '_cropped.pdf');
+  }));
+})();
+
+/* ---------- PDF -> text ---------- */
+(function ptTextInit(){
+  const btn = document.getElementById('pdf2text-btn'), box = document.getElementById('pdf2text-out'), ta = document.getElementById('pdf2text-text');
+  btn.addEventListener('click', ()=> ptRun('pdf2text', btn, 'p2tBtn', async ()=>{
+    const f = document.getElementById('pdf2text-file').files[0]; if(!f) throw ptFail('ptNoFile');
+    box.style.display = 'none';
+    const d = await pdfjsLib.getDocument({ data:new Uint8Array(await f.arrayBuffer()) }).promise, sep = document.getElementById('pdf2text-sep').checked, out = [];
+    for(let i = 1; i <= d.numPages; i++){
+      const tc = await (await d.getPage(i)).getTextContent(); let line = '', lastY = null; const lines = [];
+      tc.items.forEach(it=>{
+        if(typeof it.str !== 'string') return;
+        const y = it.transform ? Math.round(it.transform[5]) : 0;
+        if(lastY !== null && Math.abs(y - lastY) > 3){ lines.push(line); line = ''; }
+        line += it.str; lastY = y; if(it.hasEOL){ lines.push(line); line = ''; lastY = null; }
+      });
+      if(line) lines.push(line);
+      const txt = lines.map(l=> l.replace(/\s+$/, '')).join('\n').trim();
+      out.push((sep ? '--- ' + (currentLang === 'en' ? 'Page ' : 'صفحة ') + i + ' ---\n' : '') + txt);
+    }
+    const all = out.join('\n\n');
+    if(!all.replace(/--- [^\n]* ---/g, '').trim()) throw ptFail('p2tNone');
+    ta.value = all; box.style.display = '';
+    box.dataset.name = ptBaseName(f);
+  }));
+  document.getElementById('pdf2text-copy').addEventListener('click', e=>{
+    const b = e.currentTarget; uddahCopyText(ta.value, ()=>{ b.textContent = ptT('p2tCopied'); setTimeout(()=>{ b.textContent = ptT('p2tCopy'); }, 1400); });
+  });
+  document.getElementById('pdf2text-save').addEventListener('click', ()=>{
+    downloadBlob(new Blob(['﻿' + ta.value], { type:'text/plain;charset=utf-8' }), (box.dataset.name || 'text') + '.txt');
+  });
+})();
+
+/* ---------- properties ---------- */
+(function ptMetaInit(){
+  const g = id => document.getElementById(id);
+  g('meta-file').addEventListener('change', async ()=>{
+    const f = g('meta-file').files[0]; ['title', 'author', 'subject', 'keywords'].forEach(k=> g('meta-' + k).value = '');
+    if(!f) return;
+    try{
+      const d = await PDFDocument.load(await f.arrayBuffer(), { ignoreEncryption:true, updateMetadata:false });
+      g('meta-title').value = d.getTitle() || ''; g('meta-author').value = d.getAuthor() || ''; g('meta-subject').value = d.getSubject() || ''; g('meta-keywords').value = d.getKeywords() || '';
+    }catch(e){ console.error(e); }
+  });
+  const btn = g('meta-btn');
+  btn.addEventListener('click', ()=> ptRun('meta', btn, 'metaBtn', async ()=>{
+    const f = g('meta-file').files[0]; if(!f) throw ptFail('ptNoFile');
+    const d = await pdfLoadSafe(await f.arrayBuffer());
+    if(g('meta-wipe').checked){
+      d.setTitle(''); d.setAuthor(''); d.setSubject(''); d.setKeywords([]); d.setProducer(''); d.setCreator('');
+      const z = new Date(0); d.setCreationDate(z); d.setModificationDate(z);
+    }else{
+      d.setTitle(g('meta-title').value); d.setAuthor(g('meta-author').value); d.setSubject(g('meta-subject').value);
+      d.setKeywords(g('meta-keywords').value.split(/[,،]+/).map(x=> x.trim()).filter(Boolean));
+    }
+    downloadBlob(new Blob([await d.save({ updateFieldAppearances:false })], { type:'application/pdf' }), ptBaseName(f) + '_props.pdf');
+  }));
+})();
+
+pdfBuildHome();
 switchPdfCard();
 
 /* --- Mortgage / financing calculator --- */
