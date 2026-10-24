@@ -3140,7 +3140,10 @@
       <h2 data-i18n="p2wTitle">تحويل PDF إلى Word</h2>
       <p class="hint" data-i18n="p2wHint">يحوّل النص الموجود في الملف إلى مستند Word (.docx) قابل للتعديل، مع دعم العربي واتجاه الفقرات. الصور والجداول والتنسيق المعقّد لا تُنقل، والملفات الممسوحة ضوئياً تحتاج OCR.</p>
       <div class="field"><input type="file" id="pdf2word-file" accept="application/pdf"><div class="file-list" id="pdf2word-file-list"></div></div>
-      <div class="field"><label style="display:flex;gap:8px;align-items:center;cursor:pointer;"><input type="checkbox" id="pdf2word-join" style="width:auto;" checked><span data-i18n="p2wJoin">دمج أسطر الفقرة الواحدة تلقائياً</span></label></div>
+      <div class="field">
+        <label for="pdf2word-mode" data-i18n="p2wMode">طريقة التحويل</label>
+        <select id="pdf2word-mode"><option value="text" data-i18n="p2wModeText">نص قابل للتعديل (الأفضل للكتابة والتعديل)</option><option value="image" data-i18n="p2wModeImg">صورة طبق الأصل لكل صفحة (شكل مطابق 100% لكن لا يُعدَّل)</option></select>
+      </div>
       <button class="btn" id="pdf2word-btn" data-i18n="p2wBtn">تحويل وتنزيل Word</button>
       <div id="pdf2word-status"></div>
     </div>
@@ -4927,9 +4930,12 @@ const I18N = {
     pdfOptPdf2word: '📘 تحويل PDF إلى Word',
     pdfOptCompare: '🔍 مقارنة ملفي PDF',
     p2wTitle: 'تحويل PDF إلى Word',
-    p2wHint: 'يحوّل النص الموجود في الملف إلى مستند Word (.docx) قابل للتعديل، مع دعم العربي واتجاه الفقرات. الصور والجداول والتنسيق المعقّد لا تُنقل، والملفات الممسوحة ضوئياً تحتاج OCR.',
+    p2wHint: 'يحوّل الملف إلى مستند Word (.docx) بإعادة بناء النص من مواقع الحروف في الصفحة: يحافظ على العربي واتجاه الفقرات والأقواس والأرقام والإنجليزي داخل العربي والخط العريض والمحاذاة، ثم يتحقق أن كل حرف انتقل. الجداول والصور لا تُنقل في وضع النص، فلو الملف فيه جداول أو أختام اختر «صورة طبق الأصل».',
     p2wJoin: 'دمج أسطر الفقرة الواحدة تلقائياً',
     p2wBtn: 'تحويل وتنزيل Word',
+    p2wMode: 'طريقة التحويل', p2wModeText: 'نص قابل للتعديل (الأفضل للكتابة والتعديل)', p2wModeImg: 'صورة طبق الأصل لكل صفحة (شكل مطابق 100% لكن لا يُعدَّل)',
+    p2wVerified: 'تم ✓ — تم التحقق: انتقلت كل الأحرف ({n} حرفاً). راجع الملف سريعاً قبل الاعتماد.', p2wMismatch: 'تم التحويل لكن فيه فرق في عدد الأحرف ({n} من {m}) — راجع الملف أو استخدم «صورة طبق الأصل».',
+    p2wRotated: 'الملف فيه صفحات مدوّرة — استخدم «صورة طبق الأصل» أو دوّر الملف أولاً بأداة التدوير.',
     cmpTitle: 'مقارنة ملفي PDF',
     cmpHint: 'اختر نسختين من نفس المستند (مثلاً عقد قبل التعديل وبعده) وشوف الأسطر المحذوفة والمضافة بالألوان.',
     cmpA: 'الملف الأول (القديم)',
@@ -5864,9 +5870,12 @@ const I18N = {
     pdfOptPdf2word: '📘 PDF to Word',
     pdfOptCompare: '🔍 Compare PDFs',
     p2wTitle: 'PDF to Word',
-    p2wHint: 'Converts the text in a PDF into an editable Word (.docx) document with Arabic/RTL support. Images, tables and complex layout are not carried over; scanned PDFs need OCR.',
+    p2wHint: 'Converts the PDF to Word (.docx) by rebuilding the text from glyph positions: keeps Arabic, paragraph direction, brackets, numbers, English inside Arabic, bold and alignment, then verifies every character was carried over. Tables and pictures are not carried in text mode — for files with tables or stamps choose “exact page image”.',
     p2wJoin: 'Join lines of the same paragraph',
     p2wBtn: 'Convert & download Word',
+    p2wMode: 'Conversion mode', p2wModeText: 'Editable text (best for editing)', p2wModeImg: 'Exact page image (100% identical look, not editable)',
+    p2wVerified: 'Done ✓ — verified: every character was carried over ({n} characters). Give the file a quick look before relying on it.', p2wMismatch: 'Converted, but the character count differs ({n} of {m}) — check the file or use “Exact page image”.',
+    p2wRotated: 'This file has rotated pages — use “Exact page image”, or rotate the file first with the Rotate tool.',
     cmpTitle: 'Compare two PDFs',
     cmpHint: 'Pick two versions of a document (e.g. a contract before and after edits) and see removed and added lines in colour.',
     cmpA: 'First file (old)',
@@ -15809,19 +15818,8 @@ ptOrganizer('rotate',   { del:false, rot:true,  move:false, btnKey:'rotBtn', suf
   btn.addEventListener('click', ()=> ptRun('pdf2text', btn, 'p2tBtn', async ()=>{
     const f = document.getElementById('pdf2text-file').files[0]; if(!f) throw ptFail('ptNoFile');
     box.style.display = 'none';
-    const d = await pdfjsLib.getDocument({ data:new Uint8Array(await f.arrayBuffer()) }).promise, sep = document.getElementById('pdf2text-sep').checked, out = [];
-    for(let i = 1; i <= d.numPages; i++){
-      const tc = await (await d.getPage(i)).getTextContent(); let line = '', lastY = null; const lines = [];
-      tc.items.forEach(it=>{
-        if(typeof it.str !== 'string') return;
-        const y = it.transform ? Math.round(it.transform[5]) : 0;
-        if(lastY !== null && Math.abs(y - lastY) > 3){ lines.push(line); line = ''; }
-        line += it.str; lastY = y; if(it.hasEOL){ lines.push(line); line = ''; lastY = null; }
-      });
-      if(line) lines.push(line);
-      const txt = lines.map(l=> l.replace(/\s+$/, '')).join('\n').trim();
-      out.push((sep ? '--- ' + (currentLang === 'en' ? 'Page ' : 'صفحة ') + i + ' ---\n' : '') + txt);
-    }
+    const sep = document.getElementById('pdf2text-sep').checked, pg = await ptExtractPages(f), out = [];
+    pg.forEach((lines, i)=>{ out.push((sep ? '--- ' + (currentLang === 'en' ? 'Page ' : 'صفحة ') + (i + 1) + ' ---\n' : '') + lines.join('\n')); });
     const all = out.join('\n\n');
     if(!all.replace(/--- [^\n]* ---/g, '').trim()) throw ptFail('p2tNone');
     ta.value = all; box.style.display = '';
@@ -15862,59 +15860,333 @@ ptOrganizer('rotate',   { del:false, rot:true,  move:false, btnKey:'rotBtn', suf
 })();
 
 /* ---------- text extraction shared by PDF->Word and compare ---------- */
-async function ptExtractPages(file){
+async function ptExtractPages(file){          // lines of text per page, in correct logical order (same engine as PDF -> Word)
   const d = await pdfjsLib.getDocument({ data:new Uint8Array(await file.arrayBuffer()) }).promise, pages = [];
   for(let i = 1; i <= d.numPages; i++){
-    const tc = await (await d.getPage(i)).getTextContent(); let line = '', lastY = null; const lines = [];
-    tc.items.forEach(it=>{
-      if(typeof it.str !== 'string') return;
-      const y = it.transform ? Math.round(it.transform[5]) : 0;
-      if(lastY !== null && Math.abs(y - lastY) > 3){ lines.push(line); line = ''; }
-      line += it.str; lastY = y; if(it.hasEOL){ lines.push(line); line = ''; lastY = null; }
-    });
-    if(line) lines.push(line);
-    pages.push(lines.map(l=> l.replace(/\s+$/, '')).filter(l=> l.trim()));
+    const page = await d.getPage(i), view = page.view, tc = await page.getTextContent();
+    let stream = null, bold = {};
+    try{ stream = P2W.glyphStream(await page.getOperatorList(), pdfjsLib.OPS); }catch(e){}
+    const items = tc.items.map(it=> it.transform ? Object.assign({}, it, { transform:[it.transform[0], it.transform[1], it.transform[2], it.transform[3], it.transform[4] - view[0], it.transform[5] - view[1]] }) : it);
+    pages.push(P2W.pageLines(items, bold, stream).lines.map(l=> l.text).filter(t=> t.trim()));
   }
   return pages;
 }
-/* ---------- PDF -> Word (.docx built by hand: zip of three XML parts) ---------- */
-(function ptWordInit(){
-  const esc = t => t.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const isAr = t => /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/.test(t);
-  function paragraphs(lines, join){
-    if(!join) return lines;
-    const max = Math.max(0, ...lines.map(l=> l.length)), out = [];
-    lines.forEach(l=>{
-      const prev = out[out.length - 1];
-      if(prev !== undefined && prev.last > max * 0.6 && !/[.:؟?!؛;)]$/.test(prev.text.trim())) { prev.text += ' ' + l.trim(); prev.last = l.length; }
-      else out.push({ text:l, last:l.length });
-    });
-    return out.map(o=> typeof o === 'string' ? o : o.text);
+/* ---------- PDF -> Word engine ---------- */
+/* ============================================================
+   PDF -> Word engine. Rebuilds text from the POSITION of every glyph/word (not from stream order):
+   lines by baseline, visual order by x, Unicode-bidi restore to logical order, bracket mirroring,
+   spaces from gaps, bold/size from fonts, paragraphs by geometry. Output: OOXML (.docx) parts.
+   ============================================================ */
+const P2W = (function(){
+  const R_RE = /[֐-ࣿיִ-﷿ﹰ-﻿]/;
+  const MARK_RE = /[̀-ͯؐ-ًؚ-ٰٟۖ-ۭ]/;
+  const DIGIT_RE = /[0-9٠-٩۰-۹]/;
+  const SEP_RE = /[\/.,:%\-+٫٬]/;
+  const MIRROR = { '(':')', ')':'(', '[':']', ']':'[', '{':'}', '}':'{', '<':'>', '>':'<', '«':'»', '»':'«' };
+  function cls(ch){
+    if(MARK_RE.test(ch)) return 'M';
+    if(R_RE.test(ch)) return DIGIT_RE.test(ch) ? 'N' : 'R';
+    if(DIGIT_RE.test(ch)) return 'N';
+    if(/\s/.test(ch)) return 'W';
+    if(/\p{L}/u.test(ch)) return 'L';
+    if(SEP_RE.test(ch)) return 'S';
+    return 'P';
   }
-  function build(pages, join){
-    let body = '';
-    pages.forEach((lines, pi)=>{
-      if(pi > 0) body += '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
-      paragraphs(lines, join).forEach(t=>{
-        const rtl = isAr(t);
-        body += '<w:p><w:pPr>' + (rtl ? '<w:bidi/>' : '') + '<w:spacing w:after="120"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/>' + (rtl ? '<w:rtl/>' : '') + '<w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:t xml:space="preserve">' + esc(t) + '</w:t></w:r></w:p>';
+  /* levels for a char array (visual or logical — the same resolution is applied both ways) */
+  function levels(chars, base){
+    const b = base === 'rtl' ? 1 : 0, n = chars.length, k = chars.map(cls), lv = new Array(n).fill(b);
+    // marks follow the previous char
+    for(let i = 0; i < n; i++) if(k[i] === 'M') k[i] = 'R';
+    const dirOf = c => c === 'R' ? 'R' : (c === 'L' ? 'L' : null);
+    const prevStrong = new Array(n), nextStrong = new Array(n);
+    let last = null; for(let i = 0; i < n; i++){ const d = dirOf(k[i]); if(d) last = d; prevStrong[i] = last; }
+    last = null; for(let i = n - 1; i >= 0; i--){ const d = dirOf(k[i]); if(d) last = d; nextStrong[i] = last; }
+    const lvOf = d => d === 'R' ? 1 : (b ? 2 : 0);
+    for(let i = 0; i < n; i++){
+      const c = k[i];
+      if(c === 'R') lv[i] = 1;
+      else if(c === 'L') lv[i] = b ? 2 : 0;
+      else if(c === 'N') lv[i] = (b || (prevStrong[i] === 'R' && nextStrong[i] === 'R')) ? 2 : 0;
+    }
+    // neutrals and separators
+    for(let i = 0; i < n; i++){
+      const c = k[i]; if(c !== 'W' && c !== 'P' && c !== 'S') continue;
+      let l = i - 1; while(l >= 0 && (k[l] === 'W' || k[l] === 'P' || k[l] === 'S')) l--;
+      let r = i + 1; while(r < n && (k[r] === 'W' || k[r] === 'P' || k[r] === 'S')) r++;
+      if(c === 'S' && l >= 0 && r < n && k[l] === 'N' && k[r] === 'N' && l === i - 1 && r === i + 1){ lv[i] = lv[l]; continue; }
+      const numDir = j => (/[\u0660-\u0669\u06F0-\u06F9]/.test(chars[j]) || prevStrong[j] !== 'L') ? 'R' : 'L';
+      const dl = l >= 0 ? (k[l] === 'N' ? numDir(l) : dirOf(k[l])) : (b ? 'R' : 'L');
+      const dr = r < n ? (k[r] === 'N' ? numDir(r) : dirOf(k[r])) : (b ? 'R' : 'L');
+      lv[i] = (dl === dr && dl) ? (dl === 'R' ? 1 : (b ? 2 : 0)) : b;
+    }
+    return lv;
+  }
+  function reorder(arr, base, noMirror){          // arr: [{c,...}] -> reordered copy (visual<->logical), brackets mirrored on odd levels
+    const n = arr.length; if(!n) return [];
+    const chars = arr.map(o=> o.c), lv = levels(chars, base), idx = arr.map((_, i)=> i);
+    let max = 0, minOdd = 99; lv.forEach(v=>{ if(v > max) max = v; if(v & 1 && v < minOdd) minOdd = v; });
+    for(let L = max; L >= minOdd && L > 0; L--){
+      let i = 0;
+      while(i < n){
+        if(lv[idx[i]] >= L){ let j = i; while(j < n && lv[idx[j]] >= L) j++; for(let a = i, b2 = j - 1; a < b2; a++, b2--){ const t = idx[a]; idx[a] = idx[b2]; idx[b2] = t; } i = j; }
+        else i++;
+      }
+    }
+    return idx.map(i=>{ const o = arr[i]; return (!noMirror && (lv[i] & 1) && MIRROR[o.c]) ? Object.assign({}, o, { c:MIRROR[o.c] }) : o; });
+  }
+  function baseDir(chars){ let r = 0, l = 0; chars.forEach(c=>{ const k = cls(c); if(k === 'R') r++; else if(k === 'L') l++; }); return r >= l && r > 0 ? 'rtl' : 'ltr'; }
+
+
+  /* ---------- glyph stream: the real glyph->Unicode units in drawing order (needed because pdf.js reverses
+     the two letters of a lam-alef ligature when it re-orders RTL text) ---------- */
+  function glyphStream(ol, OPS){
+    const units = [];
+    const push = g=>{ if(g && typeof g === 'object' && typeof g.unicode === 'string' && g.unicode.length) units.push(g.unicode); };
+    ol.fnArray.forEach((fn, i)=>{
+      const a = ol.argsArray[i];
+      if(fn === OPS.showText || fn === OPS.nextLineShowText) (a[0] || []).forEach(push);
+      else if(fn === OPS.showSpacedText) (a[0] || []).forEach(push);
+      else if(fn === OPS.nextLineSetSpacingShowText) (a[2] || []).forEach(push);
+    });
+    let V = '', starts = new Map();
+    units.forEach(u=>{ starts.set(V.length, u); V += u; });
+    return { V, starts, p:0 };
+  }
+  const revUnits = str => str.split('').reverse().join('');
+  function alignItem(str, dir, st){
+    if(!st || !/\S/.test(str)) return null;
+    const cands = dir === 'rtl' ? [revUnits(str)] : [str];
+    for(const cand of cands){
+      const idx = st.V.indexOf(cand, st.p);
+      if(idx < 0 || idx - st.p > 600) continue;
+      const out = []; let off = idx, ok = true;
+      while(off < idx + cand.length){ const u = st.starts.get(off); if(!u){ ok = false; break; } out.push(u); off += u.length; }
+      if(ok && off === idx + cand.length){ st.p = off; return out; }
+    }
+    return null;
+  }
+  const balanced = t => { const stack = []; const pairs = { ')':'(', ']':'[', '}':'{' }; for(const ch of t){ if('([{'.includes(ch)) stack.push(ch); else if(pairs[ch]){ if(stack.pop() !== pairs[ch]) return false; } } return stack.length === 0; };
+
+  /* ---------- one page: items -> lines ---------- */
+  function pageLines(items, fontBold, stream){
+    const raw = [], st = stream || null;
+    items.forEach(it=>{
+      if(typeof it.str !== 'string' || !it.str.length || !it.transform) return;
+      const tr = it.transform, size = Math.hypot(tr[2], tr[3]) || Math.abs(tr[3]) || 10;
+      const units = alignItem(it.str, it.dir, st);
+      raw.push({ s:it.str.normalize('NFKC'), u:units, x:tr[4], y:tr[5], w:Math.abs(it.width || 0), size, dir:it.dir, bold:!!(fontBold && fontBold[it.fontName]) });
+    });
+    // duplicate (fake-bold) items
+    const seen = new Set(), its = raw.filter(o=>{ const key = o.s + '|' + Math.round(o.x) + '|' + Math.round(o.y); if(seen.has(key)) return false; seen.add(key); return true; });
+    const rawChars = its.map(o=> o.s).join('').replace(/\s+/g, '');
+    const isMark = o=> o.s.length <= 3 && Array.from(o.s).every(c=> MARK_RE.test(c));
+    const marks = its.filter(isMark), body = its.filter(o=> !isMark(o));
+    body.sort((a, b)=> b.y - a.y);
+    const lines = [];
+    body.forEach(o=>{
+      let ln = lines.find(l=> Math.abs(l.y - o.y) <= Math.max(2, 0.4 * Math.min(l.size, o.size)));
+      if(!ln){ ln = { y:o.y, size:o.size, items:[] }; lines.push(ln); }
+      ln.items.push(o); ln.size = Math.max(ln.size, o.size);
+    });
+    marks.forEach(m=>{               // a diacritic belongs to the glyph drawn right after it (RTL runs are drawn visually); otherwise the one before
+      const mi = its.indexOf(m);
+      let tgt = null;
+      for(let j = mi + 1; j < its.length && j < mi + 4 && !tgt; j++) if(!isMark(its[j]) && Math.abs(its[j].y - m.y) < its[j].size * 1.2) tgt = its[j];
+      for(let j = mi - 1; j >= 0 && j > mi - 4 && !tgt; j--) if(!isMark(its[j]) && Math.abs(its[j].y - m.y) < its[j].size * 1.2) tgt = its[j];
+      if(!tgt) return;
+      const ln = lines.find(l=> l.items.indexOf(tgt) >= 0); if(!ln) return;
+      m.x = tgt.x - 0.001; m.w = 0; ln.items.push(m);
+    });
+    let pageR = 0, pageL = 0; body.forEach(o=> Array.from(o.s).forEach(c=>{ const k = cls(c); if(k === 'R') pageR++; else if(k === 'L') pageL++; }));
+    const pageBase = pageR >= pageL && pageR > 0 ? 'rtl' : 'ltr';
+    lines.forEach(ln=>{
+      ln.items.sort((a, b)=> a.x - b.x || (isMark(b) ? 1 : 0) - (isMark(a) ? 1 : 0));
+      // visual char sequence with attributes
+      const vis = []; let prevEnd = null, prevSize = ln.size;
+      ln.items.forEach(o=>{
+        const a = { b:o.bold, sz:o.size };
+        if(prevEnd !== null && o.x - prevEnd > 0.2 * Math.min(prevSize, o.size) && !/\s$/.test(vis.length ? vis[vis.length - 1].c : ' ') && !/^\s/.test(o.s)) vis.push({ c:' ', b:a.b, sz:a.sz });
+        let chars;
+        if(o.u) chars = o.u.map(u=> Object.assign({ c:u.normalize('NFKC') }, a));       // exact drawing order, ligatures kept whole
+        else{ chars = Array.from(o.s).map(c=> Object.assign({ c }, a)); if(o.dir === 'rtl' && chars.length > 1) chars = reorder(chars, 'rtl', true); }
+        chars.forEach(c=> vis.push(c));
+        prevEnd = o.x + o.w; prevSize = o.size;
       });
+      const vc = vis.map(c=> cls(c.c)), rc = vc.filter(k=> k === 'R' || k === 'M').length, lc = vc.filter(k=> k === 'L').length;
+      const base = rc === 0 ? 'ltr' : (lc === 0 ? 'rtl' : pageBase);
+      ln.base = base;
+      ln.vis = vis; ln.chars = null;
+      ln.x0 = Math.min(...ln.items.map(o=> o.x)); ln.x1 = Math.max(...ln.items.map(o=> o.x + o.w));
     });
-    if(!body) body = '<w:p/>';
-    const doc = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body + '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>';
-    const zip = new JSZip();
-    zip.file('[Content_Types].xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>');
-    zip.file('_rels/.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
-    zip.file('word/document.xml', doc);
-    return zip.generateAsync({ type:'blob', mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    // bracket shapes: some producers write mirrored shapes, others logical characters -> choose per page by which gives balanced brackets
+    let vM = 0, vN = 0;
+    lines.forEach(ln=>{
+      const t = ln.vis.map(c=> c.c).join('');
+      if(!/[()\[\]{}]/.test(t)) return;
+      const a = balanced(reorder(ln.vis, ln.base, false).map(c=> c.c).join('')), b = balanced(reorder(ln.vis, ln.base, true).map(c=> c.c).join(''));
+      if(a && !b) vM++; else if(b && !a) vN++;
+    });
+    const noMirror = vN > vM;
+    lines.forEach(ln=>{ ln.chars = reorder(ln.vis, ln.base, noMirror); });
+    lines.forEach(ln=>{ while(ln.chars.length && /\s/.test(ln.chars[ln.chars.length - 1].c)) ln.chars.pop(); while(ln.chars.length && /\s/.test(ln.chars[0].c)) ln.chars.shift(); ln.text = ln.chars.map(c=> c.c).join(''); ln.bold = ln.chars.filter(c=> c.b && /\S/.test(c.c)).length > ln.chars.filter(c=> /\S/.test(c.c)).length / 2; });
+    return { lines:lines.filter(l=> l.text.length), rawChars };
   }
-  const btn = document.getElementById('pdf2word-btn');
-  btn.addEventListener('click', ()=> ptRun('pdf2word', btn, 'p2wBtn', async ()=>{
-    const f = document.getElementById('pdf2word-file').files[0]; if(!f) throw ptFail('ptNoFile');
-    const pages = await ptExtractPages(f);
-    if(!pages.some(l=> l.length)) throw ptFail('p2tNone');
-    downloadBlob(await build(pages, document.getElementById('pdf2word-join').checked), ptBaseName(f) + '.docx');
-  }));
+
+  /* ---------- lines -> paragraphs ---------- */
+  function paragraphs(lines, pw){
+    const full = lines.filter(l=> l.text.length > 20);
+    const minX0 = full.length ? Math.min(...full.map(l=> l.x0)) : Math.min(...lines.map(l=> l.x0));
+    const maxX1 = full.length ? Math.max(...full.map(l=> l.x1)) : Math.max(...lines.map(l=> l.x1));
+    let pitch0 = 1e9; for(let i = 1; i < lines.length; i++){ const g = lines[i - 1].y - lines[i].y, sz = lines[i].size; if(g > 0.9 * sz && Math.abs(lines[i - 1].size - sz) < 1.2) pitch0 = Math.min(pitch0, g); }
+    const tol = 0.05 * pw, out = [];
+    const bullet = t => /^([•●▪◦·\-–]|\d{1,2}[.)])\s/.test(t) || /^[•●▪◦]/.test(t);
+    lines.forEach(ln=>{
+      const prev = out[out.length - 1];
+      let merge = false;
+      if(prev){
+        const pl = prev.lines[prev.lines.length - 1], gap = pl.y - ln.y;
+        const rtl = ln.base === 'rtl' && pl.base === 'rtl';
+        const sameStart = rtl ? Math.abs(pl.x1 - ln.x1) < tol : Math.abs(pl.x0 - ln.x0) < tol;
+        const prevFull = rtl ? (pl.x0 - minX0) < 0.09 * pw : (maxX1 - pl.x1) < 0.09 * pw;
+        merge = gap > 0.8 * ln.size && gap <= Math.max(1.3 * pitch0, 1.15 * ln.size) && Math.abs(pl.size - ln.size) < 1.2 && pl.base === ln.base && sameStart && prevFull && !bullet(ln.text) && !/[.:؟?!؛]$/.test(pl.text) && pl.bold === ln.bold;
+      }
+      if(merge) prev.lines.push(ln); else out.push({ lines:[ln] });
+    });
+    out.forEach(p=>{
+      const f = p.lines[0], l = p.lines[p.lines.length - 1];
+      p.base = f.base; p.y = f.y; p.yLast = l.y; p.size = f.size;
+      p.x0 = Math.min(...p.lines.map(q=> q.x0)); p.x1 = Math.max(...p.lines.map(q=> q.x1));
+      p.pitch = p.lines.length > 1 ? (f.y - l.y) / (p.lines.length - 1) : f.size * 1.25;
+      // chars joined across lines with a space
+      p.chars = []; p.lines.forEach((q, i)=>{ if(i) p.chars.push({ c:' ', b:q.chars[0].b, sz:q.chars[0].sz }); q.chars.forEach(c=> p.chars.push(c)); });
+      const cx = (p.x0 + p.x1) / 2, startEdge = p.base === 'rtl' ? p.x1 : p.x0, blockStart = p.base === 'rtl' ? maxX1 : minX0, blockEnd = p.base === 'rtl' ? minX0 : maxX1;
+      p.align = 'start';
+      if(p.lines.length === 1 && Math.abs(cx - pw / 2) < 0.03 * pw && (p.x0 - minX0) > 0.05 * pw && (maxX1 - p.x1) > 0.05 * pw) p.align = 'center';
+      else if(p.lines.length === 1 && Math.abs((p.base === 'rtl' ? p.x0 : p.x1) - blockEnd) < 0.03 * pw && Math.abs(startEdge - blockStart) > 0.12 * pw) p.align = 'end';
+      p.indent = p.align === 'start' ? Math.max(0, p.base === 'rtl' ? maxX1 - startEdge : startEdge - minX0) : 0;
+    });
+    return { paras:out, minX0, maxX1 };
+  }
+
+  /* ---------- XML ---------- */
+  const esc = t => t.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F￾￿]/g, '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  function runsXml(chars){
+    const groups = []; let cur = null;
+    chars.forEach((o, i)=>{
+      let k = cls(o.c); if(k === 'M') k = 'R';
+      let rtl;
+      if(k === 'R' || (k === 'N' && /[٠-٩۰-۹]/.test(o.c))) rtl = true;
+      else if(k === 'L' || k === 'N') rtl = false;
+      else rtl = cur ? cur.rtl : null;
+      if(rtl === null){ let j = i + 1; while(j < chars.length){ const kk = cls(chars[j].c); if(kk !== 'W' && kk !== 'P' && kk !== 'S'){ rtl = kk === 'R' || kk === 'M' || (kk === 'N' && /[٠-٩۰-۹]/.test(chars[j].c)); break; } j++; } if(rtl === null) rtl = false; }
+      const sz = Math.max(2, Math.round(o.sz * 2));
+      if(!cur || cur.rtl !== rtl || cur.b !== !!o.b || cur.sz !== sz){ cur = { rtl, b:!!o.b, sz, t:'' }; groups.push(cur); }
+      cur.t += o.c;
+    });
+    return groups.map(g=> '<w:r><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/>' + (g.b ? '<w:b/><w:bCs/>' : '') + (g.rtl ? '<w:rtl/>' : '') + '<w:sz w:val="' + g.sz + '"/><w:szCs w:val="' + g.sz + '"/></w:rPr><w:t xml:space="preserve">' + esc(g.t) + '</w:t></w:r>').join('');
+  }
+  function paraXml(p, before, pageBreak, margins){
+    const tw = v => Math.max(0, Math.round(v * 20));
+    let ppr = '';
+    if(pageBreak) ppr += '<w:pageBreakBefore/>';
+    if(p.base === 'rtl') ppr += '<w:bidi/>';
+    ppr += '<w:spacing w:before="' + tw(before) + '" w:after="0" w:line="' + tw(p.pitch) + '" w:lineRule="atLeast"/>';
+    if(p.indent > 6) ppr += '<w:ind w:start="' + tw(p.indent) + '"/>';
+    if(p.align === 'center') ppr += '<w:jc w:val="center"/>'; else if(p.align === 'end') ppr += '<w:jc w:val="end"/>';
+    return '<w:p><w:pPr>' + ppr + '</w:pPr>' + runsXml(p.chars) + '</w:p>';
+  }
+  function docXml(pages){
+    // pages: [{w,h,paras,minX0,maxX1}]
+    let body = '', sect = '';
+    pages.forEach((pg, pi)=>{
+      const top = 36;
+      let prevY = null;
+      pg.paras.forEach((p, k)=>{
+        let before;
+        if(k === 0) before = Math.max(0, pg.h - p.y - p.size * 0.9 - top);
+        else before = Math.max(0, prevY - p.y - (pg.paras[k - 1].lines.length > 1 ? pg.paras[k - 1].pitch : pg.paras[k - 1].size * 1.25) - 0) - 0;
+        if(k > 0){ const prevP = pg.paras[k - 1]; before = Math.max(0, (prevP.yLast - p.y) - Math.max(p.pitch, 0)); }
+        body += paraXml(p, before, pi > 0 && k === 0);
+        prevY = p.yLast;
+      });
+      if(!pg.paras.length) body += '<w:p>' + (pi > 0 ? '<w:pPr><w:pageBreakBefore/></w:pPr>' : '') + '</w:p>';
+    });
+    const f = pages[0] || { w:595.28, h:841.89, minX0:56, maxX1:540 };
+    const tw = v => Math.round(v * 20);
+    const left = Math.max(20, Math.min(120, f.minX0)), right = Math.max(20, Math.min(120, f.w - f.maxX1));
+    sect = '<w:sectPr><w:pgSz w:w="' + tw(f.w) + '" w:h="' + tw(f.h) + '"/><w:pgMar w:top="720" w:right="' + tw(right) + '" w:bottom="720" w:left="' + tw(left) + '" w:header="360" w:footer="360" w:gutter="0"/></w:sectPr>';
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body + sect + '</w:body></w:document>';
+  }
+  const CT = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="jpeg" ContentType="image/jpeg"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>';
+  const RELS = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>';
+  /* exact-look mode: every page as a full-page picture */
+  function imageDocXml(pages){
+    let body = '';
+    pages.forEach((pg, i)=>{
+      const cx = Math.round(pg.w * 12700), cy = Math.round(pg.h * 12700), id = i + 1;
+      body += '<w:p><w:pPr>' + (i ? '<w:pageBreakBefore/>' : '') + '<w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/></w:pPr><w:r><w:drawing><wp:anchor distT="0" distB="0" distL="0" distR="0" simplePos="0" relativeHeight="' + id + '" behindDoc="1" locked="0" layoutInCell="1" allowOverlap="1"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="page"><wp:posOffset>0</wp:posOffset></wp:positionH><wp:positionV relativeFrom="page"><wp:posOffset>0</wp:posOffset></wp:positionV><wp:extent cx="' + cx + '" cy="' + cy + '"/><wp:wrapNone/><wp:docPr id="' + id + '" name="Page ' + id + '"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="' + id + '" name="p' + id + '.jpeg"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rIdImg' + id + '"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="' + cx + '" cy="' + cy + '"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:anchor></w:drawing></w:r></w:p>';
+    });
+    const f = pages[0], tw = v => Math.round(v * 20);
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"><w:body>' + body + '<w:sectPr><w:pgSz w:w="' + tw(f.w) + '" w:h="' + tw(f.h) + '"/><w:pgMar w:top="0" w:right="0" w:bottom="0" w:left="0" w:header="0" w:footer="0" w:gutter="0"/></w:sectPr></w:body></w:document>';
+  }
+  function docRels(n){ let r = ''; for(let i = 1; i <= n; i++) r += '<Relationship Id="rIdImg' + i + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/p' + i + '.jpeg"/>'; return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' + r + '</Relationships>'; }
+
+  /* completeness check: every non-space character read from the PDF must be present in the output */
+  function verify(pagesData){
+    let want = 0, got = 0;
+    pagesData.forEach(pg=>{ want += Array.from(pg.rawChars).length; got += pg.paras.reduce((n, p)=> n + p.chars.reduce((m, c)=> m + (/\S/.test(c.c) ? Array.from(c.c).filter(x=> /\S/.test(x)).length : 0), 0), 0); });
+    return { want, got, ok: want === got };
+  }
+  return { glyphStream, pageLines, paragraphs, docXml, imageDocXml, docRels, CT, RELS, verify, reorder, levels, baseDir };
+})();
+
+
+async function ptWordBoldMap(page, tc){
+  const out = {};
+  await Promise.all(Object.keys(tc.styles || {}).map(f=> new Promise(res=>{
+    const t = setTimeout(res, 1500);
+    try{ page.commonObjs.get(f, o=>{ clearTimeout(t); try{ out[f] = /bold|black|heavy|demi/i.test((o && o.name) || '') || !!(o && (o.bold || o.black)); }catch(e){} res(); }); }catch(e){ clearTimeout(t); res(); }
+  })));
+  return out;
+}
+(function ptWordInit(){
+  const btn = document.getElementById('pdf2word-btn'), mode = document.getElementById('pdf2word-mode');
+  async function toDocx(file, imageMode){
+    const d = await pdfjsLib.getDocument({ data:new Uint8Array(await file.arrayBuffer()) }).promise, pages = [], jpgs = [];
+    for(let i = 1; i <= d.numPages; i++){
+      const page = await d.getPage(i), view = page.view, pw = view[2] - view[0], ph = view[3] - view[1];
+      if(imageMode){
+        const vp = page.getViewport({ scale:Math.min(2.2, 2200 / Math.max(pw, ph)) }), c = document.createElement('canvas'); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+        const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); await page.render({ canvasContext:x, viewport:vp }).promise;
+        jpgs.push(await (await psCanvasBlob(c, 'image/jpeg', 0.92)).arrayBuffer()); pages.push({ w:vp.width * pw / vp.width, h:ph });
+        c.width = c.height = 0; continue;
+      }
+      if((page.rotate || 0) % 360 !== 0) throw ptFail('p2wRotated');
+      const ol = await page.getOperatorList(), tc = await page.getTextContent(), bold = await ptWordBoldMap(page, tc);
+      const items = tc.items.map(it=> it.transform ? Object.assign({}, it, { transform:[it.transform[0], it.transform[1], it.transform[2], it.transform[3], it.transform[4] - view[0], it.transform[5] - view[1]] }) : it);
+      const r = P2W.pageLines(items, bold, P2W.glyphStream(ol, pdfjsLib.OPS)), pp = P2W.paragraphs(r.lines, pw);
+      pages.push({ w:pw, h:ph, paras:pp.paras, minX0:pp.minX0, maxX1:pp.maxX1, rawChars:r.rawChars });
+    }
+    const zip = new JSZip();
+    zip.file('[Content_Types].xml', P2W.CT); zip.file('_rels/.rels', P2W.RELS);
+    let check = null;
+    if(imageMode){ zip.file('word/document.xml', P2W.imageDocXml(pages)); zip.file('word/_rels/document.xml.rels', P2W.docRels(pages.length)); jpgs.forEach((b, i)=> zip.file('word/media/p' + (i + 1) + '.jpeg', b)); }
+    else{
+      if(!pages.some(pg=> pg.paras.length)) throw ptFail('p2tNone');
+      zip.file('word/document.xml', P2W.docXml(pages)); check = P2W.verify(pages);
+    }
+    return { blob: await zip.generateAsync({ type:'blob', mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document', compression:'DEFLATE' }), check };
+  }
+  btn.addEventListener('click', async ()=>{
+    const f = document.getElementById('pdf2word-file').files[0], st = 'pdf2word-status';
+    if(!f){ setStatus(st, ptT('ptNoFile'), 'err'); return; }
+    let res = null;
+    await ptRun('pdf2word', btn, 'p2wBtn', async ()=>{
+      res = await toDocx(f, mode.value === 'image');
+      downloadBlob(res.blob, ptBaseName(f) + '.docx');
+    });
+    if(res && res.check) setStatus(st, ptT(res.check.ok ? 'p2wVerified' : 'p2wMismatch').replace('{n}', res.check.got).replace('{m}', res.check.want), res.check.ok ? 'ok' : 'err');
+  });
 })();
 
 /* ---------- compare two PDFs (line diff) ---------- */
