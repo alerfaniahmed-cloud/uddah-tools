@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Reem+Kufi:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Aref+Ruqaa+Ink&family=Rakkas&family=Lalezar&family=Jomhuria&family=Katibeh&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@600&family=Allura&family=Sacramento&family=Caveat:wght@600&family=Satisfy&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Yellowtail&family=Mr+Dafoe&family=Mrs+Saint+Delafield&family=Herr+Von+Muellerhoff&family=Kaushan+Script&family=Marck+Script&family=Homemade+Apple&family=Zeyada&family=Parisienne&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Lateef&family=Mirza&family=Vibes&family=Marhey&family=Harmattan&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&family=Almarai:wght@400;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -427,6 +428,30 @@
   .pdf-tile .nm{font-weight:600;font-size:.9rem;}
   .pdf-tile:hover,.pdf-tile:focus-visible{border-color:var(--brass);transform:translateY(-1px);box-shadow:0 3px 10px rgba(43,42,40,.12);}
   .pdf-tile:active{transform:scale(.98);}
+  /* image tools */
+  #img-home-grid .pdf-cat{margin:16px 0 8px;font-weight:700;color:var(--brass-light);font-size:.95rem;}
+  #img-home-grid .pdf-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px;}
+  #img-home-grid .pdf-tile{min-height:132px;}
+  .pdf-tile .ds{font-size:.76rem;color:var(--bone-dim);font-weight:400;line-height:1.45;}
+  .img-card h3{font-size:.95rem;margin:14px 0 6px;color:var(--brass-light);}
+  .img-chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .img-chip{padding:7px 14px;border:1px solid var(--steel);border-radius:999px;background:transparent;color:var(--bone);font-family:var(--font-display);font-size:.84rem;cursor:pointer;}
+  .img-chip:hover{border-color:var(--brass);}
+  .img-chip.active{background:var(--brass);border-color:var(--brass);color:#fff;font-weight:700;}
+  .img-stage{display:flex;justify-content:center;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:10px;padding:8px;margin:8px 0;overflow:hidden;}
+  .img-stage canvas{max-width:100%;height:auto;touch-action:none;}
+  .img-stage.checker{background:repeating-conic-gradient(#d9d9d9 0 25%,#fff 0 50%) 0 0/16px 16px;}
+  .img-prev{max-width:100%;height:auto;display:block;margin:0 auto 12px;border-radius:8px;border:1px solid var(--border);}
+  .img-results{display:grid;gap:10px;margin-top:12px;}
+  .img-res-item{display:flex;gap:12px;align-items:center;border:1px solid var(--border);border-radius:10px;padding:8px;background:var(--bg-elev-2);}
+  .img-res-item img{width:84px;height:84px;object-fit:contain;background:#fff;border-radius:6px;flex:0 0 84px;}
+  .img-res-item .meta{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1;font-size:.82rem;color:var(--bone-dim);}
+  .img-res-item .meta b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--bone);}
+  .img-res-item .btn{width:auto;align-self:flex-start;padding:6px 14px;font-size:.8rem;}
+  .img-btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;}
+  .img-btnrow .btn{width:auto;flex:1 1 auto;}
+  .img-export{margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);}
+  .img-chk{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:.88rem;}
   /* page organizer */
   .pt-bar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;}
   .pt-bar .btn{width:auto;flex:1 1 auto;margin:0;padding:8px 12px;font-size:.85rem;min-height:40px;}
@@ -525,6 +550,7 @@
     <button data-tab="school" data-i18n="tabSchool">للمدارس</button>
     <button data-tab="sectors" data-i18n="tabSectors">حاسبات متنوعة</button>
     <button data-tab="pdf" data-i18n="tabPdf">أدوات PDF</button>
+    <button data-tab="images" data-i18n="imgxTab">أدوات الصور</button>
   </nav>
 
   <!-- ===================== TAB 1: DATE CONVERTER ===================== -->
@@ -2971,6 +2997,18 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- ===================== TAB: IMAGE TOOLS ===================== -->
+  <section class="panel" id="panel-images">
+    <div class="card" id="img-home">
+      <h2 data-i18n="imgxTitle">أدوات الصور</h2>
+      <p class="hint" data-i18n="imgxHint"></p>
+      <input type="search" id="img-home-search" data-i18n-ph="imgxSearch" placeholder="ابحث عن أداة…" style="width:100%;margin-bottom:12px;">
+      <div id="img-home-grid"></div>
+    </div>
+    <button type="button" class="btn secondary" id="img-back" style="display:none;margin:0 0 10px;" data-i18n="imgxBack">→ كل أدوات الصور</button>
+    <div id="img-cards"></div>
   </section>
 
   <!-- ===================== TAB 3: PDF TOOLS ===================== -->
@@ -17029,6 +17067,666 @@ const CV_TPLS = [
     }catch(e){ console.error(e); st(L('fail'), 'err'); }
   });
   window.txsvRender = render; render();
+})();
+
+/* ============================================================
+   IMAGE TOOLS — iLoveIMG-style hub (everything runs in the browser, nothing is uploaded)
+   compress, resize, upscale, crop (+ ID/passport photo sizes, A4 sheet), convert, EXIF cleaner,
+   photo editor, rotate/flip, watermark, meme, blur/censor, background remover
+   ============================================================ */
+(function uddahImages(){
+  const T = {
+    imgxTab:['أدوات الصور','Image Tools'], imgxTitle:['أدوات الصور','Image tools'],
+    imgxHint:['كل الأدوات تعمل داخل جهازك — صورك ما تُرفع لأي سيرفر.','Everything runs on your device — your images are never uploaded.'],
+    imgxSearch:['ابحث عن أداة… (مثال: قص، خلفية، علامة مائية)','Search a tool… (e.g. crop, background, watermark)'],
+    imgxNone:['ما لقينا أداة بهذا الاسم.','No tool matches.'], imgxBack:['→ كل أدوات الصور','← All image tools'],
+    imgxCatOpt:['تحسين وتحجيم','Optimize & resize'], imgxCatConv:['تحويل','Convert'], imgxCatEdit:['تعديل','Edit'], imgxCatId:['خلفية وصور المعاملات','Background & ID photos'], imgxCatMore:['أدوات أخرى للصور','More image tools'],
+    imgxN_compress:['ضغط الصور','Compress images'], imgxD_compress:['قلّل حجم صورك (JPG وPNG وWEBP) مع الحفاظ على الجودة، وبدفعة واحدة.','Shrink JPG, PNG and WEBP files while keeping quality — in batches.'],
+    imgxN_resize:['تغيير حجم الصور','Resize images'], imgxD_resize:['بالبكسل أو النسبة أو مقاسات جاهزة (إنستغرام، ستوري، يوتيوب…).','By pixels, percentage or ready sizes (Instagram, Story, YouTube…).'],
+    imgxN_upscale:['تكبير الصورة','Upscale image'], imgxD_upscale:['كبّر الصورة 2× أو 3× أو 4× مع تحسين الحدة.','Enlarge 2×, 3× or 4× with sharpening.'],
+    imgxN_crop:['قص الصورة','Crop image'], imgxD_crop:['قص حر أو بنسب جاهزة، ومقاسات الصور الشخصية مع طباعتها على A4.','Free or preset ratios, ID photo sizes and A4 print sheets.'],
+    imgxN_tojpg:['التحويل إلى JPG','Convert to JPG'], imgxD_tojpg:['حوّل PNG وWEBP وGIF وSVG وBMP إلى JPG.','Turn PNG, WEBP, GIF, SVG and BMP into JPG.'],
+    imgxN_fromjpg:['التحويل من JPG','Convert from JPG'], imgxD_fromjpg:['حوّل JPG إلى PNG أو WEBP.','Turn JPG into PNG or WEBP.'],
+    imgxN_exif:['حذف بيانات الصورة','Remove photo metadata'], imgxD_exif:['احذف الموقع ومعلومات الكاميرا قبل مشاركة الصورة.','Strip location and camera info before sharing.'],
+    imgxN_editor:['تحرير الصور','Photo editor'], imgxD_editor:['إضاءة وتباين وفلاتر وتدوير ونص وإطار.','Brightness, contrast, filters, rotate, text and frame.'],
+    imgxN_rotate:['تدوير وقلب الصور','Rotate & flip'], imgxD_rotate:['دوّر مجموعة صور دفعة واحدة أو اقلبها.','Rotate or flip many images at once.'],
+    imgxN_watermark:['علامة مائية على الصور','Watermark images'], imgxD_watermark:['ضع نصاً أو شعاراً على صورك، مفرداً أو مكرراً.','Add text or a logo — single or tiled.'],
+    imgxN_meme:['مصمم الميم','Meme maker'], imgxD_meme:['اكتب نصاً فوق الصورة وتحتها بالطريقة المعروفة.','Classic top and bottom caption text.'],
+    imgxN_blur:['طمس أجزاء من الصورة','Blur / censor'], imgxD_blur:['أخفِ وجهاً أو رقماً أو لوحة بالطمس أو التبكسل أو الحجب.','Hide faces, numbers or plates with blur, pixelate or block.'],
+    imgxN_removebg:['إزالة الخلفية','Remove background'], imgxD_removebg:['امسح الخلفية الموحدة (مثل صور الهوية) أو استبدلها بلون.','Remove a plain background (like ID photos) or swap its colour.'],
+    imgxN_passport:['صورة شخصية للمعاملات','ID / passport photo'], imgxD_passport:['مقاسات الجواز والهوية والفيزا، وطباعة نسخ متعددة على A4.','Passport, ID and visa sizes with multi-copy A4 sheets.'],
+    imgxN_resizecm:['تغيير الحجم بالسنتيمتر / DPI','Resize in cm / DPI'], imgxD_resizecm:['لو تبي مقاس ورقي بالسنتيمتر والدقة.','For paper sizes in centimetres and DPI.'],
+    imgxD_bulkcrop:['قص عدة صور دفعة واحدة بنفس الإعدادات.','Crop many images with the same settings.'], imgxD_img2stamp:['حوّل صورة ختم أو توقيع إلى ختم شفاف.','Turn a stamp or signature photo into a transparent stamp.'],
+    imgxD_svgconv:['حوّل SVG إلى صورة أو PDF.','Convert SVG to an image or PDF.'], imgxD_sheet:['رتّب صور وكروت على ورقة A4 للطباعة.','Lay out photos and cards on A4 for printing.'],
+    // shared UI
+    imgxPick:['اختر صورة أو أكثر','Choose one or more images'], imgxPickOne:['اختر صورة','Choose an image'],
+    imgxNoFile:['اختر صورة أولاً.','Choose an image first.'], imgxBusy:['جارٍ المعالجة…','Processing…'], imgxDone:['تمت المعالجة.','Done.'], imgxDoneN:['تمت معالجة','Processed'], imgxFail:['تعذّر فتح هذا الملف','Could not open this file'],
+    imgxDl:['تنزيل','Download'], imgxZip:['تنزيل الكل (ZIP)','Download all (ZIP)'], imgxFormat:['الصيغة','Format'], imgxQuality:['الجودة','Quality'],
+    imgxKept:['الأصلي أصغر — أبقيناه كما هو','Original was smaller — kept as is'], imgxSaved:['وفّرت','saved'], imgxBigger:['أكبر','larger'],
+    imgxTooBig:['الناتج كبير جداً لجهازك — اختر نسبة أقل.','Result is too large for your device — pick a smaller scale.'],
+    // compress
+    imgxQLabel:['جودة الضغط','Compression quality'], imgxMaxSide:['أقصى بُعد للصورة','Max image side'], imgxOrig:['الأصلي','Original'], imgxKeepFmt:['نفس الصيغة','Same format'],
+    imgxBtnCompress:['اضغط الصور','Compress'], imgxPngNote:['ملاحظة: PNG لا يُضغط بالجودة — صغّر البُعد الأقصى أو حوّله إلى WEBP/JPG لتوفير أكثر.','Note: PNG is lossless — lower the max side or convert to WEBP/JPG to save more.'],
+    // resize
+    imgxMode:['طريقة التغيير','Resize by'], imgxMPct:['بالنسبة المئوية','Percentage'], imgxMPx:['بالبكسل','Pixels'], imgxMSide:['أطول ضلع','Longest side'], imgxMPreset:['مقاس جاهز','Preset size'],
+    imgxPct:['النسبة ٪','Percent %'], imgxW:['العرض (px)','Width (px)'], imgxH:['الارتفاع (px)','Height (px)'], imgxLock:['قفل نسبة الأبعاد','Lock aspect ratio'], imgxSide:['أطول ضلع (px)','Longest side (px)'],
+    imgxPreset:['المقاس','Size'], imgxFit:['طريقة الملاءمة','Fit'], imgxFitCover:['ملء المقاس (قص الزائد)','Fill (crop excess)'], imgxFitContain:['احتواء كامل (حواف ملونة)','Contain (padding)'], imgxFitStretch:['تمديد','Stretch'], imgxBg:['لون الخلفية','Background colour'],
+    imgxP_ig:['إنستغرام مربع 1080×1080','Instagram square 1080×1080'], imgxP_igp:['إنستغرام عمودي 1080×1350','Instagram portrait 1080×1350'], imgxP_story:['ستوري / ريلز 1080×1920','Story / Reels 1080×1920'], imgxP_fb:['غلاف فيسبوك 820×312','Facebook cover 820×312'],
+    imgxP_x:['غلاف X 1500×500','X header 1500×500'], imgxP_wa:['واتساب / حساب 500×500','WhatsApp / avatar 500×500'], imgxP_yt:['يوتيوب 1280×720','YouTube thumbnail 1280×720'], imgxP_a4:['A4 بدقة 300 (2480×3508)','A4 at 300 dpi (2480×3508)'],
+    imgxBtnResize:['غيّر الحجم','Resize'],
+    // upscale
+    imgxScale:['نسبة التكبير','Scale'], imgxSharp:['تحسين الحدة','Sharpening'], imgxBtnUp:['كبّر الصور','Upscale'], imgxUpNote:['التكبير هنا بالخوارزميات (ليس بالذكاء الاصطناعي): يزيد الأبعاد ويحسّن الحدة، لكنه لا يخترع تفاصيل جديدة.','Upscaling uses classic algorithms (not AI): it adds pixels and sharpens, but cannot invent new detail.'],
+    // convert
+    imgxTarget:['التحويل إلى','Convert to'], imgxBtnConv:['حوّل الصور','Convert'], imgxBgT:['لون الخلفية للشفاف (JPG)','Fill for transparency (JPG)'], imgxHeic:['صور HEIC من الآيفون: ارفعها كـ JPG (إعداد «الأكثر توافقاً» في الكاميرا) إذا ما انفتحت.','iPhone HEIC photos: upload them as JPG if they fail to open.'],
+    imgxBtnExif:['احذف البيانات','Remove metadata'], imgxExifNote:['تُعاد كتابة الصورة من البكسلات فتختفي بيانات الموقع (GPS) والكاميرا والتاريخ.','Images are re-encoded from pixels, so GPS, camera and date data are dropped.'],
+    // rotate
+    imgxRot:['التدوير','Rotation'], imgxFlipH:['قلب أفقي','Flip horizontal'], imgxFlipV:['قلب عمودي','Flip vertical'], imgxBtnRot:['طبّق','Apply'],
+    // watermark
+    imgxWType:['نوع العلامة','Type'], imgxWText:['نص','Text'], imgxWLogo:['شعار (صورة)','Logo (image)'], imgxWTxtLbl:['نص العلامة','Watermark text'], imgxWTxtPh:['مثال: مؤسسة عُدّة','e.g. Uddah Office'], imgxWFont:['الخط','Font'],
+    imgxWSize:['الحجم ٪ من العرض','Size % of width'], imgxWOp:['الشفافية','Opacity'], imgxWRot:['الميل','Rotation'], imgxWColor:['اللون','Colour'], imgxWPos:['الموضع','Position'],
+    imgxPosC:['الوسط','Centre'], imgxPosTL:['أعلى اليسار','Top left'], imgxPosTR:['أعلى اليمين','Top right'], imgxPosBL:['أسفل اليسار','Bottom left'], imgxPosBR:['أسفل اليمين','Bottom right'], imgxPosTile:['مكرّر على كامل الصورة','Tiled'],
+    imgxWLogoPick:['اختر صورة الشعار','Choose logo image'], imgxBtnWm:['ضع العلامة','Apply watermark'], imgxPreview:['معاينة','Preview'],
+    // crop / passport
+    imgxRatio:['نسبة القص','Aspect ratio'], imgxFree:['حر','Free'], imgxIdSizes:['مقاسات الصور الشخصية','ID photo sizes'], imgxIdNone:['— بدون —','— none —'],
+    imgxS46:['4×6 سم (جواز / هوية)','4×6 cm (passport / ID)'], imgxS34:['3×4 سم','3×4 cm'], imgxS3545:['35×45 مم (فيزا / إقامة)','35×45 mm (visa / residence)'], imgxS22:['2×2 إنش (51×51 مم)','2×2 in (51×51 mm)'], imgxS57:['5×7 سم','5×7 cm'],
+    imgxCropSize:['حجم القص','Crop size'], imgxCropHint:['اسحب الإطار أو أطرافه لتحديد المنطقة.','Drag the frame or its edges to choose the area.'], imgxA4Title:['طباعة على ورقة A4','Print on A4'], imgxCopies:['عدد النسخ','Copies'], imgxMax:['أقصى عدد يناسب الورقة','As many as fit'], imgxA4Png:['ورقة A4 (PNG)','A4 sheet (PNG)'], imgxA4Pdf:['ورقة A4 (PDF)','A4 sheet (PDF)'],
+    imgxToCrop:['أرسلها لأداة القص (صورة شخصية)','Send to crop (ID photo)'],
+    // editor
+    imgxEdAdj:['التعديلات','Adjustments'], imgxBright:['الإضاءة','Brightness'], imgxContrast:['التباين','Contrast'], imgxSat:['التشبع','Saturation'], imgxWarm:['الدفء','Warmth'], imgxBlurAmt:['التمويه','Blur'], imgxGray:['أبيض وأسود','Black & white'], imgxSepia:['سيبيا','Sepia'],
+    imgxFilters:['فلاتر جاهزة','Filters'], imgxFOrig:['أصلي','Original'], imgxFBw:['أبيض وأسود','B&W'], imgxFSepia:['سيبيا','Sepia'], imgxFVivid:['حيوي','Vivid'], imgxFWarm:['دافئ','Warm'], imgxFCool:['بارد','Cool'], imgxFVintage:['كلاسيكي','Vintage'],
+    imgxTurnL:['↺ يسار','↺ Left'], imgxTurnR:['↻ يمين','↻ Right'], imgxFlipHb:['⇋ أفقي','⇋ Horizontal'], imgxFlipVb:['⇵ عمودي','⇵ Vertical'], imgxTextT:['نص على الصورة','Text on image'], imgxTextPh:['اكتب النص هنا','Type text here'], imgxTSize:['حجم النص','Text size'], imgxTX:['الموضع الأفقي','Horizontal position'], imgxTY:['الموضع العمودي','Vertical position'],
+    imgxBorder:['سماكة الإطار','Frame width'], imgxBorderC:['لون الإطار','Frame colour'], imgxReset:['إعادة ضبط','Reset'],
+    // meme
+    imgxMTop:['النص العلوي','Top text'], imgxMBot:['النص السفلي','Bottom text'], imgxMSize:['حجم الخط','Font size'], imgxMFill:['لون الخط','Fill'], imgxMStroke:['لون الحدود','Outline'],
+    // blur
+    imgxBEffect:['نوع الإخفاء','Effect'], imgxBBlur:['طمس','Blur'], imgxBPix:['تبكسل','Pixelate'], imgxBBlock:['حجب أسود','Black box'], imgxBShape:['الشكل','Shape'], imgxBRect:['مستطيل','Rectangle'], imgxBOval:['بيضاوي','Oval'], imgxBStr:['القوة','Strength'], imgxBUndo:['↩ تراجع','↩ Undo'], imgxBClear:['مسح الكل','Clear all'], imgxBHint:['اسحب فوق الصورة لتحديد الجزء المراد إخفاؤه (تقدر تحدد أكثر من جزء).','Drag over the image to mark what to hide (several areas allowed).'],
+    // removebg
+    imgxRbHint:['تعمل بأفضل شكل مع الخلفيات الموحدة (صور الهوية والمنتجات). للخلفيات المعقدة تحتاج ذكاء اصطناعي خارجي.','Works best on plain backgrounds (ID and product photos). Busy backgrounds need AI tools.'],
+    imgxRbTol:['درجة التسامح','Tolerance'], imgxRbMode:['نطاق الإزالة','Scope'], imgxRbEdge:['من الحواف فقط','From the edges only'], imgxRbAll:['كل الصورة (اللون نفسه)','Whole image (same colour)'], imgxRbShrink:['تنظيف الحواف','Edge clean-up'], imgxRbFeather:['نعومة الحواف','Edge softness'],
+    imgxRbPick:['🎯 التقط لون الخلفية','🎯 Pick background colour'], imgxRbPicking:['اضغط على الخلفية في الصورة…','Tap the background in the image…'], imgxRbAuto:['تلقائي','Auto'], imgxRbRepl:['استبدال الخلفية','Replace background'], imgxRbTransp:['شفافة','Transparent'], imgxRbWhite:['أبيض','White'], imgxRbBlue:['أزرق','Blue'], imgxRbGray:['رمادي فاتح','Light grey'], imgxRbRed:['أحمر','Red'], imgxRbCustom:['لون مخصص','Custom'],
+  };
+  Object.keys(T).forEach(k=>{ I18N.ar[k] = T[k][0]; I18N.en[k] = T[k][1]; });
+  const t = k=> (I18N[currentLang] && I18N[currentLang][k]) || k;
+  const $ = id=> document.getElementById(id);
+  const fmtB = n=> n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(1) + ' KB' : (n / 1048576).toFixed(2) + ' MB';
+  const baseN = name=> (name || 'image').replace(/\.[^.]+$/, '').replace(/[\\/:*?"<>|]+/g, '_');
+  const EXT = { 'image/jpeg':'jpg', 'image/png':'png', 'image/webp':'webp', 'image/avif':'avif' };
+  const MAXPX = 80e6;
+  const cv = (w, h)=>{ const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w)); c.height = Math.max(1, Math.round(h)); return c; };
+  const toBlob = (c, type, q)=> new Promise((res, rej)=> c.toBlob(b=> b ? res(b) : rej(new Error('toBlob')), type, q));
+  async function loadImg(file){
+    let src;
+    try{ src = await createImageBitmap(file, { imageOrientation:'from-image' }); }
+    catch(e){
+      src = await new Promise((res, rej)=>{ const u = URL.createObjectURL(file), im = new Image(); im.onload = ()=>{ res(im); setTimeout(()=> URL.revokeObjectURL(u), 15000); }; im.onerror = ()=> rej(new Error('decode')); im.src = u; });
+    }
+    let w = src.naturalWidth || src.width, h = src.naturalHeight || src.height;
+    if(!w || !h){ w = 1024; h = 1024; }
+    if(w * h > MAXPX) throw new Error('huge');
+    return { src, w, h };
+  }
+  const toCanvas = im=>{ const c = cv(im.w, im.h); c.getContext('2d').drawImage(im.src, 0, 0, im.w, im.h); return c; };
+  function smoothResize(src, sw, sh, tw, th){
+    let cur = src, cw = sw, ch = sh;
+    while(cw / 2 >= tw && ch / 2 >= th){ const n = cv(cw / 2, ch / 2); n.getContext('2d').drawImage(cur, 0, 0, n.width, n.height); cur = n; cw = n.width; ch = n.height; }
+    const out = cv(tw, th), x = out.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(cur, 0, 0, cw, ch, 0, 0, out.width, out.height); return out;
+  }
+  function flatten(c, bg){ const o = cv(c.width, c.height), x = o.getContext('2d'); x.fillStyle = bg || '#ffffff'; x.fillRect(0, 0, o.width, o.height); x.drawImage(c, 0, 0); return o; }
+  const sameType = f=> (f.type === 'image/png' || f.type === 'image/webp') ? f.type : 'image/jpeg';
+  /* separable box blur on RGBA ImageData (3 passes ~ gaussian) */
+  function boxBlur(d, w, h, r, chans){
+    r = Math.round(r); if(r < 1) return;
+    const n = chans || 4, tmp = new Uint8ClampedArray(d.length);
+    const pass = (a, b, horiz)=>{
+      const len = horiz ? w : h, lines = horiz ? h : w, stepIn = horiz ? n : w * n, stepLine = horiz ? w * n : n;
+      for(let l = 0; l < lines; l++){
+        for(let c = 0; c < n; c++){
+          const base = l * stepLine + c; let sum = 0, cnt = 0;
+          for(let i = 0; i <= r && i < len; i++){ sum += a[base + i * stepIn]; cnt++; }
+          for(let i = 0; i < len; i++){
+            b[base + i * stepIn] = sum / cnt;
+            const add = i + r + 1, rem = i - r;
+            if(add < len){ sum += a[base + add * stepIn]; cnt++; }
+            if(rem >= 0){ sum -= a[base + rem * stepIn]; cnt--; }
+          }
+        }
+      }
+    };
+    for(let k = 0; k < 3; k++){ pass(d, tmp, true); pass(tmp, d, false); }
+  }
+  function unsharp(c, amount){
+    if(amount <= 0) return c;
+    const x = c.getContext('2d'), w = c.width, h = c.height, id = x.getImageData(0, 0, w, h), src = id.data, bl = new Uint8ClampedArray(src);
+    boxBlur(bl, w, h, Math.max(1, Math.round(Math.max(w, h) / 1400)), 4);
+    const k = amount / 100 * 1.6;
+    for(let i = 0; i < src.length; i += 4){ src[i] += (src[i] - bl[i]) * k; src[i + 1] += (src[i + 1] - bl[i + 1]) * k; src[i + 2] += (src[i + 2] - bl[i + 2]) * k; }
+    x.putImageData(id, 0, 0); return c;
+  }
+  const availW = el=> Math.max(240, (el.clientWidth || 600) - 40);
+
+  /* ---------- UI builders ---------- */
+  const cardsHtml = [], inits = [];
+  const card = (id, nameKey, hintKey, body)=> `<div class="card img-card" id="imgtool-${id}" style="display:none"><h2 data-i18n="${nameKey}"></h2><p class="hint" data-i18n="${hintKey}"></p>${body}</div>`;
+  const rng = (id, min, max, val, lbl, step)=> `<div class="field"><label for="${id}"><span data-i18n="${lbl}"></span>: <b id="${id}-v">${val}</b></label><input type="range" id="${id}" min="${min}" max="${max}" value="${val}" step="${step || 1}" style="width:100%"></div>`;
+  const sel = (id, lbl, opts, extra)=> `<div class="field"><label for="${id}" data-i18n="${lbl}"></label><select id="${id}" ${extra || ''}>${opts.map(o=> `<option value="${o[0]}" data-i18n="${o[1]}"></option>`).join('')}</select></div>`;
+  const clr = (id, lbl, val)=> `<div class="field"><label for="${id}" data-i18n="${lbl}"></label><input type="color" id="${id}" value="${val}" style="width:100%;height:42px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:4px;"></div>`;
+  const chk = (id, lbl, on)=> `<label class="img-chk"><input type="checkbox" id="${id}" ${on ? 'checked' : ''}> <span data-i18n="${lbl}"></span></label>`;
+  const num = (id, lbl, val, extra)=> `<div class="field"><label for="${id}" data-i18n="${lbl}"></label><input type="number" id="${id}" value="${val}" ${extra || ''}></div>`;
+  const fmtSel = (id, withSame)=> sel(id, 'imgxFormat', (withSame ? [['same', 'imgxKeepFmt']] : []).concat([['jpeg', 'imgxF_jpg'], ['png', 'imgxF_png'], ['webp', 'imgxF_webp']]));
+  I18N.ar.imgxF_jpg = 'JPG'; I18N.en.imgxF_jpg = 'JPG'; I18N.ar.imgxF_png = 'PNG'; I18N.en.imgxF_png = 'PNG'; I18N.ar.imgxF_webp = 'WEBP'; I18N.en.imgxF_webp = 'WEBP'; I18N.ar.imgxF_avif = 'AVIF'; I18N.en.imgxF_avif = 'AVIF';
+  const typeOf = (v, f)=> v === 'same' ? sameType(f) : 'image/' + v;
+
+  function batchCard(id, nameKey, hintKey, opts, btnKey){
+    cardsHtml.push(card(id, nameKey, hintKey, `
+      <div class="field"><input type="file" id="${id}-files" accept="image/*" multiple><div class="file-list" id="${id}-list"></div></div>
+      ${opts}
+      <button type="button" class="btn" id="${id}-go" data-i18n="${btnKey}"></button>
+      <div id="${id}-status" style="margin-top:8px"></div>
+      <div class="img-results" id="${id}-res"></div>
+      <button type="button" class="btn secondary" id="${id}-zip" style="display:none;margin-top:10px" data-i18n="imgxZip"></button>`));
+  }
+  function addResult(host, f, blob, name, note, r){
+    const url = URL.createObjectURL(blob), d = document.createElement('div'); d.className = 'img-res-item';
+    d.innerHTML = '<img alt=""><div class="meta"><b></b><span class="sz"></span><span class="nt"></span><button type="button" class="btn secondary"></button></div>';
+    d.querySelector('img').src = url; d.querySelector('b').textContent = name;
+    const pct = f.size ? Math.round((1 - blob.size / f.size) * 100) : 0;
+    d.querySelector('.sz').textContent = fmtB(f.size) + ' → ' + fmtB(blob.size) + (r && r.dim ? ' · ' + r.dim : '') + (pct > 0 && !note ? ' · ' + t('imgxSaved') + ' ' + pct + '%' : pct < 0 && !note ? ' · +' + (-pct) + '%' : '');
+    d.querySelector('.nt').textContent = note || '';
+    const b = d.querySelector('button'); b.textContent = t('imgxDl'); b.addEventListener('click', ()=> downloadBlob(blob, name));
+    host.appendChild(d);
+  }
+  function wireBatch(id, run){
+    const input = $(id + '-files'); setupFilePicker(id + '-files', id + '-list', true, false);
+    const btn = $(id + '-go'), res = $(id + '-res'), zipBtn = $(id + '-zip'); let outs = [];
+    btn.addEventListener('click', async ()=>{
+      const files = [...input.files]; if(!files.length){ setStatus(id + '-status', t('imgxNoFile'), 'err'); return; }
+      res.textContent = ''; zipBtn.style.display = 'none'; outs = []; let ok = 0, fail = 0; btn.disabled = true;
+      for(let i = 0; i < files.length; i++){
+        const f = files[i]; setStatus(id + '-status', t('imgxBusy') + ' ' + (i + 1) + '/' + files.length, 'ok');
+        try{
+          const im = await loadImg(f), r = await run(im, f);
+          let blob, note = '';
+          if(r.blob) blob = r.blob; else { let c = r.canvas; if(r.type === 'image/jpeg') c = flatten(c, r.bg); blob = await toBlob(c, r.type, r.q); }
+          if(r.keepIfLarger && blob.size >= f.size){ blob = f; note = t('imgxKept'); }
+          const ext = note ? ((f.name.split('.').pop() || 'png').toLowerCase()) : (EXT[blob.type] || 'png');
+          const name = baseN(f.name) + (note ? '' : (r.suffix || '')) + '.' + ext;
+          outs.push({ name, blob }); addResult(res, f, blob, name, note, r); ok++;
+        }catch(e){
+          fail++; const d = document.createElement('div'); d.className = 'img-res-item'; d.innerHTML = '<div class="meta"><b></b><span class="nt" style="color:var(--rust)"></span></div>';
+          d.querySelector('b').textContent = f.name; d.querySelector('.nt').textContent = e && e.message === 'huge' ? t('imgxTooBig') : (e && e.userMsg) || t('imgxFail'); res.appendChild(d);
+        }
+      }
+      btn.disabled = false;
+      setStatus(id + '-status', t('imgxDoneN') + ' ' + ok + (fail ? ' · ⚠ ' + fail : ''), fail && !ok ? 'err' : 'ok');
+      if(outs.length > 1) zipBtn.style.display = '';
+    });
+    zipBtn.addEventListener('click', async ()=>{
+      const zip = new JSZip(), seen = {};
+      outs.forEach(o=>{ let n = o.name; if(seen[n]){ const p = n.lastIndexOf('.'); n = n.slice(0, p) + '-' + seen[n] + n.slice(p); } seen[o.name] = (seen[o.name] || 0) + 1; zip.file(n, o.blob); });
+      downloadBlob(await zip.generateAsync({ type:'blob' }), 'uddah-images.zip');
+    });
+  }
+  const fonts = ["'Cairo'", "'Tajawal'", "'Lalezar'", "'Aref Ruqaa'", "'Montserrat'", "'Roboto'", "'Great Vibes'", "'Dancing Script'"];
+  const loadFont = async (f, txt)=>{ try{ await document.fonts.load('700 48px ' + f, txt || 'Aa'); }catch(e){} };
+
+  /* ---------- compress ---------- */
+  batchCard('compress', 'imgxN_compress', 'imgxD_compress',
+    rng('compress-q', 30, 95, 75, 'imgxQLabel') + sel('compress-max', 'imgxMaxSide', [['0', 'imgxOrig'], ['4000', 'imgxMx4000'], ['2560', 'imgxMx2560'], ['1920', 'imgxMx1920'], ['1280', 'imgxMx1280'], ['1024', 'imgxMx1024']]) + fmtSel('compress-fmt', true) + '<p class="note" data-i18n="imgxPngNote"></p>', 'imgxBtnCompress');
+  ['4000', '2560', '1920', '1280', '1024'].forEach(n=>{ I18N.ar['imgxMx' + n] = n + ' px'; I18N.en['imgxMx' + n] = n + ' px'; });
+  inits.push(()=> wireBatch('compress', async (im, f)=>{
+    const type = typeOf($('compress-fmt').value, f), mx = +$('compress-max').value; let tw = im.w, th = im.h;
+    if(mx && Math.max(tw, th) > mx){ const k = mx / Math.max(tw, th); tw = Math.round(tw * k); th = Math.round(th * k); }
+    return { canvas: smoothResize(im.src, im.w, im.h, tw, th), type, q: (+$('compress-q').value) / 100, suffix: '-min', keepIfLarger: tw === im.w && th === im.h && $('compress-fmt').value === 'same', dim: tw + '×' + th };
+  }));
+
+  /* ---------- resize ---------- */
+  const PRESETS = { ig:[1080, 1080], igp:[1080, 1350], story:[1080, 1920], fb:[820, 312], x:[1500, 500], wa:[500, 500], yt:[1280, 720], a4:[2480, 3508] };
+  batchCard('resize', 'imgxN_resize', 'imgxD_resize',
+    sel('resize-mode', 'imgxMode', [['pct', 'imgxMPct'], ['px', 'imgxMPx'], ['side', 'imgxMSide'], ['preset', 'imgxMPreset']]) +
+    '<div data-rm="pct">' + rng('resize-pct', 5, 300, 50, 'imgxPct') + '</div>' +
+    '<div data-rm="px" class="row"><div class="field"><label for="resize-w" data-i18n="imgxW"></label><input type="number" id="resize-w" min="1" max="12000"></div><div class="field"><label for="resize-h" data-i18n="imgxH"></label><input type="number" id="resize-h" min="1" max="12000"></div></div>' +
+    '<div data-rm="px">' + chk('resize-lock', 'imgxLock', true) + '</div>' +
+    '<div data-rm="side">' + num('resize-side', 'imgxSide', 1600, 'min="16" max="12000"') + '</div>' +
+    '<div data-rm="preset">' + sel('resize-preset', 'imgxPreset', Object.keys(PRESETS).map(k=> [k, 'imgxP_' + (k === 'igp' ? 'igp' : k)])) + sel('resize-fit', 'imgxFit', [['cover', 'imgxFitCover'], ['contain', 'imgxFitContain'], ['stretch', 'imgxFitStretch']]) + clr('resize-bg', 'imgxBg', '#ffffff') + '</div>' +
+    fmtSel('resize-fmt', true) + rng('resize-q', 40, 100, 90, 'imgxQuality'), 'imgxBtnResize');
+  inits.push(()=>{
+    const upd = ()=>{ const m = $('resize-mode').value; document.querySelectorAll('#imgtool-resize [data-rm]').forEach(e=>{ e.style.display = e.dataset.rm === m ? '' : 'none'; }); };
+    $('resize-mode').addEventListener('change', upd); upd();
+    wireBatch('resize', async (im, f)=>{
+      const mode = $('resize-mode').value; let tw, th, fit = 'stretch';
+      if(mode === 'pct'){ const k = (+$('resize-pct').value || 100) / 100; tw = im.w * k; th = im.h * k; }
+      else if(mode === 'side'){ const k = (+$('resize-side').value || 1000) / Math.max(im.w, im.h); tw = im.w * k; th = im.h * k; }
+      else if(mode === 'px'){
+        const w = +$('resize-w').value, h = +$('resize-h').value;
+        if(!w && !h){ tw = im.w; th = im.h; }
+        else if($('resize-lock').checked){ if(w && h){ const k = Math.min(w / im.w, h / im.h); tw = im.w * k; th = im.h * k; } else if(w){ tw = w; th = im.h * w / im.w; } else { th = h; tw = im.w * h / im.h; } }
+        else { tw = w || im.w; th = h || im.h; }
+      }else{ const p = PRESETS[$('resize-preset').value]; tw = p[0]; th = p[1]; fit = $('resize-fit').value; }
+      tw = Math.max(1, Math.round(tw)); th = Math.max(1, Math.round(th)); if(tw * th > MAXPX) throw new Error('huge');
+      let c;
+      if(fit === 'cover'){ const k = Math.max(tw / im.w, th / im.h), iw = Math.max(tw, Math.round(im.w * k)), ih = Math.max(th, Math.round(im.h * k)), mid = smoothResize(im.src, im.w, im.h, iw, ih); c = cv(tw, th); c.getContext('2d').drawImage(mid, (tw - iw) / 2, (th - ih) / 2); }
+      else if(fit === 'contain'){ const k = Math.min(tw / im.w, th / im.h), iw = Math.max(1, Math.round(im.w * k)), ih = Math.max(1, Math.round(im.h * k)), mid = smoothResize(im.src, im.w, im.h, iw, ih); c = cv(tw, th); const x = c.getContext('2d'); x.fillStyle = $('resize-bg').value; x.fillRect(0, 0, tw, th); x.drawImage(mid, (tw - iw) / 2, (th - ih) / 2); }
+      else c = smoothResize(im.src, im.w, im.h, tw, th);
+      return { canvas: c, type: typeOf($('resize-fmt').value, f), q: (+$('resize-q').value) / 100, suffix: '-' + tw + 'x' + th, dim: tw + '×' + th };
+    });
+  });
+
+  /* ---------- upscale ---------- */
+  batchCard('upscale', 'imgxN_upscale', 'imgxD_upscale',
+    sel('upscale-k', 'imgxScale', [['2', 'imgxK2'], ['3', 'imgxK3'], ['4', 'imgxK4']]) + rng('upscale-sharp', 0, 100, 40, 'imgxSharp') + fmtSel('upscale-fmt', true) + '<p class="note" data-i18n="imgxUpNote"></p>', 'imgxBtnUp');
+  [2, 3, 4].forEach(n=>{ I18N.ar['imgxK' + n] = n + '×'; I18N.en['imgxK' + n] = n + '×'; });
+  inits.push(()=> wireBatch('upscale', async (im, f)=>{
+    const k = +$('upscale-k').value, tw = Math.round(im.w * k), th = Math.round(im.h * k);
+    if(tw * th > 60e6 || Math.max(tw, th) > 16000) throw new Error('huge');
+    let cur = im.src, cw = im.w, ch = im.h, rem = k;
+    while(rem > 1.0001){ const s = Math.min(2, rem), nw = Math.round(cw * s), nh = Math.round(ch * s), n = cv(nw, nh), x = n.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(cur, 0, 0, nw, nh); cur = n; cw = nw; ch = nh; rem /= s; }
+    const out = unsharp(cur, +$('upscale-sharp').value);
+    return { canvas: out, type: typeOf($('upscale-fmt').value, f), q: 0.92, suffix: '-x' + k, dim: out.width + '×' + out.height };
+  }));
+
+  /* ---------- convert (to JPG / from JPG) ---------- */
+  const avifOk = (()=>{ try{ return cv(1, 1).toDataURL('image/avif').indexOf('data:image/avif') === 0; }catch(e){ return false; } })();
+  batchCard('convert', 'imgxN_tojpg', 'imgxD_tojpg',
+    sel('convert-to', 'imgxTarget', [['jpeg', 'imgxF_jpg'], ['png', 'imgxF_png'], ['webp', 'imgxF_webp']].concat(avifOk ? [['avif', 'imgxF_avif']] : [])) + rng('convert-q', 40, 100, 92, 'imgxQuality') + clr('convert-bg', 'imgxBgT', '#ffffff') + '<p class="note" data-i18n="imgxHeic"></p>', 'imgxBtnConv');
+  inits.push(()=> wireBatch('convert', async (im, f)=>{
+    const to = $('convert-to').value;
+    return { canvas: toCanvas(im), type: 'image/' + to, q: (+$('convert-q').value) / 100, suffix: '', bg: $('convert-bg').value, dim: im.w + '×' + im.h };
+  }));
+
+  /* ---------- EXIF / metadata cleaner ---------- */
+  batchCard('exif', 'imgxN_exif', 'imgxD_exif', '<p class="note" data-i18n="imgxExifNote"></p>', 'imgxBtnExif');
+  inits.push(()=> wireBatch('exif', async (im, f)=> ({ canvas: toCanvas(im), type: sameType(f), q: 0.95, suffix: '-clean', dim: im.w + '×' + im.h })));
+
+  /* ---------- rotate / flip ---------- */
+  batchCard('rotate', 'imgxN_rotate', 'imgxD_rotate',
+    sel('rotate-a', 'imgxRot', [['90', 'imgxR90'], ['180', 'imgxR180'], ['270', 'imgxR270'], ['0', 'imgxR0']]) + chk('rotate-h', 'imgxFlipH', false) + chk('rotate-v', 'imgxFlipV', false), 'imgxBtnRot');
+  [['90', '↻ 90°'], ['180', '180°'], ['270', '↺ 90°'], ['0', '0°']].forEach(a=>{ I18N.ar['imgxR' + a[0]] = a[1]; I18N.en['imgxR' + a[0]] = a[1]; });
+  const rotateCanvas = (src, w, h, a, fh, fv)=>{
+    const sw = (a === 90 || a === 270), c = cv(sw ? h : w, sw ? w : h), x = c.getContext('2d');
+    x.translate(c.width / 2, c.height / 2); x.rotate(a * Math.PI / 180); x.scale(fh ? -1 : 1, fv ? -1 : 1); x.drawImage(src, -w / 2, -h / 2, w, h); return c;
+  };
+  inits.push(()=> wireBatch('rotate', async (im, f)=>{
+    const c = rotateCanvas(im.src, im.w, im.h, +$('rotate-a').value, $('rotate-h').checked, $('rotate-v').checked);
+    return { canvas: c, type: sameType(f), q: 0.95, suffix: '-rot', dim: c.width + '×' + c.height };
+  }));
+
+  /* ---------- watermark ---------- */
+  batchCard('watermark', 'imgxN_watermark', 'imgxD_watermark',
+    sel('wm-type', 'imgxWType', [['text', 'imgxWText'], ['logo', 'imgxWLogo']]) +
+    '<div data-wm="text"><div class="field"><label for="wm-text" data-i18n="imgxWTxtLbl"></label><input type="text" id="wm-text" data-i18n-ph="imgxWTxtPh" autocomplete="off"></div>' + sel('wm-font', 'imgxWFont', fonts.map((f, i)=> [String(i), 'imgxWF' + i])) + clr('wm-color', 'imgxWColor', '#ffffff') + '</div>' +
+    '<div data-wm="logo" style="display:none"><div class="field"><label for="wm-logo" data-i18n="imgxWLogoPick"></label><input type="file" id="wm-logo" accept="image/*"></div></div>' +
+    rng('wm-size', 3, 80, 22, 'imgxWSize') + rng('wm-op', 5, 100, 55, 'imgxWOp') + rng('wm-rot', -90, 90, -20, 'imgxWRot') +
+    sel('wm-pos', 'imgxWPos', [['c', 'imgxPosC'], ['tl', 'imgxPosTL'], ['tr', 'imgxPosTR'], ['bl', 'imgxPosBL'], ['br', 'imgxPosBR'], ['tile', 'imgxPosTile']]) +
+    '<div class="field"><label data-i18n="imgxPreview"></label><canvas id="wm-prev" style="max-width:100%;border:1px solid var(--border);border-radius:8px;background:repeating-conic-gradient(#ddd 0 25%,#fff 0 50%) 0 0/16px 16px;display:none"></canvas></div>', 'imgxBtnWm');
+  ['Cairo', 'Tajawal', 'Lalezar', 'Aref Ruqaa', 'Montserrat', 'Roboto', 'Great Vibes', 'Dancing Script'].forEach((n, i)=>{ I18N.ar['imgxWF' + i] = n; I18N.en['imgxWF' + i] = n; });
+  let wmLogo = null;
+  async function drawWm(ctx, W, H){
+    const type = $('wm-type').value, txt = $('wm-text').value || '', pct = (+$('wm-size').value) / 100, op = (+$('wm-op').value) / 100, rot = (+$('wm-rot').value) * Math.PI / 180, pos = $('wm-pos').value;
+    let iw, ih, paint;
+    if(type === 'text'){
+      if(!txt.trim()) return; const fam = fonts[+$('wm-font').value]; await loadFont(fam, txt);
+      let fs = W * pct; ctx.font = `700 ${fs}px ${fam}`; let m = ctx.measureText(txt); if(m.width > W * 0.95){ fs *= W * 0.95 / m.width; ctx.font = `700 ${fs}px ${fam}`; m = ctx.measureText(txt); }
+      iw = m.width; ih = fs * 1.2; paint = ()=>{ ctx.font = `700 ${fs}px ${fam}`; ctx.fillStyle = $('wm-color').value; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = fs * 0.06; ctx.fillText(txt, 0, 0); ctx.shadowBlur = 0; };
+    }else{
+      if(!wmLogo) return; iw = W * pct; ih = iw * wmLogo.h / wmLogo.w; paint = ()=> ctx.drawImage(wmLogo.src, -iw / 2, -ih / 2, iw, ih);
+    }
+    ctx.save(); ctx.globalAlpha = op;
+    const one = (cx, cy)=>{ ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot); paint(); ctx.restore(); };
+    if(pos === 'tile'){
+      const stepX = iw * 1.5, stepY = ih * 2.6, diag = Math.hypot(W, H); ctx.save(); ctx.translate(W / 2, H / 2); ctx.rotate(rot);
+      let row = 0; for(let y = -diag; y < diag; y += stepY, row++){ for(let x = -diag + (row % 2 ? stepX / 2 : 0); x < diag; x += stepX){ ctx.save(); ctx.translate(x, y); paint(); ctx.restore(); } } ctx.restore();
+    }else{
+      const m = W * 0.03, bw = Math.abs(iw * Math.cos(rot)) + Math.abs(ih * Math.sin(rot)), bh = Math.abs(iw * Math.sin(rot)) + Math.abs(ih * Math.cos(rot));
+      const cx = pos === 'c' ? W / 2 : pos.endsWith('l') ? m + bw / 2 : W - m - bw / 2, cy = pos === 'c' ? H / 2 : pos.startsWith('t') ? m + bh / 2 : H - m - bh / 2; one(cx, cy);
+    }
+    ctx.restore();
+  }
+  inits.push(()=>{
+    const upd = ()=>{ document.querySelectorAll('#imgtool-watermark [data-wm]').forEach(e=>{ e.style.display = e.dataset.wm === $('wm-type').value ? '' : 'none'; }); };
+    let prevFile = null, prevImg = null, tick = 0;
+    async function preview(){
+      const my = ++tick, f = $('watermark-files').files[0], pc = $('wm-prev');
+      if(!f){ pc.style.display = 'none'; return; }
+      try{
+        if(f !== prevFile){ prevImg = await loadImg(f); prevFile = f; }
+        const k = Math.min(1, 480 / prevImg.w), c = pc; c.width = Math.round(prevImg.w * k); c.height = Math.round(prevImg.h * k);
+        const x = c.getContext('2d'); x.clearRect(0, 0, c.width, c.height); x.drawImage(prevImg.src, 0, 0, c.width, c.height); await drawWm(x, c.width, c.height); if(my === tick) c.style.display = 'block';
+      }catch(e){ pc.style.display = 'none'; }
+    }
+    $('wm-type').addEventListener('change', ()=>{ upd(); preview(); }); upd();
+    ['wm-text', 'wm-font', 'wm-color', 'wm-size', 'wm-op', 'wm-rot', 'wm-pos'].forEach(i=> $(i).addEventListener('input', preview));
+    $('watermark-files').addEventListener('change', ()=> setTimeout(preview, 50));
+    $('wm-logo').addEventListener('change', async ()=>{ const f = $('wm-logo').files[0]; wmLogo = null; if(f){ try{ wmLogo = await loadImg(f); }catch(e){} } preview(); });
+    wireBatch('watermark', async (im, f)=>{ const c = toCanvas(im); await drawWm(c.getContext('2d'), c.width, c.height); return { canvas: c, type: sameType(f), q: 0.93, suffix: '-wm', dim: c.width + '×' + c.height }; });
+  });
+
+  /* ---------- single-image helpers ---------- */
+  const exportRow = (id, fmt)=> `<div class="img-export"><div class="row"><div class="field"><label for="${id}-fmt" data-i18n="imgxFormat"></label><select id="${id}-fmt"><option value="png" ${fmt === 'png' ? 'selected' : ''}>PNG</option><option value="jpeg" ${fmt === 'jpeg' ? 'selected' : ''}>JPG</option><option value="webp">WEBP</option></select></div>${rng(id + '-eq', 40, 100, 92, 'imgxQuality')}</div><button type="button" class="btn" id="${id}-dl" data-i18n="imgxDl"></button></div>`;
+  function singleCard(id, nameKey, hintKey, body){
+    cardsHtml.push(card(id, nameKey, hintKey, `<div class="field"><input type="file" id="${id}-file" accept="image/*"></div><div id="${id}-status"></div><div id="${id}-ui" style="display:none">${body}</div>`));
+  }
+  async function exportCanvas(id, canvas, name){
+    const fmt = $(id + '-fmt').value, type = 'image/' + fmt; let c = canvas; if(fmt === 'jpeg') c = flatten(c, '#ffffff');
+    const blob = await toBlob(c, type, (+$(id + '-eq').value) / 100); downloadBlob(blob, name + '.' + (EXT[blob.type] || fmt));
+  }
+  function onFile(id, cb){
+    $(id + '-file').addEventListener('change', async ()=>{
+      const f = $(id + '-file').files[0]; if(!f){ $(id + '-ui').style.display = 'none'; return; }
+      try{ setStatus(id + '-status', t('imgxBusy'), 'ok'); const im = await loadImg(f); $(id + '-status').textContent = ''; $(id + '-ui').style.display = ''; cb(im, f); }
+      catch(e){ $(id + '-ui').style.display = 'none'; setStatus(id + '-status', e && e.message === 'huge' ? t('imgxTooBig') : t('imgxFail'), 'err'); }
+    });
+  }
+  const raf = (fn)=>{ let p = 0; return ()=>{ if(p) return; p = requestAnimationFrame(()=>{ p = 0; fn(); }); }; };
+  function pointerPos(cvEl, e){ const r = cvEl.getBoundingClientRect(); return { x:(e.clientX - r.left) * cvEl.width / r.width, y:(e.clientY - r.top) * cvEl.height / r.height }; }
+
+  /* ---------- crop (+ ID photo sizes + A4 sheet) ---------- */
+  singleCard('crop', 'imgxN_crop', 'imgxD_crop',
+    '<div class="field"><label data-i18n="imgxRatio"></label><div class="img-chips" id="crop-ratios"></div></div>' +
+    sel('crop-id', 'imgxIdSizes', [['', 'imgxIdNone'], ['4x6', 'imgxS46'], ['3x4', 'imgxS34'], ['35x45', 'imgxS3545'], ['2x2', 'imgxS22'], ['5x7', 'imgxS57']]) +
+    '<p class="note" data-i18n="imgxCropHint"></p><div class="img-stage"><canvas id="crop-cv"></canvas></div><p class="note" id="crop-info"></p>' + exportRow('crop', 'jpeg') +
+    '<div id="crop-a4" class="img-export" style="display:none"><h3 data-i18n="imgxA4Title" style="margin:0 0 8px"></h3>' + sel('crop-copies', 'imgxCopies', [['max', 'imgxMax']]) + '<div class="img-btnrow"><button type="button" class="btn secondary" id="crop-a4png" data-i18n="imgxA4Png"></button><button type="button" class="btn secondary" id="crop-a4pdf" data-i18n="imgxA4Pdf"></button></div></div>');
+  const MM = { '4x6':[40, 60], '3x4':[30, 40], '35x45':[35, 45], '2x2':[50.8, 50.8], '5x7':[50, 70] };
+  const cr = { im:null, name:'image', full:null, k:1, W:0, H:0, rect:null, ratio:null, mm:null, drag:null };
+  inits.push(()=>{
+    const cvEl = $('crop-cv'), ctx = cvEl.getContext('2d'), info = $('crop-info');
+    const RAT = [[null, 'imgxFree'], [1, '1:1'], [4 / 3, '4:3'], [3 / 4, '3:4'], [16 / 9, '16:9'], [9 / 16, '9:16'], [3 / 2, '3:2']];
+    const chips = $('crop-ratios');
+    RAT.forEach(r=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'img-chip'; if(typeof r[1] === 'string' && r[1].indexOf('imgx') === 0) b.setAttribute('data-i18n', r[1]); else b.textContent = r[1]; b.dataset.r = r[0] == null ? '' : String(r[0]); chips.appendChild(b); });
+    const mark = ()=>{ chips.querySelectorAll('.img-chip').forEach(b=> b.classList.toggle('active', !cr.mm && (b.dataset.r === '' ? cr.ratio == null : cr.ratio != null && Math.abs(+b.dataset.r - cr.ratio) < 1e-6))); };
+    function refit(){
+      const W = cr.W, H = cr.H; let w, h;
+      if(cr.ratio){ if(W / H > cr.ratio){ h = H * 0.92; w = h * cr.ratio; } else { w = W * 0.92; h = w / cr.ratio; } } else { w = W * 0.9; h = H * 0.9; }
+      cr.rect = { x:(W - w) / 2, y:(H - h) / 2, w, h };
+    }
+    function setRatio(r, mm){ cr.ratio = r; cr.mm = mm || null; if(!mm) $('crop-id').value = ''; if(cr.im) refit(); mark(); draw(); }
+    chips.addEventListener('click', e=>{ const b = e.target.closest('.img-chip'); if(b) setRatio(b.dataset.r === '' ? null : +b.dataset.r, null); });
+    $('crop-id').addEventListener('change', ()=>{ const v = $('crop-id').value; if(!v) { setRatio(null, null); return; } const m = MM[v]; setRatio(m[0] / m[1], m); });
+    function load(im, name){
+      cr.im = im; cr.name = baseN(name || 'image'); cr.full = toCanvas(im);
+      const W = Math.min(560, availW($('imgtool-crop')), im.w); cr.k = W / im.w; cr.W = Math.round(im.w * cr.k); cr.H = Math.round(im.h * cr.k);
+      cvEl.width = cr.W; cvEl.height = cr.H; $('crop-ui').style.display = ''; refit(); draw();
+    }
+    window.uddahImgCrop = { load: async (blob, name, presetId)=>{ const im = await loadImg(blob); $('crop-ui').style.display = ''; load(im, name); if(presetId){ $('crop-id').value = presetId; $('crop-id').dispatchEvent(new Event('change')); } } };
+    $('crop-file').addEventListener('change', async ()=>{
+      const f = $('crop-file').files[0]; if(!f) return;
+      try{ $('crop-status').textContent = ''; const im = await loadImg(f); $('crop-ui').style.display = ''; load(im, f.name); }
+      catch(e){ setStatus('crop-status', t('imgxFail'), 'err'); }
+    });
+    function outSize(){ const r = cr.rect; if(cr.mm) return [Math.round(cr.mm[0] / 25.4 * 300), Math.round(cr.mm[1] / 25.4 * 300)]; return [Math.max(1, Math.round(r.w / cr.k)), Math.max(1, Math.round(r.h / cr.k))]; }
+    function updateInfo(){
+      const s = outSize(); info.textContent = t('imgxCropSize') + ': \u2066' + s[0] + '×' + s[1] + ' px' + (cr.mm ? ' · ' + (Math.round(cr.mm[0] * 10) / 10) + '×' + (Math.round(cr.mm[1] * 10) / 10) + ' mm @300dpi' : '') + '\u2069';
+      $('crop-a4').style.display = cr.mm ? '' : 'none';
+      if(cr.mm){ const m = a4Layout(); const cs = $('crop-copies'), cur = cs.value; cs.textContent = ''; const o0 = document.createElement('option'); o0.value = 'max'; o0.textContent = t('imgxMax') + ' (' + m.cols * m.rows + ')'; cs.appendChild(o0); [1, 2, 4, 6, 8, 9, 12, 16].filter(n=> n <= m.cols * m.rows).forEach(n=>{ const o = document.createElement('option'); o.value = n; o.textContent = n; cs.appendChild(o); }); cs.value = [...cs.options].some(o=> o.value === cur) ? cur : 'max'; }
+    }
+    function draw(){
+      if(!cr.im) return; const W = cr.W, H = cr.H, r = cr.rect; ctx.clearRect(0, 0, W, H); ctx.drawImage(cr.full, 0, 0, W, H);
+      ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fillRect(0, 0, W, r.y); ctx.fillRect(0, r.y + r.h, W, H - r.y - r.h); ctx.fillRect(0, r.y, r.x, r.h); ctx.fillRect(r.x + r.w, r.y, W - r.x - r.w, r.h);
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.strokeRect(r.x, r.y, r.w, r.h);
+      ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 1; ctx.beginPath(); for(let i = 1; i < 3; i++){ ctx.moveTo(r.x + r.w * i / 3, r.y); ctx.lineTo(r.x + r.w * i / 3, r.y + r.h); ctx.moveTo(r.x, r.y + r.h * i / 3); ctx.lineTo(r.x + r.w, r.y + r.h * i / 3); } ctx.stroke();
+      const hs = 9; ctx.fillStyle = '#fff'; ctx.strokeStyle = '#333'; handles().forEach(h=>{ ctx.fillRect(h.x - hs / 2, h.y - hs / 2, hs, hs); ctx.strokeRect(h.x - hs / 2, h.y - hs / 2, hs, hs); });
+      updateInfo();
+    }
+    function handles(){ const r = cr.rect, l = [{ n:'nw', x:r.x, y:r.y }, { n:'ne', x:r.x + r.w, y:r.y }, { n:'sw', x:r.x, y:r.y + r.h }, { n:'se', x:r.x + r.w, y:r.y + r.h }]; if(!cr.ratio) l.push({ n:'n', x:r.x + r.w / 2, y:r.y }, { n:'s', x:r.x + r.w / 2, y:r.y + r.h }, { n:'w', x:r.x, y:r.y + r.h / 2 }, { n:'e', x:r.x + r.w, y:r.y + r.h / 2 }); return l; }
+    function hit(p){ const tol = 16; let best = null, bd = 1e9; handles().forEach(h=>{ const d = Math.hypot(h.x - p.x, h.y - p.y); if(d < tol && d < bd){ best = h.n; bd = d; } }); if(best) return best; const r = cr.rect; return (p.x >= r.x && p.x <= r.x + r.w && p.y >= r.y && p.y <= r.y + r.h) ? 'move' : null; }
+    const CUR = { nw:'nwse-resize', se:'nwse-resize', ne:'nesw-resize', sw:'nesw-resize', n:'ns-resize', s:'ns-resize', e:'ew-resize', w:'ew-resize', move:'move' };
+    const clamp = (v, a, b)=> Math.max(a, Math.min(b, v)), MIN = 24;
+    cvEl.addEventListener('pointerdown', e=>{ if(!cr.im) return; const p = pointerPos(cvEl, e), h = hit(p); if(!h) return; cvEl.setPointerCapture(e.pointerId); cr.drag = { h, p, r:{ ...cr.rect } }; e.preventDefault(); });
+    cvEl.addEventListener('pointermove', e=>{
+      const p = pointerPos(cvEl, e);
+      if(!cr.drag){ const h = hit(p); cvEl.style.cursor = h ? CUR[h] : 'default'; return; }
+      const d = cr.drag, s = d.r, W = cr.W, H = cr.H, dx = p.x - d.p.x, dy = p.y - d.p.y; let r;
+      if(d.h === 'move') r = { x:clamp(s.x + dx, 0, W - s.w), y:clamp(s.y + dy, 0, H - s.h), w:s.w, h:s.h };
+      else if(d.h.length === 2){
+        const ax = d.h.indexOf('w') >= 0 ? s.x + s.w : s.x, ay = d.h.indexOf('n') >= 0 ? s.y + s.h : s.y, sx = d.h.indexOf('w') >= 0 ? -1 : 1, sy = d.h.indexOf('n') >= 0 ? -1 : 1;
+        let w = clamp((sx > 0 ? p.x - ax : ax - p.x), MIN, sx > 0 ? W - ax : ax), h = clamp((sy > 0 ? p.y - ay : ay - p.y), MIN, sy > 0 ? H - ay : ay);
+        if(cr.ratio){ if(w / h > cr.ratio) w = h * cr.ratio; else h = w / cr.ratio; const mw = sx > 0 ? W - ax : ax, mh = sy > 0 ? H - ay : ay; if(w > mw){ w = mw; h = w / cr.ratio; } if(h > mh){ h = mh; w = h * cr.ratio; } }
+        r = { x:sx > 0 ? ax : ax - w, y:sy > 0 ? ay : ay - h, w, h };
+      }else{
+        r = { ...s };
+        if(d.h === 'n'){ const b = s.y + s.h; r.y = clamp(s.y + dy, 0, b - MIN); r.h = b - r.y; } if(d.h === 's'){ r.h = clamp(s.h + dy, MIN, H - s.y); }
+        if(d.h === 'w'){ const b = s.x + s.w; r.x = clamp(s.x + dx, 0, b - MIN); r.w = b - r.x; } if(d.h === 'e'){ r.w = clamp(s.w + dx, MIN, W - s.x); }
+      }
+      cr.rect = r; draw();
+    });
+    const up = ()=>{ cr.drag = null; }; cvEl.addEventListener('pointerup', up); cvEl.addEventListener('pointercancel', up);
+    function cropCanvas(){
+      const r = cr.rect, k = cr.k, sx = Math.round(r.x / k), sy = Math.round(r.y / k), sw = Math.max(1, Math.min(cr.im.w - sx, Math.round(r.w / k))), sh = Math.max(1, Math.min(cr.im.h - sy, Math.round(r.h / k))), sub = cv(sw, sh);
+      sub.getContext('2d').drawImage(cr.full, sx, sy, sw, sh, 0, 0, sw, sh); const o = outSize(); return (o[0] === sw && o[1] === sh) ? sub : smoothResize(sub, sw, sh, o[0], o[1]);
+    }
+    $('crop-dl').addEventListener('click', ()=> exportCanvas('crop', cropCanvas(), cr.name + '-crop' + (cr.mm ? '-' + $('crop-id').value : '')));
+    function a4Layout(){ const o = outSize(), PW = 2480, PH = 3508, M = 118, G = 35, cols = Math.max(1, Math.floor((PW - 2 * M + G) / (o[0] + G))), rows = Math.max(1, Math.floor((PH - 2 * M + G) / (o[1] + G))); return { o, PW, PH, M, G, cols, rows }; }
+    function a4Canvas(){
+      const L = a4Layout(), c = cv(L.PW, L.PH), x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, L.PW, L.PH);
+      const photo = cropCanvas(), max = L.cols * L.rows, v = $('crop-copies').value, n = v === 'max' ? max : Math.min(max, +v), bw = L.cols * L.o[0] + (L.cols - 1) * L.G, left = Math.round((L.PW - bw) / 2);
+      for(let i = 0; i < n; i++){ const col = i % L.cols, row = Math.floor(i / L.cols), px = left + col * (L.o[0] + L.G), py = L.M + row * (L.o[1] + L.G); x.drawImage(photo, px, py, L.o[0], L.o[1]); x.strokeStyle = '#b8b8b8'; x.lineWidth = 2; x.strokeRect(px, py, L.o[0], L.o[1]); }
+      return c;
+    }
+    $('crop-a4png').addEventListener('click', async ()=> downloadBlob(await toBlob(a4Canvas(), 'image/png'), cr.name + '-A4.png'));
+    $('crop-a4pdf').addEventListener('click', async ()=>{
+      const png = await (await toBlob(a4Canvas(), 'image/png')).arrayBuffer(), doc = await PDFDocument.create(), pg = doc.addPage([595.28, 841.89]), img = await doc.embedPng(png);
+      pg.drawImage(img, { x:0, y:0, width:595.28, height:841.89 }); downloadBlob(new Blob([await doc.save()], { type:'application/pdf' }), cr.name + '-A4.pdf');
+    });
+    window.__imgCrop = { cr, setRatio, cropCanvas, a4Layout };
+  });
+
+  /* ---------- photo editor ---------- */
+  singleCard('editor', 'imgxN_editor', 'imgxD_editor',
+    '<canvas id="ed-cv" class="img-prev"></canvas><div class="field"><label data-i18n="imgxFilters"></label><div class="img-chips" id="ed-filters"></div></div>' +
+    '<h3 data-i18n="imgxEdAdj"></h3>' + rng('ed-bright', -100, 100, 0, 'imgxBright') + rng('ed-contrast', -100, 100, 0, 'imgxContrast') + rng('ed-sat', -100, 100, 0, 'imgxSat') + rng('ed-warm', -100, 100, 0, 'imgxWarm') + rng('ed-blur', 0, 100, 0, 'imgxBlurAmt') + rng('ed-gray', 0, 100, 0, 'imgxGray') + rng('ed-sepia', 0, 100, 0, 'imgxSepia') +
+    '<div class="img-btnrow"><button type="button" class="btn secondary" id="ed-l" data-i18n="imgxTurnL"></button><button type="button" class="btn secondary" id="ed-r" data-i18n="imgxTurnR"></button><button type="button" class="btn secondary" id="ed-fh" data-i18n="imgxFlipHb"></button><button type="button" class="btn secondary" id="ed-fv" data-i18n="imgxFlipVb"></button></div>' +
+    '<h3 data-i18n="imgxTextT"></h3><div class="field"><input type="text" id="ed-text" data-i18n-ph="imgxTextPh" autocomplete="off"></div>' + sel('ed-font', 'imgxWFont', fonts.slice(0, 6).map((f, i)=> [String(i), 'imgxWF' + i])) + rng('ed-tsize', 2, 30, 8, 'imgxTSize') + rng('ed-tx', 0, 100, 50, 'imgxTX') + rng('ed-ty', 0, 100, 85, 'imgxTY') + clr('ed-tcolor', 'imgxWColor', '#ffffff') +
+    rng('ed-border', 0, 20, 0, 'imgxBorder') + clr('ed-bcolor', 'imgxBorderC', '#ffffff') + '<div class="img-btnrow"><button type="button" class="btn secondary" id="ed-reset" data-i18n="imgxReset"></button></div>' + exportRow('ed', 'jpeg'));
+  const ED0 = { bright:0, contrast:0, sat:0, warm:0, blur:0, gray:0, sepia:0 };
+  const ed = { base:null, prev:null, name:'image', p:{ ...ED0, rot:0, fh:false, fv:false } };
+  inits.push(()=>{
+    const FIL = { orig:{}, bw:{ gray:100, contrast:10 }, sepia:{ sepia:100 }, vivid:{ sat:40, contrast:15 }, warm:{ warm:40, sat:10 }, cool:{ warm:-40 }, vintage:{ sepia:50, contrast:-10, bright:5, sat:-10 } };
+    const fc = $('ed-filters'); Object.keys(FIL).forEach(k=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'img-chip'; b.dataset.f = k; b.setAttribute('data-i18n', 'imgxF' + (k === 'bw' ? 'Bw' : k.charAt(0).toUpperCase() + k.slice(1))); fc.appendChild(b); });
+    const SL = ['bright', 'contrast', 'sat', 'warm', 'blur', 'gray', 'sepia'];
+    const syncSliders = ()=> SL.forEach(k=>{ $('ed-' + k).value = ed.p[k]; $('ed-' + k + '-v').textContent = ed.p[k]; });
+    fc.addEventListener('click', e=>{ const b = e.target.closest('.img-chip'); if(!b) return; Object.assign(ed.p, ED0, FIL[b.dataset.f]); syncSliders(); render(); });
+    SL.forEach(k=> $('ed-' + k).addEventListener('input', ()=>{ ed.p[k] = +$('ed-' + k).value; render(); }));
+    ['ed-text', 'ed-font', 'ed-tsize', 'ed-tx', 'ed-ty', 'ed-tcolor', 'ed-border', 'ed-bcolor'].forEach(i=> $(i).addEventListener('input', ()=> render()));
+    $('ed-l').addEventListener('click', ()=>{ ed.p.rot = (ed.p.rot + 270) % 360; render(); }); $('ed-r').addEventListener('click', ()=>{ ed.p.rot = (ed.p.rot + 90) % 360; render(); });
+    $('ed-fh').addEventListener('click', ()=>{ ed.p.fh = !ed.p.fh; render(); }); $('ed-fv').addEventListener('click', ()=>{ ed.p.fv = !ed.p.fv; render(); });
+    $('ed-reset').addEventListener('click', ()=>{ Object.assign(ed.p, ED0, { rot:0, fh:false, fv:false }); syncSliders(); $('ed-text').value = ''; $('ed-border').value = 0; $('ed-border-v').textContent = 0; render(); });
+    function adjust(c){
+      const p = ed.p; if(!(p.bright || p.contrast || p.sat || p.warm || p.gray || p.sepia)) return;
+      const x = c.getContext('2d'), id = x.getImageData(0, 0, c.width, c.height), d = id.data, b = p.bright * 2.55, cc = p.contrast * 2.55, f = (259 * (cc + 255)) / (255 * (259 - cc)), s = 1 + p.sat / 100, wm = p.warm * 0.6, g = p.gray / 100, sp = p.sepia / 100;
+      for(let i = 0; i < d.length; i += 4){
+        let r = f * (d[i] - 128) + 128 + b, gg = f * (d[i + 1] - 128) + 128 + b, bl = f * (d[i + 2] - 128) + 128 + b;
+        const l = 0.299 * r + 0.587 * gg + 0.114 * bl; r = l + (r - l) * s; gg = l + (gg - l) * s; bl = l + (bl - l) * s; r += wm; bl -= wm;
+        if(g){ const l2 = 0.299 * r + 0.587 * gg + 0.114 * bl; r += (l2 - r) * g; gg += (l2 - gg) * g; bl += (l2 - bl) * g; }
+        if(sp){ const sr = 0.393 * r + 0.769 * gg + 0.189 * bl, sg = 0.349 * r + 0.686 * gg + 0.168 * bl, sb = 0.272 * r + 0.534 * gg + 0.131 * bl; r += (sr - r) * sp; gg += (sg - gg) * sp; bl += (sb - bl) * sp; }
+        d[i] = r; d[i + 1] = gg; d[i + 2] = bl;
+      }
+      x.putImageData(id, 0, 0);
+    }
+    function build(base){
+      const p = ed.p; let c = rotateCanvas(base, base.width, base.height, p.rot, p.fh, p.fv); adjust(c);
+      if(p.blur > 0){ const x = c.getContext('2d'), id = x.getImageData(0, 0, c.width, c.height); boxBlur(id.data, c.width, c.height, p.blur / 100 * Math.max(c.width, c.height) * 0.012, 4); x.putImageData(id, 0, 0); }
+      const txt = $('ed-text').value;
+      if(txt.trim()){ const x = c.getContext('2d'), fam = fonts[+$('ed-font').value], fs = c.width * (+$('ed-tsize').value) / 100; x.font = `700 ${fs}px ${fam}`; x.textAlign = 'center'; x.textBaseline = 'middle'; x.lineJoin = 'round'; x.lineWidth = fs * 0.1; x.strokeStyle = 'rgba(0,0,0,.45)'; const tx = c.width * (+$('ed-tx').value) / 100, ty = c.height * (+$('ed-ty').value) / 100; x.strokeText(txt, tx, ty); x.fillStyle = $('ed-tcolor').value; x.fillText(txt, tx, ty); }
+      const bw = Math.round(c.width * (+$('ed-border').value) / 100);
+      if(bw > 0){ const o = cv(c.width + 2 * bw, c.height + 2 * bw), x = o.getContext('2d'); x.fillStyle = $('ed-bcolor').value; x.fillRect(0, 0, o.width, o.height); x.drawImage(c, bw, bw); c = o; }
+      return c;
+    }
+    const render = raf(()=>{ if(!ed.prev) return; const c = build(ed.prev), pv = $('ed-cv'); pv.width = c.width; pv.height = c.height; pv.getContext('2d').drawImage(c, 0, 0); });
+    $('ed-text').addEventListener('input', ()=>{ const txt = $('ed-text').value; if(txt) fonts.slice(0, 6).forEach(f=> loadFont(f, txt)); });
+    onFile('editor', (im, f)=>{
+      ed.name = baseN(f.name); ed.p = { ...ED0, rot:0, fh:false, fv:false }; syncSliders();
+      let full = toCanvas(im); if(full.width * full.height > 24e6){ const k = Math.sqrt(24e6 / (full.width * full.height)); full = smoothResize(full, full.width, full.height, Math.round(full.width * k), Math.round(full.height * k)); }
+      ed.base = full; const k = Math.min(1, 720 / Math.max(full.width, full.height)); ed.prev = k < 1 ? smoothResize(full, full.width, full.height, Math.round(full.width * k), Math.round(full.height * k)) : full; render();
+    });
+    $('ed-dl').addEventListener('click', async ()=>{ if(!ed.base) return; await Promise.all(fonts.slice(0, 6).map(f=> loadFont(f, $('ed-text').value))); exportCanvas('ed', build(ed.base), ed.name + '-edit'); });
+    window.__imgEd = { ed, build };
+  });
+
+  /* ---------- background remover ---------- */
+  singleCard('removebg', 'imgxN_removebg', 'imgxD_removebg',
+    '<p class="note" data-i18n="imgxRbHint"></p><div class="img-stage checker"><canvas id="rb-cv" style="cursor:crosshair"></canvas></div>' +
+    '<div class="img-btnrow"><button type="button" class="btn secondary" id="rb-pick" data-i18n="imgxRbPick"></button><button type="button" class="btn secondary" id="rb-auto" data-i18n="imgxRbAuto"></button></div>' +
+    rng('rb-tol', 3, 100, 35, 'imgxRbTol') + sel('rb-mode', 'imgxRbMode', [['edge', 'imgxRbEdge'], ['all', 'imgxRbAll']]) + rng('rb-shrink', 0, 6, 1, 'imgxRbShrink') + rng('rb-feather', 0, 8, 1, 'imgxRbFeather') +
+    sel('rb-repl', 'imgxRbRepl', [['none', 'imgxRbTransp'], ['#ffffff', 'imgxRbWhite'], ['#2f6fdf', 'imgxRbBlue'], ['#e5e7eb', 'imgxRbGray'], ['#c62828', 'imgxRbRed'], ['custom', 'imgxRbCustom']]) + '<div id="rb-cwrap" style="display:none">' + clr('rb-color', 'imgxRbCustom', '#ffffff') + '</div>' +
+    exportRow('rb', 'png') + '<div class="img-btnrow"><button type="button" class="btn secondary" id="rb-tocrop" data-i18n="imgxToCrop"></button></div>');
+  inits.push(()=>{
+    const rb = { name:'image', full:null, small:null, key:null, picking:false };
+    function autoKey(d, w, h){
+      const R = [], G = [], B = [], push = i=>{ R.push(d[i]); G.push(d[i + 1]); B.push(d[i + 2]); }, sx = Math.max(1, Math.floor(w / 80)), sy = Math.max(1, Math.floor(h / 80));
+      for(let x = 0; x < w; x += sx){ push(x * 4); push(((h - 1) * w + x) * 4); } for(let y = 0; y < h; y += sy){ push(y * w * 4); push((y * w + w - 1) * 4); }
+      const med = a=>{ a.sort((p, q)=> p - q); return a[a.length >> 1]; }; return [med(R), med(G), med(B)];
+    }
+    function process(src, o){
+      const w = src.width, h = src.height, id = src.getContext('2d').getImageData(0, 0, w, h), d = id.data, key = o.key || autoKey(d, w, h), thr = o.tol * 2.5, t2 = thr * thr, n = w * h;
+      const isBg = i=>{ const q = i * 4, dr = d[q] - key[0], dg = d[q + 1] - key[1], db = d[q + 2] - key[2]; return dr * dr + dg * dg + db * db <= t2; };
+      let a = new Uint8ClampedArray(n).fill(255);
+      if(o.mode === 'all'){ for(let i = 0; i < n; i++) if(isBg(i)) a[i] = 0; }
+      else{
+        const seen = new Uint8Array(n), qu = new Int32Array(n); let qh = 0, qt = 0;
+        const seed = i=>{ if(!seen[i] && isBg(i)){ seen[i] = 1; qu[qt++] = i; } };
+        for(let x = 0; x < w; x++){ seed(x); seed((h - 1) * w + x); } for(let y = 0; y < h; y++){ seed(y * w); seed(y * w + w - 1); }
+        while(qh < qt){ const i = qu[qh++], x = i % w, y = (i / w) | 0; a[i] = 0; if(x > 0) seed(i - 1); if(x < w - 1) seed(i + 1); if(y > 0) seed(i - w); if(y < h - 1) seed(i + w); }
+      }
+      for(let s = 0; s < o.shrink; s++){ const b = new Uint8ClampedArray(a); for(let y = 0; y < h; y++) for(let x = 0; x < w; x++){ const i = y * w + x; if(a[i] && ((x > 0 && !a[i - 1]) || (x < w - 1 && !a[i + 1]) || (y > 0 && !a[i - w]) || (y < h - 1 && !a[i + w]))) b[i] = 0; } a = b; }
+      if(o.feather > 0) boxBlur(a, w, h, o.feather, 1);
+      for(let i = 0; i < n; i++) d[i * 4 + 3] = Math.min(d[i * 4 + 3], a[i]);
+      const out = cv(w, h); out.getContext('2d').putImageData(id, 0, 0); return out;
+    }
+    const params = ()=>({ tol: +$('rb-tol').value, mode: $('rb-mode').value, shrink: +$('rb-shrink').value, feather: +$('rb-feather').value, key: rb.key });
+    const replColor = ()=>{ const v = $('rb-repl').value; return v === 'none' ? null : v === 'custom' ? $('rb-color').value : v; };
+    const compose = c=>{ const col = replColor(); return col ? flatten(c, col) : c; };
+    const render = raf(()=>{ if(!rb.small) return; const out = compose(process(rb.small, params())), pv = $('rb-cv'); pv.width = out.width; pv.height = out.height; pv.getContext('2d').drawImage(out, 0, 0); });
+    ['rb-tol', 'rb-mode', 'rb-shrink', 'rb-feather', 'rb-color'].forEach(i=> $(i).addEventListener('input', render)); $('rb-mode').addEventListener('change', render);
+    $('rb-repl').addEventListener('change', ()=>{ $('rb-cwrap').style.display = $('rb-repl').value === 'custom' ? '' : 'none'; $('rb-fmt').value = replColor() ? 'jpeg' : 'png'; render(); });
+    $('rb-pick').addEventListener('click', ()=>{ rb.picking = true; setStatus('removebg-status', t('imgxRbPicking'), 'ok'); });
+    $('rb-auto').addEventListener('click', ()=>{ rb.key = null; rb.picking = false; $('removebg-status').textContent = ''; render(); });
+    $('rb-cv').addEventListener('click', e=>{
+      if(!rb.picking || !rb.small) return; const p = pointerPos($('rb-cv'), e), x = Math.max(0, Math.min(rb.small.width - 1, Math.floor(p.x))), y = Math.max(0, Math.min(rb.small.height - 1, Math.floor(p.y)));
+      const px = rb.small.getContext('2d').getImageData(x, y, 1, 1).data; rb.key = [px[0], px[1], px[2]]; rb.picking = false; $('removebg-status').textContent = ''; render();
+    });
+    onFile('removebg', (im, f)=>{
+      rb.name = baseN(f.name); rb.key = null; rb.picking = false; let full = toCanvas(im); const cap = 4096; if(Math.max(full.width, full.height) > cap){ const k = cap / Math.max(full.width, full.height); full = smoothResize(full, full.width, full.height, Math.round(full.width * k), Math.round(full.height * k)); }
+      rb.full = full; const k = Math.min(1, 720 / Math.max(full.width, full.height)); rb.small = k < 1 ? smoothResize(full, full.width, full.height, Math.round(full.width * k), Math.round(full.height * k)) : full; render();
+    });
+    const finalCanvas = ()=>{ const p = params(); if(rb.key == null){ /* same auto key as preview */ } return compose(process(rb.full, p)); };
+    $('rb-dl').addEventListener('click', ()=>{ if(rb.full) exportCanvas('rb', finalCanvas(), rb.name + '-nobg'); });
+    $('rb-tocrop').addEventListener('click', async ()=>{ if(!rb.full) return; const blob = await toBlob(finalCanvas(), 'image/png'); openTool('crop'); await window.uddahImgCrop.load(blob, rb.name, '4x6'); });
+    window.__imgRb = { rb, process, params };
+  });
+
+  /* ---------- blur / censor ---------- */
+  singleCard('blur', 'imgxN_blur', 'imgxD_blur',
+    sel('bl-fx', 'imgxBEffect', [['blur', 'imgxBBlur'], ['pix', 'imgxBPix'], ['black', 'imgxBBlock']]) + sel('bl-shape', 'imgxBShape', [['rect', 'imgxBRect'], ['oval', 'imgxBOval']]) + rng('bl-str', 10, 100, 60, 'imgxBStr') +
+    '<p class="note" data-i18n="imgxBHint"></p><div class="img-stage"><canvas id="bl-cv" style="touch-action:none;cursor:crosshair"></canvas></div><div class="img-btnrow"><button type="button" class="btn secondary" id="bl-undo" data-i18n="imgxBUndo"></button><button type="button" class="btn secondary" id="bl-clear" data-i18n="imgxBClear"></button></div>' + exportRow('bl', 'jpeg'));
+  function applyRegions(c, regs, f){
+    const x = c.getContext('2d');
+    regs.forEach(r=>{
+      let rx = Math.round(r.x * f), ry = Math.round(r.y * f), rw = Math.round(r.w * f), rh = Math.round(r.h * f);
+      rx = Math.max(0, rx); ry = Math.max(0, ry); rw = Math.min(c.width - rx, rw); rh = Math.min(c.height - ry, rh); if(rw < 2 || rh < 2) return;
+      x.save(); x.beginPath(); if(r.shape === 'oval') x.ellipse(rx + rw / 2, ry + rh / 2, rw / 2, rh / 2, 0, 0, Math.PI * 2); else x.rect(rx, ry, rw, rh); x.clip();
+      if(r.fx === 'black'){ x.fillStyle = '#000'; x.fillRect(rx, ry, rw, rh); }
+      else if(r.fx === 'pix'){
+        const bs = Math.max(3, Math.round(r.str / 100 * Math.min(rw, rh) / 3 + 2)), tmp = cv(Math.ceil(rw / bs), Math.ceil(rh / bs)), tx = tmp.getContext('2d'); tx.drawImage(c, rx, ry, rw, rh, 0, 0, tmp.width, tmp.height);
+        x.imageSmoothingEnabled = false; x.drawImage(tmp, 0, 0, tmp.width, tmp.height, rx, ry, tmp.width * bs, tmp.height * bs); x.imageSmoothingEnabled = true;
+      }else{
+        const rad = Math.max(2, Math.round(r.str / 100 * Math.max(rw, rh) * 0.12)), pad = rad * 3, px = Math.max(0, rx - pad), py = Math.max(0, ry - pad), pw = Math.min(c.width - px, rx + rw + pad - px), ph = Math.min(c.height - py, ry + rh + pad - py);
+        const id = x.getImageData(px, py, pw, ph); boxBlur(id.data, pw, ph, rad, 4); x.putImageData(id, px, py);
+      }
+      x.restore();
+    });
+  }
+  inits.push(()=>{
+    const bl = { base:null, name:'image', k:1, regs:[], drag:null }, cvEl = $('bl-cv');
+    const render = ()=>{
+      if(!bl.base) return; const W = cvEl.width, H = cvEl.height, x = cvEl.getContext('2d'); x.clearRect(0, 0, W, H); x.drawImage(bl.base, 0, 0, W, H);
+      const regs = bl.regs.concat(bl.drag && bl.drag.r ? [bl.drag.r] : []); applyRegions(cvEl, regs, bl.k);
+      x.save(); x.strokeStyle = 'rgba(255,255,255,.9)'; x.setLineDash([6, 4]); x.lineWidth = 1.5; regs.forEach(r=>{ x.beginPath(); if(r.shape === 'oval') x.ellipse((r.x + r.w / 2) * bl.k, (r.y + r.h / 2) * bl.k, r.w * bl.k / 2, r.h * bl.k / 2, 0, 0, 7); else x.rect(r.x * bl.k, r.y * bl.k, r.w * bl.k, r.h * bl.k); x.stroke(); }); x.restore();
+    };
+    onFile('blur', (im, f)=>{
+      bl.name = baseN(f.name); bl.regs = []; bl.drag = null; let full = toCanvas(im); if(Math.max(full.width, full.height) > 4096){ const k = 4096 / Math.max(full.width, full.height); full = smoothResize(full, full.width, full.height, Math.round(full.width * k), Math.round(full.height * k)); }
+      bl.base = full; const W = Math.min(640, availW($('imgtool-blur')), full.width); bl.k = W / full.width; cvEl.width = Math.round(full.width * bl.k); cvEl.height = Math.round(full.height * bl.k); render();
+    });
+    cvEl.addEventListener('pointerdown', e=>{ if(!bl.base) return; cvEl.setPointerCapture(e.pointerId); const p = pointerPos(cvEl, e); bl.drag = { sx:p.x / bl.k, sy:p.y / bl.k, r:null }; e.preventDefault(); });
+    cvEl.addEventListener('pointermove', e=>{ if(!bl.drag) return; const p = pointerPos(cvEl, e), x2 = Math.max(0, Math.min(bl.base.width, p.x / bl.k)), y2 = Math.max(0, Math.min(bl.base.height, p.y / bl.k)); bl.drag.r = { x:Math.min(bl.drag.sx, x2), y:Math.min(bl.drag.sy, y2), w:Math.abs(x2 - bl.drag.sx), h:Math.abs(y2 - bl.drag.sy), fx:$('bl-fx').value, shape:$('bl-shape').value, str:+$('bl-str').value }; render(); });
+    const end = ()=>{ if(bl.drag && bl.drag.r && bl.drag.r.w * bl.k > 6 && bl.drag.r.h * bl.k > 6) bl.regs.push(bl.drag.r); bl.drag = null; render(); };
+    cvEl.addEventListener('pointerup', end); cvEl.addEventListener('pointercancel', ()=>{ bl.drag = null; render(); });
+    $('bl-undo').addEventListener('click', ()=>{ bl.regs.pop(); render(); }); $('bl-clear').addEventListener('click', ()=>{ bl.regs = []; render(); });
+    $('bl-dl').addEventListener('click', ()=>{ if(!bl.base) return; const c = cv(bl.base.width, bl.base.height); c.getContext('2d').drawImage(bl.base, 0, 0); applyRegions(c, bl.regs, 1); exportCanvas('bl', c, bl.name + '-blur'); });
+    window.__imgBl = { bl, render };
+  });
+
+  /* ---------- meme maker ---------- */
+  singleCard('meme', 'imgxN_meme', 'imgxD_meme',
+    '<canvas id="meme-cv" class="img-prev"></canvas><div class="field"><label for="meme-top" data-i18n="imgxMTop"></label><input type="text" id="meme-top" autocomplete="off"></div><div class="field"><label for="meme-bot" data-i18n="imgxMBot"></label><input type="text" id="meme-bot" autocomplete="off"></div>' +
+    sel('meme-font', 'imgxWFont', [['0', 'imgxMF0'], ['1', 'imgxMF1'], ['2', 'imgxMF2']]) + rng('meme-size', 4, 20, 10, 'imgxMSize') + clr('meme-fill', 'imgxMFill', '#ffffff') + clr('meme-stroke', 'imgxMStroke', '#000000') + exportRow('meme', 'jpeg'));
+  I18N.ar.imgxMF0 = 'Anton / Impact'; I18N.en.imgxMF0 = 'Anton / Impact'; I18N.ar.imgxMF1 = 'Lalezar'; I18N.en.imgxMF1 = 'Lalezar'; I18N.ar.imgxMF2 = 'Cairo'; I18N.en.imgxMF2 = 'Cairo';
+  inits.push(()=>{
+    const me = { base:null, name:'image' }, FAM = ["'Anton','Impact','Arial Black',sans-serif", "'Lalezar','Cairo',sans-serif", "'Cairo',sans-serif"];
+    function wrap(x, text, maxW){ const out = []; text.split('\n').forEach(par=>{ let line = ''; par.split(/\s+/).forEach(w=>{ const tst = line ? line + ' ' + w : w; if(x.measureText(tst).width > maxW && line){ out.push(line); line = w; } else line = tst; }); out.push(line); }); return out.filter(l=> l !== ''); }
+    function build(base){
+      const c = cv(base.width, base.height), x = c.getContext('2d'); x.drawImage(base, 0, 0);
+      const fs = c.width * (+$('meme-size').value) / 100, fam = FAM[+$('meme-font').value]; x.font = `900 ${fs}px ${fam}`; x.textAlign = 'center'; x.textBaseline = 'top'; x.lineJoin = 'round'; x.lineWidth = fs * 0.14; x.strokeStyle = $('meme-stroke').value; x.fillStyle = $('meme-fill').value;
+      const draw = (txt, bottom)=>{ const lines = wrap(x, txt, c.width * 0.94), lh = fs * 1.08, total = lines.length * lh; let y = bottom ? c.height - c.width * 0.02 - total : c.width * 0.02; lines.forEach(l=>{ x.strokeText(l, c.width / 2, y); x.fillText(l, c.width / 2, y); y += lh; }); };
+      if($('meme-top').value.trim()) draw($('meme-top').value, false); if($('meme-bot').value.trim()) draw($('meme-bot').value, true); return c;
+    }
+    const render = raf(()=>{ if(!me.base) return; const k = Math.min(1, 640 / me.base.width), pv = $('meme-cv'); const small = k < 1 ? smoothResize(me.base, me.base.width, me.base.height, Math.round(me.base.width * k), Math.round(me.base.height * k)) : me.base; const c = build(small); pv.width = c.width; pv.height = c.height; pv.getContext('2d').drawImage(c, 0, 0); });
+    ['meme-top', 'meme-bot', 'meme-size', 'meme-fill', 'meme-stroke'].forEach(i=> $(i).addEventListener('input', render));
+    $('meme-font').addEventListener('change', async ()=>{ await loadFont(FAM[+$('meme-font').value].split(',')[0], $('meme-top').value + $('meme-bot').value); render(); });
+    $('meme-top').addEventListener('input', ()=>{ loadFont("'Lalezar'", $('meme-top').value).then(render); loadFont("'Anton'", $('meme-top').value).then(render); });
+    onFile('meme', (im, f)=>{ me.name = baseN(f.name); let full = toCanvas(im); if(full.width > 2400){ const k = 2400 / full.width; full = smoothResize(full, full.width, full.height, 2400, Math.round(full.height * k)); } me.base = full; loadFont("'Anton'", 'A'); render(); });
+    $('meme-dl').addEventListener('click', async ()=>{ if(!me.base) return; await loadFont(FAM[+$('meme-font').value].split(',')[0].replace(/'/g, "'"), $('meme-top').value + $('meme-bot').value); exportCanvas('meme', build(me.base), me.name + '-meme'); });
+    window.__imgMeme = { me, build };
+  });
+
+  /* ---------- hub, panel and navigation ---------- */
+  const INFO = {
+    compress:{ ico:'🗜️' }, resize:{ ico:'📐' }, upscale:{ ico:'🔎' }, crop:{ ico:'✂️' }, tojpg:{ ico:'🖼️', card:'convert', target:'jpeg' }, fromjpg:{ ico:'🔄', card:'convert', target:'png' }, exif:{ ico:'🔒' },
+    editor:{ ico:'🎛️' }, rotate:{ ico:'🔃' }, watermark:{ ico:'💧' }, meme:{ ico:'😂' }, blur:{ ico:'🙈' }, removebg:{ ico:'✨' }, passport:{ ico:'🆔', card:'crop', preset:'4x6' },
+    svgconv:{ link:'svgconv' }, img2stamp:{ link:'img2stamp' }, bulkcrop:{ link:'bulkcrop' }, sheet:{ link:'sheet' }, resizecm:{ ico:'📏', link:'resize' }
+  };
+  const CATS = [['imgxCatOpt', ['compress', 'resize', 'upscale', 'crop']], ['imgxCatConv', ['tojpg', 'fromjpg', 'svgconv', 'exif']], ['imgxCatEdit', ['editor', 'rotate', 'watermark', 'meme', 'blur']], ['imgxCatId', ['removebg', 'passport', 'img2stamp']], ['imgxCatMore', ['bulkcrop', 'sheet', 'resizecm']]];
+  let homeOpen = true;
+  function tileInfo(id){
+    const d = INFO[id]; let ico = d.ico, name = I18N[currentLang]['imgxN_' + id];
+    if(d.link && !name){ const o = typeof toolsOptInfo === 'function' ? toolsOptInfo(d.link) : null; if(o){ ico = ico || o.ico; name = o.name; } }
+    return { ico: ico || '🖼️', name: name || id, desc: I18N[currentLang]['imgxD_' + id] || '' };
+  }
+  function show(){
+    $('img-home').style.display = homeOpen ? '' : 'none'; $('img-back').style.display = homeOpen ? 'none' : '';
+    document.querySelectorAll('#img-cards .img-card').forEach(c=>{ if(homeOpen) c.style.display = 'none'; });
+  }
+  function openTool(id){
+    const d = INFO[id]; if(!d) return;
+    if(d.link){ document.querySelector('#tabs button[data-tab="tools"]').click(); toolsOpenTool(d.link); return; }
+    const card = d.card || id; homeOpen = false; show();
+    document.querySelectorAll('#img-cards .img-card').forEach(c=>{ c.style.display = c.id === 'imgtool-' + card ? 'block' : 'none'; });
+    if(card === 'convert'){ const h = document.querySelector('#imgtool-convert h2'), p = document.querySelector('#imgtool-convert .hint'); h.setAttribute('data-i18n', 'imgxN_' + id); p.setAttribute('data-i18n', 'imgxD_' + id); h.textContent = t('imgxN_' + id); p.textContent = t('imgxD_' + id); $('convert-to').value = d.target; }
+    if(id === 'passport' && window.uddahImgCrop && window.__imgCrop.cr.im){ $('crop-id').value = d.preset; $('crop-id').dispatchEvent(new Event('change')); }
+    else if(id === 'passport'){ $('crop-id').value = d.preset; $('crop-id').dispatchEvent(new Event('change')); }
+    else if(id === 'crop'){ /* keep current preset */ }
+    try{ window.scrollTo({ top: 0 }); }catch(e){}
+  }
+  function buildHome(){
+    const host = $('img-home-grid'); if(!host) return; const q = ($('img-home-search').value || '').trim().toLowerCase(); host.innerHTML = ''; let any = false;
+    CATS.forEach(c=>{
+      const tiles = c[1].map(id=> ({ id, i:tileInfo(id) })).filter(x=> !q || (x.i.name + ' ' + x.i.desc).toLowerCase().includes(q)); if(!tiles.length) return; any = true;
+      const h = document.createElement('div'); h.className = 'pdf-cat'; h.textContent = t(c[0]); host.appendChild(h);
+      const g = document.createElement('div'); g.className = 'pdf-tiles'; host.appendChild(g);
+      tiles.forEach(x=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'pdf-tile'; b.dataset.tool = x.id; b.innerHTML = '<span class="ico"></span><span class="nm"></span><span class="ds"></span>'; b.children[0].textContent = x.i.ico; b.children[1].textContent = x.i.name; b.children[2].textContent = x.i.desc; b.addEventListener('click', ()=> openTool(x.id)); g.appendChild(b); });
+    });
+    if(!any){ const n = document.createElement('p'); n.className = 'note'; n.textContent = t('imgxNone'); host.appendChild(n); }
+  }
+  function init(){
+    const panel = $('panel-images'); if(!panel) return;
+    $('img-cards').innerHTML = cardsHtml.join('');
+    inits.forEach(fn=>{ try{ fn(); }catch(e){ console.error('img init', e); } });
+    document.querySelectorAll('#img-cards input[type=range]').forEach(r=> r.addEventListener('input', ()=>{ const v = $(r.id + '-v'); if(v) v.textContent = r.value; }));
+    $('img-back').addEventListener('click', ()=>{ homeOpen = true; show(); });
+    $('img-home-search').addEventListener('input', buildHome);
+    new MutationObserver(()=>{ setTimeout(buildHome, 30); }).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+    buildHome(); show();
+  }
+  window.uddahImages = { openTool, init, get homeOpen(){ return homeOpen; } };
+  init();
 })();
 
 applyLanguage(localStorage.getItem('uddah-lang') || 'ar');
