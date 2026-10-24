@@ -11,6 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Reem+Kufi:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Aref+Ruqaa+Ink&family=Rakkas&family=Lalezar&family=Jomhuria&family=Katibeh&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@600&family=Allura&family=Sacramento&family=Caveat:wght@600&family=Satisfy&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Yellowtail&family=Mr+Dafoe&family=Mrs+Saint+Delafield&family=Herr+Von+Muellerhoff&family=Kaushan+Script&family=Marck+Script&family=Homemade+Apple&family=Zeyada&family=Parisienne&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lateef&family=Mirza&family=Vibes&family=Marhey&family=Harmattan&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&family=Almarai:wght@400;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -207,6 +209,9 @@
   .btn.secondary{background:transparent;border:1px solid var(--steel);color:var(--bone);box-shadow:none;}
   .btn.secondary:hover{border-color:var(--brass);color:var(--brass-light);background:var(--bg-elev-2);box-shadow:none;}
   .btn.secondary:active{transform:scale(.97);}
+  .sign-tab.active{background:var(--brass);border-color:var(--brass);color:#fff;font-weight:700;}
+  .sign-tab.active:hover{color:#fff;background:var(--brass-light);}
+  .sign-tile:hover{border-color:var(--brass)!important;}
 
   .result{
     margin-top:18px;padding:16px;border-radius:8px;
@@ -3268,13 +3273,21 @@
         <div class="file-list" id="sign-file-list"></div>
       </div>
 
-      <div class="field">
-        <label for="sign-name" data-i18n="signNameLabel">✍️ اكتب اسمك وحوّله إلى توقيع</label>
+      <div class="field" id="sign-studio">
+        <div id="sign-tabs" role="tablist" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;">
+          <button type="button" class="btn secondary sign-tab active" role="tab" aria-selected="true" data-mode="name" data-i18n="signTabName" style="padding:8px 4px;font-size:.8rem;width:auto;">✍️ توقيع</button>
+          <button type="button" class="btn secondary sign-tab" role="tab" aria-selected="false" data-mode="init" data-i18n="signTabInit" style="padding:8px 4px;font-size:.8rem;width:auto;">🔤 أحرف مختصرة</button>
+          <button type="button" class="btn secondary sign-tab" role="tab" aria-selected="false" data-mode="stamp" data-i18n="signTabStamp" style="padding:8px 4px;font-size:.8rem;width:auto;">🏢 ختم شركة</button>
+        </div>
+        <label for="sign-name" id="sign-name-lbl" data-i18n="signNameLabel">✍️ اكتب اسمك وحوّله إلى توقيع</label>
         <input type="text" id="sign-name" placeholder="اكتب الاسم هنا" data-i18n-ph="signNamePh" autocomplete="off">
+        <input type="text" id="sign-stamp-sub" style="display:none;margin-top:8px;" placeholder="سطر ثانٍ (اختياري): المدينة، السجل..." data-i18n-ph="signStampSubPh" autocomplete="off">
         <div class="row" style="margin-top:10px;align-items:flex-end;">
           <div class="field" style="flex:0 0 140px;"><label for="sign-name-color" data-i18n="signInkLabel">لون الحبر</label><input type="color" id="sign-name-color" value="#1b2a6b" style="width:100%;height:44px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev-2);padding:4px;"></div>
-          <p class="note" style="flex:1 1 200px;margin:0 0 6px;" data-i18n="signStyleHint">اختر شكل التوقيع من الأشكال تحت، وبعدها تقدر تسحبه وتغيّر حجمه مثل أي توقيع.</p>
+          <div id="sign-inks" style="flex:1 1 200px;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;"></div>
         </div>
+        <div class="field" id="sign-thick-wrap" style="margin-top:6px;"><label for="sign-thick" data-i18n="signThickLabel">سماكة الخط</label><input type="range" id="sign-thick" min="0" max="6" value="0" style="width:100%;"></div>
+        <p class="note" style="margin:4px 0 6px;" data-i18n="signStyleHint">اختر شكل التوقيع من الأشكال تحت، وبعدها تقدر تسحبه وتغيّر حجمه مثل أي توقيع.</p>
         <div id="sign-styles" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:6px;"></div>
       </div>
 
@@ -4831,6 +4844,7 @@ const I18N = {
     toolsOptLink:'🔗 مصلّح الروابط (يفتح أي رابط)', lkTitle:'مصلّح الروابط', lkHint:'الصق أي رابط أو أكثر (كل رابط في سطر) أو إحداثيات أو رقم جوال، وسأحوّله إلى رابط صحيح يفتح مباشرة.', lkIn:'الروابط', lkPh:'مثال: google.com أو 24.418529, 46.842052 أو 0555555555', lkWww:'إضافة www. عند الإمكان', lkHttps:'تحويل إلى https', lkClean:'تبسيط الرابط (حذف التتبّع والإضافات غير اللازمة)', lkLabel:'النص المعروض بدل الرابط', lkLabelPh:'مثال: www.goog', lkRich:'نسخ كرابط بنص', lkMd:'Markdown', lkHtml:'HTML', lkShort:'✂️ تقصير', lkShortBusy:'جارٍ التقصير…', lkShortFail:'تعذّر التقصير (يحتاج إنترنت، وقد تحجب بعض الشبكات الخدمة)', lkShortNote:'التقصير يرسل الرابط إلى خدمة is.gd الخارجية، فلا تقصّر روابط خاصة أو حساسة.', lkF_short:'قُصّر عبر is.gd', lkF_simp:'بُسّط الرابط', lkCopiedRich:'تم النسخ، الصقه في Word أو البريد ليظهر كرابط بنص ✓', lkOpen:'فتح', lkCopy:'نسخ', lkCopyAll:'نسخ الكل', lkCopied:'تم النسخ ✓', lkNone:'الصق رابطًا في الأعلى.', lkNote:'ملاحظة: إضافة www. تناسب أغلب المواقع، لكن بعضها لا يعمل معها، ولذلك أتجنبها في الروابط المختصرة وروابط واتساب ويوتيوب والنطاقات الفرعية. افتح الرابط للتأكد منه قبل اعتماده.', lkSample:'✨ مثال', lkBad:'لم أفهم هذا السطر، تأكد من كتابته', lkF_https:'أُضيف https', lkF_www:'أُضيف www', lkF_coord:'إحداثيات → رابط خرائط قوقل', lkF_swap:'قُلب ترتيب الإحداثيات لأنها خارج موقعها (خط العرض أولًا)', lkF_clean:'حُذف التتبّع', lkF_wa:'رقم جوال → رابط واتساب', lkF_mail:'بريد إلكتروني → رابط مراسلة', lkF_skip:'لم يُضف www (رابط مختصر أو نطاق فرعي أو خاص)', lkF_ok:'الرابط سليم', lkF_dms:'درجات ودقائق → إحداثيات عشرية', toolsOptEos:'🧮 حاسبة نهاية الخدمة والإجازة (نظام العمل)', eosTitle:'حاسبة مكافأة نهاية الخدمة والإجازة', eosHint:'احسب مستحقاتك عند انتهاء العمل حسب نظام العمل السعودي: مكافأة نهاية الخدمة وبدل الإجازة المتبقية.', eosStart:'تاريخ بداية العمل', eosEnd:'تاريخ نهاية العمل', eosWage:'آخر أجر شهري كامل (الأساسي + البدلات الثابتة)', eosReason:'سبب انتهاء العلاقة', eosR1:'إنهاء العقد من صاحب العمل أو انتهاء مدته', eosR2:'استقالة العامل', eosR3:'استقالة بسبب إخلال صاحب العمل بالتزاماته (المادة 81)', eosR4:'استقالة لظرف قاهر خارج إرادة العامل', eosR5:'استقالة العاملة خلال 6 أشهر من الزواج أو 3 أشهر من الولادة', eosR6:'فصل من صاحب العمل في حالات المادة 80 (لا مكافأة)', eosLeave:'رصيد الإجازة المتبقية (بالأيام)', eosBtn:'احسب', eosBad:'تأكد من التواريخ والأجر: تاريخ النهاية بعد تاريخ البداية والأجر أكبر من صفر.', eosRes:'النتيجة', eosDur:'مدة الخدمة', eosY:'سنة', eosM:'شهر', eosD:'يوم', eosFirst:'أول 5 سنوات (نصف شهر عن كل سنة)', eosAfter:'ما بعد 5 سنوات (شهر كامل عن كل سنة)', eosGross:'إجمالي المكافأة النظامية', eosFrac:'النسبة المستحقة', eosEos:'مكافأة نهاية الخدمة المستحقة', eosLeavePay:'بدل الإجازة المتبقية (الأجر ÷ 30 × الأيام)', eosTotal:'الإجمالي', eosCurr:'ريال', eosNone:'لا تستحق مكافأة (أقل من سنتين في الاستقالة)', eosFull:'كاملة', eosThird:'ثلث', eosTwoThirds:'ثلثان', eosNoReward:'لا مكافأة', eosCopy:'نسخ النتيجة', eosCopied:'تم النسخ ✓', eosNote:'تقدير استرشادي مبني على المواد 84 و85 من نظام العمل: نصف شهر عن كل سنة من أول 5 سنوات وشهر كامل بعدها، وفي الاستقالة تُمنح ثلث المكافأة بعد سنتين وثلثيها بعد 5 سنوات وكاملة بعد 10. تُحسب الكسور بالأشهر والأيام ويُحتسب يوم النهاية يومًا عاملًا. قد يكون عقدك أو لائحة شركتك أفضل للعامل، فيُعمل بها. لا تدخل هنا مستحقات أخرى كالأجر المتأخر وبدل الإشعار. راجع نظام العمل ووزارة الموارد البشرية للحالات الخاصة.', ceSzSmH:'صغير — أفقي 6×4 سم', ceSzSmV:'صغير — عمودي 4×6 سم', ceSzMdH:'متوسط — أفقي 10×7 سم', ceSzMdV:'متوسط — عمودي 7×10 سم', ceSzLgH:'كبير — أفقي 15×10 سم', ceSzLgV:'كبير — عمودي 10×15 سم', ceSzA5:'A5 (14.8×21 سم)', ceSzInv:'دعوة 12×17 سم (عمودي)', ceFmtCopy:'🎨 نسخ التنسيق', ceFmtSel:'🎯 تطبيق على المحدد', ceFmtAll:'🧩 تطبيق على كل المشابه', ceFmtBoth:'تطبيق على الوجهين', ceStartWed:'قوالب الأفراح والمناسبات', ceStartWedSub:'جاهزة، عدّل عليها بمرونة', ceStartSheet:'ورقة A4 متعددة', ceStartSheetSub:'عدة صور وكروت على صفحة', ceWedTitle:'💍 قوالب الأفراح والمناسبات', ceWedNote:'اختر قالباً ثم غيّر الأسماء والتواريخ والألوان والخطوط وحرّك أي عنصر بحرية. تقدر تحفظه كقالب مشفّر أو تنزّله PDF / صورة.', ceWedBack:'⬅️ رجوع', toolsOptSheet:'🗂️ ورقة A4 متعددة الصور (كروت)', ceStTsAll: 'حجم كل النصوص داخل الختم', ceStRingW: 'سماكة حلقة الكتابة', ceStTsT: 'النص العلوي', ceStTsB: 'النص السفلي', ceStTs1: 'السطر 1 (وسط)', ceStTs2: 'السطر 2 (وسط)', ceStTs3: 'السطر 3 (وسط)', ceStTs4: 'السطر 4 (وسط)',
     ceStTsC: 'حجم كتابة الوسط', ceStTsR: 'حجم الكتابة الدائرية',
     ceTplTitle: '📁 قوالبي المحفوظة', ceTplSave: '💾 حفظ كقالب', ceTplName: 'اسم القالب', ceTplNameDef: 'قالب الكرت', ceTplSaved: 'تم حفظ القالب ✓ يبقى في هذا المتصفح، وللاحتياط صدّره كملف.', ceTplFail: 'تعذّر الحفظ في المتصفح. صدّر القالب كملف بدلاً من ذلك.', ceTplOpen: 'فتح', ceTplDel: 'حذف', ceTplExp: '⬇️ تصدير القالب كملف', ceTplImp: '⬆️ استيراد قالب من ملف', ceTplNone: 'ما فيه قوالب محفوظة بعد.', ceTplBad: 'هذا الملف ليس قالب كرت صالحاً.', ceTplAuto: 'نسخة تلقائية قبل الفتح', ceTplOpened: 'تم فتح القالب ✓',
+    signTabName: '✍️ توقيع', signTabInit: '🔤 أحرف مختصرة', signTabStamp: '🏢 ختم شركة', signInitLabel: '🔤 اكتب أول حرفين أو ثلاثة من اسمك', signInitPh: 'مثال: AM أو أح', signStampLabel: '🏢 اسم المنشأة (على الختم)', signStampPh: 'اسم المؤسسة أو الشركة', signStampSubPh: 'سطر ثانٍ (اختياري): المدينة، السجل...', signThickLabel: 'سماكة الخط',
     signNameLabel: '✍️ اكتب اسمك وحوّله إلى توقيع', signNamePh: 'اكتب الاسم هنا', signInkLabel: 'لون الحبر', signStyleHint: 'اختر شكل التوقيع من الأشكال تحت، وبعدها تقدر تسحبه وتغيّر حجمه مثل أي توقيع.',
     toolsOptSvg: '🎨 تحويل ملف SVG إلى صورة أو PDF', svgTitle: 'تحويل SVG إلى صورة أو PDF', svgHint: 'ارفع ملف SVG واحداً أو عدة ملفات، واختر الصيغة والجودة. التحويل يتم داخل متصفحك ولا يُرفع أي ملف.',
     svgFormat: 'الصيغة', svgScale: 'مقياس الجودة', svgWidth: 'أو عرض مخصص بالبكسل (اختياري)', svgBg: 'الخلفية', svgBgTransparent: 'شفافة (PNG / WebP)', svgBgWhite: 'بيضاء', svgBgCustom: 'لون مخصص', svgBgColor: 'لون الخلفية',
@@ -5771,6 +5785,7 @@ const I18N = {
     toolsOptLink:'🔗 Link fixer (make any link open)', lkTitle:'Link fixer', lkHint:'Paste one or more links (one per line), coordinates or a phone number, and I will turn each into a valid link that opens directly.', lkIn:'Links', lkPh:'e.g. google.com or 24.418529, 46.842052 or 0555555555', lkWww:'Add www. when possible', lkHttps:'Upgrade to https', lkClean:'Simplify the link (remove tracking and unneeded extras)', lkLabel:'Display text instead of the link', lkLabelPh:'e.g. www.goog', lkRich:'Copy as link with text', lkMd:'Markdown', lkHtml:'HTML', lkShort:'✂️ Shorten', lkShortBusy:'Shortening…', lkShortFail:'Could not shorten (needs internet; some networks block the service)', lkShortNote:'Shortening sends the link to the external is.gd service, so do not shorten private or sensitive links.', lkF_short:'Shortened via is.gd', lkF_simp:'Link simplified', lkCopiedRich:'Copied; paste it into Word or email to get a link with text ✓', lkOpen:'Open', lkCopy:'Copy', lkCopyAll:'Copy all', lkCopied:'Copied ✓', lkNone:'Paste a link above.', lkNote:'Note: adding www. suits most sites but breaks some, so I skip it for short links, WhatsApp, YouTube and subdomains. Open the link to check it before relying on it.', lkSample:'✨ Example', lkBad:'I could not understand this line, check how it is written', lkF_https:'https added', lkF_www:'www added', lkF_coord:'Coordinates → Google Maps link', lkF_swap:'Coordinate order flipped (latitude first) because it was out of place', lkF_clean:'Tracking removed', lkF_wa:'Phone number → WhatsApp link', lkF_mail:'Email → mail link', lkF_skip:'www not added (short link, subdomain or special)', lkF_ok:'Link is fine', lkF_dms:'Degrees/minutes → decimal coordinates', toolsOptEos:'🧮 End-of-service & leave calculator (Saudi Labor Law)', eosTitle:'End-of-service award & leave pay calculator', eosHint:'Work out what you are owed when employment ends under the Saudi Labor Law: the end-of-service award and unused leave pay.', eosStart:'Start date', eosEnd:'End date', eosWage:'Last full monthly wage (basic + fixed allowances)', eosReason:'Reason employment ended', eosR1:'Terminated by the employer or contract expired', eosR2:'Employee resigns', eosR3:'Resignation due to employer breach (Article 81)', eosR4:'Resignation due to force majeure beyond the employee’s control', eosR5:'Female employee resigns within 6 months of marriage or 3 months of childbirth', eosR6:'Dismissed in the cases of Article 80 (no award)', eosLeave:'Unused leave balance (days)', eosBtn:'Calculate', eosBad:'Check the dates and wage: the end date must be after the start date and the wage above zero.', eosRes:'Result', eosDur:'Length of service', eosY:'y', eosM:'m', eosD:'d', eosFirst:'First 5 years (half a month per year)', eosAfter:'After 5 years (a full month per year)', eosGross:'Statutory award (total)', eosFrac:'Share payable', eosEos:'End-of-service award payable', eosLeavePay:'Unused leave pay (wage ÷ 30 × days)', eosTotal:'Total', eosCurr:'SAR', eosNone:'No award (under 2 years on resignation)', eosFull:'Full', eosThird:'One third', eosTwoThirds:'Two thirds', eosNoReward:'No award', eosCopy:'Copy result', eosCopied:'Copied ✓', eosNote:'Indicative estimate based on Articles 84 and 85 of the Labor Law: half a month per year for the first 5 years and a full month after that; on resignation one third after 2 years, two thirds after 5 and the full award after 10. Fractions are counted in months and days and the end date counts as a worked day. Your contract or company policy may be more favourable and then applies. Other dues such as unpaid wages and notice pay are not included. Check the Labor Law and the Ministry of Human Resources for special cases.', ceSzSmH:'Small — landscape 6×4 cm', ceSzSmV:'Small — portrait 4×6 cm', ceSzMdH:'Medium — landscape 10×7 cm', ceSzMdV:'Medium — portrait 7×10 cm', ceSzLgH:'Large — landscape 15×10 cm', ceSzLgV:'Large — portrait 10×15 cm', ceSzA5:'A5 (14.8×21 cm)', ceSzInv:'Invitation 12×17 cm (portrait)', ceFmtCopy:'🎨 Copy format', ceFmtSel:'🎯 Apply to selected', ceFmtAll:'🧩 Apply to all similar', ceFmtBoth:'Apply to both sides', ceStartWed:'Wedding & occasion templates', ceStartWedSub:'Ready-made, fully editable', ceStartSheet:'Multi-image A4 sheet', ceStartSheetSub:'Many pictures and cards on a page', ceWedTitle:'💍 Wedding & occasion templates', ceWedNote:'Pick a template, then change names, dates, colours and fonts and move anything freely. Save it as an encrypted template or download PDF / image.', ceWedBack:'⬅️ Back', toolsOptSheet:'🗂️ Multi-image A4 sheet (cards)', ceStTsAll: 'Size of all stamp text', ceStRingW: 'Text ring thickness', ceStTsT: 'Top text', ceStTsB: 'Bottom text', ceStTs1: 'Line 1 (centre)', ceStTs2: 'Line 2 (centre)', ceStTs3: 'Line 3 (centre)', ceStTs4: 'Line 4 (centre)',
     ceStTsC: 'Centre text size', ceStTsR: 'Curved text size',
     ceTplTitle: '📁 My saved templates', ceTplSave: '💾 Save as template', ceTplName: 'Template name', ceTplNameDef: 'Card template', ceTplSaved: 'Template saved ✓ It stays in this browser; export it as a file as a backup.', ceTplFail: 'Could not save in the browser. Export the template as a file instead.', ceTplOpen: 'Open', ceTplDel: 'Delete', ceTplExp: '⬇️ Export template as a file', ceTplImp: '⬆️ Import a template from a file', ceTplNone: 'No saved templates yet.', ceTplBad: 'This file is not a valid card template.', ceTplAuto: 'Automatic copy before opening', ceTplOpened: 'Template opened ✓',
+    signTabName: '✍️ Signature', signTabInit: '🔤 Initials', signTabStamp: '🏢 Company stamp', signInitLabel: '🔤 Type the first 2–3 letters of your name', signInitPh: 'e.g. AM', signStampLabel: '🏢 Business name (on the stamp)', signStampPh: 'Company or business name', signStampSubPh: 'Second line (optional): city, CR no...', signThickLabel: 'Line thickness',
     signNameLabel: '✍️ Type your name and turn it into a signature', signNamePh: 'Type the name here', signInkLabel: 'Ink colour', signStyleHint: 'Pick a signature style below, then drag and resize it like any signature.',
     toolsOptSvg: '🎨 Convert SVG to image or PDF', svgTitle: 'Convert SVG to image or PDF', svgHint: 'Upload one or several SVG files and choose the format and quality. Conversion happens in your browser; nothing is uploaded.',
     svgFormat: 'Format', svgScale: 'Quality scale', svgWidth: 'Or custom width in pixels (optional)', svgBg: 'Background', svgBgTransparent: 'Transparent (PNG / WebP)', svgBgWhite: 'White', svgBgCustom: 'Custom colour', svgBgColor: 'Background colour',
@@ -8977,6 +8992,13 @@ signCtx.lineCap = 'round';
 signCtx.lineJoin = 'round';
 let signDrawing = false;
 let signHasContent = false;
+function setSignSize(w, h){
+  if(signCanvas.width === w && signCanvas.height === h) return;
+  signCanvas.width = w; signCanvas.height = h;
+  const def = (w === 600 && h === 180);
+  signCanvas.style.height = def ? '150px' : 'auto'; signCanvas.style.maxWidth = def ? '500px' : Math.min(500, w) + 'px';
+  signCtx.strokeStyle = '#2B2A28'; signCtx.lineWidth = 3; signCtx.lineCap = 'round'; signCtx.lineJoin = 'round';
+}
 
 function signCanvasPos(evt){
   const rect = signCanvas.getBoundingClientRect();
@@ -9011,6 +9033,7 @@ signCanvas.addEventListener('touchmove', signMove, {passive:false});
 signCanvas.addEventListener('touchend', signEnd);
 
 document.getElementById('sign-clear-btn').addEventListener('click', ()=>{
+  setSignSize(600, 180);
   signCtx.clearRect(0, 0, signCanvas.width, signCanvas.height);
   signHasContent = false;
   updateSignPreview();
@@ -9084,42 +9107,174 @@ function uddahScribble(ctx, name, color, W, H, rtl, variant){
   ctx.restore();
 }
 
-/* Typed name -> signature: handwriting-style fonts drawn onto the signature canvas */
-(function signFromName(){
-  const AR = ["'Aref Ruqaa Ink'", "'Aref Ruqaa'", "'Katibeh'", "'Jomhuria'"];
-  const LAT = ["'Great Vibes'", "'Dancing Script'", "'Allura'", "'Sacramento'", "'Caveat'", "'Satisfy'"];
-  const nameEl = document.getElementById('sign-name'), colEl = document.getElementById('sign-name-color'), box = document.getElementById('sign-styles');
-  let chosen = null;
-  const hasAr = s=> /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(s);
-  async function draw(font, name){
-    chosen = font;
-    if(typeof font === 'object'){ signCtx.clearRect(0, 0, signCanvas.width, signCanvas.height); uddahScribble(signCtx, name, colEl.value, signCanvas.width, signCanvas.height, hasAr(name), font.v); signHasContent = true; updateSignPreview(); return; }
-    try{ await document.fonts.load(`80px ${font}`, name); }catch(e){}
-    const W = signCanvas.width, H = signCanvas.height, ctx = signCtx;
-    ctx.save(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = colEl.value; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = hasAr(name) ? 'rtl' : 'ltr';
-    let size = 150; const fit = ()=>{ ctx.font = `${size}px ${font}`; return ctx.measureText(name).width; };
-    while(size > 14 && fit() > W * 0.86) size -= 2; fit();
-    ctx.translate(W / 2, H / 2); ctx.rotate(-3 * Math.PI / 180); ctx.fillText(name, 0, 0); ctx.restore();
+/* ===== Signature studio: Signature / Initials / Company stamp (generated onto the signature canvas) ===== */
+(function signStudio(){
+  const AR = ["'Aref Ruqaa Ink'", "'Aref Ruqaa'", "'Katibeh'", "'Mirza'", "'Vibes'", "'Lateef'", "'Marhey'", "'Harmattan'", "'Jomhuria'", "'Rakkas'", "'Lalezar'", "'Reem Kufi'"];
+  const LAT = ["'Great Vibes'", "'Dancing Script'", "'Allura'", "'Sacramento'", "'Caveat'", "'Satisfy'", "'Pacifico'", "'Yellowtail'", "'Mr Dafoe'", "'Mrs Saint Delafield'", "'Herr Von Muellerhoff'", "'Kaushan Script'", "'Marck Script'", "'Homemade Apple'", "'Zeyada'", "'Parisienne'"];
+  const NAME_DECOS = ['under', 'tail', 'double', 'slash'];
+  const INIT_DECOS = ['under', 'oval', 'tail', 'none', 'box', 'double', 'slash', 'dot'];
+  const STAMP_DIM = [[600, 260], [440, 440], [600, 380], [600, 260]];
+  const INKS = ['#111111', '#1b2a6b', '#1d4ed8', '#7f1d1d', '#14532d'];
+  const nameEl = document.getElementById('sign-name'), subEl = document.getElementById('sign-stamp-sub'), colEl = document.getElementById('sign-name-color');
+  const box = document.getElementById('sign-styles'), lbl = document.getElementById('sign-name-lbl'), thickEl = document.getElementById('sign-thick'), tabsEl = document.getElementById('sign-tabs');
+  const hasAr = s=> /[؀-ۿݐ-ݿࢠ-ࣿ]/.test(s);
+  const hasLat = s=> /[A-Za-z]/.test(s);
+  let mode = 'name', chosen = null, gen = 0, timer = null;
+
+  async function loadFont(f, text){ try{ await document.fonts.load(`80px ${f}`, text || 'A'); }catch(e){} }
+  function rr(ctx, x, y, w, h, r){ r = Math.min(r, w / 2, h / 2); ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+
+  function drawDeco(ctx, d, o){
+    const { W, H, x0, x1, top, bot, baseY, cx, size, rtl } = o, s = rtl ? -1 : 1, L = rtl ? x1 : x0, R = rtl ? x0 : x1, lw = Math.max(2.5, H * 0.024);
+    ctx.save(); ctx.fillStyle = o.color; ctx.strokeStyle = o.color; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = lw;
+    if(d === 'under'){
+      const y = bot + H * 0.07, xa = L - s * W * 0.04, xb = R + s * W * 0.07, w = xb - xa;
+      ctx.beginPath(); ctx.moveTo(xa, y + H * 0.02);
+      ctx.bezierCurveTo(xa + w * 0.3, y + H * 0.09, xa + w * 0.65, y - H * 0.03, xb, y - H * 0.08);
+      ctx.bezierCurveTo(xa + w * 0.65, y + H * 0.02, xa + w * 0.3, y + H * 0.135, xa, y + H * 0.02); ctx.fill();
+    }else if(d === 'double'){
+      const y1 = bot + H * 0.06, y2 = y1 + H * 0.075;
+      ctx.beginPath(); ctx.moveTo(L - s * W * 0.03, y1 + 3); ctx.quadraticCurveTo(cx, y1 - H * 0.05, R + s * W * 0.06, y1 - H * 0.03); ctx.stroke();
+      ctx.lineWidth = lw * 0.7; ctx.beginPath(); ctx.moveTo(L + s * W * 0.1, y2 + 2); ctx.quadraticCurveTo(cx + s * W * 0.05, y2 - H * 0.04, R + s * W * 0.02, y2 - H * 0.02); ctx.stroke();
+    }else if(d === 'oval'){
+      ctx.beginPath(); ctx.ellipse(cx, (top + bot) / 2, (x1 - x0) / 2 + size * 0.35, (bot - top) / 2 + size * 0.22, -0.05, -0.5, Math.PI * 2 + 0.25); ctx.stroke();
+    }else if(d === 'box'){
+      const rx = (x1 - x0) / 2 + size * 0.3, ry = (bot - top) / 2 + size * 0.2; rr(ctx, cx - rx, (top + bot) / 2 - ry, rx * 2, ry * 2, size * 0.18); ctx.stroke();
+    }else if(d === 'slash'){
+      ctx.lineWidth = lw * 1.1; ctx.beginPath(); ctx.moveTo(L - s * W * 0.05, bot + H * 0.06);
+      ctx.bezierCurveTo(cx, bot + H * 0.11, R, bot - H * 0.1, R + s * W * 0.08, top - H * 0.07); ctx.stroke();
+    }else if(d === 'tail'){
+      ctx.beginPath(); ctx.moveTo(R - s * size * 0.1, baseY - size * 0.05);
+      ctx.bezierCurveTo(R + s * W * 0.05, baseY + H * 0.1, R + s * W * 0.15, baseY - H * 0.2, R + s * W * 0.1, baseY - H * 0.03);
+      ctx.bezierCurveTo(R + s * W * 0.06, baseY + H * 0.08, R + s * W * 0.14, baseY + H * 0.1, R + s * W * 0.16, baseY + H * 0.04); ctx.stroke();
+    }else if(d === 'dot'){
+      ctx.beginPath(); ctx.arc(R + s * size * 0.2, baseY - size * 0.04, size * 0.07, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  async function paintTyped(ctx, W, H, text, spec, color, thick){
+    await loadFont(spec.f, text);
+    const rtl = hasAr(text), d = spec.deco || 'none';
+    ctx.save(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = color; ctx.strokeStyle = color; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.direction = rtl ? 'rtl' : 'ltr';
+    const bx = { none: [0.86, 0.74], under: [0.84, 0.56], double: [0.84, 0.54], tail: [0.6, 0.6], oval: [0.58, 0.46], box: [0.58, 0.46], slash: [0.78, 0.62], dot: [0.74, 0.64] }[d] || [0.86, 0.7];
+    const maxW = W * bx[0], maxH = H * bx[1]; let size = H * 0.9, m;
+    const measure = ()=>{ ctx.font = `${size}px ${spec.f}`; if('letterSpacing' in ctx) ctx.letterSpacing = (spec.ls || 0) * size + 'px'; m = ctx.measureText(text); };
+    const hh = ()=> (m.actualBoundingBoxAscent || size * 0.7) + (m.actualBoundingBoxDescent || 0);
+    measure(); while(size > 12 && (m.width > maxW || hh() > maxH)){ size -= 3; measure(); }
+    const asc = m.actualBoundingBoxAscent || size * 0.7, desc = m.actualBoundingBoxDescent || 0;
+    const cx = W / 2, cy = (d === 'under' || d === 'double') ? H * 0.45 : H * 0.5, baseY = cy + (asc - desc) / 2, tw = m.width;
+    ctx.translate(cx, cy); ctx.rotate((spec.rot == null ? -3 : spec.rot) * Math.PI / 180); ctx.translate(-cx, -cy);
+    ctx.fillText(text, cx, baseY);
+    if(thick > 0){ ctx.lineWidth = thick * size / 60; ctx.strokeText(text, cx, baseY); }
+    drawDeco(ctx, d, { W, H, x0: cx - tw / 2, x1: cx + tw / 2, top: baseY - asc, bot: baseY + desc, baseY, cx, size, rtl, color });
+    ctx.restore();
+  }
+
+  function fitSize(ctx, text, font, maxW, maxS){ let s = maxS; ctx.font = font(s); while(s > 10 && ctx.measureText(text).width > maxW){ s -= 2; ctx.font = font(s); } return s; }
+
+  async function paintStamp(ctx, W, H, name, sub, color, st){
+    const ar = hasAr(name), face = ar ? "'Reem Kufi','Lalezar','Cairo',sans-serif" : "'Montserrat','Open Sans',Arial,sans-serif";
+    await loadFont(ar ? "'Reem Kufi'" : "'Montserrat'", name); if(sub) await loadFont(ar || hasAr(sub) ? "'Reem Kufi'" : "'Montserrat'", sub);
+    ctx.save(); ctx.clearRect(0, 0, W, H); ctx.fillStyle = color; ctx.strokeStyle = color; ctx.lineJoin = 'round'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = ar ? 'rtl' : 'ltr';
+    const bold = s=> `700 ${s}px ${face}`, subFace = hasAr(sub) ? "'Reem Kufi','Cairo',sans-serif" : "'Montserrat','Open Sans',Arial,sans-serif";
+    if(st === 1){ // circle
+      const c = W / 2, R = W / 2 - 12;
+      ctx.lineWidth = 9; ctx.beginPath(); ctx.arc(c, c, R, 0, 7); ctx.stroke(); ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(c, c, R - 16, 0, 7); ctx.stroke();
+      if(!ar && !hasAr(sub || '')){
+        const arc = (txt, top, rad, size)=>{ const chars = Array.from(txt), step = Math.min(0.2, (Math.PI * 0.82) / Math.max(1, chars.length - 1)), span = step * (chars.length - 1); ctx.font = `700 ${size}px ${face}`;
+          chars.forEach((ch, i)=>{ const a = (top ? -Math.PI / 2 : Math.PI / 2) + (top ? 1 : -1) * (-span / 2 + i * step); ctx.save(); ctx.translate(c + Math.cos(a) * rad, c + Math.sin(a) * rad); ctx.rotate(a + (top ? Math.PI / 2 : -Math.PI / 2)); ctx.fillText(ch, 0, 0); ctx.restore(); }); };
+        const up = name.toUpperCase(); const n = Array.from(up).length; arc(up, true, R - 50, Math.max(22, Math.min(46, 400 / (n * 0.9 + 2))));
+        if(sub) arc(sub.toUpperCase(), false, R - 50, 28);
+        ctx.font = `700 ${W * 0.2}px ${face}`; ctx.fillText('★', c, c + 4);
+      }else{
+        const s1 = fitSize(ctx, name, bold, W * 0.58, 64); ctx.font = bold(s1); ctx.fillText(name, c, sub ? c - 18 : c);
+        if(sub){ const s2 = fitSize(ctx, sub, s=> `600 ${s}px ${subFace}`, W * 0.5, 32); ctx.font = `600 ${s2}px ${subFace}`; ctx.fillText(sub, c, c + s1 * 0.6); }
+        ctx.font = `700 26px ${face}`; ctx.fillText('★ ★ ★', c, c - R + 52);
+      }
+    }else if(st === 2){ // oval
+      ctx.lineWidth = 9; ctx.beginPath(); ctx.ellipse(W / 2, H / 2, W / 2 - 12, H / 2 - 12, 0, 0, 7); ctx.stroke(); ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(W / 2, H / 2, W / 2 - 30, H / 2 - 30, 0, 0, 7); ctx.stroke();
+      const s1 = fitSize(ctx, name, bold, W * 0.62, 84); ctx.font = bold(s1); ctx.fillText(name, W / 2, sub ? H / 2 - s1 * 0.18 : H / 2);
+      if(sub){ const s2 = fitSize(ctx, sub, s=> `600 ${s}px ${subFace}`, W * 0.5, 38); ctx.font = `600 ${s2}px ${subFace}`; ctx.fillText(sub, W / 2, H / 2 + s1 * 0.5); }
+    }else{ // rectangles: 0 = double border, 3 = rubber-stamp look (tilted, distressed)
+      if(st === 3){ ctx.translate(W / 2, H / 2); ctx.rotate(-4 * Math.PI / 180); ctx.translate(-W / 2, -H / 2); }
+      ctx.lineWidth = st === 3 ? 10 : 8; rr(ctx, 10, 10, W - 20, H - 20, 22); ctx.stroke();
+      if(st === 0){ ctx.lineWidth = 3; rr(ctx, 26, 26, W - 52, H - 52, 14); ctx.stroke(); }
+      const s1 = fitSize(ctx, name, bold, W * 0.8, 96); ctx.font = bold(s1); const ny = sub ? H * 0.4 : H * 0.5; ctx.fillText(name, W / 2, ny);
+      if(sub){ ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(W * 0.14, H * 0.62); ctx.lineTo(W * 0.86, H * 0.62); ctx.stroke();
+        const s2 = fitSize(ctx, sub, s=> `600 ${s}px ${subFace}`, W * 0.76, 40); ctx.font = `600 ${s2}px ${subFace}`; ctx.fillText(sub, W / 2, H * 0.77); }
+    }
+    ctx.restore();
+    if(st === 3){ // speckle the ink so it reads like a rubber stamp
+      let seed = 0; for(const ch of name) seed = (seed * 31 + ch.charCodeAt(0)) | 0;
+      const rnd = ()=>{ seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+      ctx.save(); ctx.globalCompositeOperation = 'destination-out';
+      for(let i = 0; i < 520; i++){ ctx.globalAlpha = 0.35 + rnd() * 0.65; ctx.beginPath(); ctx.arc(rnd() * W, rnd() * H, 0.7 + rnd() * 2.2, 0, 7); ctx.fill(); }
+      ctx.restore();
+    }
+  }
+
+  function buildItems(){
+    const text = nameEl.value.trim(), sub = subEl.value.trim(), items = [];
+    if(!text) return items;
+    const add = (dim, paint)=> items.push({ dim, paint });
+    if(mode === 'stamp'){ for(let st = 0; st < 4; st++) add(STAMP_DIM[st], (c, W, H, col)=> paintStamp(c, W, H, text, sub, col, st)); return items; }
+    const ar = hasAr(text), lat = hasLat(text) || !ar, init = mode === 'init';
+    const base = init ? text.replace(/\s+/g, '') : text;
+    (init ? [0, 1, 2, 3] : [0, 1, 2, 3, 4, 5, 6, 7]).forEach(v=> add([600, 180], async (c, W, H, col)=>{ c.clearRect(0, 0, W, H); uddahScribble(c, base, col, W, H, ar, v); }));
+    const fonts = (ar ? AR.map(f=> [f, 'ar']) : []).concat(lat ? LAT.map(f=> [f, 'lat']) : []);
+    const make = (kind, i)=>{
+      if(!init) return base;
+      if(kind === 'ar') return i % 2 === 0 ? Array.from(base).join('‌') : base;
+      const up = base.toUpperCase(); return i % 3 === 2 ? Array.from(up).join('.') + '.' : up;
+    };
+    fonts.forEach(([f, kind], i)=>{
+      const deco = init ? INIT_DECOS[i % INIT_DECOS.length] : 'none', t = make(kind, i);
+      add([600, 180], (c, W, H, col)=> paintTyped(c, W, H, t, { f, deco, rot: init && i % 2 ? -6 : -3 }, col, +thickEl.value));
+    });
+    fonts.slice(0, init ? 6 : 8).forEach(([f, kind], i)=>{
+      const deco = init ? INIT_DECOS[(i + 3) % INIT_DECOS.length] : NAME_DECOS[i % NAME_DECOS.length], t = make(kind, i + 1);
+      add([600, 180], (c, W, H, col)=> paintTyped(c, W, H, t, { f, deco, rot: -4 }, col, +thickEl.value));
+    });
+    return items;
+  }
+
+  function setSize(w, h){ if(typeof setSignSize === 'function') setSignSize(w, h); }
+  async function apply(item){
+    chosen = item; setSize(item.dim[0], item.dim[1]);
+    await item.paint(signCtx, item.dim[0], item.dim[1], colEl.value);
     signHasContent = true; updateSignPreview();
   }
   function render(){
-    const name = nameEl.value.trim(); box.textContent = '';
-    if(!name) return;
-    [0, 1, 2, 3, 4, 5, 6, 7].forEach(v=>{
-      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary'; b.style.cssText = 'min-height:64px;padding:4px 8px;display:flex;align-items:center;justify-content:center;';
-      const c = document.createElement('canvas'); c.width = 300; c.height = 100; c.style.cssText = 'width:100%;max-width:140px;height:auto;'; uddahScribble(c.getContext('2d'), name, colEl.value, 300, 100, hasAr(name), v);
-      b.appendChild(c); b.setAttribute('aria-label', 'scribble ' + (v + 1)); b.addEventListener('click', ()=> draw({ v }, name)); box.appendChild(b);
-    });
-    const fonts = hasAr(name) ? AR.concat(/[A-Za-z]/.test(name) ? LAT : []) : LAT;
-    fonts.forEach(f=>{
-      document.fonts.load(`40px ${f}`, name).then(()=>{ b.style.fontFamily = f; }).catch(()=>{});
-      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary';
-      b.style.cssText = `font-family:${f};font-size:1.7rem;line-height:1.3;min-height:64px;padding:6px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:${colEl.value};`;
-      b.textContent = name; b.addEventListener('click', ()=> draw(f, name)); box.appendChild(b);
+    const my = ++gen; box.textContent = ''; const items = buildItems(); if(!items.length) return;
+    items.forEach(it=>{
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn secondary sign-tile'; b.style.cssText = 'padding:4px;background:#fff;border-color:var(--border);display:flex;align-items:center;justify-content:center;min-height:64px;';
+      const c = document.createElement('canvas'); c.width = it.dim[0]; c.height = it.dim[1]; c.style.cssText = 'width:100%;height:auto;max-height:110px;object-fit:contain;display:block;';
+      b.appendChild(c); b.addEventListener('click', ()=> apply(it)); box.appendChild(b);
+      Promise.resolve(it.paint(c.getContext('2d'), it.dim[0], it.dim[1], colEl.value)).catch(()=>{ if(my === gen) c.style.opacity = '.3'; });
     });
   }
-  nameEl.addEventListener('input', render);
-  colEl.addEventListener('input', ()=>{ render(); if(chosen && nameEl.value.trim()) draw(chosen, nameEl.value.trim()); });
+  const later = ()=>{ clearTimeout(timer); timer = setTimeout(render, 160); };
+
+  function setMode(m){
+    mode = m; chosen = null;
+    tabsEl.querySelectorAll('.sign-tab').forEach(b=>{ const on = b.dataset.mode === m; b.classList.toggle('active', on); b.setAttribute('aria-selected', on ? 'true' : 'false'); });
+    const keys = { name: ['signNameLabel', 'signNamePh'], init: ['signInitLabel', 'signInitPh'], stamp: ['signStampLabel', 'signStampPh'] }[m];
+    lbl.setAttribute('data-i18n', keys[0]); nameEl.setAttribute('data-i18n-ph', keys[1]);
+    lbl.textContent = I18N[currentLang][keys[0]]; nameEl.setAttribute('placeholder', I18N[currentLang][keys[1]]);
+    nameEl.maxLength = m === 'init' ? 6 : 60; if(m === 'init' && nameEl.value.length > 6) nameEl.value = nameEl.value.slice(0, 6);
+    subEl.style.display = m === 'stamp' ? '' : 'none'; document.getElementById('sign-thick-wrap').style.display = m === 'stamp' ? 'none' : '';
+    if(m === 'stamp' && colEl.value === '#1b2a6b') { /* keep user's ink */ }
+    render();
+  }
+  tabsEl.addEventListener('click', e=>{ const b = e.target.closest('.sign-tab'); if(b) setMode(b.dataset.mode); });
+  nameEl.addEventListener('input', later); subEl.addEventListener('input', later); thickEl.addEventListener('input', ()=>{ later(); });
+  document.getElementById('sign-inks').innerHTML = INKS.map(c=> `<button type="button" class="sign-ink" data-c="${c}" aria-label="${c}" style="width:34px;height:34px;border-radius:50%;border:2px solid var(--border);background:${c};cursor:pointer;padding:0;"></button>`).join('');
+  document.getElementById('sign-inks').addEventListener('click', e=>{ const b = e.target.closest('.sign-ink'); if(b){ colEl.value = b.dataset.c; colEl.dispatchEvent(new Event('input')); } });
+  colEl.addEventListener('input', ()=>{ render(); if(chosen && nameEl.value.trim()) apply(chosen); });
+  thickEl.addEventListener('change', ()=>{ if(chosen && nameEl.value.trim()) apply(chosen); });
+  window.uddahSignStudio = { setMode, render, get mode(){ return mode; }, count: ()=> box.children.length };
 })();
 
 function makeOverlayDraggable(overlayId, xInput, yInput, xValId, yValId, updateFn){
