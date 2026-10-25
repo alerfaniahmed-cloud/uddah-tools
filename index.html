@@ -526,6 +526,119 @@
   #crop-stage .cm{position:absolute;background:rgba(176,60,40,.35);pointer-events:none;}
   #crop-stage .cb{position:absolute;border:1.5px dashed #B03C28;pointer-events:none;}
   @media print{.toolbar,nav.tabs,#prayer-bar{display:none !important;}}
+  /* ===== chemistry + physics tabs ===== */
+  .ch-ctrl{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 10px;justify-content:space-between;}
+  .ch-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+  .ch-lg{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--border);border-radius:999px;background:var(--bg-elev-2);color:var(--bone);font-size:.78rem;cursor:pointer;font-family:var(--font-display);}
+  .ch-lg i{width:11px;height:11px;border-radius:50%;background:hsl(var(--h) 60% 52%);display:inline-block;}
+  .ch-lg.on{border-color:var(--brass);box-shadow:0 0 0 2px rgba(184,134,59,.35);font-weight:700;}
+  .ch-det{display:grid;grid-template-columns:1fr auto;gap:14px;background:var(--bg-elev-2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;}
+  .ch-dhead{display:flex;gap:14px;align-items:center;margin-bottom:10px;}
+  .ch-dbig{width:84px;height:84px;border-radius:14px;border:2px solid hsl(var(--h) 55% 50%);background:hsl(var(--h) 60% 52% / .2);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;direction:ltr;flex:0 0 auto;}
+  .ch-dbig small{position:absolute;top:5px;left:8px;font-size:.78rem;opacity:.8;}
+  .ch-dbig b{font-size:2.3rem;line-height:1;font-family:var(--font-display);}
+  .ch-dname{font-size:1.25rem;font-weight:700;}
+  .ch-dname2{font-size:.9rem;color:var(--bone-dim);direction:ltr;text-align:start;}
+  .ch-tag{display:inline-block;margin-top:6px;padding:2px 10px;border-radius:999px;font-size:.76rem;background:hsl(var(--h) 60% 52% / .22);border:1px solid hsl(var(--h) 55% 50% / .6);}
+  .ch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+  .ch-grid div{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:7px 9px;}
+  .ch-grid span{display:block;font-size:.72rem;color:var(--bone-dim);}
+  .ch-grid b{font-size:.95rem;}
+  .ch-cfg{background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin-bottom:10px;}
+  .ch-cfg span{display:block;font-size:.72rem;color:var(--bone-dim);margin-bottom:3px;}
+  .ch-cfg b{font-family:var(--font-mono);font-size:.88rem;word-break:break-word;font-weight:600;}
+  .ch-dnav{display:flex;gap:8px;}.ch-dnav .btn{width:auto;padding:6px 14px;min-height:38px;font-size:.85rem;}
+  .ch-dright{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+  .ch-dright canvas{width:210px;height:210px;max-width:100%;}
+  .ch-dright small{font-size:.7rem;color:var(--bone-dim);text-align:center;max-width:200px;}
+  .ch-ptwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:12px;padding:8px;background:var(--bg-elev);direction:ltr;}
+  .ch-pt{display:grid;gap:3px;width:max-content;direction:ltr;grid-template-columns:repeat(18,var(--cs,40px));grid-template-rows:repeat(7,var(--cs,40px)) 12px repeat(2,var(--cs,40px));}
+  .ch-pt.sz-s{--cs:32px;}.ch-pt.sz-m{--cs:42px;}.ch-pt.sz-l{--cs:56px;}
+  .ch-cell{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid hsl(var(--h) 55% 50% / .65);background:hsl(var(--h) 60% 52% / .2);color:var(--bone);border-radius:6px;padding:0;cursor:pointer;line-height:1.05;transition:transform .12s,opacity .15s;touch-action:manipulation;font-family:var(--font-display);}
+  .ch-cell small{position:absolute;top:1px;left:3px;font-size:.5rem;opacity:.75;}
+  .ch-cell b{font-size:.92rem;}
+  .ch-cell em{font-style:normal;font-size:.44rem;opacity:.65;}
+  .sz-l .ch-cell b{font-size:1.2rem}.sz-l .ch-cell small{font-size:.6rem}.sz-l .ch-cell em{font-size:.55rem}
+  .sz-s .ch-cell em{display:none}.sz-s .ch-cell b{font-size:.8rem}
+  .ch-cell:hover{transform:scale(1.18);z-index:2;background:hsl(var(--h) 65% 55% / .4);}
+  .ch-cell.dim{opacity:.13;}
+  .ch-cell.sel{outline:3px solid var(--brass);outline-offset:1px;z-index:3;transform:scale(1.12);}
+  .ch-mark{display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--bone-dim);border:1px dashed var(--steel);border-radius:6px;}
+  .ch-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .ch-ex,.ch-ins{padding:6px 11px;border:1px solid var(--steel);border-radius:8px;background:var(--bg-elev-2);color:var(--bone);font-family:var(--font-mono);font-size:.82rem;cursor:pointer;direction:ltr;touch-action:manipulation;}
+  .ch-ex:hover,.ch-ins:hover{border-color:var(--brass);}
+  .ch-big{margin:14px 0;padding:14px;border-radius:14px;background:linear-gradient(135deg,rgba(184,134,59,.18),rgba(184,134,59,.05));border:1px solid var(--brass);text-align:center;}
+  .ch-big small{display:block;color:var(--bone-dim);font-size:.85rem;}
+  .ch-big b{font-size:2.2rem;font-family:var(--font-display);}.ch-big span{margin-inline-start:6px;color:var(--bone-dim);}
+  .ch-tw{overflow-x:auto;margin:10px 0;}
+  .ch-table{width:100%;border-collapse:collapse;font-size:.88rem;}
+  .ch-table th,.ch-table td{padding:7px 8px;border-bottom:1px solid var(--border);text-align:start;white-space:nowrap;}
+  .ch-table th{font-size:.76rem;color:var(--bone-dim);font-weight:600;}
+  .ch-pbar{height:8px;background:var(--bg-elev-2);border-radius:4px;overflow:hidden;min-width:70px;}.ch-pbar i{display:block;height:100%;border-radius:4px;}
+  .ch-balbox{margin:14px 0 10px;padding:14px;border-radius:14px;background:var(--bg-elev-2);border:1px solid var(--brass);text-align:center;}
+  .ch-balt{font-size:.85rem;color:var(--bone-dim);margin-bottom:8px;}
+  .ch-baleq{font-size:1.35rem;font-family:var(--font-display);line-height:2;word-break:break-word;}
+  .ch-co{color:var(--brass);font-size:1.5rem;margin-inline-end:2px;}
+  .ch-arrow{color:var(--brass);margin:0 6px;}
+  .ch-err{margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(176,90,50,.14);border:1px solid var(--rust);color:var(--bone);font-size:.9rem;line-height:1.7;}
+  .ch-note{margin-top:10px;padding:9px 12px;border-radius:10px;background:var(--bg-elev-2);border:1px solid var(--border);font-size:.86rem;line-height:1.7;color:var(--bone-dim);}
+  .ch-note.ok{border-color:#3d9a5b;color:var(--bone);background:rgba(61,154,91,.14);}.ch-note.bad{border-color:var(--rust);color:var(--bone);}
+  .ch-resgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px;}
+  .ch-res{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;}
+  .ch-res span{font-size:.76rem;color:var(--bone-dim);}.ch-res b{font-size:1.2rem;word-break:break-word;}.ch-res small{font-size:.75rem;color:var(--bone-dim);}
+  .ch-res.hi{border-color:var(--brass);background:rgba(184,134,59,.12);}
+  .ch-card2{margin-top:14px;padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--bg-elev);}
+  .ch-card2 h3{margin:0 0 8px;font-size:1rem;}
+  .ch-tin{display:flex;gap:6px;}.ch-tin select{width:84px;flex:0 0 auto;}
+  .ch-phtop{display:flex;gap:14px;align-items:center;justify-content:center;margin:6px 0 12px;}
+  .ch-beaker{width:110px;height:128px;color:var(--bone);flex:0 0 auto;}
+  .ch-bub{fill:rgba(255,255,255,.7);animation:chBub 3s infinite ease-in;}.ch-bub.b2{animation-delay:.9s}.ch-bub.b3{animation-delay:1.7s}
+  @keyframes chBub{0%{transform:translateY(0);opacity:0}15%{opacity:.9}100%{transform:translateY(-60px);opacity:0}}
+  .ch-phnum{font-size:3rem;font-weight:800;line-height:1;font-family:var(--font-display);transition:color .2s;direction:ltr;}
+  .ch-phlbl{font-size:1.05rem;font-weight:700;margin-top:4px;}.ch-phsub{font-size:.76rem;color:var(--bone-dim);margin-top:6px;direction:ltr;line-height:1.6;}
+  .ch-range{width:100%;accent-color:var(--brass);height:34px;}
+  .ch-phbar{position:relative;height:14px;border-radius:7px;direction:ltr;background:linear-gradient(90deg,hsl(0 75% 50%),hsl(30 80% 50%),hsl(55 85% 50%),hsl(115 65% 45%),hsl(190 70% 45%),hsl(230 65% 50%),hsl(280 60% 45%));margin-top:-4px;}
+  .ch-phbar i{position:absolute;top:-4px;width:6px;height:22px;margin-left:-3px;border-radius:3px;background:var(--bone);border:2px solid var(--bg-elev);box-shadow:0 1px 4px rgba(0,0,0,.4);transition:left .15s;}
+  .ch-phticks{display:flex;justify-content:space-between;direction:ltr;font-size:.72rem;color:var(--bone-dim);margin-top:4px;}
+  .ch-items{display:flex;flex-wrap:wrap;gap:6px;}
+  .ch-it{padding:5px 10px;border-radius:999px;border:1px solid hsl(var(--h) 55% 50% / .7);background:hsl(var(--h) 65% 52% / .16);color:var(--bone);font-size:.8rem;cursor:pointer;font-family:var(--font-display);}
+  .ch-it b{margin-inline-end:6px;direction:ltr;display:inline-block;}.ch-it.on{outline:2px solid var(--brass);font-weight:700;}
+  .ch-gset{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+  .ch-gstart{text-align:center;padding:18px 8px;}.ch-gemoji{font-size:3.4rem;}.ch-gscore{font-size:3rem;font-weight:800;color:var(--brass);}
+  .ch-gstart .btn{max-width:320px;margin:10px auto 0;}
+  .ch-ghead{display:flex;justify-content:space-between;font-weight:700;margin-bottom:6px;}
+  .ch-gbar{height:8px;border-radius:4px;background:var(--bg-elev-2);overflow:hidden;margin-bottom:14px;}.ch-gbar i{display:block;height:100%;background:var(--brass);transition:width .3s;}
+  .ch-gq{text-align:center;padding:12px;}.ch-gsym{font-size:4rem;font-weight:800;font-family:var(--font-display);}.ch-gname{font-size:2.2rem;font-weight:800;}.ch-gq p{margin:6px 0 0;color:var(--bone-dim);}
+  .ch-gopts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .ch-gopt{padding:16px 8px;font-size:1.25rem;border-radius:12px;border:2px solid var(--border);background:var(--bg-elev-2);color:var(--bone);cursor:pointer;font-family:var(--font-display);min-height:60px;transition:transform .1s;touch-action:manipulation;}
+  .ch-gopt:active{transform:scale(.96);}.ch-gopt.right{background:rgba(61,154,91,.3);border-color:#3d9a5b;animation:chPop .35s;}.ch-gopt.wrong{background:rgba(176,90,50,.3);border-color:var(--rust);animation:chShake .35s;}
+  @keyframes chPop{50%{transform:scale(1.08)}}@keyframes chShake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .ch-gfb{text-align:center;margin-top:12px;min-height:26px;font-weight:600;}.ch-gfb.ok{color:#3d9a5b}.ch-gfb.bad{color:var(--rust)}
+  /* physics */
+  .fz-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:12px;}
+  .fz-tile{display:flex;flex-direction:column;gap:5px;text-align:start;padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--bg-elev-2);color:var(--bone);cursor:pointer;font-family:var(--font-display);transition:transform .12s,border-color .12s;touch-action:manipulation;}
+  .fz-tile:hover{border-color:var(--brass);transform:translateY(-2px);}
+  .fz-ti{font-size:1.3rem;}.fz-tile b{font-size:.95rem;}.fz-tile code{font-family:var(--font-mono);font-size:.82rem;color:var(--brass);}
+  .fz-back{width:auto;padding:6px 14px;min-height:38px;font-size:.88rem;margin-bottom:12px;}
+  .fz-fhead h3{margin:0 0 6px;}.fz-eq{display:inline-block;padding:8px 14px;border-radius:10px;background:rgba(184,134,59,.14);border:1px solid var(--brass);font-family:var(--font-mono);font-size:1.15rem;margin-bottom:14px;}
+  .fz-u{color:var(--bone-dim);font-size:.78rem;}
+  .fz-steps{margin-top:12px;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .fz-steps div{padding:9px 12px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:3px;}.fz-steps div:last-child{border-bottom:0}
+  .fz-steps span{font-size:.74rem;color:var(--bone-dim);}.fz-steps code{font-family:var(--font-mono);font-size:.88rem;word-break:break-all;}
+  .fz-cv{width:100%;height:auto;aspect-ratio:8/5;border:1px solid var(--border);border-radius:12px;background:linear-gradient(180deg,var(--bg-elev) 0%,var(--bg-elev-2) 100%);touch-action:none;}
+  .fz-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}.fz-btns .btn{flex:1;min-width:120px;}
+  .fz-pls{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+  .fz-pl{display:grid;grid-template-columns:130px 1fr;gap:4px 12px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:12px;background:var(--bg-elev-2);}
+  .fz-pl.earth{border-color:var(--brass);background:rgba(184,134,59,.1);}
+  .fz-pn{display:flex;flex-direction:column;}.fz-pn span{font-size:1.4rem;line-height:1.1}.fz-pn small{color:var(--bone-dim);font-size:.72rem;}
+  .fz-pbar{height:12px;background:var(--bg-elev);border-radius:6px;overflow:hidden;}.fz-pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass),var(--rust));border-radius:6px;transition:width .3s;}
+  .fz-pv{grid-column:1 / -1;display:flex;flex-direction:column;gap:2px;}.fz-pv small{font-size:.76rem;color:var(--bone-dim);}
+  .fz-cst{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;}
+  .fz-c{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;text-align:start;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:var(--bg-elev-2);color:var(--bone);cursor:pointer;font-family:var(--font-display);}
+  .fz-c b{font-size:1.2rem;color:var(--brass);grid-row:span 2;align-self:center;min-width:34px;}.fz-c span{font-size:.82rem;}.fz-c code{font-family:var(--font-mono);font-size:.78rem;grid-column:2;word-break:break-all;}
+  .fz-c.copied{border-color:#3d9a5b;background:rgba(61,154,91,.2);}
+  @media (max-width:560px){.ch-det{grid-template-columns:1fr}.ch-dright canvas{width:190px;height:190px}.ch-grid{grid-template-columns:repeat(2,1fr)}.fz-pl{grid-template-columns:105px 1fr}.ch-phtop{flex-wrap:wrap}}
+  @media (prefers-reduced-motion:reduce){.ch-bub{animation:none}}
 </style>
 </head>
 <body>
@@ -607,6 +720,8 @@
     <button data-tab="pdf" data-i18n="tabPdf">أدوات PDF</button>
     <button data-tab="images" data-i18n="imgxTab">أدوات الصور</button>
     <button data-tab="calc" data-i18n="ucTab">الحاسبة العلمية</button>
+    <button data-tab="chem" data-i18n="chTab">الكيمياء</button>
+    <button data-tab="phys" data-i18n="fzTab">الفيزياء</button>
   </nav>
 
   <!-- ===================== TAB 1: DATE CONVERTER ===================== -->
@@ -3057,6 +3172,8 @@
 
   <!-- ===================== TAB: SCIENTIFIC CALCULATOR ===================== -->
   <section class="panel" id="panel-calc"><div class="card" id="uc-root"></div></section>
+  <section class="panel" id="panel-chem"><div class="card" id="ch-root"></div></section>
+  <section class="panel" id="panel-phys"><div class="card" id="fz-root"></div></section>
 
   <!-- ===================== TAB: IMAGE TOOLS ===================== -->
   <section class="panel" id="panel-images">
@@ -4895,6 +5012,8 @@ const I18N = {
     toolsPickerHint: 'اختر الأداة اللي تبيها من القائمة.',
     toolsHomeHint: 'كل الأدوات تعمل داخل جهازك — بياناتك وملفاتك ما تُرفع لأي سيرفر.', toolsHomeSearch: 'ابحث عن أداة… (مثال: فاتورة، آيبان، QR)', toolsBack: '→ كل الأدوات المتنوعة', toolsCatDocs: 'مستندات ومعاملات', toolsCatDesign: 'تصميم وصور', toolsCatCalc: 'حسابات وتحقق', toolsCatQuick: 'أدوات سريعة',
     ucTab: 'الحاسبة العلمية',
+    chTab: 'الكيمياء',
+    fzTab: 'الفيزياء',
     toolsPickerLabel: 'الأداة',
     toolsOptQr: '🔗 مولد رمز QR',
     toolsOptSeal: '🖋️ مولد الأختام',
@@ -5838,6 +5957,8 @@ const I18N = {
     toolsPickerHint: 'Pick the tool you want from the list.',
     toolsHomeHint: 'Everything runs on your device — your data and files are never uploaded.', toolsHomeSearch: 'Search a tool… (e.g. invoice, IBAN, QR)', toolsBack: '← All misc tools', toolsCatDocs: 'Documents', toolsCatDesign: 'Design & images', toolsCatCalc: 'Calculators & checks', toolsCatQuick: 'Quick tools',
     ucTab: 'Scientific Calculator',
+    chTab: 'Chemistry',
+    fzTab: 'Physics',
     toolsPickerLabel: 'Tool',
     toolsOptQr: '🔗 QR Code Generator',
     toolsOptSeal: '🖋️ Seal / Stamp Generator',
@@ -18457,6 +18578,793 @@ const UCE = (function(){
   }
   init();
 })();
+
+/* ============================================================
+   CHEMISTRY TAB: periodic table, molar mass, balancer, moles, pH, gas laws, element quiz
+   ============================================================ */
+(function uddahChemUI(){
+  const $ = id=> document.getElementById(id);
+  const lang = ()=> (typeof currentLang !== 'undefined' ? currentLang : 'ar');
+  const B = (ar, en)=> lang() === 'en' ? en : ar;
+  const b = (ar, en)=> `<span data-ar="${ar}" data-en="${en}">${ar}</span>`;
+  const ob = (v, ar, en, sel)=> `<option value="${v}" data-ar="${ar}" data-en="${en}" ${sel ? 'selected' : ''}>${ar}</option>`;
+  const ph = (ar, en)=> `placeholder="${ar}" data-par="${ar}" data-pen="${en}"`;
+  const store = { get(k, d){ try{ const v = localStorage.getItem('uddah-ch-' + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } }, set(k, v){ try{ localStorage.setItem('uddah-ch-' + k, JSON.stringify(v)); }catch(e){} } };
+  const esc = s=> String(s).replace(/[&<>"]/g, c=> ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+  const numIn = id=>{ const el = $(id); if(!el) return NaN; let s = String(el.value).trim().replace(/[٠-٩]/g, d=> d.charCodeAt(0) - 1632).replace(/٫/g, '.').replace(/،/g, '.'); if(s === '') return NaN; const v = Number(s); return isFinite(v) ? v : NaN; };
+  const fnum = (x, d)=>{ if(!isFinite(x)) return '—'; if(x === 0) return '0'; const a = Math.abs(x); if(a >= 1e7 || a < 1e-3){ const e = x.toExponential((d || 4) - 1); const m = e.split('e'); return m[0].replace(/\.?0+$/, '') + ' × 10' + sup(parseInt(m[1], 10)); } return String(parseFloat(x.toPrecision(d || 6))); };
+  const SUP = { '0':'⁰', '1':'¹', '2':'²', '3':'³', '4':'⁴', '5':'⁵', '6':'⁶', '7':'⁷', '8':'⁸', '9':'⁹', '-':'⁻', '+':'⁺' };
+  const sup = n=> String(n).split('').map(c=> SUP[c] || c).join('');
+  const pretty = f=> esc(f).replace(/([A-Za-z\)\]])(\d+)/g, '$1<sub>$2</sub>');
+
+  /* ---------- element data: symbol|ar|en|mass|category ---------- */
+  const RAW = 'H|هيدروجين|Hydrogen|1.008|nm;He|هيليوم|Helium|4.0026|ng;Li|ليثيوم|Lithium|6.94|ak;Be|بيريليوم|Beryllium|9.0122|ae;B|بورون|Boron|10.81|mt;C|كربون|Carbon|12.011|nm;N|نيتروجين|Nitrogen|14.007|nm;O|أكسجين|Oxygen|15.999|nm;F|فلور|Fluorine|18.998|hl;Ne|نيون|Neon|20.180|ng;Na|صوديوم|Sodium|22.990|ak;Mg|مغنيسيوم|Magnesium|24.305|ae;Al|ألومنيوم|Aluminium|26.982|pt;Si|سيليكون|Silicon|28.085|mt;P|فوسفور|Phosphorus|30.974|nm;S|كبريت|Sulfur|32.06|nm;Cl|كلور|Chlorine|35.45|hl;Ar|أرجون|Argon|39.948|ng;K|بوتاسيوم|Potassium|39.098|ak;Ca|كالسيوم|Calcium|40.078|ae;Sc|سكانديوم|Scandium|44.956|tm;Ti|تيتانيوم|Titanium|47.867|tm;V|فاناديوم|Vanadium|50.942|tm;Cr|كروم|Chromium|51.996|tm;Mn|منغنيز|Manganese|54.938|tm;Fe|حديد|Iron|55.845|tm;Co|كوبالت|Cobalt|58.933|tm;Ni|نيكل|Nickel|58.693|tm;Cu|نحاس|Copper|63.546|tm;Zn|زنك|Zinc|65.38|tm;Ga|غاليوم|Gallium|69.723|pt;Ge|جرمانيوم|Germanium|72.630|mt;As|زرنيخ|Arsenic|74.922|mt;Se|سيلينيوم|Selenium|78.971|nm;Br|بروم|Bromine|79.904|hl;Kr|كريبتون|Krypton|83.798|ng;Rb|روبيديوم|Rubidium|85.468|ak;Sr|سترونشيوم|Strontium|87.62|ae;Y|إتريوم|Yttrium|88.906|tm;Zr|زركونيوم|Zirconium|91.224|tm;Nb|نيوبيوم|Niobium|92.906|tm;Mo|موليبدنوم|Molybdenum|95.95|tm;Tc|تكنيشيوم|Technetium|98|tm;Ru|روثينيوم|Ruthenium|101.07|tm;Rh|روديوم|Rhodium|102.91|tm;Pd|بالاديوم|Palladium|106.42|tm;Ag|فضة|Silver|107.87|tm;Cd|كادميوم|Cadmium|112.41|tm;In|إنديوم|Indium|114.82|pt;Sn|قصدير|Tin|118.71|pt;Sb|أنتيمون|Antimony|121.76|mt;Te|تيلوريوم|Tellurium|127.60|mt;I|يود|Iodine|126.90|hl;Xe|زينون|Xenon|131.29|ng;Cs|سيزيوم|Caesium|132.91|ak;Ba|باريوم|Barium|137.33|ae;La|لانثانوم|Lanthanum|138.91|ln;Ce|سيريوم|Cerium|140.12|ln;Pr|براسيوديميوم|Praseodymium|140.91|ln;Nd|نيوديميوم|Neodymium|144.24|ln;Pm|بروميثيوم|Promethium|145|ln;Sm|ساماريوم|Samarium|150.36|ln;Eu|يوروبيوم|Europium|151.96|ln;Gd|غادولينيوم|Gadolinium|157.25|ln;Tb|تيربيوم|Terbium|158.93|ln;Dy|ديسبروسيوم|Dysprosium|162.50|ln;Ho|هولميوم|Holmium|164.93|ln;Er|إربيوم|Erbium|167.26|ln;Tm|ثوليوم|Thulium|168.93|ln;Yb|إتربيوم|Ytterbium|173.05|ln;Lu|لوتيتيوم|Lutetium|174.97|ln;Hf|هافنيوم|Hafnium|178.49|tm;Ta|تانتالوم|Tantalum|180.95|tm;W|تنغستن|Tungsten|183.84|tm;Re|رينيوم|Rhenium|186.21|tm;Os|أوزميوم|Osmium|190.23|tm;Ir|إريديوم|Iridium|192.22|tm;Pt|بلاتين|Platinum|195.08|tm;Au|ذهب|Gold|196.97|tm;Hg|زئبق|Mercury|200.59|tm;Tl|ثاليوم|Thallium|204.38|pt;Pb|رصاص|Lead|207.2|pt;Bi|بزموث|Bismuth|208.98|pt;Po|بولونيوم|Polonium|209|pt;At|أستاتين|Astatine|210|hl;Rn|رادون|Radon|222|ng;Fr|فرانسيوم|Francium|223|ak;Ra|راديوم|Radium|226|ae;Ac|أكتينيوم|Actinium|227|ac;Th|ثوريوم|Thorium|232.04|ac;Pa|بروتكتينيوم|Protactinium|231.04|ac;U|يورانيوم|Uranium|238.03|ac;Np|نبتونيوم|Neptunium|237|ac;Pu|بلوتونيوم|Plutonium|244|ac;Am|أمريسيوم|Americium|243|ac;Cm|كوريوم|Curium|247|ac;Bk|بيركيليوم|Berkelium|247|ac;Cf|كاليفورنيوم|Californium|251|ac;Es|أينشتاينيوم|Einsteinium|252|ac;Fm|فيرميوم|Fermium|257|ac;Md|مندليفيوم|Mendelevium|258|ac;No|نوبيليوم|Nobelium|259|ac;Lr|لورنسيوم|Lawrencium|266|ac;Rf|رذرفورديوم|Rutherfordium|267|tm;Db|دوبنيوم|Dubnium|268|tm;Sg|سيبورجيوم|Seaborgium|269|tm;Bh|بوريوم|Bohrium|270|tm;Hs|هاسيوم|Hassium|277|tm;Mt|مايتنريوم|Meitnerium|278|tm;Ds|دارمشتاتيوم|Darmstadtium|281|tm;Rg|رونتجينيوم|Roentgenium|282|tm;Cn|كوبرنيسيوم|Copernicium|285|tm;Nh|نيهونيوم|Nihonium|286|pt;Fl|فليروفيوم|Flerovium|289|pt;Mc|موسكوفيوم|Moscovium|290|pt;Lv|ليفرموريوم|Livermorium|293|pt;Ts|تينيسين|Tennessine|294|hl;Og|أوغانيسون|Oganesson|294|ng';
+  const EL = {}; const ELS = [];
+  RAW.split(';').forEach((r, i)=>{ const p = r.split('|'); const Z = i + 1; let row, col;
+    if(Z === 1){ row = 1; col = 1; } else if(Z === 2){ row = 1; col = 18; }
+    else if(Z <= 4){ row = 2; col = Z - 2; } else if(Z <= 10){ row = 2; col = Z + 8; }
+    else if(Z <= 12){ row = 3; col = Z - 10; } else if(Z <= 18){ row = 3; col = Z; }
+    else if(Z <= 36){ row = 4; col = Z - 18; } else if(Z <= 54){ row = 5; col = Z - 36; }
+    else if(Z <= 56){ row = 6; col = Z - 54; } else if(Z <= 71){ row = 8.5; col = Z - 54; }
+    else if(Z <= 86){ row = 6; col = Z - 68; } else if(Z <= 88){ row = 7; col = Z - 86; }
+    else if(Z <= 103){ row = 9.5; col = Z - 86; } else { row = 7; col = Z - 100; }
+    const e = { Z, s:p[0], ar:p[1], en:p[2], m:parseFloat(p[3]), c:p[4], row, col, per: Z <= 2 ? 1 : Z <= 10 ? 2 : Z <= 18 ? 3 : Z <= 36 ? 4 : Z <= 54 ? 5 : Z <= 86 ? 6 : 7 };
+    e.st = Z >= 104 ? 'unk' : [35, 80].indexOf(Z) >= 0 ? 'liquid' : [1, 2, 7, 8, 9, 10, 17, 18, 36, 54, 86].indexOf(Z) >= 0 ? 'gas' : 'solid';
+    EL[e.s] = e; ELS.push(e); });
+  const CATS = { nm:['لافلز', 'Nonmetal', 142], ng:['غاز نبيل', 'Noble gas', 280], ak:['فلز قلوي', 'Alkali metal', 8], ae:['فلز قلوي ترابي', 'Alkaline earth', 36], mt:['شبه فلز', 'Metalloid', 170], hl:['هالوجين', 'Halogen', 190], tm:['فلز انتقالي', 'Transition metal', 215], pt:['فلز ضعيف', 'Post-transition', 245], ln:['لانثانيدات', 'Lanthanide', 320], ac:['أكتينيدات', 'Actinide', 345] };
+  const STS = { gas:['غاز', 'Gas', 200], liquid:['سائل', 'Liquid', 30], solid:['صلب', 'Solid', 235], unk:['غير معروف', 'Unknown', 0] };
+  const EXC = { 24:{ '3d':5, '4s':1 }, 29:{ '3d':10, '4s':1 }, 41:{ '4d':4, '5s':1 }, 42:{ '4d':5, '5s':1 }, 44:{ '4d':7, '5s':1 }, 45:{ '4d':8, '5s':1 }, 46:{ '4d':10, '5s':0 }, 47:{ '4d':10, '5s':1 }, 57:{ '4f':0, '5d':1 }, 58:{ '4f':1, '5d':1 }, 64:{ '4f':7, '5d':1 }, 78:{ '5d':9, '6s':1 }, 79:{ '5d':10, '6s':1 }, 89:{ '5f':0, '6d':1 }, 90:{ '5f':0, '6d':2 }, 91:{ '5f':2, '6d':1 }, 92:{ '5f':3, '6d':1 }, 93:{ '5f':4, '6d':1 }, 96:{ '5f':7, '6d':1 } };
+  const ORDER = ['1s', '2s', '2p', '3s', '3p', '4s', '3d', '4p', '5s', '4d', '5p', '6s', '4f', '5d', '6p', '7s', '5f', '6d', '7p'];
+  const CAP = { s:2, p:6, d:10, f:14 };
+  function config(Z){ let left = Z; const occ = {}; for(const o of ORDER){ const k = Math.min(CAP[o[1]], left); if(k > 0) occ[o] = k; left -= k; if(left <= 0) break; }
+    const ex = EXC[Z]; if(ex) Object.assign(occ, ex); Object.keys(occ).forEach(k=>{ if(occ[k] === 0) delete occ[k]; });
+    const keys = Object.keys(occ).sort((a, c)=> (+a[0] - +c[0]) || ('spdf'.indexOf(a[1]) - 'spdf'.indexOf(c[1])));
+    const shells = []; keys.forEach(k=>{ shells[+k[0] - 1] = (shells[+k[0] - 1] || 0) + occ[k]; });
+    for(let i = 0; i < shells.length; i++) shells[i] = shells[i] || 0;
+    return { occ, keys, shells, text: keys.map(k=> k[0] + k[1] + sup(occ[k])).join(' ') }; }
+
+  /* ---------- formula parsing / molar mass ---------- */
+  function parseFormula(str){
+    let s = String(str).replace(/\s+/g, '').replace(/[₀-₉]/g, d=> String(d.charCodeAt(0) - 8320)).replace(/[٠-٩]/g, d=> String(d.charCodeAt(0) - 1632));
+    if(!s) throw new Error('empty');
+    const total = {};
+    s.split(/[·•*.]/).forEach(part=>{
+      if(!part) throw new Error('syntax');
+      const lead = part.match(/^(\d+)/); let mult = 1; if(lead){ mult = parseInt(lead[1], 10); part = part.slice(lead[1].length); }
+      if(!part) throw new Error('syntax');
+      let i = 0;
+      const readNum = ()=>{ let j = i; while(j < part.length && /\d/.test(part[j])) j++; const n = j > i ? parseInt(part.slice(i, j), 10) : 1; i = j; return n; };
+      const grp = close=>{
+        const m = {};
+        while(i < part.length){
+          const ch = part[i];
+          if(ch === '(' || ch === '['){ i++; const inner = grp(ch === '(' ? ')' : ']'); const n = readNum(); for(const k in inner) m[k] = (m[k] || 0) + inner[k] * n; }
+          else if(ch === ')' || ch === ']'){ if(close !== ch) throw new Error('syntax'); i++; return m; }
+          else if(/[A-Z]/.test(ch)){ let sym = ch; i++; if(i < part.length && /[a-z]/.test(part[i])){ sym += part[i]; i++; }
+            if(!EL[sym]){ const e = new Error('element'); e.sym = sym; throw e; }
+            const n = readNum(); m[sym] = (m[sym] || 0) + n; }
+          else throw new Error('syntax');
+        }
+        if(close) throw new Error('syntax');
+        return m;
+      };
+      const m = grp(null); for(const k in m) total[k] = (total[k] || 0) + m[k] * mult;
+    });
+    return total;
+  }
+  const molarMass = counts=> Object.keys(counts).reduce((a, k)=> a + EL[k].m * counts[k], 0);
+  function fmtErr(e){ if(e && e.message === 'element') return B('رمز عنصر غير معروف: ', 'Unknown element symbol: ') + esc(e.sym); if(e && e.message === 'empty') return B('اكتب الصيغة أولاً', 'Enter a formula first'); return B('الصيغة غير صحيحة — تذكر أن الحرف الأول كبير والثاني صغير (مثل NaCl)', 'Invalid formula — remember capital then lowercase (e.g. NaCl)'); }
+
+  /* ---------- equation balancing (exact rational arithmetic) ---------- */
+  const bgcd = (a, c)=>{ a = a < 0n ? -a : a; c = c < 0n ? -c : c; while(c){ [a, c] = [c, a % c]; } return a; };
+  const fr = (n, d)=>{ if(d === undefined) d = 1n; if(d < 0n){ n = -n; d = -d; } const g = bgcd(n, d) || 1n; return [n / g, d / g]; };
+  const fadd = (x, y)=> fr(x[0] * y[1] + y[0] * x[1], x[1] * y[1]);
+  const fmul = (x, y)=> fr(x[0] * y[0], x[1] * y[1]);
+  const fdiv = (x, y)=> fr(x[0] * y[1], x[1] * y[0]);
+  function balance(text){
+    const parts = String(text).split(/->|→|⟶|⇒|=>|⟹|=/);
+    if(parts.length !== 2 || !parts[0].trim() || !parts[1].trim()) throw new Error('sides');
+    const side = t=> t.split('+').map(x=> x.trim().replace(/^\d+\s*/, '')).filter(Boolean);
+    const L = side(parts[0]), R = side(parts[1]);
+    if(!L.length || !R.length) throw new Error('sides');
+    const sp = L.concat(R), nl = L.length;
+    const counts = sp.map(parseFormula);
+    const elems = []; counts.forEach(c=> Object.keys(c).forEach(k=>{ if(elems.indexOf(k) < 0) elems.push(k); }));
+    const rows = elems.map(el=> counts.map((c, j)=> fr(BigInt((c[el] || 0) * (j < nl ? 1 : -1)))));
+    const ncol = sp.length; let r = 0; const piv = [];
+    for(let c = 0; c < ncol && r < rows.length; c++){
+      let p = -1; for(let i = r; i < rows.length; i++) if(rows[i][c][0] !== 0n){ p = i; break; }
+      if(p < 0) continue; [rows[r], rows[p]] = [rows[p], rows[r]];
+      const pv = rows[r][c]; rows[r] = rows[r].map(x=> fdiv(x, pv));
+      for(let i = 0; i < rows.length; i++) if(i !== r && rows[i][c][0] !== 0n){ const f = rows[i][c]; rows[i] = rows[i].map((x, k)=> fadd(x, fmul(fr(-f[0], f[1]), rows[r][k]))); }
+      piv.push(c); r++;
+    }
+    const free = []; for(let c = 0; c < ncol; c++) if(piv.indexOf(c) < 0) free.push(c);
+    if(free.length === 0) throw new Error('impossible');
+    if(free.length > 1) throw new Error('many');
+    const fc = free[0]; const sol = new Array(ncol).fill(null).map(()=> fr(0n)); sol[fc] = fr(1n);
+    piv.forEach((pc, i)=>{ sol[pc] = fr(-rows[i][fc][0], rows[i][fc][1]); });
+    let lcm = 1n; sol.forEach(x=>{ lcm = lcm / bgcd(lcm, x[1]) * x[1]; });
+    let ints = sol.map(x=> x[0] * (lcm / x[1]));
+    let g = 0n; ints.forEach(x=>{ g = bgcd(g, x); }); if(g > 1n) ints = ints.map(x=> x / g);
+    if(ints.every(x=> x <= 0n)) ints = ints.map(x=> -x);
+    if(ints.some(x=> x <= 0n)) throw new Error('impossible');
+    const co = ints.map(x=> Number(x));
+    return { species: sp, left: L.length, coef: co, counts };
+  }
+  function eqHtml(res){ const one = (i)=> (res.coef[i] > 1 ? '<b class="ch-co">' + res.coef[i] + '</b>' : '') + pretty(res.species[i]);
+    const l = res.species.slice(0, res.left).map((_, i)=> one(i)).join(' + '); const r = res.species.slice(res.left).map((_, i)=> one(i + res.left)).join(' + ');
+    return l + ' <span class="ch-arrow">⟶</span> ' + r; }
+
+  /* ---------- UI ---------- */
+  const MODES = [['table', 'الجدول الدوري', 'Periodic table'], ['mass', 'الكتلة المولية', 'Molar mass'], ['bal', 'موازنة المعادلات', 'Balancer'], ['mol', 'المولات', 'Moles'], ['ph', 'الحموضة pH', 'pH'], ['gas', 'الغازات', 'Gas laws'], ['game', 'لعبة العناصر', 'Element game']];
+  const S = { mode:'table', sel:1, color:'cat', size:'m', filter:null, q:'' };
+  const ex = (list, id, target)=> `<div class="ch-chips" data-for="${target}">` + list.map(x=> `<button type="button" class="ch-ex" data-v="${esc(x)}">${esc(x)}</button>`).join('') + '</div>';
+  function html(){
+    return `
+    <h2>${b('الكيمياء', 'Chemistry')}</h2>
+    <p class="hint">${b('جدول دوري تفاعلي بنموذج بور المتحرك، كتل مولية، موازنة المعادلات تلقائياً، مولات، حموضة، قوانين الغازات ولعبة تحدي العناصر.', 'Interactive periodic table with animated Bohr model, molar mass, automatic equation balancing, moles, pH, gas laws and an element challenge game.')}</p>
+    <div class="img-chips" id="ch-modes">${MODES.map(m=> `<button type="button" class="img-chip ${m[0] === 'table' ? 'active' : ''}" data-m="${m[0]}" data-ar="${m[1]}" data-en="${m[2]}">${m[1]}</button>`).join('')}</div>
+
+    <div class="ch-sec" data-m="table">
+      <div class="row" style="align-items:flex-end">
+        <div class="field"><label>${b('ابحث عن عنصر (اسم، رمز أو رقم)', 'Search an element (name, symbol or number)')}</label><input type="text" id="ch-q" autocomplete="off" ${ph('مثال: ذهب، Fe، 26', 'e.g. gold, Fe, 26')}></div>
+      </div>
+      <div class="ch-ctrl">
+        <div class="img-chips" id="ch-colorby"><button type="button" class="img-chip active" data-c="cat" data-ar="تلوين: الفئة" data-en="Color: category">تلوين: الفئة</button><button type="button" class="img-chip" data-c="state" data-ar="تلوين: الحالة" data-en="Color: state">تلوين: الحالة</button></div>
+        <div class="img-chips" id="ch-size"><button type="button" class="img-chip" data-z="s">A−</button><button type="button" class="img-chip active" data-z="m">A</button><button type="button" class="img-chip" data-z="l">A+</button></div>
+      </div>
+      <div class="ch-legend" id="ch-legend"></div>
+      <div class="ch-det" id="ch-det"></div>
+      <div class="ch-ptwrap"><div class="ch-pt" id="ch-pt"></div></div>
+      <p class="hint" style="margin-top:8px">${b('اسحب الجدول يميناً ويساراً على الجوال، واضغط أي عنصر لترى تفاصيله ونموذج بور.', 'Swipe the table sideways on mobile and tap any element to see details and its Bohr model.')}</p>
+    </div>
+
+    <div class="ch-sec" data-m="mass" style="display:none">
+      <div class="field"><label>${b('الصيغة الكيميائية', 'Chemical formula')}</label><input type="text" id="ch-f" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Ca(OH)2"></div>
+      ${ex(['H2O', 'CO2', 'NaCl', 'C6H12O6', 'H2SO4', 'Ca(OH)2', 'NaHCO3', 'Al2(SO4)3', 'CuSO4·5H2O'], 'f', 'ch-f')}
+      <button type="button" class="btn" id="ch-fgo" style="margin-top:12px">${b('احسب الكتلة المولية', 'Calculate molar mass')}</button>
+      <div id="ch-fout"></div>
+    </div>
+
+    <div class="ch-sec" data-m="bal" style="display:none">
+      <div class="field"><label>${b('المعادلة (استخدم -> أو = أو الزر ⟶)', 'Equation (use -> or = or the ⟶ button)')}</label><input type="text" id="ch-eq" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Fe + O2 -> Fe2O3"></div>
+      <div class="ch-chips"><button type="button" class="ch-ins" data-i=" -> ">⟶</button><button type="button" class="ch-ins" data-i=" + ">+</button><button type="button" class="ch-ins" data-i="(">(</button><button type="button" class="ch-ins" data-i=")">)</button></div>
+      ${ex(['CH4 + O2 -> CO2 + H2O', 'Fe + O2 -> Fe2O3', 'H2 + O2 -> H2O', 'C6H12O6 + O2 -> CO2 + H2O', 'Al + HCl -> AlCl3 + H2', 'C3H8 + O2 -> CO2 + H2O', 'KMnO4 + HCl -> KCl + MnCl2 + H2O + Cl2', 'Ca(OH)2 + H3PO4 -> Ca3(PO4)2 + H2O'], 'e', 'ch-eq')}
+      <button type="button" class="btn" id="ch-eqgo" style="margin-top:12px">${b('وازن المعادلة', 'Balance equation')}</button>
+      <div id="ch-eqout"></div>
+    </div>
+
+    <div class="ch-sec" data-m="mol" style="display:none">
+      <div class="field"><label>${b('الصيغة (أو اكتب الكتلة المولية كرقم)', 'Formula (or type the molar mass as a number)')}</label><input type="text" id="ch-mf" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="H2O"></div>
+      <div class="row">
+        <div class="field"><label>${b('أعرف', 'I know')}</label><select id="ch-mk">${ob('g', 'الكتلة (جم)', 'Mass (g)', true)}${ob('mol', 'عدد المولات (mol)', 'Moles (mol)')}${ob('p', 'عدد الجسيمات', 'Particles')}${ob('L', 'حجم الغاز STP (لتر)', 'Gas volume STP (L)')}</select></div>
+        <div class="field"><label>${b('القيمة', 'Value')}</label><input type="text" id="ch-mv" inputmode="decimal" dir="ltr" placeholder="18"></div>
+      </div>
+      <div class="field"><label>${b('حجم المحلول (لتر) — اختياري لحساب التركيز المولاري', 'Solution volume (L) — optional, for molarity')}</label><input type="text" id="ch-mvol" inputmode="decimal" dir="ltr" placeholder="0.5"></div>
+      <button type="button" class="btn" id="ch-mgo">${b('حوّل', 'Convert')}</button>
+      <div id="ch-mout"></div>
+    </div>
+
+    <div class="ch-sec" data-m="ph" style="display:none">
+      <div class="ch-phtop"><svg class="ch-beaker" viewBox="0 0 120 140" aria-hidden="true"><defs><clipPath id="ch-bclip"><path d="M26 30 L26 118 Q26 128 36 128 L84 128 Q94 128 94 118 L94 30 Z"/></clipPath></defs><g clip-path="url(#ch-bclip)"><rect id="ch-liq" x="20" y="52" width="80" height="80" fill="hsl(115 70% 50%)"/><circle class="ch-bub b1" cx="48" cy="118" r="3"/><circle class="ch-bub b2" cx="68" cy="122" r="2.4"/><circle class="ch-bub b3" cx="78" cy="116" r="3.4"/></g><path d="M22 22 L26 30 L26 118 Q26 128 36 128 L84 128 Q94 128 94 118 L94 30 L98 22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="ch-phbig"><div class="ch-phnum" id="ch-phnum">7.00</div><div class="ch-phlbl" id="ch-phlbl"></div><div class="ch-phsub" id="ch-phsub"></div></div></div>
+      <input type="range" id="ch-phr" min="0" max="14" step="0.1" value="7" class="ch-range">
+      <div class="ch-phbar" id="ch-phbar"><i id="ch-phmark"></i></div>
+      <div class="ch-phticks"><span>0</span><span>7</span><span>14</span></div>
+      <div class="ch-card2"><h3>${b('احسب من تركيز', 'Calculate from concentration')}</h3>
+        <div class="row">
+          <div class="field"><label>${b('نوع المادة', 'Substance type')}</label><select id="ch-pk">${ob('sa', 'حمض قوي', 'Strong acid', true)}${ob('sb', 'قاعدة قوية', 'Strong base')}${ob('wa', 'حمض ضعيف (Ka)', 'Weak acid (Ka)')}${ob('wb', 'قاعدة ضعيفة (Kb)', 'Weak base (Kb)')}${ob('h', 'من [H⁺] مباشرة', 'From [H⁺]')}</select></div>
+          <div class="field"><label>${b('التركيز (mol/L)', 'Concentration (mol/L)')}</label><input type="text" id="ch-pc" inputmode="decimal" dir="ltr" placeholder="0.01"></div>
+        </div>
+        <div class="row">
+          <div class="field" id="ch-pnw"><label>${b('عدد أيونات H⁺ أو OH⁻ لكل جزيء', 'H⁺ / OH⁻ ions per formula unit')}</label><input type="text" id="ch-pn" inputmode="numeric" dir="ltr" value="1"></div>
+          <div class="field" id="ch-pkw" style="display:none"><label id="ch-pklabel">Ka</label><input type="text" id="ch-pka" inputmode="decimal" dir="ltr" placeholder="1.8e-5"></div>
+        </div>
+        <button type="button" class="btn" id="ch-pgo">${b('احسب pH', 'Calculate pH')}</button>
+        <div id="ch-pout"></div></div>
+      <div class="ch-card2"><h3>${b('أين تقع في حياتنا؟', 'Where is it in everyday life?')}</h3><div class="ch-items" id="ch-items"></div></div>
+    </div>
+
+    <div class="ch-sec" data-m="gas" style="display:none">
+      <div class="ch-card2"><h3>${b('قانون الغاز المثالي  PV = nRT', 'Ideal gas law  PV = nRT')}</h3>
+        <p class="hint">${b('اترك الخانة المجهولة فارغة وسيحسبها لك.', 'Leave the unknown box empty and it will be solved for you.')}</p>
+        <div class="row"><div class="field"><label>P (atm)</label><input type="text" id="ch-gP" inputmode="decimal" dir="ltr"></div><div class="field"><label>V (L)</label><input type="text" id="ch-gV" inputmode="decimal" dir="ltr"></div></div>
+        <div class="row"><div class="field"><label>n (mol)</label><input type="text" id="ch-gn" inputmode="decimal" dir="ltr"></div><div class="field"><label>T</label><div class="ch-tin"><input type="text" id="ch-gT" inputmode="decimal" dir="ltr"><select id="ch-gu"><option value="K">K</option><option value="C">°C</option></select></div></div></div>
+        <button type="button" class="btn" id="ch-ggo">${b('احسب', 'Solve')}</button><div id="ch-gout"></div></div>
+      <div class="ch-card2"><h3>${b('القانون العام للغازات  P₁V₁/T₁ = P₂V₂/T₂', 'Combined gas law  P₁V₁/T₁ = P₂V₂/T₂')}</h3>
+        <div class="row"><div class="field"><label>P₁</label><input type="text" id="ch-cP1" inputmode="decimal" dir="ltr"></div><div class="field"><label>V₁</label><input type="text" id="ch-cV1" inputmode="decimal" dir="ltr"></div><div class="field"><label>T₁</label><input type="text" id="ch-cT1" inputmode="decimal" dir="ltr"></div></div>
+        <div class="row"><div class="field"><label>P₂</label><input type="text" id="ch-cP2" inputmode="decimal" dir="ltr"></div><div class="field"><label>V₂</label><input type="text" id="ch-cV2" inputmode="decimal" dir="ltr"></div><div class="field"><label>T₂</label><input type="text" id="ch-cT2" inputmode="decimal" dir="ltr"></div></div>
+        <div class="row"><div class="field"><label>${b('وحدة الحرارة', 'Temperature unit')}</label><select id="ch-cu"><option value="K">K</option><option value="C">°C</option></select></div></div>
+        <p class="hint">${b('الضغط والحجم بأي وحدة بشرط توحيدها بين الحالتين.', 'Pressure and volume in any unit as long as both states match.')}</p>
+        <button type="button" class="btn" id="ch-cgo">${b('احسب', 'Solve')}</button><div id="ch-cout"></div></div>
+    </div>
+
+    <div class="ch-sec" data-m="game" style="display:none"><div id="ch-game"></div></div>`;
+  }
+
+  /* ----- periodic table ----- */
+  const catName = c=> B(CATS[c][0], CATS[c][1]);
+  const hueOf = e=> S.color === 'cat' ? CATS[e.c][2] : STS[e.st][2];
+  const groupOf = e=> (e.c === 'ln' || e.c === 'ac') ? null : (e.col);
+  function matches(e){
+    if(S.filter){ if(S.color === 'cat' ? e.c !== S.filter : e.st !== S.filter) return false; }
+    if(S.q){ const q = S.q.toLowerCase(); if(!(e.s.toLowerCase() === q || String(e.Z) === q || e.en.toLowerCase().indexOf(q) >= 0 || e.ar.indexOf(S.q) >= 0)) return false; }
+    return true;
+  }
+  function renderLegend(){
+    const keys = S.color === 'cat' ? Object.keys(CATS) : ['solid', 'liquid', 'gas', 'unk'];
+    $('ch-legend').innerHTML = keys.map(k=> { const d = S.color === 'cat' ? CATS[k] : STS[k]; return `<button type="button" class="ch-lg ${S.filter === k ? 'on' : ''}" data-k="${k}" style="--h:${d[2]}"><i></i>${B(d[0], d[1])}</button>`; }).join('');
+  }
+  function renderTable(){
+    const cells = ELS.map(e=>{ const gr = e.row === 8.5 ? 9 : e.row === 9.5 ? 10 : e.row;
+      return `<button type="button" class="ch-cell ${matches(e) ? '' : 'dim'} ${S.sel === e.Z ? 'sel' : ''}" data-z="${e.Z}" style="grid-row:${gr};grid-column:${e.col};--h:${hueOf(e)}" aria-label="${esc(B(e.ar, e.en))}"><small>${e.Z}</small><b>${e.s}</b><em>${e.m >= 100 && e.m % 1 === 0 ? '(' + e.m + ')' : fnum(e.m, 4)}</em></button>`; }).join('');
+    const marks = `<div class="ch-mark" style="grid-row:6;grid-column:3">57–71</div><div class="ch-mark" style="grid-row:7;grid-column:3">89–103</div>`;
+    $('ch-pt').innerHTML = cells + marks;
+    $('ch-pt').className = 'ch-pt sz-' + S.size;
+  }
+  function renderDet(){
+    const e = ELS[S.sel - 1]; const cf = config(e.Z); const grp = groupOf(e);
+    const val = e.c === 'tm' || e.c === 'ln' || e.c === 'ac' ? B('متغير', 'Variable') : (e.Z === 2 ? 2 : cf.shells[cf.shells.length - 1]);
+    $('ch-det').innerHTML = `<div class="ch-dleft"><div class="ch-dhead" style="--h:${CATS[e.c][2]}"><div class="ch-dbig"><small>${e.Z}</small><b>${e.s}</b></div><div><div class="ch-dname">${esc(B(e.ar, e.en))}</div><div class="ch-dname2">${esc(B(e.en, e.ar))}</div><span class="ch-tag" style="--h:${CATS[e.c][2]}">${catName(e.c)}</span></div></div>
+      <div class="ch-grid"><div><span>${B('الكتلة الذرية', 'Atomic mass')}</span><b>${fnum(e.m, 6)}</b></div><div><span>${B('الحالة (25°م)', 'State (25°C)')}</span><b>${B(STS[e.st][0], STS[e.st][1])}</b></div><div><span>${B('الدورة', 'Period')}</span><b>${e.per}</b></div><div><span>${B('المجموعة', 'Group')}</span><b>${grp || '—'}</b></div><div><span>${B('إلكترونات التكافؤ', 'Valence e⁻')}</span><b>${val}</b></div><div><span>${B('عدد الإلكترونات', 'Electrons')}</span><b>${e.Z}</b></div></div>
+      <div class="ch-cfg"><span>${B('التوزيع الإلكتروني', 'Electron configuration')}</span><b dir="ltr">${cf.text}</b></div>
+      <div class="ch-dnav"><button type="button" class="btn secondary" id="ch-prev">▶ ${B('السابق', 'Prev')}</button><button type="button" class="btn secondary" id="ch-next">${B('التالي', 'Next')} ◀</button></div></div>
+      <div class="ch-dright"><canvas id="ch-bohr" width="320" height="320"></canvas><small>${B('نموذج بور: الإلكترونات في مستويات الطاقة', 'Bohr model: electrons in energy levels')}</small></div>`;
+    startBohr();
+  }
+  let bohrRaf = 0, bohrT = 0;
+  function drawBohr(){
+    const cv = $('ch-bohr'); if(!cv || !cv.offsetParent){ bohrRaf = 0; return; }
+    const ctx = cv.getContext('2d'); const W = cv.width, cx = W / 2;
+    const cs = getComputedStyle(document.documentElement); const bone = cs.getPropertyValue('--bone').trim() || '#333', brass = cs.getPropertyValue('--brass').trim() || '#B8863B';
+    const e = ELS[S.sel - 1]; const sh = config(e.Z).shells; const n = sh.length;
+    ctx.clearRect(0, 0, W, W);
+    const rN = 16, step = (cx - 14 - rN - 8) / n;
+    ctx.lineWidth = 1.2; ctx.strokeStyle = bone; ctx.globalAlpha = .28;
+    for(let i = 0; i < n; i++){ ctx.beginPath(); ctx.arc(cx, cx, rN + 8 + step * (i + 1) - step * .4, 0, 6.2832); ctx.stroke(); }
+    ctx.globalAlpha = 1;
+    const g = ctx.createRadialGradient(cx - 4, cx - 4, 2, cx, cx, rN); g.addColorStop(0, '#f6d38b'); g.addColorStop(1, '#b8863b');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cx, rN, 0, 6.2832); ctx.fill();
+    ctx.fillStyle = '#2b2a28'; ctx.font = 'bold ' + (e.Z > 99 ? 11 : 13) + 'px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(String(e.Z), cx, cx + 1);
+    for(let i = 0; i < n; i++){ const r = rN + 8 + step * (i + 1) - step * .4; const cnt = sh[i]; const sp = (1 / (i + 1.2)) * .9;
+      for(let k = 0; k < cnt; k++){ const a = bohrT * sp + k * 6.2832 / cnt; const x = cx + r * Math.cos(a), y = cx + r * Math.sin(a);
+        ctx.fillStyle = brass; ctx.beginPath(); ctx.arc(x, y, 4.6, 0, 6.2832); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.beginPath(); ctx.arc(x - 1.3, y - 1.3, 1.5, 0, 6.2832); ctx.fill(); } }
+    bohrT += .035; bohrRaf = requestAnimationFrame(drawBohr);
+  }
+  function startBohr(){ if(!bohrRaf && S.mode === 'table') bohrRaf = requestAnimationFrame(drawBohr); }
+  function selectEl(z, scroll){ S.sel = Math.max(1, Math.min(118, z)); renderTable(); renderDet(); if(scroll){ const d = $('ch-det').getBoundingClientRect(); if(d.top < 60 || d.bottom > innerHeight) $('ch-det').scrollIntoView({ block:'nearest', behavior:'smooth' }); } const c = document.querySelector('.ch-cell.sel'); if(c && !scroll){ } }
+
+  /* ----- molar mass ----- */
+  function massOut(){
+    const out = $('ch-fout');
+    try{
+      const counts = parseFormula($('ch-f').value); const M = molarMass(counts); const keys = Object.keys(counts).sort((a, c)=> EL[a].Z - EL[c].Z);
+      const rows = keys.map(k=>{ const part = EL[k].m * counts[k]; const pc = part / M * 100; return `<tr><td><b>${k}</b> <small>${esc(B(EL[k].ar, EL[k].en))}</small></td><td>${counts[k]}</td><td>${fnum(EL[k].m, 5)}</td><td>${fnum(part, 5)}</td><td><div class="ch-pbar"><i style="width:${pc.toFixed(1)}%;background:hsl(${CATS[EL[k].c][2]} 60% 50%)"></i></div><small>${pc.toFixed(2)}%</small></td></tr>`; }).join('');
+      out.innerHTML = `<div class="ch-big"><small>${B('الكتلة المولية', 'Molar mass')} ‏${pretty($('ch-f').value.trim())}</small><b>${fnum(M, 6)}</b><span>g/mol</span></div>
+        <div class="ch-tw"><table class="ch-table"><thead><tr><th>${B('العنصر', 'Element')}</th><th>${B('العدد', 'Count')}</th><th>${B('الكتلة الذرية', 'Atomic mass')}</th><th>${B('المجموع', 'Subtotal')}</th><th>${B('النسبة المئوية', 'Percent')}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+      window.__chMass = M;
+    }catch(e){ out.innerHTML = `<div class="ch-err">${fmtErr(e)}</div>`; }
+  }
+
+  /* ----- balancer ----- */
+  function classify(res){
+    const L = res.species.slice(0, res.left), R = res.species.slice(res.left);
+    const has = (arr, f)=> arr.indexOf(f) >= 0;
+    if(has(L, 'O2') && (has(R, 'CO2') || has(R, 'CO')) && has(R, 'H2O')) return B('تفاعل احتراق 🔥', 'Combustion reaction 🔥');
+    if(has(L, 'O2') && R.length === 1 && L.length === 2) return B('تفاعل أكسدة / تركيب', 'Oxidation / synthesis');
+    if(L.length >= 2 && R.length === 1) return B('تفاعل تركيب ➕', 'Synthesis reaction ➕');
+    if(L.length === 1 && R.length >= 2) return B('تفاعل تحلل ✂️', 'Decomposition reaction ✂️');
+    if(L.length === 2 && R.length === 2){ const el = L.filter(x=> { try{ return Object.keys(parseFormula(x)).length === 1; }catch(e){ return false; } }); if(el.length === 1) return B('تفاعل إحلال 🔄', 'Single replacement 🔄'); return B('تفاعل إحلال مزدوج 🔀', 'Double replacement 🔀'); }
+    return B('تفاعل كيميائي', 'Chemical reaction');
+  }
+  function balOut(){
+    const out = $('ch-eqout');
+    try{
+      const res = balance($('ch-eq').value);
+      const elems = {}; res.species.forEach((s, i)=>{ const side = i < res.left ? 0 : 1; Object.keys(res.counts[i]).forEach(k=>{ elems[k] = elems[k] || [0, 0]; elems[k][side] += res.counts[i][k] * res.coef[i]; }); });
+      const rows = Object.keys(elems).sort((a, c)=> EL[a].Z - EL[c].Z).map(k=> `<tr><td><b>${k}</b></td><td>${elems[k][0]}</td><td>${elems[k][1]}</td><td>✅</td></tr>`).join('');
+      let ml = 0, mr = 0; res.species.forEach((s, i)=>{ const m = molarMass(res.counts[i]) * res.coef[i]; if(i < res.left) ml += m; else mr += m; });
+      out.innerHTML = `<div class="ch-balbox"><div class="ch-balt">${classify(res)}</div><div class="ch-baleq" dir="ltr">${eqHtml(res)}</div></div>
+        <div class="ch-tw"><table class="ch-table"><thead><tr><th>${B('الذرة', 'Atom')}</th><th>${B('المتفاعلات', 'Reactants')}</th><th>${B('النواتج', 'Products')}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div class="ch-note">⚖️ ${B('قانون حفظ الكتلة: كتلة المتفاعلات', 'Conservation of mass: reactants')} ${fnum(ml, 6)} g ${B('= كتلة النواتج', '= products')} ${fnum(mr, 6)} g</div>`;
+      window.__chBal = res;
+    }catch(e){
+      const m = e && e.message; let t;
+      if(m === 'element' || m === 'syntax' || m === 'empty') t = fmtErr(e);
+      else if(m === 'sides') t = B('اكتب المعادلة بالشكل: متفاعلات -> نواتج', 'Write it as: reactants -> products');
+      else if(m === 'many') t = B('هذه المعادلة تحتوي أكثر من تفاعل مستقل، قسّمها إلى معادلات أصغر', 'This holds several independent reactions — split it up');
+      else t = B('لا يمكن موازنة هذه المعادلة — تأكد من الصيغ ومن وجود نفس العناصر في الطرفين', 'This equation cannot be balanced — check formulas and that both sides share the same elements');
+      out.innerHTML = `<div class="ch-err">${t}</div>`;
+    }
+  }
+
+  /* ----- moles ----- */
+  const NA = 6.02214076e23, VM = 22.4;
+  function molOut(){
+    const out = $('ch-mout'); let M;
+    const ftxt = $('ch-mf').value.trim();
+    try{ const asNum = Number(ftxt.replace(/٫/g, '.')); if(ftxt && isFinite(asNum) && asNum > 0) M = asNum; else M = molarMass(parseFormula(ftxt)); }catch(e){ out.innerHTML = `<div class="ch-err">${fmtErr(e)}</div>`; return; }
+    const v = numIn('ch-mv'); if(!isFinite(v) || v < 0){ out.innerHTML = `<div class="ch-err">${B('أدخل قيمة صحيحة', 'Enter a valid value')}</div>`; return; }
+    const k = $('ch-mk').value; let n = k === 'g' ? v / M : k === 'mol' ? v : k === 'p' ? v / NA : v / VM;
+    const vol = numIn('ch-mvol');
+    const card = (t, val, u)=> `<div class="ch-res"><span>${t}</span><b>${val}</b><small>${u}</small></div>`;
+    out.innerHTML = `<div class="ch-resgrid">${card(B('الكتلة', 'Mass'), fnum(n * M, 6), 'g')}${card(B('المولات', 'Moles'), fnum(n, 6), 'mol')}${card(B('عدد الجسيمات', 'Particles'), fnum(n * NA, 5), B('جسيم', 'particles'))}${card(B('حجم الغاز STP', 'Gas volume STP'), fnum(n * VM, 6), 'L')}${isFinite(vol) && vol > 0 ? card(B('التركيز المولاري', 'Molarity'), fnum(n / vol, 6), 'mol/L') : ''}</div><div class="ch-note">${B('الكتلة المولية المستخدمة', 'Molar mass used')}: ${fnum(M, 6)} g/mol · ${B('حجم المول عند STP = 22.4 لتر', 'Molar volume at STP = 22.4 L')}</div>`;
+  }
+
+  /* ----- pH ----- */
+  const PHI = [[0.5, 'بطارية السيارة', 'Car battery'], [1.5, 'حمض المعدة', 'Stomach acid'], [2.3, 'عصير الليمون', 'Lemon juice'], [3, 'الخل', 'Vinegar'], [4, 'الطماطم', 'Tomato'], [5, 'القهوة', 'Coffee'], [6.5, 'الحليب', 'Milk'], [7, 'الماء النقي', 'Pure water'], [7.4, 'الدم', 'Blood'], [8.3, 'بيكربونات الصوديوم', 'Baking soda'], [10.5, 'حليب المغنيسيا', 'Milk of magnesia'], [11, 'الأمونيا المنزلية', 'Household ammonia'], [13, 'منظف المجاري', 'Drain cleaner']];
+  const HUES = [[0, 0], [3, 15], [5, 40], [6.5, 60], [7, 115], [8, 150], [10, 210], [12, 250], [14, 280]];
+  function hueAt(p){ p = Math.max(0, Math.min(14, p)); for(let i = 1; i < HUES.length; i++) if(p <= HUES[i][0]){ const a = HUES[i - 1], c = HUES[i]; return a[1] + (c[1] - a[1]) * (p - a[0]) / (c[0] - a[0]); } return 280; }
+  function phLabel(p){ return p < 3 ? B('حمض قوي', 'Strong acid') : p < 6.5 ? B('حمض ضعيف', 'Weak acid') : p <= 7.5 ? B('متعادل', 'Neutral') : p < 11 ? B('قاعدة ضعيفة', 'Weak base') : B('قاعدة قوية', 'Strong base'); }
+  function showPH(p, fromSlider){
+    p = Math.max(0, Math.min(14, p)); const h = hueAt(p);
+    $('ch-phnum').textContent = (Math.round(p * 100) / 100).toFixed(2); $('ch-phlbl').textContent = phLabel(p);
+    const hp = Math.pow(10, -p), oh = Math.pow(10, p - 14);
+    $('ch-phsub').innerHTML = `[H⁺] = ${fnum(hp, 3)} M &nbsp;·&nbsp; [OH⁻] = ${fnum(oh, 3)} M &nbsp;·&nbsp; pOH = ${(14 - p).toFixed(2)}`;
+    $('ch-liq').setAttribute('fill', `hsl(${h} 72% 52%)`); $('ch-phmark').style.left = (p / 14 * 100) + '%';
+    $('ch-phnum').style.color = `hsl(${h} 70% 42%)`;
+    if(!fromSlider) $('ch-phr').value = p;
+    let best = PHI[0]; PHI.forEach(it=>{ if(Math.abs(it[0] - p) < Math.abs(best[0] - p)) best = it; });
+    document.querySelectorAll('#ch-items .ch-it').forEach(el=> el.classList.toggle('on', +el.dataset.p === best[0]));
+  }
+  function renderItems(){ $('ch-items').innerHTML = PHI.map(it=> `<button type="button" class="ch-it" data-p="${it[0]}" style="--h:${hueAt(it[0])}"><b>${it[0]}</b>${esc(B(it[1], it[2]))}</button>`).join(''); }
+  function phCalc(){
+    const out = $('ch-pout'); const k = $('ch-pk').value, C = numIn('ch-pc'); let n = numIn('ch-pn'); if(!(n >= 1)) n = 1; const K = numIn('ch-pka'); const Kw = 1e-14; let pH;
+    if(!(C > 0)){ out.innerHTML = `<div class="ch-err">${B('أدخل تركيزاً أكبر من صفر', 'Enter a concentration above zero')}</div>`; return; }
+    if(k === 'sa'){ const c = C * n; const H = (c + Math.sqrt(c * c + 4 * Kw)) / 2; pH = -Math.log10(H); }
+    else if(k === 'sb'){ const c = C * n; const OH = (c + Math.sqrt(c * c + 4 * Kw)) / 2; pH = 14 + Math.log10(OH); }
+    else if(k === 'h'){ pH = -Math.log10(C); }
+    else { if(!(K > 0)){ out.innerHTML = `<div class="ch-err">${B('أدخل ثابت التأين (مثال 1.8e-5)', 'Enter the ionization constant (e.g. 1.8e-5)')}</div>`; return; }
+      const x = (-K + Math.sqrt(K * K + 4 * K * C)) / 2; pH = k === 'wa' ? -Math.log10(x) : 14 + Math.log10(x); }
+    showPH(pH);
+    out.innerHTML = `<div class="ch-resgrid"><div class="ch-res"><span>pH</span><b>${pH.toFixed(3)}</b></div><div class="ch-res"><span>pOH</span><b>${(14 - pH).toFixed(3)}</b></div><div class="ch-res"><span>[H⁺]</span><b>${fnum(Math.pow(10, -pH), 4)}</b><small>mol/L</small></div><div class="ch-res"><span>[OH⁻]</span><b>${fnum(Math.pow(10, pH - 14), 4)}</b><small>mol/L</small></div></div>`;
+    window.__chPH = pH;
+  }
+  function phKindUi(){ const k = $('ch-pk').value; $('ch-pnw').style.display = (k === 'sa' || k === 'sb') ? '' : 'none'; $('ch-pkw').style.display = (k === 'wa' || k === 'wb') ? '' : 'none'; $('ch-pklabel').textContent = k === 'wb' ? 'Kb' : 'Ka'; }
+
+  /* ----- gas laws ----- */
+  function oneBlank(ids){ const v = ids.map(numIn); const blanks = v.map((x, i)=> isFinite(x) ? -1 : i).filter(i=> i >= 0); return { v, blanks }; }
+  function gasOut(){
+    const out = $('ch-gout'); const { v, blanks } = oneBlank(['ch-gP', 'ch-gV', 'ch-gn', 'ch-gT']); const R = 0.082057;
+    if(blanks.length !== 1){ out.innerHTML = `<div class="ch-err">${B('اترك خانة واحدة فقط فارغة', 'Leave exactly one box empty')}</div>`; return; }
+    let [P, V, n, T] = v; if($('ch-gu').value === 'C' && isFinite(T)) T += 273.15;
+    const i = blanks[0]; if(i === 0) P = n * R * T / V; else if(i === 1) V = n * R * T / P; else if(i === 2) n = P * V / (R * T); else T = P * V / (n * R);
+    if(!isFinite(P + V + n + T) || P < 0 || V < 0 || n < 0 || T < 0){ out.innerHTML = `<div class="ch-err">${B('قيم غير صحيحة', 'Invalid values')}</div>`; return; }
+    const names = ['P', 'V', 'n', 'T']; const vals = [P, V, n, T]; const units = ['atm', 'L', 'mol', 'K'];
+    out.innerHTML = `<div class="ch-resgrid"><div class="ch-res hi"><span>${names[i]}</span><b>${fnum(vals[i], 6)}</b><small>${units[i]}${i === 3 ? ' = ' + fnum(T - 273.15, 5) + ' °C' : ''}</small></div></div><div class="ch-note">R = 0.082057 L·atm/(mol·K)</div>`;
+    window.__chGas = { P, V, n, T };
+  }
+  function combOut(){
+    const out = $('ch-cout'); const ids = ['ch-cP1', 'ch-cV1', 'ch-cT1', 'ch-cP2', 'ch-cV2', 'ch-cT2']; const { v, blanks } = oneBlank(ids);
+    if(blanks.length !== 1){ out.innerHTML = `<div class="ch-err">${B('اترك خانة واحدة فقط فارغة', 'Leave exactly one box empty')}</div>`; return; }
+    const c = $('ch-cu').value === 'C' ? 273.15 : 0; const a = v.slice(); [2, 5].forEach(k=>{ if(isFinite(a[k])) a[k] += c; });
+    const i = blanks[0]; const [P1, V1, T1, P2, V2, T2] = a; let r;
+    if(i === 0) r = P2 * V2 / T2 * T1 / V1; else if(i === 1) r = P2 * V2 / T2 * T1 / P1; else if(i === 2) r = P1 * V1 * T2 / (P2 * V2);
+    else if(i === 3) r = P1 * V1 / T1 * T2 / V2; else if(i === 4) r = P1 * V1 / T1 * T2 / P2; else r = P2 * V2 * T1 / (P1 * V1);
+    if(!isFinite(r) || r < 0){ out.innerHTML = `<div class="ch-err">${B('قيم غير صحيحة', 'Invalid values')}</div>`; return; }
+    const isT = i === 2 || i === 5; const nm = ['P₁', 'V₁', 'T₁', 'P₂', 'V₂', 'T₂'][i];
+    out.innerHTML = `<div class="ch-resgrid"><div class="ch-res hi"><span>${nm}</span><b>${fnum(isT && c ? r - c : r, 6)}</b><small>${isT ? ($('ch-cu').value === 'C' ? '°C' : 'K') : ''}</small></div></div>`;
+    window.__chComb = { i, r };
+  }
+
+  /* ----- element game ----- */
+  const GM = { kind:'sym', range:20, q:0, score:0, streak:0, best:store.get('best', 0), cur:null, done:false, locked:false, used:[] };
+  const shuffle = a=>{ a = a.slice(); for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  function gameStart(){ GM.q = 0; GM.score = 0; GM.streak = 0; GM.done = false; GM.used = []; nextQ(); }
+  function nextQ(){
+    if(GM.q >= 10){ GM.done = true; if(GM.score > GM.best){ GM.best = GM.score; store.set('best', GM.best); } gameRender(); return; }
+    const pool = ELS.slice(0, GM.range).filter(e=> GM.used.indexOf(e.Z) < 0); const el = pool[Math.floor(Math.random() * pool.length)]; GM.used.push(el.Z);
+    const others = shuffle(ELS.slice(0, GM.range).filter(e=> e.Z !== el.Z)).slice(0, 3); const opts = shuffle([el].concat(others));
+    GM.cur = { el, opts }; GM.q++; GM.locked = false; gameRender();
+  }
+  function gameRender(){
+    const g = $('ch-game'); if(!g) return;
+    const setup = `<div class="ch-gset"><div class="img-chips" id="ch-gk"><button type="button" class="img-chip ${GM.kind === 'sym' ? 'active' : ''}" data-k="sym">${B('اسم ← رمز', 'Name → Symbol')}</button><button type="button" class="img-chip ${GM.kind === 'name' ? 'active' : ''}" data-k="name">${B('رمز ← اسم', 'Symbol → Name')}</button><button type="button" class="img-chip ${GM.kind === 'num' ? 'active' : ''}" data-k="num">${B('اسم ← رقم ذري', 'Name → Number')}</button></div><div class="img-chips" id="ch-gr"><button type="button" class="img-chip ${GM.range === 20 ? 'active' : ''}" data-r="20">${B('أول 20', 'First 20')}</button><button type="button" class="img-chip ${GM.range === 54 ? 'active' : ''}" data-r="54">${B('أول 54', 'First 54')}</button><button type="button" class="img-chip ${GM.range === 118 ? 'active' : ''}" data-r="118">${B('الكل', 'All')}</button></div></div>`;
+    if(!GM.cur && !GM.done){ g.innerHTML = setup + `<div class="ch-gstart"><div class="ch-gemoji">🧪</div><p>${B('10 أسئلة سريعة — كم عنصراً تعرف؟', '10 quick questions — how many elements do you know?')}</p><button type="button" class="btn" id="ch-gplay">${B('ابدأ التحدي', 'Start challenge')}</button><p class="hint">${B('أفضل نتيجة', 'Best score')}: ${GM.best}/10</p></div>`; return; }
+    if(GM.done){ const emo = GM.score >= 9 ? '🏆' : GM.score >= 7 ? '🎉' : GM.score >= 4 ? '👍' : '📚'; const msg = GM.score >= 9 ? B('كيميائي عبقري!', 'Genius chemist!') : GM.score >= 7 ? B('ممتاز!', 'Excellent!') : GM.score >= 4 ? B('جيد، كرر المحاولة', 'Good, try again') : B('راجع الجدول الدوري وحاول مجدداً', 'Review the table and retry');
+      g.innerHTML = setup + `<div class="ch-gstart"><div class="ch-gemoji">${emo}</div><div class="ch-gscore">${GM.score}/10</div><p>${msg}</p><p class="hint">${B('أفضل نتيجة', 'Best score')}: ${GM.best}/10</p><button type="button" class="btn" id="ch-gplay">${B('العب مرة أخرى', 'Play again')}</button></div>`; return; }
+    const c = GM.cur.el; const q = GM.kind === 'name' ? `<div class="ch-gsym">${c.s}</div>` : `<div class="ch-gname">${esc(B(c.ar, c.en))}</div>`;
+    const ask = GM.kind === 'sym' ? B('ما رمز هذا العنصر؟', 'What is its symbol?') : GM.kind === 'name' ? B('ما اسم هذا العنصر؟', 'What is its name?') : B('ما العدد الذري لهذا العنصر؟', 'What is its atomic number?');
+    const lab = e=> GM.kind === 'sym' ? e.s : GM.kind === 'name' ? B(e.ar, e.en) : String(e.Z);
+    g.innerHTML = setup + `<div class="ch-ghead"><span>${B('السؤال', 'Question')} ${GM.q}/10</span><span>⭐ ${GM.score}</span><span>🔥 ${GM.streak}</span></div><div class="ch-gbar"><i style="width:${(GM.q - 1) * 10}%"></i></div><div class="ch-gq">${q}<p>${ask}</p></div><div class="ch-gopts">${GM.cur.opts.map(o=> `<button type="button" class="ch-gopt" data-z="${o.Z}">${esc(lab(o))}</button>`).join('')}</div><div class="ch-gfb" id="ch-gfb"></div>`;
+  }
+  function gameAnswer(z){
+    if(GM.locked || !GM.cur) return; GM.locked = true; const ok = z === GM.cur.el.Z; const e = GM.cur.el;
+    if(ok){ GM.score++; GM.streak++; } else GM.streak = 0;
+    document.querySelectorAll('.ch-gopt').forEach(bt=>{ const zz = +bt.dataset.z; if(zz === e.Z) bt.classList.add('right'); else if(zz === z) bt.classList.add('wrong'); });
+    const fb = $('ch-gfb'); fb.className = 'ch-gfb ' + (ok ? 'ok' : 'bad');
+    fb.innerHTML = (ok ? '✅ ' + (GM.streak >= 3 ? B('رائع! سلسلة ', 'Great! streak ') + GM.streak + ' 🔥' : B('صحيح!', 'Correct!')) : '❌ ' + B('الإجابة', 'Answer') + ': <b>' + esc(e.s + ' — ' + B(e.ar, e.en) + ' — ' + e.Z) + '</b>');
+    try{ if(navigator.vibrate) navigator.vibrate(ok ? 20 : [40, 30, 40]); }catch(er){}
+    setTimeout(nextQ, ok ? 800 : 1700);
+  }
+
+  /* ----- wiring ----- */
+  function setMode(m){
+    S.mode = m; document.querySelectorAll('#ch-modes .img-chip').forEach(c=> c.classList.toggle('active', c.dataset.m === m));
+    document.querySelectorAll('#ch-root .ch-sec').forEach(s=>{ s.style.display = s.dataset.m === m ? '' : 'none'; });
+    if(m === 'table'){ startBohr(); } else if(bohrRaf){ cancelAnimationFrame(bohrRaf); bohrRaf = 0; }
+    if(m === 'game') gameRender();
+  }
+  function relang(){
+    const root = $('ch-root'); if(!root) return;
+    root.querySelectorAll('[data-ar]').forEach(e=>{ e.textContent = lang() === 'en' ? e.dataset.en : e.dataset.ar; });
+    root.querySelectorAll('[data-par]').forEach(e=> e.setAttribute('placeholder', lang() === 'en' ? e.dataset.pen : e.dataset.par));
+    renderLegend(); renderTable(); renderDet(); renderItems(); showPH(+$('ch-phr').value, true); phKindUi(); gameRender();
+  }
+  function init(){
+    const root = $('ch-root'); if(!root) return;
+    root.innerHTML = html();
+    $('ch-modes').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(c) setMode(c.dataset.m); });
+    $('ch-q').addEventListener('input', ()=>{ S.q = $('ch-q').value.trim(); renderTable(); const hit = ELS.filter(matches); if(S.q && hit.length === 1 && hit[0].Z !== S.sel){ S.sel = hit[0].Z; renderDet(); renderTable(); } });
+    $('ch-colorby').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(!c) return; S.color = c.dataset.c; S.filter = null; document.querySelectorAll('#ch-colorby .img-chip').forEach(x=> x.classList.toggle('active', x === c)); renderLegend(); renderTable(); });
+    $('ch-size').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(!c) return; S.size = c.dataset.z; document.querySelectorAll('#ch-size .img-chip').forEach(x=> x.classList.toggle('active', x === c)); renderTable(); });
+    $('ch-legend').addEventListener('click', e=>{ const c = e.target.closest('.ch-lg'); if(!c) return; S.filter = S.filter === c.dataset.k ? null : c.dataset.k; renderLegend(); renderTable(); });
+    $('ch-pt').addEventListener('click', e=>{ const c = e.target.closest('.ch-cell'); if(c) selectEl(+c.dataset.z, true); });
+    $('ch-det').addEventListener('click', e=>{ if(e.target.closest('#ch-prev')) selectEl(S.sel - 1); else if(e.target.closest('#ch-next')) selectEl(S.sel + 1); });
+    root.addEventListener('click', e=>{ const x = e.target.closest('.ch-ex'); if(x){ const t = x.parentElement.dataset.for; $(t).value = x.dataset.v; if(t === 'ch-f') massOut(); else if(t === 'ch-eq') balOut(); return; }
+      const ins = e.target.closest('.ch-ins'); if(ins){ const el = $('ch-eq'); const s = el.selectionStart == null ? el.value.length : el.selectionStart, en = el.selectionEnd == null ? s : el.selectionEnd; el.value = el.value.slice(0, s) + ins.dataset.i + el.value.slice(en); const p = s + ins.dataset.i.length; el.focus(); try{ el.setSelectionRange(p, p); }catch(er){} return; }
+      const it = e.target.closest('.ch-it'); if(it){ showPH(+it.dataset.p); return; } });
+    $('ch-fgo').addEventListener('click', massOut); $('ch-f').addEventListener('keydown', e=>{ if(e.key === 'Enter') massOut(); });
+    $('ch-eqgo').addEventListener('click', balOut); $('ch-eq').addEventListener('keydown', e=>{ if(e.key === 'Enter') balOut(); });
+    $('ch-mgo').addEventListener('click', molOut); ['ch-mf', 'ch-mv', 'ch-mvol'].forEach(i=> $(i).addEventListener('keydown', e=>{ if(e.key === 'Enter') molOut(); }));
+    $('ch-pgo').addEventListener('click', phCalc); $('ch-pk').addEventListener('change', phKindUi); $('ch-pc').addEventListener('keydown', e=>{ if(e.key === 'Enter') phCalc(); });
+    $('ch-phr').addEventListener('input', ()=> showPH(+$('ch-phr').value, true));
+    $('ch-ggo').addEventListener('click', gasOut); $('ch-cgo').addEventListener('click', combOut);
+    $('ch-game').addEventListener('click', e=>{ const k = e.target.closest('#ch-gk .img-chip'); if(k){ GM.kind = k.dataset.k; GM.cur = null; GM.done = false; gameRender(); return; }
+      const r = e.target.closest('#ch-gr .img-chip'); if(r){ GM.range = +r.dataset.r; GM.cur = null; GM.done = false; gameRender(); return; }
+      if(e.target.closest('#ch-gplay')){ gameStart(); return; }
+      const o = e.target.closest('.ch-gopt'); if(o) gameAnswer(+o.dataset.z); });
+    renderLegend(); renderTable(); renderDet(); renderItems(); phKindUi(); showPH(7); gameRender(); setMode('table');
+    new MutationObserver(()=> setTimeout(relang, 20)).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+    new MutationObserver(()=>{}).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+    document.addEventListener('click', e=>{ const t = e.target.closest('#tabs button[data-tab], nav.tabs button[data-tab]'); if(t && t.dataset.tab === 'chem') setTimeout(()=>{ if(S.mode === 'table') startBohr(); }, 60); });
+    window.uddahChem = { S, EL, ELS, config, parseFormula, molarMass, balance, selectEl, setMode, showPH, GM, gameStart, gameAnswer, hueAt };
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
+/* ============================================================
+   PHYSICS TAB: formula solver with steps, projectile lab + target game, planets, unit converter, constants
+   ============================================================ */
+(function uddahPhysUI(){
+  const $ = id=> document.getElementById(id);
+  const lang = ()=> (typeof currentLang !== 'undefined' ? currentLang : 'ar');
+  const B = (ar, en)=> lang() === 'en' ? en : ar;
+  const b = (ar, en)=> `<span data-ar="${ar}" data-en="${en}">${ar}</span>`;
+  const ob = (v, ar, en, sel)=> `<option value="${v}" data-ar="${ar}" data-en="${en}" ${sel ? 'selected' : ''}>${ar}</option>`;
+  const ph = (ar, en)=> `placeholder="${ar}" data-par="${ar}" data-pen="${en}"`;
+  const store = { get(k, d){ try{ const v = localStorage.getItem('uddah-fz-' + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } }, set(k, v){ try{ localStorage.setItem('uddah-fz-' + k, JSON.stringify(v)); }catch(e){} } };
+  const esc = s=> String(s).replace(/[&<>"]/g, c=> ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+  const SUPM = { '0':'⁰', '1':'¹', '2':'²', '3':'³', '4':'⁴', '5':'⁵', '6':'⁶', '7':'⁷', '8':'⁸', '9':'⁹', '-':'⁻', '+':'⁺' };
+  const supn = n=> String(n).split('').map(c=> SUPM[c] || c).join('');
+  const fnum = (x, d)=>{ if(!isFinite(x)) return '—'; if(x === 0) return '0'; const a = Math.abs(x); if(a >= 1e7 || a < 1e-3){ const m = x.toExponential((d || 5) - 1).split('e'); return m[0].replace(/\.?0+$/, '') + ' × 10' + supn(parseInt(m[1], 10)); } return String(parseFloat(x.toPrecision(d || 6))); };
+  const parseNum = s=>{ s = String(s == null ? '' : s).trim().replace(/[٠-٩]/g, d=> d.charCodeAt(0) - 1632).replace(/٫/g, '.').replace(/،/g, '.').replace(/[×x]\s*10\^?/i, 'e').replace(/−/g, '-'); if(s === '') return NaN; const v = Number(s); return isFinite(v) ? v : NaN; };
+  const subify = s=> esc(s).replace(/([A-Za-zΔθλμρηα])(\d)/g, '$1<sub>$2</sub>');
+
+  /* ---------- formula library ---------- */
+  const CATS = [['kin', 'الحركة', 'Motion', '🏃'], ['dyn', 'القوى', 'Forces', '💪'], ['eng', 'الشغل والطاقة', 'Work & energy', '⚡'], ['cir', 'الدوران والجاذبية', 'Circular & gravity', '🪐'], ['ele', 'الكهرباء', 'Electricity', '🔌'], ['wav', 'الموجات والصوت', 'Waves & sound', '🌊'], ['opt', 'الضوء', 'Optics', '🔦'], ['the', 'الحرارة والغازات', 'Heat & gases', '🔥'], ['flu', 'الموائع', 'Fluids', '💧'], ['mod', 'الفيزياء الحديثة', 'Modern physics', '⚛️']];
+  const CONST = { Gc:[6.6743e-11, 'G'], cL:[299792458, 'c'], hP:[6.62607015e-34, 'h'], kC:[8.9875517923e9, 'k'], Rg:[8.314462618, 'R'] };
+  const RAW = [
+    ['kin', 'السرعة النهائية', 'Final velocity', 'v = u + a·t', 'v~السرعة النهائية~Final velocity~m/s; u~السرعة الابتدائية~Initial velocity~m/s; a~التسارع~Acceleration~m/s²; t~الزمن~Time~s', 'v=u+a*t; u=v-a*t; a=(v-u)/t; t=(v-u)/a'],
+    ['kin', 'الإزاحة بتسارع ثابت', 'Displacement (const. acceleration)', 's = u·t + ½·a·t²', 's~الإزاحة~Displacement~m; u~السرعة الابتدائية~Initial velocity~m/s; a~التسارع~Acceleration~m/s²; t~الزمن~Time~s', 's=u*t+0.5*a*t*t; u=(s-0.5*a*t*t)/t; a=2*(s-u*t)/(t*t); t=(a===0)?s/u:[(-u+sqrt(u*u+2*a*s))/a,(-u-sqrt(u*u+2*a*s))/a]'],
+    ['kin', 'معادلة السرعة والإزاحة', 'Velocity–displacement equation', 'v² = u² + 2·a·s', 'v~السرعة النهائية~Final velocity~m/s; u~السرعة الابتدائية~Initial velocity~m/s; a~التسارع~Acceleration~m/s²; s~الإزاحة~Displacement~m', 'v=sqrt(u*u+2*a*s); u=sqrt(v*v-2*a*s); a=(v*v-u*u)/(2*s); s=(v*v-u*u)/(2*a)'],
+    ['kin', 'الإزاحة من السرعة المتوسطة', 'Displacement from average velocity', 's = (u + v)·t / 2', 's~الإزاحة~Displacement~m; u~السرعة الابتدائية~Initial velocity~m/s; v~السرعة النهائية~Final velocity~m/s; t~الزمن~Time~s', 's=(u+v)*t/2; u=2*s/t-v; v=2*s/t-u; t=2*s/(u+v)'],
+    ['kin', 'السرعة المنتظمة', 'Uniform speed', 'v = d / t', 'v~السرعة~Speed~m/s; d~المسافة~Distance~m; t~الزمن~Time~s', 'v=d/t; d=v*t; t=d/v'],
+    ['kin', 'السقوط الحر: الارتفاع', 'Free fall: height', 'h = ½·g·t²', 'h~الارتفاع~Height~m; g~تسارع الجاذبية~Gravity~m/s²~9.8; t~زمن السقوط~Fall time~s', 'h=0.5*g*t*t; g=2*h/(t*t); t=sqrt(2*h/g)'],
+    ['kin', 'السقوط الحر: السرعة', 'Free fall: speed', 'v = g·t', 'v~السرعة~Speed~m/s; g~تسارع الجاذبية~Gravity~m/s²~9.8; t~زمن السقوط~Fall time~s', 'v=g*t; g=v/t; t=v/g'],
+    ['dyn', 'قانون نيوتن الثاني', "Newton's second law", 'F = m·a', 'F~القوة~Force~N; m~الكتلة~Mass~kg; a~التسارع~Acceleration~m/s²', 'F=m*a; m=F/a; a=F/m'],
+    ['dyn', 'الوزن', 'Weight', 'W = m·g', 'W~الوزن~Weight~N; m~الكتلة~Mass~kg; g~تسارع الجاذبية~Gravity~m/s²~9.8', 'W=m*g; m=W/g; g=W/m'],
+    ['dyn', 'قوة الاحتكاك', 'Friction force', 'f = μ·N', 'f~قوة الاحتكاك~Friction~N; μ~معامل الاحتكاك~Friction coeff.~; N~القوة العمودية~Normal force~N', 'f=μ*N; μ=f/N; N=f/μ'],
+    ['dyn', 'كمية الحركة', 'Momentum', 'p = m·v', 'p~كمية الحركة~Momentum~kg·m/s; m~الكتلة~Mass~kg; v~السرعة~Velocity~m/s', 'p=m*v; m=p/v; v=p/m'],
+    ['dyn', 'الدفع وتغير كمية الحركة', 'Impulse', 'F·Δt = m·Δv', 'F~القوة~Force~N; Δt~زمن التأثير~Contact time~s; m~الكتلة~Mass~kg; Δv~التغير في السرعة~Change in velocity~m/s', 'F=m*Δv/Δt; Δt=m*Δv/F; m=F*Δt/Δv; Δv=F*Δt/m'],
+    ['dyn', 'قانون هوك', "Hooke's law", 'F = k·x', 'F~القوة~Force~N; k~ثابت النابض~Spring constant~N/m; x~الاستطالة~Extension~m', 'F=k*x; k=F/x; x=F/k'],
+    ['eng', 'الشغل', 'Work', 'W = F·d·cosθ', 'W~الشغل~Work~J; F~القوة~Force~N; d~الإزاحة~Displacement~m; θ~الزاوية~Angle~°~0', 'W=F*d*cosd(θ); F=W/(d*cosd(θ)); d=W/(F*cosd(θ)); θ=acosd(W/(F*d))'],
+    ['eng', 'طاقة الحركة', 'Kinetic energy', 'KE = ½·m·v²', 'KE~طاقة الحركة~Kinetic energy~J; m~الكتلة~Mass~kg; v~السرعة~Speed~m/s', 'KE=0.5*m*v*v; m=2*KE/(v*v); v=sqrt(2*KE/m)'],
+    ['eng', 'طاقة الوضع', 'Potential energy', 'PE = m·g·h', 'PE~طاقة الوضع~Potential energy~J; m~الكتلة~Mass~kg; g~تسارع الجاذبية~Gravity~m/s²~9.8; h~الارتفاع~Height~m', 'PE=m*g*h; m=PE/(g*h); g=PE/(m*h); h=PE/(m*g)'],
+    ['eng', 'القدرة', 'Power', 'P = W / t', 'P~القدرة~Power~W; W~الشغل~Work~J; t~الزمن~Time~s', 'P=W/t; W=P*t; t=W/P'],
+    ['eng', 'القدرة والسرعة', 'Power from force and speed', 'P = F·v', 'P~القدرة~Power~W; F~القوة~Force~N; v~السرعة~Speed~m/s', 'P=F*v; F=P/v; v=P/F'],
+    ['eng', 'الكفاءة', 'Efficiency', 'η = (E_out / E_in) × 100', 'η~الكفاءة~Efficiency~%; Eout~الطاقة الخارجة~Output energy~J; Ein~الطاقة الداخلة~Input energy~J', 'η=Eout/Ein*100; Eout=η*Ein/100; Ein=Eout*100/η'],
+    ['eng', 'طاقة النابض', 'Spring energy', 'E = ½·k·x²', 'E~طاقة النابض~Energy~J; k~ثابت النابض~Spring constant~N/m; x~الاستطالة~Extension~m', 'E=0.5*k*x*x; k=2*E/(x*x); x=sqrt(2*E/k)'],
+    ['cir', 'التسارع المركزي', 'Centripetal acceleration', 'a = v² / r', 'a~التسارع المركزي~Centripetal acc.~m/s²; v~السرعة~Speed~m/s; r~نصف القطر~Radius~m', 'a=v*v/r; v=sqrt(a*r); r=v*v/a'],
+    ['cir', 'القوة المركزية', 'Centripetal force', 'F = m·v² / r', 'F~القوة المركزية~Centripetal force~N; m~الكتلة~Mass~kg; v~السرعة~Speed~m/s; r~نصف القطر~Radius~m', 'F=m*v*v/r; m=F*r/(v*v); v=sqrt(F*r/m); r=m*v*v/F'],
+    ['cir', 'السرعة في الحركة الدائرية', 'Speed in circular motion', 'v = 2π·r / T', 'v~السرعة~Speed~m/s; r~نصف القطر~Radius~m; T~الزمن الدوري~Period~s', 'v=2*PI*r/T; r=v*T/(2*PI); T=2*PI*r/v'],
+    ['cir', 'قانون الجذب العام', 'Universal gravitation', 'F = G·m1·m2 / r²', 'F~قوة الجذب~Gravitational force~N; m1~الكتلة الأولى~Mass 1~kg; m2~الكتلة الثانية~Mass 2~kg; r~المسافة~Distance~m', 'F=Gc*m1*m2/(r*r); m1=F*r*r/(Gc*m2); m2=F*r*r/(Gc*m1); r=sqrt(Gc*m1*m2/F)'],
+    ['cir', 'تسارع الجاذبية لكوكب', 'Surface gravity of a planet', 'g = G·M / r²', 'g~تسارع الجاذبية~Gravity~m/s²; M~كتلة الكوكب~Planet mass~kg; r~نصف القطر~Radius~m', 'g=Gc*M/(r*r); M=g*r*r/Gc; r=sqrt(Gc*M/g)'],
+    ['cir', 'سرعة الإفلات', 'Escape velocity', 'v = √(2·G·M / r)', 'v~سرعة الإفلات~Escape velocity~m/s; M~الكتلة~Mass~kg; r~نصف القطر~Radius~m', 'v=sqrt(2*Gc*M/r); M=v*v*r/(2*Gc); r=2*Gc*M/(v*v)'],
+    ['cir', 'سرعة القمر الصناعي', 'Orbital speed', 'v = √(G·M / r)', 'v~السرعة المدارية~Orbital speed~m/s; M~كتلة الجرم~Central mass~kg; r~نصف قطر المدار~Orbit radius~m', 'v=sqrt(Gc*M/r); M=v*v*r/Gc; r=Gc*M/(v*v)'],
+    ['ele', 'قانون أوم', "Ohm's law", 'V = I·R', 'V~فرق الجهد~Voltage~V; I~التيار~Current~A; R~المقاومة~Resistance~Ω', 'V=I*R; I=V/R; R=V/I'],
+    ['ele', 'القدرة الكهربائية', 'Electric power', 'P = V·I', 'P~القدرة~Power~W; V~فرق الجهد~Voltage~V; I~التيار~Current~A', 'P=V*I; V=P/I; I=P/V'],
+    ['ele', 'القدرة والمقاومة', 'Power and resistance', 'P = I²·R', 'P~القدرة~Power~W; I~التيار~Current~A; R~المقاومة~Resistance~Ω', 'P=I*I*R; I=sqrt(P/R); R=P/(I*I)'],
+    ['ele', 'مقاومتان على التوالي', 'Resistors in series', 'R = R1 + R2', 'R~المقاومة المكافئة~Total resistance~Ω; R1~المقاومة الأولى~Resistor 1~Ω; R2~المقاومة الثانية~Resistor 2~Ω', 'R=R1+R2; R1=R-R2; R2=R-R1'],
+    ['ele', 'مقاومتان على التوازي', 'Resistors in parallel', '1/R = 1/R1 + 1/R2', 'R~المقاومة المكافئة~Total resistance~Ω; R1~المقاومة الأولى~Resistor 1~Ω; R2~المقاومة الثانية~Resistor 2~Ω', 'R=R1*R2/(R1+R2); R1=R*R2/(R2-R); R2=R*R1/(R1-R)'],
+    ['ele', 'الشحنة والتيار', 'Charge and current', 'Q = I·t', 'Q~الشحنة~Charge~C; I~التيار~Current~A; t~الزمن~Time~s', 'Q=I*t; I=Q/t; t=Q/I'],
+    ['ele', 'قانون كولوم', "Coulomb's law", 'F = k·q1·q2 / r²', 'F~القوة~Force~N; q1~الشحنة الأولى~Charge 1~C; q2~الشحنة الثانية~Charge 2~C; r~المسافة~Distance~m', 'F=kC*q1*q2/(r*r); q1=F*r*r/(kC*q2); q2=F*r*r/(kC*q1); r=sqrt(kC*q1*q2/F)'],
+    ['ele', 'المجال الكهربائي لشحنة نقطية', 'Electric field of a point charge', 'E = k·Q / r²', 'E~المجال الكهربائي~Electric field~N/C; Q~الشحنة~Charge~C; r~المسافة~Distance~m', 'E=kC*Q/(r*r); Q=E*r*r/kC; r=sqrt(kC*Q/E)'],
+    ['ele', 'سعة المكثف', 'Capacitance', 'C = Q / V', 'C~السعة~Capacitance~F; Q~الشحنة~Charge~C; V~فرق الجهد~Voltage~V', 'C=Q/V; Q=C*V; V=Q/C'],
+    ['ele', 'طاقة المكثف', 'Capacitor energy', 'E = ½·C·V²', 'E~الطاقة~Energy~J; C~السعة~Capacitance~F; V~فرق الجهد~Voltage~V', 'E=0.5*C*V*V; C=2*E/(V*V); V=sqrt(2*E/C)'],
+    ['ele', 'الطاقة الكهربائية', 'Electrical energy', 'E = P·t', 'E~الطاقة~Energy~J; P~القدرة~Power~W; t~الزمن~Time~s', 'E=P*t; P=E/t; t=E/P'],
+    ['ele', 'مقاومة موصل', 'Resistance of a wire', 'R = ρ·L / A', 'R~المقاومة~Resistance~Ω; ρ~المقاومية~Resistivity~Ω·m; L~الطول~Length~m; A~مساحة المقطع~Cross-section~m²', 'R=ρ*L/A; ρ=R*A/L; L=R*A/ρ; A=ρ*L/R'],
+    ['wav', 'معادلة الموجة', 'Wave equation', 'v = f·λ', 'v~سرعة الموجة~Wave speed~m/s; f~التردد~Frequency~Hz; λ~الطول الموجي~Wavelength~m', 'v=f*λ; f=v/λ; λ=v/f'],
+    ['wav', 'التردد والزمن الدوري', 'Frequency and period', 'T = 1 / f', 'T~الزمن الدوري~Period~s; f~التردد~Frequency~Hz', 'T=1/f; f=1/T'],
+    ['wav', 'صدى الصوت', 'Echo', 'd = v·t / 2', 'd~المسافة إلى العائق~Distance to obstacle~m; v~سرعة الصوت~Speed of sound~m/s~343; t~زمن الصدى~Echo time~s', 'd=v*t/2; v=2*d/t; t=2*d/v'],
+    ['wav', 'سرعة الصوت والحرارة', 'Speed of sound vs temperature', 'v = 331 + 0.6·T', 'v~سرعة الصوت~Speed of sound~m/s; T~درجة الحرارة~Temperature~°C', 'v=331+0.6*T; T=(v-331)/0.6'],
+    ['opt', 'معادلة العدسة / المرآة', 'Lens / mirror equation', '1/f = 1/u + 1/v', 'f~البعد البؤري~Focal length~m; u~بعد الجسم~Object distance~m; v~بعد الصورة~Image distance~m', 'f=1/(1/u+1/v); u=1/(1/f-1/v); v=1/(1/f-1/u)'],
+    ['opt', 'التكبير', 'Magnification', 'M = hi / ho', 'M~التكبير~Magnification~; hi~ارتفاع الصورة~Image height~m; ho~ارتفاع الجسم~Object height~m', 'M=hi/ho; hi=M*ho; ho=hi/M'],
+    ['opt', 'قانون سنيل للانكسار', "Snell's law", 'n1·sinθ1 = n2·sinθ2', 'n1~معامل انكسار الوسط الأول~Index 1~; θ1~زاوية السقوط~Incidence angle~°; n2~معامل انكسار الوسط الثاني~Index 2~; θ2~زاوية الانكسار~Refraction angle~°', 'θ2=asind(n1*sind(θ1)/n2); θ1=asind(n2*sind(θ2)/n1); n1=n2*sind(θ2)/sind(θ1); n2=n1*sind(θ1)/sind(θ2)'],
+    ['opt', 'معامل الانكسار', 'Refractive index', 'n = c / v', 'n~معامل الانكسار~Refractive index~; v~سرعة الضوء في الوسط~Light speed in medium~m/s', 'n=cL/v; v=cL/n'],
+    ['the', 'الحرارة النوعية', 'Specific heat', 'Q = m·c·ΔT', 'Q~كمية الحرارة~Heat~J; m~الكتلة~Mass~kg; c~الحرارة النوعية~Specific heat~J/(kg·°C)~4186; ΔT~التغير في الحرارة~Temp. change~°C', 'Q=m*c*ΔT; m=Q/(c*ΔT); c=Q/(m*ΔT); ΔT=Q/(m*c)'],
+    ['the', 'الحرارة الكامنة', 'Latent heat', 'Q = m·L', 'Q~كمية الحرارة~Heat~J; m~الكتلة~Mass~kg; L~الحرارة الكامنة~Latent heat~J/kg', 'Q=m*L; m=Q/L; L=Q/m'],
+    ['the', 'الغاز المثالي (SI)', 'Ideal gas (SI)', 'P·V = n·R·T', 'P~الضغط~Pressure~Pa; V~الحجم~Volume~m³; n~عدد المولات~Moles~mol; T~الحرارة المطلقة~Temperature~K', 'P=n*Rg*T/V; V=n*Rg*T/P; n=P*V/(Rg*T); T=P*V/(n*Rg)'],
+    ['the', 'كفاءة كارنو', 'Carnot efficiency', 'η = (1 − Tc / Th) × 100', 'η~الكفاءة~Efficiency~%; Tc~حرارة المستودع البارد~Cold reservoir~K; Th~حرارة المستودع الساخن~Hot reservoir~K', 'η=(1-Tc/Th)*100; Tc=Th*(1-η/100); Th=Tc/(1-η/100)'],
+    ['the', 'التمدد الطولي', 'Linear expansion', 'ΔL = α·L0·ΔT', 'ΔL~التغير في الطول~Change in length~m; α~معامل التمدد~Expansion coeff.~1/°C; L0~الطول الأصلي~Original length~m; ΔT~التغير في الحرارة~Temp. change~°C', 'ΔL=α*L0*ΔT; α=ΔL/(L0*ΔT); L0=ΔL/(α*ΔT); ΔT=ΔL/(α*L0)'],
+    ['flu', 'الضغط', 'Pressure', 'P = F / A', 'P~الضغط~Pressure~Pa; F~القوة~Force~N; A~المساحة~Area~m²', 'P=F/A; F=P*A; A=F/P'],
+    ['flu', 'ضغط السائل', 'Hydrostatic pressure', 'P = ρ·g·h', 'P~الضغط~Pressure~Pa; ρ~كثافة السائل~Density~kg/m³~1000; g~تسارع الجاذبية~Gravity~m/s²~9.8; h~العمق~Depth~m', 'P=ρ*g*h; ρ=P/(g*h); g=P/(ρ*h); h=P/(ρ*g)'],
+    ['flu', 'الكثافة', 'Density', 'ρ = m / V', 'ρ~الكثافة~Density~kg/m³; m~الكتلة~Mass~kg; V~الحجم~Volume~m³', 'ρ=m/V; m=ρ*V; V=m/ρ'],
+    ['flu', 'قوة الطفو (أرخميدس)', "Buoyancy (Archimedes)", 'Fb = ρ·g·V', 'Fb~قوة الطفو~Buoyant force~N; ρ~كثافة السائل~Fluid density~kg/m³~1000; g~تسارع الجاذبية~Gravity~m/s²~9.8; V~حجم الجزء المغمور~Submerged volume~m³', 'Fb=ρ*g*V; ρ=Fb/(g*V); g=Fb/(ρ*V); V=Fb/(ρ*g)'],
+    ['mod', 'التكافؤ بين الكتلة والطاقة', 'Mass–energy equivalence', 'E = m·c²', 'E~الطاقة~Energy~J; m~الكتلة~Mass~kg', 'E=m*cL*cL; m=E/(cL*cL)'],
+    ['mod', 'طاقة الفوتون', 'Photon energy', 'E = h·f', 'E~الطاقة~Energy~J; f~التردد~Frequency~Hz', 'E=hP*f; f=E/hP'],
+    ['mod', 'طول موجة دي برولي', 'de Broglie wavelength', 'λ = h / (m·v)', 'λ~الطول الموجي~Wavelength~m; m~الكتلة~Mass~kg; v~السرعة~Speed~m/s', 'λ=hP/(m*v); m=hP/(λ*v); v=hP/(λ*m)'],
+    ['mod', 'التحلل الإشعاعي', 'Radioactive decay', 'N = N0·(½)^(t / T½)', 'N~المتبقي~Remaining~; N0~الكمية الأولية~Initial amount~; t~الزمن~Elapsed time~; Th~عمر النصف~Half-life~', 'N=N0*pow(0.5,t/Th); N0=N/pow(0.5,t/Th); t=Th*ln(N/N0)/ln(0.5); Th=t*ln(0.5)/ln(N/N0)']
+  ];
+  const HELP = { sqrt:Math.sqrt, pow:Math.pow, abs:Math.abs, ln:Math.log, PI:Math.PI, sind:x=> Math.sin(x * Math.PI / 180), cosd:x=> Math.cos(x * Math.PI / 180), tand:x=> Math.tan(x * Math.PI / 180), asind:x=> Math.asin(x) * 180 / Math.PI, acosd:x=> Math.acos(x) * 180 / Math.PI, atand:x=> Math.atan(x) * 180 / Math.PI };
+  const FORMS = RAW.map((r, i)=>{
+    const vars = r[4].split(';').map(s=>{ const p = s.trim().split('~'); return { sym:p[0], ar:p[1], en:p[2], unit:p[3] || '', def:p[4] || '' }; });
+    const solve = {}; r[5].split(';').forEach(s=>{ const k = s.indexOf('='); const sym = s.slice(0, k).trim(); const ex = s.slice(k + 1).trim(); const args = vars.map(v=> v.sym).concat(Object.keys(CONST), Object.keys(HELP));
+      solve[sym] = { expr:ex, fn:new Function(...args, 'return (' + ex + ');') }; });
+    return { id:i, cat:r[0], ar:r[1], en:r[2], eq:r[3], vars, solve };
+  });
+  function solveFormula(f, target, vals){
+    const s = f.solve[target]; if(!s) throw new Error('nosolve');
+    const args = f.vars.map(v=> vals[v.sym]).concat(Object.keys(CONST).map(k=> CONST[k][0]), Object.keys(HELP).map(k=> HELP[k]));
+    let r = s.fn(...args); const arr = Array.isArray(r) ? r : [r];
+    return arr.filter(x=> typeof x === 'number' && isFinite(x));
+  }
+  function stepText(f, target, vals){
+    const s = f.solve[target]; let ex = s.expr; const names = f.vars.map(v=> v.sym).concat(Object.keys(CONST)).sort((a, c)=> c.length - a.length);
+    const show = ex.replace(/\*/g, '·').replace(/sqrt\(/g, '√(').replace(/PI/g, 'π').replace(/\bsind\(/g, 'sin(').replace(/\bcosd\(/g, 'cos(').replace(/\basind\(/g, 'sin⁻¹(').replace(/\bacosd\(/g, 'cos⁻¹(').replace(/pow\(0\.5,/g, '(½)^(').replace(/\bln\(/g, 'ln(').replace(/Gc/g, 'G').replace(/cL/g, 'c').replace(/hP/g, 'h').replace(/kC/g, 'k').replace(/Rg/g, 'R');
+    let sub = ex; names.forEach(n=>{ const val = CONST[n] ? CONST[n][0] : vals[n]; const re = new RegExp('(?<![\\p{L}\\p{N}_])' + n + '(?![\\p{L}\\p{N}_])', 'gu'); const txt = fnum(val, 5).replace(/ × 10/, 'e').replace(/[⁻⁰¹²³⁴⁵⁶⁷⁸⁹]+/, m=> m.split('').map(c=> ({ '⁻':'-', '⁰':'0', '¹':'1', '²':'2', '³':'3', '⁴':'4', '⁵':'5', '⁶':'6', '⁷':'7', '⁸':'8', '⁹':'9' }[c])).join('')); sub = sub.replace(re, val < 0 ? '(' + txt + ')' : txt); });
+    sub = sub.replace(/\*/g, '×').replace(/sqrt\(/g, '√(').replace(/PI/g, 'π').replace(/\bsind\(/g, 'sin(').replace(/\bcosd\(/g, 'cos(').replace(/\basind\(/g, 'sin⁻¹(').replace(/\bacosd\(/g, 'cos⁻¹(').replace(/pow\(0\.5,/g, '(½)^(');
+    return { formula:target + ' = ' + show, subst:target + ' = ' + sub };
+  }
+
+  /* ---------- planets, units, constants data ---------- */
+  const PLANETS = [['☀️', 'الشمس', 'Sun', 274], ['☿', 'عطارد', 'Mercury', 3.70], ['♀️', 'الزهرة', 'Venus', 8.87], ['🌍', 'الأرض', 'Earth', 9.81], ['🌙', 'القمر', 'Moon', 1.62], ['🔴', 'المريخ', 'Mars', 3.71], ['🟠', 'المشتري', 'Jupiter', 24.79], ['🪐', 'زحل', 'Saturn', 10.44], ['🔵', 'أورانوس', 'Uranus', 8.87], ['🌀', 'نبتون', 'Neptune', 11.15], ['⚪', 'بلوتو', 'Pluto', 0.62]];
+  const UNITS = {
+    length:['الطول', 'Length', [['km', 'كيلومتر', 'Kilometre', 1000], ['m', 'متر', 'Metre', 1], ['cm', 'سنتيمتر', 'Centimetre', 0.01], ['mm', 'ملليمتر', 'Millimetre', 0.001], ['mi', 'ميل', 'Mile', 1609.344], ['yd', 'ياردة', 'Yard', 0.9144], ['ft', 'قدم', 'Foot', 0.3048], ['in', 'بوصة', 'Inch', 0.0254], ['nmi', 'ميل بحري', 'Nautical mile', 1852]]],
+    mass:['الكتلة', 'Mass', [['t', 'طن', 'Tonne', 1000], ['kg', 'كيلوجرام', 'Kilogram', 1], ['g', 'جرام', 'Gram', 0.001], ['mg', 'ملليجرام', 'Milligram', 1e-6], ['lb', 'رطل', 'Pound', 0.45359237], ['oz', 'أوقية', 'Ounce', 0.028349523125]]],
+    time:['الزمن', 'Time', [['d', 'يوم', 'Day', 86400], ['h', 'ساعة', 'Hour', 3600], ['min', 'دقيقة', 'Minute', 60], ['s', 'ثانية', 'Second', 1], ['ms', 'ملّي ثانية', 'Millisecond', 0.001], ['µs', 'ميكرو ثانية', 'Microsecond', 1e-6]]],
+    speed:['السرعة', 'Speed', [['m/s', 'متر/ثانية', 'm/s', 1], ['km/h', 'كم/ساعة', 'km/h', 1 / 3.6], ['mph', 'ميل/ساعة', 'mph', 0.44704], ['kn', 'عقدة', 'Knot', 1852 / 3600], ['Mach', 'ماخ', 'Mach', 343], ['c', 'سرعة الضوء', 'Speed of light', 299792458]]],
+    force:['القوة', 'Force', [['N', 'نيوتن', 'Newton', 1], ['kN', 'كيلونيوتن', 'Kilonewton', 1000], ['kgf', 'كيلوجرام قوة', 'kgf', 9.80665], ['lbf', 'رطل قوة', 'lbf', 4.4482216152605]]],
+    energy:['الطاقة', 'Energy', [['J', 'جول', 'Joule', 1], ['kJ', 'كيلوجول', 'Kilojoule', 1000], ['cal', 'سعر حراري', 'Calorie', 4.184], ['kcal', 'كيلو سعر', 'kcal', 4184], ['Wh', 'واط ساعة', 'Watt-hour', 3600], ['kWh', 'كيلوواط ساعة', 'kWh', 3.6e6], ['eV', 'إلكترون فولت', 'eV', 1.602176634e-19], ['BTU', 'وحدة حرارية BTU', 'BTU', 1055.05585262]]],
+    power:['القدرة', 'Power', [['W', 'واط', 'Watt', 1], ['kW', 'كيلوواط', 'Kilowatt', 1000], ['MW', 'ميجاواط', 'Megawatt', 1e6], ['hp', 'حصان ميكانيكي', 'Horsepower', 745.69987158227], ['PS', 'حصان متري', 'Metric hp', 735.49875]]],
+    pressure:['الضغط', 'Pressure', [['Pa', 'باسكال', 'Pascal', 1], ['kPa', 'كيلوباسكال', 'kPa', 1000], ['bar', 'بار', 'Bar', 1e5], ['atm', 'ضغط جوي', 'atm', 101325], ['mmHg', 'مم زئبق', 'mmHg', 133.322387415], ['psi', 'باوند/بوصة²', 'psi', 6894.757293168]]],
+    volume:['الحجم', 'Volume', [['m³', 'متر مكعب', 'Cubic metre', 1], ['L', 'لتر', 'Litre', 0.001], ['mL', 'ملليلتر', 'Millilitre', 1e-6], ['gal', 'جالون أمريكي', 'US gallon', 0.003785411784], ['ft³', 'قدم مكعب', 'Cubic foot', 0.028316846592]]],
+    angle:['الزاوية', 'Angle', [['°', 'درجة', 'Degree', Math.PI / 180], ['rad', 'راديان', 'Radian', 1], ['grad', 'جراد', 'Gradian', Math.PI / 200], ['rev', 'دورة', 'Revolution', 2 * Math.PI]]],
+    temp:['الحرارة', 'Temperature', [['°C', 'سيلزيوس', 'Celsius', 0], ['K', 'كلفن', 'Kelvin', 0], ['°F', 'فهرنهايت', 'Fahrenheit', 0]]]
+  };
+  function convTemp(v, from, to){ let c = from === '°C' ? v : from === 'K' ? v - 273.15 : (v - 32) * 5 / 9; return to === '°C' ? c : to === 'K' ? c + 273.15 : c * 9 / 5 + 32; }
+  function convert(cat, v, from, to){ if(cat === 'temp') return convTemp(v, from, to); const L = UNITS[cat][2]; const f = L.find(u=> u[0] === from)[3], t = L.find(u=> u[0] === to)[3]; return v * f / t; }
+  const CST = [['G', 'ثابت الجذب العام', 'Gravitational constant', 6.6743e-11, 'N·m²/kg²'], ['c', 'سرعة الضوء', 'Speed of light', 299792458, 'm/s'], ['g', 'تسارع الجاذبية الأرضية', 'Standard gravity', 9.80665, 'm/s²'], ['h', 'ثابت بلانك', 'Planck constant', 6.62607015e-34, 'J·s'], ['k', 'ثابت كولوم', 'Coulomb constant', 8.9875517923e9, 'N·m²/C²'], ['ε₀', 'السماحية الكهربائية للفراغ', 'Vacuum permittivity', 8.8541878128e-12, 'F/m'], ['μ₀', 'النفاذية المغناطيسية للفراغ', 'Vacuum permeability', 1.25663706212e-6, 'N/A²'], ['e', 'شحنة الإلكترون', 'Elementary charge', 1.602176634e-19, 'C'], ['mₑ', 'كتلة الإلكترون', 'Electron mass', 9.1093837015e-31, 'kg'], ['mₚ', 'كتلة البروتون', 'Proton mass', 1.67262192369e-27, 'kg'], ['Nₐ', 'عدد أفوجادرو', 'Avogadro constant', 6.02214076e23, '1/mol'], ['R', 'ثابت الغاز العام', 'Gas constant', 8.314462618, 'J/(mol·K)'], ['k_B', 'ثابت بولتزمان', 'Boltzmann constant', 1.380649e-23, 'J/K'], ['σ', 'ثابت ستيفان–بولتزمان', 'Stefan–Boltzmann', 5.670374419e-8, 'W/(m²·K⁴)'], ['atm', 'الضغط الجوي القياسي', 'Standard atmosphere', 101325, 'Pa'], ['v_s', 'سرعة الصوت في الهواء (20°م)', 'Speed of sound (20°C)', 343, 'm/s'], ['M⊕', 'كتلة الأرض', 'Earth mass', 5.972e24, 'kg'], ['R⊕', 'نصف قطر الأرض', 'Earth radius', 6.371e6, 'm'], ['M☉', 'كتلة الشمس', 'Sun mass', 1.989e30, 'kg'], ['AU', 'الوحدة الفلكية', 'Astronomical unit', 1.495978707e11, 'm'], ['ly', 'السنة الضوئية', 'Light-year', 9.4607304725808e15, 'm'], ['ρ_w', 'كثافة الماء', 'Water density', 1000, 'kg/m³'], ['c_w', 'الحرارة النوعية للماء', 'Water specific heat', 4186, 'J/(kg·°C)']];
+
+  /* ---------- UI ---------- */
+  const MODES = [['law', 'القوانين', 'Formulas'], ['lab', 'مختبر المقذوفات', 'Projectile lab'], ['pl', 'الكواكب', 'Planets'], ['cv', 'المحوّل', 'Converter'], ['cst', 'الثوابت', 'Constants']];
+  const S = { mode:'law', cat:'all', q:'', cur:null, target:null };
+  function html(){
+    return `
+    <h2>${b('الفيزياء', 'Physics')}</h2>
+    <p class="hint">${b('60 قانوناً تحلّ لك أي مجهول مع خطوات الحل، ومختبر مقذوفات متحرك بلعبة إصابة الهدف، ووزنك على الكواكب، ومحوّل وحدات وثوابت فيزيائية.', '60 formulas that solve any unknown with worked steps, an animated projectile lab with a target game, your weight on other planets, a unit converter and physical constants.')}</p>
+    <div class="img-chips" id="fz-modes">${MODES.map(m=> `<button type="button" class="img-chip ${m[0] === 'law' ? 'active' : ''}" data-m="${m[0]}" data-ar="${m[1]}" data-en="${m[2]}">${m[1]}</button>`).join('')}</div>
+
+    <div class="fz-sec" data-m="law">
+      <div id="fz-list">
+        <div class="field"><label>${b('ابحث عن قانون', 'Search a formula')}</label><input type="text" id="fz-q" autocomplete="off" ${ph('مثال: نيوتن، طاقة، أوم', 'e.g. Newton, energy, Ohm')}></div>
+        <div class="img-chips" id="fz-cats"></div>
+        <div class="fz-tiles" id="fz-tiles"></div>
+      </div>
+      <div id="fz-form" style="display:none"></div>
+    </div>
+
+    <div class="fz-sec" data-m="lab" style="display:none">
+      <div class="row">
+        <div class="field"><label>${b('أين تطلق؟', 'Where to launch?')}</label><select id="fz-planet"></select></div>
+        <div class="field"><label>${b('السرعة الابتدائية', 'Launch speed')}: <b id="fz-vv">30</b> m/s</label><input type="range" id="fz-v" class="ch-range" min="1" max="100" step="1" value="30"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>${b('زاوية الإطلاق', 'Launch angle')}: <b id="fz-av">45</b>°</label><input type="range" id="fz-a" class="ch-range" min="0" max="90" step="1" value="45"></div>
+        <div class="field"><label>${b('ارتفاع الإطلاق', 'Launch height')}: <b id="fz-hv">0</b> m</label><input type="range" id="fz-h" class="ch-range" min="0" max="50" step="1" value="0"></div>
+      </div>
+      <canvas id="fz-cv" class="fz-cv" width="640" height="400"></canvas>
+      <div class="fz-btns"><button type="button" class="btn" id="fz-fire">🚀 ${b('أطلق', 'Fire')}</button><button type="button" class="btn secondary" id="fz-clear">${b('مسح المسارات', 'Clear paths')}</button><button type="button" class="btn secondary" id="fz-game">🎯 ${b('تحدي الهدف', 'Target challenge')}</button></div>
+      <div class="fz-stats" id="fz-stats"></div>
+      <div class="ch-note" id="fz-gamenote" style="display:none"></div>
+      <p class="hint">${b('تجاهل مقاومة الهواء. جرّب القمر أو المشتري وشاهد كيف يتغير المسار!', 'Air resistance is ignored. Try the Moon or Jupiter and watch the path change!')}</p>
+    </div>
+
+    <div class="fz-sec" data-m="pl" style="display:none">
+      <div class="field"><label>${b('كتلتك (كجم)', 'Your mass (kg)')}</label><input type="text" id="fz-mass" inputmode="decimal" dir="ltr" value="70"></div>
+      <div id="fz-plout"></div>
+    </div>
+
+    <div class="fz-sec" data-m="cv" style="display:none">
+      <div class="img-chips" id="fz-ucats"></div>
+      <div class="row">
+        <div class="field"><label>${b('القيمة', 'Value')}</label><input type="text" id="fz-cval" inputmode="decimal" dir="ltr" value="1"></div>
+        <div class="field"><label>${b('من', 'From')}</label><select id="fz-cfrom"></select></div>
+      </div>
+      <div id="fz-cout"></div>
+    </div>
+
+    <div class="fz-sec" data-m="cst" style="display:none">
+      <div class="field"><label>${b('ابحث', 'Search')}</label><input type="text" id="fz-cq" autocomplete="off" ${ph('اسم الثابت أو رمزه', 'Constant name or symbol')}></div>
+      <div class="fz-cst" id="fz-cst"></div>
+      <p class="hint">${b('اضغط على أي ثابت لنسخ قيمته.', 'Tap any constant to copy its value.')}</p>
+    </div>`;
+  }
+
+  /* ----- formula list + form ----- */
+  function renderCats(){
+    $('fz-cats').innerHTML = `<button type="button" class="img-chip ${S.cat === 'all' ? 'active' : ''}" data-c="all">${B('الكل', 'All')}</button>` + CATS.map(c=> `<button type="button" class="img-chip ${S.cat === c[0] ? 'active' : ''}" data-c="${c[0]}">${c[3]} ${B(c[1], c[2])}</button>`).join('');
+  }
+  function renderTiles(){
+    const q = S.q.toLowerCase(); const catIcon = id=> CATS.find(c=> c[0] === id)[3];
+    const list = FORMS.filter(f=> (S.cat === 'all' || f.cat === S.cat) && (!q || f.ar.indexOf(S.q) >= 0 || f.en.toLowerCase().indexOf(q) >= 0 || f.eq.toLowerCase().indexOf(q) >= 0));
+    $('fz-tiles').innerHTML = list.length ? list.map(f=> `<button type="button" class="fz-tile" data-i="${f.id}"><span class="fz-ti">${catIcon(f.cat)}</span><b>${esc(B(f.ar, f.en))}</b><code dir="ltr">${subify(f.eq)}</code></button>`).join('') : `<div class="ch-err">${B('لا توجد نتائج', 'No results')}</div>`;
+  }
+  function openForm(id){
+    const f = FORMS[id]; S.cur = f; $('fz-list').style.display = 'none'; const box = $('fz-form'); box.style.display = '';
+    const prev = store.get('last-' + id, {});
+    const first = f.vars[f.vars.length - 1].sym;
+    box.innerHTML = `<button type="button" class="btn secondary fz-back" id="fz-back">← ${B('رجوع للقوانين', 'Back to formulas')}</button>
+      <div class="fz-fhead"><h3>${esc(B(f.ar, f.en))}</h3><div class="fz-eq" dir="ltr">${subify(f.eq)}</div></div>
+      <div class="field"><label>${B('ماذا تريد أن تحسب؟', 'What do you want to find?')}</label><select id="fz-tgt">${f.vars.filter(v=> f.solve[v.sym]).map(v=> `<option value="${esc(v.sym)}" ${v.sym === (prev.t || first) ? 'selected' : ''}>${esc(v.sym)} — ${esc(B(v.ar, v.en))}</option>`).join('')}</select></div>
+      <div id="fz-inputs"></div>
+      <button type="button" class="btn" id="fz-calc">${B('احسب', 'Calculate')}</button>
+      <div id="fz-fout"></div>`;
+    renderInputs(prev.v || {});
+  }
+  function renderInputs(prevVals){
+    const f = S.cur, t = $('fz-tgt').value;
+    $('fz-inputs').innerHTML = '<div class="row fz-in">' + f.vars.filter(v=> v.sym !== t).map(v=> `<div class="field"><label><b dir="ltr">${subify(v.sym)}</b> ${esc(B(v.ar, v.en))}${v.unit ? ' <span class="fz-u" dir="ltr">(' + esc(v.unit) + ')</span>' : ''}</label><input type="text" class="fz-vin" data-s="${esc(v.sym)}" inputmode="decimal" dir="ltr" value="${prevVals[v.sym] != null ? esc(prevVals[v.sym]) : esc(v.def)}"></div>`).join('') + '</div>';
+    $('fz-fout').innerHTML = '';
+  }
+  function calcForm(){
+    const f = S.cur, t = $('fz-tgt').value, out = $('fz-fout'); const vals = {}; const saved = {};
+    let bad = null; document.querySelectorAll('.fz-vin').forEach(i=>{ const v = parseNum(i.value); saved[i.dataset.s] = i.value; if(!isFinite(v)) bad = bad || i.dataset.s; else vals[i.dataset.s] = v; });
+    store.set('last-' + f.id, { t, v:saved });
+    if(bad){ out.innerHTML = `<div class="ch-err">${B('أدخل قيمة رقمية في الخانة', 'Enter a number in')} ${esc(bad)}</div>`; return; }
+    let res; try{ res = solveFormula(f, t, vals); }catch(e){ res = []; }
+    const tv = f.vars.find(v=> v.sym === t);
+    if(!res.length){ out.innerHTML = `<div class="ch-err">${B('لا يمكن الحساب بهذه القيم (قسمة على صفر أو جذر سالب أو قيمة خارج النطاق). راجع المدخلات.', 'Cannot compute with these values (division by zero, negative root or out of range). Check the inputs.')}</div>`; return; }
+    let st; try{ st = stepText(f, t, vals); }catch(er){ st = { formula:t + ' = ' + f.solve[t].expr, subst:'' }; } const uses = Object.keys(CONST).filter(k=> new RegExp('\\b' + k + '\\b').test(f.solve[t].expr));
+    const main = res.map((r, i)=> `<div class="ch-res hi"><span dir="ltr">${subify(t)}${res.length > 1 ? ' (' + (i + 1) + ')' : ''}</span><b dir="ltr">${fnum(r, 6)}</b><small dir="ltr">${esc(tv.unit)}${res.length > 1 && r < 0 ? ' — ' + B('غير مقبول فيزيائياً', 'not physical') : ''}</small></div>`).join('');
+    out.innerHTML = `<div class="ch-resgrid">${main}</div>
+      <div class="fz-steps"><div><span>${B('القانون', 'Formula')}</span><code dir="ltr">${esc(st.formula)}</code></div><div><span>${B('التعويض', 'Substitution')}</span><code dir="ltr">${esc(st.subst)}</code></div><div><span>${B('الناتج', 'Result')}</span><code dir="ltr">${esc(t)} = ${res.map(r=> fnum(r, 6)).join('  |  ')} ${esc(tv.unit)}</code></div></div>
+      ${uses.length ? `<div class="ch-note">${uses.map(k=> CONST[k][1] + ' = ' + fnum(CONST[k][0], 8)).join(' · ')}</div>` : ''}
+      <div class="ch-note">${B('استخدم وحدات النظام الدولي SI. الزوايا بالدرجات.', 'Use SI units. Angles in degrees.')}</div>`;
+  }
+
+  /* ----- projectile lab ----- */
+  const LAB = { shots:[], anim:null, raf:0, score:0, tries:0, game:false };
+  const gOf = ()=> { const p = PLANETS[+$('fz-planet').value]; return p ? p[3] : 9.81; };
+  function labParams(){ return { v:+$('fz-v').value, a:+$('fz-a').value * Math.PI / 180, h:+$('fz-h').value, g:gOf() }; }
+  function labCalc(p){ const vx = p.v * Math.cos(p.a), vy = p.v * Math.sin(p.a); const T = (vy + Math.sqrt(vy * vy + 2 * p.g * p.h)) / p.g; return { vx, vy, T, R:vx * T, H:p.h + (vy > 0 ? vy * vy / (2 * p.g) : 0) }; }
+  const pos = (p, c, t)=> ({ x:c.vx * t, y:Math.max(0, p.h + c.vy * t - 0.5 * p.g * t * t) });
+  function labView(){
+    const p = labParams(), c = labCalc(p); let xm = c.R, ym = c.H;
+    LAB.shots.forEach(s=>{ xm = Math.max(xm, s.c.R); ym = Math.max(ym, s.c.H); });
+    if(LAB.target) xm = Math.max(xm, LAB.target.x + LAB.target.tol * 2);
+    xm = Math.max(xm * 1.12, 10); ym = Math.max(ym * 1.18, 5);
+    const cv = $('fz-cv'), W = cv.width, H = cv.height, mL = 54, mB = 40, mT = 14, mR = 14;
+    const sc = Math.min((W - mL - mR) / xm, (H - mB - mT) / ym);
+    return { p, c, xm, ym, sc, W, H, mL, mB, mT, mR, X:x=> mL + x * sc, Y:y=> H - mB - y * sc };
+  }
+  function nice(v){ const e = Math.pow(10, Math.floor(Math.log10(v))); const f = v / e; return (f < 1.5 ? 1 : f < 3.5 ? 2 : f < 7.5 ? 5 : 10) * e; }
+  function labDraw(){
+    const cv = $('fz-cv'); if(!cv) return; const ctx = cv.getContext('2d'); const V = labView(); const { p, c, W, H } = V;
+    const cs = getComputedStyle(document.documentElement); const bone = cs.getPropertyValue('--bone').trim() || '#333', brass = cs.getPropertyValue('--brass').trim() || '#B8863B', steel = cs.getPropertyValue('--steel').trim() || '#888';
+    ctx.clearRect(0, 0, W, H);
+    ctx.font = '21px sans-serif'; ctx.fillStyle = bone; ctx.strokeStyle = steel; ctx.lineWidth = 1; ctx.textAlign = 'center'; ctx.globalAlpha = .6;
+    const dx = nice(V.xm / 6); for(let x = 0; x <= V.xm; x += dx){ ctx.beginPath(); ctx.moveTo(V.X(x), V.Y(0)); ctx.lineTo(V.X(x), V.Y(0) + 6); ctx.stroke(); ctx.fillText(String(Math.round(x * 10) / 10), V.X(x), H - 12); }
+    ctx.textAlign = 'right'; const dy = nice(V.ym / 4); for(let y = 0; y <= V.ym; y += dy){ ctx.globalAlpha = .18; ctx.beginPath(); ctx.moveTo(V.mL, V.Y(y)); ctx.lineTo(W - V.mR, V.Y(y)); ctx.stroke(); ctx.globalAlpha = .6; ctx.fillText(String(Math.round(y * 10) / 10), V.mL - 8, V.Y(y) + 7); }
+    ctx.globalAlpha = 1; ctx.strokeStyle = bone; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(V.mL - 8, V.Y(0)); ctx.lineTo(W - V.mR, V.Y(0)); ctx.stroke();
+    if(V.p.h > 0){ ctx.fillStyle = steel; ctx.globalAlpha = .35; ctx.fillRect(V.mL - 12, V.Y(V.p.h), 12, V.p.h * V.sc); ctx.globalAlpha = 1; }
+    /* target */
+    if(LAB.target){ const t = LAB.target; const x0 = V.X(t.x - t.tol), x1 = V.X(t.x + t.tol), y0 = V.Y(0); ctx.fillStyle = 'rgba(201,70,60,.25)'; ctx.fillRect(x0, y0 - 9, x1 - x0, 9); const cx = V.X(t.x); [22, 14, 6].forEach((r, i)=>{ ctx.beginPath(); ctx.arc(cx, y0 - 26, r, 0, 6.2832); ctx.fillStyle = i % 2 ? '#fff' : '#c9463c'; ctx.fill(); }); ctx.strokeStyle = bone; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(cx, y0); ctx.lineTo(cx, y0 - 26); ctx.stroke(); ctx.fillStyle = bone; ctx.textAlign = 'center'; ctx.font = 'bold 21px sans-serif'; ctx.fillText(Math.round(t.x) + ' m', cx, y0 - 56); }
+    /* predicted path */
+    ctx.setLineDash([5, 5]); ctx.strokeStyle = brass; ctx.lineWidth = 3.5; ctx.globalAlpha = .8; ctx.beginPath(); for(let i = 0; i <= 80; i++){ const q = pos(p, c, c.T * i / 80); i ? ctx.lineTo(V.X(q.x), V.Y(q.y)) : ctx.moveTo(V.X(q.x), V.Y(q.y)); } ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+    /* previous shots */
+    LAB.shots.forEach((s, k)=>{ ctx.strokeStyle = `hsl(${s.hue} 65% 50%)`; ctx.globalAlpha = .55; ctx.lineWidth = 3.5; ctx.beginPath(); for(let i = 0; i <= 80; i++){ const q = pos(s.p, s.c, s.c.T * i / 80); i ? ctx.lineTo(V.X(q.x), V.Y(q.y)) : ctx.moveTo(V.X(q.x), V.Y(q.y)); } ctx.stroke(); ctx.globalAlpha = 1; ctx.fillStyle = `hsl(${s.hue} 65% 50%)`; ctx.beginPath(); ctx.arc(V.X(s.c.R), V.Y(0), 7, 0, 6.2832); ctx.fill(); });
+    /* cannon */
+    ctx.save(); ctx.translate(V.X(0), V.Y(p.h)); ctx.rotate(-p.a); ctx.fillStyle = bone; ctx.fillRect(0, -8, 40, 16); ctx.restore(); ctx.fillStyle = brass; ctx.beginPath(); ctx.arc(V.X(0), V.Y(p.h), 13, 0, 6.2832); ctx.fill();
+    /* ball */
+    if(LAB.anim){ const q = pos(LAB.anim.p, LAB.anim.c, LAB.anim.t); ctx.fillStyle = '#c9463c'; ctx.beginPath(); ctx.arc(V.X(q.x), V.Y(q.y), 11, 0, 6.2832); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.beginPath(); ctx.arc(V.X(q.x) - 3, V.Y(q.y) - 3, 3.4, 0, 6.2832); ctx.fill();
+      ctx.strokeStyle = '#c9463c'; ctx.lineWidth = 5; ctx.globalAlpha = .5; ctx.beginPath(); for(let i = 0; i <= 30; i++){ const tt = LAB.anim.t * i / 30; const r = pos(LAB.anim.p, LAB.anim.c, tt); i ? ctx.lineTo(V.X(r.x), V.Y(r.y)) : ctx.moveTo(V.X(r.x), V.Y(r.y)); } ctx.stroke(); ctx.globalAlpha = 1; }
+  }
+  function labStats(){
+    const p = labParams(), c = labCalc(p); const card = (t, v, u)=> `<div class="ch-res"><span>${t}</span><b dir="ltr">${v}</b><small>${u}</small></div>`;
+    $('fz-stats').innerHTML = `<div class="ch-resgrid">${card(B('المدى الأفقي', 'Range'), fnum(c.R, 5), 'm')}${card(B('أقصى ارتفاع', 'Max height'), fnum(c.H, 5), 'm')}${card(B('زمن التحليق', 'Flight time'), fnum(c.T, 4), 's')}${card(B('سرعة الارتطام', 'Impact speed'), fnum(Math.sqrt(c.vx * c.vx + Math.pow(c.vy - p.g * c.T, 2)), 5), 'm/s')}</div>`;
+  }
+  function labSync(){ $('fz-vv').textContent = $('fz-v').value; $('fz-av').textContent = $('fz-a').value; $('fz-hv').textContent = $('fz-h').value; labStats(); if(!LAB.anim) labDraw(); }
+  function labFire(){
+    if(LAB.anim) return; const p = labParams(), c = labCalc(p); const speed = Math.max(1, c.T / 3.2); const t0 = performance.now();
+    LAB.anim = { p, c, t:0 };
+    const step = now=>{ const a = LAB.anim; if(!a) return; a.t = Math.min(c.T, (now - t0) / 1000 * speed); labDraw();
+      if(a.t >= c.T){ const hue = (LAB.shots.length * 67 + 20) % 360; LAB.shots.push({ p, c, hue }); if(LAB.shots.length > 6) LAB.shots.shift(); LAB.anim = null; labDraw(); labResult(c); return; }
+      LAB.raf = requestAnimationFrame(step); };
+    LAB.raf = requestAnimationFrame(step);
+  }
+  function labResult(c){
+    if(!LAB.target) return; LAB.tries++; const t = LAB.target; const d = c.R - t.x; const note = $('fz-gamenote');
+    if(Math.abs(d) <= t.tol){ LAB.score++; note.className = 'ch-note ok'; note.innerHTML = `🎯 ${B('إصابة مباشرة!', 'Direct hit!')} ${B('النقاط', 'Score')}: ${LAB.score}/${LAB.tries}`; try{ if(navigator.vibrate) navigator.vibrate(30); }catch(e){} setTimeout(()=>{ LAB.shots = []; newTarget(); labDraw(); }, 1300); }
+    else { note.className = 'ch-note bad'; note.innerHTML = `${d < 0 ? B('قصير بمقدار', 'Short by') : B('تجاوز الهدف بمقدار', 'Overshot by')} ${fnum(Math.abs(d), 3)} m — ${B('النقاط', 'Score')}: ${LAB.score}/${LAB.tries}`; }
+  }
+  function newTarget(){ const g = gOf(); const maxR = 100 * 100 / g; const x = Math.round(Math.max(8, Math.min(maxR * 0.9, Math.min(120, 8 + Math.random() * 110)))); LAB.target = { x, tol:Math.max(1.5, x * 0.03) }; $('fz-gamenote').style.display = ''; $('fz-gamenote').className = 'ch-note'; $('fz-gamenote').innerHTML = `🎯 ${B('الهدف على بعد', 'Target at')} <b>${x} m</b> ${B('(الهامش ±', '(margin ±')}${fnum(LAB.target.tol, 2)} m) — ${B('اضبط السرعة والزاوية ثم أطلق!', 'set speed and angle, then fire!')}`; }
+
+  /* ----- planets ----- */
+  function plRender(){
+    let m = parseNum($('fz-mass').value); if(!(m > 0)) m = 0; const mx = Math.max.apply(null, PLANETS.map(p=> p[3])) * Math.max(m, 1);
+    const jump = 0.5; // m on Earth
+    $('fz-plout').innerHTML = `<div class="fz-pls">${PLANETS.map(p=>{ const w = m * p[3]; return `<div class="fz-pl ${p[2] === 'Earth' ? 'earth' : ''}"><div class="fz-pn"><span>${p[0]}</span><b>${B(p[1], p[2])}</b><small dir="ltr">g = ${p[3]} m/s²</small></div><div class="fz-pbar"><i style="width:${Math.max(2, w / mx * 100).toFixed(1)}%"></i></div><div class="fz-pv"><b dir="ltr">${fnum(w, 5)} N</b><small>${B('ميزانك تقرأ', 'Scale reads')} ${fnum(w / 9.81, 4)} kg · ${B('قفزة', 'jump')} ${fnum(jump * 9.81 / p[3], 3)} m</small></div></div>`; }).join('')}</div><div class="ch-note">${B('قفزتك المفترضة على الأرض 0.5 م. الكتلة ثابتة في كل مكان، لكن الوزن يتغير مع الجاذبية!', 'Assuming a 0.5 m jump on Earth. Mass stays the same everywhere — only weight changes with gravity!')}</div>`;
+  }
+
+  /* ----- converter ----- */
+  const CV = { cat:'length', from:'m' };
+  function cvCats(){ $('fz-ucats').innerHTML = Object.keys(UNITS).map(k=> `<button type="button" class="img-chip ${CV.cat === k ? 'active' : ''}" data-u="${k}">${B(UNITS[k][0], UNITS[k][1])}</button>`).join(''); }
+  function cvFrom(){ const L = UNITS[CV.cat][2]; if(!L.some(u=> u[0] === CV.from)) CV.from = L[0][0]; $('fz-cfrom').innerHTML = L.map(u=> `<option value="${esc(u[0])}" ${u[0] === CV.from ? 'selected' : ''}>${esc(u[0])} — ${esc(B(u[1], u[2]))}</option>`).join(''); }
+  function cvOut(){
+    const v = parseNum($('fz-cval').value); const out = $('fz-cout'); if(!isFinite(v)){ out.innerHTML = `<div class="ch-err">${B('أدخل رقماً', 'Enter a number')}</div>`; return; }
+    out.innerHTML = `<div class="ch-resgrid">${UNITS[CV.cat][2].filter(u=> u[0] !== CV.from).map(u=> `<div class="ch-res"><span>${esc(B(u[1], u[2]))}</span><b dir="ltr">${fnum(convert(CV.cat, v, CV.from, u[0]), 7)}</b><small dir="ltr">${esc(u[0])}</small></div>`).join('')}</div>`;
+  }
+
+  /* ----- constants ----- */
+  function cstRender(){
+    const q = $('fz-cq').value.trim().toLowerCase();
+    $('fz-cst').innerHTML = CST.filter(c=> !q || c[0].toLowerCase().indexOf(q) >= 0 || c[1].indexOf(q) >= 0 || c[2].toLowerCase().indexOf(q) >= 0).map(c=> `<button type="button" class="fz-c" data-v="${c[3]}"><b dir="ltr">${esc(c[0])}</b><span>${esc(B(c[1], c[2]))}</span><code dir="ltr">${fnum(c[3], 10)} ${esc(c[4])}</code></button>`).join('');
+  }
+
+  /* ----- wiring ----- */
+  function setMode(m){
+    S.mode = m; document.querySelectorAll('#fz-modes .img-chip').forEach(c=> c.classList.toggle('active', c.dataset.m === m));
+    document.querySelectorAll('#fz-root .fz-sec').forEach(s=>{ s.style.display = s.dataset.m === m ? '' : 'none'; });
+    if(m === 'lab'){ labSync(); } if(m === 'pl') plRender(); if(m === 'cv'){ cvOut(); } if(m === 'cst') cstRender();
+  }
+  function relang(){
+    const root = $('fz-root'); if(!root) return;
+    root.querySelectorAll('[data-ar]').forEach(e=>{ e.textContent = lang() === 'en' ? e.dataset.en : e.dataset.ar; });
+    root.querySelectorAll('[data-par]').forEach(e=> e.setAttribute('placeholder', lang() === 'en' ? e.dataset.pen : e.dataset.par));
+    renderCats(); renderTiles(); planetOpts(); cvCats(); cvFrom(); cvOut(); plRender(); cstRender(); labStats(); labDraw();
+    if(S.cur && $('fz-form').style.display !== 'none'){ const cur = S.cur.id, t = $('fz-tgt').value; const vals = {}; document.querySelectorAll('.fz-vin').forEach(i=> vals[i.dataset.s] = i.value); openForm(cur); $('fz-tgt').value = t; renderInputs(vals); }
+  }
+  function planetOpts(){ const keep = $('fz-planet').value || '3'; $('fz-planet').innerHTML = PLANETS.map((p, i)=> `<option value="${i}" ${String(i) === keep ? 'selected' : ''}>${p[0]} ${esc(B(p[1], p[2]))} (g = ${p[3]})</option>`).join(''); }
+  function init(){
+    const root = $('fz-root'); if(!root) return;
+    root.innerHTML = html();
+    $('fz-modes').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(c) setMode(c.dataset.m); });
+    $('fz-cats').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(!c) return; S.cat = c.dataset.c; renderCats(); renderTiles(); });
+    $('fz-q').addEventListener('input', ()=>{ S.q = $('fz-q').value.trim(); renderTiles(); });
+    $('fz-tiles').addEventListener('click', e=>{ const t = e.target.closest('.fz-tile'); if(t) openForm(+t.dataset.i); });
+    $('fz-form').addEventListener('click', e=>{ if(e.target.closest('#fz-back')){ $('fz-form').style.display = 'none'; $('fz-list').style.display = ''; S.cur = null; } else if(e.target.closest('#fz-calc')) calcForm(); });
+    $('fz-form').addEventListener('change', e=>{ if(e.target.id === 'fz-tgt'){ renderInputs({}); } });
+    $('fz-form').addEventListener('keydown', e=>{ if(e.key === 'Enter' && e.target.classList.contains('fz-vin')) calcForm(); });
+    planetOpts(); renderCats(); renderTiles();
+    ['fz-v', 'fz-a', 'fz-h'].forEach(i=> $(i).addEventListener('input', labSync)); $('fz-planet').addEventListener('change', ()=>{ LAB.shots = []; if(LAB.target) newTarget(); labSync(); });
+    $('fz-fire').addEventListener('click', labFire);
+    $('fz-clear').addEventListener('click', ()=>{ LAB.shots = []; LAB.target = null; LAB.score = 0; LAB.tries = 0; $('fz-gamenote').style.display = 'none'; labDraw(); });
+    $('fz-game').addEventListener('click', ()=>{ LAB.shots = []; LAB.score = 0; LAB.tries = 0; newTarget(); labSync(); });
+    $('fz-mass').addEventListener('input', plRender);
+    $('fz-ucats').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(!c) return; CV.cat = c.dataset.u; cvCats(); cvFrom(); cvOut(); });
+    $('fz-cfrom').addEventListener('change', ()=>{ CV.from = $('fz-cfrom').value; cvOut(); }); $('fz-cval').addEventListener('input', cvOut);
+    $('fz-cq').addEventListener('input', cstRender);
+    $('fz-cst').addEventListener('click', e=>{ const c = e.target.closest('.fz-c'); if(!c) return; const v = c.dataset.v; const done = ()=>{ c.classList.add('copied'); setTimeout(()=> c.classList.remove('copied'), 900); }; try{ navigator.clipboard.writeText(v).then(done, done); }catch(er){ done(); } });
+    cvCats(); cvFrom(); cvOut(); plRender(); cstRender(); relang(); setMode('law');
+    new MutationObserver(()=> setTimeout(relang, 20)).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+    new MutationObserver(()=>{ if(S.mode === 'lab') labDraw(); }).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+    window.uddahPhys = { FORMS, solveFormula, stepText, convert, labCalc, labParams, S, LAB, openForm, calcForm, labFire, newTarget, setMode, PLANETS };
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
 
 applyLanguage(localStorage.getItem('uddah-lang') || 'ar');
 </script>
