@@ -428,6 +428,61 @@
   .pdf-tile .nm{font-weight:600;font-size:.9rem;}
   .pdf-tile:hover,.pdf-tile:focus-visible{border-color:var(--brass);transform:translateY(-1px);box-shadow:0 3px 10px rgba(43,42,40,.12);}
   .pdf-tile:active{transform:scale(.98);}
+  /* scientific calculator */
+  .uc-disp{background:#d6dec9;border:2px solid var(--steel);border-radius:12px;padding:8px 12px 10px;margin:12px 0;font-family:var(--font-mono);color:#1a1f14;box-shadow:inset 0 2px 8px rgba(0,0,0,.18);}
+  :root[data-theme="dark"] .uc-disp{background:#2d3828;color:#e3ecd6;}
+  .uc-modes{display:flex;gap:8px;font-size:.7rem;direction:ltr;}
+  .uc-modes span{background:rgba(0,0,0,.12);padding:1px 7px;border-radius:4px;cursor:pointer;font-weight:700;}
+  .uc-expr{width:100%;border:0!important;background:transparent!important;box-shadow:none!important;font-size:1.2rem;padding:8px 0!important;direction:ltr;text-align:left;outline:none;color:inherit;font-family:var(--font-mono);}
+  .uc-res{text-align:right;font-size:2rem;font-weight:700;min-height:2.5rem;word-break:break-all;}
+  .uc-res.err{color:#b03a2e;font-size:1.3rem;}
+  .uc-res2{text-align:right;font-size:.8rem;opacity:.7;min-height:1.1em;word-break:break-all;}
+  .uc-pad{margin-top:10px;}
+  #uc-keys{direction:ltr;}
+  .uc-krow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:8px;}
+  .uc-key{min-height:50px;border-radius:10px;border:1px solid var(--border);background:var(--bg-elev-2);color:var(--bone);font-family:var(--font-mono);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2px;touch-action:manipulation;user-select:none;-webkit-user-select:none;}
+  .uc-key:active{transform:scale(.95);}
+  .uc-key small{font-size:.62rem;color:var(--brass-light);line-height:1;}
+  .uc-key b{font-size:1.02rem;}
+  .uc-key.fn{background:#3b4a66;color:#fff;border-color:#3b4a66;}
+  .uc-key.fn b{font-size:.8rem;}
+  .uc-key.n{background:var(--bg-elev);}
+  .uc-key.d{background:var(--rust);color:#fff;border-color:var(--rust);}
+  .uc-key.e{background:var(--brass);color:#fff;border-color:var(--brass);}
+  .uc-key.o b{color:var(--brass-light);font-size:1.15rem;}
+  #uc-keys.shifted .uc-key b{color:var(--brass-light);}
+  #uc-keys.shifted .uc-key.fn b,#uc-keys.shifted .uc-key.d b,#uc-keys.shifted .uc-key.e b{color:#fff;}
+  .uc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;direction:ltr;}
+  .uc-chip{padding:7px 11px;border:1px solid var(--steel);border-radius:8px;background:var(--bg-elev-2);color:var(--bone);font-family:var(--font-mono);font-size:.85rem;cursor:pointer;touch-action:manipulation;}
+  .uc-chip:hover{border-color:var(--brass);}
+  .uc-histhead{display:flex;justify-content:space-between;align-items:center;margin:14px 0 6px;}
+  .uc-hist{display:flex;flex-direction:column;gap:2px;max-height:260px;overflow:auto;}
+  .uc-hrow{display:flex;justify-content:space-between;gap:10px;padding:6px 8px;border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:.9rem;}
+  .uc-he,.uc-hv{background:none;border:0;color:var(--bone);font:inherit;cursor:pointer;padding:0;text-align:left;word-break:break-all;}
+  .uc-hv{font-weight:700;color:var(--brass-light);text-align:right;}
+  .uc-help{margin-top:12px;font-size:.88rem;}
+  .uc-help li{margin:6px 0;line-height:1.7;}
+  .uc-help code{direction:ltr;unicode-bidi:embed;background:var(--bg-elev-2);padding:1px 6px;border-radius:4px;}
+  .uc-frow{display:flex;align-items:center;gap:8px;margin:6px 0;}
+  .uc-frow input[type=text]{flex:1;direction:ltr;font-family:var(--font-mono);}
+  .uc-dot{width:12px;height:12px;border-radius:50%;flex:0 0 12px;}
+  .uc-yl{font-family:var(--font-mono);font-size:.85rem;color:var(--bone-dim);}
+  .uc-gwrap{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:10px 0;}
+  #uc-gcv{display:block;width:100%;touch-action:none;cursor:crosshair;}
+  .uc-out{margin-top:10px;font-size:.92rem;line-height:1.9;}
+  .uc-twrap{max-height:420px;overflow:auto;}
+  .uc-table{border-collapse:collapse;width:100%;font-family:var(--font-mono);font-size:.88rem;}
+  .uc-table th,.uc-table td{border:1px solid var(--border);padding:5px 8px;text-align:center;direction:ltr;}
+  .uc-table th{background:var(--bg-elev-2);}
+  .uc-coefs{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-bottom:10px;}
+  .uc-srow{display:flex;gap:6px;align-items:center;margin-bottom:6px;font-family:var(--font-mono);}
+  .uc-srow input{width:64px;text-align:center;}
+  .uc-mblock{margin:10px 0 14px;}
+  .uc-dim select{width:auto;display:inline-block;}
+  .uc-mrow{display:flex;gap:4px;margin-bottom:4px;}
+  .uc-mrow input{width:56px;text-align:center;padding:6px 2px;}
+  .uc-mgrid{overflow:auto;padding:4px 0;}
+  #panel-calc textarea{width:100%;font-family:var(--font-mono);}
   /* image tools */
   #img-home-grid .pdf-cat{margin:16px 0 8px;font-weight:700;color:var(--brass-light);font-size:.95rem;}
   #img-home-grid .pdf-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px;}
@@ -551,6 +606,7 @@
     <button data-tab="sectors" data-i18n="tabSectors">حاسبات متنوعة</button>
     <button data-tab="pdf" data-i18n="tabPdf">أدوات PDF</button>
     <button data-tab="images" data-i18n="imgxTab">أدوات الصور</button>
+    <button data-tab="calc" data-i18n="ucTab">الحاسبة العلمية</button>
   </nav>
 
   <!-- ===================== TAB 1: DATE CONVERTER ===================== -->
@@ -2999,6 +3055,9 @@
     </div>
   </section>
 
+  <!-- ===================== TAB: SCIENTIFIC CALCULATOR ===================== -->
+  <section class="panel" id="panel-calc"><div class="card" id="uc-root"></div></section>
+
   <!-- ===================== TAB: IMAGE TOOLS ===================== -->
   <section class="panel" id="panel-images">
     <div class="card" id="img-home">
@@ -4835,6 +4894,7 @@ const I18N = {
     toolsPickerTitle: 'أدوات متنوعة',
     toolsPickerHint: 'اختر الأداة اللي تبيها من القائمة.',
     toolsHomeHint: 'كل الأدوات تعمل داخل جهازك — بياناتك وملفاتك ما تُرفع لأي سيرفر.', toolsHomeSearch: 'ابحث عن أداة… (مثال: فاتورة، آيبان، QR)', toolsBack: '→ كل الأدوات المتنوعة', toolsCatDocs: 'مستندات ومعاملات', toolsCatDesign: 'تصميم وصور', toolsCatCalc: 'حسابات وتحقق', toolsCatQuick: 'أدوات سريعة',
+    ucTab: 'الحاسبة العلمية',
     toolsPickerLabel: 'الأداة',
     toolsOptQr: '🔗 مولد رمز QR',
     toolsOptSeal: '🖋️ مولد الأختام',
@@ -5777,6 +5837,7 @@ const I18N = {
     toolsPickerTitle: 'Misc Tools',
     toolsPickerHint: 'Pick the tool you want from the list.',
     toolsHomeHint: 'Everything runs on your device — your data and files are never uploaded.', toolsHomeSearch: 'Search a tool… (e.g. invoice, IBAN, QR)', toolsBack: '← All misc tools', toolsCatDocs: 'Documents', toolsCatDesign: 'Design & images', toolsCatCalc: 'Calculators & checks', toolsCatQuick: 'Quick tools',
+    ucTab: 'Scientific Calculator',
     toolsPickerLabel: 'Tool',
     toolsOptQr: '🔗 QR Code Generator',
     toolsOptSeal: '🖋️ Seal / Stamp Generator',
@@ -17726,6 +17787,674 @@ const CV_TPLS = [
     buildHome(); show();
   }
   window.uddahImages = { openTool, init, get homeOpen(){ return homeOpen; } };
+  init();
+})();
+
+/* ===== Uddah scientific calculator engine (pure, no DOM) ===== */
+const UCE = (function(){
+  class CalcError extends Error{ constructor(type){ super(type); this.type = type; } }
+  const fail = t=>{ throw new CalcError(t); };
+  const FUNCS = ['asinh', 'acosh', 'atanh', 'sinh', 'cosh', 'tanh', 'asin', 'acos', 'atan', 'sin', 'cos', 'tan', 'log', 'ln', 'exp', 'sqrt', 'cbrt', 'root', 'abs', 'int', 'frac', 'floor', 'ceil', 'round', 'sign', 'diff', 'integ', 'sigma', 'gcd', 'lcm', 'mod', 'fact', 'rand', 'nPr', 'nCr', 'pi', 'Ans'];
+  const SORTED = FUNCS.slice().sort((a, b)=> b.length - a.length);
+  const ONE_ARG_NOPAREN = new Set(['asinh', 'acosh', 'atanh', 'sinh', 'cosh', 'tanh', 'asin', 'acos', 'atan', 'sin', 'cos', 'tan', 'log', 'ln', 'exp', 'sqrt', 'cbrt', 'abs', 'int', 'frac', 'floor', 'ceil', 'sign', 'fact']);
+  const SUP = { '⁰':'0', '¹':'1', '²':'2', '³':'3', '⁴':'4', '⁵':'5', '⁶':'6', '⁷':'7', '⁸':'8', '⁹':'9' };
+
+  function tokenize(src){
+    let s = String(src).replace(/⁻¹/g, '^(-1)').replace(/[²³]/g, m=> '^' + SUP[m]).replace(/\s+/g, '')
+      .replace(/[×·]/g, '*').replace(/÷/g, '/').replace(/[−–]/g, '-').replace(/π/g, 'pi').replace(/√/g, 'sqrt').replace(/∛/g, 'cbrt').replace(/->/g, '→').replace(/Ran#/g, 'rand').replace(/ᴇ/g, 'E');
+    const out = []; let i = 0;
+    while(i < s.length){
+      const c = s[i];
+      if(/[0-9.]/.test(c)){
+        let m = /^(\d+\.?\d*|\.\d+)(E[+-]?\d+)?/.exec(s.slice(i)); if(!m) fail('syntax');
+        if(m[0] === '.' || s[i + m[0].length] === '.') fail('syntax');
+        out.push({ t:'num', v:parseFloat(m[0].replace('E', 'e')) }); i += m[0].length; continue;
+      }
+      if('+-*/^!%°(),→'.indexOf(c) >= 0){ out.push({ t:'op', v:c }); i++; continue; }
+      if(/[A-Za-z]/.test(c)){
+        const rest = s.slice(i), f = SORTED.find(n=> rest.startsWith(n));
+        if(f){ out.push({ t:'id', v:f }); i += f.length; continue; }
+        if(c === 'e'){ out.push({ t:'id', v:'e' }); i++; continue; }
+        if(/[A-Z]/.test(c) || c === 'x' || c === 'y'){ out.push({ t:'var', v:c.toUpperCase() }); i++; continue; }
+      }
+      fail('syntax');
+    }
+    return out;
+  }
+
+  function parse(src){
+    const tk = tokenize(src); let p = 0;
+    const peek = ()=> tk[p], isOp = v=> tk[p] && tk[p].t === 'op' && tk[p].v === v;
+    const starts = ()=>{ const k = tk[p]; return !!k && (k.t === 'num' || k.t === 'var' || (k.t === 'id' && k.v !== 'nPr' && k.v !== 'nCr') || (k.t === 'op' && k.v === '(')); };
+    function add(){ let l = mul(); while(isOp('+') || isOp('-')){ const o = tk[p++].v, r = mul(); l = { t:'bin', o, a:l, b:r }; } return l; }
+    function mul(){ let l = imp(); while(isOp('*') || isOp('/')){ const o = tk[p++].v, r = imp(); l = { t:'bin', o, a:l, b:r }; } return l; }
+    function imp(){ let l = npc(); while(starts()){ const r = npc(); l = { t:'bin', o:'*', a:l, b:r }; } return l; }
+    function npc(){ let l = unary(); while(peek() && peek().t === 'id' && (peek().v === 'nPr' || peek().v === 'nCr')){ const n = tk[p++].v, r = unary(); l = { t:'fn', n, args:[l, r] }; } return l; }
+    function unary(){ if(isOp('-')){ p++; return { t:'neg', a:unary() }; } if(isOp('+')){ p++; return unary(); } return pow(); }
+    function pow(){ const b = postfix(); if(isOp('^')){ p++; return { t:'bin', o:'^', a:b, b:unary() }; } return b; }
+    function postfix(){ let a = primary(); while(isOp('!') || isOp('%') || isOp('°')){ a = { t:'post', o:tk[p++].v, a }; } return a; }
+    function args(){
+      const a = []; if(isOp(')')){ p++; return a; }
+      for(;;){ a.push(add()); if(isOp(',')){ p++; continue; } if(isOp(')')){ p++; break; } if(p >= tk.length) break; fail('syntax'); }
+      return a;
+    }
+    function primary(){
+      const k = tk[p++]; if(!k) fail('syntax');
+      if(k.t === 'num') return { t:'num', v:k.v };
+      if(k.t === 'var') return { t:'var', n:k.v };
+      if(k.t === 'op' && k.v === '('){ const e = add(); if(isOp(')')) p++; else if(p < tk.length) fail('syntax'); return e; }
+      if(k.t === 'id'){
+        if(k.v === 'pi') return { t:'num', v:Math.PI }; if(k.v === 'e') return { t:'num', v:Math.E };
+        if(k.v === 'Ans') return { t:'ans' }; if(k.v === 'rand'){ if(isOp('(')){ p++; if(isOp(')')) p++; } return { t:'fn', n:'rand', args:[] }; }
+        if((k.v === 'nPr' || k.v === 'nCr') && !isOp('(')) fail('syntax');
+        if(isOp('(')){ p++; return { t:'fn', n:k.v, args:args() }; }
+        if(ONE_ARG_NOPAREN.has(k.v)) return { t:'fn', n:k.v, args:[pow()] };
+        fail('syntax');
+      }
+      fail('syntax');
+    }
+    // assignment:  expr → VAR
+    let store = null; const ai = tk.findIndex(k=> k.t === 'op' && k.v === '→');
+    if(ai >= 0){ if(ai !== tk.length - 2 || tk[ai + 1].t !== 'var') fail('syntax'); store = tk[ai + 1].v; tk.length = ai; }
+    if(!tk.length) fail('syntax');
+    const ast = add(); if(p < tk.length) fail('syntax');
+    return { ast, store };
+  }
+
+  const D2R = Math.PI / 180;
+  const toRad = (x, a)=> a === 'rad' ? x : a === 'grad' ? x * Math.PI / 200 : x * D2R;
+  const fromRad = (x, a)=> a === 'rad' ? x : a === 'grad' ? x * 200 / Math.PI : x / D2R;
+  function sinA(x, a){ if(a === 'deg'){ const r = ((x % 360) + 360) % 360; if(r % 180 === 0) return 0; if(r === 90) return 1; if(r === 270) return -1; } return Math.sin(toRad(x, a)); }
+  function cosA(x, a){ if(a === 'deg'){ const r = ((x % 360) + 360) % 360; if(r === 90 || r === 270) return 0; if(r === 0) return 1; if(r === 180) return -1; } return Math.cos(toRad(x, a)); }
+  function tanA(x, a){ if(a === 'deg'){ const r = ((x % 180) + 180) % 180; if(r === 90) fail('math'); if(r === 0) return 0; } const c = cosA(x, a); if(Math.abs(c) < 1e-15) fail('math'); return sinA(x, a) / c; }
+  const isInt = x=> Math.abs(x - Math.round(x)) < 1e-12;
+  function fact(n){ if(!isInt(n) || n < 0 || n > 170) fail('math'); n = Math.round(n); let r = 1; for(let i = 2; i <= n; i++) r *= i; return r; }
+  function gcd(a, b){ a = Math.abs(a); b = Math.abs(b); while(b){ [a, b] = [b, a % b]; } return a; }
+  function powR(a, b){
+    if(a === 0 && b === 0) fail('math'); if(a === 0 && b < 0) fail('math');
+    if(a < 0 && !isInt(b)){
+      for(let q = 3; q <= 99; q += 2){ const pp = b * q; if(isInt(pp)){ const r = Math.pow(-a, b); return Math.round(pp) % 2 === 0 ? r : -r; } }
+      fail('math');
+    }
+    const r = Math.pow(a, b); if(!isFinite(r)) fail('math'); return r;
+  }
+  function chk(x){ if(typeof x !== 'number' || !isFinite(x)) fail('math'); return x; }
+
+  function evaluate(node, env){
+    const ev = n=> evaluate(n, env), A = env.angle || 'deg';
+    switch(node.t){
+      case 'num': return node.v;
+      case 'var': { const v = env.vars[node.n]; return v === undefined ? 0 : v; }
+      case 'ans': return env.ans || 0;
+      case 'neg': return -ev(node.a);
+      case 'post': { const v = ev(node.a); if(node.o === '!') return fact(v); if(node.o === '%') return v / 100; return A === 'deg' ? v : A === 'rad' ? v * D2R : v * 10 / 9; }
+      case 'bin': {
+        const a = ev(node.a), b = ev(node.b);
+        if(node.o === '+') return a + b; if(node.o === '-') return a - b; if(node.o === '*') return a * b;
+        if(node.o === '/'){ if(b === 0) fail('math'); return a / b; }
+        return chk(powR(a, b));
+      }
+      case 'fn': return chk(callFn(node, env, ev, A));
+    }
+    fail('syntax');
+  }
+  function withX(env, x){ return { angle:env.angle, ans:env.ans, vars:Object.assign({}, env.vars, { X:x }) }; }
+  function callFn(node, env, ev, A){
+    const n = node.n, a = node.args;
+    const need = k=>{ if(a.length < k) fail('syntax'); };
+    if(n === 'diff'){ need(2); const f = x=> evaluate(a[0], withX(env, x)), x0 = ev(a[1]), h = 1e-3 * Math.max(1, Math.abs(x0)); const d = (-f(x0 + 2 * h) + 8 * f(x0 + h) - 8 * f(x0 - h) + f(x0 - 2 * h)) / (12 * h); const h2 = h / 4; const d2 = (-f(x0 + 2 * h2) + 8 * f(x0 + h2) - 8 * f(x0 - h2) + f(x0 - 2 * h2)) / (12 * h2); return (16 * d2 - d) / 15; }
+    if(n === 'integ'){ need(3); const f = x=> evaluate(a[0], withX(env, x)), lo = ev(a[1]), hi = ev(a[2]); return integrate(f, lo, hi); }
+    if(n === 'sigma'){ need(3); const lo = Math.round(ev(a[1])), hi = Math.round(ev(a[2])); if(hi - lo > 1e6) fail('math'); let s = 0; for(let k = lo; k <= hi; k++) s += evaluate(a[0], withX(env, k)); return s; }
+    const v = a.map(ev), x = v[0];
+    switch(n){
+      case 'sin': return sinA(x, A); case 'cos': return cosA(x, A); case 'tan': return tanA(x, A);
+      case 'asin': if(Math.abs(x) > 1) fail('math'); return fromRad(Math.asin(x), A);
+      case 'acos': if(Math.abs(x) > 1) fail('math'); return fromRad(Math.acos(x), A);
+      case 'atan': return fromRad(Math.atan(x), A);
+      case 'sinh': return Math.sinh(x); case 'cosh': return Math.cosh(x); case 'tanh': return Math.tanh(x);
+      case 'asinh': return Math.asinh(x); case 'acosh': if(x < 1) fail('math'); return Math.acosh(x); case 'atanh': if(Math.abs(x) >= 1) fail('math'); return Math.atanh(x);
+      case 'log': if(v.length >= 2){ if(v[0] <= 0 || v[0] === 1 || v[1] <= 0) fail('math'); return Math.log(v[1]) / Math.log(v[0]); } if(x <= 0) fail('math'); return Math.round(Math.log10(x) * 1e12) / 1e12 === Math.round(Math.log10(x)) ? Math.round(Math.log10(x)) : Math.log10(x);
+      case 'ln': if(x <= 0) fail('math'); return Math.log(x);
+      case 'exp': return Math.exp(x);
+      case 'sqrt': if(x < 0) fail('math'); return Math.sqrt(x);
+      case 'cbrt': return Math.cbrt(x);
+      case 'root': need(2); if(v[0] === 0) fail('math'); return powR(v[1], 1 / v[0]) * 1;
+      case 'abs': return Math.abs(x); case 'int': return Math.trunc(x); case 'frac': return x - Math.trunc(x);
+      case 'floor': return Math.floor(x); case 'ceil': return Math.ceil(x);
+      case 'round': { const d = v.length > 1 ? Math.round(v[1]) : 0, m = Math.pow(10, d); return Math.round(x * m) / m; }
+      case 'sign': return Math.sign(x); case 'fact': return fact(x);
+      case 'gcd': need(2); return gcd(v[0], v[1]); case 'lcm': need(2); return v[0] === 0 || v[1] === 0 ? 0 : Math.abs(v[0] * v[1]) / gcd(v[0], v[1]);
+      case 'mod': need(2); if(v[1] === 0) fail('math'); return ((v[0] % v[1]) + v[1]) % v[1];
+      case 'rand': return Math.floor(Math.random() * 1000) / 1000;
+      case 'nPr': { need(2); if(!isInt(v[0]) || !isInt(v[1]) || v[1] > v[0] || v[1] < 0 || v[0] > 170) fail('math'); return Math.round(fact(v[0]) / fact(v[0] - v[1])); }
+      case 'nCr': { need(2); if(!isInt(v[0]) || !isInt(v[1]) || v[1] > v[0] || v[1] < 0 || v[0] > 170) fail('math'); let r = 1; const k = Math.min(v[1], v[0] - v[1]); for(let i = 1; i <= k; i++) r = r * (v[0] - k + i) / i; return Math.round(r); }
+    }
+    fail('syntax');
+  }
+  function integrate(f, a, b){
+    if(a === b) return 0; let sign = 1; if(a > b){ [a, b] = [b, a]; sign = -1; }
+    const simpson = (fa, fm, fb, h)=> (fa + 4 * fm + fb) * h / 6;
+    function rec(a, b, fa, fm, fb, whole, eps, depth){
+      const m = (a + b) / 2, lm = (a + m) / 2, rm = (m + b) / 2, flm = f(lm), frm = f(rm), left = simpson(fa, flm, fm, m - a), right = simpson(fm, frm, fb, b - m), d = left + right - whole;
+      if(depth <= 0 || Math.abs(d) <= 15 * eps) return left + right + d / 15;
+      return rec(a, m, fa, flm, fm, left, eps / 2, depth - 1) + rec(m, b, fm, frm, fb, right, eps / 2, depth - 1);
+    }
+    const fa = f(a), fb = f(b), fm = f((a + b) / 2); if(![fa, fb, fm].every(isFinite)) fail('math');
+    const r = rec(a, b, fa, fm, fb, simpson(fa, fm, fb, b - a), 1e-11, 22); return sign * r;
+  }
+
+  /* run one line: returns { value, store } */
+  function calc(src, env){
+    const { ast, store } = parse(src), v = chk(evaluate(ast, env));
+    return { value:v, store };
+  }
+  /* compile f(x) for graphing: returns function (x)=>number|NaN */
+  function compile(src, env){
+    const { ast } = parse(src); const base = env || { angle:'rad', vars:{}, ans:0 }; const e = { angle:base.angle, ans:base.ans, vars:Object.assign({}, base.vars) };
+    return x=>{ e.vars.X = x; try{ const v = evaluate(ast, e); return isFinite(v) ? v : NaN; }catch(err){ return NaN; } };
+  }
+
+  /* ---------- formatting ---------- */
+  const SUPD = '⁰¹²³⁴⁵⁶⁷⁸⁹';
+  const supNum = n=> String(n).replace('-', '⁻').replace(/\d/g, d=> SUPD[+d]);
+  function fmt(x, o){
+    o = o || {}; if(!isFinite(x)) return 'Math ERROR'; if(x === 0) return '0';
+    const dig = o.digits || 10, clean = Number(x.toPrecision(12)), r = Number(clean.toPrecision(dig)), ab = Math.abs(r);
+    if(o.mode === 'sci' || ab >= 1e10 || ab < 1e-9){
+      const e = Math.floor(Math.log10(ab) + 1e-12); let m = r / Math.pow(10, e), ms = Number(m.toPrecision(dig)); if(Math.abs(ms) >= 10){ ms /= 10; return fmtSci(ms, e + 1); }
+      return fmtSci(ms, e);
+    }
+    if(o.mode === 'fix' && o.fix != null) return r.toFixed(o.fix);
+    const dec = Math.max(0, dig - 1 - Math.floor(Math.log10(ab) + 1e-12)), s = r.toFixed(Math.min(dec, 100));
+    return s.indexOf('.') >= 0 ? s.replace(/0+$/, '').replace(/\.$/, '') : s;
+  }
+  function fmtSci(m, e){ let s = String(Number(m.toPrecision(10))); return s + '×10' + supNum(e); }
+  function toFraction(x, maxDen){
+    maxDen = maxDen || 10000; if(!isFinite(x) || Number.isInteger(x)) return null;
+    const sg = x < 0 ? -1 : 1; let v = Math.abs(x), h1 = 1, h0 = 0, k1 = 0, k0 = 1, b = v;
+    for(let i = 0; i < 40; i++){ const a = Math.floor(b), h2 = a * h1 + h0, k2 = a * k1 + k0; if(k2 > maxDen) break; h0 = h1; h1 = h2; k0 = k1; k1 = k2; if(Math.abs(v - h1 / k1) < 1e-10 * Math.max(1, v)) return { p:sg * h1, q:k1 }; const fr = b - a; if(fr < 1e-15) break; b = 1 / fr; }
+    return null;
+  }
+  function fmtFraction(x){
+    const f = toFraction(x); if(!f) return null; const ap = Math.abs(f.p), w = Math.floor(ap / f.q), r = ap % f.q;
+    return { improper:(f.p < 0 ? '-' : '') + ap + '/' + f.q, mixed: w > 0 ? (f.p < 0 ? '-' : '') + w + ' ' + r + '/' + f.q : (f.p < 0 ? '-' : '') + r + '/' + f.q, p:f.p, q:f.q };
+  }
+  function toDMS(x){ const sg = x < 0 ? '-' : '', a = Math.abs(x); let d = Math.floor(a + 1e-12), m = Math.floor((a - d) * 60 + 1e-9), s = ((a - d) * 60 - m) * 60; s = Math.round(s * 1e4) / 1e4; if(s >= 60){ s -= 60; m++; } if(m >= 60){ m -= 60; d++; } return sg + d + '°' + m + '′' + String(s) + '″'; }
+
+  /* ---------- numeric analysis helpers (graph / solver) ---------- */
+  function findRoots(f, a, b, n){
+    n = n || 3000; const out = []; let px = a, py = f(a);
+    for(let i = 1; i <= n; i++){
+      const x = a + (b - a) * i / n, y = f(x);
+      if(isFinite(py) && isFinite(y)){
+        if(py === 0) out.push(px);
+        else if(py * y < 0){
+          let lo = px, hi = x, flo = py; for(let k = 0; k < 80; k++){ const m = (lo + hi) / 2, fm = f(m); if(!isFinite(fm)) break; if(flo * fm <= 0) hi = m; else { lo = m; flo = fm; } }
+          const r = (lo + hi) / 2; if(Math.abs(f(r)) < 1e-6 * Math.max(1, Math.abs(py), Math.abs(y)) + 1e-9 || Math.abs(f(r)) < Math.max(Math.abs(py), Math.abs(y))) out.push(r);
+        }
+      }
+      px = x; py = y;
+    }
+    if(py === 0) out.push(b);
+    return out.filter((r, i)=> i === 0 || Math.abs(r - out[i - 1]) > 1e-9 * Math.max(1, Math.abs(r)));
+  }
+  function findExtrema(f, a, b, n){
+    n = n || 2000; const h = (b - a) / n * 0.5, d = x=> (f(x + h) - f(x - h)) / (2 * h), out = []; let px = a, py = d(a);
+    for(let i = 1; i <= n; i++){
+      const x = a + (b - a) * i / n, y = d(x);
+      if(isFinite(py) && isFinite(y) && py * y < 0){ let lo = px, hi = x, flo = py; for(let k = 0; k < 60; k++){ const m = (lo + hi) / 2, fm = d(m); if(flo * fm <= 0) hi = m; else { lo = m; flo = fm; } } const r = (lo + hi) / 2; out.push({ x:r, y:f(r), kind: py > 0 ? 'max' : 'min' }); }
+      px = x; py = y;
+    }
+    return out.filter(e=> isFinite(e.y));
+  }
+  /* polynomial roots (Durand–Kerner), coeffs highest degree first, returns [{re,im}] */
+  function polyRoots(co){
+    co = co.slice(); while(co.length && co[0] === 0) co.shift(); const n = co.length - 1; if(n < 1) return [];
+    const a = co.map(c=> c / co[0]); let r = []; const R = 1 + Math.max(...a.slice(1).map(Math.abs));
+    for(let i = 0; i < n; i++){ const ang = 2 * Math.PI * i / n + 0.4; r.push({ re:R * 0.6 * Math.cos(ang), im:R * 0.6 * Math.sin(ang) }); }
+    const mul = (x, y)=> ({ re:x.re * y.re - x.im * y.im, im:x.re * y.im + x.im * y.re }), sub = (x, y)=> ({ re:x.re - y.re, im:x.im - y.im }), div = (x, y)=>{ const d = y.re * y.re + y.im * y.im; return { re:(x.re * y.re + x.im * y.im) / d, im:(x.im * y.re - x.re * y.im) / d }; };
+    const pv = z=>{ let s = { re:a[0], im:0 }; for(let i = 1; i <= n; i++){ s = mul(s, z); s.re += a[i]; } return s; };
+    for(let it = 0; it < 500; it++){
+      let mx = 0; r = r.map((z, i)=>{ let d = { re:1, im:0 }; for(let j = 0; j < n; j++) if(j !== i) d = mul(d, sub(z, r[j])); const dz = div(pv(z), d); mx = Math.max(mx, Math.hypot(dz.re, dz.im)); return sub(z, dz); });
+      if(mx < 1e-14) break;
+    }
+    return r.map(z=>({ re:Math.abs(z.re) < 1e-9 ? 0 : z.re, im:Math.abs(z.im) < 1e-9 ? 0 : z.im })).sort((p, q)=> p.re - q.re || p.im - q.im);
+  }
+  function solveLinear(M, b){
+    const n = M.length, A = M.map((r, i)=> r.concat([b[i]]));
+    for(let c = 0; c < n; c++){
+      let p = c; for(let r = c + 1; r < n; r++) if(Math.abs(A[r][c]) > Math.abs(A[p][c])) p = r;
+      if(Math.abs(A[p][c]) < 1e-12) return null; [A[c], A[p]] = [A[p], A[c]];
+      for(let r = 0; r < n; r++) if(r !== c){ const f = A[r][c] / A[c][c]; for(let k = c; k <= n; k++) A[r][k] -= f * A[c][k]; }
+    }
+    return A.map((r, i)=> r[n] / r[i]);
+  }
+  return { parse, evaluate, calc, compile, fmt, fmtFraction, toFraction, toDMS, findRoots, findExtrema, polyRoots, solveLinear, integrate, CalcError };
+})();
+
+
+/* ============================================================
+   SCIENTIFIC CALCULATOR TAB (Casio-style): calc, graph, table, equations, statistics, matrices, base-N
+   ============================================================ */
+(function uddahCalcUI(){
+  const $ = id=> document.getElementById(id);
+  const lang = ()=> (typeof currentLang !== 'undefined' ? currentLang : 'ar');
+  const B = (ar, en)=> lang() === 'en' ? en : ar;
+  const b = (ar, en)=> `<span data-ar="${ar}" data-en="${en}">${ar}</span>`;
+  const ob = (v, ar, en, sel)=> `<option value="${v}" data-ar="${ar}" data-en="${en}" ${sel ? 'selected' : ''}>${ar}</option>`;
+  const ph = (ar, en)=> `placeholder="${ar}" data-par="${ar}" data-pen="${en}"`;
+  const store = { get(k, d){ try{ const v = localStorage.getItem('uddah-uc-' + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } }, set(k, v){ try{ localStorage.setItem('uddah-uc-' + k, JSON.stringify(v)); }catch(e){} } };
+  const S = { angle: store.get('angle', 'deg'), vars: store.get('vars', {}), ans: store.get('ans', 0), hist: store.get('hist', []), dmode: 'dec', fmt: store.get('fmt', 'norm'), mixed: false, last: null, shift: false, mode: 'calc' };
+  const env = ()=> ({ angle: S.angle, vars: S.vars, ans: S.ans });
+  const evalNum = s=>{ s = String(s == null ? '' : s).replace(/[٠-٩]/g, d=> d.charCodeAt(0) - 1632).replace(/٫/g, '.'); if(!s.trim()) return 0; try{ return UCE.calc(s, env()).value; }catch(e){ return NaN; } };
+  const num = (x, d)=> UCE.fmt(x, { digits: d || 10 });
+  const errText = e=> e && e.type === 'syntax' ? B('خطأ في الصيغة', 'Syntax ERROR') : B('خطأ حسابي', 'Math ERROR');
+
+  /* ---------- HTML ---------- */
+  const MODES = [['calc', 'حساب', 'Calc'], ['graph', 'رسم بياني', 'Graph'], ['table', 'جدول', 'Table'], ['eq', 'معادلات', 'Equations'], ['stat', 'إحصاء', 'Statistics'], ['mat', 'مصفوفات', 'Matrix'], ['base', 'أنظمة العد', 'Base-N']];
+  const KEYS = [
+    [{ l:'SHIFT', a:'shift', c:'fn' }, { l:'◀', a:'left', c:'fn' }, { l:'▶', a:'right', c:'fn' }, { l:'S⇔D', a:'sd', c:'fn' }, { l:'DEG', a:'angle', c:'fn', id:'uc-k-angle' }],
+    [{ l:'sin', s:'sin⁻¹', i:'sin(', si:'asin(' }, { l:'cos', s:'cos⁻¹', i:'cos(', si:'acos(' }, { l:'tan', s:'tan⁻¹', i:'tan(', si:'atan(' }, { l:'log', s:'10ˣ', i:'log(', si:'10^(' }, { l:'ln', s:'eˣ', i:'ln(', si:'e^(' }],
+    [{ l:'x²', s:'√', i:'^2', si:'√(' }, { l:'xʸ', s:'ʸ√x', i:'^', si:'root(' }, { l:'x⁻¹', s:'x!', i:'^(-1)', si:'!' }, { l:'(', s:'π', i:'(', si:'π' }, { l:')', s:'e', i:')', si:'e' }],
+    [{ l:'7', i:'7', c:'n' }, { l:'8', i:'8', c:'n' }, { l:'9', i:'9', c:'n' }, { l:'DEL', a:'del', c:'d' }, { l:'AC', a:'ac', c:'d' }],
+    [{ l:'4', i:'4', c:'n' }, { l:'5', i:'5', c:'n' }, { l:'6', i:'6', c:'n' }, { l:'×', i:'×', c:'o' }, { l:'÷', i:'÷', c:'o' }],
+    [{ l:'1', i:'1', c:'n' }, { l:'2', i:'2', c:'n' }, { l:'3', i:'3', c:'n' }, { l:'+', i:'+', c:'o' }, { l:'−', i:'−', c:'o' }],
+    [{ l:'0', i:'0', c:'n' }, { l:'.', i:'.', c:'n' }, { l:'EXP', s:'→', i:'E', si:'→', c:'n' }, { l:'Ans', s:',', i:'Ans', si:',', c:'n' }, { l:'EXE', a:'exe', c:'e' }]
+  ];
+  const EXTRA = [['sinh', 'sinh('], ['cosh', 'cosh('], ['tanh', 'tanh('], ['sinh⁻¹', 'asinh('], ['cosh⁻¹', 'acosh('], ['tanh⁻¹', 'atanh('], ['Abs', 'abs('], ['Int', 'int('], ['Frac', 'frac('], ['Floor', 'floor('], ['Ceil', 'ceil('], ['Round', 'round('], ['nPr', 'nPr'], ['nCr', 'nCr'], ['GCD', 'gcd('], ['LCM', 'lcm('], ['Mod', 'mod('], ['Ran#', 'rand'], ['d/dx', 'diff('], ['∫', 'integ('], ['Σ', 'sigma('], ['%', '%'], ['°', '°'], [',', ','], ['∛', '∛('], ['log₍ₐ₎', 'log(']];
+  const CONSTS = [['c', '299792458', 'سرعة الضوء', 'Speed of light'], ['g', '9.80665', 'تسارع الجاذبية', 'Gravity'], ['G', '6.6743E-11', 'ثابت الجذب', 'Gravitational const.'], ['h', '6.62607015E-34', 'ثابت بلانك', 'Planck'], ['e⁻', '1.602176634E-19', 'شحنة الإلكترون', 'Electron charge'], ['mₑ', '9.1093837015E-31', 'كتلة الإلكترون', 'Electron mass'], ['mₚ', '1.67262192369E-27', 'كتلة البروتون', 'Proton mass'], ['Nₐ', '6.02214076E23', 'عدد أفوجادرو', 'Avogadro'], ['k', '1.380649E-23', 'ثابت بولتزمان', 'Boltzmann'], ['R', '8.314462618', 'ثابت الغاز', 'Gas constant'], ['ε₀', '8.8541878128E-12', 'سماحية الفراغ', 'Permittivity'], ['μ₀', '1.25663706212E-6', 'نفاذية الفراغ', 'Permeability'], ['σ', '5.670374419E-8', 'ستيفان-بولتزمان', 'Stefan-Boltzmann'], ['atm', '101325', 'الضغط الجوي', 'Atmosphere'], ['F', '96485.33212', 'ثابت فاراداي', 'Faraday']];
+  const VARS = ['A', 'B', 'C', 'D', 'E', 'F', 'X', 'Y', 'M'];
+
+  function html(){
+    const keys = KEYS.map(r=> '<div class="uc-krow">' + r.map((k, i)=> `<button type="button" class="uc-key ${k.c || ''}" ${k.id ? 'id="' + k.id + '"' : ''} data-k="${KEYS.indexOf(r)}-${i}">${k.s ? '<small>' + k.s + '</small>' : ''}<b>${k.l}</b></button>`).join('') + '</div>').join('');
+    return `
+    <h2>${b('الحاسبة العلمية', 'Scientific calculator')}</h2>
+    <p class="hint">${b('مستوحاة من حاسبات كاسيو الرسومية: حساب، رسم بياني، جدول، معادلات، إحصاء، مصفوفات وأنظمة العد.', 'Inspired by Casio graphing calculators: calc, graph, table, equations, statistics, matrices and base-N.')}</p>
+    <div class="img-chips" id="uc-modes">${MODES.map(m=> `<button type="button" class="img-chip ${m[0] === 'calc' ? 'active' : ''}" data-m="${m[0]}" data-ar="${m[1]}" data-en="${m[2]}">${m[1]}</button>`).join('')}</div>
+
+    <div class="uc-sec" data-m="calc">
+      <div class="uc-disp">
+        <div class="uc-modes"><span id="uc-b-angle">DEG</span><span id="uc-b-fmt"></span><span id="uc-b-shift" style="display:none">SHIFT</span></div>
+        <input type="text" id="uc-expr" class="uc-in uc-expr" dir="ltr" inputmode="none" autocomplete="off" autocapitalize="off" spellcheck="false" ${ph('اكتب العملية…', 'Type an expression…')}>
+        <div id="uc-res" class="uc-res" dir="ltr">0</div>
+        <div id="uc-res2" class="uc-res2" dir="ltr"></div>
+      </div>
+    </div>
+
+    <div id="uc-pad" class="uc-pad">
+      <button type="button" class="btn secondary" id="uc-padtoggle" style="display:none;margin-bottom:8px">${b('⌨ إظهار / إخفاء لوحة المفاتيح', '⌨ Show / hide keypad')}</button>
+      <div id="uc-padbody"><div class="uc-keys" id="uc-keys">${keys}</div>
+      <div class="img-chips" id="uc-ptabs" style="margin-top:12px"><button type="button" class="img-chip active" data-p="fn" data-ar="دوال إضافية" data-en="More functions">دوال إضافية</button><button type="button" class="img-chip" data-p="var" data-ar="المتغيرات" data-en="Variables">المتغيرات</button><button type="button" class="img-chip" data-p="const" data-ar="ثوابت علمية" data-en="Constants">ثوابت علمية</button></div>
+      <div id="uc-chips" class="uc-chips"></div>
+      <p class="note" id="uc-pnote"></p></div>
+    </div>
+
+    <div class="uc-sec" data-m="calc" id="uc-histwrap"><div class="uc-histhead"><b>${b('السجل', 'History')}</b><button type="button" class="btn secondary" id="uc-hclear" style="width:auto;padding:4px 12px;font-size:.8rem">${b('مسح', 'Clear')}</button></div><div id="uc-hist" class="uc-hist"></div></div>
+    <div class="uc-sec" data-m="calc"><details class="uc-help"><summary>${b('كيف أستخدمها؟', 'How to use')}</summary><ul>
+      <li>${b('اضغط SHIFT ثم الزر للدالة الثانوية (مثل sin⁻¹ و √ و π).', 'Press SHIFT then a key for its second function (sin⁻¹, √, π…).')}</li>
+      <li>${b('التخزين: <code>5→A</code> ثم استخدم A في أي عملية. Ans هو آخر ناتج.', 'Store: <code>5→A</code> then use A anywhere. Ans is the previous result.')}</li>
+      <li>${b('التفاضل: <code>diff(X^2, 3)</code> ، التكامل: <code>integ(sin(X), 0, π)</code> ، المجموع: <code>sigma(X^2, 1, 10)</code> (المتغير X).', 'Derivative: <code>diff(X^2, 3)</code>, integral: <code>integ(sin(X), 0, π)</code>, sum: <code>sigma(X^2, 1, 10)</code> (variable X).')}</li>
+      <li>${b('زر S⇔D يبدّل بين الكسر والعشري. الأزرار DEG/RAD/GRAD تغيّر وحدة الزاوية.', 'S⇔D toggles fraction/decimal. DEG/RAD/GRAD changes the angle unit.')}</li></ul></details></div>
+
+    <div class="uc-sec" data-m="graph" style="display:none">
+      <div id="uc-fns"></div>
+      <div class="uc-gwrap"><canvas id="uc-gcv"></canvas></div>
+      <div class="field"><label>${b('وحدة الزاوية في الرسم', 'Angle unit for graph')}</label><select id="uc-gang">${ob('rad', 'راديان (RAD)', 'Radians (RAD)')}${ob('deg', 'درجات (DEG)', 'Degrees (DEG)')}</select></div>
+      <div class="img-btnrow"><button type="button" class="btn secondary" id="uc-zin">＋</button><button type="button" class="btn secondary" id="uc-zout">－</button><button type="button" class="btn secondary" id="uc-zreset">${b('⟲ الأصل', '⟲ Reset')}</button><button type="button" class="btn secondary" id="uc-zfit">${b('ملاءمة', 'Fit')}</button></div>
+      <div class="row"><div class="field"><label>${b('الدالة المحددة', 'Selected function')}</label><select id="uc-gsel">${[1, 2, 3, 4].map(i=> `<option value="${i - 1}">Y${i}</option>`).join('')}</select></div><div class="field"><label>${b('الدالة الثانية (للتقاطع)', '2nd function (intersect)')}</label><select id="uc-gsel2">${[1, 2, 3, 4].map(i=> `<option value="${i - 1}" ${i === 2 ? 'selected' : ''}>Y${i}</option>`).join('')}</select></div></div>
+      <div class="img-btnrow"><button type="button" class="btn secondary" id="uc-groots">${b('الجذور', 'Roots')}</button><button type="button" class="btn secondary" id="uc-gext">${b('أعلى/أدنى', 'Min / Max')}</button><button type="button" class="btn secondary" id="uc-ginter">${b('التقاطع', 'Intersection')}</button></div>
+      <div class="row"><div class="field"><label>${b('التكامل من', 'Integral from')}</label><input type="text" id="uc-ia" value="0" dir="ltr" class="uc-in" inputmode="none"></div><div class="field"><label>${b('إلى', 'to')}</label><input type="text" id="uc-ib" value="1" dir="ltr" class="uc-in" inputmode="none"></div></div>
+      <button type="button" class="btn secondary" id="uc-gint">${b('احسب المساحة (∫)', 'Compute area (∫)')}</button>
+      <div class="row" style="margin-top:8px"><div class="field"><label>X min</label><input type="number" id="uc-xmin" step="any"></div><div class="field"><label>X max</label><input type="number" id="uc-xmax" step="any"></div><div class="field"><label>Y min</label><input type="number" id="uc-ymin" step="any"></div><div class="field"><label>Y max</label><input type="number" id="uc-ymax" step="any"></div></div>
+      <div id="uc-gout" class="uc-out"></div>
+    </div>
+
+    <div class="uc-sec" data-m="table" style="display:none">
+      <div class="field"><label>f(X) =</label><input type="text" id="uc-tf" class="uc-in" dir="ltr" inputmode="none" value="X^2" autocomplete="off"></div>
+      <div class="field"><label>g(X) = <small>(${b('اختياري', 'optional')})</small></label><input type="text" id="uc-tg" class="uc-in" dir="ltr" inputmode="none" autocomplete="off"></div>
+      <div class="row"><div class="field"><label>${b('البداية', 'Start')}</label><input type="text" id="uc-ts" value="-5" dir="ltr"></div><div class="field"><label>${b('النهاية', 'End')}</label><input type="text" id="uc-te" value="5" dir="ltr"></div><div class="field"><label>${b('الخطوة', 'Step')}</label><input type="text" id="uc-tp" value="1" dir="ltr"></div></div>
+      <button type="button" class="btn" id="uc-tgo">${b('أنشئ الجدول', 'Build table')}</button><div id="uc-tout" class="uc-out"></div>
+    </div>
+    <div class="uc-sec" data-m="eq" style="display:none" id="uc-eq"></div>
+    <div class="uc-sec" data-m="stat" style="display:none" id="uc-stat"></div>
+    <div class="uc-sec" data-m="mat" style="display:none" id="uc-mat"></div>
+    <div class="uc-sec" data-m="base" style="display:none" id="uc-base"></div>`;
+  }
+
+  /* ---------- core wiring ---------- */
+  let active = null, graphDraw = ()=>{};
+  const TOKEN_RE = /(asinh|acosh|atanh|sinh|cosh|tanh|asin|acos|atan|sin|cos|tan|log|ln|exp|sqrt|cbrt|root|abs|int|frac|floor|ceil|round|sign|diff|integ|sigma|gcd|lcm|mod|fact|rand|nPr|nCr|Ans)\(?$/;
+  function insertText(text){
+    const el = active || $('uc-expr'); if(!el) return;
+    if(el.id === 'uc-expr' && S.fresh){ S.fresh = false; if(/^[+\-×÷^*/!%°²³]|^\^/.test(text) && el.value === '') text = 'Ans' + text; }
+    const a = el.selectionStart == null ? el.value.length : el.selectionStart, z = el.selectionEnd == null ? a : el.selectionEnd;
+    el.value = el.value.slice(0, a) + text + el.value.slice(z); const p = a + text.length; try{ el.setSelectionRange(p, p); }catch(e){}
+    try{ el.focus({ preventScroll:true }); }catch(e){} el.dispatchEvent(new Event('input', { bubbles:true }));
+  }
+  function backspace(){
+    const el = active || $('uc-expr'); let a = el.selectionStart, z = el.selectionEnd; if(a == null){ a = z = el.value.length; }
+    if(a !== z){ el.value = el.value.slice(0, a) + el.value.slice(z); }
+    else if(a > 0){ const m = TOKEN_RE.exec(el.value.slice(0, a)); const n = m ? m[0].length : 1; el.value = el.value.slice(0, a - n) + el.value.slice(a); a -= n; }
+    try{ el.setSelectionRange(a, a); el.focus({ preventScroll:true }); }catch(e){} el.dispatchEvent(new Event('input', { bubbles:true }));
+  }
+  function fmtOpts(){ return S.fmt === 'fix2' ? { mode:'fix', fix:2 } : S.fmt === 'fix4' ? { mode:'fix', fix:4 } : S.fmt === 'sci4' ? { mode:'sci', digits:4 } : {}; }
+  const FMTL = { norm:'Norm', fix2:'Fix 2', fix4:'Fix 4', sci4:'Sci 4' };
+  function resultText(v){
+    if(S.dmode !== 'dec'){ const f = UCE.fmtFraction(v); if(f) return S.dmode === 'mixed' ? f.mixed : f.improper; }
+    return UCE.fmt(v, fmtOpts());
+  }
+  function showResult(){ if(S.last == null) return; $('uc-res').classList.remove('err'); $('uc-res').textContent = resultText(S.last); }
+  function badges(){ $('uc-b-angle').textContent = S.angle.toUpperCase(); $('uc-b-fmt').textContent = FMTL[S.fmt]; $('uc-k-angle').lastChild.textContent = S.angle.toUpperCase(); $('uc-b-shift').style.display = S.shift ? '' : 'none'; }
+  function renderHist(){
+    const h = $('uc-hist'); h.textContent = '';
+    if(!S.hist.length){ const p = document.createElement('p'); p.className = 'note'; p.textContent = B('لا توجد عمليات بعد.', 'No calculations yet.'); h.appendChild(p); return; }
+    S.hist.slice().reverse().forEach(it=>{
+      const r = document.createElement('div'); r.className = 'uc-hrow'; r.dir = 'ltr';
+      const e = document.createElement('button'); e.type = 'button'; e.className = 'uc-he'; e.textContent = it.e; e.addEventListener('click', ()=>{ active = $('uc-expr'); $('uc-expr').value = it.e; $('uc-expr').focus({ preventScroll:true }); });
+      const v = document.createElement('button'); v.type = 'button'; v.className = 'uc-hv'; v.textContent = '= ' + it.t; v.addEventListener('click', ()=>{ active = $('uc-expr'); insertText(UCE.fmt(it.v, { digits:12 }).replace('×10', 'E').replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]/g, c=> ({ '⁻':'-', '⁰':'0', '¹':'1', '²':'2', '³':'3', '⁴':'4', '⁵':'5', '⁶':'6', '⁷':'7', '⁸':'8', '⁹':'9' })[c])); });
+      r.appendChild(e); r.appendChild(v); h.appendChild(r);
+    });
+  }
+  function exe(){
+    const src = $('uc-expr').value.trim(); if(!src) return;
+    try{
+      const r = UCE.calc(src, env()); if(r.store){ S.vars[r.store] = r.value; store.set('vars', S.vars); renderChips(); }
+      S.ans = r.value; S.last = r.value; store.set('ans', S.ans); S.dmode = 'dec';
+      $('uc-res2').textContent = src + ' ='; showResult();
+      S.hist.push({ e: src, v: r.value, t: resultText(r.value) }); if(S.hist.length > 40) S.hist.shift(); store.set('hist', S.hist); renderHist();
+      $('uc-expr').value = ''; S.fresh = true; graphDraw();
+    }catch(e){ const r = $('uc-res'); r.textContent = errText(e); r.classList.add('err'); $('uc-res2').textContent = ''; }
+  }
+  function setShift(on){
+    S.shift = on; $('uc-keys').classList.toggle('shifted', on);
+    document.querySelectorAll('#uc-keys .uc-key').forEach(btn=>{ const [r, i] = btn.dataset.k.split('-').map(Number), k = KEYS[r][i]; if(k.s) btn.innerHTML = on ? `<small>${k.l}</small><b>${k.s}</b>` : `<small>${k.s}</small><b>${k.l}</b>`; });
+    badges();
+  }
+  function keyPress(k){
+    const el = active || $('uc-expr');
+    if(k.a === 'shift'){ setShift(!S.shift); return; }
+    if(k.a === 'left' || k.a === 'right'){ const p = Math.max(0, Math.min(el.value.length, (el.selectionStart == null ? el.value.length : el.selectionStart) + (k.a === 'left' ? -1 : 1))); try{ el.setSelectionRange(p, p); el.focus({ preventScroll:true }); }catch(e){} return; }
+    if(k.a === 'angle'){ S.angle = S.angle === 'deg' ? 'rad' : S.angle === 'rad' ? 'grad' : 'deg'; store.set('angle', S.angle); badges(); graphDraw(); return; }
+    if(k.a === 'sd'){ if(S.last == null) return; const order = ['dec', 'frac', 'mixed'], f = UCE.fmtFraction(S.last); if(!f){ $('uc-res2').textContent = B('لا يوجد كسر مكافئ', 'No simple fraction'); return; } S.dmode = order[(order.indexOf(S.dmode) + 1) % 3]; if(S.dmode === 'mixed' && f.mixed === f.improper) S.dmode = 'dec'; showResult(); return; }
+    if(k.a === 'del'){ backspace(); return; }
+    if(k.a === 'ac'){ el.value = ''; if(el.id === 'uc-expr'){ $('uc-res').textContent = '0'; $('uc-res').classList.remove('err'); $('uc-res2').textContent = ''; S.last = null; } el.dispatchEvent(new Event('input', { bubbles:true })); setShift(false); return; }
+    if(k.a === 'exe'){ if(el.id === 'uc-expr' || !el.classList.contains('uc-in')) exe(); else el.dispatchEvent(new Event('change', { bubbles:true })); setShift(false); return; }
+    const txt = S.shift && k.si !== undefined ? k.si : k.i; setShift(false); insertText(txt);
+  }
+  let ptab = 'fn';
+  function renderChips(){
+    const box = $('uc-chips'); box.textContent = ''; const note = $('uc-pnote'); note.textContent = '';
+    const chip = (label, fn, title)=>{ const c = document.createElement('button'); c.type = 'button'; c.className = 'uc-chip'; c.textContent = label; if(title) c.title = title; c.addEventListener('click', fn); box.appendChild(c); };
+    if(ptab === 'fn'){ EXTRA.forEach(x=> chip(x[0], ()=> insertText(x[1]))); note.textContent = B('المتغير في التفاضل والتكامل والمجموع هو X.', 'The variable in derivative, integral and sum is X.'); }
+    else if(ptab === 'var'){ VARS.forEach(v=> chip(v + (S.vars[v] !== undefined ? '=' + UCE.fmt(S.vars[v], { digits:5 }) : ''), ()=> insertText(v))); VARS.forEach(v=> chip('→' + v, ()=> insertText('→' + v))); note.textContent = B('اضغط →A لتخزين الناتج في A (مثال: 5×3→A). Ans هو آخر ناتج.', 'Use →A to store a value (e.g. 5×3→A). Ans is the last result.'); }
+    else{ CONSTS.forEach(c=> chip(c[0], ()=>{ insertText(c[1]); note.textContent = B(c[2], c[3]) + ' = ' + c[1].replace('E', '×10^'); }, B(c[2], c[3]))); }
+  }
+
+  /* ---------- graph ---------- */
+  const COLORS = ['#c0392b', '#2471a3', '#1e8449', '#b7950b'];
+  const genv = ()=> ({ angle: G.angle, vars: S.vars, ans: S.ans });
+  const G = { angle:'rad', fns:[{ on:true, src:'X^2-4' }, { on:false, src:'' }, { on:false, src:'' }, { on:false, src:'' }], view:{ x0:-10, x1:10, y0:-8, y1:8 }, trace:null, marks:[], shade:null };
+  function gInit(){
+    $('uc-fns').innerHTML = G.fns.map((f, i)=> `<div class="uc-frow"><input type="checkbox" id="uc-fon${i}" ${f.on ? 'checked' : ''} aria-label="Y${i + 1}"><span class="uc-dot" style="background:${COLORS[i]}"></span><span class="uc-yl">Y${i + 1}=</span><input type="text" class="uc-in" id="uc-fy${i}" dir="ltr" inputmode="none" autocomplete="off" value="${f.src}" ${ph('f(X)', 'f(X)')}></div>`).join('');
+    G.fns.forEach((f, i)=>{ $('uc-fy' + i).addEventListener('input', ()=>{ f.src = $('uc-fy' + i).value; if(f.src.trim()){ f.on = true; $('uc-fon' + i).checked = true; } G.marks = []; G.shade = null; draw(); }); $('uc-fon' + i).addEventListener('change', ()=>{ f.on = $('uc-fon' + i).checked; draw(); }); });
+    const cvEl = $('uc-gcv');
+    const size = ()=>{ const w = Math.max(240, cvEl.parentElement.clientWidth - 2), h = Math.round(Math.min(420, Math.max(260, w * 0.8))), d = window.devicePixelRatio || 1; cvEl.style.height = h + 'px'; cvEl.width = Math.round(w * d); cvEl.height = Math.round(h * d); cvEl._w = w; cvEl._h = h; cvEl._d = d; };
+    G.size = size; size();
+    window.addEventListener('resize', ()=>{ if(S.mode === 'graph'){ size(); draw(); } });
+    const ptrs = new Map(); let drag = null, pinch = null;
+    const pos = e=>{ const r = cvEl.getBoundingClientRect(); return { x:(e.clientX - r.left) * cvEl._w / r.width, y:(e.clientY - r.top) * cvEl._h / r.height }; };
+    cvEl.addEventListener('pointerdown', e=>{ cvEl.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, pos(e)); if(ptrs.size === 1) drag = { p:pos(e), v:{ ...G.view }, moved:false }; else if(ptrs.size === 2){ const [a, c] = [...ptrs.values()]; pinch = { d:Math.hypot(a.x - c.x, a.y - c.y), v:{ ...G.view } }; drag = null; } e.preventDefault(); });
+    cvEl.addEventListener('pointermove', e=>{
+      if(!ptrs.has(e.pointerId)) return; ptrs.set(e.pointerId, pos(e)); const v = G.view;
+      if(pinch && ptrs.size >= 2){ const [a, c] = [...ptrs.values()], d = Math.hypot(a.x - c.x, a.y - c.y), k = pinch.d / Math.max(10, d), cx = (a.x + c.x) / 2, cy = (a.y + c.y) / 2, pv = pinch.v, fx = pv.x0 + (pv.x1 - pv.x0) * cx / cvEl._w, fy = pv.y1 - (pv.y1 - pv.y0) * cy / cvEl._h; G.view = { x0:fx - (fx - pv.x0) * k, x1:fx + (pv.x1 - fx) * k, y0:fy - (fy - pv.y0) * k, y1:fy + (pv.y1 - fy) * k }; draw(); return; }
+      if(!drag) return; const p = pos(e), dx = p.x - drag.p.x, dy = p.y - drag.p.y; if(Math.abs(dx) + Math.abs(dy) > 4) drag.moved = true;
+      if(drag.moved){ const sx = (drag.v.x1 - drag.v.x0) / cvEl._w, sy = (drag.v.y1 - drag.v.y0) / cvEl._h; G.view = { x0:drag.v.x0 - dx * sx, x1:drag.v.x1 - dx * sx, y0:drag.v.y0 + dy * sy, y1:drag.v.y1 + dy * sy }; draw(); }
+    });
+    const end = e=>{ if(drag && !drag.moved && ptrs.size === 1){ const p = pos(e); G.trace = G.view.x0 + (G.view.x1 - G.view.x0) * p.x / cvEl._w; draw(); } ptrs.delete(e.pointerId); if(ptrs.size < 2) pinch = null; if(!ptrs.size) drag = null; };
+    cvEl.addEventListener('pointerup', end); cvEl.addEventListener('pointercancel', end);
+    cvEl.addEventListener('wheel', e=>{ e.preventDefault(); const p = pos(e), k = e.deltaY > 0 ? 1.15 : 1 / 1.15; zoom(k, p.x, p.y); }, { passive:false });
+    const zoom = (k, px, py)=>{ const v = G.view, w = cvEl._w, h = cvEl._h; if(px == null){ px = w / 2; py = h / 2; } const fx = v.x0 + (v.x1 - v.x0) * px / w, fy = v.y1 - (v.y1 - v.y0) * py / h; G.view = { x0:fx - (fx - v.x0) * k, x1:fx + (v.x1 - fx) * k, y0:fy - (fy - v.y0) * k, y1:fy + (v.y1 - fy) * k }; draw(); };
+    $('uc-zin').addEventListener('click', ()=> zoom(0.7)); $('uc-zout').addEventListener('click', ()=> zoom(1 / 0.7));
+    $('uc-zreset').addEventListener('click', ()=>{ G.view = { x0:-10, x1:10, y0:-8, y1:8 }; draw(); });
+    $('uc-zfit').addEventListener('click', ()=>{
+      const v = G.view, ys = []; G.fns.forEach(f=>{ if(!f.on || !f.src.trim()) return; try{ const fn = UCE.compile(f.src, genv()); for(let i = 0; i <= 400; i++){ const y = fn(v.x0 + (v.x1 - v.x0) * i / 400); if(isFinite(y)) ys.push(y); } }catch(e){} });
+      if(ys.length){ ys.sort((a, c)=> a - c); let lo = ys[Math.floor(ys.length * 0.03)], hi = ys[Math.floor(ys.length * 0.97)]; if(hi - lo < 1e-9){ lo -= 1; hi += 1; } const pad = (hi - lo) * 0.12; G.view.y0 = lo - pad; G.view.y1 = hi + pad; draw(); }
+    });
+    ['uc-xmin', 'uc-xmax', 'uc-ymin', 'uc-ymax'].forEach(id=> $(id).addEventListener('change', ()=>{ const a = +$('uc-xmin').value, c = +$('uc-xmax').value, d = +$('uc-ymin').value, e = +$('uc-ymax').value; if(c > a && e > d){ G.view = { x0:a, x1:c, y0:d, y1:e }; draw(); } }));
+    const fnOf = i=>{ const f = G.fns[i]; if(!f || !f.src.trim()) return null; try{ return UCE.compile(f.src, genv()); }catch(e){ return null; } };
+    const out = html=>{ $('uc-gout').innerHTML = html; };
+    $('uc-groots').addEventListener('click', ()=>{ const i = +$('uc-gsel').value, fn = fnOf(i); if(!fn){ out(B('اكتب الدالة أولاً.', 'Enter the function first.')); return; } const r = UCE.findRoots(fn, G.view.x0, G.view.x1, 4000); G.marks = r.map(x=>({ x, y:0, c:COLORS[i] })); out('<b>' + B('الجذور (في النافذة الحالية):', 'Roots (in current window):') + '</b> ' + (r.length ? r.map(x=> 'X = ' + num(x, 8)).join(' ، ') : B('لا يوجد.', 'none'))); draw(); });
+    $('uc-gext').addEventListener('click', ()=>{ const i = +$('uc-gsel').value, fn = fnOf(i); if(!fn){ out(B('اكتب الدالة أولاً.', 'Enter the function first.')); return; } const r = UCE.findExtrema(fn, G.view.x0, G.view.x1, 3000); G.marks = r.map(e=>({ x:e.x, y:e.y, c:COLORS[i] })); out('<b>' + B('القيم القصوى:', 'Extrema:') + '</b> ' + (r.length ? r.map(e=> (e.kind === 'max' ? B('عظمى', 'max') : B('صغرى', 'min')) + ' (' + num(e.x, 7) + ' ، ' + num(e.y, 7) + ')').join(' ؛ ') : B('لا يوجد.', 'none'))); draw(); });
+    $('uc-ginter').addEventListener('click', ()=>{ const i = +$('uc-gsel').value, j = +$('uc-gsel2').value, f1 = fnOf(i), f2 = fnOf(j); if(!f1 || !f2 || i === j){ out(B('اختر دالتين مختلفتين مكتوبتين.', 'Choose two different, filled functions.')); return; } const r = UCE.findRoots(x=> f1(x) - f2(x), G.view.x0, G.view.x1, 4000); G.marks = r.map(x=>({ x, y:f1(x), c:'#333' })); out('<b>' + B('نقاط التقاطع:', 'Intersections:') + '</b> ' + (r.length ? r.map(x=> '(' + num(x, 7) + ' ، ' + num(f1(x), 7) + ')').join(' ؛ ') : B('لا يوجد.', 'none'))); draw(); });
+    $('uc-gint').addEventListener('click', ()=>{ const i = +$('uc-gsel').value, fn = fnOf(i), a = evalNum($('uc-ia').value), c = evalNum($('uc-ib').value); if(!fn || !isFinite(a) || !isFinite(c)){ out(B('اكتب الدالة وحدّي التكامل.', 'Enter the function and the limits.')); return; } try{ const v = UCE.integrate(fn, a, c); G.shade = { i, a:Math.min(a, c), b:Math.max(a, c) }; out('<b>∫ Y' + (i + 1) + ' dx</b> [' + num(a) + ' ، ' + num(c) + '] = <b>' + num(v, 10) + '</b>'); draw(); }catch(e){ out(errText(e)); } });
+    $('uc-gsel').addEventListener('change', draw); $('uc-gang').addEventListener('change', ()=>{ G.angle = $('uc-gang').value; G.marks = []; G.shade = null; draw(); });
+    function nice(range, n){ const raw = range / n, p = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / p; return (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * p; }
+    function draw(){
+      const w = cvEl._w, h = cvEl._h, ctx = cvEl.getContext('2d'), v = G.view; ctx.setTransform(cvEl._d, 0, 0, cvEl._d, 0, 0);
+      const dark = document.documentElement.getAttribute('data-theme') === 'dark', bg = dark ? '#1c1b1a' : '#ffffff', grid = dark ? '#3a3733' : '#e6e1d6', axis = dark ? '#b7af9f' : '#555', txt = dark ? '#b7af9f' : '#666';
+      ctx.fillStyle = bg; ctx.fillRect(0, 0, w, h);
+      const X = x=> (x - v.x0) / (v.x1 - v.x0) * w, Y = y=> h - (y - v.y0) / (v.y1 - v.y0) * h, sx = nice(v.x1 - v.x0, w / 70), sy = nice(v.y1 - v.y0, h / 55);
+      ctx.lineWidth = 1; ctx.font = '11px sans-serif'; ctx.fillStyle = txt; ctx.strokeStyle = grid;
+      for(let x = Math.ceil(v.x0 / sx) * sx; x <= v.x1; x += sx){ const px = Math.round(X(x)) + 0.5; ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, h); ctx.stroke(); }
+      for(let y = Math.ceil(v.y0 / sy) * sy; y <= v.y1; y += sy){ const py = Math.round(Y(y)) + 0.5; ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(w, py); ctx.stroke(); }
+      const ax = Math.min(h - 14, Math.max(2, Y(0))), ay = Math.min(w - 36, Math.max(2, X(0)));
+      ctx.strokeStyle = axis; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(0, Y(0)); ctx.lineTo(w, Y(0)); ctx.moveTo(X(0), 0); ctx.lineTo(X(0), h); ctx.stroke();
+      ctx.fillStyle = txt; ctx.textAlign = 'center'; for(let x = Math.ceil(v.x0 / sx) * sx; x <= v.x1; x += sx){ if(Math.abs(x) < sx / 2) continue; ctx.fillText(num(x, 4), X(x), Math.min(h - 3, Math.max(11, Y(0) + 13))); }
+      ctx.textAlign = 'left'; for(let y = Math.ceil(v.y0 / sy) * sy; y <= v.y1; y += sy){ if(Math.abs(y) < sy / 2) continue; ctx.fillText(num(y, 4), Math.min(w - 30, Math.max(3, X(0) + 4)), Y(y) - 3); }
+      const sel = +$('uc-gsel').value;
+      G.fns.forEach((f, i)=>{
+        if(!f.on || !f.src.trim()) return; let fn; try{ fn = UCE.compile(f.src, genv()); }catch(e){ return; }
+        if(G.shade && G.shade.i === i){ ctx.fillStyle = COLORS[i] + '33'; ctx.beginPath(); ctx.moveTo(X(G.shade.a), Y(0)); const n = 200; for(let k = 0; k <= n; k++){ const x = G.shade.a + (G.shade.b - G.shade.a) * k / n, y = fn(x); ctx.lineTo(X(x), Y(isFinite(y) ? y : 0)); } ctx.lineTo(X(G.shade.b), Y(0)); ctx.closePath(); ctx.fill(); }
+        ctx.strokeStyle = COLORS[i]; ctx.lineWidth = i === sel ? 2.6 : 2; ctx.beginPath(); let pen = false, py0 = 0;
+        for(let px = 0; px <= w; px++){ const x = v.x0 + (v.x1 - v.x0) * px / w, y = fn(x); if(!isFinite(y)){ pen = false; continue; } const py = Y(y); if(pen && Math.abs(py - py0) > h * 1.5 && (py - py0) * 0 === 0 && Math.sign(y) !== Math.sign(fn(x - (v.x1 - v.x0) / w))) pen = false; if(py < -1e4 || py > 1e4){ pen = false; continue; } if(pen) ctx.lineTo(px, py); else ctx.moveTo(px, py); pen = true; py0 = py; }
+        ctx.stroke();
+      });
+      G.marks.forEach(m=>{ const px = X(m.x), py = Y(m.y); ctx.fillStyle = m.c; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(px, py, 5, 0, 7); ctx.fill(); ctx.stroke(); ctx.fillStyle = txt; ctx.textAlign = 'center'; ctx.fillText(num(m.x, 4), px, py - 9); });
+      if(G.trace != null){ const fn = fnOf(sel); const px = X(G.trace); ctx.strokeStyle = '#8888'; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, h); ctx.stroke(); ctx.setLineDash([]);
+        if(fn){ const y = fn(G.trace); if(isFinite(y)){ const py = Y(y); ctx.fillStyle = COLORS[sel]; ctx.beginPath(); ctx.arc(px, py, 5, 0, 7); ctx.fill(); const d = (fn(G.trace + 1e-5) - fn(G.trace - 1e-5)) / 2e-5; $('uc-gout').innerHTML = `<b>Y${sel + 1}</b> &nbsp; X = ${num(G.trace, 8)} &nbsp; Y = ${num(y, 8)} &nbsp; dy/dx ≈ ${isFinite(d) ? num(d, 6) : '—'}`; } } }
+      $('uc-xmin').value = +v.x0.toPrecision(6); $('uc-xmax').value = +v.x1.toPrecision(6); $('uc-ymin').value = +v.y0.toPrecision(6); $('uc-ymax').value = +v.y1.toPrecision(6);
+    }
+    graphDraw = ()=>{ if(S.mode === 'graph'){ G.marks = G.marks; draw(); } };
+    G.draw = draw; window.__ucG = G;
+  }
+
+  /* ---------- table ---------- */
+  function tInit(){
+    $('uc-tgo').addEventListener('click', ()=>{
+      const a = evalNum($('uc-ts').value), c = evalNum($('uc-te').value), st = evalNum($('uc-tp').value), box = $('uc-tout');
+      if(!isFinite(a) || !isFinite(c) || !isFinite(st) || st === 0 || (c - a) / st < 0){ box.textContent = B('تحقق من البداية والنهاية والخطوة.', 'Check start, end and step.'); return; }
+      const n = Math.floor((c - a) / st + 1e-9) + 1; if(n > 500){ box.textContent = B('عدد الصفوف كبير (الحد 500).', 'Too many rows (max 500).'); return; }
+      let f, g = null; try{ f = UCE.compile($('uc-tf').value || '0', env()); if($('uc-tg').value.trim()) g = UCE.compile($('uc-tg').value, env()); }catch(e){ box.textContent = errText(e); return; }
+      let h = '<div class="uc-twrap"><table class="uc-table"><thead><tr><th>X</th><th>f(X)</th>' + (g ? '<th>g(X)</th>' : '') + '</tr></thead><tbody>';
+      for(let i = 0; i < n; i++){ const x = a + i * st, y = f(x), z = g ? g(x) : null; h += '<tr><td>' + num(x, 8) + '</td><td>' + (isFinite(y) ? num(y, 8) : 'ERROR') + '</td>' + (g ? '<td>' + (isFinite(z) ? num(z, 8) : 'ERROR') + '</td>' : '') + '</tr>'; }
+      box.innerHTML = h + '</tbody></table></div>';
+    });
+  }
+
+  /* ---------- equations ---------- */
+  const cplx = z=> Math.abs(z.im) < 1e-9 ? num(z.re, 9) : (Math.abs(z.re) < 1e-9 ? '' : num(z.re, 9) + ' ') + (z.im < 0 ? '− ' : '+ ') + (Math.abs(Math.abs(z.im) - 1) < 1e-12 ? '' : num(Math.abs(z.im), 9)) + 'i';
+  function eqInit(){
+    const root = $('uc-eq');
+    root.innerHTML = `<div class="img-chips" id="uc-eqtabs"><button type="button" class="img-chip active" data-e="poly" data-ar="معادلة حدودية" data-en="Polynomial">معادلة حدودية</button><button type="button" class="img-chip" data-e="sys" data-ar="نظام معادلات" data-en="Linear system">نظام معادلات</button><button type="button" class="img-chip" data-e="fx" data-ar="حل f(X)=0" data-en="Solve f(X)=0">حل f(X)=0</button></div>
+    <div data-e="poly"><div class="field"><label>${b('الدرجة', 'Degree')}</label><select id="uc-pdeg">${[2, 3, 4, 5, 6].map(d=> `<option value="${d}">${d}</option>`).join('')}</select></div><div id="uc-pco" class="uc-coefs"></div><button type="button" class="btn" id="uc-psolve">${b('احسب الجذور', 'Find roots')}</button><div id="uc-pout" class="uc-out"></div></div>
+    <div data-e="sys" style="display:none"><div class="field"><label>${b('عدد المجاهيل', 'Unknowns')}</label><select id="uc-sn">${[2, 3, 4].map(d=> `<option value="${d}">${d}</option>`).join('')}</select></div><div id="uc-sgrid" class="uc-sgrid"></div><button type="button" class="btn" id="uc-ssolve">${b('حل النظام', 'Solve system')}</button><div id="uc-sout" class="uc-out"></div></div>
+    <div data-e="fx" style="display:none"><div class="field"><label>${b('المعادلة (بدلالة X)', 'Equation (in X)')}</label><input type="text" id="uc-fxe" class="uc-in" dir="ltr" inputmode="none" value="X^2=4" autocomplete="off"></div><div class="row"><div class="field"><label>${b('من', 'From')}</label><input type="text" id="uc-fxa" value="-100" dir="ltr"></div><div class="field"><label>${b('إلى', 'To')}</label><input type="text" id="uc-fxb" value="100" dir="ltr"></div></div><button type="button" class="btn" id="uc-fxgo">${b('ابحث عن الحلول', 'Find solutions')}</button><div id="uc-fxout" class="uc-out"></div></div>`;
+    root.querySelector('#uc-eqtabs').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(!c) return; root.querySelectorAll('#uc-eqtabs .img-chip').forEach(x=> x.classList.toggle('active', x === c)); root.querySelectorAll(':scope > [data-e]').forEach(d=>{ d.style.display = d.dataset.e === c.dataset.e ? '' : 'none'; }); setActive(c.dataset.e === 'fx' ? $('uc-fxe') : null); padShow(); });
+    const buildCo = ()=>{ const d = +$('uc-pdeg').value; $('uc-pco').innerHTML = Array.from({ length:d + 1 }, (_, k)=>{ const p = d - k; return `<div class="field"><label>a<sub>${p}</sub> ${p ? 'x' + (p > 1 ? '<sup>' + p + '</sup>' : '') : ''}</label><input type="text" id="uc-pc${p}" dir="ltr" value="${p === d ? 1 : 0}"></div>`; }).join(''); };
+    $('uc-pdeg').addEventListener('change', buildCo); buildCo();
+    $('uc-psolve').addEventListener('click', ()=>{
+      const d = +$('uc-pdeg').value, co = []; for(let p = d; p >= 0; p--) co.push(evalNum($('uc-pc' + p).value)); const box = $('uc-pout');
+      if(co.some(c=> !isFinite(c))){ box.textContent = B('تحقق من المعاملات.', 'Check the coefficients.'); return; }
+      while(co.length > 1 && co[0] === 0) co.shift(); if(co.length === 1){ box.textContent = co[0] === 0 ? B('عدد لا نهائي من الحلول.', 'Infinitely many solutions.') : B('لا يوجد حل.', 'No solution.'); return; }
+      let h = ''; if(co.length === 3){ const D = co[1] * co[1] - 4 * co[0] * co[2]; h += `<div>Δ = ${num(D, 10)}</div>`; }
+      const rt = UCE.polyRoots(co); h += rt.map((z, i)=> `<div dir="ltr">x<sub>${i + 1}</sub> = <b>${cplx(z)}</b></div>`).join(''); box.innerHTML = h;
+    });
+    const buildSys = ()=>{ const n = +$('uc-sn').value; let h = ''; for(let r = 0; r < n; r++){ h += '<div class="uc-srow" dir="ltr">'; for(let c = 0; c < n; c++) h += `<input type="text" id="uc-sm${r}-${c}" value="${r === c ? 1 : 0}"><span>${'xyzw'[c]}${c < n - 1 ? ' +' : ' ='}</span>`; h += `<input type="text" id="uc-sm${r}-${n}" value="0"></div>`; } $('uc-sgrid').innerHTML = h; };
+    $('uc-sn').addEventListener('change', buildSys); buildSys();
+    $('uc-ssolve').addEventListener('click', ()=>{
+      const n = +$('uc-sn').value, M = [], bv = []; for(let r = 0; r < n; r++){ M.push([]); for(let c = 0; c < n; c++) M[r].push(evalNum($(`uc-sm${r}-${c}`).value)); bv.push(evalNum($(`uc-sm${r}-${n}`).value)); }
+      const box = $('uc-sout'); if(M.flat().concat(bv).some(v=> !isFinite(v))){ box.textContent = B('تحقق من القيم.', 'Check the values.'); return; }
+      const s = UCE.solveLinear(M, bv); box.innerHTML = s ? s.map((v, i)=> `<div dir="ltr">${'xyzw'[i]} = <b>${num(v, 10)}</b></div>`).join('') : B('لا يوجد حل وحيد (النظام متعدد الحلول أو متناقض).', 'No unique solution (dependent or inconsistent).');
+    });
+    $('uc-fxgo').addEventListener('click', ()=>{
+      let src = $('uc-fxe').value.trim(), box = $('uc-fxout'); if(src.indexOf('=') >= 0){ const [l, r] = src.split('='); src = '(' + l + ')-(' + (r || '0') + ')'; }
+      const a = evalNum($('uc-fxa').value), c = evalNum($('uc-fxb').value); if(!src || !isFinite(a) || !isFinite(c) || a >= c){ box.textContent = B('تحقق من المعادلة والمدى.', 'Check the equation and range.'); return; }
+      try{ const f = UCE.compile(src, env()), r = UCE.findRoots(f, a, c, 40000); box.innerHTML = r.length ? r.map((x, i)=> `<div dir="ltr">X<sub>${i + 1}</sub> = <b>${num(x, 10)}</b></div>`).join('') : B('لا توجد حلول حقيقية في هذا المدى.', 'No real solutions in this range.'); }catch(e){ box.textContent = errText(e); }
+    });
+  }
+
+  /* ---------- statistics ---------- */
+  const parseNums = txt=> String(txt).replace(/[٠-٩]/g, d=> d.charCodeAt(0) - 1632).replace(/٫/g, '.').split(/[\s,;،]+/).filter(Boolean).map(Number).filter(v=> isFinite(v));
+  const med = a=>{ const n = a.length; return n % 2 ? a[(n - 1) / 2] : (a[n / 2 - 1] + a[n / 2]) / 2; };
+  function oneVar(xs, ws){
+    let ex = []; xs.forEach((x, i)=>{ const w = ws ? ws[i] : 1; for(let k = 0; k < w && ex.length < 200000; k++) ex.push(x); }); ex.sort((p, q)=> p - q); const n = ex.length; if(!n) return null;
+    const sum = ex.reduce((a, c)=> a + c, 0), mean = sum / n, ss = ex.reduce((a, c)=> a + (c - mean) * (c - mean), 0), cnt = {}; ex.forEach(v=>{ cnt[v] = (cnt[v] || 0) + 1; }); const mx = Math.max(...Object.values(cnt));
+    const half = Math.floor(n / 2), lo = ex.slice(0, half), hi = ex.slice(n % 2 ? half + 1 : half);
+    return { n, sum, sum2:ex.reduce((a, c)=> a + c * c, 0), mean, sigma:Math.sqrt(ss / n), s:n > 1 ? Math.sqrt(ss / (n - 1)) : NaN, variance:ss / n, min:ex[0], q1:lo.length ? med(lo) : ex[0], median:med(ex), q3:hi.length ? med(hi) : ex[n - 1], max:ex[n - 1], range:ex[n - 1] - ex[0], mode: mx > 1 ? Object.keys(cnt).filter(k=> cnt[k] === mx).map(Number) : [] };
+  }
+  function regress(type, xs, ys){
+    const n = xs.length, T = { lin:[x=> x, y=> y], exp:[x=> x, y=> Math.log(y)], log:[x=> Math.log(x), y=> y], pow:[x=> Math.log(x), y=> Math.log(y)] };
+    if(type === 'quad'){
+      if(n < 3) return null; const s = k=> xs.reduce((a, x)=> a + Math.pow(x, k), 0), t = k=> xs.reduce((a, x, i)=> a + Math.pow(x, k) * ys[i], 0), c = UCE.solveLinear([[n, s(1), s(2)], [s(1), s(2), s(3)], [s(2), s(3), s(4)]], [t(0), t(1), t(2)]); if(!c) return null;
+      const f = x=> c[0] + c[1] * x + c[2] * x * x, my = ys.reduce((a, y)=> a + y, 0) / n, sst = ys.reduce((a, y)=> a + (y - my) * (y - my), 0), sse = ys.reduce((a, y, i)=> a + (y - f(xs[i])) * (y - f(xs[i])), 0);
+      return { a:c[2], b:c[1], c:c[0], r2:sst ? 1 - sse / sst : 1, f, eq:'y = ' + num(c[2], 8) + 'x² + ' + num(c[1], 8) + 'x + ' + num(c[0], 8) };
+    }
+    const [fx, fy] = T[type]; if(type === 'exp' && ys.some(y=> y <= 0) || type === 'log' && xs.some(x=> x <= 0) || type === 'pow' && (xs.some(x=> x <= 0) || ys.some(y=> y <= 0))) return { err:B('هذا النوع يتطلب قيماً موجبة.', 'This type needs positive values.') };
+    const X = xs.map(fx), Y = ys.map(fy), mx = X.reduce((a, v)=> a + v, 0) / n, my = Y.reduce((a, v)=> a + v, 0) / n; let sxy = 0, sxx = 0, syy = 0; X.forEach((v, i)=>{ sxy += (v - mx) * (Y[i] - my); sxx += (v - mx) * (v - mx); syy += (Y[i] - my) * (Y[i] - my); });
+    if(!sxx || n < 2) return null; const bb = sxy / sxx, aa = my - bb * mx, r = syy ? sxy / Math.sqrt(sxx * syy) : 1;
+    if(type === 'lin') return { a:aa, b:bb, r, r2:r * r, f:x=> aa + bb * x, eq:'y = ' + num(aa, 8) + ' + ' + num(bb, 8) + 'x' };
+    if(type === 'exp'){ const A = Math.exp(aa); return { a:A, b:bb, r, r2:r * r, f:x=> A * Math.exp(bb * x), eq:'y = ' + num(A, 8) + '·e^(' + num(bb, 8) + 'x)' }; }
+    if(type === 'log') return { a:aa, b:bb, r, r2:r * r, f:x=> aa + bb * Math.log(x), eq:'y = ' + num(aa, 8) + ' + ' + num(bb, 8) + '·ln(x)' };
+    const A = Math.exp(aa); return { a:A, b:bb, r, r2:r * r, f:x=> A * Math.pow(x, bb), eq:'y = ' + num(A, 8) + '·x^' + num(bb, 8) };
+  }
+  function statInit(){
+    const root = $('uc-stat');
+    root.innerHTML = `<div class="img-chips" id="uc-sttabs"><button type="button" class="img-chip active" data-s="one" data-ar="متغير واحد" data-en="One variable">متغير واحد</button><button type="button" class="img-chip" data-s="two" data-ar="متغيران + انحدار" data-en="Two variables + regression">متغيران + انحدار</button></div>
+    <div data-s="one"><div class="field"><label>${b('البيانات (افصل بمسافة أو فاصلة أو سطر)', 'Data (space, comma or new line separated)')}</label><textarea id="uc-sd1" rows="4" dir="ltr" ${ph('مثال: 5 7 8 10 12', 'e.g. 5 7 8 10 12')}></textarea></div><label class="img-chk"><input type="checkbox" id="uc-sfreq"> <span>${b('كل سطر: القيمة ثم التكرار', 'Each line: value then frequency')}</span></label><button type="button" class="btn" id="uc-s1go">${b('احسب', 'Calculate')}</button><div id="uc-s1out" class="uc-out"></div></div>
+    <div data-s="two" style="display:none"><div class="field"><label>${b('كل سطر: x y', 'Each line: x y')}</label><textarea id="uc-sd2" rows="5" dir="ltr" ${ph('1 2.1\n2 3.9\n3 6.2', '1 2.1\n2 3.9\n3 6.2')}></textarea></div>
+    <div class="field"><label>${b('نوع الانحدار', 'Regression type')}</label><select id="uc-sreg">${ob('lin', 'خطي (a + bx)', 'Linear (a + bx)')}${ob('quad', 'تربيعي', 'Quadratic')}${ob('exp', 'أسّي (a·e^bx)', 'Exponential (a·e^bx)')}${ob('log', 'لوغاريتمي (a + b ln x)', 'Logarithmic (a + b ln x)')}${ob('pow', 'قوّة (a·x^b)', 'Power (a·x^b)')}</select></div>
+    <button type="button" class="btn" id="uc-s2go">${b('احسب الانحدار', 'Run regression')}</button><div id="uc-s2out" class="uc-out"></div>
+    <div class="row"><div class="field"><label>${b('تنبؤ: قيمة x', 'Predict: x value')}</label><input type="text" id="uc-spx" dir="ltr"></div><div class="field"><label>${b('(خطي) قيمة y لإيجاد x', '(linear) y to find x')}</label><input type="text" id="uc-spy" dir="ltr"></div></div><div id="uc-spout" class="uc-out"></div><div class="uc-gwrap"><canvas id="uc-scv" style="width:100%;height:280px;display:block"></canvas></div></div>`;
+    root.querySelector('#uc-sttabs').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(!c) return; root.querySelectorAll('#uc-sttabs .img-chip').forEach(x=> x.classList.toggle('active', x === c)); root.querySelectorAll(':scope > [data-s]').forEach(d=>{ d.style.display = d.dataset.s === c.dataset.s ? '' : 'none'; }); });
+    $('uc-s1go').addEventListener('click', ()=>{
+      const box = $('uc-s1out'); let xs, ws = null;
+      if($('uc-sfreq').checked){ xs = []; ws = []; $('uc-sd1').value.split('\n').forEach(l=>{ const p = parseNums(l); if(p.length >= 2){ xs.push(p[0]); ws.push(Math.max(0, Math.round(p[1]))); } }); } else xs = parseNums($('uc-sd1').value);
+      const r = xs.length ? oneVar(xs, ws) : null; if(!r){ box.textContent = B('أدخل بيانات رقمية.', 'Enter numeric data.'); return; }
+      const rows = [['n', r.n], ['Σx', r.sum], ['Σx²', r.sum2], [B('المتوسط x̄', 'Mean x̄'), r.mean], [B('الانحراف المعياري للمجتمع σx', 'Population σx'), r.sigma], [B('الانحراف المعياري للعينة sx', 'Sample sx'), r.s], [B('التباين', 'Variance'), r.variance], ['Min', r.min], ['Q1', r.q1], [B('الوسيط', 'Median'), r.median], ['Q3', r.q3], ['Max', r.max], [B('المدى', 'Range'), r.range]];
+      box.innerHTML = '<table class="uc-table">' + rows.map(x=> `<tr><td>${x[0]}</td><td>${isFinite(x[1]) ? num(x[1], 10) : '—'}</td></tr>`).join('') + `<tr><td>${B('المنوال', 'Mode')}</td><td>${r.mode.length ? r.mode.join(' ، ') : '—'}</td></tr></table>`;
+    });
+    let lastReg = null;
+    const plot = (xs, ys, reg)=>{
+      const c = $('uc-scv'), w = c.clientWidth || 320, h = 280, d = window.devicePixelRatio || 1; c.width = w * d; c.height = h * d; const x = c.getContext('2d'); x.setTransform(d, 0, 0, d, 0, 0);
+      const dark = document.documentElement.getAttribute('data-theme') === 'dark'; x.fillStyle = dark ? '#1c1b1a' : '#fff'; x.fillRect(0, 0, w, h);
+      let x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys); const px = (x1 - x0 || 1) * 0.1, py = (y1 - y0 || 1) * 0.15; x0 -= px; x1 += px; y0 -= py; y1 += py;
+      const X = v=> 30 + (v - x0) / (x1 - x0) * (w - 40), Y = v=> h - 24 - (v - y0) / (y1 - y0) * (h - 40);
+      x.strokeStyle = dark ? '#555' : '#999'; x.beginPath(); x.moveTo(30, 8); x.lineTo(30, h - 24); x.lineTo(w - 8, h - 24); x.stroke(); x.fillStyle = dark ? '#b7af9f' : '#666'; x.font = '10px sans-serif'; x.textAlign = 'left'; x.fillText(num(y1, 4), 2, 14); x.fillText(num(y0, 4), 2, h - 26); x.textAlign = 'center'; x.fillText(num(x0, 4), 30, h - 10); x.fillText(num(x1, 4), w - 14, h - 10);
+      if(reg && reg.f){ x.strokeStyle = '#c0392b'; x.lineWidth = 2; x.beginPath(); let pen = false; for(let i = 0; i <= 200; i++){ const xv = x0 + (x1 - x0) * i / 200, yv = reg.f(xv); if(!isFinite(yv)){ pen = false; continue; } if(pen) x.lineTo(X(xv), Y(yv)); else x.moveTo(X(xv), Y(yv)); pen = true; } x.stroke(); }
+      x.fillStyle = '#2471a3'; xs.forEach((v, i)=>{ x.beginPath(); x.arc(X(v), Y(ys[i]), 4, 0, 7); x.fill(); });
+    };
+    $('uc-s2go').addEventListener('click', ()=>{
+      const box = $('uc-s2out'), xs = [], ys = []; $('uc-sd2').value.split('\n').forEach(l=>{ const p = parseNums(l); if(p.length >= 2){ xs.push(p[0]); ys.push(p[1]); } });
+      if(xs.length < 2){ box.textContent = B('أدخل نقطتين على الأقل.', 'Enter at least two points.'); return; }
+      const type = $('uc-sreg').value, rg = regress(type, xs, ys); if(!rg || rg.err){ box.textContent = rg ? rg.err : B('تعذر حساب الانحدار لهذه البيانات.', 'Cannot regress this data.'); lastReg = null; return; }
+      lastReg = { type, rg, xs, ys }; const mx = xs.reduce((a, v)=> a + v, 0) / xs.length, my = ys.reduce((a, v)=> a + v, 0) / ys.length;
+      box.innerHTML = `<div dir="ltr"><b>${rg.eq}</b></div>` + (rg.r !== undefined ? `<div dir="ltr">r = ${num(rg.r, 8)}</div>` : '') + `<div dir="ltr">R² = ${num(rg.r2, 8)}</div><div dir="ltr">n = ${xs.length} ، x̄ = ${num(mx, 8)} ، ȳ = ${num(my, 8)}</div>`; plot(xs, ys, rg);
+    });
+    const pred = ()=>{ if(!lastReg) return; const px = $('uc-spx').value.trim(), py = $('uc-spy').value.trim(); let h = ''; if(px){ const v = evalNum(px), y = lastReg.rg.f(v); h += `<div dir="ltr">ŷ(${num(v, 8)}) = <b>${isFinite(y) ? num(y, 10) : 'ERROR'}</b></div>`; } if(py && lastReg.type === 'lin' && lastReg.rg.b){ const v = evalNum(py); h += `<div dir="ltr">x̂(${num(v, 8)}) = <b>${num((v - lastReg.rg.a) / lastReg.rg.b, 10)}</b></div>`; } $('uc-spout').innerHTML = h; };
+    $('uc-spx').addEventListener('input', pred); $('uc-spy').addEventListener('input', pred);
+  }
+
+  /* ---------- matrices ---------- */
+  function matInit(){
+    const root = $('uc-mat'), dimSel = id=> `<select id="${id}">${[1, 2, 3, 4, 5].map(n=> `<option value="${n}" ${n === 3 ? 'selected' : ''}>${n}</option>`).join('')}</select>`;
+    root.innerHTML = ['A', 'B'].map(m=> `<div class="uc-mblock"><b>${b('المصفوفة', 'Matrix')} ${m}</b> <span class="uc-dim">${dimSel('uc-' + m + 'r')} × ${dimSel('uc-' + m + 'c')}</span><div id="uc-g${m}" class="uc-mgrid" dir="ltr"></div></div>`).join('') +
+      `<div class="img-btnrow"><button type="button" class="btn secondary" data-op="add">A + B</button><button type="button" class="btn secondary" data-op="sub">A − B</button><button type="button" class="btn secondary" data-op="mul">A × B</button><button type="button" class="btn secondary" data-op="det">det A</button><button type="button" class="btn secondary" data-op="inv">A⁻¹</button><button type="button" class="btn secondary" data-op="tr">Aᵀ</button><button type="button" class="btn secondary" data-op="pow">Aⁿ</button><button type="button" class="btn secondary" data-op="scal">k × A</button></div>
+      <div class="field"><label>${b('k أو n (للضرب بعدد أو الأس)', 'k or n (scalar / power)')}</label><input type="text" id="uc-mk" value="2" dir="ltr"></div><div id="uc-mout" class="uc-out"></div><button type="button" class="btn secondary" id="uc-mtoA" style="display:none">${b('انقل النتيجة إلى A', 'Move result to A')}</button>`;
+    const vals = { A:[], B:[] }, build = m=>{ const r = +$('uc-' + m + 'r').value, c = +$('uc-' + m + 'c').value, old = vals[m]; let h = ''; for(let i = 0; i < r; i++){ h += '<div class="uc-mrow">'; for(let j = 0; j < c; j++){ const v = old[i] && old[i][j] !== undefined ? old[i][j] : (i === j ? 1 : 0); h += `<input type="text" id="uc-m${m}${i}-${j}" value="${v}">`; } h += '</div>'; } $('uc-g' + m).innerHTML = h; };
+    const read = m=>{ const r = +$('uc-' + m + 'r').value, c = +$('uc-' + m + 'c').value, M = []; for(let i = 0; i < r; i++){ M.push([]); for(let j = 0; j < c; j++) M[i].push(evalNum($(`uc-m${m}${i}-${j}`).value)); } return M; };
+    const keep = m=>{ const r = +$('uc-' + m + 'r').value, c = +$('uc-' + m + 'c').value; vals[m] = []; for(let i = 0; i < r; i++){ vals[m].push([]); for(let j = 0; j < c; j++){ const e = $(`uc-m${m}${i}-${j}`); vals[m][i].push(e ? e.value : 0); } } };
+    ['A', 'B'].forEach(m=>{ build(m); ['r', 'c'].forEach(k=> $('uc-' + m + k).addEventListener('change', ()=>{ const old = vals[m]; keep(m); build(m); })); $('uc-g' + m).addEventListener('input', ()=> keep(m)); });
+    ['A', 'B'].forEach(m=> keep(m));
+    const mul = (X, Y)=> X.map(r=> Y[0].map((_, j)=> r.reduce((s, v, k)=> s + v * Y[k][j], 0))), det = M=>{ const n = M.length, A = M.map(r=> r.slice()); let d = 1; for(let c = 0; c < n; c++){ let p = c; for(let r = c + 1; r < n; r++) if(Math.abs(A[r][c]) > Math.abs(A[p][c])) p = r; if(Math.abs(A[p][c]) < 1e-14) return 0; if(p !== c){ [A[p], A[c]] = [A[c], A[p]]; d = -d; } d *= A[c][c]; for(let r = c + 1; r < n; r++){ const f = A[r][c] / A[c][c]; for(let k = c; k < n; k++) A[r][k] -= f * A[c][k]; } } return d; };
+    const inv = M=>{ const n = M.length, A = M.map((r, i)=> r.concat(Array.from({ length:n }, (_, j)=> i === j ? 1 : 0))); for(let c = 0; c < n; c++){ let p = c; for(let r = c + 1; r < n; r++) if(Math.abs(A[r][c]) > Math.abs(A[p][c])) p = r; if(Math.abs(A[p][c]) < 1e-12) return null; [A[c], A[p]] = [A[p], A[c]]; const d = A[c][c]; for(let k = 0; k < 2 * n; k++) A[c][k] /= d; for(let r = 0; r < n; r++) if(r !== c){ const f = A[r][c]; for(let k = 0; k < 2 * n; k++) A[r][k] -= f * A[c][k]; } } return A.map(r=> r.slice(n)); };
+    let result = null; const show = M=>{ result = M; $('uc-mout').innerHTML = '<table class="uc-table">' + M.map(r=> '<tr>' + r.map(v=> '<td>' + (Math.abs(v) < 1e-12 ? '0' : num(v, 8)) + '</td>').join('') + '</tr>').join('') + '</table>'; $('uc-mtoA').style.display = ''; };
+    root.querySelectorAll('[data-op]').forEach(btn=> btn.addEventListener('click', ()=>{
+      const A = read('A'), Bm = read('B'), k = evalNum($('uc-mk').value), out = $('uc-mout'); $('uc-mtoA').style.display = 'none'; result = null; const bad = M=> M.flat().some(v=> !isFinite(v)), dimErr = ()=>{ out.textContent = B('أبعاد المصفوفتين غير مناسبة لهذه العملية.', 'Matrix sizes do not fit this operation.'); };
+      if(bad(A) || (['add', 'sub', 'mul'].includes(btn.dataset.op) && bad(Bm))){ out.textContent = B('تحقق من القيم.', 'Check the values.'); return; }
+      const op = btn.dataset.op;
+      if(op === 'add' || op === 'sub'){ if(A.length !== Bm.length || A[0].length !== Bm[0].length) return dimErr(); show(A.map((r, i)=> r.map((v, j)=> op === 'add' ? v + Bm[i][j] : v - Bm[i][j]))); }
+      else if(op === 'mul'){ if(A[0].length !== Bm.length) return dimErr(); show(mul(A, Bm)); }
+      else if(op === 'tr') show(A[0].map((_, j)=> A.map(r=> r[j])));
+      else if(op === 'scal'){ if(!isFinite(k)){ out.textContent = B('تحقق من k.', 'Check k.'); return; } show(A.map(r=> r.map(v=> v * k))); }
+      else{ if(A.length !== A[0].length){ out.textContent = B('المصفوفة يجب أن تكون مربعة.', 'The matrix must be square.'); return; }
+        if(op === 'det'){ out.innerHTML = `<div dir="ltr">det A = <b>${num(det(A), 10)}</b></div>`; }
+        else if(op === 'inv'){ const r = inv(A); if(!r) out.textContent = B('المصفوفة شاذة (لا معكوس لها).', 'Singular matrix (no inverse).'); else show(r); }
+        else if(op === 'pow'){ if(!Number.isInteger(k) || k < 0 || k > 50){ out.textContent = B('n يجب أن يكون عدداً صحيحاً بين 0 و 50.', 'n must be an integer 0–50.'); return; } let R = A.map((r, i)=> r.map((_, j)=> i === j ? 1 : 0)); for(let i = 0; i < k; i++) R = mul(R, A); show(R); } }
+    }));
+    $('uc-mtoA').addEventListener('click', ()=>{ if(!result) return; $('uc-Ar').value = result.length; $('uc-Ac').value = result[0].length; vals.A = result.map(r=> r.map(v=> String(+v.toPrecision(10)))); build('A'); });
+  }
+
+  /* ---------- base-N ---------- */
+  function baseInit(){
+    const root = $('uc-base');
+    root.innerHTML = `<div class="row"><div class="field"><label>${b('القيمة A', 'Value A')}</label><input type="text" id="uc-ba" dir="ltr" value="255" autocomplete="off"></div><div class="field"><label>${b('النظام', 'Base')}</label><select id="uc-bb"><option value="10">DEC (10)</option><option value="16">HEX (16)</option><option value="2">BIN (2)</option><option value="8">OCT (8)</option></select></div></div>
+    <div class="row"><div class="field"><label>${b('العملية', 'Operation')}</label><select id="uc-bop">${ob('none', 'تحويل فقط', 'Convert only')}<option value="and">AND</option><option value="or">OR</option><option value="xor">XOR</option><option value="xnor">XNOR</option><option value="not">NOT A</option><option value="shl">A &lt;&lt; B</option><option value="shr">A &gt;&gt; B</option><option value="add">A + B</option><option value="sub">A − B</option><option value="mul">A × B</option><option value="div">A ÷ B</option></select></div><div class="field"><label>${b('القيمة B', 'Value B')}</label><input type="text" id="uc-bv" dir="ltr" value="0" autocomplete="off"></div></div>
+    <button type="button" class="btn" id="uc-bgo">${b('احسب', 'Calculate')}</button><div id="uc-bout" class="uc-out"></div><p class="note">${b('الحساب بصيغة 32 بت (بإشارة). القيم السالبة تظهر بالمكمّل الثنائي في HEX/BIN/OCT.', '32-bit signed arithmetic. Negatives show as two\'s complement in HEX/BIN/OCT.')}</p>`;
+    const RE = { 10:/^-?[0-9]+$/, 16:/^-?[0-9a-fA-F]+$/, 2:/^-?[01]+$/, 8:/^-?[0-7]+$/ };
+    const parse = (s, base)=>{ s = String(s).trim().replace(/[٠-٩]/g, d=> d.charCodeAt(0) - 1632); if(!RE[base].test(s)) return null; const neg = s[0] === '-', t = neg ? s.slice(1) : s; let v = 0n; const bb = BigInt(base); for(const ch of t) v = v * bb + BigInt(parseInt(ch, 16)); return BigInt.asIntN(32, neg ? -v : v); };
+    const show = v=>{ const u = BigInt.asUintN(32, v), bin = u.toString(2).padStart(32, '0').replace(/(.{4})(?=.)/g, '$1 '); return `<table class="uc-table" dir="ltr"><tr><td>DEC</td><td>${v.toString(10)}</td></tr><tr><td>HEX</td><td>${u.toString(16).toUpperCase()}</td></tr><tr><td>BIN</td><td style="font-size:.78rem">${bin}</td></tr><tr><td>OCT</td><td>${u.toString(8)}</td></tr></table>`; };
+    $('uc-bgo').addEventListener('click', ()=>{
+      const base = +$('uc-bb').value, a = parse($('uc-ba').value, base), bv = parse($('uc-bv').value, base), op = $('uc-bop').value, box = $('uc-bout');
+      if(a === null || (op !== 'none' && op !== 'not' && bv === null)){ box.textContent = B('أرقام غير صالحة لهذا النظام.', 'Invalid digits for this base.'); return; }
+      let r = a; const w = x=> BigInt.asIntN(32, x);
+      switch(op){ case 'and': r = a & bv; break; case 'or': r = a | bv; break; case 'xor': r = a ^ bv; break; case 'xnor': r = ~(a ^ bv); break; case 'not': r = ~a; break; case 'shl': r = a << (bv & 31n); break; case 'shr': r = a >> (bv & 31n); break; case 'add': r = a + bv; break; case 'sub': r = a - bv; break; case 'mul': r = a * bv; break; case 'div': if(bv === 0n){ box.textContent = 'Math ERROR'; return; } r = a / bv; break; }
+      box.innerHTML = show(w(r));
+    });
+  }
+
+  /* ---------- assemble ---------- */
+  function setActive(el){ active = el || (S.mode === 'calc' ? $('uc-expr') : active); }
+  function placePad(){
+    const pad = $('uc-pad'); let anchor = null, m = S.mode;
+    if(m === 'calc') anchor = document.querySelector('#uc-root .uc-sec[data-m="calc"]'); else if(m === 'graph') anchor = $('uc-fns'); else if(m === 'table') anchor = $('uc-tg').closest('.field'); else if(m === 'eq') anchor = $('uc-fxe').closest('.field');
+    if(anchor && anchor.nextSibling !== pad) anchor.after(pad);
+    $('uc-padtoggle').style.display = m === 'calc' ? 'none' : ''; $('uc-padbody').style.display = (m === 'calc' || S.padOpen) ? '' : 'none';
+  }
+  function padShow(){ placePad(); const eqFx = S.mode === 'eq' && $('uc-eq').querySelector('#uc-eqtabs .active').dataset.e === 'fx'; $('uc-pad').style.display = (S.mode === 'calc' || S.mode === 'graph' || S.mode === 'table' || eqFx) ? '' : 'none'; }
+  function setMode(m){
+    S.mode = m; if(S.padOpen === undefined) S.padOpen = true; document.querySelectorAll('#uc-modes .img-chip').forEach(c=> c.classList.toggle('active', c.dataset.m === m));
+    document.querySelectorAll('#uc-root .uc-sec').forEach(s=>{ s.style.display = s.dataset.m === m ? '' : 'none'; });
+    if(m === 'calc') active = $('uc-expr'); else if(m === 'graph'){ active = $('uc-fy0'); G.size(); G.draw(); } else if(m === 'table') active = $('uc-tf');
+    padShow();
+  }
+  function relang(){
+    const root = $('uc-root'); if(!root) return;
+    root.querySelectorAll('[data-ar]').forEach(e=>{ e.textContent = lang() === 'en' ? e.dataset.en : e.dataset.ar; });
+    root.querySelectorAll('[data-par]').forEach(e=> e.setAttribute('placeholder', lang() === 'en' ? e.dataset.pen : e.dataset.par));
+    renderChips(); renderHist();
+  }
+  function init(){
+    const root = $('uc-root'); if(!root) return;
+    root.innerHTML = html(); active = $('uc-expr');
+    gInit(); tInit(); eqInit(); statInit(); matInit(); baseInit();
+    document.querySelectorAll('#uc-root .uc-in').forEach(i=> i.addEventListener('focus', ()=>{ active = i; }));
+    $('uc-root').addEventListener('focusin', e=>{ if(e.target.classList && e.target.classList.contains('uc-in')) active = e.target; });
+    $('uc-modes').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(c) setMode(c.dataset.m); });
+    $('uc-keys').addEventListener('click', e=>{ const bt = e.target.closest('.uc-key'); if(!bt) return; const [r, i] = bt.dataset.k.split('-').map(Number); keyPress(KEYS[r][i]); });
+    $('uc-keys').addEventListener('pointerdown', e=>{ if(e.target.closest('.uc-key')) e.preventDefault(); });
+    $('uc-ptabs').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(!c) return; ptab = c.dataset.p; document.querySelectorAll('#uc-ptabs .img-chip').forEach(x=> x.classList.toggle('active', x === c)); renderChips(); });
+    $('uc-padtoggle').addEventListener('click', ()=>{ S.padOpen = !S.padOpen; placePad(); });
+    $('uc-expr').addEventListener('keydown', e=>{ if(e.key === 'Enter'){ e.preventDefault(); exe(); } });
+    $('uc-expr').addEventListener('input', ()=>{ S.fresh = false; });
+    $('uc-b-fmt').addEventListener('click', ()=>{ const o = ['norm', 'fix2', 'fix4', 'sci4']; S.fmt = o[(o.indexOf(S.fmt) + 1) % o.length]; store.set('fmt', S.fmt); badges(); showResult(); });
+    $('uc-b-angle').addEventListener('click', ()=> keyPress({ a:'angle' }));
+    $('uc-hclear').addEventListener('click', ()=>{ S.hist = []; store.set('hist', []); renderHist(); });
+    ['uc-tf', 'uc-tg'].forEach(id=> $(id).addEventListener('keydown', e=>{ if(e.key === 'Enter') $('uc-tgo').click(); }));
+    badges(); relang(); setMode('calc');
+    new MutationObserver(()=> setTimeout(()=>{ relang(); }, 20)).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+    new MutationObserver(()=>{ if(S.mode === 'graph') G.draw(); }).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+    window.uddahCalc = { S, UCE, setMode, exe, keyPress, G };
+  }
   init();
 })();
 
