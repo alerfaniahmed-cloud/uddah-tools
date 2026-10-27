@@ -12634,13 +12634,10 @@ function paPlayTone(kind, short){
     const dl = ctx.createDelay(1); dl.delayTime.value = 0.28; const fb = ctx.createGain(); fb.gain.value = 0.32; const wet = ctx.createGain(); wet.gain.value = 0.35;
     comp.connect(master); master.connect(ctx.destination);
     comp.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(wet); wet.connect(master);
-    // D Eb F# G A (Hijaz on D) — up, then settle
-    const D = 293.66, Eb = 311.13, Fs = 369.99, G = 392.0, A = 440.0, D5 = 587.33;
-    const up = [D, Eb, Fs, G, A, G, Fs, Eb, D];
-    const seq = short ? [A, G, Fs, D] : up;
-    const step = kind === 'oud' ? 0.42 : 0.75;
-    seq.forEach((f, i)=> paNote(ctx, comp, f, now + i * step, kind === 'oud' ? 1.6 : 2.2, kind));
-    if(!short){ paNote(ctx, comp, D5, now + up.length * step, kind === 'oud' ? 2.2 : 3.2, kind); }
+    // simple short ringtone: two soft notes (iqama: one note)
+    const seq = short ? [660] : [784, 988];
+    const step = 0.32;
+    seq.forEach((f, k)=> paNote(ctx, comp, f, now + k * step, kind === 'oud' ? 0.9 : 1.3, kind));
   }catch(e){}
 }
 const paDB = {
@@ -12815,7 +12812,7 @@ function paRefreshLabels(){
   set('pa-test-iq', '▶ تجربة الإقامة', '▶ Test iqama'); set('pa-tone-lbl', '🎵 النغمة', '🎵 Tone'); set('pa-iq-lbl', '🕋 تنبيه الإقامة', '🕋 Iqama alert');
   set('pa-iq-title', 'الإقامة بعد الأذان بـ (دقيقة):', 'Iqama after adhan (minutes):'); set('pa-file-lbl', '📂 اختر ملف الأذان', '📂 Choose adhan file');
   const to = document.getElementById('pa-tone');
-  if(to){ to.options[0].textContent = en ? 'Soft (default)' : 'هادئة (افتراضي)'; to.options[1].textContent = en ? 'Oud' : 'عود'; to.options[2].textContent = en ? 'My own adhan file' : 'ملف أذان خاص بي'; }
+  if(to){ to.options[0].textContent = en ? 'Simple ring (default)' : 'رنة بسيطة (افتراضي)'; to.options[1].textContent = en ? 'Oud' : 'عود'; to.options[2].textContent = en ? 'My own adhan file' : 'ملف أذان خاص بي'; }
   document.querySelectorAll('#pa-panel [data-pk]').forEach(sp=>{ sp.textContent = L[PA_LABEL[sp.dataset.pk]]; });
   paTick();
 }
