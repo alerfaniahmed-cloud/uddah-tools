@@ -616,6 +616,20 @@
   #lab-nav{position:sticky;top:0;z-index:5;background:var(--bg-elev);padding:6px 0;}
   .lab-pill{padding:6px 11px;border:1px solid var(--steel);border-radius:8px;background:var(--bg-elev-2);color:var(--bone);font-family:var(--font-mono);font-size:.82rem;cursor:pointer;direction:ltr;touch-action:manipulation;}
   button.lab-pill:hover{border-color:var(--brass);}
+  .lab-guide{border:1px solid var(--brass);background:var(--bg-elev);border-radius:14px;padding:12px 14px;margin-bottom:10px;}
+  .lab-gh{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:1rem;}
+  .lab-gx{border:1px solid var(--border);background:transparent;color:var(--bone);border-radius:999px;padding:4px 10px;font-size:.78rem;cursor:pointer;font-family:inherit;}
+  .lab-gsteps{margin:8px 0 6px;padding-inline-start:24px;font-size:.88rem;line-height:1.8;}
+  .lab-gsteps li{color:var(--bone-dim);}.lab-gsteps li.ok{color:var(--bone);text-decoration:line-through;opacity:.7;}.lab-gsteps li.now{color:var(--brass-light,var(--brass));font-weight:700;}
+  .lab-gbar{height:6px;border-radius:99px;background:rgba(127,127,127,.25);overflow:hidden;margin-top:6px;}.lab-gbar i{display:block;height:100%;background:var(--brass);transition:width .5s;}
+  .lab-gnow{margin-top:6px;font-size:.86rem;color:var(--bone-dim);min-height:1.4em;}
+  .lab-gres{margin-top:6px;padding:10px 12px;border-radius:12px;background:var(--bg-elev-2);border:1px solid var(--border);}
+  .lab-gres ul{margin:6px 0 0;padding-inline-start:20px;font-size:.9rem;line-height:1.8;}
+  .lab-gbtn{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}.lab-gbtn .btn{width:auto;flex:1 1 auto;margin:0;padding:8px 12px;font-size:.85rem;}
+  .lab-last{margin-top:10px;}.lab-last:empty{display:none;}
+  .lab-lasth{font-size:.8rem;color:var(--bone-dim);margin-bottom:4px;}
+  .lab-last .lab-lg{border-color:var(--brass);font-size:1rem;}.lab-last .lab-lg ul{font-size:.92rem;}
+  .lab-det{margin-top:10px;border:1px dashed var(--border);border-radius:12px;padding:6px 10px;}.lab-det summary{cursor:pointer;font-size:.88rem;padding:4px 0;color:var(--bone-dim);}
 
 /* ===== chemistry + physics tabs ===== */
   .ch-ctrl{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 10px;justify-content:space-between;}
@@ -788,12 +802,38 @@
       <span style="font-size:1.3rem;">🕌</span>
       <span style="font-size:.95rem;"><span data-i18n="paNext" style="color:var(--bone-dim);">الصلاة القادمة</span>: <b id="pa-next-name">—</b> <span id="pa-next-time" style="font-family:var(--font-mono);color:var(--brass-light);"></span></span>
       <span id="pa-count" style="font-family:var(--font-mono);font-size:1.05rem;color:var(--brass);" dir="ltr"></span>
+      <span id="pa-iq" style="display:none;font-size:.85rem;background:var(--brass);color:#1c1b1a;border-radius:999px;padding:3px 10px;font-weight:700;"></span>
     </div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
       <select id="pa-city" style="max-width:190px;padding:6px 8px;font-size:.85rem;"></select>
       <button type="button" class="btn secondary" id="pa-toggle" style="padding:6px 12px;font-size:.85rem;">🔔</button>
       <label style="display:flex;align-items:center;gap:4px;font-size:.8rem;color:var(--bone-dim);"><input type="checkbox" id="pa-sound" checked> <span id="pa-sound-lbl">🔊</span></label>
       <button type="button" class="btn secondary" id="pa-test" style="padding:6px 10px;font-size:.8rem;" data-i18n="paTest">تجربة</button>
+      <button type="button" class="btn secondary" id="pa-set" style="padding:6px 10px;font-size:.85rem;" aria-expanded="false" title="إعدادات الأذان والإقامة">⚙️</button>
+    </div>
+    <div id="pa-panel" style="display:none;flex-basis:100%;border-top:1px dashed var(--border);padding-top:10px;font-size:.85rem;">
+      <div style="display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;">
+        <label style="display:flex;align-items:center;gap:6px;"><span id="pa-tone-lbl">🎵 النغمة</span>
+          <select id="pa-tone" style="padding:6px 8px;font-size:.85rem;">
+            <option value="soft"></option><option value="oud"></option><option value="file"></option>
+          </select></label>
+        <span id="pa-filebox" style="display:none;align-items:center;gap:6px;flex-wrap:wrap;">
+          <label class="btn secondary" style="padding:6px 10px;font-size:.8rem;cursor:pointer;margin:0;"><span id="pa-file-lbl">📂 اختر ملف الأذان</span><input type="file" id="pa-file" accept="audio/*" style="display:none"></label>
+          <span id="pa-file-name" style="color:var(--bone-dim);"></span>
+        </span>
+        <label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="pa-iq-on"> <span id="pa-iq-lbl">🕋 تنبيه الإقامة</span></label>
+        <button type="button" class="btn secondary" id="pa-test-iq" style="padding:6px 10px;font-size:.8rem;">▶ تجربة الإقامة</button>
+      </div>
+      <div id="pa-iq-box" style="margin-top:10px;">
+        <div id="pa-iq-title" style="color:var(--bone-dim);margin-bottom:6px;">الإقامة بعد الأذان بـ (دقيقة):</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px 14px;">
+          <label style="display:flex;align-items:center;gap:5px;"><span data-pk="fajr"></span><input type="number" min="1" max="60" id="pa-iq-fajr" style="width:62px;padding:5px 6px;"></label>
+          <label style="display:flex;align-items:center;gap:5px;"><span data-pk="dhuhr"></span><input type="number" min="1" max="60" id="pa-iq-dhuhr" style="width:62px;padding:5px 6px;"></label>
+          <label style="display:flex;align-items:center;gap:5px;"><span data-pk="asr"></span><input type="number" min="1" max="60" id="pa-iq-asr" style="width:62px;padding:5px 6px;"></label>
+          <label style="display:flex;align-items:center;gap:5px;"><span data-pk="maghrib"></span><input type="number" min="1" max="60" id="pa-iq-maghrib" style="width:62px;padding:5px 6px;"></label>
+          <label style="display:flex;align-items:center;gap:5px;"><span data-pk="isha"></span><input type="number" min="1" max="60" id="pa-iq-isha" style="width:62px;padding:5px 6px;"></label>
+        </div>
+      </div>
     </div>
     <div id="pa-msg" style="flex-basis:100%;font-size:.8rem;color:var(--rust);"></div>
   </div>
@@ -12513,11 +12553,11 @@ exSchedule();
 const PA_KEY = 'uddah-prayer-alert';
 const PA_ORDER = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
 const PA_LABEL = { fajr:'prayerFajr', dhuhr:'prayerDhuhr', asr:'prayerAsr', maghrib:'prayerMaghrib', isha:'prayerIsha' };
-let paState = { city:'24.7136,46.6753', on:false, sound:true, voice:true };
+let paState = { city:'24.7136,46.6753', on:false, sound:true, voice:true, tone:'soft', iqOn:true, iq:{ fajr:25, dhuhr:15, asr:20, maghrib:10, isha:20 } };
 let paCoords = null;            // coordinates used by "auto" (device location)
 let paFired = {};               // prayers already announced (per day)
 let paAudio = null, paTitleBase = document.title;
-try{ Object.assign(paState, JSON.parse(localStorage.getItem(PA_KEY) || '{}')); }catch(e){}
+try{ const sv = JSON.parse(localStorage.getItem(PA_KEY) || '{}'); Object.assign(paState, sv); paState.iq = Object.assign({ fajr:25, dhuhr:15, asr:20, maghrib:10, isha:20 }, sv.iq || {}); }catch(e){}
 function paSave(){ try{ localStorage.setItem(PA_KEY, JSON.stringify(paState)); }catch(e){} }
 
 function paBuildCitySelect(){
@@ -12565,28 +12605,66 @@ function paFmtCount(ms){
 }
 function paDayKey(d){ return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
 
-function paBeep(){
-  // Loud, bright bell: inharmonic partials with long exponential decay, struck 4 times.
+function paCtx(){
+  if(!paAudio) paAudio = new (window.AudioContext || window.webkitAudioContext)();
+  if(paAudio.state === 'suspended') paAudio.resume();
+  return paAudio;
+}
+/* Soft, bell-free tones: a slow Hijaz-colored phrase ("soft") or a plucked oud arpeggio ("oud"). */
+function paNote(ctx, out, f, t0, dur, kind){
+  const o = ctx.createOscillator(), o2 = ctx.createOscillator(), g = ctx.createGain(), lp = ctx.createBiquadFilter();
+  lp.type = 'lowpass';
+  if(kind === 'oud'){
+    o.type = 'sawtooth'; o2.type = 'triangle'; lp.frequency.setValueAtTime(2600, t0); lp.frequency.exponentialRampToValueAtTime(500, t0 + dur);
+    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.55, t0 + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  }else{
+    o.type = 'sine'; o2.type = 'sine'; lp.frequency.value = 3000;
+    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.5, t0 + 0.18); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  }
+  o.frequency.value = f; o2.frequency.value = f * 2.003;
+  const g2 = ctx.createGain(); g2.gain.value = kind === 'oud' ? 0.35 : 0.18;
+  o.connect(lp); o2.connect(g2); g2.connect(lp); lp.connect(g); g.connect(out);
+  o.start(t0); o2.start(t0); o.stop(t0 + dur + 0.05); o2.stop(t0 + dur + 0.05);
+}
+function paPlayTone(kind, short){
   try{
-    if(!paAudio) paAudio = new (window.AudioContext || window.webkitAudioContext)();
-    if(paAudio.state === 'suspended') paAudio.resume();
-    const ctx = paAudio, now = ctx.currentTime + 0.05;
-    const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -12; comp.ratio.value = 6;
-    const master = ctx.createGain(); master.gain.value = 1.0;
+    const ctx = paCtx(), now = ctx.currentTime + 0.05;
+    const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 5;
+    const master = ctx.createGain(); master.gain.value = 0.9;
+    const dl = ctx.createDelay(1); dl.delayTime.value = 0.28; const fb = ctx.createGain(); fb.gain.value = 0.32; const wet = ctx.createGain(); wet.gain.value = 0.35;
     comp.connect(master); master.connect(ctx.destination);
-    const partials = [[1,1,3.2],[2.0,0.55,2.4],[2.76,0.5,1.8],[5.4,0.3,1.0],[8.93,0.18,0.6]];
-    [0, 1.25, 2.5, 3.75].forEach(off=>{
-      const f0 = 880, t0 = now + off;
-      partials.forEach(([m, amp, dec])=>{
-        const o = ctx.createOscillator(), g = ctx.createGain();
-        o.type = 'sine'; o.frequency.value = f0 * m;
-        g.gain.setValueAtTime(0.0001, t0);
-        g.gain.exponentialRampToValueAtTime(0.9 * amp, t0 + 0.008);
-        g.gain.exponentialRampToValueAtTime(0.0001, t0 + dec);
-        o.connect(g); g.connect(comp); o.start(t0); o.stop(t0 + dec + 0.05);
-      });
-    });
+    comp.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(wet); wet.connect(master);
+    // D Eb F# G A (Hijaz on D) — up, then settle
+    const D = 293.66, Eb = 311.13, Fs = 369.99, G = 392.0, A = 440.0, D5 = 587.33;
+    const up = [D, Eb, Fs, G, A, G, Fs, Eb, D];
+    const seq = short ? [A, G, Fs, D] : up;
+    const step = kind === 'oud' ? 0.42 : 0.75;
+    seq.forEach((f, i)=> paNote(ctx, comp, f, now + i * step, kind === 'oud' ? 1.6 : 2.2, kind));
+    if(!short){ paNote(ctx, comp, D5, now + up.length * step, kind === 'oud' ? 2.2 : 3.2, kind); }
   }catch(e){}
+}
+const paDB = {
+  open(){ return new Promise((res, rej)=>{ const r = indexedDB.open('uddah-pa', 1); r.onupgradeneeded = ()=> r.result.createObjectStore('f'); r.onsuccess = ()=> res(r.result); r.onerror = ()=> rej(r.error); }); },
+  async put(k, v){ const d = await this.open(); return new Promise((res, rej)=>{ const t = d.transaction('f', 'readwrite'); t.objectStore('f').put(v, k); t.oncomplete = res; t.onerror = ()=> rej(t.error); }); },
+  async get(k){ const d = await this.open(); return new Promise((res, rej)=>{ const q = d.transaction('f').objectStore('f').get(k); q.onsuccess = ()=> res(q.result); q.onerror = ()=> rej(q.error); }); }
+};
+let paFileAudio = null;
+function paStopFile(){ try{ if(paFileAudio){ paFileAudio.pause(); paFileAudio = null; } }catch(e){} }
+async function paPlayFile(){
+  try{
+    const blob = await paDB.get('adhan');
+    if(!blob) return false;
+    paStopFile();
+    paFileAudio = new Audio(URL.createObjectURL(blob));
+    paFileAudio.volume = 1;
+    await paFileAudio.play();
+    return true;
+  }catch(e){ return false; }
+}
+async function paBeep(isIqama){
+  if(isIqama){ paPlayTone(paState.tone === 'oud' ? 'oud' : 'soft', true); return; }
+  if(paState.tone === 'file'){ if(await paPlayFile()) return; }
+  paPlayTone(paState.tone === 'oud' ? 'oud' : 'soft', false);
 }
 function paBuildVoiceSelect(){
   const sel = document.getElementById('pa-vsel');
@@ -12662,20 +12740,22 @@ function paSpeak(key, immediate){
     setTimeout(()=> speechSynthesis.speak(u), delay);
   }catch(e){ online(); }
 }
-function paAnnounce(key){
+function paAnnounce(key, isIqama){
   const L = I18N[currentLang];
-  const text = L.paNowTitle + ' ' + L[PA_LABEL[key]] + (paCityName() ? ' — ' + paCityName() : '');
+  const text = isIqama
+    ? (currentLang === 'en' ? 'Iqama — ' + L[PA_LABEL[key]] + ' prayer' : 'أُقيمت الصلاة — ' + L[PA_LABEL[key]] + ' · سوّوا صفوفكم')
+    : L.paNowTitle + ' ' + L[PA_LABEL[key]] + (paCityName() ? ' — ' + paCityName() : '');
   const box = document.createElement('div');
   box.className = 'pa-toast';
   box.style.cssText = 'position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:9999;background:var(--brass);color:#1c1b1a;padding:14px 18px;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.35);font-weight:700;display:flex;gap:12px;align-items:center;max-width:92vw;';
-  box.innerHTML = '<span style="font-size:1.4rem;">🕌</span><span></span><button type="button" style="border:none;background:rgba(0,0,0,.15);border-radius:50%;width:26px;height:26px;cursor:pointer;">×</button>';
+  box.innerHTML = '<span style="font-size:1.4rem;">' + (isIqama ? '🕋' : '🕌') + '</span><span></span><button type="button" style="border:none;background:rgba(0,0,0,.15);border-radius:50%;width:26px;height:26px;cursor:pointer;">×</button>';
   box.children[1].textContent = text;
-  box.querySelector('button').addEventListener('click', ()=> box.remove());
+  box.querySelector('button').addEventListener('click', ()=>{ box.remove(); paStopFile(); });
   document.body.appendChild(box);
-  setTimeout(()=>{ if(box.isConnected) box.remove(); }, 90000);
-  if(paState.sound) paBeep();
+  setTimeout(()=>{ if(box.isConnected) box.remove(); }, isIqama ? 60000 : 90000);
+  if(paState.sound) paBeep(!!isIqama);
   try{ if(navigator.vibrate) navigator.vibrate([300, 150, 300]); }catch(e){}
-  try{ if('Notification' in window && Notification.permission === 'granted') new Notification(text, { tag:'uddah-prayer-' + key, requireInteraction:false }); }catch(e){}
+  try{ if('Notification' in window && Notification.permission === 'granted') new Notification(text, { tag:'uddah-prayer-' + key + (isIqama ? '-iq' : ''), requireInteraction:false }); }catch(e){}
   if(document.hidden){ document.title = '🕌 ' + text; }
 }
 document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) document.title = paTitleBase; });
@@ -12686,7 +12766,7 @@ function paTick(){
   const today = paTimesFor(now);
   if(!today){ nameEl.textContent = '—'; timeEl.textContent = ''; cntEl.textContent = ''; return; }
   const dk = paDayKey(now);
-  let next = null;
+  let next = null, iqActive = null;
   PA_ORDER.forEach(k=>{
     const t = today[k];
     const id = dk + k;
@@ -12695,8 +12775,22 @@ function paTick(){
         paFired[id] = true;
         if(paState.on && now - t < 90000) paAnnounce(k);     // only announce on time, never for prayers that already passed
       }
+      const iqT = new Date(t.getTime() + (Number(paState.iq[k]) || 15) * 60000);
+      if(now >= iqT){
+        if(!paFired[id + 'iq']){
+          paFired[id + 'iq'] = true;
+          if(paState.on && paState.iqOn && now - iqT < 90000) paAnnounce(k, true);
+        }
+      }else{ iqActive = { k, t: iqT }; }
     }else if(!next){ next = { k, t }; }
   });
+  const iqEl = document.getElementById('pa-iq');
+  if(iqEl){
+    if(iqActive && paState.iqOn){
+      iqEl.style.display = '';
+      iqEl.textContent = (currentLang === 'en' ? 'Iqama (' : 'الإقامة (') + I18N[currentLang][PA_LABEL[iqActive.k]] + ') ' + (currentLang === 'en' ? 'in ' : 'بعد ') + paFmtCount(iqActive.t - now).replace(/^00:/, '');
+    }else iqEl.style.display = 'none';
+  }
   if(!next){
     const tmr = new Date(now.getTime() + 86400000);
     const tt = paTimesFor(tmr);
@@ -12716,6 +12810,13 @@ function paRefreshLabels(){
   tg.style.background = paState.on ? 'var(--brass)' : '';
   tg.style.color = paState.on ? '#1c1b1a' : '';
   document.getElementById('pa-sound-lbl').textContent = L.paSound;
+  const en = currentLang === 'en';
+  const set = (id, ar, e)=>{ const el = document.getElementById(id); if(el) el.textContent = en ? e : ar; };
+  set('pa-test-iq', '▶ تجربة الإقامة', '▶ Test iqama'); set('pa-tone-lbl', '🎵 النغمة', '🎵 Tone'); set('pa-iq-lbl', '🕋 تنبيه الإقامة', '🕋 Iqama alert');
+  set('pa-iq-title', 'الإقامة بعد الأذان بـ (دقيقة):', 'Iqama after adhan (minutes):'); set('pa-file-lbl', '📂 اختر ملف الأذان', '📂 Choose adhan file');
+  const to = document.getElementById('pa-tone');
+  if(to){ to.options[0].textContent = en ? 'Soft (default)' : 'هادئة (افتراضي)'; to.options[1].textContent = en ? 'Oud' : 'عود'; to.options[2].textContent = en ? 'My own adhan file' : 'ملف أذان خاص بي'; }
+  document.querySelectorAll('#pa-panel [data-pk]').forEach(sp=>{ sp.textContent = L[PA_LABEL[sp.dataset.pk]]; });
   paTick();
 }
 function paResolveAuto(){
@@ -12745,6 +12846,36 @@ document.getElementById('pa-toggle').addEventListener('click', async ()=>{
   paRefreshLabels();
 });
 document.getElementById('pa-sound').addEventListener('change', e=>{ paState.sound = e.target.checked; paSave(); });
+document.getElementById('pa-set').addEventListener('click', ()=>{
+  const p = document.getElementById('pa-panel'), open = p.style.display === 'none';
+  p.style.display = open ? 'block' : 'none';
+  document.getElementById('pa-set').setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+function paSyncPanel(){
+  document.getElementById('pa-tone').value = paState.tone;
+  document.getElementById('pa-filebox').style.display = paState.tone === 'file' ? 'flex' : 'none';
+  document.getElementById('pa-iq-on').checked = !!paState.iqOn;
+  document.getElementById('pa-iq-box').style.opacity = paState.iqOn ? '1' : '.5';
+  PA_ORDER.forEach(k=>{ document.getElementById('pa-iq-' + k).value = paState.iq[k]; });
+  paDB.get('adhan').then(b=>{ document.getElementById('pa-file-name').textContent = b ? (b.name || '✔') : ''; }).catch(()=>{});
+}
+document.getElementById('pa-tone').addEventListener('change', e=>{ paState.tone = e.target.value; paSave(); paSyncPanel(); });
+document.getElementById('pa-iq-on').addEventListener('change', e=>{ paState.iqOn = e.target.checked; paSave(); paSyncPanel(); paTick(); });
+PA_ORDER.forEach(k=> document.getElementById('pa-iq-' + k).addEventListener('change', e=>{
+  let v = Math.round(Number(e.target.value)); if(!(v >= 1)) v = 1; if(v > 60) v = 60;
+  paState.iq[k] = v; e.target.value = v; paSave(); paTick();
+}));
+document.getElementById('pa-file').addEventListener('change', async e=>{
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const msg = document.getElementById('pa-msg');
+  if(f.size > 15 * 1024 * 1024){ msg.textContent = currentLang === 'en' ? 'File is too large (max 15 MB).' : 'الملف كبير (الحد 15 ميجا).'; return; }
+  try{
+    const blob = new Blob([f], { type: f.type || 'audio/mpeg' }); blob.name = f.name;
+    await paDB.put('adhan', f);
+    msg.textContent = ''; document.getElementById('pa-file-name').textContent = f.name;
+  }catch(err){ msg.textContent = currentLang === 'en' ? 'Could not save the file on this device.' : 'تعذّر حفظ الملف على هذا الجهاز.'; }
+});
+document.getElementById('pa-test-iq').addEventListener('click', ()=>{ paAnnounce('dhuhr', true); });
 document.getElementById('pa-test').addEventListener('click', async ()=>{
   try{ if(!paAudio) paAudio = new (window.AudioContext || window.webkitAudioContext)(); if(paAudio.state === 'suspended') await paAudio.resume(); }catch(e){}
   if('Notification' in window && Notification.permission === 'default'){ try{ await Notification.requestPermission(); }catch(e){} }
@@ -12752,6 +12883,7 @@ document.getElementById('pa-test').addEventListener('click', async ()=>{
 });
 (function paInit(){
   paBuildCitySelect();
+  paSyncPanel();
   document.getElementById('pa-sound').checked = !!paState.sound;
   if(paState.city === 'auto') paResolveAuto();
   paRefreshLabels();
@@ -20022,7 +20154,7 @@ function buildLog(){
 const gname = r=> { const x = L.R[r]; return x ? B(x.ar, x.en) : r; };
 function renderLog(){
   const h = $('lab-log'); if(!h) return; const sg = BN.tl.map(x=> x.v + (x.id || x.ev) + (x.amt || '') + (x.conc || '') + (x.on ? 1 : 0)).join(',') + '|' + lang() + '|' + BN.hasB + '|' + BN.tube; if(BN.logSig === sg) return; BN.logSig = sg; const rows = buildLog();
-  if(!rows.length){ h.innerHTML = `<div class="ch-note">${B('اختر وعاءً ثم اضغط على زجاجة مادة من الرف لإضافتها. شاهد ما يحدث ثم اقرأ الملاحظات هنا.', 'Pick a vessel and tap a reagent bottle on the shelf to add it. Watch what happens and read the notes here.')}</div>`; return; }
+  if(!rows.length){ h.innerHTML = `<div class="ch-note">${B('اختر وعاءً ثم اضغط على زجاجة مادة من الرف لإضافتها. شاهد ما يحدث ثم اقرأ الملاحظات هنا.', 'Pick a vessel and tap a reagent bottle on the shelf to add it. Watch what happens and read the notes here.')}</div>`; fillLast(); return; }
   h.innerHTML = rows.slice().reverse().map((r, i)=>{
     const e = r.e; let t;
     if(e.ev === 'heat') t = e.on ? `🔥 ${B('بدأ التسخين الفعّال', 'Heating well under way')}` : `❄ ${B('انتهى التسخين', 'Heating over')}`;
@@ -20031,6 +20163,11 @@ function renderLog(){
     const obs = r.obs.map(o=> `<li>${r.obs.length > 0 && BN.hasB ? '<b>' + o[0] + '</b> ' : ''}${esc(tr(o[1]))}</li>`).join('');
     return `<div class="lab-lg ${i === 0 ? 'new' : ''}"><div class="lab-lt">${t}</div>${obs ? '<ul>' + obs + '</ul>' : `<div class="lab-none">${B('لا يظهر تغيّر ملحوظ', 'No visible change')}</div>`}${r.eqs.length ? '<div class="lab-eq">' + r.eqs.map(q=> `<code>${esc(q)}</code>`).join('') + '</div>' : ''}</div>`;
   }).join('');
+  fillLast();
+}
+function fillLast(){
+  const l = $('lab-last'); if(!l) return; const f = $('lab-log') && $('lab-log').firstElementChild;
+  l.innerHTML = f && f.classList.contains('lab-lg') ? `<div class="lab-lasth">🔎 ${B('آخر ما حدث', 'What just happened')}</div>` + f.outerHTML : '';
 }
 
 /* shelf */
@@ -20098,6 +20235,7 @@ function gasTest(kind){
 }
 
 reg('bench', 'المنضدة', 'Bench', '🧪', ()=> `
+  <div id="lab-guide" class="lab-guide" style="display:none"></div>
   <div class="lab-top">
     ${chips('lab-vsel', VKEYS.map(k=> [k, VES[k].ar, VES[k].en]), BN.vt.A)}
     <div class="lab-opt"><label class="lab-chk"><input type="checkbox" id="lab-hasb"> ${b('وعاء ثانٍ (B)', 'Second vessel (B)')}</label>
@@ -20105,6 +20243,7 @@ reg('bench', 'المنضدة', 'Bench', '🧪', ()=> `
   </div>
   <div class="lab-stagewrap"><svg id="lab-stage" viewBox="0 0 200 270" preserveAspectRatio="xMidYMid meet"></svg><div id="lab-flash" class="lab-flash">💥</div><div id="lab-toast" class="lab-toast"></div></div>
   <div id="lab-read" class="lab-reads"></div>
+  <div id="lab-last" class="lab-last"></div>
   <div class="lab-ctl">
     <button type="button" class="btn" id="lab-heat">🔥 ${b('تسخين', 'Heat')}</button>
     <button type="button" class="btn" id="lab-stir">🌀 ${b('تحريك', 'Stir')}</button>
@@ -20112,13 +20251,13 @@ reg('bench', 'المنضدة', 'Bench', '🧪', ()=> `
     <button type="button" class="btn" id="lab-empty">🗑 ${b('تفريغ', 'Empty')}</button>
     <button type="button" class="btn" id="lab-reset">♻ ${b('إعادة', 'Reset')}</button>
   </div>
-  <div class="lab-ctl">
+  <details class="lab-det" id="lab-gasdet"><summary>🧫 ${b('اختبارات الغازات (عود، عباد الشمس…)', 'Gas tests (splint, litmus…)')}</summary><div class="lab-ctl">
     <button type="button" class="btn lab-gt" data-t="splint">🔥 ${b('عود مشتعل', 'Lit splint')}</button>
     <button type="button" class="btn lab-gt" data-t="glow">✨ ${b('عود متوهج', 'Glowing splint')}</button>
     <button type="button" class="btn lab-gt" data-t="litmus">🔵 ${b('عباد الشمس', 'Litmus paper')}</button>
     <button type="button" class="btn lab-gt" data-t="lead">⚫ ${b('خلات الرصاص', 'Lead acetate')}</button>
     <button type="button" class="btn lab-gt" data-t="smell">👃 ${b('شمّ بالتلويح', 'Waft smell')}</button>
-  </div>
+  </div></details>
   <div id="lab-test" class="ch-note" style="display:none"></div>
   <div class="lab-amts">
     <div><small>${b('الكمية السائلة', 'Liquid amount')}</small>${chips('lab-ml', [[5, '5 mL', '5 mL'], [10, '10 mL', '10 mL'], [25, '25 mL', '25 mL'], [50, '50 mL', '50 mL']], 10)}</div>
@@ -20251,23 +20390,63 @@ function showSub(id){
   MODS.forEach(m=>{ if(m.id !== id && m.hide) m.hide(); });
   const m = MODS.filter(x=> x.id === id)[0]; if(m && m.show) m.show();
 }
+const TESTN = { splint:['عود مشتعل', 'lit splint'], glow:['عود متوهج', 'glowing splint'], litmus:['عباد الشمس', 'litmus paper'], lead:['خلات الرصاص', 'lead acetate paper'], smell:['شمّ بالتلويح', 'waft smell'] };
+function actTxt(s){
+  if(s[0] === 'wait') return B('انتظر قليلاً…', 'Wait a moment…');
+  if(s[0] === 'heat') return s[2] ? B('سخّن الوعاء ' + s[1], 'Heat vessel ' + s[1]) : B('أوقف التسخين', 'Stop heating');
+  if(s[0] === 'test') return B('اختبر الغاز: ', 'Test the gas: ') + B(TESTN[s[1]][0], TESTN[s[1]][1]);
+  const r = L.R[s[1]]; if(!r) return '';
+  const q = r.kind === 'salt' || r.kind === 'solid' ? (r.u * s[2]) + ' g' : r.kind === 'metal' ? s[2] + '×' : r.kind === 'ind' ? B('قطرتان', '2 drops') : s[2] + ' mL';
+  return B('أضف ', 'Add ') + gname(s[1]) + ' (' + q + ') ' + B('إلى الوعاء ', 'to vessel ') + s[0];
+}
+function guideHtml(x, i, done){
+  const total = x.run.length, steps = x.steps || [];
+  const cur = done ? steps.length : Math.min(steps.length - 1, Math.floor((i / Math.max(1, total)) * steps.length));
+  let h = `<div class="lab-gh"><b>${x.ic} ${esc(B(x.ar, x.en))}</b>${done ? '' : `<button type="button" class="lab-gx" data-a="stop">⏹ ${B('إيقاف', 'Stop')}</button>`}</div>`;
+  h += `<ol class="lab-gsteps">${steps.map((s, k)=> `<li class="${k < cur ? 'ok' : k === cur ? 'now' : ''}">${esc(tr(s))}</li>`).join('')}</ol>`;
+  if(!done){
+    h += `<div class="lab-gbar"><i style="width:${Math.round(i / Math.max(1, total) * 100)}%"></i></div><div class="lab-gnow">${i < total ? '⏳ ' + esc(actTxt(x.run[i])) : ''}</div>`;
+  }else{
+    const obs = [], eqs = []; const seen = {}, seq = {};
+    ['A', 'B'].forEach(k=>{ if(k === 'B' && !BN.hasB) return; const c = BN.cur && BN.cur[k]; if(!c) return;
+      c.obs.forEach(o=>{ const t = tr(o); if(!seen[t]){ seen[t] = 1; obs.push((BN.hasB ? k + ': ' : '') + t); } });
+      c.eqs.forEach(q=>{ if(!seq[q]){ seq[q] = 1; eqs.push(q); } }); });
+    h += `<div class="lab-gres"><b>✅ ${B('النتيجة: ماذا لاحظنا؟', 'Result: what did we see?')}</b>${obs.length ? '<ul>' + obs.map(t=> `<li>${esc(t)}</li>`).join('') + '</ul>' : `<div class="lab-none">${B('لا يظهر تغيّر ملحوظ — وهذا بحد ذاته نتيجة!', 'No visible change – that is a result too!')}</div>`}
+      ${eqs.length ? '<div class="lab-eq">' + eqs.map(q=> `<code>${esc(q)}</code>`).join('') + '</div>' : ''}</div>
+      <div class="ch-note ok"><b>💡 ${B('التفسير', 'Explanation')}</b><br>${esc(tr(x.why))}</div>
+      <div class="lab-gbtn"><button type="button" class="btn" data-a="again">↻ ${B('أعد التجربة', 'Repeat')}</button><button type="button" class="btn secondary" data-a="free">🧪 ${B('جرّب بنفسك', 'Try it yourself')}</button><button type="button" class="btn secondary" data-a="list">📋 ${B('تجارب أخرى', 'More experiments')}</button></div>`;
+  }
+  return h;
+}
+function showGuide(x, i, done){ const g = $('lab-guide'); if(!g) return; g.style.display = ''; g.innerHTML = guideHtml(x, i, done); g.dataset.x = x.id; }
+function hideGuide(){ const g = $('lab-guide'); if(g){ g.style.display = 'none'; g.innerHTML = ''; } }
 function runExp(id){
   const x = EXPS.filter(e=> e.id === id)[0]; if(!x) return;
   if(x.tab){ showSub(x.tab); if(x.sub && window.uddahLab && window.uddahLab.sub) window.uddahLab.sub(x.tab, x.sub); return; }
   const token = ++XN.running; showSub('bench'); Bench.setup(x.vt || {}, x.hasB, x.tube);
   const root = $('lab-root'); if(root) root.scrollIntoView({ behavior:'smooth', block:'start' });
-  let i = 0;
+  let i = 0; showGuide(x, 0, false);
   const next = ()=>{
-    if(token !== XN.running) return; if(i >= x.run.length){ toast(B('اكتملت التجربة — اقرأ دفتر المختبر 📒', 'Experiment complete – read the lab notebook 📒')); return; }
-    const s = x.run[i++]; let delay = 950;
+    if(token !== XN.running) return;
+    if(i >= x.run.length){ showGuide(x, i, true); const gd = $('lab-guide'); if(gd) gd.scrollIntoView({ behavior:'smooth', block:'nearest' }); toast(B('اكتملت التجربة ✅', 'Experiment complete ✅')); return; }
+    showGuide(x, i, false);
+    const s = x.run[i++]; let delay = 1100;
     if(s[0] === 'wait') delay = s[1];
-    else if(s[0] === 'heat'){ Bench.heat(s[1], !!s[2]); delay = 300; }
-    else if(s[0] === 'test'){ gasTest(s[1]); delay = 600; }
+    else if(s[0] === 'heat'){ Bench.heat(s[1], !!s[2]); delay = 400; }
+    else if(s[0] === 'test'){ const d = $('lab-gasdet'); if(d) d.open = true; gasTest(s[1]); delay = 900; }
     else Bench.add(s[0], s[1], s[2], s[3]);
     setTimeout(next, delay);
   };
   setTimeout(next, 700);
 }
+document.addEventListener('click', e=>{
+  const bt = e.target.closest && e.target.closest('#lab-guide [data-a]'); if(!bt) return;
+  const g = $('lab-guide'); const x = EXPS.filter(q=> q.id === g.dataset.x)[0]; const a = bt.dataset.a;
+  if(a === 'stop'){ XN.running++; if(x) showGuide(x, 0, true); }
+  else if(a === 'again'){ if(x) runExp(x.id); }
+  else if(a === 'free'){ hideGuide(); }
+  else if(a === 'list'){ hideGuide(); showSub('exp'); }
+});
 reg('exp', 'التجارب', 'Experiments', '📋', expHtml, ()=>{
   $('lab-xg').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(c){ XN.grp = c.dataset.v; setChips('lab-xg', XN.grp); renderExpList(); } });
   $('lab-xl').addEventListener('click', e=>{ const c = e.target.closest('.lab-xc'); if(c){ XN.cur = c.dataset.id; renderExpList(); renderExpDetail(); const d = $('lab-xd'); if(d) d.scrollIntoView({ behavior:'smooth', block:'nearest' }); } });
