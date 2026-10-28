@@ -631,6 +631,24 @@
   .lab-last .lab-lg{border-color:var(--brass);font-size:1rem;}.lab-last .lab-lg ul{font-size:.92rem;}
   .lab-det{margin-top:10px;border:1px dashed var(--border);border-radius:12px;padding:6px 10px;}.lab-det summary{cursor:pointer;font-size:.88rem;padding:4px 0;color:var(--bone-dim);}
 
+  /* ===== WPS / Mudad payroll file ===== */
+  #tools-wps .wps-ltr{direction:ltr;text-align:left;font-family:var(--font-mono);}
+  #tools-wps input,#tools-wps textarea{width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:10px 12px;font-size:.95rem;}
+  .wps-h{margin:18px 0 8px;font-size:1.02rem;}
+  .wps-refrow{display:flex;gap:8px;}.wps-refrow .btn{width:auto;margin:0;padding:8px 14px;}
+  .wps-emp{border:1px solid var(--border);background:var(--bg-elev-2);border-radius:12px;padding:10px 12px;margin-bottom:10px;}
+  .wps-emp .wps-in{margin-top:6px;}
+  .wps-eh{display:flex;align-items:center;gap:10px;font-size:.9rem;}.wps-st{flex:1;font-size:.78rem;color:var(--bone-dim);}
+  .wps-x{border:none;background:transparent;font-size:1.1rem;cursor:pointer;color:var(--rust,#c0463c);}
+  .wps-g2{display:grid;grid-template-columns:1fr 1.6fr;gap:8px;}
+  .wps-g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px;}.wps-g4 label{font-size:.72rem;color:var(--bone-dim);}.wps-g4 input{padding:8px 6px;}
+  .wps-net{margin-top:8px;font-size:.88rem;color:var(--bone-dim);}.wps-net b{color:var(--brass);font-family:var(--font-mono);}
+  .wps-bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}.wps-bar .btn{width:auto;flex:1 1 auto;margin:0;}
+  .wps-tot{display:flex;gap:10px;}.wps-tot div{flex:1;border:1px solid var(--border);border-radius:12px;padding:10px;background:var(--bg-elev-2);text-align:center;}.wps-tot small{display:block;color:var(--bone-dim);}.wps-tot b{font-size:1.15rem;color:var(--brass);}
+  .wps-prev{margin-top:12px;}.wps-prev pre{white-space:pre-wrap;word-break:break-all;direction:ltr;text-align:left;font-size:.74rem;background:rgba(0,0,0,.25);padding:10px;border-radius:8px;max-height:260px;overflow:auto;}
+  #tools-wps ul{margin:6px 0 0;padding-inline-start:20px;font-size:.86rem;line-height:1.7;}
+  @media(max-width:480px){.wps-g4{grid-template-columns:repeat(2,1fr);}.wps-g2{grid-template-columns:1fr;}}
+
 /* ===== chemistry + physics tabs ===== */
   .ch-ctrl{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 10px;justify-content:space-between;}
   .ch-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
@@ -1444,6 +1462,7 @@
           <option value="iban" data-i18n="toolsOptIban">🏦 مدقق رقم الآيبان السعودي (IBAN)</option>
           <option value="tafqeet" data-i18n="toolsOptTafqeet">🔤 تفقيط المبلغ (كتابة المبلغ بالحروف)</option>
           <option value="voucher" data-i18n="toolsOptVoucher">🧾 سند قبض / سند صرف</option>
+          <option value="wps" data-i18n="toolsOptWps">📑 ملف حماية الأجور (WPS / مدد)</option>
         </select>
       </div>
     </div>
@@ -2864,6 +2883,8 @@
         <p class="note" id="iban-sub"></p>
       </div>
     </div>
+
+    <div class="card tools-card" id="tools-wps"></div>
 
     <div class="card tools-card" id="tools-tafqeet">
       <h2 data-i18n="tafTitle">تفقيط المبلغ — كتابة المبلغ بالحروف</h2>
@@ -5130,6 +5151,7 @@ const I18N = {
     tafAmountLabel: 'المبلغ', tafCurLabel: 'العملة', tafCurSar: 'ريال سعودي', tafCurAed: 'درهم إماراتي', tafCurUsd: 'دولار أمريكي', tafCurEgp: 'جنيه مصري', tafCurNone: 'بدون عملة',
     tafFrameLabel: 'إضافة «فقط ... لا غير»', tafArLabel: 'بالعربي', tafEnLabel: 'بالإنجليزي', tafCopy: 'نسخ', tafCopied: 'تم النسخ ✓', tafBad: 'اكتب مبلغاً صحيحاً (حتى 999 تريليون).',
     toolsOptVoucher: '🧾 سند قبض / سند صرف',
+    toolsOptWps: '📑 ملف حماية الأجور (WPS / مدد)',
     vcTitle: 'سند قبض / سند صرف',
     vcHint: 'أنشئ سند قبض أو سند صرف احترافي بالعربي والإنجليزي، مع المبلغ بالحروف تلقائياً وخانات التوقيع، وحمّله PDF أو صورة. اختر «نسختان في A4» لتطبع نسخة للعميل ونسخة للأرشيف.',
     vcTypeLabel: 'نوع السند', vcTypeRecv: 'سند قبض (استلام مبلغ)', vcTypePay: 'سند صرف (دفع مبلغ)',
@@ -6064,6 +6086,7 @@ const I18N = {
     tafAmountLabel: 'Amount', tafCurLabel: 'Currency', tafCurSar: 'Saudi riyal', tafCurAed: 'UAE dirham', tafCurUsd: 'US dollar', tafCurEgp: 'Egyptian pound', tafCurNone: 'No currency',
     tafFrameLabel: 'Add the “only” wording', tafArLabel: 'Arabic', tafEnLabel: 'English', tafCopy: 'Copy', tafCopied: 'Copied ✓', tafBad: 'Enter a valid amount (up to 999 trillion).',
     toolsOptVoucher: '🧾 Receipt / Payment Voucher',
+    toolsOptWps: '📑 Wage Protection file (WPS / Mudad)',
     vcTitle: 'Receipt / Payment Voucher',
     vcHint: 'Create a professional bilingual receipt or payment voucher with the amount in words and signature boxes, then download it as PDF or image. Choose “two copies on A4” to print a customer copy and an archive copy.',
     vcTypeLabel: 'Voucher type', vcTypeRecv: 'Receipt voucher (money received)', vcTypePay: 'Payment voucher (money paid)',
@@ -14702,7 +14725,7 @@ switchToolsCard();
 
 /* misc tools home grid (same idea as the PDF home): categories + search */
 const TOOLS_HOME_CATS = [
-  { k:'toolsCatDocs',   items:['invoice', 'voucher', 'cert', 'cv'] },
+  { k:'toolsCatDocs',   items:['invoice', 'voucher', 'wps', 'cert', 'cv'] },
   { k:'toolsCatDesign', items:['cardedit', 'sheet', 'seal', 'img2stamp', 'resize', 'bulkcrop', 'svgconv'] },
   { k:'toolsCatCalc',   items:['tafqeet', 'eos', 'id', 'iban'] },
   { k:'toolsCatQuick',  items:['qr', 'pw', 'link'] }
@@ -14745,6 +14768,216 @@ document.getElementById('tools-home-search').addEventListener('input', toolsBuil
   new MutationObserver(()=>{ clearTimeout(t); t = setTimeout(toolsBuildHome, 60); }).observe(document.getElementById('tools-select'), { childList:true, subtree:true, characterData:true });
 })();
 toolsBuildHome();
+
+
+/* ============================================================
+   WPS / MUDAD WAGE-PROTECTION FILE — builds the TAB-delimited .txt (HRSD "Wages File" spec).
+   Everything stays in memory on the device: nothing is saved or uploaded.
+   ============================================================ */
+(function wpsTool(){
+  const root = document.getElementById('tools-wps'); if(!root) return;
+  const SARIE = { '05':'INMA', '10':'NCBK', '15':'ALBI', '20':'RIBL', '30':'ARNB', '40':'SAMB', '45':'SABB', '50':'SABB', '55':'BSFR', '60':'BJAZ', '65':'SIBC', '80':'RJHI' };
+  const en = ()=> (typeof currentLang !== 'undefined' && currentLang === 'en');
+  const T = (a, e)=> en() ? e : a;
+  const esc = s=> String(s == null ? '' : s).replace(/[&<>"]/g, c=> ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+  const lat = s=> String(s == null ? '' : s).replace(/[٠-٩]/g, d=> d.charCodeAt(0) - 1632).replace(/[۰-۹]/g, d=> d.charCodeAt(0) - 1776);
+  const num = s=>{ const v = parseFloat(lat(s).replace(/,/g, '.').replace(/[^\d.\-]/g, '')); return isFinite(v) ? v : 0; };
+  const r2 = n=> Math.round((n + Number.EPSILON) * 100) / 100;
+  const rnd16 = ()=>{ const ch = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', a = new Uint32Array(16); crypto.getRandomValues(a); let s = ''; a.forEach(x=> s += ch[x % ch.length]); return s; };
+  const fmtAmt = n=>{ n = r2(n); return Number.isInteger(n) ? String(n) : n.toFixed(2).replace('.', ','); };
+  const today = ()=>{ const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+  const blank = ()=> ({ name:'', id:'', iban:'', basic:'', housing:'', other:'', ded:'' });
+  const S = { mol:'', iban:'', bank:'', estb:'', val:today(), desc:'Salary', ref:rnd16(), emps:[blank()], bankAuto:true };
+  let lastText = '';
+
+  function ibanOf(s){ return lat(s).replace(/[\s-]/g, '').toUpperCase(); }
+  function bankFromIban(s){ const i = ibanOf(s); return /^SA\d{2}/.test(i) ? (SARIE[i.slice(4, 6)] || '') : ''; }
+  function nameClean(s){
+    s = lat(s).replace(/\s+/g, ' ').trim();
+    return /[A-Za-z]/.test(s) && !/[؀-ۿ]/.test(s) ? s.toUpperCase() : s;
+  }
+  function net(e){ return r2(num(e.basic) + num(e.housing) + num(e.other) - num(e.ded)); }
+  function molParts(){ const raw = lat(S.mol).replace(/[^\d-]/g, ''); const hd = raw.includes('-') ? raw.split('-').pop() : raw; return { raw, hd }; }
+
+  function check(){
+    const errs = [], warns = [];
+    const mp = molParts();
+    if(!mp.hd) errs.push(T('رقم المنشأة في وزارة الموارد مطلوب (مثال 01-1856201).', 'MoHR establishment number is required (e.g. 01-1856201).'));
+    const vi = validateSaudiIBAN(S.iban || '');
+    if(!S.iban) errs.push(T('آيبان حساب المنشأة (الذي يُخصم منه) مطلوب.', 'Establishment account IBAN (the debit account) is required.'));
+    else if(vi.reason) errs.push(T('آيبان المنشأة: الصيغة غير صحيحة (SA + 22 رقم).', 'Establishment IBAN: wrong format (SA + 22 digits).'));
+    else if(!vi.valid) errs.push(T('آيبان المنشأة: رقم التحقق غير صحيح.', 'Establishment IBAN: checksum is wrong.'));
+    if(!/^[A-Za-z]{3,4}$/.test((S.bank || '').trim())) errs.push(T('رمز بنك المنشأة (4 أحرف مثل RJHI) مطلوب.', 'Establishment bank code (4 letters such as RJHI) is required.'));
+    if(!S.val) errs.push(T('تاريخ التحويل مطلوب.', 'Value date is required.'));
+    const emps = S.emps.filter(e=> e.name || e.id || e.iban || e.basic);
+    if(!emps.length) errs.push(T('أضف موظفاً واحداً على الأقل.', 'Add at least one employee.'));
+    const ids = {}, ibs = {};
+    emps.forEach((e, k)=>{
+      const n = k + 1, p = T('الموظف ' + n + ': ', 'Employee ' + n + ': ');
+      const nm = nameClean(e.name);
+      if(!nm) errs.push(p + T('الاسم فارغ.', 'name is empty.'));
+      else if(/[A-Za-z]/.test(nm) && /[؀-ۿ]/.test(nm)) warns.push(p + T('الاسم يخلط العربي والإنجليزي — يُفضّل لغة واحدة.', 'name mixes Arabic and Latin letters — use one language.'));
+      const id = lat(e.id).replace(/\D/g, ''); const idc = validateSaudiID(id);
+      if(!id) errs.push(p + T('رقم الهوية/الإقامة فارغ.', 'ID / iqama is empty.')); else if(!idc.valid) errs.push(p + T('رقم الهوية/الإقامة غير صحيح.', 'ID / iqama is invalid.'));
+      if(id){ if(ids[id]) warns.push(p + T('رقم الهوية مكرر.', 'duplicate ID.')); ids[id] = 1; }
+      const ib = ibanOf(e.iban); const ic = validateSaudiIBAN(ib);
+      if(!ib) errs.push(p + T('الآيبان فارغ.', 'IBAN is empty.')); else if(ic.reason || !ic.valid) errs.push(p + T('الآيبان غير صحيح.', 'IBAN is invalid.'));
+      if(ib){ if(ibs[ib]) warns.push(p + T('الآيبان مكرر.', 'duplicate IBAN.')); ibs[ib] = 1; }
+      ['basic', 'housing', 'other', 'ded'].forEach(f=>{ if(num(e[f]) < 0) errs.push(p + T('لا تُدخل قيماً سالبة.', 'no negative values.')); });
+      if(!(num(e.basic) > 0)) errs.push(p + T('الراتب الأساسي مطلوب.', 'basic salary is required.'));
+      if(net(e) <= 0 && num(e.basic) > 0) errs.push(p + T('الصافي صفر أو سالب.', 'net is zero or negative.'));
+    });
+    return { errs, warns, emps };
+  }
+
+  function build(){
+    const c = check(); if(c.errs.length) return null;
+    const mp = molParts(), D = (S.val || '').replace(/-/g, '');
+    const total = c.emps.reduce((a, e)=> a + net(e), 0);
+    const lines = [];
+    lines.push([ (S.bank || '').trim().toUpperCase().padEnd(4, ' '), lat(S.estb).replace(/\D/g, ''), ibanOf(S.iban), 'SAR', D, fmtAmt(total), '', S.ref, 'N/A', mp.hd ].join('\t'));
+    c.emps.forEach(e=>{
+      const ib = ibanOf(e.iban), bk = bankFromIban(ib) || (S.bank || '').trim().toUpperCase();
+      lines.push([ fmtAmt(net(e)), ib, nameClean(e.name), bk, (S.desc || 'Salary').replace(/\t/g, ' '), 'N/A', fmtAmt(num(e.basic)), fmtAmt(num(e.housing)), fmtAmt(num(e.other)), fmtAmt(num(e.ded)), lat(e.id).replace(/\D/g, ''), rnd16() ].join('\t'));
+    });
+    lines.push('-');
+    const yymmdd = D.slice(2);
+    const name = 'W_' + (mp.raw || mp.hd) + '_' + yymmdd + '0101.txt';
+    return { text: lines.join('\r\n') + '\r\n', total, count: c.emps.length, name };
+  }
+
+  /* ---------- UI ---------- */
+  function empHtml(e, k){
+    return `<div class="wps-emp" data-k="${k}">
+      <div class="wps-eh"><b>${T('موظف', 'Employee')} ${k + 1}</b><span class="wps-st" data-st></span><button type="button" class="wps-x" data-del="${k}" aria-label="${T('حذف', 'Delete')}">🗑</button></div>
+      <input class="wps-in" data-f="name" placeholder="${T('الاسم كما في البنك', 'Name as in the bank')}" value="${esc(e.name)}">
+      <div class="wps-g2"><input class="wps-in wps-ltr" data-f="id" inputmode="numeric" placeholder="${T('رقم الهوية / الإقامة', 'ID / Iqama no.')}" value="${esc(e.id)}"><input class="wps-in wps-ltr" data-f="iban" placeholder="SA…" value="${esc(e.iban)}"></div>
+      <div class="wps-g4">
+        <label>${T('الأساسي', 'Basic')}<input class="wps-in wps-ltr" data-f="basic" inputmode="decimal" value="${esc(e.basic)}"></label>
+        <label>${T('السكن', 'Housing')}<input class="wps-in wps-ltr" data-f="housing" inputmode="decimal" value="${esc(e.housing)}"></label>
+        <label>${T('بدلات أخرى', 'Other')}<input class="wps-in wps-ltr" data-f="other" inputmode="decimal" value="${esc(e.other)}"></label>
+        <label>${T('استقطاعات', 'Deductions')}<input class="wps-in wps-ltr" data-f="ded" inputmode="decimal" value="${esc(e.ded)}"></label>
+      </div>
+      <div class="wps-net">${T('الصافي', 'Net')}: <b data-net>0</b> ${T('ر.س', 'SAR')}</div></div>`;
+  }
+  function render(){
+    root.innerHTML = `
+      <h2>📑 ${T('ملف حماية الأجور (WPS / مدد)', 'Wage Protection file (WPS / Mudad)')}</h2>
+      <p class="hint">${T('يُنشئ ملف الرواتب النصي (.txt) بصيغة وزارة الموارد البشرية لرفعه في منصة «مدد». كل شيء يعمل داخل جهازك ولا يُحفظ ولا يُرفع. الملف يوثّق تحويلات رواتب فعلية — لا تُنشئه لرواتب لم تُدفع.', 'Builds the payroll text file (.txt) in the Ministry of HR format for upload to Mudad. Everything runs on your device — nothing is saved or uploaded. The file documents real salary transfers; do not create it for salaries that were not paid.')}</p>
+      <h3 class="wps-h">1) ${T('بيانات المنشأة', 'Establishment')}</h3>
+      <div class="row">
+        <div class="field"><label>${T('رقم المنشأة في وزارة الموارد', 'MoHR establishment no.')}</label><input class="wps-ltr" id="wps-mol" inputmode="numeric" placeholder="01-1856201" value="${esc(S.mol)}"></div>
+        <div class="field"><label>${T('آيبان حساب المنشأة (الذي تُخصم منه الرواتب)', 'Establishment IBAN (debit account)')}</label><input class="wps-ltr" id="wps-iban" placeholder="SA…" value="${esc(S.iban)}"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>${T('رمز البنك (SARIE)', 'Bank code (SARIE)')}</label><input class="wps-ltr" id="wps-bank" maxlength="4" placeholder="RJHI" value="${esc(S.bank)}"></div>
+        <div class="field"><label>${T('رقم المنشأة لدى البنك (اختياري)', 'Establishment no. at the bank (optional)')}</label><input class="wps-ltr" id="wps-estb" inputmode="numeric" value="${esc(S.estb)}"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>${T('تاريخ التحويل', 'Value date')}</label><input type="date" id="wps-val" value="${esc(S.val)}"></div>
+        <div class="field"><label>${T('وصف الدفعة', 'Payment description')}</label><input class="wps-ltr" id="wps-desc" value="${esc(S.desc)}"></div>
+      </div>
+      <div class="field"><label>${T('رقم مرجع الملف (يجب ألا يتكرر — يُولَّد تلقائياً)', 'File reference (must be unique — auto-generated)')}</label><div class="wps-refrow"><input class="wps-ltr" id="wps-ref" value="${esc(S.ref)}"><button type="button" class="btn secondary" id="wps-newref">🔄</button></div></div>
+      <h3 class="wps-h">2) ${T('الموظفون', 'Employees')}</h3>
+      <div id="wps-list">${S.emps.map(empHtml).join('')}</div>
+      <div class="wps-bar">
+        <button type="button" class="btn secondary" id="wps-add">＋ ${T('موظف', 'Employee')}</button>
+        <button type="button" class="btn secondary" id="wps-pastebtn">📋 ${T('لصق من Excel', 'Paste from Excel')}</button>
+        <label class="btn secondary" style="margin:0;cursor:pointer;">📂 ${T('استيراد ملف سابق (.txt)', 'Import earlier file (.txt)')}<input type="file" id="wps-imp" accept=".txt,text/plain" style="display:none"></label>
+      </div>
+      <div id="wps-pastebox" style="display:none;margin-top:10px;">
+        <p class="hint">${T('الصق الأعمدة بهذا الترتيب: الاسم ⟵ الهوية ⟵ الآيبان ⟵ الأساسي ⟵ السكن ⟵ بدلات أخرى ⟵ الاستقطاعات (الأعمدة الأخيرة اختيارية).', 'Paste columns in this order: name, ID, IBAN, basic, housing, other, deductions (the last ones are optional).')}</p>
+        <textarea id="wps-paste" rows="5" style="width:100%" dir="ltr"></textarea>
+        <button type="button" class="btn" id="wps-pastego" style="margin-top:8px;">${T('إضافة الصفوف', 'Add rows')}</button>
+      </div>
+      <h3 class="wps-h">3) ${T('المراجعة والتنزيل', 'Review & download')}</h3>
+      <div id="wps-sum"></div>
+      <div class="wps-bar">
+        <button type="button" class="btn" id="wps-dl">⬇ ${T('تنزيل ملف الرواتب (.txt)', 'Download payroll file (.txt)')}</button>
+        <button type="button" class="btn secondary" id="wps-copy">📄 ${T('نسخ النص', 'Copy text')}</button>
+        <button type="button" class="btn secondary" id="wps-clear">🧹 ${T('مسح كل شيء', 'Clear all')}</button>
+      </div>
+      <details class="wps-prev"><summary>👁 ${T('معاينة محتوى الملف', 'Preview file content')}</summary><pre id="wps-pre"></pre></details>
+      <p class="hint" style="margin-top:10px;">${T('بعد التنزيل: منصة مدد ← حماية الأجور ← رفع الملفات ← اختر الملف. بعد الرفع نزّل ملف التفاصيل وتأكد أن الإجمالي مطابق.', 'After download: Mudad → Wage Protection → Upload files → choose the file. After upload, download the details sheet and confirm the total matches.')}</p>`;
+    update();
+  }
+  function update(){
+    root.querySelectorAll('.wps-emp').forEach(el=>{
+      const k = +el.dataset.k, e = S.emps[k]; if(!e) return;
+      el.querySelector('[data-net]').textContent = fmtAmt(net(e));
+      const id = lat(e.id).replace(/\D/g, ''), ib = ibanOf(e.iban); const st = [];
+      if(id) st.push(validateSaudiID(id).valid ? '✅ ' + T('هوية', 'ID') : '❌ ' + T('هوية', 'ID'));
+      if(ib){ const v = validateSaudiIBAN(ib); st.push(!v.reason && v.valid ? '✅ ' + ((v.bank && v.bank[en() ? 'en' : 'ar']) || T('آيبان', 'IBAN')) : '❌ ' + T('آيبان', 'IBAN')); }
+      el.querySelector('[data-st]').textContent = st.join('  ');
+    });
+    const c = check(), b = build(); lastText = b ? b.text : '';
+    const total = c.emps.reduce((a, e)=> a + net(e), 0);
+    $s('wps-sum').innerHTML = `<div class="wps-tot"><div><small>${T('عدد الموظفين', 'Employees')}</small><b>${c.emps.length}</b></div><div><small>${T('إجمالي الرواتب', 'Total payroll')}</small><b>${fmtAmt(total)} ${T('ر.س', 'SAR')}</b></div></div>`
+      + (c.errs.length ? `<div class="ch-note bad" style="margin-top:8px;"><b>${T('يلزم التصحيح قبل التنزيل:', 'Fix before downloading:')}</b><ul>${c.errs.map(x=> '<li>' + esc(x) + '</li>').join('')}</ul></div>` : `<div class="ch-note ok" style="margin-top:8px;">✅ ${T('الملف جاهز للتنزيل.', 'The file is ready to download.')}</div>`)
+      + (c.warns.length ? `<div class="ch-note" style="margin-top:8px;"><b>${T('تنبيهات:', 'Warnings:')}</b><ul>${c.warns.map(x=> '<li>' + esc(x) + '</li>').join('')}</ul></div>` : '');
+    $s('wps-dl').disabled = $s('wps-copy').disabled = !b;
+    $s('wps-pre').textContent = b ? b.text.replace(/\t/g, '  →  ') : T('أكمل البيانات لتظهر المعاينة.', 'Complete the data to see the preview.');
+  }
+  function $s(id){ return document.getElementById(id); }
+
+  /* ---------- events ---------- */
+  root.addEventListener('input', e=>{
+    const t = e.target;
+    if(t.dataset && t.dataset.f){ const k = +t.closest('.wps-emp').dataset.k; S.emps[k][t.dataset.f] = t.value; update(); return; }
+    const m = { 'wps-mol':'mol', 'wps-iban':'iban', 'wps-bank':'bank', 'wps-estb':'estb', 'wps-val':'val', 'wps-desc':'desc', 'wps-ref':'ref' }[t.id];
+    if(!m) return;
+    S[m] = t.value;
+    if(m === 'bank') S.bankAuto = false;
+    if(m === 'iban' && S.bankAuto){ const b = bankFromIban(t.value); if(b){ S.bank = b; $s('wps-bank').value = b; } }
+    update();
+  });
+  root.addEventListener('click', e=>{
+    const t = e.target.closest('button, label'); if(!t) return;
+    if(t.dataset.del !== undefined){ S.emps.splice(+t.dataset.del, 1); if(!S.emps.length) S.emps.push(blank()); render(); return; }
+    if(t.id === 'wps-add'){ S.emps.push(blank()); render(); const l = root.querySelectorAll('.wps-emp'); const last = l[l.length - 1]; if(last){ last.scrollIntoView({ block:'center' }); last.querySelector('input').focus(); } }
+    else if(t.id === 'wps-newref'){ S.ref = rnd16(); $s('wps-ref').value = S.ref; update(); }
+    else if(t.id === 'wps-pastebtn'){ const b = $s('wps-pastebox'); b.style.display = b.style.display === 'none' ? 'block' : 'none'; }
+    else if(t.id === 'wps-pastego'){ pasteRows($s('wps-paste').value); }
+    else if(t.id === 'wps-dl'){ const b = build(); if(!b) return; const blob = new Blob([b.text], { type:'text/plain;charset=utf-8' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = b.name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 500); }
+    else if(t.id === 'wps-copy'){ if(lastText){ try{ navigator.clipboard.writeText(lastText); }catch(err){} } }
+    else if(t.id === 'wps-clear'){ S.mol = ''; S.iban = ''; S.bank = ''; S.estb = ''; S.desc = 'Salary'; S.ref = rnd16(); S.val = today(); S.emps = [blank()]; S.bankAuto = true; render(); }
+  });
+  root.addEventListener('change', e=>{
+    if(e.target.id !== 'wps-imp') return; const f = e.target.files && e.target.files[0]; if(!f) return;
+    const r = new FileReader(); r.onload = ()=>{ importText(String(r.result)); }; r.readAsText(f, 'utf-8'); e.target.value = '';
+  });
+  function pasteRows(txt){
+    const rows = [];
+    txt.split(/\r?\n/).forEach(line=>{
+      if(!line.trim()) return;
+      const p = line.indexOf('\t') >= 0 ? line.split('\t') : line.split(/[;,|]/);
+      const id = lat(p[1] || '').replace(/\D/g, '');
+      if(!/^[12]\d{9}$/.test(id)) return;                       // header or malformed row
+      rows.push({ name: (p[0] || '').trim(), id, iban: ibanOf(p[2] || ''), basic: lat(p[3] || '').trim(), housing: lat(p[4] || '').trim(), other: lat(p[5] || '').trim(), ded: lat(p[6] || '').trim() });
+    });
+    if(!rows.length){ alert(T('لم أجد صفوفاً صالحة: تأكد أن العمود الثاني رقم الهوية (10 أرقام).', 'No valid rows found: the 2nd column must be the 10-digit ID.')); return; }
+    if(S.emps.length === 1 && !S.emps[0].name && !S.emps[0].id) S.emps = [];
+    S.emps = S.emps.concat(rows); render();
+  }
+  function importText(txt){
+    const lines = txt.split(/\r?\n/).filter(l=> l.trim() && l.trim() !== '-');
+    let n = 0, got = [];
+    lines.forEach((l, i)=>{
+      const f = l.split('\t');
+      if(i === 0 && f.length >= 10 && /^SA\d/i.test((f[2] || '').trim())){
+        S.bank = (f[0] || '').trim(); S.estb = (f[1] || '').trim(); S.iban = (f[2] || '').trim(); S.mol = (f[9] || '').trim(); S.bankAuto = false;
+      }else if(f.length >= 11 && /^SA\d/i.test((f[1] || '').trim())){
+        got.push({ name:f[2].trim(), id:f[10].trim(), iban:f[1].trim(), basic:f[6].trim().replace(',', '.'), housing:f[7].trim().replace(',', '.'), other:f[8].trim().replace(',', '.'), ded:f[9].trim().replace(',', '.') });
+        if(f[4] && !n) S.desc = f[4].trim(); n++;
+      }
+    });
+    if(!got.length){ alert(T('لم أجد سجلات موظفين في الملف.', 'No employee records found in that file.')); return; }
+    S.emps = got; S.ref = rnd16(); S.val = today(); render();
+  }
+  new MutationObserver(()=>{ render(); }).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+  window.uddahWps = { S, check, build, render, importText, pasteRows, fmtAmt };
+  render();
+})();
 
 
 /* ============================================================
