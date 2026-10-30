@@ -428,6 +428,64 @@
   .pdf-tile .nm{font-weight:600;font-size:.9rem;}
   .pdf-tile:hover,.pdf-tile:focus-visible{border-color:var(--brass);transform:translateY(-1px);box-shadow:0 3px 10px rgba(43,42,40,.12);}
   .pdf-tile:active{transform:scale(.98);}
+  /* fractions */
+  .uc-fq{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.15;font-family:var(--font-mono);margin:0 3px;}
+  .uc-fq>span:first-child{border-bottom:2px solid currentColor;padding:0 6px 1px;}
+  .uc-fq>span:last-child{padding:1px 6px 0;}
+  .uc-fq.big{font-size:1.7rem;font-weight:700;color:var(--brass-light);}
+  .uc-fint.big,.uc-fint{font-size:1.7rem;font-weight:700;font-family:var(--font-mono);color:var(--brass-light);}
+  .uc-frbox{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0;direction:ltr;}
+  .uc-frt{display:flex;align-items:center;gap:6px;padding:8px 10px;border:1px solid var(--border);border-radius:12px;background:var(--bg-elev-2);}
+  .uc-frt.bad{border-color:#d9534f;}
+  .uc-fstack{display:flex;flex-direction:column;align-items:stretch;gap:3px;}
+  .uc-fstack i{display:block;height:3px;background:var(--bone);border-radius:2px;}
+  .uc-fstack input,.uc-frt .uc-fw,.uc-fpop .uc-fw{width:78px;min-width:0;text-align:center;font-family:var(--font-mono);font-size:1.05rem;padding:8px 6px;border:1px solid var(--steel);border-radius:8px;background:var(--bg-elev);color:var(--bone);}
+  .uc-frt .uc-fw,.uc-fpop .uc-fw{width:64px;font-size:1.3rem;}
+  .uc-fw::placeholder,.uc-fn::placeholder{font-size:.7rem;opacity:.6;}
+  .uc-fop{font-size:1.5rem;padding:6px 10px;border-radius:10px;border:1px solid var(--steel);background:var(--bg-elev-2);color:var(--bone);font-weight:700;width:auto;}
+  .uc-fres{padding:10px;border:1px solid var(--border);border-radius:12px;background:var(--bg-elev-2);margin:8px 0;direction:ltr;}
+  .uc-fbig{display:flex;align-items:center;gap:6px;font-size:1.5rem;font-weight:700;margin-bottom:6px;}
+  .uc-frow2{display:flex;justify-content:space-between;gap:10px;padding:5px 2px;border-top:1px dashed var(--border);font-size:.92rem;direction:rtl;}
+  .uc-fstep{padding:7px 10px;margin:5px 0;border-inline-start:3px solid var(--brass);background:var(--bg-elev-2);border-radius:6px;font-size:.92rem;direction:ltr;}
+  .uc-fhint{padding:10px;border-radius:10px;border:1px solid #d9534f;background:color-mix(in srgb,#d9534f 12%,transparent);}
+  .uc-fbtn{display:inline-flex;align-items:center;gap:8px;margin:0 0 8px;padding:7px 14px;border:1px dashed var(--brass);border-radius:10px;background:var(--bg-elev-2);color:var(--bone);cursor:pointer;font-family:inherit;}
+  .uc-fpop{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid var(--brass);border-radius:12px;background:var(--bg-elev-2);margin-bottom:10px;direction:ltr;flex-wrap:wrap;}
+  .uc-fpop .btn{width:auto;padding:8px 16px;}
+
+  /* fun experiments gallery */
+  .fn-top h3{margin:0 0 6px;}
+  .fn-prog{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:.88rem;}
+  .fn-bar{flex:1;height:10px;border-radius:6px;background:var(--bg-elev-2);border:1px solid var(--border);overflow:hidden;}
+  .fn-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass),var(--brass-light));transition:width .4s;}
+  .fn-grid{display:flex;flex-direction:column;gap:10px;margin-top:10px;}
+  .fn-card{border:1px solid var(--border);border-radius:14px;background:var(--bg-elev-2);overflow:hidden;}
+  .fn-card.open{border-color:var(--brass);}
+  .fn-card.done{border-inline-start:4px solid #2e9e5b;}
+  .fn-head{display:flex;align-items:center;gap:12px;width:100%;padding:12px;background:none;border:0;color:var(--bone);font:inherit;cursor:pointer;text-align:start;}
+  .fn-ic{font-size:1.8rem;width:46px;height:46px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,color-mix(in srgb,var(--brass) 28%,transparent),color-mix(in srgb,var(--brass) 8%,transparent));flex:0 0 46px;}
+  .fn-tt{flex:1;display:flex;flex-direction:column;gap:2px;}
+  .fn-tt small{opacity:.7;font-size:.78rem;}
+  .fn-st{font-size:1.1rem;}
+  .fn-body{padding:4px 14px 14px;display:flex;flex-direction:column;gap:12px;}
+  .fn-sec h4{margin:0 0 6px;font-size:.95rem;color:var(--brass-light);}
+  .fn-sec p{margin:0;line-height:1.8;}
+  .fn-list{margin:0;padding-inline-start:18px;display:flex;flex-direction:column;gap:6px;}
+  .fn-list label{display:flex;gap:8px;align-items:flex-start;line-height:1.7;cursor:pointer;}
+  .fn-list input{margin-top:6px;}
+  .fn-steps{list-style:decimal;}
+  .fn-safe{padding:10px 12px;border-radius:10px;background:color-mix(in srgb,#e0a030 16%,transparent);border:1px solid #e0a030;line-height:1.7;font-size:.9rem;}
+  .fn-pred{padding:12px;border-radius:12px;border:1px dashed var(--brass);}
+  .fn-opts{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+  .fn-opt{padding:10px 12px;border-radius:10px;border:1px solid var(--steel);background:var(--bg-elev);color:var(--bone);font:inherit;cursor:pointer;text-align:start;line-height:1.6;}
+  .fn-opt:hover:not(:disabled){border-color:var(--brass);}
+  .fn-opt.ok{background:color-mix(in srgb,#2e9e5b 22%,transparent);border-color:#2e9e5b;}
+  .fn-opt.bad{background:color-mix(in srgb,#d9534f 18%,transparent);border-color:#d9534f;}
+  .fn-fb{margin-top:8px;font-weight:700;}
+  .fn-fb.ok{color:#2e9e5b;} .fn-fb.bad{color:#d98a2a;}
+  .fn-why{padding:12px;border-radius:12px;background:color-mix(in srgb,var(--brass) 9%,transparent);}
+  .fn-try{padding:12px;border-radius:12px;background:color-mix(in srgb,#5b8def 10%,transparent);}
+  .fn-lock{padding:10px;text-align:center;opacity:.7;font-size:.9rem;}
+  .fn-note{margin-top:14px;font-size:.82rem;opacity:.75;line-height:1.7;}
   /* scientific calculator */
   .uc-disp{background:#d6dec9;border:2px solid var(--steel);border-radius:12px;padding:8px 12px 10px;margin:12px 0;font-family:var(--font-mono);color:#1a1f14;box-shadow:inset 0 2px 8px rgba(0,0,0,.18);}
   :root[data-theme="dark"] .uc-disp{background:#2d3828;color:#e3ecd6;}
@@ -18504,7 +18562,7 @@ const CX = (function(){
   const errText = e=> e && e.type === 'syntax' ? B('خطأ في الصيغة', 'Syntax ERROR') : B('خطأ حسابي', 'Math ERROR');
 
   /* ---------- HTML ---------- */
-  const MODES = [['calc', 'حساب', 'Calc'], ['graph', 'رسم بياني', 'Graph'], ['table', 'جدول', 'Table'], ['eq', 'معادلات', 'Equations'], ['stat', 'إحصاء', 'Statistics'], ['mat', 'مصفوفات', 'Matrix'], ['base', 'أنظمة العد', 'Base-N'], ['cx', 'أعداد مركبة', 'Complex'], ['vec', 'متجهات', 'Vectors'], ['prob', 'احتمالات', 'Probability'], ['num', 'أدوات الأعداد', 'Number tools']];
+  const MODES = [['calc', 'حساب', 'Calc'], ['graph', 'رسم بياني', 'Graph'], ['table', 'جدول', 'Table'], ['eq', 'معادلات', 'Equations'], ['stat', 'إحصاء', 'Statistics'], ['mat', 'مصفوفات', 'Matrix'], ['base', 'أنظمة العد', 'Base-N'], ['cx', 'أعداد مركبة', 'Complex'], ['vec', 'متجهات', 'Vectors'], ['prob', 'احتمالات', 'Probability'], ['num', 'أدوات الأعداد', 'Number tools'], ['frac', 'كسور', 'Fractions']];
   const KEYS = [
     [{ l:'SHIFT', a:'shift', c:'fn' }, { l:'◀', a:'left', c:'fn' }, { l:'▶', a:'right', c:'fn' }, { l:'S⇔D', a:'sd', c:'fn' }, { l:'DEG', a:'angle', c:'fn', id:'uc-k-angle' }],
     [{ l:'sin', s:'sin⁻¹', i:'sin(', si:'asin(' }, { l:'cos', s:'cos⁻¹', i:'cos(', si:'acos(' }, { l:'tan', s:'tan⁻¹', i:'tan(', si:'atan(' }, { l:'log', s:'10ˣ', i:'log(', si:'10^(' }, { l:'ln', s:'eˣ', i:'ln(', si:'e^(' }],
@@ -18575,7 +18633,8 @@ const CX = (function(){
     <div class="uc-sec" data-m="cx" style="display:none" id="uc-cx"></div>
     <div class="uc-sec" data-m="vec" style="display:none" id="uc-vec"></div>
     <div class="uc-sec" data-m="prob" style="display:none" id="uc-prob"></div>
-    <div class="uc-sec" data-m="num" style="display:none" id="uc-num"></div>`;
+    <div class="uc-sec" data-m="num" style="display:none" id="uc-num"></div>
+    <div class="uc-sec" data-m="frac" style="display:none" id="uc-frac"></div>`;
   }
 
 
@@ -19008,6 +19067,94 @@ const CX = (function(){
     });
   }
 
+  /* ---------- fractions: free numerator / denominator entry ---------- */
+  const FR = { terms:[{ w:'', n:'1', d:'2' }, { w:'', n:'1', d:'3' }], ops:['+'] };
+  const gcdB = (a, c)=>{ a = a < 0n ? -a : a; c = c < 0n ? -c : c; while(c){ [a, c] = [c, a % c]; } return a; };
+  function parseRat(s){
+    s = String(s == null ? '' : s).replace(/[٠-٩]/g, d=> d.charCodeAt(0) - 1632).replace(/٫/g, '.').replace(/[−–]/g, '-').replace(/\s+/g, '');
+    if(s === '') return null; const m = /^([+-]?)(\d*)(?:\.(\d*))?$/.exec(s); if(!m || (m[2] === '' && !m[3])) return undefined;
+    const fr = m[3] || ''; let n = BigInt((m[2] || '0') + fr), d = 10n ** BigInt(fr.length); if(m[1] === '-') n = -n; return norm({ n, d });
+  }
+  function norm(r){ if(r.d < 0n){ r = { n: -r.n, d: -r.d }; } const g = gcdB(r.n, r.d) || 1n; return { n: r.n / g, d: r.d / g }; }
+  const rAdd = (a, c)=> norm({ n: a.n * c.d + c.n * a.d, d: a.d * c.d }), rSub = (a, c)=> norm({ n: a.n * c.d - c.n * a.d, d: a.d * c.d });
+  const rMul = (a, c)=> norm({ n: a.n * c.n, d: a.d * c.d }), rDiv = (a, c)=> norm({ n: a.n * c.d, d: a.d * c.n });
+  function termVal(t){
+    const w = parseRat(t.w), n = parseRat(t.n), d = parseRat(t.d);
+    if(n === undefined || d === undefined || w === undefined) return { err:'fmt' }; if(n === null || d === null) return { err:'empty' };
+    if(d.n === 0n) return { err:'zero' };
+    let q = rDiv(n, d); if(w){ q = (w.n < 0n || String(t.w).trim().startsWith('-')) ? rSub(w, q) : rAdd(w, q); } return { v:q };
+  }
+  const fracHtml = (r, cls)=> r.d === 1n ? `<span class="uc-fint ${cls || ''}">${r.n}</span>` : `<span class="uc-fq ${cls || ''}"><span>${r.n < 0n ? '−' + (-r.n) : r.n}</span><span>${r.d}</span></span>`;
+  function ratDec(r){ const x = Number(r.n) / Number(r.d); return UCE.fmt(x, {}); }
+  function fracCalc(){
+    const out = $('uc-frout'); const vals = FR.terms.map(termVal);
+    const bad = vals.findIndex(v=> v.err); document.querySelectorAll('#uc-frbox .uc-frt').forEach((el, i)=> el.classList.toggle('bad', !!vals[i].err && vals[i].err !== 'empty'));
+    if(bad >= 0){ const e = vals[bad].err; out.innerHTML = `<div class="uc-fhint">${e === 'zero' ? B('⚠ المقام لا يمكن أن يكون صفراً', '⚠ The denominator cannot be zero') : e === 'empty' ? B('اكتب البسط والمقام في كل كسر', 'Type the numerator and denominator in each fraction') : B('اكتب أرقاماً فقط (يمكن استخدام الفاصلة العشرية)', 'Type numbers only (decimals allowed)')}</div>`; return; }
+    // precedence: × ÷ before + −
+    const nums = vals.map(v=> v.v), ops = FR.ops.slice(); let zero = false; const stack = [nums[0]], sops = [];
+    for(let i = 0; i < ops.length; i++){
+      if(ops[i] === '×' || ops[i] === '÷'){ const a = stack.pop(), c = nums[i + 1]; if(ops[i] === '÷' && c.n === 0n){ zero = true; stack.push(a); } else stack.push(ops[i] === '×' ? rMul(a, c) : rDiv(a, c)); }
+      else { stack.push(nums[i + 1]); sops.push(ops[i]); }
+    }
+    if(zero){ out.innerHTML = `<div class="uc-fhint">${B('⚠ لا يمكن القسمة على صفر', '⚠ Cannot divide by zero')}</div>`; return; }
+    let res = stack[0]; sops.forEach((o, i)=>{ res = o === '+' ? rAdd(res, stack[i + 1]) : rSub(res, stack[i + 1]); });
+    const sign = res.n < 0n ? '−' : '', an = res.n < 0n ? -res.n : res.n; const whole = an / res.d, rem = an % res.d;
+    const mixed = res.d === 1n ? null : (whole === 0n ? null : `${sign}${whole} ${fracHtml({ n: rem, d: res.d })}`);
+    let steps = '';
+    if(FR.terms.length === 2){
+      const a = vals[0].v, c = vals[1].v, o = FR.ops[0];
+      if(o === '+' || o === '−'){
+        const L = a.d / gcdB(a.d, c.d) * c.d, an2 = a.n * (L / a.d), cn2 = c.n * (L / c.d);
+        steps = `<div class="uc-fstep">① ${B('المقام المشترك الأصغر', 'Lowest common denominator')} = <b>${L}</b></div><div class="uc-fstep">② ${fracHtml({ n: an2, d: L })} ${o} ${fracHtml({ n: cn2, d: L })} = <span class="uc-fq"><span>${an2} ${o} ${cn2 < 0n ? '(' + cn2 + ')' : cn2}</span><span>${L}</span></span> = <span class="uc-fq"><span>${o === '+' ? an2 + cn2 : an2 - cn2}</span><span>${L}</span></span></div>`;
+      } else if(o === '×'){ steps = `<div class="uc-fstep">① ${B('اضرب البسطين والمقامين', 'Multiply numerators and denominators')}: <span class="uc-fq"><span>${a.n} × ${c.n}</span><span>${a.d} × ${c.d}</span></span> = <span class="uc-fq"><span>${a.n * c.n}</span><span>${a.d * c.d}</span></span></div>`; }
+      else { steps = `<div class="uc-fstep">① ${B('اقلب الكسر الثاني ثم اضرب', 'Flip the second fraction and multiply')}: ${fracHtml(a)} × ${fracHtml({ n: c.d, d: c.n })}</div>`; }
+      steps += `<div class="uc-fstep">③ ${B('اختصر بقسمة البسط والمقام على القاسم المشترك الأكبر', 'Simplify by dividing by the greatest common divisor')} → ${fracHtml(res)}</div>`;
+    }
+    out.innerHTML = `<div class="uc-fres"><div class="uc-fbig">= ${fracHtml(res, 'big')}</div>
+      <div class="uc-frow2"><span>${B('عدد كسري', 'Mixed number')}</span><b dir="ltr">${mixed || (res.d === 1n ? String(res.n) : B('(كسر حقيقي)', '(proper fraction)'))}</b></div>
+      <div class="uc-frow2"><span>${B('عشري', 'Decimal')}</span><b dir="ltr">${ratDec(res)}</b></div>
+      <div class="uc-frow2"><span>${B('نسبة مئوية', 'Percent')}</span><b dir="ltr">${UCE.fmt(Number(res.n) * 100 / Number(res.d), {})}%</b></div></div>${steps}`;
+    FR.last = res;
+  }
+  function fracRender(){
+    const box = $('uc-frbox'); let h = '';
+    FR.terms.forEach((t, i)=>{
+      if(i > 0) h += `<select class="uc-fop" data-i="${i - 1}" aria-label="op">${['+', '−', '×', '÷'].map(o=> `<option ${FR.ops[i - 1] === o ? 'selected' : ''}>${o}</option>`).join('')}</select>`;
+      h += `<div class="uc-frt"><input class="uc-fw" data-i="${i}" data-k="w" inputmode="decimal" dir="ltr" value="${esc2(t.w)}" placeholder="${B('صحيح', 'whole')}" aria-label="whole"><div class="uc-fstack"><input class="uc-fn" data-i="${i}" data-k="n" inputmode="decimal" dir="ltr" value="${esc2(t.n)}" placeholder="?" aria-label="numerator"><i></i><input class="uc-fn" data-i="${i}" data-k="d" inputmode="decimal" dir="ltr" value="${esc2(t.d)}" placeholder="?" aria-label="denominator"></div></div>`;
+    });
+    box.innerHTML = h; fracCalc();
+  }
+  const esc2 = s=> String(s).replace(/"/g, '&quot;');
+  function fracInit(){
+    const root = $('uc-frac');
+    root.innerHTML = `<p class="hint">${b('اكتب الأعداد بحرية في البسط والمقام (حتى الأعداد العشرية والسالبة). حقل «صحيح» اختياري للعدد الكسري مثل 2⅓. يمكنك جمع وطرح وضرب وقسمة عدة كسور وسترى الاختصار والخطوات.', 'Type any numbers freely in the numerator and denominator (decimals and negatives too). The “whole” box is optional for mixed numbers like 2⅓. Add, subtract, multiply and divide several fractions and see simplification and steps.')}</p>
+      <div id="uc-frbox" class="uc-frbox"></div>
+      <div class="img-btnrow"><button type="button" class="btn secondary" id="uc-fradd">${b('＋ أضف كسراً', '＋ Add fraction')}</button><button type="button" class="btn secondary" id="uc-frdel">${b('－ احذف الأخير', '－ Remove last')}</button><button type="button" class="btn secondary" id="uc-frclr">${b('مسح', 'Clear')}</button></div>
+      <div id="uc-frout" class="uc-out"></div>
+      <div class="img-btnrow"><button type="button" class="btn secondary" id="uc-frsend">${b('📤 أرسل الناتج إلى الحاسبة', '📤 Send result to calculator')}</button></div>`;
+    $('uc-frbox').addEventListener('input', e=>{ const t = e.target; if(t.dataset.k){ FR.terms[+t.dataset.i][t.dataset.k] = t.value; fracCalc(); } });
+    $('uc-frbox').addEventListener('change', e=>{ const t = e.target; if(t.classList.contains('uc-fop')){ FR.ops[+t.dataset.i] = t.value; fracCalc(); } });
+    $('uc-fradd').addEventListener('click', ()=>{ if(FR.terms.length >= 5) return; FR.terms.push({ w:'', n:'', d:'' }); FR.ops.push('+'); fracRender(); const f = $('uc-frbox').querySelectorAll('.uc-fn'); if(f.length >= 2) f[f.length - 2].focus(); });
+    $('uc-frdel').addEventListener('click', ()=>{ if(FR.terms.length <= 2) return; FR.terms.pop(); FR.ops.pop(); fracRender(); });
+    $('uc-frclr').addEventListener('click', ()=>{ FR.terms = [{ w:'', n:'', d:'' }, { w:'', n:'', d:'' }]; FR.ops = ['+']; fracRender(); });
+    $('uc-frsend').addEventListener('click', ()=>{ if(!FR.last) return; const r = FR.last; setMode('calc'); active = $('uc-expr'); insertText(r.d === 1n ? String(r.n) : '(' + r.n + '÷' + r.d + ')'); });
+    fracRender();
+  }
+  /* inline fraction template for the main calculator */
+  function fracPopInit(){
+    const host = document.querySelector('#uc-root .uc-disp'); if(!host) return;
+    const wrap = document.createElement('div'); wrap.className = 'uc-fpop'; wrap.id = 'uc-fpop'; wrap.style.display = 'none';
+    wrap.innerHTML = `<input id="uc-fpw" inputmode="decimal" dir="ltr" class="uc-fw" placeholder="${B('صحيح', 'whole')}" aria-label="whole"><div class="uc-fstack"><input id="uc-fpn" inputmode="decimal" dir="ltr" class="uc-fn" placeholder="${B('بسط', 'num')}" aria-label="numerator"><i></i><input id="uc-fpd" inputmode="decimal" dir="ltr" class="uc-fn" placeholder="${B('مقام', 'den')}" aria-label="denominator"></div><button type="button" class="btn" id="uc-fpok">${b('أدرج', 'Insert')}</button>`;
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'uc-fbtn'; btn.id = 'uc-fbtn'; btn.innerHTML = '<span class="uc-fq"><span>▢</span><span>▢</span></span> ' + b('إدراج كسر', 'Insert fraction');
+    host.after(wrap); host.after(btn);
+    btn.addEventListener('click', ()=>{ wrap.style.display = wrap.style.display === 'none' ? '' : 'none'; if(wrap.style.display === ''){ $('uc-fpn').focus(); } });
+    const ins = ()=>{ const w = $('uc-fpw').value.trim(), n = $('uc-fpn').value.trim(), d = $('uc-fpd').value.trim(); if(!n || !d){ (n ? $('uc-fpd') : $('uc-fpn')).focus(); return; }
+      let t = '(' + n + '÷' + d + ')'; if(w){ t = w.startsWith('-') ? '-(' + w.slice(1) + '+' + n + '÷' + d + ')' : '(' + w + '+' + n + '÷' + d + ')'; }
+      active = $('uc-expr'); insertText(t); ['uc-fpw', 'uc-fpn', 'uc-fpd'].forEach(i=> $(i).value = ''); wrap.style.display = 'none'; };
+    $('uc-fpok').addEventListener('click', ins); wrap.addEventListener('keydown', e=>{ if(e.key === 'Enter'){ e.preventDefault(); ins(); } });
+    wrap.addEventListener('focusin', e=>{ e.stopPropagation(); });
+  }
+
   /* ---------- assemble ---------- */
   function setActive(el){ active = el || (S.mode === 'calc' ? $('uc-expr') : active); }
   function placePad(){
@@ -19032,7 +19179,7 @@ const CX = (function(){
   function init(){
     const root = $('uc-root'); if(!root) return;
     root.innerHTML = html(); active = $('uc-expr');
-    gInit(); tInit(); eqInit(); statInit(); matInit(); baseInit(); cxInit(); vecInit(); probInit(); numInit();
+    gInit(); tInit(); eqInit(); statInit(); matInit(); baseInit(); cxInit(); vecInit(); probInit(); numInit(); fracInit(); fracPopInit();
     document.querySelectorAll('#uc-root .uc-in').forEach(i=> i.addEventListener('focus', ()=>{ active = i; }));
     $('uc-root').addEventListener('focusin', e=>{ if(e.target.classList && e.target.classList.contains('uc-in')) active = e.target; });
     $('uc-modes').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(c) setMode(c.dataset.m); });
@@ -19085,6 +19232,261 @@ const CX = (function(){
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
+
+/* ============================================================
+   FUN EXPERIMENTS GALLERY (shared by chemistry and physics labs)
+   ============================================================ */
+window.uddahFun = (function(){
+  const lang = ()=> (typeof currentLang !== 'undefined' ? currentLang : 'ar');
+  const B = (ar, en)=> lang() === 'en' ? (en || ar) : ar;
+  const tr = p=> Array.isArray(p) ? (lang() === 'en' ? (p[1] || p[0]) : p[0]) : String(p);
+  const esc = s=> String(s).replace(/[&<>"]/g, c=> ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+  const FUN_CHEM = [
+{ id:'volc', ic:'🌋', lv:1, min:10, t:['بركان الخل وصودا الخبز','Vinegar & baking-soda volcano'],
+  mats:[['كوب أو زجاجة صغيرة','Small cup or bottle'],['صودا الخبز (ملعقتان)','Baking soda (2 spoons)'],['خل أبيض (½ كوب)','White vinegar (½ cup)'],['صابون أطباق وملوّن طعام','Dish soap and food colouring'],['صينية','A tray']],
+  safe:['ارتدِ نظارة واقية، وجرّبها على صينية أو في الخارج.','Wear goggles and work on a tray or outdoors.'],
+  steps:[['ضع الكوب في وسط الصينية، وأضف صودا الخبز وقطرات من الصابون والملوّن.','Stand the cup on the tray; add baking soda, a few drops of soap and colouring.'],['اسكب الخل دفعة واحدة وتراجع قليلاً.','Pour in the vinegar at once and step back.'],['راقب الرغوة، ثم أعد التجربة بكمية صودا مختلفة وقارن الارتفاع.','Watch the foam, then repeat with a different amount of soda and compare the height.']],
+  q:['ماذا تتوقع أن يكون الغاز الذي يرفع الرغوة؟','What gas do you think pushes the foam up?'], o:[['الأكسجين','Oxygen'],['ثاني أكسيد الكربون','Carbon dioxide'],['الهيدروجين','Hydrogen']], ok:1,
+  see:['رغوة ملوّنة تتدفق من فوهة الكوب وفوران مسموع.','Coloured foam erupts from the cup with audible fizzing.'],
+  why:['حمض الخل (CH₃COOH) يتفاعل مع بيكربونات الصوديوم (NaHCO₃) فينتج ثاني أكسيد الكربون وماء وخلات الصوديوم. الغاز يُحبس في فقاعات الصابون فتتكوّن الرغوة. المعادلة: NaHCO₃ + CH₃COOH → CO₂ + H₂O + CH₃COONa.','Acetic acid reacts with sodium bicarbonate to give CO₂, water and sodium acetate. The gas is trapped in soap bubbles, making foam. NaHCO₃ + CH₃COOH → CO₂ + H₂O + CH₃COONa.'],
+  try_:['املأ بالوناً بالغاز: ضع الصودا في زجاجة والخل فيها، وثبّت البالون على الفوهة. هل يكفي لنفخه؟ ما المتفاعل المحدِّد؟','Inflate a balloon with the gas: soda in a bottle, vinegar added, balloon on the neck. Is it enough? Which reactant is limiting?'] },
+{ id:'cabbage', ic:'🥬', lv:1, min:20, t:['كاشف الملفوف الأحمر (pH طبيعي)','Red-cabbage pH indicator'],
+  mats:[['ملفوف أحمر وماء ساخن','Red cabbage and hot water'],['5 أكواب شفافة','5 clear cups'],['ليمون، خل، صابون سائل، صودا خبز، ماء','Lemon, vinegar, liquid soap, baking soda, water']],
+  safe:['لا تتذوّق أي محلول، واغسل يديك بعد التجربة.','Do not taste any solution; wash hands afterwards.'],
+  steps:[['قطّع الملفوف وانقعه في ماء ساخن 10 دقائق ثم صفِّه: هذا هو الكاشف البنفسجي.','Chop the cabbage, soak in hot water for 10 minutes and strain: this purple liquid is your indicator.'],['وزّع الكاشف على الأكواب، وأضف إلى كل كوب مادة مختلفة.','Pour indicator into the cups and add a different substance to each.'],['رتّب الأكواب من الأشد حمضية إلى الأشد قاعدية واكتب ألوانها.','Line up the cups from most acidic to most basic and note the colours.']],
+  q:['ماذا سيحدث للكاشف عند إضافة الليمون؟','What happens to the indicator when lemon is added?'], o:[['يصبح أحمر / وردياً','Turns red / pink'],['يصبح أخضر','Turns green'],['لا يتغيّر','No change']], ok:0,
+  see:['الحمض → أحمر/وردي، المتعادل → بنفسجي، القاعدة → أزرق ثم أخضر ثم أصفر.','Acid → red/pink, neutral → purple, base → blue then green then yellow.'],
+  why:['صبغة الأنثوسيانين في الملفوف تغيّر بنيتها مع تغيّر تركيز أيونات H⁺ فيتغيّر لونها. إنه كاشف عام شبيه بالأوراق المعملية.','Anthocyanin pigments change structure with the H⁺ concentration, so their colour changes — a natural universal indicator.'],
+  try_:['اصنع مقياس pH ملوّناً على شريط ورق ترشيح وجفّفه لتحصل على ورق كاشف خاص بك. جرّب عصائر ومنظفات مختلفة.','Dip filter paper in the indicator and dry it to make your own test strips. Test juices and cleaners.'] },
+{ id:'elephant', ic:'🐘', lv:2, min:15, t:['معجون الفيل (محفّز حيوي)','Elephant toothpaste (catalyst)'],
+  mats:[['فوق أكسيد الهيدروجين 3% (من الصيدلية)','Hydrogen peroxide 3% (pharmacy)'],['خميرة جافة وماء دافئ','Dry yeast and warm water'],['صابون أطباق وملوّن','Dish soap and colouring'],['زجاجة وصينية','Bottle and tray']],
+  safe:['استخدم تركيز 3% فقط ونظارة واقية. التراكيز الأعلى تحتاج معلماً ولا تُجرّب في المنزل. لا تلمس الناتج إن كان ساخناً.','Use only 3% and goggles. Stronger peroxide is for teacher demos only. Do not touch the foam if warm.'],
+  steps:[['ضع ½ كوب من فوق الأكسيد في الزجاجة مع الصابون والملوّن.','Put ½ cup peroxide, soap and colouring in the bottle.'],['اخلط ملعقة خميرة في ماء دافئ دقيقتين ثم اسكبها بسرعة.','Mix a spoon of yeast in warm water for 2 minutes and pour it in quickly.'],['لاحظ الرغوة، والمس الزجاجة من الخارج: ماذا تشعر؟','Watch the foam and touch the outside of the bottle: what do you feel?']],
+  q:['ما دور الخميرة هنا؟','What is the yeast\'s role?'], o:[['تتفاعل وتُستهلك كلياً','Reacts and is used up'],['محفّز يسرّع التحلل ولا يُستهلك','A catalyst: speeds decomposition, not consumed'],['تبرّد المزيج','Cools the mixture']], ok:1,
+  see:['عمود رغوة كثيفة يخرج بسرعة، والزجاجة تسخن قليلاً.','A thick column of foam shoots out and the bottle warms up.'],
+  why:['إنزيم الكاتاليز في الخميرة يحفّز تحلل H₂O₂ إلى ماء وأكسجين: 2H₂O₂ → 2H₂O + O₂. الأكسجين يُنفخ في الصابون فيصنع الرغوة، والتفاعل طارد للحرارة.','Catalase in yeast speeds up 2H₂O₂ → 2H₂O + O₂. Oxygen inflates the soap into foam; the reaction is exothermic.'],
+  try_:['كرّر باستخدام ماء بارد ثم دافئ ثم ساخن (ليس مغلياً). كيف تؤثر الحرارة على سرعة الإنزيم؟','Repeat with cold, warm and hot (not boiling) water. How does temperature affect the enzyme?'] },
+{ id:'density', ic:'🍯', lv:1, min:15, t:['برج الكثافة الملوّن','Colourful density tower'],
+  mats:[['عسل، شراب الذرة أو سكر مذاب، صابون أطباق، ماء ملوّن، زيت','Honey, syrup, dish soap, coloured water, oil'],['كوب شفاف طويل وملعقة']],
+  safe:['لا مخاطر تُذكر، ويفضَّل التحكم بالتسكيب ببطء.','Safe — just pour slowly.'],
+  steps:[['زن كمية متساوية من كل سائل.','Measure equal volumes of each liquid.'],['اسكب الأثقل أولاً (العسل) ثم الأخف فوقه ببطء على ظهر ملعقة.','Pour the heaviest (honey) first then the lighter ones slowly over the back of a spoon.'],['أسقط أجساماً صغيرة (عنب، عملة، فلين) وشاهد على أي طبقة تستقر.','Drop small objects (grape, coin, cork) and see which layer each settles in.']],
+  q:['إذا خلطت الزيت بالماء ثم تركتهما، فأين يستقر الزيت؟','If oil and water are mixed and left, where does the oil settle?'], o:[['في الأسفل','At the bottom'],['في الأعلى','On top'],['يمتزجان تماماً','They mix fully']], ok:1,
+  see:['طبقات منفصلة بألوان متعددة، وكل جسم يطفو عند طبقة تناسب كثافته.','Separate coloured layers; each object floats at the layer matching its density.'],
+  why:['الكثافة = الكتلة ÷ الحجم. السائل الأكبر كثافة يهبط، والأقل يعلو. الزيت غير قطبي فلا يمتزج بالماء القطبي.','Density = mass ÷ volume. Denser liquids sink. Oil is non-polar so it does not mix with polar water.'],
+  try_:['احسب كثافة كل سائل بوزن 100 mL منه بميزان، ثم تنبّأ بترتيب الطبقات قبل التسكيب.','Find each liquid\'s density by weighing 100 mL, then predict the layer order before pouring.'] },
+{ id:'milk', ic:'🥛', lv:1, min:10, t:['الحليب السحري (التوتر السطحي)','Magic milk (surface tension)'],
+  mats:[['حليب كامل الدسم في طبق','Whole milk in a dish'],['ملوّن طعام','Food colouring'],['صابون أطباق وعود قطني','Dish soap and a cotton bud']],
+  safe:['لا مخاطر.','Safe.'],
+  steps:[['اسكب الحليب في الطبق وضع قطرات ملوّنة متفرقة.','Pour milk into the dish and add drops of colouring.'],['اغمس العود في الصابون والمسه بسطح الحليب برفق.','Dip the bud in soap and touch the milk surface gently.'],['راقب الدوامات، ثم جرّب حليباً خالي الدسم وقارن.','Watch the swirls, then try skimmed milk and compare.']],
+  q:['لماذا تتحرك الألوان بعد لمس الصابون؟','Why do the colours move after touching soap?'], o:[['لأن الصابون يخفض التوتر السطحي ويحرّك الدهون','Soap lowers surface tension and moves the fat'],['لأن الحليب يغلي','The milk boils'],['بسبب مغناطيسية الصابون','Soap is magnetic']], ok:0,
+  see:['الألوان تندفع وتدور بشكل أنماط جميلة لدقائق.','Colours rush and swirl into patterns for minutes.'],
+  why:['جزيئات الصابون لها طرف يحب الماء وطرف يحب الدهن، فتكسر التوتر السطحي وتلتف حول الدهون فتسبّب تيارات في السائل.','Soap molecules have a water-loving and a fat-loving end; they lower surface tension and wrap fat globules, creating currents.'],
+  try_:['اغمس العود في الحليب (دون صابون) ثم بالصابون. كم من الوقت يستمر الحراك؟ لماذا يتوقف؟','Compare a dry bud vs a soapy one. How long does the motion last and why does it stop?'] },
+{ id:'lemon', ic:'🍋', lv:2, min:20, t:['بطارية الليمون','Lemon battery'],
+  mats:[['ليمونتان أو أكثر','2+ lemons'],['مسامير مجلفنة (زنك) وعملات/أسلاك نحاس','Galvanised (zinc) nails and copper coins/wires'],['أسلاك توصيل ومصباح LED أو فولتميتر','Wires and an LED or voltmeter']],
+  safe:['لا تأكل الليمون بعد التجربة. الجهد منخفض وآمن.','Do not eat the lemons afterwards. Voltage is low and safe.'],
+  steps:[['اغرس مسماراً وعملة نحاسية في كل ليمونة بدون تلامس.','Push a zinc nail and a copper coin into each lemon without touching.'],['صِل الليمونات على التوالي: نحاس الأولى بزنك الثانية.','Connect in series: copper of one to zinc of the next.'],['قِس الجهد بالفولتميتر (حوالي 0.9 V لكل ليمونة) أو شغّل LED بعدة ليمونات.','Measure the voltage (≈0.9 V per lemon) or light an LED with several lemons.']],
+  q:['ماذا يحدث للجهد إذا وصلنا ليمونتين على التوالي؟','What happens to the voltage with two lemons in series?'], o:[['يتضاعف تقريباً','Roughly doubles'],['يبقى كما هو','Stays the same'],['ينعدم','Drops to zero']], ok:0,
+  see:['فولتميتر يقرأ نحو 0.9 V لكل خلية، ومصباح LED يضيء بعد 3–4 ليمونات.','About 0.9 V per cell; an LED lights with 3–4 lemons.'],
+  why:['الزنك أنشط من النحاس فيتأكسد (Zn → Zn²⁺ + 2e⁻) ويفقد الإلكترونات التي تسري في السلك إلى النحاس حيث تُختزل أيونات H⁺ من حمض الليمون. عصير الليمون هو الإلكتروليت.','Zinc is more reactive than copper and oxidises (Zn → Zn²⁺ + 2e⁻); electrons flow through the wire to the copper where H⁺ from citric acid is reduced. The juice is the electrolyte.'],
+  try_:['جرّب فاكهة أخرى (بطاطس، برتقال) أو وصل الليمونات على التوازي. أي ترتيب يعطي تياراً أكبر؟','Try other fruit (potato, orange) or connect in parallel. Which arrangement gives more current?'] },
+{ id:'penny', ic:'🪙', lv:2, min:25, t:['تنظيف العملات وطلاء مسمار بالنحاس','Clean pennies & copper-plate a nail'],
+  mats:[['عملات نحاسية قديمة (أو قطع نحاس)','Old copper coins or pieces'],['½ كوب خل + ملعقة ملح','½ cup vinegar + a spoon of salt'],['مسمار حديد نظيف ومحارم','A clean iron nail and tissues']],
+  safe:['لا تشرب المحلول، وأزِله بعد التجربة بالماء.','Do not drink the solution; rinse afterwards.'],
+  steps:[['أذب الملح في الخل وغمس نصف العملة: يصبح لامعاً خلال ثوانٍ.','Dissolve the salt in vinegar and dip half a coin: it turns shiny in seconds.'],['اترك عدة عملات في المحلول 15 دقيقة (صار فيه أيونات Cu²⁺).','Leave several coins in the solution for 15 minutes (it now holds Cu²⁺ ions).'],['أخرج العملات وضع المسمار فيه 10 دقائق؛ سترى طبقة نحاس حمراء عليه.','Remove the coins and place the nail in for 10 minutes; a red copper layer appears.']],
+  q:['ما الذي يحدث على سطح المسمار؟','What happens on the nail\'s surface?'], o:[['يترسب نحاس معدني عليه','Metallic copper deposits'],['يذوب النحاس أكثر','Copper dissolves further'],['لا شيء','Nothing']], ok:0,
+  see:['العملة تلمع، والمسمار ينكسي بلون نحاسي.','Coins gleam; the nail gets a coppery coat.'],
+  why:['الخل والملح يذيبان أكسيد النحاس (CuO) فتتكوّن أيونات Cu²⁺. الحديد أنشط من النحاس فيُزيحه: Fe + Cu²⁺ → Fe²⁺ + Cu، وهو تفاعل إحلال بسيط.','Vinegar and salt dissolve CuO to give Cu²⁺. Iron is more reactive so it displaces copper: Fe + Cu²⁺ → Fe²⁺ + Cu (single displacement).'],
+  try_:['استبدل المسمار بقطعة ألومنيوم أو زنك وقارن السرعة. رتّب الفلزات حسب نشاطها.','Swap in aluminium or zinc and compare speed. Rank the metals by reactivity.'] },
+{ id:'o2', ic:'🫧', lv:3, min:40, t:['صوف الحديد: كم نسبة الأكسجين في الهواء؟','Steel wool: how much oxygen is in air?'],
+  mats:[['صوف حديد (بدون صابون) وخل','Plain steel wool and vinegar'],['أنبوب اختبار أو زجاجة شفافة وطبق ماء عميق','Test tube/clear bottle and a deep dish of water'],['مسطرة وقلم تلوين','Ruler and marker']],
+  safe:['اغسل الصوف بالخل لإزالة الطلاء، وتجنّب شظايا الصوف.','Rinse the wool in vinegar to remove coating; avoid wool splinters.'],
+  steps:[['اغمس الصوف في الخل دقيقة ثم اعصره وادفعه في قاع الأنبوب.','Dip the wool in vinegar for a minute, squeeze it and push it to the tube bottom.'],['اقلب الأنبوب وضع فوهته في طبق الماء، وقِس ارتفاع عمود الهواء الأولي.','Invert the tube in the water dish and measure the starting air column.'],['بعد 30–40 دقيقة قِس ارتفاع الماء المتصاعد في الأنبوب واحسب النسبة.','After 30–40 min measure how far water rose and calculate the fraction.']],
+  q:['ما نسبة ارتفاع الماء المتوقعة؟','About what fraction will the water rise?'], o:[['نحو 1/5 (≈21%)','About 1/5 (≈21%)'],['نحو 1/2','About 1/2'],['لا يرتفع','None']], ok:0,
+  see:['يرتفع الماء داخل الأنبوب ويصدأ الصوف.','Water rises in the tube as the wool rusts.'],
+  why:['الحديد يتأكسد مع الأكسجين: 4Fe + 3O₂ → 2Fe₂O₃. يُستهلك الأكسجين (نحو 21% من الهواء) فينخفض الضغط ويدفع الضغط الجوي الماء لأعلى بقدر الغاز المستهلك.','Iron rusts with oxygen (4Fe + 3O₂ → 2Fe₂O₃). Oxygen (≈21% of air) is consumed, pressure drops and atmospheric pressure pushes water in by that volume.'],
+  try_:['احسب نسبة الخطأ بين نتيجتك و21%. ما الأسباب؟ (رطوبة، صوف قليل، تسرّب). كيف تحسّن التجربة؟','Work out your percentage error versus 21% and list the causes. How would you improve it?'] },
+{ id:'endo', ic:'🧊', lv:2, min:10, t:['تفاعل يبرّد: ماص للحرارة','A reaction that gets cold: endothermic'],
+  mats:[['صودا خبز وحمض الليمون (يُشترى من البقالة)','Baking soda and citric acid (grocery)'],['كأس شفاف وماء بدرجة الغرفة','Clear cup of room-temp water'],['ميزان حرارة','Thermometer']],
+  safe:['لا تشرب المحلول؛ حمض الليمون مهيّج للعين.','Do not drink it; citric acid irritates eyes.'],
+  steps:[['قِس درجة حرارة الماء وسجّلها.','Measure and record the water temperature.'],['أضف ملعقة صودا وملعقة حمض ليمون وحرّك.','Add a spoon of soda and a spoon of citric acid; stir.'],['راقب الفوران وسجّل أقل درجة حرارة تصل لها كل 15 ثانية.','Watch the fizz and record the temperature every 15 s.']],
+  q:['ماذا يحدث لدرجة الحرارة؟','What happens to the temperature?'], o:[['ترتفع','Rises'],['تنخفض','Falls'],['تبقى ثابتة','Stays constant']], ok:1,
+  see:['فوران ثم انخفاض ملحوظ في درجة الحرارة (عدة درجات).','Fizzing and a clear drop of several degrees.'],
+  why:['التفاعل ماصّ للحرارة: يمتص طاقة من الماء فيبرد. 3NaHCO₃ + C₆H₈O₇ → 3CO₂ + 3H₂O + Na₃C₆H₅O₇. إشارة ΔH موجبة.','The reaction absorbs heat from the water, so it cools: 3NaHCO₃ + C₆H₈O₇ → 3CO₂ + 3H₂O + Na₃C₆H₅O₇ (ΔH > 0).'],
+  try_:['ارسم منحنى الحرارة مع الزمن. ثم ضاعف الكمية: هل ينخفض أكثر؟','Plot temperature against time, then double the amounts: does it drop twice as much?'] },
+{ id:'plastic', ic:'🧀', lv:2, min:30, t:['بلاستيك الحليب (بروتين الكازين)','Milk plastic (casein)'],
+  mats:[['كوب حليب دافئ جداً (ليس مغلياً)','A cup of very warm (not boiling) milk'],['4 ملاعق خل','4 spoons of vinegar'],['مصفاة، محارم، قوالب أو ملوّن','Strainer, tissues, moulds, colouring']],
+  safe:['السخونة: استخدم حليباً دافئاً وبإشراف.','Warm milk only, with supervision.'],
+  steps:[['أضف الخل إلى الحليب الدافئ وحرّك: تتكتل كتل بيضاء.','Stir vinegar into warm milk: white clumps form.'],['صفِّ الكتل بالمصفاة وعصرها بالمحارم.','Strain the clumps and squeeze with tissues.'],['شكّلها في قالب وجفّفها يومين فتتصلب مثل البلاستيك.','Mould it and dry two days — it hardens like plastic.']],
+  q:['ما الذي يتكتل عند إضافة الخل؟','What clumps when vinegar is added?'], o:[['بروتين الكازين','Casein protein'],['سكر اللاكتوز','Lactose sugar'],['الماء','Water']], ok:0,
+  see:['كتل بيضاء مطاطية تتصلب بعد التجفيف.','Rubbery white curds that harden when dried.'],
+  why:['الخل يخفض الـ pH إلى نقطة تعادل الكازين الكهربائي فتتجمع جزيئاته وتترسب (تمسخ بروتيني). كانت تُستخدم قديماً لصنع الأزرار.','Vinegar lowers pH to casein\'s isoelectric point, so the protein molecules clump and precipitate. This was once used to make buttons.'],
+  try_:['اختبر حليباً بارداً وآخر خالي الدسم: أيهما يعطي كتلة أكثر؟ فسّر.','Try cold and skimmed milk: which gives more curd? Explain.'] },
+{ id:'crystal', ic:'💎', lv:2, min:30, t:['زراعة بلورات السكر (حلوى الصخر)','Growing sugar crystals (rock candy)'],
+  mats:[['كوبان من السكر وكوب ماء','2 cups sugar, 1 cup water'],['خيط قطني وقلم رصاص وبرطمان','Cotton string, a pencil and a jar'],['ملوّن (اختياري)','Colouring (optional)']],
+  safe:['الماء الساخن: احذر الحروق وتعامل مع الشراب الساخن بإشراف.','Hot syrup: avoid burns, supervise.'],
+  steps:[['سخّن الماء وأذب فيه السكر حتى لا يذوب المزيد (محلول فوق مشبع).','Heat water and dissolve sugar until no more dissolves (supersaturated).'],['علّق الخيط المبلل بالسكر في البرطمان ثم اسكب المحلول.','Hang a sugar-dusted string in the jar and pour in the syrup.'],['اتركه 5–7 أيام دون تحريك وراقب البلورات.','Leave 5–7 days undisturbed and watch crystals grow.']],
+  q:['لماذا تنمو البلورات عند التبريد؟','Why do crystals grow as it cools?'], o:[['لأن ذوبان السكر يقل مع انخفاض الحرارة','Solubility decreases as it cools'],['لأن الماء يتجمد','The water freezes'],['بسبب الضوء فقط','Light only']], ok:0,
+  see:['بلورات سكر كبيرة ملتصقة بالخيط بعد أيام.','Large sugar crystals on the string after days.'],
+  why:['قابلية ذوبان السكر تقل بالتبريد والتبخر فيزيد التركيز عن الحد المشبع، فتترسب الجزيئات على نواة (الخيط) بنمط منتظم.','Solubility drops with cooling and evaporation so the solution exceeds saturation; molecules deposit on a nucleus (the string) in an ordered pattern.'],
+  try_:['اصنع بلورات ملح وقارن شكل البلورة لكل مادة.','Grow salt crystals and compare their shape with sugar crystals.'] },
+{ id:'turmeric', ic:'🟡', lv:1, min:15, t:['الورقة الكاشفة بالكركم','Turmeric test paper'],
+  mats:[['كركم + ملعقة كحول طبي أو ماء','Turmeric + a spoon of rubbing alcohol or water'],['ورق ترشيح أو منديل','Filter paper or tissue'],['صابون ومنظف، خل وليمون','Soap, cleaner, vinegar, lemon']],
+  safe:['الكحول قابل للاشتعال: ابتعد عن اللهب.','Alcohol is flammable: keep away from flames.'],
+  steps:[['اخلط الكركم مع الكحول واغمس الورقة وجفّفها: تصبح صفراء.','Mix turmeric with alcohol, dip the paper and dry: it turns yellow.'],['ضع نقطاً من المواد المختلفة على الورقة.','Dot different substances on the paper.'],['سجّل أي منها ينتج لوناً أحمر برتقالياً (القاعدي).','Record which turn red-orange (basic).']],
+  q:['على أي مادة سيتحول لون الكركم إلى أحمر؟','Which turns turmeric red?'], o:[['صابون (قاعدة)','Soap (base)'],['ليمون (حمض)','Lemon (acid)'],['ماء مقطر','Distilled water']], ok:0,
+  see:['الأصفر يتحول إلى أحمر-برتقالي مع القواعد ويبقى أصفر مع الأحماض.','Yellow turns red-orange with bases and stays yellow with acids.'],
+  why:['الكركمين في الكركم يتغيّر طيف امتصاصه في الوسط القاعدي (pH ≈ 8.6 وأعلى) فيتغيّر اللون.','Curcumin changes its light absorption in basic media (pH above ≈ 8.6), changing colour.'],
+  try_:['اكتب رسالة سرية بالصابون على الورقة الصفراء. ماذا يظهر؟ فسّر.','Write a secret message with soapy water on the yellow paper. What appears and why?'] }
+];
+
+const FUN_PHYS = [
+{ id:'diver', ic:'🤿', lv:1, min:10, t:['الغطّاس الديكارتي','Cartesian diver'],
+  mats:[['زجاجة بلاستيك شفافة بغطائها (1.5 L)','Clear plastic bottle with cap (1.5 L)'],['قطّارة بلاستيكية أو غطاء قلم حبر وقطعة صلصال','A plastic dropper or pen cap with a bit of clay'],['ماء','Water']],
+  safe:['لا مخاطر.','Safe.'],
+  steps:[['املأ الزجاجة بالماء حتى الحافة تقريباً.','Fill the bottle almost to the brim.'],['اضبط القطّارة بحيث تطفو بالكاد (املأها بقدر من الماء وزن بالصلصال) ثم ضعها في الزجاجة وأغلق الغطاء.','Adjust the dropper so it just floats (part-fill with water, add clay), put it in and cap the bottle.'],['اضغط الزجاجة بيدك: يغوص الغطّاس. أرخِ فيصعد.','Squeeze the bottle: the diver sinks; release and it rises.']],
+  q:['لماذا يغوص الغطّاس عند الضغط؟','Why does the diver sink when you squeeze?'], o:[['الضغط ينتقل في الماء فيضغط فقاعة الهواء ويزداد وزن الغطاس الظاهري','Pressure transmits through the water, compresses the air bubble and the diver gets denser'],['الماء يصبح أثقل','The water gets heavier'],['الغطاء يسحبه','The cap pulls it']], ok:0,
+  see:['يغوص بالضغط ويصعد بالإرخاء، ويمكنك تثبيته في منتصف الماء.','It sinks on squeezing and rises on release; you can park it mid-water.'],
+  why:['وفق مبدأ باسكال ينتقل الضغط في السائل بالتساوي، فيضغط حجم الهواء داخل القطّارة (قانون بويل: P×V ثابت). فيقل الحجم المزاح ويقل دفع أرخميدس عن وزن الغطاس فيغوص.','By Pascal\'s principle pressure spreads through the water and compresses the air inside (Boyle: PV = const). Displaced volume falls, buoyancy drops below the weight, and the diver sinks.'],
+  try_:['اجعله يغوص عند ضغط خفيف جداً. ما العلاقة بين كمية الهواء والحساسية؟ جرّب لعبة «أنزله إلى القاع ثم أوقفه».','Make it sink with only a light squeeze. How does air volume change the sensitivity? Try to stop it exactly mid-way.'] },
+{ id:'motor', ic:'🌀', lv:2, min:15, t:['أبسط محرك كهربائي في العالم','The simplest electric motor'],
+  mats:[['بطارية AA','AA battery'],['مغناطيس نيوديميوم دائري صغير (يوضع على القطب السالب)','A small round neodymium magnet'],['سلك نحاسي عارٍ نحو 20 cm','About 20 cm of bare copper wire']],
+  safe:['السلك قد يسخن: لا تمسكه أكثر من ثوانٍ. مغناطيس النيوديميوم قوي، فاحذر من قرصة الأصابع وأبعده عن الأجهزة.','The wire can get hot — only run for seconds. Neodymium magnets pinch and harm devices.'],
+  steps:[['ضع المغناطيس على القطب السالب للبطارية.','Stick the magnet to the battery\'s negative end.'],['اثنِ السلك على شكل قلب أو إطار متماثل بحيث يرتكز طرفه العلوي على القطب الموجب.','Bend the wire into a symmetrical heart so its top rests on the positive terminal.'],['اجعل الجزء السفلي من السلك يلامس حافة المغناطيس: يبدأ السلك بالدوران.','Let the wire bottoms touch the magnet edge: the wire starts spinning.']],
+  q:['ما القوة التي تدير السلك؟','What force spins the wire?'], o:[['قوة لورنتز على التيار في مجال المغناطيس','The Lorentz force on current in the magnet\'s field'],['الجاذبية','Gravity'],['الاحتكاك الساكن','Static friction']], ok:0,
+  see:['السلك يدور بسرعة عالية حول البطارية.','The wire spins rapidly around the battery.'],
+  why:['يمر تيار في السلك عبر المغناطيس وفي مجاله، فتؤثر قوة F = I·L×B عمودية على التيار والمجال، فتدير السلك. وهي نفس الفكرة داخل كل محرك كهربائي.','Current flows through the wire within the magnet\'s field, giving a force F = I·L×B perpendicular to both, which turns the wire — the principle behind every electric motor.'],
+  try_:['اعكس المغناطيس. ماذا يتغير في اتجاه الدوران؟ اتبع قاعدة اليد اليمنى لتتنبأ.','Flip the magnet. How does the spin direction change? Predict using the right-hand rule.'] },
+{ id:'magtube', ic:'🧲', lv:2, min:15, t:['المغناطيس الذي يسقط ببطء','The slow-falling magnet'],
+  mats:[['أنبوب نحاس أو ألومنيوم (طول 30–50 cm)','Copper or aluminium tube (30–50 cm)'],['مغناطيس نيوديميوم يمر داخله بسهولة','A neodymium magnet that fits inside'],['قطعة حديد أو معدن بنفس الحجم للمقارنة','A steel slug of the same size for comparison']],
+  safe:['احذر المغناطيس القوي وأبعده عن الهواتف والبطاقات.','Keep the strong magnet away from phones and cards.'],
+  steps:[['أسقط القطعة الحديدية في الأنبوب وقِس زمن سقوطها بمؤقت الهاتف.','Drop the steel slug through the tube and time it.'],['أسقط المغناطيس وقِس الزمن: لاحظ الفرق الكبير.','Drop the magnet and time it — big difference.'],['كرّر 3 مرات واحسب المتوسط.','Repeat three times and average.']],
+  q:['كيف سيكون سقوط المغناطيس مقارنة بالقطعة الحديدية؟','How will the magnet\'s fall compare with the steel slug\'s?'], o:[['أبطأ بكثير','Much slower'],['أسرع','Faster'],['نفس الزمن','The same']], ok:0,
+  see:['القطعة الحديدية تسقط في أقل من ثانية، والمغناطيس يهبط ببطء وكأن شيئاً يكبحه.','The steel drops in under a second; the magnet floats down as if braked.'],
+  why:['حركة المغناطيس تغيّر التدفق المغناطيسي عبر جدار الأنبوب فتتولد تيارات دوامية (فاراداي). وبحسب قانون لنز تُنتج هذه التيارات مجالاً يعاكس الحركة فتبطئ السقوط. هنا تتحول الطاقة إلى حرارة.','The moving magnet changes the flux through the tube wall, inducing eddy currents (Faraday). By Lenz\'s law they oppose the motion and slow the fall, turning energy into heat.'],
+  try_:['اقطع شقاً طولياً في الأنبوب وأعد التجربة. لماذا يسقط أسرع؟ (تعطّلت التيارات الدوامية)','Cut a slit along the tube and repeat. Why does it fall faster now?'] },
+{ id:'static', ic:'⚡', lv:1, min:10, t:['الماء الذي ينحني: الكهرباء الساكنة','Bending water: static electricity'],
+  mats:[['مشط بلاستيكي أو بالون','A plastic comb or balloon'],['صنبور ماء بخيط رفيع','A tap with a thin stream'],['قصاصات ورق صغيرة','Small paper scraps']],
+  safe:['لا مخاطر. جرّب في جو جاف للحصول على نتائج أفضل.','Safe. Works best in dry air.'],
+  steps:[['افرك المشط بشعر جاف أو صوف 20 مرة.','Rub the comb on dry hair or wool 20 times.'],['قرّبه من خيط الماء دون ملامسته.','Bring it near the water stream without touching.'],['قرّبه من قصاصات الورق وراقب انجذابها.','Bring it near the paper scraps and watch them jump.']],
+  q:['ماذا يحدث لخيط الماء؟','What happens to the water stream?'], o:[['ينحني نحو المشط','Bends toward the comb'],['ينحني بعيداً عنه','Bends away'],['لا يتأثر','Unaffected']], ok:0,
+  see:['خيط الماء ينحني بوضوح والورق يقفز.','The stream bends clearly and the paper jumps.'],
+  why:['الدلك ينقل إلكترونات فيشحن المشط. جزيء الماء قطبي، فينجذب طرفه المعاكس للشحنة فتنشأ قوة جذب كولوم تحرف الخيط.','Rubbing transfers electrons and charges the comb. Water molecules are polar, so their opposite-charged ends are attracted (Coulomb force), bending the stream.'],
+  try_:['اشحن بالونين وعلّقهما بخيطين متجاورين: هل يتنافران أم يتجاذبان؟ ولماذا؟','Charge two balloons on strings: do they attract or repel and why?'] },
+{ id:'cdspec', ic:'🌈', lv:2, min:25, t:['محلّل طيف من قرص CD','CD spectroscope'],
+  mats:[['علبة كرتون أو أنبوب مناشف','A cardboard box or tube'],['قرص CD قديم قطعة منه','A piece of an old CD'],['ورق أسود وشريط لاصق وكتر','Black paper, tape and a cutter']],
+  safe:['احذر الأدوات الحادة، وكسر القرص بإشراف.','Take care with the cutter; supervise cutting the CD.'],
+  steps:[['اصنع شقاً رفيعاً جداً في أحد طرفي العلبة بورقتين سوداوين.','Make a very thin slit at one end using two black paper edges.'],['ثبّت قطعة CD بزاوية 45° في الجانب الآخر.','Fix a CD piece at about 45° at the other end.'],['انظر من فتحة جانبية إلى مصادر مختلفة: مصباح LED، فلورسنت، الشمس (بغير مباشر!).','Look from a side hole at LED, fluorescent and (indirectly!) sunlight.']],
+  q:['ماذا سترى عند النظر إلى مصباح فلورسنت؟','What will a fluorescent lamp look like?'], o:[['خطوط ملوّنة منفصلة (طيف خطي)','Separate coloured lines (line spectrum)'],['طيف مستمر مثل الشمس','A continuous spectrum like the sun'],['لون أبيض فقط','Just white']], ok:0,
+  see:['الشمس: قوس قزح متصل. الفلورسنت: خطوط (زئبق). LED: قمم عريضة.','Sunlight: a smooth rainbow. Fluorescent: lines (mercury). LED: broad peaks.'],
+  why:['مسارات القرص دقيقة فتعمل كشبكة حيود: يتحرّف كل لون بزاوية مختلفة (d sinθ = nλ). الغازات تشع أطوالاً موجية محددة فتظهر خطوطاً، وهذه بصمة العنصر.','CD tracks act as a diffraction grating: each colour bends by a different angle (d sinθ = nλ). Gases emit specific wavelengths, giving lines — a fingerprint of the element.'],
+  try_:['قِس زاوية الخط الأخضر واحسب المسافة بين مسارات القرص (≈1.6 µm).','Measure the green line\'s angle and compute the CD track spacing (≈1.6 µm).'] },
+{ id:'pinhole', ic:'📷', lv:1, min:20, t:['كاميرا الثقب','Pinhole camera'],
+  mats:[['علبة كرتون أو علبة مشروبات طويلة','A box or long tin'],['ورق دهني/شمعي شفاف وورق ألومنيوم','Tracing paper and aluminium foil'],['دبوس وشريط لاصق','A pin and tape']],
+  safe:['احذر الدبوس. لا تنظر للشمس مباشرة.','Mind the pin. Never look directly at the sun.'],
+  steps:[['اصنع ثقباً صغيراً بدبوس في ورق الألومنيوم الذي تلصقه على أحد وجهي العلبة.','Prick a tiny hole in foil taped over one end of the box.'],['ضع الورق الشفاف على الوجه المقابل كشاشة.','Put the tracing paper on the opposite end as a screen.'],['وجّه الثقب نحو نافذة مضيئة وانظر إلى الشاشة في الظلام.','Aim the hole at a bright window and watch the screen in dim light.']],
+  q:['كيف ستظهر الصورة على الشاشة؟','How will the image appear?'], o:[['مقلوبة','Upside down'],['معتدلة','Upright'],['لا تظهر','None']], ok:0,
+  see:['صورة مقلوبة للمنظر الخارجي، وتزداد حدّتها بتصغير الثقب.','An inverted picture of the scene, sharper with a smaller hole.'],
+  why:['الضوء ينتشر في خطوط مستقيمة. الشعاع القادم من أعلى المنظر يمر بالثقب ويصل إلى أسفل الشاشة، فتنقلب الصورة. الثقب الأصغر يعني حزمة أضيق وصورة أحدّ لكن أخفت.','Light travels in straight lines. A ray from the top of the scene passes the hole and lands low on the screen, flipping the image. A smaller hole gives a sharper but dimmer picture.'],
+  try_:['قِس ارتفاع الصورة وبعد الشاشة، واحسب ارتفاع شجرة بعيدة بالتشابه: h/H = d/D.','Measure image height and screen distance, then find a tree\'s height using similar triangles: h/H = d/D.'] },
+{ id:'spoon', ic:'🥄', lv:1, min:10, t:['جرس الملعقة والخيط','Spoon-and-string bell'],
+  mats:[['ملعقة معدنية','A metal spoon'],['خيط قطني طوله متر','A metre of cotton string'],['شوكة أو أدوات مطبخ','A fork or utensils']],
+  safe:['لا مخاطر.','Safe.'],
+  steps:[['اربط الملعقة في منتصف الخيط واترك طرفين طويلين.','Tie the spoon to the middle of the string.'],['لُفّ كل طرف حول إصبع واحد وضع الإصبعين على أذنيك.','Wrap each end around a finger and put the fingertips in your ears.'],['دع الملعقة تضرب حافة الطاولة وأصغِ.','Let the spoon swing against a table edge and listen.']],
+  q:['ماذا ستسمع؟','What will you hear?'], o:[['صوتاً عميقاً يشبه جرس كنيسة','A deep bell-like tone'],['نفس الصوت العادي','The same normal sound'],['لا شيء','Nothing']], ok:0,
+  see:['صوت عميق مدوٍّ أقوى بكثير من العادي.','A deep resonant tone, far louder than normal.'],
+  why:['الصوت ينتقل عبر الخيط الصلب إلى عظام الإصبع ثم الأذن، والمواد الصلبة أفضل توصيلاً للاهتزازات من الهواء. كما تخفض الملعقة الكبيرة التردد فتبدو الأصوات أعمق.','Sound travels along the solid string and finger bones to your ear; solids carry vibrations better than air. A heavier spoon also lowers the pitch.'],
+  try_:['جرّب أنواعاً مختلفة من الخيط والملاعق. أيها يعطي أطول زمن رنين؟ قِس الزمن.','Try other strings and spoons. Which rings longest? Time it.'] },
+{ id:'tornado', ic:'🌪️', lv:1, min:10, t:['إعصار في زجاجة','Tornado in a bottle'],
+  mats:[['زجاجتان بلاستيكيتان بنفس الفوهة','Two identical-neck plastic bottles'],['ماء وشريط لاصق قوي أو وصلة','Water and strong tape or a connector'],['بريق/ملوّن (اختياري)','Glitter or colouring (optional)']],
+  safe:['اربط الوصلة جيداً لتجنب التسرب.','Seal the joint to avoid leaks.'],
+  steps:[['املأ زجاجة بالماء ثلاثة أرباعها وصِل الثانية بفوهتها بإحكام.','Fill one bottle ¾ with water and tape the second to its neck.'],['اقلب الزجاجتين: الماء ينزل ببطء ويقاوم الهواء.','Flip it: water glugs slowly against the air.'],['أدر الزجاجة السفلية دورانياً سريعاً ثم اقلب: تتكون دوامة ويتدفق الماء بسرعة.','Swirl the top bottle quickly then let go: a vortex forms and the water drains fast.']],
+  q:['لماذا يتدفق الماء أسرع عند الدوامة؟','Why does it drain faster with a vortex?'], o:[['تتكوّن قناة هواء في المركز تسمح للهواء بالمرور','An air core forms letting air pass'],['الماء يصبح أخف','The water gets lighter'],['لا فرق','No difference']], ok:0,
+  see:['دوامة تشبه الإعصار والماء يفرغ خلال ثوانٍ بدل نصف دقيقة.','A tornado-like vortex draining in seconds instead of half a minute.'],
+  why:['بدون الدوران يجب أن يمر الهواء والماء عبر نفس الفوهة بالتناوب (تقطّع). الدوران يخلق مركزاً منخفض الضغط يمر فيه الهواء والماء حول الجدار. وكذلك تحفظ الدوامة الزخم الزاويّ.','Without spin, air and water must alternate through the same neck. Spinning opens an air core while water spirals along the wall; angular momentum is conserved.'],
+  try_:['قِس زمن التفريغ بدون دوامة ومعها بالمؤقت. كم نسبة التسريع؟','Time the draining with and without the vortex. What is the speed-up ratio?'] },
+{ id:'bernoulli', ic:'📄', lv:1, min:5, t:['ورقتان لا تتباعدان (برنولي)','Two papers that won\'t part (Bernoulli)'],
+  mats:[['ورقتان من دفتر','Two sheets of paper'],['قصبة أو فمك فقط','A straw or just your breath'],['خيط (اختياري)','String (optional)']],
+  safe:['لا مخاطر.','Safe.'],
+  steps:[['أمسك ورقتين متوازيتين بالرأسي على بُعد 3 cm بينهما.','Hold two sheets vertically about 3 cm apart.'],['انفخ بينهما بقوة وراقب حركتهما.','Blow hard between them and watch.'],['الآن انفخ فوق ورقة أفقية من طرفها: ماذا تفعل؟','Now blow over the top of a sheet hanging from your lip: what happens?']],
+  q:['عند النفخ بين الورقتين، ماذا يحدث؟','When you blow between the sheets, what happens?'], o:[['تقتربان من بعضهما','They move together'],['تتباعدان','They move apart'],['تبقيان','They stay']], ok:0,
+  see:['الورقتان تنجذبان نحو بعضهما، والورقة الأفقية ترتفع.','The sheets come together; the horizontal one rises.'],
+  why:['حسب معادلة برنولي: P + ½ρv² = ثابت، فالهواء الأسرع بين الورقتين له ضغط أقل من الهواء الساكن خارجهما فتدفعهما الضغط الخارجي للداخل. وهذا يفسّر رفع جناح الطائرة.','By Bernoulli, P + ½ρv² = const: faster air between the sheets has lower pressure than still air outside, which pushes them together. It also helps explain lift on a wing.'],
+  try_:['علّق كرة ping-pong في مجفف شعر موجّه للأعلى. لماذا لا تسقط حتى مع إمالة المجفف؟','Float a ping-pong ball in a hair-dryer\'s upward stream. Why does it stay even when tilted?'] },
+{ id:'rocket', ic:'🚀', lv:1, min:15, t:['صاروخ البالون على خيط','Balloon rocket on a string'],
+  mats:[['بالون طويل','A long balloon'],['خيط صيد 5 أمتار وقصبة','5 m of fishing line and a straw'],['شريط لاصق ومؤقت','Tape and a timer']],
+  safe:['لا مخاطر. شد الخيط بين كرسيين.','Safe. Tie the string between two chairs.'],
+  steps:[['مرّر الخيط داخل القصبة وشدّه بين نقطتين.','Thread the string through the straw and stretch it between two points.'],['انفخ البالون وسدّه بإصبعك ولصقه بالقصبة.','Inflate, pinch it shut and tape it to the straw.'],['أطلقه وقِس الزمن والمسافة لتحسب السرعة، ثم كرّر بنفخات مختلفة.','Release; time and distance give the speed. Repeat with different inflations.']],
+  q:['ما الذي يدفع البالون للأمام؟','What pushes the balloon forward?'], o:[['رد فعل الهواء المندفع للخلف','The reaction to air rushing backward'],['الهواء الخارجي يدفعه','Outside air pushes it'],['الجاذبية','Gravity']], ok:0,
+  see:['يندفع البالون على الخيط بسرعة ثم تتباطأ مع نفاد الهواء.','It shoots along the string, slowing as air runs out.'],
+  why:['قانون نيوتن الثالث: البالون يدفع الهواء للخلف بقوة فيدفع الهواء البالون للأمام بقوة مساوية في المقدار ومعاكسة في الاتجاه. وكلما زادت كمية الحركة للهواء زادت سرعة البالون (حفظ كمية الحركة).','Newton\'s third law: the balloon pushes air backward, so the air pushes it forward with an equal and opposite force. More air momentum means more speed (conservation of momentum).'],
+  try_:['اصنع صاروخاً بمرحلتين: بالونان متتاليان. هل يصل أبعد؟ ارسم الرسم البياني بين حجم البالون والسرعة.','Build a two-stage rocket with two balloons. Does it go further? Plot balloon size against speed.'] },
+{ id:'reaction', ic:'📏', lv:1, min:10, t:['قِس زمن ردّ فعلك بالمسطرة','Measure your reaction time with a ruler'],
+  mats:[['مسطرة 30 cm','A 30 cm ruler'],['صديق','A friend'],['ورقة لتسجيل النتائج','Paper for results']],
+  safe:['لا مخاطر.','Safe.'],
+  steps:[['أمسك صديقك المسطرة من الأعلى وأنت تضع أصابعك عند علامة الصفر دون لمسها.','Your friend holds the ruler at the top; your fingers wait at the zero mark without touching.'],['يفلتها دون إنذار وتمسكها بأسرع ما يمكنك.','They drop it without warning and you catch it as fast as you can.'],['سجّل المسافة d التي سقطتها، ثم احسب t = √(2d/g) لعشر محاولات.','Record the drop distance d, then t = √(2d/g) for ten tries.']],
+  q:['إذا سقطت المسطرة 20 cm، فما زمن ردّ فعلك تقريباً؟','If the ruler falls 20 cm, your reaction time is about…'], o:[['0.20 s','0.20 s'],['0.50 s','0.50 s'],['0.05 s','0.05 s']], ok:0,
+  see:['معظم الناس يقعون بين 0.15 و0.25 s.','Most people land between 0.15 and 0.25 s.'],
+  why:['المسطرة تسقط بتسارع g = 9.81 m/s² من السكون: d = ½gt². فنستنتج t = √(2d/g) = √(2×0.20/9.81) ≈ 0.20 s. يشمل الزمن رؤية المسطرة ثم إصدار الدماغ للأمر ثم حركة العضلة.','The ruler falls from rest: d = ½gt², so t = √(2d/g) = √(2×0.20/9.81) ≈ 0.20 s. This includes seeing, the brain\'s command and muscle movement.'],
+  try_:['كيف يتغيّر زمنك بعد 5 دقائق من الراحة وبعد تشتيت بالموسيقى؟ قارن المتوسطات.','How does your time change when rested vs distracted by music? Compare averages.'] },
+{ id:'books', ic:'📚', lv:1, min:10, t:['كتابان لا يمكن فصلهما (الاحتكاك)','Two books you can\'t pull apart (friction)'],
+  mats:[['كتابان أو دفتران بنفس الحجم','Two similar books or notebooks'],['صديقان','Two friends'],['ميزان زنبركي (اختياري)','A spring scale (optional)']],
+  safe:['لا مخاطر.','Safe.'],
+  steps:[['تداخل صفحات الكتابين صفحة بصفحة (مثل أصابع اليدين).','Interleave the pages one by one, like fingers of two hands.'],['اطلب من صديقين شدّ الكتابين من كل جهة.','Ask two friends to pull the covers apart.'],['كرّر بعدد صفحات متداخلة أقل (5، 10، 20) وسجّل القوة بالميزان.','Repeat with fewer interleaved pages (5, 10, 20) and record the force.']],
+  q:['هل يمكن فصلهما بسهولة؟','Will they come apart easily?'], o:[['صعب جداً','Very hard'],['سهل','Easy'],['يعتمد على لون الكتاب','Depends on the colour']], ok:0,
+  see:['حتى شخصان قويان يعجزان عن فصلهما.','Even two strong people struggle to part them.'],
+  why:['الاحتكاك السكوني f = μ·N، والكتابان لهما مئات الأسطح المتلامسة بقوة عمودية N كبيرة من الضغط والتشابك. القوة الكلية تتراكم مع عدد الصفحات فتصبح ضخمة.','Static friction f = μN. Hundreds of contacting surfaces each carry a normal force, and the totals add up with the number of pages, giving a huge resistance.'],
+  try_:['ارسم العلاقة بين عدد الصفحات المتداخلة والقوة اللازمة للفصل: هل هي خطية؟','Plot force versus number of interleaved pages. Is it linear?'] }
+];
+
+  const ST = { chem:{ open:null, flt:'all', done:{}, tick:{}, pick:{} }, phys:{ open:null, flt:'all', done:{}, tick:{}, pick:{} } };
+  const hosts = {};
+  const LV = { 1:['⭐', 'سهلة', 'Easy'], 2:['⭐⭐', 'متوسطة', 'Medium'], 3:['⭐⭐⭐', 'تحتاج معلماً', 'Teacher-guided'] };
+  const key = (ns, id, k)=> ns + ':' + id + ':' + k;
+  function card(ns, e){
+    const s = ST[ns], isOpen = s.open === e.id, done = !!s.done[e.id];
+    let h = `<div class="fn-card ${isOpen ? 'open' : ''} ${done ? 'done' : ''}" data-id="${e.id}"><button type="button" class="fn-head" data-a="toggle" data-id="${e.id}" aria-expanded="${isOpen}"><span class="fn-ic">${e.ic}</span><span class="fn-tt"><b>${esc(tr(e.t))}</b><small>${LV[e.lv][0]} ${B(LV[e.lv][1], LV[e.lv][2])} · ⏱ ${e.min} ${B('دقيقة', 'min')}</small></span><span class="fn-st">${done ? '✅' : (isOpen ? '▾' : '▸')}</span></button>`;
+    if(isOpen){
+      const tk = s.tick, pk = s.pick[e.id];
+      h += `<div class="fn-body"><div class="fn-sec"><h4>📦 ${B('الأدوات', 'Materials')}</h4><ul class="fn-list">${e.mats.map((m, i)=> `<li><label><input type="checkbox" data-a="tick" data-k="${key(ns, e.id, 'm' + i)}" ${tk[key(ns, e.id, 'm' + i)] ? 'checked' : ''}> ${esc(tr(m))}</label></li>`).join('')}</ul></div>
+      <div class="fn-safe">⚠️ <b>${B('السلامة', 'Safety')}:</b> ${esc(tr(e.safe))}</div>
+      <div class="fn-sec"><h4>📝 ${B('الخطوات', 'Steps')}</h4><ol class="fn-list fn-steps">${e.steps.map((m, i)=> `<li><label><input type="checkbox" data-a="tick" data-k="${key(ns, e.id, 's' + i)}" ${tk[key(ns, e.id, 's' + i)] ? 'checked' : ''}> <span>${esc(tr(m))}</span></label></li>`).join('')}</ol></div>
+      <div class="fn-sec fn-pred"><h4>🤔 ${B('توقّع قبل أن تجرّب', 'Predict first')}</h4><p>${esc(tr(e.q))}</p><div class="fn-opts">${e.o.map((o, i)=> `<button type="button" class="fn-opt ${pk !== undefined ? (i === e.ok ? 'ok' : (i === pk ? 'bad' : '')) : ''}" data-a="pick" data-id="${e.id}" data-i="${i}" ${pk !== undefined ? 'disabled' : ''}>${esc(tr(o))}</button>`).join('')}</div>${pk !== undefined ? `<div class="fn-fb ${pk === e.ok ? 'ok' : 'bad'}">${pk === e.ok ? '🎯 ' + B('توقّع صحيح!', 'Correct prediction!') : '💡 ' + B('ليس تماماً — جرّب التجربة وسترى الفرق.', 'Not quite — run the experiment and see.')}</div>` : ''}</div>`;
+      if(pk !== undefined){
+        h += `<div class="fn-sec"><h4>👀 ${B('ما سترى', 'What you will see')}</h4><p>${esc(tr(e.see))}</p></div><div class="fn-sec fn-why"><h4>🔬 ${B('التفسير العلمي', 'The science')}</h4><p>${esc(tr(e.why))}</p></div><div class="fn-sec fn-try"><h4>🚀 ${B('تحدٍّ للمبدعين', 'Challenge for creators')}</h4><p>${esc(tr(e.try_))}</p></div>`;
+      } else h += `<div class="fn-lock">🔒 ${B('اختر توقّعك لتظهر النتيجة والتفسير والتحدي.', 'Pick your prediction to reveal the result, the science and the challenge.')}</div>`;
+      h += `<button type="button" class="btn fn-donebtn ${done ? 'secondary' : ''}" data-a="done" data-id="${e.id}">${done ? '↩ ' + B('إلغاء الإنجاز', 'Undo') : '✅ ' + B('أنجزت التجربة', 'I did it!')}</button></div>`;
+    }
+    return h + '</div>';
+  }
+  function render(ns){
+    const host = hosts[ns]; if(!host) return; const s = ST[ns], list = ns === 'chem' ? FUN_CHEM : FUN_PHYS;
+    const shown = list.filter(e=> s.flt === 'all' || (s.flt === 'easy' && e.lv === 1) || (s.flt === 'mid' && e.lv === 2) || (s.flt === 'teach' && e.lv === 3));
+    const n = Object.keys(s.done).filter(k=> s.done[k]).length;
+    const F = [['all', 'الكل', 'All'], ['easy', '⭐ سهلة', '⭐ Easy'], ['mid', '⭐⭐ متوسطة', '⭐⭐ Medium'], ['teach', '👩‍🏫 مع معلم', '👩‍🏫 Teacher']];
+    host.innerHTML = `<div class="fn-top"><h3>🎉 ${ns === 'chem' ? B('تجارب كيميائية ممتعة', 'Fun chemistry experiments') : B('تجارب فيزيائية ممتعة', 'Fun physics experiments')}</h3><p class="hint">${B('تجارب بأدوات بسيطة يمكن لأي طالب ثانوي تنفيذها في البيت أو المدرسة. توقّع أولاً، ثم جرّب، ثم افهم السبب العلمي وتحدَّ نفسك بالتطوير.', 'Simple-materials experiments any high-school student can do at home or in school. Predict, try, understand the science, then challenge yourself.')}</p>
+      <div class="fn-prog"><div class="fn-bar"><i style="width:${Math.round(n / list.length * 100)}%"></i></div><span>${B('أنجزت', 'Done')} ${n} / ${list.length}${n === list.length ? ' 🏆' : ''}</span></div>
+      <div class="img-chips fn-flt">${F.filter(f=> f[0] !== 'teach' || list.some(x=> x.lv === 3)).map(f=> `<button type="button" class="img-chip ${s.flt === f[0] ? 'active' : ''}" data-a="flt" data-v="${f[0]}">${B(f[1], f[2])}</button>`).join('')}</div></div>
+      <div class="fn-grid">${shown.map(e=> card(ns, e)).join('') || `<p class="hint">${B('لا توجد تجارب في هذه الفئة.', 'No experiments in this group.')}</p>`}</div>
+      <p class="fn-note">⚠️ ${B('نفّذ التجارب بإشراف شخص بالغ أو معلم، وارتدِ نظارة واقية عند استخدام السوائل، ولا تتذوّق أي مادة.', 'Do experiments with an adult or teacher, wear goggles with liquids and never taste anything.')}</p>`;
+  }
+  function onClick(ns, e){
+    const t = e.target.closest('[data-a]'); if(!t) return; const s = ST[ns], a = t.dataset.a;
+    if(a === 'tick'){ s.tick[t.dataset.k] = t.checked; return; }
+    if(a === 'toggle'){ s.open = s.open === t.dataset.id ? null : t.dataset.id; render(ns); const c = hosts[ns].querySelector('.fn-card.open'); if(c) c.scrollIntoView({ block:'nearest', behavior:'smooth' }); return; }
+    if(a === 'pick'){ s.pick[t.dataset.id] = +t.dataset.i; render(ns); return; }
+    if(a === 'done'){ s.done[t.dataset.id] = !s.done[t.dataset.id]; render(ns); return; }
+    if(a === 'flt'){ s.flt = t.dataset.v; render(ns); }
+  }
+  function mount(host, ns){
+    if(!host) return; hosts[ns] = host;
+    if(!host.dataset.fn){ host.dataset.fn = '1'; host.addEventListener('click', e=> onClick(ns, e)); host.addEventListener('change', e=>{ if(e.target.dataset && e.target.dataset.a === 'tick') ST[ns].tick[e.target.dataset.k] = e.target.checked; }); }
+    render(ns);
+  }
+  new MutationObserver(()=> setTimeout(()=>{ Object.keys(hosts).forEach(ns=>{ if(hosts[ns] && document.body.contains(hosts[ns])) render(ns); }); }, 40)).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+  return { mount, ST, CHEM: FUN_CHEM, PHYS: FUN_PHYS, render };
+})();
+
 
 /* ============================================================
    CHEMISTRY TAB: periodic table, molar mass, balancer, moles, pH, gas laws, element quiz
@@ -21305,6 +21707,7 @@ reg('mys', 'المادة المجهولة', 'Mystery salt', '🕵️', mysHtml, 
   mysNew();
 });
 
+reg('fun', 'تجارب ممتعة', 'Fun experiments', '🎉', ()=> '<div id="lab-fun-host"></div>', ()=>{ if(window.uddahFun) window.uddahFun.mount($('lab-fun-host'), 'chem'); });
 /* ===== assemble ===== */
 function buildRoot(){
   const root = $('lab-root'); if(!root) return false;
@@ -21682,6 +22085,7 @@ window.uddahLab = { open, close, sub:(tab, s)=>{ showSub(tab); if(tab === 'sep' 
     s.innerHTML = o;
   }
 
+  reg('fun', 'تجارب ممتعة', 'Fun experiments', '🎉', ['اختر تجربة بسيطة ونفّذها بنفسك: توقّع، جرّب، ثم افهم التفسير العلمي.', 'Pick a simple experiment and do it yourself: predict, try, then learn the science.'], ()=> '<div id="pl-fun-host"></div>', ()=>{ if(window.uddahFun) window.uddahFun.mount($('pl-fun-host'), 'phys'); }, null);
   /* ---------- shell ---------- */
   function buildRoot(){
     const root = $('plab-root'); if(!root) return;
