@@ -541,6 +541,50 @@
   .ch-cfg small{display:block;margin-top:4px;font-family:var(--font-mono);font-size:.72rem;opacity:.7;direction:ltr;}
   .ch-er{margin-bottom:0;}
   .fz-circ{width:100%;max-width:380px;height:auto;display:block;margin:0 auto;}
+  /* ===== polished tool tiles (PDF / images / misc / student hub) ===== */
+  #pdf-home-grid,#tools-home-grid,#img-home-grid{--a1:#c2792b;--a2:#2f8f83;--a3:#5b6fc9;--a4:#b8517a;--a5:#6a9a2f;--a6:#8a5cc2;}
+  #pdf-home-grid>div:nth-child(12n+1),#pdf-home-grid>div:nth-child(12n+2),#tools-home-grid>div:nth-child(12n+1),#tools-home-grid>div:nth-child(12n+2),#img-home-grid>div:nth-child(12n+1),#img-home-grid>div:nth-child(12n+2){--acc:var(--a1);}
+  #pdf-home-grid>div:nth-child(12n+3),#pdf-home-grid>div:nth-child(12n+4),#tools-home-grid>div:nth-child(12n+3),#tools-home-grid>div:nth-child(12n+4),#img-home-grid>div:nth-child(12n+3),#img-home-grid>div:nth-child(12n+4){--acc:var(--a2);}
+  #pdf-home-grid>div:nth-child(12n+5),#pdf-home-grid>div:nth-child(12n+6),#tools-home-grid>div:nth-child(12n+5),#tools-home-grid>div:nth-child(12n+6),#img-home-grid>div:nth-child(12n+5),#img-home-grid>div:nth-child(12n+6){--acc:var(--a3);}
+  #pdf-home-grid>div:nth-child(12n+7),#pdf-home-grid>div:nth-child(12n+8),#tools-home-grid>div:nth-child(12n+7),#tools-home-grid>div:nth-child(12n+8),#img-home-grid>div:nth-child(12n+7),#img-home-grid>div:nth-child(12n+8){--acc:var(--a4);}
+  #pdf-home-grid>div:nth-child(12n+9),#pdf-home-grid>div:nth-child(12n+10),#tools-home-grid>div:nth-child(12n+9),#tools-home-grid>div:nth-child(12n+10),#img-home-grid>div:nth-child(12n+9),#img-home-grid>div:nth-child(12n+10){--acc:var(--a5);}
+  #pdf-home-grid>div:nth-child(12n+11),#pdf-home-grid>div:nth-child(12n+12),#tools-home-grid>div:nth-child(12n+11),#tools-home-grid>div:nth-child(12n+12),#img-home-grid>div:nth-child(12n+11),#img-home-grid>div:nth-child(12n+12){--acc:var(--a6);}
+  #pdf-home-grid .pdf-cat,#tools-home-grid .pdf-cat,#img-home-grid .pdf-cat{display:flex;align-items:center;gap:9px;margin:22px 0 10px;font-size:1rem;font-weight:800;color:var(--bone);}
+  #pdf-home-grid .pdf-cat::before,#tools-home-grid .pdf-cat::before,#img-home-grid .pdf-cat::before{content:"";width:5px;height:1.15em;border-radius:4px;background:var(--acc,var(--brass));box-shadow:0 0 0 3px color-mix(in srgb,var(--acc,var(--brass)) 18%,transparent);}
+  #pdf-home-grid .pdf-tiles,#tools-home-grid .pdf-tiles,#img-home-grid .pdf-tiles,#stu-grid .pdf-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px;}
+  .pdf-tile{position:relative;overflow:hidden;gap:10px;padding:14px 13px 15px;min-height:112px;border-radius:18px;border:1px solid color-mix(in srgb,var(--acc,var(--brass)) 22%,var(--border));background:linear-gradient(160deg,color-mix(in srgb,var(--acc,var(--brass)) 9%,var(--bg-elev-2)) 0%,var(--bg-elev-2) 62%);box-shadow:0 1px 2px rgba(0,0,0,.05);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;animation:tileIn .32s ease both;}
+  .pdf-tile::after{content:"";position:absolute;inset-inline-end:-26px;top:-26px;width:78px;height:78px;border-radius:50%;background:color-mix(in srgb,var(--acc,var(--brass)) 12%,transparent);pointer-events:none;transition:transform .25s ease;}
+  .pdf-tile:hover,.pdf-tile:focus-visible{transform:translateY(-3px);border-color:var(--acc,var(--brass));box-shadow:0 10px 22px color-mix(in srgb,var(--acc,var(--brass)) 26%,transparent);outline:none;}
+  .pdf-tile:hover::after{transform:scale(1.5);}
+  .pdf-tile:active{transform:scale(.97);}
+  .pdf-tile .ico,#stu-grid .pdf-tile .pdf-ti{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:14px;font-size:1.55rem;line-height:1;background:linear-gradient(145deg,color-mix(in srgb,var(--acc,var(--brass)) 34%,transparent),color-mix(in srgb,var(--acc,var(--brass)) 12%,transparent));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--acc,var(--brass)) 30%,transparent);position:relative;z-index:1;}
+  .pdf-tile .nm,#stu-grid .pdf-tile b{position:relative;z-index:1;font-weight:700;font-size:.92rem;line-height:1.4;}
+  .pdf-tile .ds,#stu-grid .pdf-tile small{position:relative;z-index:1;}
+  #stu-grid .pdf-tiles .pdf-tile:nth-child(6n+1){--acc:var(--a1);}#stu-grid .pdf-tiles .pdf-tile:nth-child(6n+2){--acc:var(--a2);}#stu-grid .pdf-tiles .pdf-tile:nth-child(6n+3){--acc:var(--a3);}#stu-grid .pdf-tiles .pdf-tile:nth-child(6n+4){--acc:var(--a4);}#stu-grid .pdf-tiles .pdf-tile:nth-child(6n+5){--acc:var(--a5);}#stu-grid .pdf-tiles .pdf-tile:nth-child(6n){--acc:var(--a6);}
+  #stu-grid{--a1:#c2792b;--a2:#2f8f83;--a3:#5b6fc9;--a4:#b8517a;--a5:#6a9a2f;--a6:#8a5cc2;}
+  #pdf-home-search,#tools-home-search,#img-home-search{border-radius:14px;padding:12px 14px;border:1px solid var(--border);background:var(--bg-elev-2);color:var(--bone);font-size:.95rem;transition:border-color .15s,box-shadow .15s;}
+  #pdf-home-search:focus,#tools-home-search:focus,#img-home-search:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 4px color-mix(in srgb,var(--brass) 18%,transparent);}
+  @keyframes tileIn{from{opacity:0;transform:translateY(8px) scale(.98);}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion:reduce){.pdf-tile{animation:none;transition:none;}}
+  @media (max-width:420px){#pdf-home-grid .pdf-tiles,#tools-home-grid .pdf-tiles,#img-home-grid .pdf-tiles,#stu-grid .pdf-tiles{grid-template-columns:repeat(2,1fr);gap:10px;}.pdf-tile{min-height:104px;padding:12px 11px;}}
+
+  /* ===== virtual physics lab ===== */
+  #plab-root .pl-top h3{margin:0 0 4px;font-size:1.1rem;}
+  .pl-nav{margin:10px 0;}
+  .pl-aim{border:1px solid color-mix(in srgb,var(--brass) 40%,var(--border));background:color-mix(in srgb,var(--brass) 8%,var(--bg-elev-2));border-radius:12px;padding:10px 12px;font-size:.88rem;line-height:1.7;margin-bottom:12px;}
+  .pl-ctl{display:flex;flex-direction:column;gap:10px;margin-bottom:10px;}
+  .pl-sl{display:flex;flex-direction:column;gap:4px;font-size:.85rem;}.pl-sl input[type=range]{width:100%;accent-color:var(--brass);}
+  .pl-cv{width:100%;display:block;border:1px solid var(--border);border-radius:14px;background:var(--bg-elev-2);touch-action:none;}
+  .pl-cv2{margin-top:10px;}
+  .pl-svg{width:100%;border:1px solid var(--border);border-radius:14px;background:var(--bg-elev-2);}
+  .pl-rd{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;}
+  .pl-rd>div{border:1px solid var(--border);border-radius:12px;background:var(--bg-elev-2);padding:8px 6px;text-align:center;}.pl-rd small{display:block;color:var(--bone-dim);font-size:.72rem;}.pl-rd b{font-family:var(--font-mono);font-size:.95rem;color:var(--brass);direction:ltr;display:block;}
+  .pl-bar{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;}.pl-bar .btn{width:auto;flex:1 1 auto;margin:0;padding:9px 12px;font-size:.88rem;}
+  .pl-tw{overflow:auto;margin-top:10px;border:1px solid var(--border);border-radius:12px;}.pl-t{width:100%;border-collapse:collapse;font-size:.82rem;}.pl-t th,.pl-t td{padding:6px 8px;text-align:center;border-bottom:1px solid var(--border);}.pl-t th{background:var(--bg-elev-2);color:var(--bone-dim);font-weight:600;}.pl-emp{color:var(--bone-dim);}
+  .pl-status{margin:8px 0;padding:9px 12px;border-radius:12px;font-size:.88rem;border:1px solid var(--border);}.pl-status.ok{background:rgba(95,191,114,.12);}.pl-status.bad{background:rgba(224,160,60,.15);}
+  .pl-chk{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}.pl-chk input{flex:1 1 140px;min-width:0;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:10px;padding:10px 12px;}.pl-chk .btn{width:auto;margin:0;}
+  .pl-sc{margin-top:8px;font-size:.85rem;color:var(--bone-dim);}
+
   /* ===== virtual chemistry lab ===== */
   .lab-card{margin-top:12px;}
   .lab-sub{margin-top:12px;}
@@ -630,6 +674,15 @@
   .lab-lasth{font-size:.8rem;color:var(--bone-dim);margin-bottom:4px;}
   .lab-last .lab-lg{border-color:var(--brass);font-size:1rem;}.lab-last .lab-lg ul{font-size:.92rem;}
   .lab-det{margin-top:10px;border:1px dashed var(--border);border-radius:12px;padding:6px 10px;}.lab-det summary{cursor:pointer;font-size:.88rem;padding:4px 0;color:var(--bone-dim);}
+
+  .lab-my-flask{margin:8px 0;padding:12px;border:1px dashed var(--steel);border-radius:12px;text-align:center;font-weight:700;background:var(--bg-elev-2);}
+  .lab-my-btns{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}
+  .lab-my-btns .lab-pill{direction:inherit;font-family:inherit;}
+  .lab-my-log{display:flex;flex-direction:column;gap:6px;margin:8px 0;}
+  .lab-my-row{display:flex;flex-direction:column;gap:2px;padding:8px 10px;border:1px solid var(--steel);border-radius:10px;background:var(--bg-elev-2);font-size:.88rem;}
+  .lab-ok{padding:10px;border-radius:10px;background:color-mix(in srgb,#2e9e5b 18%,transparent);border:1px solid #2e9e5b;margin:8px 0;}
+  .lab-bad{padding:10px;border-radius:10px;background:color-mix(in srgb,#d9534f 16%,transparent);border:1px solid #d9534f;margin:8px 0;}
+  .lab-my-ref{margin:8px 0;}
 
 /* ===== chemistry + physics tabs ===== */
   .ch-ctrl{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 10px;justify-content:space-between;}
@@ -21195,6 +21248,63 @@ reg('sep', 'الفصل والتنقية', 'Separation', '⚗️', sepHtml, ()=>{
   distReset();
 }, ()=>{ sepShow(SP.sub); }, ()=>{ stopLoop('dist'); stopLoop('chrom'); });
 
+/* ===== Mystery salt: qualitative analysis ===== */
+const MYS = {
+  salts:{
+    CuSO4:{ f:'CuSO₄', ar:'كبريتات النحاس(II)', en:'Copper(II) sulfate', col:['أزرق','Blue'], flame:['أخضر مزرق','Blue-green'], oh:['راسب أزرق فاتح','Pale blue precipitate'], ohx:['لا يذوب في الزيادة','Insoluble in excess'], acid:['لا تغيّر','No change'], ba:['راسب أبيض (لا يذوب في HCl)','White precipitate (insoluble in HCl)'], ag:['لا تغيّر','No change'] },
+    FeCl3:{ f:'FeCl₃', ar:'كلوريد الحديد(III)', en:'Iron(III) chloride', col:['أصفر مائل للبني','Yellow-brown'], flame:['ذهبي ضعيف / شرر','Faint gold / sparks'], oh:['راسب بني محمر','Red-brown precipitate'], ohx:['لا يذوب في الزيادة','Insoluble in excess'], acid:['لا تغيّر','No change'], ba:['لا تغيّر','No change'], ag:['راسب أبيض متجبن','White curdy precipitate'] },
+    FeSO4:{ f:'FeSO₄', ar:'كبريتات الحديد(II)', en:'Iron(II) sulfate', col:['أخضر باهت','Pale green'], flame:['ذهبي ضعيف / شرر','Faint gold / sparks'], oh:['راسب أخضر يتحوّل للبني بالهواء','Green precipitate turning brown in air'], ohx:['لا يذوب في الزيادة','Insoluble in excess'], acid:['لا تغيّر','No change'], ba:['راسب أبيض (لا يذوب في HCl)','White precipitate (insoluble in HCl)'], ag:['لا تغيّر','No change'] },
+    ZnCl2:{ f:'ZnCl₂', ar:'كلوريد الزنك', en:'Zinc chloride', col:['عديم اللون','Colourless'], flame:['لا لون واضح','No clear colour'], oh:['راسب أبيض','White precipitate'], ohx:['يذوب في الزيادة (محلول رائق)','Dissolves in excess (clear solution)'], acid:['لا تغيّر','No change'], ba:['لا تغيّر','No change'], ag:['راسب أبيض متجبن','White curdy precipitate'] },
+    MgSO4:{ f:'MgSO₄', ar:'كبريتات المغنيسيوم', en:'Magnesium sulfate', col:['عديم اللون','Colourless'], flame:['لا لون واضح','No clear colour'], oh:['راسب أبيض','White precipitate'], ohx:['لا يذوب في الزيادة','Insoluble in excess'], acid:['لا تغيّر','No change'], ba:['راسب أبيض (لا يذوب في HCl)','White precipitate (insoluble in HCl)'], ag:['لا تغيّر','No change'] },
+    NaCl:{ f:'NaCl', ar:'كلوريد الصوديوم', en:'Sodium chloride', col:['عديم اللون','Colourless'], flame:['أصفر برتقالي ساطع','Bright yellow-orange'], oh:['لا تغيّر','No change'], ohx:['لا تغيّر','No change'], acid:['لا تغيّر','No change'], ba:['لا تغيّر','No change'], ag:['راسب أبيض متجبن','White curdy precipitate'] },
+    Na2CO3:{ f:'Na₂CO₃', ar:'كربونات الصوديوم', en:'Sodium carbonate', col:['عديم اللون','Colourless'], flame:['أصفر برتقالي ساطع','Bright yellow-orange'], oh:['لا تغيّر','No change'], ohx:['لا تغيّر','No change'], acid:['فوران وغاز CO₂ يعكّر ماء الجير','Fizzing, CO₂ gas turns limewater milky'], ba:['راسب أبيض (يذوب في HCl مع فوران)','White precipitate (dissolves in HCl with fizzing)'], ag:['راسب أبيض (يذوب في HNO₃)','White precipitate (dissolves in HNO₃)'] },
+    KNO3:{ f:'KNO₃', ar:'نترات البوتاسيوم', en:'Potassium nitrate', col:['عديم اللون','Colourless'], flame:['بنفسجي فاتح (ليلكي)','Lilac / pale violet'], oh:['لا تغيّر','No change'], ohx:['لا تغيّر','No change'], acid:['لا تغيّر','No change'], ba:['لا تغيّر','No change'], ag:['لا تغيّر','No change'] }
+  },
+  cur:null, log:[], done:false, score:0, tries:0, streak:0
+};
+function mysNew(){
+  const k = Object.keys(MYS.salts); let n; do { n = pick(k); } while(n === MYS.cur && k.length > 1);
+  MYS.cur = n; MYS.log = []; MYS.done = false; mysRender();
+  const a = $('lab-my-ans'); if(a) a.value = '';
+  const r = $('lab-my-res'); if(r){ r.innerHTML = ''; }
+}
+const MYT = [['col','👁️','المظهر واللون','Appearance'], ['flame','🔥','اختبار اللهب','Flame test'], ['oh','💧','+ NaOH (قطرات)','+ NaOH (drops)'], ['ohx','🫗','+ NaOH (زيادة)','+ NaOH (excess)'], ['acid','🧪','+ HCl مخفّف','+ dilute HCl'], ['ba','⚪','+ BaCl₂ ثم HCl','+ BaCl₂ then HCl'], ['ag','🔘','+ AgNO₃ ثم HNO₃','+ AgNO₃ then HNO₃']];
+function mysTest(t){
+  if(!MYS.cur || MYS.done) return;
+  if(t === 'ohx' && !MYS.log.some(x=> x.t === 'oh')){ toast(B('أضف NaOH بالقطرات أولاً', 'Add NaOH drops first')); return; }
+  if(MYS.log.some(x=> x.t === t)) return;
+  const s = MYS.salts[MYS.cur]; MYS.log.push({ t, r:s[t] }); mysRender();
+}
+function mysRender(){
+  const h = $('lab-my-log'); if(!h) return;
+  h.innerHTML = MYS.log.length ? MYS.log.map(x=>{ const m = MYT.find(q=> q[0] === x.t); return `<div class="lab-my-row"><b>${m[1]} ${lang() === 'en' ? m[3] : m[2]}</b><span>${esc(tr(x.r))}</span></div>`; }).join('') : `<div class="hint">${B('لم تُجرِ أي اختبار بعد. اختر اختباراً من الأزرار.', 'No tests yet. Pick a test above.')}</div>`;
+  const sc = $('lab-my-sc'); if(sc) sc.textContent = `${B('الصحيح', 'Correct')}: ${MYS.score} / ${MYS.tries}  🔥 ${MYS.streak}`;
+}
+function mysCheck(){
+  if(!MYS.cur || MYS.done) return;
+  const v = $('lab-my-ans').value; if(!v){ toast(B('اختر إجابة', 'Choose an answer')); return; }
+  MYS.tries++; const s = MYS.salts[MYS.cur]; const r = $('lab-my-res');
+  if(v === MYS.cur){ MYS.score++; MYS.streak++; MYS.done = true; r.innerHTML = `<div class="lab-ok">✅ ${B('صحيح!', 'Correct!')} ${esc(s.f)} — ${esc(lang() === 'en' ? s.en : s.ar)}. ${B('استخدمت', 'Tests used')}: ${MYS.log.length}</div>`; }
+  else { MYS.streak = 0; r.innerHTML = `<div class="lab-bad">❌ ${B('ليست الإجابة الصحيحة، أجرِ اختبارات أخرى وفكّر في الكاتيون والأنيون.', 'Not correct. Run more tests and think about the cation and anion.')}</div>`; }
+  mysRender();
+}
+function mysHtml(){
+  return `<p class="hint">${b('🎯 مهمتك: في الدورق ملح مجهول. أجرِ الاختبارات المناسبة (اللون، اللهب، NaOH، الأحماض، BaCl₂، AgNO₃) وحدّد الكاتيون والأنيون ثم اختر اسم الملح. حاول بأقل عدد من الاختبارات.', '🎯 Your mission: a flask holds an unknown salt. Run suitable tests (colour, flame, NaOH, acids, BaCl₂, AgNO₃), work out the cation and anion, then pick the salt. Use as few tests as you can.')}</p>
+  <div class="lab-my-flask">🧫 ${b('محلول الملح المجهول', 'Unknown salt solution')}</div>
+  <div class="lab-my-btns">${MYT.map(m=> `<button type="button" class="lab-pill" data-t="${m[0]}" data-ar="${m[1]} ${m[2]}" data-en="${m[1]} ${m[3]}">${m[1]} ${m[2]}</button>`).join('')}</div>
+  <div id="lab-my-log" class="lab-my-log"></div>
+  <div class="lab-two"><div><label class="lab-lab">${b('الملح هو:', 'The salt is:')}</label><select id="lab-my-ans" class="field"><option value="" data-ar="— اختر —" data-en="— choose —">— اختر —</option>${Object.keys(MYS.salts).map(k=> `<option value="${k}">${MYS.salts[k].f} (${MYS.salts[k].ar})</option>`).join('')}</select></div>
+  <div style="display:flex;gap:8px;align-items:flex-end"><button type="button" class="btn" id="lab-my-ck">✔ ${b('تحقق', 'Check')}</button><button type="button" class="btn secondary" id="lab-my-nw">🎲 ${b('مادة جديدة', 'New unknown')}</button></div></div>
+  <div id="lab-my-res"></div><div class="hint" id="lab-my-sc"></div>
+  <details class="lab-my-ref"><summary>${b('📘 جدول مرجعي للكاتيونات مع NaOH', '📘 Cation reference table (NaOH)')}</summary><div class="hint">${b('Cu²⁺: راسب أزرق • Fe³⁺: بني محمر • Fe²⁺: أخضر • Zn²⁺: أبيض يذوب في الزيادة • Mg²⁺: أبيض لا يذوب • Na⁺ و K⁺: لا راسب (يُميَّزان باللهب: أصفر / ليلكي). الأنيونات: SO₄²⁻ مع BaCl₂ راسب أبيض؛ Cl⁻ مع AgNO₃ راسب أبيض؛ CO₃²⁻ فوران مع الحمض.', 'Cu²⁺: blue ppt • Fe³⁺: red-brown • Fe²⁺: green • Zn²⁺: white, dissolves in excess • Mg²⁺: white, insoluble • Na⁺ and K⁺: no ppt (flame: yellow / lilac). Anions: SO₄²⁻ + BaCl₂ white ppt; Cl⁻ + AgNO₃ white ppt; CO₃²⁻ fizzes with acid.')}</div></details>`;
+}
+reg('mys', 'المادة المجهولة', 'Mystery salt', '🕵️', mysHtml, ()=>{
+  document.querySelectorAll('.lab-my-btns [data-t]').forEach(x=> x.addEventListener('click', ()=> mysTest(x.dataset.t)));
+  $('lab-my-ck').addEventListener('click', mysCheck); $('lab-my-nw').addEventListener('click', mysNew);
+  new MutationObserver(()=> setTimeout(mysRender, 40)).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+  mysNew();
+});
+
 /* ===== assemble ===== */
 function buildRoot(){
   const root = $('lab-root'); if(!root) return false;
@@ -21223,6 +21333,388 @@ if(document.readyState === 'loading') document.addEventListener('DOMContentLoade
 window.uddahLab = { open, close, sub:(tab, s)=>{ showSub(tab); if(tab === 'sep' && s) sepShow(s); if(tab === 'cell' && s === 'elec'){ const c = document.querySelector('#lab-cmode [data-v="elec"]'); if(c) c.click(); } }, LABE, EXPS, Bench, BN, runExp, showSub, addReagent, TT, titrAdd, titrEnd, FL, flameSelect, CL, cellCalc, ELX, elementCard, elementTest, GLASS, MEAS, FLM, HC, practiceNew, TL, DS, distStep, CHR, SQ, SAFEQ, gasTest, MODS };
 
 })();
+
+/* ============================================================
+   VIRTUAL PHYSICS LAB — free fall, pendulum, spring, incline, circuits, lens, ripple tank, buoyancy, measuring instruments
+   ============================================================ */
+(function uddahPLab(){
+  const $ = id=> document.getElementById(id);
+  const lang = ()=> (typeof currentLang !== 'undefined' ? currentLang : 'ar');
+  const B = (a, e)=> lang() === 'en' ? e : a;
+  const b = (a, e)=> `<span data-ar="${a}" data-en="${e}">${a}</span>`;
+  const esc = s=> String(s).replace(/[&<>"]/g, c=> ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+  const fx = (x, d)=> isFinite(x) ? (+x).toFixed(d == null ? 2 : d) : '—';
+  const PI = Math.PI, rad = x=> x * PI / 180, clamp = (x, a, c)=> Math.max(a, Math.min(c, x));
+  const cssv = n=>{ try{ return getComputedStyle(document.documentElement).getPropertyValue(n).trim() || '#888'; }catch(e){ return '#888'; } };
+  const rnd = (a, c)=> a + Math.random() * (c - a);
+  const PLN = [['🌍', 'الأرض', 'Earth', 9.81], ['🌙', 'القمر', 'Moon', 1.62], ['🔴', 'المريخ', 'Mars', 3.71], ['🟠', 'المشتري', 'Jupiter', 24.79]];
+  const MODS = []; let cur = 'fall', raf = 0, last = 0, active = false;
+  function reg(id, ar, en, ic, aim, html, init, tick){ MODS.push({ id, ar, en, ic, aim, html, init, tick }); }
+  const chipsH = (id, arr, sel)=> `<div class="img-chips" id="${id}">${arr.map(x=> `<button type="button" class="img-chip ${String(x[0]) === String(sel) ? 'active' : ''}" data-v="${x[0]}" data-ar="${x[1]}" data-en="${x[2]}">${x[1]}</button>`).join('')}</div>`;
+  function setChips(id, v){ const h = $(id); if(!h) return; h.querySelectorAll('.img-chip').forEach(c=> c.classList.toggle('active', String(c.dataset.v) === String(v))); }
+  function onChips(id, fn){ const h = $(id); if(h) h.addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(c){ fn(c.dataset.v); setChips(id, c.dataset.v); } }); }
+  function slider(id, ar, en, min, max, step, val, unit){ return `<label class="pl-sl"><span>${b(ar, en)}: <b id="${id}-v">${val}</b> ${unit}</span><input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}"></label>`; }
+  function onSlider(id, fn){ const s = $(id); if(!s) return; const u = ()=>{ $(id + '-v').textContent = s.value; fn(+s.value); }; s.addEventListener('input', u); }
+  function ensure(cv, h){ const w = cv.clientWidth || 320; if(cv.__w !== w || cv.__h !== h){ const dpr = Math.min(2, window.devicePixelRatio || 1); cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); cv.style.height = h + 'px'; cv.__w = w; cv.__h = h; cv.__dpr = dpr; } const c = cv.getContext('2d'); c.setTransform(cv.__dpr, 0, 0, cv.__dpr, 0, 0); return { c, w, h }; }
+  function linreg(pts){ const n = pts.length; if(n < 2) return null; let sx = 0, sy = 0, sxx = 0, sxy = 0; pts.forEach(p=>{ sx += p[0]; sy += p[1]; sxx += p[0] * p[0]; sxy += p[0] * p[1]; }); const d = n * sxx - sx * sx; if(Math.abs(d) < 1e-12) return null; const m = (n * sxy - sx * sy) / d; return { m, c:(sy - m * sx) / n }; }
+  function plot(cv, pts, xl, yl){
+    const { c, w, h } = ensure(cv, 210); c.clearRect(0, 0, w, h);
+    const ink = cssv('--bone-dim'), line = cssv('--border'), br = cssv('--brass');
+    const L = 46, R = 12, T = 12, Bt = 34; c.font = '11px sans-serif'; c.fillStyle = ink; c.strokeStyle = line; c.lineWidth = 1;
+    const xm = Math.max(1e-9, Math.max.apply(null, pts.map(p=> p[0]).concat([0.001]))) * 1.15, ym = Math.max(1e-9, Math.max.apply(null, pts.map(p=> p[1]).concat([0.001]))) * 1.15;
+    const X = x=> L + x / xm * (w - L - R), Y = y=> h - Bt - y / ym * (h - T - Bt);
+    c.beginPath(); c.moveTo(L, T); c.lineTo(L, h - Bt); c.lineTo(w - R, h - Bt); c.stroke();
+    for(let i = 0; i <= 4; i++){ const gx = xm * i / 4, gy = ym * i / 4; c.textAlign = 'center'; c.fillText(gx.toPrecision(2), X(gx), h - Bt + 14); c.textAlign = 'right'; c.fillText(gy.toPrecision(2), L - 5, Y(gy) + 4); c.globalAlpha = .25; c.beginPath(); c.moveTo(L, Y(gy)); c.lineTo(w - R, Y(gy)); c.stroke(); c.globalAlpha = 1; }
+    c.textAlign = 'center'; c.fillText(xl, (L + w - R) / 2, h - 6); c.save(); c.translate(11, (T + h - Bt) / 2); c.rotate(-PI / 2); c.fillText(yl, 0, 0); c.restore();
+    const r = linreg(pts); if(r){ c.strokeStyle = br; c.lineWidth = 2; c.beginPath(); c.moveTo(X(0), Y(r.c)); c.lineTo(X(xm), Y(r.c + r.m * xm)); c.stroke(); }
+    c.fillStyle = br; pts.forEach(p=>{ c.beginPath(); c.arc(X(p[0]), Y(p[1]), 4, 0, 2 * PI); c.fill(); });
+    return r;
+  }
+  const tbl = (head, rows)=> `<div class="pl-tw"><table class="pl-t"><thead><tr>${head.map(h=> `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=> `<tr>${r.map(x=> `<td>${x}</td>`).join('')}</tr>`).join('') || `<tr><td colspan="${head.length}" class="pl-emp">${B('لا قياسات بعد', 'No measurements yet')}</td></tr>`}</tbody></table></div>`;
+  const note = (h, cls)=> `<div class="ch-note ${cls || ''}">${h}</div>`;
+
+  /* ---------- 1. free fall ---------- */
+  const FF = { g:9.81, h:20, vac:false, obj:'ball', y:0, v:0, t:0, run:false, rows:[] };
+  reg('fall', 'السقوط الحر', 'Free fall', '⏱', ['قِس زمن سقوط كرة من ارتفاعات مختلفة ثم ارسم h مقابل t²: ميل الخط = g/2. جرّب الريشة في الهواء وفي الفراغ.', 'Time a ball dropped from several heights then plot h against t²: the slope equals g/2. Try the feather in air and in a vacuum.'],
+    ()=> `<div class="pl-ctl">${chipsH('pl-ff-pl', PLN.map((p, i)=> [i, p[0] + ' ' + p[1], p[0] + ' ' + p[2]]), 0)}${chipsH('pl-ff-med', [['air', '💨 هواء', '💨 Air'], ['vac', '⚫ فراغ', '⚫ Vacuum']], 'air')}${chipsH('pl-ff-obj', [['ball', '⚫ كرة حديد', '⚫ Steel ball'], ['feather', '🪶 ريشة', '🪶 Feather']], 'ball')}${slider('pl-ff-h', 'الارتفاع', 'Height', 2, 100, 1, 20, 'm')}</div>
+      <canvas id="pl-ff-cv" class="pl-cv"></canvas>
+      <div class="pl-rd"><div><small>${b('الزمن', 'Time')}</small><b id="pl-ff-t">0.000 s</b></div><div><small>${b('السرعة', 'Speed')}</small><b id="pl-ff-v">0.0 m/s</b></div><div><small>${b('المسافة', 'Fallen')}</small><b id="pl-ff-y">0.0 m</b></div></div>
+      <div class="pl-bar"><button type="button" class="btn" id="pl-ff-go">⬇ ${b('أسقِط', 'Drop')}</button><button type="button" class="btn secondary" id="pl-ff-rs">↺ ${b('إعادة', 'Reset')}</button><button type="button" class="btn secondary" id="pl-ff-clr">🗑 ${b('مسح الجدول', 'Clear table')}</button></div>
+      <div id="pl-ff-tb"></div><canvas id="pl-ff-pl2" class="pl-cv pl-cv2"></canvas><div id="pl-ff-res"></div>`,
+    ()=>{
+      onChips('pl-ff-pl', v=>{ FF.g = PLN[+v][3]; ffReset(); }); onChips('pl-ff-med', v=>{ FF.vac = v === 'vac'; ffReset(); }); onChips('pl-ff-obj', v=>{ FF.obj = v; ffReset(); });
+      onSlider('pl-ff-h', v=>{ FF.h = v; ffReset(); });
+      $('pl-ff-go').addEventListener('click', ()=>{ if(FF.run) return; if(FF.y >= FF.h) ffReset(); FF.run = true; });
+      $('pl-ff-rs').addEventListener('click', ffReset); $('pl-ff-clr').addEventListener('click', ()=>{ FF.rows = []; ffTable(); });
+      ffTable();
+    },
+    dt=>{
+      const k = FF.vac ? 0 : (FF.obj === 'feather' ? 0.35 : 0.0006);
+      if(FF.run){ let n = Math.ceil(dt / 0.002); const hh = dt / n; while(n-- > 0 && FF.run){ FF.v += (FF.g - k * FF.v * FF.v) * hh; FF.y += FF.v * hh; FF.t += hh; if(FF.y >= FF.h){ const over = (FF.y - FF.h) / Math.max(FF.v, 1e-6); FF.t -= over; FF.y = FF.h; FF.run = false; FF.rows.push({ obj:FF.obj, vac:FF.vac, h:FF.h, t:FF.t, g:FF.g }); ffTable(); } } }
+      const cv = $('pl-ff-cv'); if(!cv) return; const { c, w, h } = ensure(cv, 230); c.clearRect(0, 0, w, h);
+      const ink = cssv('--bone'), dim = cssv('--bone-dim'), br = cssv('--brass');
+      const top = 18, gy = h - 22, sc = (gy - top) / FF.h;
+      c.fillStyle = FF.vac ? 'rgba(20,20,40,.35)' : 'rgba(120,170,220,.10)'; c.fillRect(0, 0, w, h);
+      c.fillStyle = '#6b5a45'; c.fillRect(0, gy, w, 22);
+      c.strokeStyle = dim; c.fillStyle = dim; c.font = '11px sans-serif'; c.textAlign = 'left';
+      const step = FF.h > 50 ? 20 : FF.h > 20 ? 10 : FF.h > 8 ? 5 : 1;
+      for(let m = 0; m <= FF.h; m += step){ const yy = top + m * sc; c.beginPath(); c.moveTo(w * 0.25, yy); c.lineTo(w * 0.25 + 10, yy); c.stroke(); c.fillText(m + ' m', w * 0.25 + 14, yy + 4); }
+      const x = w * 0.5, yy = top + FF.y * sc, r = FF.obj === 'ball' ? 9 : 11;
+      if(FF.obj === 'ball'){ const g = c.createRadialGradient(x - 3, yy - 3, 1, x, yy, r); g.addColorStop(0, '#d8d8d8'); g.addColorStop(1, '#555'); c.fillStyle = g; c.beginPath(); c.arc(x, yy, r, 0, 2 * PI); c.fill(); }
+      else { c.save(); c.translate(x, yy); c.rotate(Math.sin(FF.t * 5) * .3); c.fillStyle = '#e7d9b8'; c.beginPath(); c.ellipse(0, 0, 5, 14, 0, 0, 2 * PI); c.fill(); c.strokeStyle = '#a58b55'; c.beginPath(); c.moveTo(0, -14); c.lineTo(0, 14); c.stroke(); c.restore(); }
+      $('pl-ff-t').textContent = FF.t.toFixed(3) + ' s'; $('pl-ff-v').textContent = FF.v.toFixed(1) + ' m/s'; $('pl-ff-y').textContent = FF.y.toFixed(1) + ' m';
+    });
+  function ffReset(){ FF.y = 0; FF.v = 0; FF.t = 0; FF.run = false; }
+  function ffTable(){
+    const tb = $('pl-ff-tb'); if(!tb) return;
+    tb.innerHTML = tbl([B('الجسم', 'Object'), B('الوسط', 'Medium'), 'h (m)', 't (s)', 't² (s²)'], FF.rows.map(r=> [r.obj === 'ball' ? '⚫' : '🪶', r.vac ? '⚫' : '💨', r.h, fx(r.t, 3), fx(r.t * r.t, 3)]));
+    const pts = FF.rows.map(r=> [r.t * r.t, r.h]); const rg = plot($('pl-ff-pl2'), pts, 't² (s²)', 'h (m)');
+    $('pl-ff-res').innerHTML = rg ? note(`${B('ميل الخط', 'Slope')} = ${fx(rg.m, 2)} → <b>g ≈ ${fx(2 * rg.m, 2)} m/s²</b> (${B('القيمة الحقيقية', 'actual')} ${FF.g}). ${FF.rows.some(r=> r.obj === 'feather' && !r.vac) ? B('نقاط الريشة في الهواء تنحرف عن الخط بسبب مقاومة الهواء.', 'The feather-in-air points deviate because of air resistance.') : ''}`, 'ok') : note(B('أسقِط الكرة من ارتفاعين مختلفين على الأقل ليظهر الخط.', 'Drop the ball from at least two heights to get a line.'));
+  }
+
+  /* ---------- 2. pendulum ---------- */
+  const PD = { L:1, th0:20, g:9.81, th:rad(20), w:0, t:0, run:false, speed:1, prev:0, cross:0, t0:0, count:0, rows:[] };
+  reg('pend', 'البندول البسيط', 'Simple pendulum', '🕰', ['أطلق البندول: يقيس الجهاز زمن 10 ذبذبات ويحسب T. غيّر الطول ثم ارسم T² مقابل L: الميل = 4π²/g.', 'Release the pendulum: the stopwatch times 10 oscillations and gives T. Change the length and plot T² against L: slope = 4π²/g.'],
+    ()=> `<div class="pl-ctl">${chipsH('pl-pd-pl', PLN.slice(0, 3).map((p, i)=> [i, p[0] + ' ' + p[1], p[0] + ' ' + p[2]]), 0)}${slider('pl-pd-l', 'الطول', 'Length', 0.2, 2, 0.1, 1, 'm')}${slider('pl-pd-a', 'زاوية البداية', 'Start angle', 5, 60, 5, 20, '°')}${chipsH('pl-pd-sp', [[1, '×1', '×1'], [5, '×5', '×5'], [20, '×20', '×20']], 1)}</div>
+      <canvas id="pl-pd-cv" class="pl-cv"></canvas>
+      <div class="pl-rd"><div><small>${b('عدد الذبذبات', 'Oscillations')}</small><b id="pl-pd-n">0 / 10</b></div><div><small>${b('الزمن الكلي', 'Total time')}</small><b id="pl-pd-t">0.00 s</b></div><div><small>${b('T المتوقع', 'Expected T')}</small><b id="pl-pd-th">—</b></div></div>
+      <div class="pl-bar"><button type="button" class="btn" id="pl-pd-go">▶ ${b('أطلق وقِس', 'Release & time')}</button><button type="button" class="btn secondary" id="pl-pd-rs">↺ ${b('إيقاف', 'Stop')}</button><button type="button" class="btn secondary" id="pl-pd-clr">🗑 ${b('مسح الجدول', 'Clear table')}</button></div>
+      <div id="pl-pd-tb"></div><canvas id="pl-pd-pl2" class="pl-cv pl-cv2"></canvas><div id="pl-pd-res"></div>`,
+    ()=>{
+      onChips('pl-pd-pl', v=>{ PD.g = PLN[+v][3]; pdStop(); }); onChips('pl-pd-sp', v=>{ PD.speed = +v; });
+      onSlider('pl-pd-l', v=>{ PD.L = v; pdStop(); }); onSlider('pl-pd-a', v=>{ PD.th0 = v; pdStop(); });
+      $('pl-pd-go').addEventListener('click', ()=>{ pdStop(); PD.run = true; PD.th = rad(PD.th0); PD.w = 0; PD.prev = PD.th; PD.cross = 0; PD.t = 0; PD.count = 0; });
+      $('pl-pd-rs').addEventListener('click', pdStop); $('pl-pd-clr').addEventListener('click', ()=>{ PD.rows = []; pdTable(); });
+      pdStop(); pdTable();
+    },
+    dt=>{
+      if(PD.run){ let T = Math.min(dt, 0.05) * PD.speed, n = Math.ceil(T / 0.002); const hh = T / n; while(n-- > 0 && PD.run){ PD.w += -(PD.g / PD.L) * Math.sin(PD.th) * hh; PD.th += PD.w * hh; PD.t += hh;
+        if(PD.prev < 0 && PD.th >= 0 && PD.w > 0){ const tc = PD.t - hh * PD.th / (PD.th - PD.prev); PD.cross++; if(PD.cross === 1){ PD.t0 = tc; PD.count = 0; } else { PD.count = PD.cross - 1; if(PD.count >= 10){ const Tm = (tc - PD.t0) / 10; PD.run = false; PD.rows.push({ L:PD.L, T:Tm, g:PD.g, a:PD.th0 }); pdTable(); } } }
+        PD.prev = PD.th; } }
+      const cv = $('pl-pd-cv'); if(!cv) return; const { c, w, h } = ensure(cv, 250); c.clearRect(0, 0, w, h);
+      const dim = cssv('--bone-dim'), br = cssv('--brass'); const px = Math.min(190, h - 40) / 2 * PD.L / 1; const len = 40 + PD.L / 2 * (h - 80); const ox = w / 2, oy = 20;
+      c.strokeStyle = dim; c.lineWidth = 3; c.beginPath(); c.moveTo(ox - 40, oy); c.lineTo(ox + 40, oy); c.stroke();
+      c.setLineDash([4, 4]); c.lineWidth = 1; c.beginPath(); c.moveTo(ox, oy); c.lineTo(ox, oy + len + 16); c.stroke(); c.setLineDash([]);
+      const bx = ox + Math.sin(PD.th) * len, by = oy + Math.cos(PD.th) * len;
+      c.strokeStyle = cssv('--bone'); c.lineWidth = 1.5; c.beginPath(); c.moveTo(ox, oy); c.lineTo(bx, by); c.stroke();
+      c.fillStyle = br; c.beginPath(); c.arc(bx, by, 13, 0, 2 * PI); c.fill(); c.strokeStyle = 'rgba(0,0,0,.4)'; c.stroke();
+      c.strokeStyle = dim; c.beginPath(); c.arc(ox, oy, 28, PI / 2 - rad(PD.th0), PI / 2 + rad(PD.th0)); c.stroke();
+      $('pl-pd-n').textContent = (PD.run ? PD.count : (PD.rows.length && !PD.run && PD.count >= 10 ? 10 : 0)) + ' / 10'; $('pl-pd-t').textContent = (PD.run && PD.cross >= 1 ? PD.t - PD.t0 : 0).toFixed(2) + ' s';
+      $('pl-pd-th').textContent = (2 * PI * Math.sqrt(PD.L / PD.g)).toFixed(3) + ' s';
+    });
+  function pdStop(){ PD.run = false; PD.th = rad(PD.th0); PD.w = 0; PD.count = 0; PD.cross = 0; }
+  function pdTable(){
+    const tb = $('pl-pd-tb'); if(!tb) return;
+    tb.innerHTML = tbl(['L (m)', 'T (s)', 'T² (s²)', B('الجاذبية', 'g'), B('الزاوية', 'Angle')], PD.rows.map(r=> [r.L, fx(r.T, 3), fx(r.T * r.T, 3), r.g, r.a + '°']));
+    const pts = PD.rows.filter(r=> r.g === PD.g).map(r=> [r.L, r.T * r.T]); const rg = plot($('pl-pd-pl2'), pts, 'L (m)', 'T² (s²)');
+    $('pl-pd-res').innerHTML = rg && rg.m > 0 ? note(`${B('ميل الخط', 'Slope')} = ${fx(rg.m, 3)} s²/m → <b>g = 4π² / ${B('الميل', 'slope')} ≈ ${fx(4 * PI * PI / rg.m, 2)} m/s²</b> (${B('القيمة الحقيقية', 'actual')} ${PD.g}). ${PD.rows.some(r=> r.a > 30) ? B('الزوايا الكبيرة (> 30°) تزيد T قليلاً عن قانون الزوايا الصغيرة.', 'Large angles (> 30°) make T slightly longer than the small-angle law.') : ''}`, 'ok') : note(B('خذ قياسين على الأقل بطولين مختلفين (وزاوية صغيرة).', 'Take at least two measurements with different lengths (small angle).'));
+  }
+
+  /* ---------- 3. spring ---------- */
+  const SP = { sel:'A', K:{ A:25, B:60, C:120 }, n:0, x:0, v:0, rows:[] };
+  reg('spring', 'النابض وقانون هوك', "Spring & Hooke's law", '🌀', ['أضف كتلاً (50 g لكل خطوة) وسجّل استطالة النابض من المسطرة. ارسم F مقابل x: الميل = k ثابت النابض المجهول.', 'Add masses (50 g per step) and record the spring extension from the ruler. Plot F against x: the slope is the unknown spring constant k.'],
+    ()=> `<div class="pl-ctl">${chipsH('pl-sp-sel', [['A', 'نابض A', 'Spring A'], ['B', 'نابض B', 'Spring B'], ['C', 'نابض C', 'Spring C']], 'A')}</div>
+      <canvas id="pl-sp-cv" class="pl-cv"></canvas>
+      <div class="pl-rd"><div><small>${b('الكتلة', 'Mass')}</small><b id="pl-sp-m">0 g</b></div><div><small>${b('القوة F = mg', 'Force F = mg')}</small><b id="pl-sp-f">0 N</b></div><div><small>${b('قراءة المسطرة', 'Ruler reading')}</small><b id="pl-sp-x">0.0 cm</b></div></div>
+      <div class="pl-bar"><button type="button" class="btn" id="pl-sp-add">＋ 50 g</button><button type="button" class="btn secondary" id="pl-sp-sub">－ 50 g</button><button type="button" class="btn secondary" id="pl-sp-rec">📌 ${b('سجّل القراءة', 'Record reading')}</button><button type="button" class="btn secondary" id="pl-sp-clr">🗑</button></div>
+      <div id="pl-sp-tb"></div><canvas id="pl-sp-pl2" class="pl-cv pl-cv2"></canvas><div id="pl-sp-res"></div><button type="button" class="btn secondary" id="pl-sp-chk" style="margin-top:8px">🔍 ${b('تحقق من k الحقيقي', 'Reveal the true k')}</button>`,
+    ()=>{
+      onChips('pl-sp-sel', v=>{ SP.sel = v; SP.n = 0; SP.x = 0; SP.v = 0; SP.rows = []; spTable(); });
+      $('pl-sp-add').addEventListener('click', ()=>{ if(SP.n < 10) SP.n++; }); $('pl-sp-sub').addEventListener('click', ()=>{ if(SP.n > 0) SP.n--; });
+      $('pl-sp-rec').addEventListener('click', ()=>{ if(SP.n === 0) return; const m = SP.n * 0.05, xe = m * 9.81 / SP.K[SP.sel]; const rd = Math.round((xe * 100 + (Math.random() - .5) * 0.2) * 10) / 10; if(SP.rows.some(r=> r.m === m)) return; SP.rows.push({ m, x:rd }); SP.rows.sort((a, c)=> a.m - c.m); spTable(); });
+      $('pl-sp-clr').addEventListener('click', ()=>{ SP.rows = []; spTable(); });
+      $('pl-sp-chk').addEventListener('click', ()=>{ const r = $('pl-sp-res'); r.innerHTML += note(`🔍 ${B('الثابت الحقيقي للنابض', 'True spring constant')} ${SP.sel}: <b>k = ${SP.K[SP.sel]} N/m</b>`, 'ok'); });
+      spTable();
+    },
+    dt=>{
+      const k = SP.K[SP.sel], m = Math.max(0.01, SP.n * 0.05), xe = SP.n * 0.05 * 9.81 / k; let n = Math.ceil(Math.min(dt, .05) / 0.002); const hh = Math.min(dt, .05) / n;
+      while(n-- > 0){ const a = (SP.n * 0.05 * 9.81 - k * SP.x - 0.9 * Math.sqrt(k * m) * SP.v) / m; SP.v += a * hh; SP.x += SP.v * hh; if(SP.n === 0){ SP.x *= 0.9; SP.v *= .9; } }
+      const cv = $('pl-sp-cv'); if(!cv) return; const { c, w, h } = ensure(cv, 300); c.clearRect(0, 0, w, h);
+      const ink = cssv('--bone'), dim = cssv('--bone-dim'), br = cssv('--brass'); const top = 22, natural = 60, scale = 6.5;           // px per cm
+      const ox = w / 2; const ytop = top, yend = top + natural + SP.x * 100 * scale; const turns = 14;
+      c.fillStyle = dim; c.fillRect(ox - 50, ytop - 8, 100, 8);
+      c.strokeStyle = ink; c.lineWidth = 2; c.beginPath(); c.moveTo(ox, ytop); const seg = (yend - ytop - 12) / turns; for(let i = 0; i < turns; i++){ const y0 = ytop + 6 + i * seg; c.lineTo(ox + (i % 2 ? -16 : 16), y0 + seg / 2); } c.lineTo(ox, yend - 6); c.lineTo(ox, yend); c.stroke();
+      const mw = 22 + SP.n * 3.2; c.fillStyle = br; c.fillRect(ox - mw / 2, yend, mw, 22 + SP.n * 1.6); c.fillStyle = '#1c1b1a'; c.font = 'bold 11px sans-serif'; c.textAlign = 'center'; c.fillText(Math.round(SP.n * 50) + ' g', ox, yend + 15 + SP.n * .8);
+      const rx = ox + 90; c.strokeStyle = dim; c.fillStyle = dim; c.lineWidth = 1; c.font = '10px sans-serif'; c.textAlign = 'left'; c.beginPath(); c.moveTo(rx, ytop + natural); c.lineTo(rx, ytop + natural + 21 * scale); c.stroke();
+      for(let cm = 0; cm <= 21; cm += 1){ const yy = ytop + natural + cm * scale; c.beginPath(); c.moveTo(rx, yy); c.lineTo(rx + (cm % 5 === 0 ? 10 : 5), yy); c.stroke(); if(cm % 5 === 0) c.fillText(cm * 1 + ' cm', rx + 13, yy + 3); }
+      c.setLineDash([3, 3]); c.beginPath(); c.moveTo(ox, yend + 0); c.lineTo(rx, yend); c.stroke(); c.setLineDash([]);
+      $('pl-sp-m').textContent = Math.round(SP.n * 50) + ' g'; $('pl-sp-f').textContent = (SP.n * 0.05 * 9.81).toFixed(3) + ' N'; $('pl-sp-x').textContent = (SP.x * 100).toFixed(1) + ' cm';
+    });
+  function spTable(){
+    const tb = $('pl-sp-tb'); if(!tb) return;
+    tb.innerHTML = tbl(['m (g)', 'F (N)', 'x (cm)'], SP.rows.map(r=> [Math.round(r.m * 1000), fx(r.m * 9.81, 3), r.x]));
+    const pts = SP.rows.map(r=> [r.x / 100, r.m * 9.81]); const rg = plot($('pl-sp-pl2'), pts, 'x (m)', 'F (N)');
+    $('pl-sp-res').innerHTML = rg ? note(`${B('ميل الخط', 'Slope')} = <b>k ≈ ${fx(rg.m, 1)} N/m</b>`, 'ok') : note(B('سجّل ثلاث قراءات على الأقل بكتل مختلفة.', 'Record at least three readings with different masses.'));
+  }
+
+  /* ---------- 4. incline & friction ---------- */
+  const IN = { ang:15, surf:'wood', mass:2, s:0, v:0, sliding:false, rows:[], mus:{ ice:[0.10, 0.05], wood:[0.45, 0.35], rubber:[1.0, 0.8], X:[0.62, 0.5] }, hold:true };
+  reg('incl', 'المستوى المائل والاحتكاك', 'Incline & friction', '⛰', ['ارفع زاوية المستوى ببطء حتى يبدأ الجسم بالانزلاق: عند هذه الزاوية μs = tan θ. جرّب السطوح المختلفة واكتشف السطح المجهول X.', 'Raise the angle slowly until the block starts to slide: at that angle μs = tan θ. Try the different surfaces and find the unknown surface X.'],
+    ()=> `<div class="pl-ctl">${chipsH('pl-in-sf', [['ice', '🧊 جليد', '🧊 Ice'], ['wood', '🪵 خشب', '🪵 Wood'], ['rubber', '⚫ مطاط', '⚫ Rubber'], ['X', '❓ سطح مجهول X', '❓ Unknown X']], 'wood')}${slider('pl-in-a', 'زاوية الميل', 'Angle', 0, 60, 0.5, 15, '°')}${slider('pl-in-m', 'الكتلة', 'Mass', 0.5, 10, 0.5, 2, 'kg')}</div>
+      <canvas id="pl-in-cv" class="pl-cv"></canvas>
+      <div class="pl-rd"><div><small>mg·sinθ</small><b id="pl-in-p">—</b></div><div><small>N = mg·cosθ</small><b id="pl-in-n">—</b></div><div><small>${b('الاحتكاك المتاح', 'Max friction')}</small><b id="pl-in-f">—</b></div></div>
+      <div id="pl-in-st" class="pl-status"></div>
+      <div class="pl-bar"><button type="button" class="btn" id="pl-in-rs">↺ ${b('أعد الجسم لأعلى', 'Reset block')}</button><button type="button" class="btn secondary" id="pl-in-clr">🗑 ${b('مسح الجدول', 'Clear table')}</button></div>
+      <div id="pl-in-tb"></div><div id="pl-in-res"></div>`,
+    ()=>{
+      onChips('pl-in-sf', v=>{ IN.surf = v; inReset(); }); onSlider('pl-in-a', v=>{ IN.ang = v; }); onSlider('pl-in-m', v=>{ IN.mass = v; });
+      $('pl-in-rs').addEventListener('click', inReset); $('pl-in-clr').addEventListener('click', ()=>{ IN.rows = []; inTable(); }); inTable();
+    },
+    dt=>{
+      const g = 9.81, th = rad(IN.ang), mu = IN.mus[IN.surf], L = 3.2;
+      if(!IN.sliding && IN.s < L && Math.tan(th) > mu[0] + 1e-9){ IN.sliding = true; IN.v = 0; if(!IN.start){ IN.start = true; IN.rows = IN.rows.filter(r=> r.surf !== IN.surf); IN.rows.push({ surf:IN.surf, th:IN.ang, mu:Math.tan(th) }); inTable(); } }
+      if(IN.sliding){ const a = g * (Math.sin(th) - mu[1] * Math.cos(th)); IN.v = Math.max(0, IN.v + a * Math.min(dt, .05)); IN.s += IN.v * Math.min(dt, .05); if(a <= 0 && IN.v <= 0.001){ IN.sliding = false; } if(IN.s >= L){ IN.s = L; IN.sliding = false; IN.v = 0; } }
+      const cv = $('pl-in-cv'); if(!cv) return; const { c, w, h } = ensure(cv, 250); c.clearRect(0, 0, w, h);
+      const ink = cssv('--bone'), dim = cssv('--bone-dim'), br = cssv('--brass'); const bx = 28, by = h - 24, len = Math.min(w - 60, 330) / Math.max(Math.cos(th), .35); const lx = Math.min(w - 56, 330);
+      const hx = bx + lx, hy = by - Math.tan(th) * lx; const plen = Math.hypot(hx - bx, by - hy);
+      c.fillStyle = IN.surf === 'ice' ? '#a9d6ee' : IN.surf === 'wood' ? '#9a6b3a' : IN.surf === 'rubber' ? '#333' : '#8f7ab3'; c.beginPath(); c.moveTo(bx, by); c.lineTo(hx, by); c.lineTo(hx, hy); c.closePath(); c.fill();
+      c.strokeStyle = dim; c.beginPath(); c.moveTo(bx, by); c.lineTo(hx, by); c.stroke(); c.beginPath(); c.arc(bx, by, 40, 0, -th, true); c.stroke(); c.fillStyle = ink; c.font = '12px sans-serif'; c.textAlign = 'left'; c.fillText(IN.ang.toFixed(1) + '°', bx + 46, by - 6);
+      const ux = (hx - bx) / plen, uy = (hy - by) / plen, nx = uy, ny = -ux; const ds = (L - IN.s) / L * (plen - 54) + 12;            // distance from the bottom along the slope (block starts near the top)
+      const cx = bx + ux * (ds + 22) + nx * 15, cy = by + uy * (ds + 22) + ny * 15;
+      c.save(); c.translate(cx, cy); c.rotate(-th); c.fillStyle = br; c.fillRect(-22, -15, 44, 30); c.strokeStyle = 'rgba(0,0,0,.45)'; c.strokeRect(-22, -15, 44, 30); c.fillStyle = '#1c1b1a'; c.font = 'bold 10px sans-serif'; c.textAlign = 'center'; c.fillText(IN.mass + ' kg', 0, 4); c.restore();
+      const W = IN.mass * g, N = W * Math.cos(th), P = W * Math.sin(th), Fm = mu[0] * N;
+      $('pl-in-p').textContent = P.toFixed(2) + ' N'; $('pl-in-n').textContent = N.toFixed(2) + ' N'; $('pl-in-f').textContent = Fm.toFixed(2) + ' N';
+      const st = $('pl-in-st'); st.className = 'pl-status ' + (IN.sliding ? 'bad' : 'ok'); st.textContent = IN.sliding ? B('🛷 ينزلق — القوة المحرِّكة أكبر من أقصى احتكاك سكوني', '🛷 Sliding — the driving force exceeds the maximum static friction') : (IN.s >= L ? B('وصل للأسفل — اضغط «أعد الجسم لأعلى»', 'Reached the bottom — press “Reset block”') : B('✅ ساكن — الاحتكاك يعادل mg·sinθ', '✅ At rest — friction balances mg·sinθ'));
+    });
+  function inReset(){ IN.s = 0; IN.v = 0; IN.sliding = false; IN.start = false; }
+  function inTable(){
+    const tb = $('pl-in-tb'); if(!tb) return; const nm = { ice:['جليد', 'Ice'], wood:['خشب', 'Wood'], rubber:['مطاط', 'Rubber'], X:['مجهول X', 'Unknown X'] };
+    tb.innerHTML = tbl([B('السطح', 'Surface'), B('زاوية الانزلاق', 'Slip angle'), 'μs = tan θ'], IN.rows.map(r=> [B(nm[r.surf][0], nm[r.surf][1]), fx(r.th, 1) + '°', fx(r.mu, 2)]));
+    const x = IN.rows.filter(r=> r.surf === 'X')[0]; $('pl-in-res').innerHTML = note(x ? `${B('قِستَ μs للسطح المجهول ≈', 'You measured μs of the unknown surface ≈')} <b>${fx(x.mu, 2)}</b> (${B('الحقيقي', 'true')} ${IN.mus.X[0]})` : B('ارفع الزاوية بالتدريج: عند أول انزلاق يُسجَّل الجدول تلقائياً. الفكرة: عند الانزلاق mg·sinθ = μs·mg·cosθ ⇒ μs = tan θ.', 'Raise the angle gradually: the first slip is logged automatically. Idea: at the slip mg·sinθ = μs·mg·cosθ ⇒ μs = tan θ.'));
+  }
+
+  /* ---------- 5. Ohm's law circuit ---------- */
+  const CI = { V:6, cfg:'single', R1:20, R2:30, X:Math.round(rnd(10, 180) / 5) * 5, useX:false, rows:[], ph:0 };
+  reg('circ', 'دائرة أوم والمقاومات', "Ohm's law circuit", '💡', ['غيّر الجهد وسجّل (V, I): ميل V مقابل I = R. جرّب التوالي والتوازي، ثم قِس المقاومة المجهولة X.', 'Change the voltage and record (V, I): the slope of V against I is R. Try series and parallel, then measure the unknown resistor X.'],
+    ()=> `<div class="pl-ctl">${chipsH('pl-ci-cfg', [['single', 'مقاومة واحدة', 'Single'], ['series', 'توالي', 'Series'], ['parallel', 'توازي', 'Parallel']], 'single')}${slider('pl-ci-v', 'الجهد', 'Voltage', 1, 12, 0.5, 6, 'V')}${chipsH('pl-ci-r1', [[10, '10 Ω', '10 Ω'], [20, '20 Ω', '20 Ω'], [47, '47 Ω', '47 Ω'], [100, '100 Ω', '100 Ω'], ['X', '❓ X', '❓ X']], 20)}<div id="pl-ci-r2w">${chipsH('pl-ci-r2', [[10, 'R₂ 10 Ω', 'R₂ 10 Ω'], [30, 'R₂ 30 Ω', 'R₂ 30 Ω'], [60, 'R₂ 60 Ω', 'R₂ 60 Ω']], 30)}</div></div>
+      <canvas id="pl-ci-cv" class="pl-cv"></canvas>
+      <div class="pl-rd"><div><small>${b('الأميتر I', 'Ammeter I')}</small><b id="pl-ci-i">—</b></div><div><small>${b('الفولتميتر V', 'Voltmeter V')}</small><b id="pl-ci-vm">—</b></div><div><small>${b('المقاومة الكلية', 'Total R')}</small><b id="pl-ci-rt">—</b></div></div>
+      <div class="pl-bar"><button type="button" class="btn" id="pl-ci-rec">📌 ${b('سجّل (V, I) للمقاومة الأولى', 'Record (V, I) for R₁')}</button><button type="button" class="btn secondary" id="pl-ci-clr">🗑</button></div>
+      <div id="pl-ci-tb"></div><canvas id="pl-ci-pl2" class="pl-cv pl-cv2"></canvas><div id="pl-ci-res"></div>
+      <div class="pl-chk"><input type="number" id="pl-ci-guess" placeholder="${B('تقديرك لـ X (Ω)', 'Your estimate of X (Ω)')}" inputmode="decimal"><button type="button" class="btn secondary" id="pl-ci-chk">✔ ${b('تحقق', 'Check')}</button></div><div id="pl-ci-gr"></div>`,
+    ()=>{
+      onChips('pl-ci-cfg', v=>{ CI.cfg = v; $('pl-ci-r2w').style.display = v === 'single' ? 'none' : ''; CI.rows = []; ciTable(); }); onChips('pl-ci-r1', v=>{ CI.useX = v === 'X'; if(!CI.useX) CI.R1 = +v; CI.rows = []; ciTable(); }); onChips('pl-ci-r2', v=>{ CI.R2 = +v; CI.rows = []; ciTable(); });
+      onSlider('pl-ci-v', v=>{ CI.V = v; }); $('pl-ci-r2w').style.display = 'none';
+      $('pl-ci-rec').addEventListener('click', ()=>{ const m = ciCalc(); if(CI.rows.some(r=> Math.abs(r.V - m.V1) < 1e-9)) return; CI.rows.push({ V:m.V1, I:m.I1 }); CI.rows.sort((a, c)=> a.V - c.V); ciTable(); });
+      $('pl-ci-clr').addEventListener('click', ()=>{ CI.rows = []; ciTable(); });
+      $('pl-ci-chk').addEventListener('click', ()=>{ const gv = parseFloat($('pl-ci-guess').value); const e = Math.abs(gv - CI.X) / CI.X * 100; $('pl-ci-gr').innerHTML = isFinite(gv) ? note(`X = <b>${CI.X} Ω</b> — ${B('خطؤك', 'your error')} ${fx(e, 1)}% ${e < 5 ? '🎯' : ''}`, e < 5 ? 'ok' : 'bad') : ''; });
+      ciTable();
+    },
+    dt=>{
+      const m = ciCalc(); CI.ph = (CI.ph + dt * m.I * 120) % 1000;
+      const cv = $('pl-ci-cv'); if(!cv) return; const { c, w, h } = ensure(cv, 230); c.clearRect(0, 0, w, h);
+      const ink = cssv('--bone'), dim = cssv('--bone-dim'), br = cssv('--brass'); const x0 = 34, x1 = w - 34, y0 = 34, y1 = h - 34;
+      c.strokeStyle = ink; c.lineWidth = 2; c.beginPath(); c.moveTo(x0, y1); c.lineTo(x0, y0); c.lineTo(x1, y0); c.lineTo(x1, y1); c.lineTo(x0, y1); c.stroke();
+      const per = 2 * ((x1 - x0) + (y1 - y0)); c.fillStyle = '#4aa3ff'; for(let i = 0; i < 28; i++){ const d = ((i / 28) * per + CI.ph) % per; let px, py; if(d < y1 - y0){ px = x0; py = y1 - d; } else if(d < (y1 - y0) + (x1 - x0)){ px = x0 + d - (y1 - y0); py = y0; } else if(d < 2 * (y1 - y0) + (x1 - x0)){ px = x1; py = y0 + d - (y1 - y0) - (x1 - x0); } else { px = x1 - (d - 2 * (y1 - y0) - (x1 - x0)); py = y1; } c.beginPath(); c.arc(px, py, 2.4, 0, 2 * PI); c.fill(); }
+      c.fillStyle = cssv('--bg-elev-2'); c.strokeStyle = ink;
+      const box = (x, y, bw, bh, t)=>{ c.fillStyle = cssv('--bg-elev-2'); c.fillRect(x, y, bw, bh); c.strokeStyle = ink; c.strokeRect(x, y, bw, bh); c.fillStyle = ink; c.font = '12px sans-serif'; c.textAlign = 'center'; c.fillText(t, x + bw / 2, y + bh / 2 + 4); };
+      const rl = CI.useX ? '?' : CI.R1 + ' Ω';
+      c.fillStyle = cssv('--bg-elev-2'); c.fillRect(x0 - 12, (y0 + y1) / 2 - 22, 24, 44); c.strokeRect(x0 - 12, (y0 + y1) / 2 - 22, 24, 44); c.fillStyle = ink; c.font = 'bold 14px sans-serif'; c.textAlign = 'center'; c.fillText('+', x0, (y0 + y1) / 2 - 6); c.fillText('−', x0, (y0 + y1) / 2 + 16); c.font = '11px sans-serif'; c.fillText(CI.V + ' V', x0 + 28, (y0 + y1) / 2 + 4);
+      if(CI.cfg === 'single'){ box(x1 - 24, (y0 + y1) / 2 - 20, 48, 40, 'R₁ ' + rl); }
+      else if(CI.cfg === 'series'){ box(x1 - 24, y0 + 22, 48, 36, 'R₁ ' + rl); box(x1 - 24, y1 - 58, 48, 36, 'R₂ ' + CI.R2); }
+      else { c.strokeStyle = ink; c.beginPath(); c.moveTo(x1 - 60, y0); c.lineTo(x1 - 60, y1); c.stroke(); box(x1 - 24, (y0 + y1) / 2 - 20, 48, 40, 'R₁ ' + rl); box(x1 - 84, (y0 + y1) / 2 - 20, 48, 40, 'R₂ ' + CI.R2); }
+      c.fillStyle = cssv('--bg-elev-2'); c.beginPath(); c.arc((x0 + x1) / 2, y0, 17, 0, 2 * PI); c.fill(); c.strokeStyle = ink; c.stroke(); c.fillStyle = ink; c.font = 'bold 14px sans-serif'; c.textAlign = 'center'; c.fillText('A', (x0 + x1) / 2, y0 + 5);
+      c.fillStyle = cssv('--bg-elev-2'); c.beginPath(); c.arc((x0 + x1) / 2, y1 - 0, 17, 0, 2 * PI); c.fill(); c.stroke(); c.fillStyle = '#c0463c'; c.fillText('V', (x0 + x1) / 2, y1 + 5); c.font = '10px sans-serif'; c.fillStyle = dim; c.fillText(B('فولتميتر على R₁', 'voltmeter across R₁'), (x0 + x1) / 2, y1 + 28);
+      const gl = clamp(m.P / 3, 0.05, 1); c.fillStyle = `rgba(255,214,90,${gl})`; c.beginPath(); c.arc(x0 + 60, y0 + 20, 12, 0, 2 * PI); c.fill(); c.strokeStyle = dim; c.stroke(); c.fillStyle = dim; c.font = '10px sans-serif'; c.fillText('💡 P=' + m.P.toFixed(2) + ' W', x0 + 60, y0 + 46);
+      $('pl-ci-i').textContent = (m.I * 1000).toFixed(1) + ' mA'; $('pl-ci-vm').textContent = m.V1.toFixed(2) + ' V'; $('pl-ci-rt').textContent = m.Req.toFixed(1) + ' Ω';
+    });
+  function ciCalc(){
+    const R1 = CI.useX ? CI.X : CI.R1; let Req, V1, I1;
+    if(CI.cfg === 'single'){ Req = R1; V1 = CI.V; I1 = CI.V / R1; } else if(CI.cfg === 'series'){ Req = R1 + CI.R2; I1 = CI.V / Req; V1 = I1 * R1; } else { Req = 1 / (1 / R1 + 1 / CI.R2); V1 = CI.V; I1 = CI.V / R1; }
+    const I = CI.V / Req; return { Req, I, V1, I1, P:CI.V * I };
+  }
+  function ciTable(){
+    const tb = $('pl-ci-tb'); if(!tb) return;
+    tb.innerHTML = tbl(['V (V)', 'I (mA)', 'V/I (Ω)'], CI.rows.map(r=> [fx(r.V, 2), fx(r.I * 1000, 1), fx(r.V / r.I, 1)]));
+    const pts = CI.rows.map(r=> [r.I, r.V]); const rg = plot($('pl-ci-pl2'), pts, 'I (A)', 'V (V)');
+    $('pl-ci-res').innerHTML = rg ? note(`${B('ميل الخط', 'Slope')} = <b>R ≈ ${fx(rg.m, 1)} Ω</b> — ${B('خط مستقيم يمر بالأصل = موصل أومي.', 'a straight line through the origin = an ohmic conductor.')}`, 'ok') : note(B('غيّر الجهد وسجّل قراءتين على الأقل.', 'Change the voltage and record at least two readings.'));
+  }
+
+  /* ---------- 6. lens ---------- */
+  const LN = { f:10, d:25, type:1, ho:3 };
+  reg('lens', 'العدسات وتكوّن الصور', 'Lenses & image formation', '🔍', ['حرّك الجسم أمام العدسة ولاحظ موضع الصورة وحجمها. تحقق أن 1/f = 1/u + 1/v، وأين تصبح الصورة وهمية؟', 'Move the object in front of the lens and watch the image position and size. Check that 1/f = 1/u + 1/v — where does the image become virtual?'],
+    ()=> `<div class="pl-ctl">${chipsH('pl-ln-t', [[1, 'عدسة محدبة (مجمّعة)', 'Convex (converging)'], [-1, 'عدسة مقعرة (مفرّقة)', 'Concave (diverging)']], 1)}${slider('pl-ln-f', 'البعد البؤري', 'Focal length', 4, 20, 1, 10, 'cm')}${slider('pl-ln-d', 'بعد الجسم', 'Object distance', 3, 45, 0.5, 25, 'cm')}</div>
+      <canvas id="pl-ln-cv" class="pl-cv"></canvas>
+      <div class="pl-rd"><div><small>v ${b('بعد الصورة', 'image dist.')}</small><b id="pl-ln-v">—</b></div><div><small>M ${b('التكبير', 'magnification')}</small><b id="pl-ln-m">—</b></div><div><small>1/u + 1/v</small><b id="pl-ln-c">—</b></div></div>
+      <div id="pl-ln-st" class="pl-status ok"></div>`,
+    ()=>{ onChips('pl-ln-t', v=>{ LN.type = +v; }); onSlider('pl-ln-f', v=>{ LN.f = v; }); onSlider('pl-ln-d', v=>{ LN.d = v; }); },
+    dt=>{
+      const cv = $('pl-ln-cv'); if(!cv) return; const { c, w, h } = ensure(cv, 270); c.clearRect(0, 0, w, h);
+      const ink = cssv('--bone'), dim = cssv('--bone-dim'), br = cssv('--brass'); const f = LN.f * LN.type, u = LN.d; const inf = Math.abs(1 / f - 1 / u) < 1e-9;
+      const v = inf ? Infinity : 1 / (1 / f - 1 / u), M = -v / u, hi = M * LN.ho; const cx = w / 2, cy = h / 2, sc = (w - 30) / 110;               // px per cm (axis spans about 110 cm)
+      const X = x=> cx + x * sc, Y = y=> cy - y * sc * 1.6;
+      c.strokeStyle = dim; c.lineWidth = 1; c.beginPath(); c.moveTo(0, cy); c.lineTo(w, cy); c.stroke();
+      c.strokeStyle = ink; c.lineWidth = 2.5; c.beginPath(); c.moveTo(cx, cy - 98); c.lineTo(cx, cy + 98); c.stroke(); const ah = LN.type > 0 ? 1 : -1; [[-1], [1]].forEach(s=>{ const sy = s[0] * 98; c.beginPath(); c.moveTo(cx - 8, cy + sy - s[0] * 9 * ah); c.lineTo(cx, cy + sy); c.lineTo(cx + 8, cy + sy - s[0] * 9 * ah); c.stroke(); });
+      c.fillStyle = dim; c.font = '10px sans-serif'; c.textAlign = 'center'; [-1, 1].forEach(s=>{ c.beginPath(); c.arc(X(s * Math.abs(f)), cy, 3, 0, 2 * PI); c.fill(); c.fillText('F', X(s * Math.abs(f)), cy + 14); c.fillText('2F', X(s * 2 * Math.abs(f)), cy + 14); });
+      const ox = X(-u), oy = Y(LN.ho); c.strokeStyle = br; c.fillStyle = br; c.lineWidth = 3; c.beginPath(); c.moveTo(ox, cy); c.lineTo(ox, oy); c.stroke(); c.beginPath(); c.moveTo(ox - 5, oy + 8); c.lineTo(ox, oy); c.lineTo(ox + 5, oy + 8); c.fill();
+      const ray = (x1, y1, x2, y2, col, dash)=>{ c.strokeStyle = col; c.lineWidth = 1.4; c.setLineDash(dash ? [5, 4] : []); c.beginPath(); c.moveTo(X(x1), Y(y1)); c.lineTo(X(x2), Y(y2)); c.stroke(); c.setLineDash([]); };
+      const lensY = LN.ho; const ext = 60;
+      // ray 1: parallel then through focus
+      const s1 = (f > 0) ? (-lensY / f) : (-lensY / f);       // slope after lens: passes through F (f>0 -> far focus; f<0 -> appears from near focus)
+      ray(-u, LN.ho, 0, lensY, '#e8a33d'); ray(0, lensY, ext, lensY + s1 * ext, '#e8a33d'); if(f < 0 || v < 0) ray(0, lensY, -ext, lensY - s1 * ext, '#e8a33d', true);
+      // ray 2: through center
+      const s2 = -LN.ho / u; ray(-u, LN.ho, ext, LN.ho + s2 * (ext + u), '#4aa3ff'); if(v < 0 && isFinite(v)) ray(-u, LN.ho, v, hi, '#4aa3ff', true);
+      // ray 3: aimed at the near focus (converging) then parallel
+      if(f > 0 && u > f){ const sl = LN.ho / (-u + f); const yl = LN.ho + sl * u; ray(-u, LN.ho, 0, yl, '#5fbf72'); ray(0, yl, ext, yl, '#5fbf72'); } else if(f > 0){ const sl = LN.ho / (-u + f); const yl = LN.ho + sl * u; ray(-u, LN.ho, 0, yl, '#5fbf72'); ray(0, yl, ext, yl, '#5fbf72'); ray(0, yl, -ext, yl, '#5fbf72', true); }
+      else if(f < 0){ const sl = -LN.ho / (u + Math.abs(f)); const yl = LN.ho + sl * u; ray(-u, LN.ho, 0, yl, '#5fbf72'); ray(0, yl, ext, yl, '#5fbf72'); ray(0, yl, -ext, yl, '#5fbf72', true); }
+      if(isFinite(v) && Math.abs(v) < 90){ const ix = X(v), iy = Y(hi); c.strokeStyle = v > 0 ? '#c0463c' : 'rgba(192,70,60,.7)'; c.fillStyle = c.strokeStyle; c.lineWidth = 3; c.setLineDash(v > 0 ? [] : [5, 4]); c.beginPath(); c.moveTo(ix, cy); c.lineTo(ix, iy); c.stroke(); c.setLineDash([]); const dirn = hi >= 0 ? 1 : -1; c.beginPath(); c.moveTo(ix - 5, iy + 8 * dirn); c.lineTo(ix, iy); c.lineTo(ix + 5, iy + 8 * dirn); c.fill(); }
+      $('pl-ln-v').textContent = inf ? '∞' : v.toFixed(1) + ' cm'; $('pl-ln-m').textContent = inf ? '∞' : M.toFixed(2) + '×'; $('pl-ln-c').textContent = (inf ? 0 : 1 / u + 1 / v).toFixed(4) + ' = 1/f ' + (1 / f).toFixed(4);
+      const st = $('pl-ln-st'); st.textContent = inf ? B('الجسم عند البؤرة: الأشعة المنكسرة متوازية — لا صورة', 'Object at the focus: the refracted rays are parallel — no image') : `${v > 0 ? B('صورة حقيقية', 'Real image') : B('صورة وهمية', 'Virtual image')} — ${M < 0 ? B('مقلوبة', 'inverted') : B('معتدلة', 'upright')} — ${Math.abs(M) > 1 ? B('مكبّرة', 'magnified') : Math.abs(M) < 1 ? B('مصغّرة', 'reduced') : B('بنفس الحجم', 'same size')}`;
+    });
+
+  /* ---------- 7. ripple tank (two-source interference) ---------- */
+  const RP = { f:3, d:6, t:0 };
+  reg('wave', 'حوض الموجات والتداخل', 'Ripple tank & interference', '🌊', ['مصدران متشابهان يولّدان موجات: ابحث عن الخطوط العقدية (سكون) والبطنية. غيّر التردد والمسافة وتحقق من λ = v/f.', 'Two identical sources make waves: find the nodal (still) and antinodal lines. Change the frequency and separation and check λ = v/f.'],
+    ()=> `<div class="pl-ctl">${slider('pl-rp-f', 'التردد', 'Frequency', 1, 8, 0.5, 3, 'Hz')}${slider('pl-rp-d', 'المسافة بين المصدرين', 'Source separation', 2, 12, 0.5, 6, 'cm')}</div>
+      <canvas id="pl-rp-cv" class="pl-cv"></canvas>
+      <div class="pl-rd"><div><small>v ${b('سرعة الموجة', 'wave speed')}</small><b>12 cm/s</b></div><div><small>λ = v/f</small><b id="pl-rp-l">—</b></div><div><small>${b('خطوط عقدية', 'nodal lines')}</small><b id="pl-rp-n">—</b></div></div>
+      ${note(B('الخطوط العقدية: فرق المسار = (n + ½)λ — تلغي الموجتان بعضهما. البطنية: فرق المسار = nλ — تتعززان.', 'Nodal lines: path difference = (n + ½)λ — the waves cancel. Antinodal: path difference = nλ — they reinforce.'))}`,
+    ()=>{ onSlider('pl-rp-f', v=>{ RP.f = v; }); onSlider('pl-rp-d', v=>{ RP.d = v; }); },
+    dt=>{
+      RP.t += dt; const cv = $('pl-rp-cv'); if(!cv) return; const { c, w, h } = ensure(cv, 300);
+      const GW = 120, GH = Math.round(GW * h / w); if(!RP.img || RP.img.width !== GW || RP.img.height !== GH){ RP.off = document.createElement('canvas'); RP.off.width = GW; RP.off.height = GH; RP.img = RP.off.getContext('2d').createImageData(GW, GH); }
+      const W = 20, Hc = W * GH / GW, v = 12, lam = v / RP.f, k = 2 * PI / lam, om = 2 * PI * RP.f; const s1x = W / 2 - RP.d / 2, s2x = W / 2 + RP.d / 2, sy = Hc * 0.85; const d = RP.img.data;
+      for(let j = 0; j < GH; j++){ for(let i = 0; i < GW; i++){ const x = (i + .5) / GW * W, y = (j + .5) / GH * Hc; const r1 = Math.hypot(x - s1x, y - sy), r2 = Math.hypot(x - s2x, y - sy); const a = (Math.cos(k * r1 - om * RP.t) + Math.cos(k * r2 - om * RP.t)) / 2; const q = (a + 1) / 2, o = (j * GW + i) * 4; d[o] = 20 + 200 * q * q; d[o + 1] = 70 + 170 * q; d[o + 2] = 140 + 110 * q; d[o + 3] = 255; } }
+      RP.off.getContext('2d').putImageData(RP.img, 0, 0); c.imageSmoothingEnabled = true; c.drawImage(RP.off, 0, 0, w, h);
+      [[s1x], [s2x]].forEach(s=>{ c.fillStyle = '#ffd25a'; c.strokeStyle = '#000'; c.beginPath(); c.arc(s[0] / W * w, sy / Hc * h, 6, 0, 2 * PI); c.fill(); c.stroke(); });
+      $('pl-rp-l').textContent = lam.toFixed(2) + ' cm'; $('pl-rp-n').textContent = String(2 * Math.floor(RP.d / lam + 0.5 + 1e-9));
+    });
+
+  /* ---------- 8. buoyancy ---------- */
+  const MAT = [['cork', 'فلين', 'Cork', 240], ['wood', 'خشب', 'Wood', 600], ['ice', 'جليد', 'Ice', 917], ['pl', 'بلاستيك PVC', 'PVC plastic', 1380], ['al', 'ألمنيوم', 'Aluminium', 2700], ['fe', 'حديد', 'Iron', 7870], ['au', 'ذهب', 'Gold', 19300]];
+  const FLD = [['alc', 'كحول', 'Alcohol', 789, '#cfe8ff'], ['oil', 'زيت', 'Oil', 800, '#e8c75a'], ['wat', 'ماء', 'Water', 1000, '#4aa3ff'], ['sea', 'ماء مالح', 'Salt water', 1025, '#3c8fd9'], ['hg', 'زئبق', 'Mercury', 13600, '#b8bcc4']];
+  const BU = { m:'wood', f:'wat', V:200, y:0 };
+  reg('buoy', 'الطفو وقاعدة أرخميدس', "Buoyancy & Archimedes' principle", '🛟', ['اختر مادة الجسم والسائل وحجمه: هل يطفو أم يغرق؟ قارن الوزن الحقيقي بقوة الطفو والوزن الظاهر داخل السائل.', 'Choose the object material, fluid and volume: does it float or sink? Compare the true weight with the buoyant force and the apparent weight in the fluid.'],
+    ()=> `<div class="pl-ctl">${chipsH('pl-bu-m', MAT.map(x=> [x[0], x[1] + ' ' + x[3], x[2] + ' ' + x[3]]), 'wood')}${chipsH('pl-bu-f', FLD.map(x=> [x[0], x[1], x[2]]), 'wat')}${slider('pl-bu-v', 'الحجم', 'Volume', 50, 500, 10, 200, 'cm³')}</div>
+      <canvas id="pl-bu-cv" class="pl-cv"></canvas>
+      <div class="pl-rd"><div><small>${b('الوزن في الهواء', 'Weight in air')}</small><b id="pl-bu-w">—</b></div><div><small>${b('قوة الطفو', 'Buoyant force')}</small><b id="pl-bu-fb">—</b></div><div><small>${b('الوزن الظاهر', 'Apparent weight')}</small><b id="pl-bu-ap">—</b></div></div>
+      <div id="pl-bu-st" class="pl-status ok"></div>`,
+    ()=>{ onChips('pl-bu-m', v=>{ BU.m = v; }); onChips('pl-bu-f', v=>{ BU.f = v; }); onSlider('pl-bu-v', v=>{ BU.V = v; }); },
+    dt=>{
+      const mat = MAT.filter(x=> x[0] === BU.m)[0], fl = FLD.filter(x=> x[0] === BU.f)[0]; const rho = mat[3], rf = fl[3], V = BU.V * 1e-6, g = 9.81, floats = rho < rf; const Wt = rho * V * g;
+      const sub = floats ? rho / rf : 1; const Fb = rf * V * g * sub, app = floats ? 0 : Wt - Fb;
+      const cv = $('pl-bu-cv'); if(!cv) return; const { c, w, h } = ensure(cv, 270); c.clearRect(0, 0, w, h);
+      const tx = w * 0.18, tw = w * 0.64, ty = 26, th = h - 40, side = 26 + Math.cbrt(BU.V) * 4.4; const volPx = (tw * (side * side)) / 1; const rise = clamp((side * side * side * sub) / (tw * 50 * 1), 0, 28);
+      const level = ty + th * 0.45 - rise;
+      c.fillStyle = fl[4]; c.globalAlpha = .55; c.fillRect(tx, level, tw, ty + th - level); c.globalAlpha = 1;
+      c.strokeStyle = cssv('--bone'); c.lineWidth = 3; c.beginPath(); c.moveTo(tx, ty); c.lineTo(tx, ty + th); c.lineTo(tx + tw, ty + th); c.lineTo(tx + tw, ty); c.stroke();
+      const targetY = floats ? level - side * (1 - sub) : ty + th - side - 3; BU.y += (targetY - (BU.y || (ty - 20))) * Math.min(1, dt * 4); if(!BU.y) BU.y = ty - 20; const oy = BU.y;
+      const col = { cork:'#c89a62', wood:'#9a6b3a', ice:'#cfe9f7', pl:'#6fa8a0', al:'#c2c7cf', fe:'#5d6169', au:'#e3b93a' }[BU.m]; c.fillStyle = col; c.fillRect(w / 2 - side / 2, oy, side, side); c.strokeStyle = 'rgba(0,0,0,.5)'; c.lineWidth = 1.5; c.strokeRect(w / 2 - side / 2, oy, side, side);
+      c.fillStyle = cssv('--bone'); c.font = '11px sans-serif'; c.textAlign = 'center'; c.fillText(rho + ' kg/m³', w / 2, oy + side / 2 + 4); c.fillStyle = cssv('--bone-dim'); c.fillText(B(fl[1], fl[2]) + ' ' + rf + ' kg/m³', tx + tw / 2, ty + th - 8);
+      $('pl-bu-w').textContent = Wt.toFixed(3) + ' N'; $('pl-bu-fb').textContent = Fb.toFixed(3) + ' N'; $('pl-bu-ap').textContent = app.toFixed(3) + ' N';
+      const st = $('pl-bu-st'); st.className = 'pl-status ' + (floats ? 'ok' : 'bad'); st.textContent = floats ? B(`🛟 يطفو: ρ الجسم أقل من ρ السائل — الجزء المغمور ${(sub * 100).toFixed(0)}% من الحجم (Fb = W)`, `🛟 Floats: ρ(object) < ρ(fluid) — ${(sub * 100).toFixed(0)}% submerged (Fb = W)`) : B('⬇ يغرق: ρ الجسم أكبر من ρ السائل — الوزن الظاهر = W − Fb', '⬇ Sinks: ρ(object) > ρ(fluid) — apparent weight = W − Fb');
+    });
+
+  /* ---------- 9. measuring instruments ---------- */
+  const MI = { kind:'vern', val:0, streak:0, tries:0, ok:0 };
+  reg('inst', 'أدوات القياس: القدمة والميكروميتر', 'Instruments: vernier & micrometer', '📏', ['تدرّب على قراءة القدمة ذات الورنية (دقة 0.05 mm) والميكروميتر (دقة 0.01 mm). اقرأ ثم تحقق من إجابتك.', 'Practise reading a vernier caliper (0.05 mm resolution) and a micrometer (0.01 mm). Read it, then check your answer.'],
+    ()=> `<div class="pl-ctl">${chipsH('pl-mi-k', [['vern', '📐 القدمة ذات الورنية', '📐 Vernier caliper'], ['mic', '🔩 الميكروميتر', '🔩 Micrometer']], 'vern')}</div>
+      <svg id="pl-mi-svg" class="pl-svg" viewBox="0 0 360 170" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="pl-chk"><input type="number" step="0.001" id="pl-mi-in" placeholder="${B('اكتب القراءة (mm)', 'Enter the reading (mm)')}" inputmode="decimal"><button type="button" class="btn" id="pl-mi-ck">✔ ${b('تحقق', 'Check')}</button><button type="button" class="btn secondary" id="pl-mi-nw">🎲 ${b('قياس جديد', 'New reading')}</button></div>
+      <div id="pl-mi-out"></div><div id="pl-mi-sc" class="pl-sc"></div>
+      ${note(B('القدمة: القراءة = الصفر على الورنية على التدريج الرئيسي (mm كاملة) + رقم الخط المنطبق × 0.05. الميكروميتر: قراءة الغلاف (بنصف mm) + قراءة الأسطوانة (0–49) × 0.01.', 'Caliper: reading = whole mm at the vernier zero + coinciding line × 0.05. Micrometer: sleeve reading (in 0.5 mm) + thimble reading (0–49) × 0.01.'))}`,
+    ()=>{ onChips('pl-mi-k', v=>{ MI.kind = v; miNew(); }); $('pl-mi-nw').addEventListener('click', miNew); $('pl-mi-ck').addEventListener('click', miCheck); $('pl-mi-in').addEventListener('keydown', e=>{ if(e.key === 'Enter') miCheck(); }); miNew(); },
+    ()=>{});
+  function miNew(){ MI.val = MI.kind === 'vern' ? Math.round(rnd(3, 58) / 0.05) * 0.05 : Math.round(rnd(0.5, 24.5) * 100) / 100; MI.val = Math.round(MI.val * 1000) / 1000; MI.done = false; const o = $('pl-mi-out'); if(o) o.innerHTML = ''; const i = $('pl-mi-in'); if(i) i.value = ''; miDraw(); miScore(); }
+  function miScore(){ const s = $('pl-mi-sc'); if(s) s.textContent = B('الصحيح', 'Correct') + ': ' + MI.ok + ' / ' + MI.tries + '   🔥 ' + MI.streak; }
+  function miCheck(){
+    const g = parseFloat($('pl-mi-in').value); if(!isFinite(g) || MI.done) return; const tol = MI.kind === 'vern' ? 0.026 : 0.0051; const ok = Math.abs(g - MI.val) <= tol; MI.tries++; if(ok){ MI.ok++; MI.streak++; } else MI.streak = 0; MI.done = true;
+    const whole = Math.floor(MI.val + 1e-9), n = Math.round((MI.val - whole) / 0.05); const sl = Math.floor(MI.val * 2 + 1e-9) / 2, th = Math.round((MI.val - sl) * 100);
+    $('pl-mi-out').innerHTML = note(`${ok ? '✅ ' + B('صحيح!', 'Correct!') : '❌ ' + B('القراءة الصحيحة', 'Correct reading') + ': <b>' + MI.val.toFixed(MI.kind === 'vern' ? 2 : 2) + ' mm</b>'}<br>${MI.kind === 'vern' ? `${whole} mm + ${n} × 0.05 = ${MI.val.toFixed(2)} mm` : `${sl.toFixed(1)} mm + ${th} × 0.01 = ${MI.val.toFixed(2)} mm`}`, ok ? 'ok' : 'bad'); miScore();
+  }
+  function miDraw(){
+    const s = $('pl-mi-svg'); if(!s) return; const ink = cssv('--bone'), dim = cssv('--bone-dim'), br = cssv('--brass'); let o = '';
+    if(MI.kind === 'vern'){
+      const pxmm = 14, whole = Math.floor(MI.val + 1e-9), x0 = 40, base = whole - 2; const xv = x0 + (MI.val - base) * pxmm;     // vernier zero position
+      o += `<rect x="8" y="30" width="344" height="54" rx="4" fill="${br}" opacity=".18" stroke="${dim}"/><line x1="8" y1="84" x2="352" y2="84" stroke="${ink}" stroke-width="1.5"/>`;
+      for(let mm = base; mm <= base + 24; mm++){ const x = x0 + (mm - base) * pxmm; if(x > 350) break; const tall = mm % 5 === 0; o += `<line x1="${x}" y1="84" x2="${x}" y2="${84 - (tall ? 18 : 10)}" stroke="${ink}"/>`; if(mm % 10 === 0 || mm % 5 === 0) o += `<text x="${x}" y="52" font-size="10" text-anchor="middle" fill="${ink}">${mm}</text>`; }
+      o += `<rect x="${xv - 4}" y="92" width="${pxmm * 19 + 14}" height="46" rx="4" fill="${br}" opacity=".35" stroke="${ink}"/>`;
+      for(let i = 0; i <= 20; i++){ const x = xv + i * 0.95 * pxmm; o += `<line x1="${x}" y1="92" x2="${x}" y2="${92 + (i % 5 === 0 ? 16 : 9)}" stroke="${ink}"/>`; if(i % 5 === 0) o += `<text x="${x}" y="124" font-size="10" text-anchor="middle" fill="${ink}">${i === 0 ? 0 : i === 20 ? 1 : (i * 0.05).toFixed(2).slice(1)}</text>`; }
+      o += `<text x="8" y="160" font-size="10" fill="${dim}">${B('الورنية: 20 قسماً = 19 mm → الدقة 0.05 mm', 'Vernier: 20 divisions = 19 mm → resolution 0.05 mm')}</text>`;
+    }else{
+      const sl = Math.floor(MI.val * 2 + 1e-9) / 2, thv = Math.round((MI.val - sl) * 100), pxmm = 20, sx0 = 20, bl = 60, edge = sx0 + MI.val * pxmm + 0;   // thimble edge covers the scale beyond the reading
+      o += `<rect x="${sx0}" y="36" width="${edge - sx0}" height="48" fill="${dim}" opacity=".18" stroke="${ink}"/><line x1="${sx0}" y1="${bl}" x2="${edge + 30}" y2="${bl}" stroke="${ink}" stroke-width="1.5"/>`;
+      for(let k = 0; k <= Math.floor((edge - sx0) / (pxmm / 2)); k++){ const x = sx0 + k * pxmm / 2; if(x > edge - 2) break; const mm = k / 2; if(k % 2 === 0) { o += `<line x1="${x}" y1="${bl}" x2="${x}" y2="${bl - 16}" stroke="${ink}"/>`; if(mm % 5 === 0) o += `<text x="${x}" y="${bl - 20}" font-size="10" text-anchor="middle" fill="${ink}">${mm}</text>`; } else o += `<line x1="${x}" y1="${bl}" x2="${x}" y2="${bl + 12}" stroke="${ink}"/>`; }
+      const tx = sl * pxmm + sx0 + (MI.val - sl) * pxmm; o += `<rect x="${edge}" y="22" width="150" height="76" rx="6" fill="${br}" opacity=".32" stroke="${ink}"/>`;
+      for(let i = -6; i <= 6; i++){ const dv = ((thv + i) % 50 + 50) % 50, y = bl + i * 5.2; o += `<line x1="${edge}" y1="${y}" x2="${edge + (dv % 5 === 0 ? 24 : 14)}" y2="${y}" stroke="${ink}"/>`; if(dv % 5 === 0) o += `<text x="${edge + 30}" y="${y + 4}" font-size="10" fill="${ink}">${dv}</text>`; }
+      o += `<text x="8" y="150" font-size="10" fill="${dim}">${B('الغلاف: تدريج كل 0.5 mm — الأسطوانة: 50 قسماً → الدقة 0.01 mm', 'Sleeve: marks every 0.5 mm — thimble: 50 divisions → resolution 0.01 mm')}</text><path d="M${edge - 4} ${bl} l-8 -5 v10 z" fill="#c0463c"/>`;
+    }
+    s.innerHTML = o;
+  }
+
+  /* ---------- shell ---------- */
+  function buildRoot(){
+    const root = $('plab-root'); if(!root) return;
+    root.innerHTML = `<div class="pl-top"><h3>🔬 ${b('معمل الفيزياء الافتراضي', 'Virtual physics lab')}</h3><p class="hint">${b('تجارب تفاعلية: قِس وسجّل واستنتج القوانين بنفسك كما في المعمل الحقيقي.', 'Interactive experiments: measure, record and discover the laws yourself, like in a real lab.')}</p></div>
+      <div class="img-chips pl-nav" id="pl-nav">${MODS.map(m=> `<button type="button" class="img-chip ${m.id === cur ? 'active' : ''}" data-s="${m.id}" data-ar="${m.ic} ${m.ar}" data-en="${m.ic} ${m.en}">${m.ic} ${m.ar}</button>`).join('')}</div>
+      <div id="pl-aim" class="pl-aim"></div>
+      ${MODS.map(m=> `<div class="pl-sub" data-s="${m.id}" style="display:${m.id === cur ? '' : 'none'}">${m.html()}</div>`).join('')}`;
+    MODS.forEach(m=> m.init());
+    $('pl-nav').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(c) show(c.dataset.s); });
+    root.querySelectorAll('[data-ar]').forEach(e=>{ if(lang() === 'en') e.textContent = e.dataset.en; });
+    aim();
+  }
+  function aim(){ const m = MODS.filter(x=> x.id === cur)[0]; const a = $('pl-aim'); if(a && m) a.innerHTML = `<b>🎯 ${B('الهدف', 'Goal')}:</b> ${esc(B(m.aim[0], m.aim[1]))}`; }
+  function show(id){
+    cur = id; document.querySelectorAll('#plab-root .pl-sub').forEach(s=> s.style.display = s.dataset.s === id ? '' : 'none');
+    const n = $('pl-nav'); if(n) n.querySelectorAll('.img-chip').forEach(c=> c.classList.toggle('active', c.dataset.s === id)); aim();
+    if(id === 'fall') ffTable(); if(id === 'pend') pdTable(); if(id === 'spring') spTable(); if(id === 'circ') ciTable(); if(id === 'inst') miDraw();
+    last = 0;
+  }
+  function frame(t){
+    if(!active){ raf = 0; return; }
+    const root = $('plab-root'); if(!root || root.offsetParent === null){ raf = 0; return; }
+    const dt = last ? Math.min(0.06, (t - last) / 1000) : 0.016; last = t;
+    const m = MODS.filter(x=> x.id === cur)[0]; try{ if(m && m.tick) m.tick(dt); }catch(e){ if(window.console) console.error(e); }
+    raf = requestAnimationFrame(frame);
+  }
+  function open(){ active = true; if(!$('pl-nav')) buildRoot(); last = 0; if(!raf) raf = requestAnimationFrame(frame); }
+  function close(){ active = false; if(raf){ cancelAnimationFrame(raf); raf = 0; } }
+  new MutationObserver(()=>{ if($('plab-root') && $('pl-nav')){ buildRoot(); } }).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+  window.uddahPLab = { open, close, show, MODS, FF, PD, SP, IN, CI, LN, RP, BU, MI, linreg, ffReset, miNew, miDraw, ciCalc };
+})();
+
+
 
 /* ============================================================
    PHYSICS TAB: formula solver with steps, projectile lab + target game, planets, unit converter, constants
@@ -21364,7 +21856,7 @@ window.uddahLab = { open, close, sub:(tab, s)=>{ showSub(tab); if(tab === 'sep' 
   const CST = [['G', 'ثابت الجذب العام', 'Gravitational constant', 6.6743e-11, 'N·m²/kg²'], ['c', 'سرعة الضوء', 'Speed of light', 299792458, 'm/s'], ['g', 'تسارع الجاذبية الأرضية', 'Standard gravity', 9.80665, 'm/s²'], ['h', 'ثابت بلانك', 'Planck constant', 6.62607015e-34, 'J·s'], ['k', 'ثابت كولوم', 'Coulomb constant', 8.9875517923e9, 'N·m²/C²'], ['ε₀', 'السماحية الكهربائية للفراغ', 'Vacuum permittivity', 8.8541878128e-12, 'F/m'], ['μ₀', 'النفاذية المغناطيسية للفراغ', 'Vacuum permeability', 1.25663706212e-6, 'N/A²'], ['e', 'شحنة الإلكترون', 'Elementary charge', 1.602176634e-19, 'C'], ['mₑ', 'كتلة الإلكترون', 'Electron mass', 9.1093837015e-31, 'kg'], ['mₚ', 'كتلة البروتون', 'Proton mass', 1.67262192369e-27, 'kg'], ['Nₐ', 'عدد أفوجادرو', 'Avogadro constant', 6.02214076e23, '1/mol'], ['R', 'ثابت الغاز العام', 'Gas constant', 8.314462618, 'J/(mol·K)'], ['k_B', 'ثابت بولتزمان', 'Boltzmann constant', 1.380649e-23, 'J/K'], ['σ', 'ثابت ستيفان–بولتزمان', 'Stefan–Boltzmann', 5.670374419e-8, 'W/(m²·K⁴)'], ['atm', 'الضغط الجوي القياسي', 'Standard atmosphere', 101325, 'Pa'], ['v_s', 'سرعة الصوت في الهواء (20°م)', 'Speed of sound (20°C)', 343, 'm/s'], ['M⊕', 'كتلة الأرض', 'Earth mass', 5.972e24, 'kg'], ['R⊕', 'نصف قطر الأرض', 'Earth radius', 6.371e6, 'm'], ['M☉', 'كتلة الشمس', 'Sun mass', 1.989e30, 'kg'], ['AU', 'الوحدة الفلكية', 'Astronomical unit', 1.495978707e11, 'm'], ['ly', 'السنة الضوئية', 'Light-year', 9.4607304725808e15, 'm'], ['ρ_w', 'كثافة الماء', 'Water density', 1000, 'kg/m³'], ['c_w', 'الحرارة النوعية للماء', 'Water specific heat', 4186, 'J/(kg·°C)']];
 
   /* ---------- UI ---------- */
-  const MODES = [['law', 'القوانين', 'Formulas'], ['lab', 'مختبر المقذوفات', 'Projectile lab'], ['vec', 'القوى والمتجهات', 'Force vectors'], ['col', 'التصادمات', 'Collisions'], ['osc', 'الاهتزازات', 'Oscillations'], ['inc', 'السطح المائل', 'Incline'], ['circ', 'الدوائر الكهربائية', 'Circuits'], ['pl', 'الكواكب', 'Planets'], ['cv', 'المحوّل', 'Converter'], ['cst', 'الثوابت', 'Constants']];
+  const MODES = [['law', 'القوانين', 'Formulas'], ['plab', '🔬 المعمل الافتراضي', '🔬 Virtual lab'], ['lab', 'مختبر المقذوفات', 'Projectile lab'], ['vec', 'القوى والمتجهات', 'Force vectors'], ['col', 'التصادمات', 'Collisions'], ['osc', 'الاهتزازات', 'Oscillations'], ['inc', 'السطح المائل', 'Incline'], ['circ', 'الدوائر الكهربائية', 'Circuits'], ['pl', 'الكواكب', 'Planets'], ['cv', 'المحوّل', 'Converter'], ['cst', 'الثوابت', 'Constants']];
   const S = { mode:'law', cat:'all', q:'', cur:null, target:null };
   function html(){
     return `
@@ -21400,6 +21892,7 @@ window.uddahLab = { open, close, sub:(tab, s)=>{ showSub(tab); if(tab === 'sep' 
     <div class="fz-sec" data-m="vec" style="display:none" id="fz-vec"></div>
     <div class="fz-sec" data-m="col" style="display:none" id="fz-col"></div>
     <div class="fz-sec" data-m="osc" style="display:none" id="fz-osc"></div>
+    <div class="fz-sec" data-m="plab" style="display:none"><div id="plab-root"></div></div>
     <div class="fz-sec" data-m="inc" style="display:none" id="fz-inc"></div>
     <div class="fz-sec" data-m="circ" style="display:none" id="fz-circ"></div>
 
@@ -21729,6 +22222,7 @@ window.uddahLab = { open, close, sub:(tab, s)=>{ showSub(tab); if(tab === 'sep' 
     S.mode = m; document.querySelectorAll('#fz-modes .img-chip').forEach(c=> c.classList.toggle('active', c.dataset.m === m));
     document.querySelectorAll('#fz-root .fz-sec').forEach(s=>{ s.style.display = s.dataset.m === m ? '' : 'none'; });
     ['col', 'osc', 'inc'].forEach(n=> stopLoop(n)); OSC.run = false;
+    if(window.uddahPLab){ if(m === 'plab') window.uddahPLab.open(); else window.uddahPLab.close(); }
     if(m === 'lab'){ labSync(); } if(m === 'pl') plRender(); if(m === 'cv'){ cvOut(); } if(m === 'cst') cstRender();
     if(m === 'vec') vecDraw(); if(m === 'col'){ colLabel(); colStats(colCalc()); colDraw(null); } if(m === 'osc'){ oscReset(); oscStart(); } if(m === 'inc'){ incStats(); incDraw(); } if(m === 'circ') circCalc();
   }
