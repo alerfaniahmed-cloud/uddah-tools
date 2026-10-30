@@ -1273,6 +1273,14 @@
           <option value="weight" data-i18n="catWeight">الوزن</option>
           <option value="temperature" data-i18n="catTemp">الحرارة</option>
           <option value="volume" data-i18n="catVolume">الحجم</option>
+          <option value="area" data-i18n="catArea">المساحة</option>
+          <option value="speed" data-i18n="catSpeed">السرعة</option>
+          <option value="time" data-i18n="catTime">الزمن</option>
+          <option value="data" data-i18n="catData">حجم البيانات</option>
+          <option value="pressure" data-i18n="catPressure">الضغط</option>
+          <option value="energy" data-i18n="catEnergy">الطاقة والسعرات</option>
+          <option value="power" data-i18n="catPower">القدرة</option>
+          <option value="angle" data-i18n="catAngle">الزاوية</option>
         </select>
       </div>
       <div class="row">
@@ -1369,6 +1377,10 @@
           <label for="zakat-debts" data-i18n="zakatDebtsLabel">الديون المستحقة عليك (ريال)</label>
           <input type="number" id="zakat-debts" min="0" data-i18n-ph="zakatDebtsPh" placeholder="مثال: 0">
         </div>
+      </div>
+      <div class="field">
+        <label for="zakat-nisab" data-i18n="zakatNisabLabel">قيمة النصاب (اختياري)</label>
+        <input type="number" id="zakat-nisab" min="0" data-i18n-ph="zakatNisabPh" placeholder="مثال: 85 جرام × سعر جرام الذهب">
       </div>
       <div class="field">
         <label for="zakat-calendar" data-i18n="zakatCalLabel">نوع الحول</label>
@@ -4285,7 +4297,8 @@ document.querySelectorAll('#tabs button').forEach(btn=>{
    HIJRI <-> GREGORIAN CORE (Umm al-Qura via Intl, native ICU)
    ============================================================ */
 let currentLang = localStorage.getItem('uddah-lang') || 'ar';
-const HIJRI_FMT = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', {year:'numeric', month:'numeric', day:'numeric'});
+/* All calendar-date math uses UTC so results never depend on the viewer's time zone (dates are built with Date.UTC). */
+const HIJRI_FMT = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', {year:'numeric', month:'numeric', day:'numeric', timeZone:'UTC'});
 const HIJRI_MONTHS = {
   ar: ["محرم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة"],
   en: ["Muharram","Safar","Rabi' al-Awwal","Rabi' al-Thani","Jumada al-Awwal","Jumada al-Thani","Rajab","Sha'ban","Ramadan","Shawwal","Dhu al-Qi'dah","Dhu al-Hijjah"]
@@ -4385,7 +4398,7 @@ function paintStamp(){
   const now = new Date();
   const locale = currentLang === 'en' ? 'en-US' : 'ar-SA-u-nu-latn';
   document.getElementById('stampGreg').textContent = now.toLocaleDateString(locale,{year:'numeric',month:'2-digit',day:'2-digit'});
-  document.getElementById('stampHijri').textContent = formatHijri(gregorianToHijri(now));
+  document.getElementById('stampHijri').textContent = formatHijri(gregorianToHijri(new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()))));
   document.getElementById('stampDayName').textContent = now.toLocaleDateString(currentLang === 'en' ? 'en-US' : 'ar-SA',{weekday:'long'});
   const manzila = findCurrentManzila(now);
   const manzilaLbl = currentLang === 'en' ? `${manzila.name} (star: ${manzila.star})` : `${manzila.name} (نجم ${manzila.star})`;
@@ -4571,35 +4584,31 @@ document.getElementById('prayer-btn').addEventListener('click', async ()=>{
 /* ============================================================
    TAB 2: DIFF & AGE
    ============================================================ */
+function addMonthsUTC(d, n){
+  /* add n calendar months, clamping the day to the target month's length (Jan 31 + 1 month = Feb 28/29) */
+  const y = d.getUTCFullYear(), m = d.getUTCMonth() + n, day = d.getUTCDate();
+  const ty = y + Math.floor(m / 12), tm = ((m % 12) + 12) % 12;
+  const len = new Date(Date.UTC(ty, tm + 1, 0)).getUTCDate();
+  return new Date(Date.UTC(ty, tm, Math.min(day, len)));
+}
 function calendarDiff(d1, d2){
-  if(d1 > d2){ const t=d1; d1=d2; d2=t; }
-  let y = d2.getUTCFullYear() - d1.getUTCFullYear();
-  let m = d2.getUTCMonth() - d1.getUTCMonth();
-  let d = d2.getUTCDate() - d1.getUTCDate();
-  if(d < 0){
-    m--;
-    const prevMonthDays = new Date(Date.UTC(d2.getUTCFullYear(), d2.getUTCMonth(), 0)).getUTCDate();
-    d += prevMonthDays;
-    // Safety clamp: some month-end combinations (e.g. Jan 31 -> Mar 1) can still leave
-    // a negative remainder when the borrowed month is shorter than the day deficit.
-    // Treat that case as landing exactly on the borrowed month's end (0 extra days)
-    // rather than ever displaying a negative day count.
-    if(d < 0) d = 0;
-  }
-  if(m < 0){ y--; m += 12; }
-  return {years:y, months:m, days:d};
+  if(d1 > d2){ const t = d1; d1 = d2; d2 = t; }
+  let n = (d2.getUTCFullYear() - d1.getUTCFullYear()) * 12 + (d2.getUTCMonth() - d1.getUTCMonth());
+  if(addMonthsUTC(d1, n) > d2) n--;
+  const days = Math.round((d2 - addMonthsUTC(d1, n)) / 86400000);
+  return {years: Math.floor(n / 12), months: n % 12, days};
 }
 
 function hijriDiff(b, t){
-  let y = t.year - b.year, m = t.month - b.month, d = t.day - b.day;
-  if(d < 0){
-    m--;
-    let py=t.year, pm=t.month-1;
-    if(pm<1){ pm=12; py=t.year-1; }
-    d += hijriMonthLength(py, pm);
-  }
-  if(m < 0){ y--; m += 12; }
-  return {years:y, months:m, days:d};
+  /* same rule as calendarDiff, using Umm al-Qura month lengths */
+  const cmp = (x, y)=> (x.year - y.year) || (x.month - y.month) || (x.day - y.day);
+  if(cmp(b, t) > 0){ const x = b; b = t; t = x; }
+  const addM = (h, n)=>{ const tot = h.year * 12 + (h.month - 1) + n, y = Math.floor(tot / 12), m = (tot % 12) + 1; return {year:y, month:m, day:Math.min(h.day, hijriMonthLength(y, m))}; };
+  let n = (t.year - b.year) * 12 + (t.month - b.month);
+  if(cmp(addM(b, n), t) > 0) n--;
+  const c = addM(b, n), g1 = hijriToGregorian(c.year, c.month, c.day), g2 = hijriToGregorian(t.year, t.month, t.day);
+  const days = g1 && g2 ? Math.round((g2 - g1) / DAY_MS) : Math.max(0, t.day - c.day);
+  return {years: Math.floor(n / 12), months: n % 12, days};
 }
 
 document.getElementById('diff-btn').addEventListener('click', ()=>{
@@ -4755,7 +4764,7 @@ const I18N = {
     unitTitle: 'تحويل الوحدات',
     unitHint: 'اختر نوع القياس والوحدتين، وأدخل القيمة لتحويلها فوراً.',
     unitCategoryLabel: 'نوع القياس',
-    catLength: 'الطول', catWeight: 'الوزن', catTemp: 'الحرارة', catVolume: 'الحجم',
+    catLength: 'الطول', catWeight: 'الوزن', catTemp: 'الحرارة', catVolume: 'الحجم', catArea: 'المساحة', catSpeed: 'السرعة', catTime: 'الزمن', catData: 'حجم البيانات', catPressure: 'الضغط', catEnergy: 'الطاقة والسعرات', catPower: 'القدرة', catAngle: 'الزاوية',
     unitValueLabel: 'القيمة', unitValuePh: 'مثال: 10',
     unitFromLabel: 'من وحدة', unitToLabel: 'إلى وحدة',
     btnConvert: 'حوّل', btnCalc: 'احسب',
@@ -5010,7 +5019,7 @@ const I18N = {
     gpaScale5: 'من 5',
     gpaScale4: 'من 4',
     gpaBtn: 'احسب المعدل',
-    gpaOutOf: 'من',
+    gpaOutOf: 'من', gpaErrRange: 'أدخل نسبة بين 0 و 100.', weightedErrRange: 'يجب أن تكون النسب بين 0 و 100.', zakatNisabLabel: 'قيمة النصاب (اختياري)', zakatNisabPh: 'مثال: 85 جرام × سعر جرام الذهب', zakatBelow: 'لا زكاة عليك حالياً: صافي مالك أقل من النصاب.',
     sectorWeighted: 'النسبة الموزونة (القبول الجامعي)',
     weightedTitle: 'حاسبة النسبة الموزونة (القبول الجامعي)',
     weightedHint: 'أدخل نسبك الثلاث (الثانوي، القدرات، التحصيلي) واختر أوزان الجامعة/الكلية اللي تستهدفها، لحساب نسبتك الموزونة التقريبية.',
@@ -5690,7 +5699,7 @@ const I18N = {
     unitTitle: 'Unit Converter',
     unitHint: 'Pick a measurement type and two units, then enter a value to convert it instantly.',
     unitCategoryLabel: 'Measurement type',
-    catLength: 'Length', catWeight: 'Weight', catTemp: 'Temperature', catVolume: 'Volume',
+    catLength: 'Length', catWeight: 'Weight', catTemp: 'Temperature', catVolume: 'Volume', catArea: 'Area', catSpeed: 'Speed', catTime: 'Time', catData: 'Data size', catPressure: 'Pressure', catEnergy: 'Energy & calories', catPower: 'Power', catAngle: 'Angle',
     unitValueLabel: 'Value', unitValuePh: 'e.g. 10',
     unitFromLabel: 'From unit', unitToLabel: 'To unit',
     btnConvert: 'Convert', btnCalc: 'Calculate',
@@ -5945,7 +5954,7 @@ const I18N = {
     gpaScale5: 'Out of 5',
     gpaScale4: 'Out of 4',
     gpaBtn: 'Calculate GPA',
-    gpaOutOf: 'out of',
+    gpaOutOf: 'out of', gpaErrRange: 'Enter a percentage between 0 and 100.', weightedErrRange: 'Percentages must be between 0 and 100.', zakatNisabLabel: 'Nisab value (optional)', zakatNisabPh: 'e.g. 85 g × gold price per gram', zakatBelow: 'No zakat is due: your net wealth is below the nisab.',
     sectorWeighted: 'Weighted Score (University Admission)',
     weightedTitle: 'Weighted Score Calculator (University Admission)',
     weightedHint: 'Enter your three percentages (high school, Qudurat, Tahsili) and choose the weights for your target university/college, to calculate your approximate weighted score.',
@@ -6707,32 +6716,97 @@ document.getElementById('langToggle').addEventListener('click', ()=>{
 const UNIT_DATA = {
   length: {
     units: {
-      ar: {m:'متر', km:'كيلومتر', cm:'سنتيمتر', mm:'مليمتر', mile:'ميل', yard:'ياردة', foot:'قدم', inch:'إنش'},
-      en: {m:'Meter', km:'Kilometer', cm:'Centimeter', mm:'Millimeter', mile:'Mile', yard:'Yard', foot:'Foot', inch:'Inch'}
+      ar: {m:'متر', km:'كيلومتر', cm:'سنتيمتر', mm:'مليمتر', um:'ميكرومتر', mile:'ميل', nmi:'ميل بحري', yard:'ياردة', foot:'قدم', inch:'إنش'},
+      en: {m:'Meter', km:'Kilometer', cm:'Centimeter', mm:'Millimeter', um:'Micrometer', mile:'Mile', nmi:'Nautical mile', yard:'Yard', foot:'Foot', inch:'Inch'}
     },
-    toBase: {m:1, km:1000, cm:0.01, mm:0.001, mile:1609.344, yard:0.9144, foot:0.3048, inch:0.0254}
+    toBase: {m:1, km:1000, cm:0.01, mm:0.001, um:0.000001, mile:1609.344, nmi:1852, yard:0.9144, foot:0.3048, inch:0.0254}
   },
   weight: {
     units: {
-      ar: {kg:'كيلوجرام', g:'جرام', mg:'مليجرام', lb:'رطل', oz:'أونصة'},
-      en: {kg:'Kilogram', g:'Gram', mg:'Milligram', lb:'Pound', oz:'Ounce'}
+      ar: {kg:'كيلوجرام', g:'جرام', mg:'مليجرام', ton:'طن متري', carat:'قيراط', lb:'رطل (باوند)', oz:'أونصة'},
+      en: {kg:'Kilogram', g:'Gram', mg:'Milligram', ton:'Metric ton', carat:'Carat', lb:'Pound', oz:'Ounce'}
     },
-    toBase: {kg:1, g:0.001, mg:0.000001, lb:0.45359237, oz:0.028349523}
+    toBase: {kg:1, g:0.001, mg:0.000001, ton:1000, carat:0.0002, lb:0.45359237, oz:0.028349523125}
   },
   volume: {
     units: {
-      ar: {l:'لتر', ml:'مليلتر', gal:'جالون', cup:'كوب'},
-      en: {l:'Liter', ml:'Milliliter', gal:'Gallon', cup:'Cup'}
+      ar: {l:'لتر', ml:'مليلتر', m3:'متر مكعب', gal:'جالون أمريكي', qt:'كوارت أمريكي', pt:'باينت أمريكي', cup:'كوب أمريكي', floz:'أونصة سائلة', tbsp:'ملعقة كبيرة', tsp:'ملعقة صغيرة'},
+      en: {l:'Liter', ml:'Milliliter', m3:'Cubic meter', gal:'US gallon', qt:'US quart', pt:'US pint', cup:'US cup', floz:'US fl oz', tbsp:'Tablespoon', tsp:'Teaspoon'}
     },
-    toBase: {l:1, ml:0.001, gal:3.785411784, cup:0.24}
+    toBase: {l:1, ml:0.001, m3:1000, gal:3.785411784, qt:0.946352946, pt:0.473176473, cup:0.2365882365, floz:0.0295735295625, tbsp:0.01478676478125, tsp:0.00492892159375}
+  },
+  area: {
+    units: {
+      ar: {m2:'متر مربع', km2:'كيلومتر مربع', ha:'هكتار', cm2:'سنتيمتر مربع', acre:'إيكر (فدان أمريكي)', ft2:'قدم مربع', yd2:'ياردة مربعة', in2:'إنش مربع', mi2:'ميل مربع'},
+      en: {m2:'Square meter', km2:'Square kilometer', ha:'Hectare', cm2:'Square centimeter', acre:'Acre', ft2:'Square foot', yd2:'Square yard', in2:'Square inch', mi2:'Square mile'}
+    },
+    toBase: {m2:1, km2:1e6, ha:1e4, cm2:1e-4, acre:4046.8564224, ft2:0.09290304, yd2:0.83612736, in2:0.00064516, mi2:2589988.110336}
+  },
+  speed: {
+    units: {
+      ar: {kmh:'كم/ساعة', ms:'متر/ثانية', mph:'ميل/ساعة', knot:'عقدة', fts:'قدم/ثانية'},
+      en: {kmh:'km/h', ms:'m/s', mph:'mph', knot:'Knot', fts:'ft/s'}
+    },
+    toBase: {ms:1, kmh:1/3.6, mph:0.44704, knot:1852/3600, fts:0.3048}
+  },
+  time: {
+    units: {
+      ar: {s:'ثانية', ms:'مللي ثانية', min:'دقيقة', h:'ساعة', day:'يوم', week:'أسبوع', month:'شهر (متوسط)', year:'سنة (ميلادية)'},
+      en: {s:'Second', ms:'Millisecond', min:'Minute', h:'Hour', day:'Day', week:'Week', month:'Month (avg)', year:'Year (Gregorian)'}
+    },
+    toBase: {s:1, ms:0.001, min:60, h:3600, day:86400, week:604800, month:2629746, year:31556952}
+  },
+  data: {
+    units: {
+      ar: {B:'بايت', bit:'بت', KB:'كيلوبايت (1000)', MB:'ميجابايت (1000²)', GB:'جيجابايت (1000³)', TB:'تيرابايت (1000⁴)', KiB:'كيبي بايت (1024)', MiB:'ميبي بايت (1024²)', GiB:'جيبي بايت (1024³)'},
+      en: {B:'Byte', bit:'Bit', KB:'Kilobyte (1000)', MB:'Megabyte (1000²)', GB:'Gigabyte (1000³)', TB:'Terabyte (1000⁴)', KiB:'Kibibyte (1024)', MiB:'Mebibyte (1024²)', GiB:'Gibibyte (1024³)'}
+    },
+    toBase: {B:1, bit:0.125, KB:1e3, MB:1e6, GB:1e9, TB:1e12, KiB:1024, MiB:1048576, GiB:1073741824}
+  },
+  pressure: {
+    units: {
+      ar: {pa:'باسكال', kpa:'كيلوباسكال', bar:'بار', atm:'ضغط جوي (atm)', psi:'رطل/إنش² (psi)', mmhg:'مم زئبق', torr:'تور'},
+      en: {pa:'Pascal', kpa:'Kilopascal', bar:'Bar', atm:'Atmosphere', psi:'psi', mmhg:'mmHg', torr:'Torr'}
+    },
+    toBase: {pa:1, kpa:1e3, bar:1e5, atm:101325, psi:6894.757293168, mmhg:133.322387415, torr:101325/760}
+  },
+  energy: {
+    units: {
+      ar: {j:'جول', kj:'كيلو جول', cal:'سعرة صغيرة (cal)', kcal:'سعرة حرارية (kcal)', wh:'واط ساعة', kwh:'كيلوواط ساعة', btu:'BTU'},
+      en: {j:'Joule', kj:'Kilojoule', cal:'Calorie (cal)', kcal:'Food calorie (kcal)', wh:'Watt-hour', kwh:'Kilowatt-hour', btu:'BTU'}
+    },
+    toBase: {j:1, kj:1e3, cal:4.184, kcal:4184, wh:3600, kwh:3.6e6, btu:1055.05585262}
+  },
+  power: {
+    units: {
+      ar: {w:'واط', kw:'كيلوواط', mw:'ميجاواط', hp:'حصان ميكانيكي (hp)', ps:'حصان متري (PS)', btuh:'BTU/ساعة'},
+      en: {w:'Watt', kw:'Kilowatt', mw:'Megawatt', hp:'Horsepower (hp)', ps:'Metric horsepower (PS)', btuh:'BTU/h'}
+    },
+    toBase: {w:1, kw:1e3, mw:1e6, hp:745.69987158227, ps:735.49875, btuh:0.29307107017}
+  },
+  angle: {
+    units: {
+      ar: {deg:'درجة', rad:'راديان', grad:'جراد (غون)', turn:'دورة كاملة', arcmin:'دقيقة قوسية', arcsec:'ثانية قوسية'},
+      en: {deg:'Degree', rad:'Radian', grad:'Gradian', turn:'Full turn', arcmin:'Arcminute', arcsec:'Arcsecond'}
+    },
+    toBase: {deg:1, rad:180/Math.PI, grad:0.9, turn:360, arcmin:1/60, arcsec:1/3600}
   },
   temperature: {
     units: {
-      ar: {c:'مئوية', f:'فهرنهايت', k:'كلفن'},
-      en: {c:'Celsius', f:'Fahrenheit', k:'Kelvin'}
+      ar: {c:'مئوية (°C)', f:'فهرنهايت (°F)', k:'كلفن (K)'},
+      en: {c:'Celsius (°C)', f:'Fahrenheit (°F)', k:'Kelvin (K)'}
     }
   }
 };
+/* readable, accurate formatting: 10 significant digits, no silent rounding of tiny values to 0 */
+function fmtUnitNum(x){
+  if(!isFinite(x)) return '—';
+  if(x === 0) return '0';
+  const a = Math.abs(x);
+  if(a >= 1e15 || a < 1e-9) return parseFloat(x.toPrecision(9)).toExponential().replace('e+', '×10^').replace('e-', '×10^-').replace('e', '×10^');
+  const r = parseFloat(x.toPrecision(10));
+  return r.toLocaleString('en-US', {maximumFractionDigits: 12});
+}
 
 function populateUnitSelects(){
   const cat = document.getElementById('unit-category').value;
@@ -6751,7 +6825,8 @@ function populateUnitSelects(){
   if(toSel.options.length > 1) toSel.selectedIndex = 1;
   document.getElementById('unit-result').style.display = 'none';
 }
-document.getElementById('unit-category').addEventListener('change', populateUnitSelects);
+document.getElementById('unit-category').addEventListener('change', ()=>{ populateUnitSelects(); const b = document.getElementById('unit-btn'); if(document.getElementById('unit-value').value !== '') b.click(); });
+['unit-value', 'unit-from', 'unit-to'].forEach(id=> document.getElementById(id).addEventListener(id === 'unit-value' ? 'input' : 'change', ()=>{ if(document.getElementById('unit-value').value !== '') document.getElementById('unit-btn').click(); }));
 populateUnitSelects();
 
 function convertTemperature(value, from, to){
@@ -6782,8 +6857,7 @@ document.getElementById('unit-btn').addEventListener('click', ()=>{
     const baseValue = value * data.toBase[from];
     result = baseValue / data.toBase[to];
   }
-  const rounded = Math.round(result * 10000) / 10000;
-  out.textContent = `${rounded.toLocaleString('en-US')} ${UNIT_DATA[cat].units[currentLang][to]}`;
+  out.textContent = `${fmtUnitNum(result)} ${UNIT_DATA[cat].units[currentLang][to]}`;
   resultBox.style.display = 'block';
 });
 
@@ -6901,8 +6975,9 @@ document.getElementById('zakat-btn').addEventListener('click', ()=>{
   const debts = parseFloat(document.getElementById('zakat-debts').value) || 0;
   const net = Math.max(0, total - debts);
   const calSel = document.getElementById('zakat-calendar');
+  const nisab = parseFloat((document.getElementById('zakat-nisab') || {}).value) || 0;
   const zakat = net * (calSel && calSel.value === 'greg' ? 0.025775 : 0.025);
-  document.getElementById('zakat-out').textContent =
+  document.getElementById('zakat-out').textContent = (nisab > 0 && net < nisab) ? I18N[currentLang].zakatBelow :
     `${zakat.toLocaleString('en-US',{maximumFractionDigits:2})} ${currentLang === 'en' ? 'SAR' : 'ريال'}`;
   document.getElementById('zakat-result').style.display = 'block';
 });
@@ -14736,7 +14811,10 @@ document.getElementById('pagesize-btn').addEventListener('click', async ()=>{
 /* ============================================================
    SAUDI ID / IQAMA VALIDATOR
    ============================================================ */
+/* accepts Arabic-Indic / Persian digits typed on Arabic keyboards */
+function uddahLatinDigits(s){ return String(s == null ? '' : s).replace(/[٠-٩]/g, d=> d.charCodeAt(0) - 0x0660).replace(/[۰-۹]/g, d=> d.charCodeAt(0) - 0x06F0); }
 function validateSaudiID(idStr){
+  idStr = uddahLatinDigits(idStr).replace(/[\s-]/g, '');
   if(!/^[12]\d{9}$/.test(idStr)){
     return { valid:false, reason: I18N[currentLang].idErrFormat };
   }
@@ -14793,7 +14871,7 @@ const SAUDI_BANK_CODES = {
 };
 
 function validateSaudiIBAN(ibanRaw){
-  const iban = ibanRaw.replace(/\s|-/g, '').toUpperCase();
+  const iban = uddahLatinDigits(ibanRaw).replace(/\s|-/g, '').toUpperCase();
   if(!/^SA\d{22}$/.test(iban)){
     return { valid:false, reason: I18N[currentLang].ibanErrFormat };
   }
@@ -17068,6 +17146,7 @@ document.getElementById('gpa-btn').addEventListener('click', ()=>{
   const percent = parseFloat(document.getElementById('gpa-percent').value);
   const scale = parseFloat(document.getElementById('gpa-scale').value);
   if(isNaN(percent)) return;
+  if(percent < 0 || percent > 100){ document.getElementById('gpa-out').textContent = I18N[currentLang].gpaErrRange; document.getElementById('gpa-result').style.display = 'block'; return; }
   const gpa = (percent/100) * scale;
   document.getElementById('gpa-out').textContent = `${gpa.toLocaleString('en-US',{maximumFractionDigits:2})} ${I18N[currentLang].gpaOutOf} ${scale}`;
   document.getElementById('gpa-result').style.display = 'block';
@@ -17090,6 +17169,11 @@ document.getElementById('weighted-btn').addEventListener('click', ()=>{
 
   if(isNaN(thanawiya) || isNaN(qudurat) || isNaN(tahsili)){
     errBox.textContent = I18N[currentLang].weightedErrMissing;
+    errBox.style.display = 'block';
+    return;
+  }
+  if([thanawiya, qudurat, tahsili].some(v=> v < 0 || v > 100)){
+    errBox.textContent = I18N[currentLang].weightedErrRange;
     errBox.style.display = 'block';
     return;
   }
