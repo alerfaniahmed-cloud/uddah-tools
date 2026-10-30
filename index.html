@@ -507,7 +507,8 @@
   #uc-res2 .uc-pretty,#uc-res2 .uc-fq2{font-size:.85rem;}
   /* date converter: numeric dates + small month name */
   .mname{margin-top:6px;min-height:1.2em;font-size:.88rem;color:var(--brass-light);font-weight:600;}
-  .result .big .dt-num{font-family:var(--font-mono);letter-spacing:.02em;font-size:1.9rem;display:inline-block;}
+  .result .big .dt-num{font-family:var(--font-mono);letter-spacing:.02em;font-size:1.9rem;display:inline-flex;align-items:baseline;gap:3px;unicode-bidi:isolate;}
+  .result .big .dt-num i{font-style:normal;opacity:.6;}
   .result .big .dt-sfx{margin-inline-start:6px;font-size:1.1rem;opacity:.85;}
   .result .big .dt-mn{display:block;margin-top:6px;font-family:var(--font-body,inherit);font-size:.92rem;font-weight:500;color:var(--bone-dim,inherit);}
   .result .big .dt-mn b{color:var(--brass-light);font-weight:700;}
@@ -4399,7 +4400,8 @@ const pad2 = n=> String(n).padStart(2, '0');
 function paintDateOut(id, d, m, y, suffix, monthName, monthLbl){
   const el = document.getElementById(id); if(!el) return;
   const num = `${pad2(d)}/${pad2(m)}/${y}`;
-  el.innerHTML = `<span class="dt-num" dir="ltr">${num}</span><span class="dt-sfx">${suffix}</span><span class="dt-mn">${monthLbl}: <b>${monthName}</b></span>`;
+  const rtl = currentLang !== 'en', sx = suffix ? `<span class="dt-sfx">${suffix}</span>` : '';
+  el.innerHTML = `<span class="dt-num" dir="${rtl ? 'rtl' : 'ltr'}"><span>${pad2(d)}</span><i>/</i><span>${pad2(m)}</span><i>/</i><span>${y}</span>${rtl ? sx : ''}</span>${rtl ? '' : sx}<span class="dt-mn">${monthLbl}: <b>${monthName}</b></span>`;
   el.dataset.txt = `${num}${suffix} — ${monthLbl}: ${monthName}`;
 }
 (function(){
