@@ -3638,7 +3638,7 @@
 
     <div class="card pdf-card" id="pdftool-pdf2word">
       <h2 data-i18n="p2wTitle">تحويل PDF إلى Word</h2>
-      <p class="hint" data-i18n="p2wHint">يحوّل النص الموجود في الملف إلى مستند Word (.docx) قابل للتعديل، مع دعم العربي واتجاه الفقرات. إذا طلع النص مكسّرًا أو مقلوبًا (شائع في بعض ملفات PDF العربية) أو كان الملف صورة ممسوحة ضوئياً، اختر وضع «القراءة الضوئية OCR» بالأسفل.</p>
+      <p class="hint" data-i18n="p2wHint">يحوّل النص الموجود في الملف إلى مستند Word (.docx) قابل للتعديل، مع دعم العربي واتجاه الفقرات والخط العريض. لو النص طلع مكسّرًا أو مقلوبًا (شائع في بعض ملفات PDF العربية) أو كان الملف صورة ممسوحة ضوئياً، تتحوّل تلقائياً عبر القراءة الضوئية بدون ما تحتاج تختار بنفسك. الجداول والصور لا تُنقل — لو الملف فيه جداول أو أختام اختر «صورة طبق الأصل».</p>
       <div class="field"><input type="file" id="pdf2word-file" accept="application/pdf"><div class="file-list" id="pdf2word-file-list"></div></div>
       <div class="field">
         <label for="pdf2word-mode" data-i18n="p2wMode">طريقة التحويل</label>
@@ -5444,13 +5444,14 @@ const I18N = {
     pdfOptPdf2word: '📘 تحويل PDF إلى Word',
     pdfOptCompare: '🔍 مقارنة ملفي PDF',
     p2wTitle: 'تحويل PDF إلى Word',
-    p2wHint: 'يحوّل الملف إلى مستند Word (.docx) بإعادة بناء النص من مواقع الحروف في الصفحة: يحافظ على العربي واتجاه الفقرات والأقواس والأرقام والإنجليزي داخل العربي والخط العريض والمحاذاة، ثم يتحقق أن كل حرف انتقل. الجداول والصور لا تُنقل في وضع النص، فلو الملف فيه جداول أو أختام اختر «صورة طبق الأصل».',
+    p2wHint: 'يحوّل النص الموجود في الملف إلى مستند Word (.docx) قابل للتعديل، مع دعم العربي واتجاه الفقرات والخط العريض. لو النص طلع مكسّرًا أو مقلوبًا (شائع في بعض ملفات PDF العربية) أو كان الملف صورة ممسوحة ضوئياً، تتحوّل تلقائياً عبر القراءة الضوئية بدون ما تحتاج تختار بنفسك. الجداول والصور لا تُنقل — لو الملف فيه جداول أو أختام اختر «صورة طبق الأصل».',
     p2wJoin: 'دمج أسطر الفقرة الواحدة تلقائياً',
     p2wBtn: 'تحويل وتنزيل Word',
     p2wMode: 'طريقة التحويل', p2wModeText: 'نص قابل للتعديل (الأفضل للكتابة والتعديل)', p2wModeOcr: '🔎 قراءة ضوئية OCR (للنص المكسّر/المقلوب أو الملفات الممسوحة ضوئياً — يحتاج إنترنت أول مرة)', p2wModeImg: 'صورة طبق الأصل لكل صفحة (شكل مطابق 100% لكن لا يُعدَّل)',
     p2wOcrNote: 'القراءة الضوئية تعالج كل صفحة كصورة وتتعرف على حروفها، فتُصلح النص العربي المكسّر وتعيد بناء العناوين والفقرات والترقيم تلقائياً، لكنها قد تخطئ في بعض الكلمات أو الأرقام — راجع الناتج قبل الاستخدام الرسمي. مُحسّنة للنص العربي تحديداً (فلو الملف إنجليزي بالكامل استخدم «نص قابل للتعديل» بدلاً منها)، ولا تنقل التنسيق كالجداول. يحتاج الاستخدام الأول اتصالاً بالإنترنت لتحميل ملفات اللغة (~2 ميجابايت)، تُحفظ بعدها في المتصفح.',
     p2wOcrLoadLang: 'جارٍ تحميل بيانات اللغة لأول مرة…', p2wOcrPage: 'جارٍ القراءة الضوئية: صفحة {p} من {n} ({pct}%)',
     p2wOcrDone: 'تم ✓ — تحويل بالقراءة الضوئية ({n} صفحة). راجع النص قبل الاستخدام الرسمي فقد تحدث أخطاء بسيطة في القراءة.',
+    p2wAutoOcrDone: 'لاحظت أن نص الملف الأصلي مكسّر/غير سليم، فحوّلته تلقائياً بالقراءة الضوئية بدلاً منه ✓ ({n} صفحة). راجع النص قبل الاستخدام الرسمي.',
     p2wOcrNoNet: 'تعذّر تحميل بيانات القراءة الضوئية — هذا الوضع يحتاج اتصالاً بالإنترنت (خصوصاً أول مرة).',
     p2wOcrEmpty: 'لم يتعرّف على أي نص في الملف — تأكد أن الصفحات واضحة وغير فارغة.',
     p2wVerified: 'تم ✓ — تم التحقق: انتقلت كل الأحرف ({n} حرفاً). راجع الملف سريعاً قبل الاعتماد.', p2wMismatch: 'تم التحويل لكن فيه فرق في عدد الأحرف ({n} من {m}) — راجع الملف أو استخدم «صورة طبق الأصل».',
@@ -6384,13 +6385,14 @@ const I18N = {
     pdfOptPdf2word: '📘 PDF to Word',
     pdfOptCompare: '🔍 Compare PDFs',
     p2wTitle: 'PDF to Word',
-    p2wHint: 'Converts the PDF to Word (.docx) by rebuilding the text from glyph positions: keeps Arabic, paragraph direction, brackets, numbers, English inside Arabic, bold and alignment. If the text comes out broken or reversed (common with some Arabic PDFs) or the file is a scanned image, choose the "OCR" mode below.',
+    p2wHint: 'Converts the PDF to editable Word (.docx), keeping Arabic, paragraph direction and bold. If the text comes out broken or reversed (common with some Arabic PDFs) or the file is a scanned image, it switches to OCR automatically — no need to pick it yourself. Tables and pictures are not carried over — for files with tables or stamps choose "Exact page image".',
     p2wJoin: 'Join lines of the same paragraph',
     p2wBtn: 'Convert & download Word',
     p2wMode: 'Conversion mode', p2wModeText: 'Editable text (best for editing)', p2wModeOcr: '🔎 OCR (for broken/reversed text or scanned files — needs internet the first time)', p2wModeImg: 'Exact page image (100% identical look, not editable)',
     p2wOcrNote: 'OCR processes each page as an image and recognizes its letters, fixing broken Arabic text and automatically rebuilding titles, paragraphs and numbering, but it may misread some words or numbers — review the result before relying on it officially. Tuned specifically for Arabic (for an all-English file use "Editable text" instead); formatting like tables is not carried over. First use needs an internet connection to download language data (~2MB), cached afterward in the browser.',
     p2wOcrLoadLang: 'Loading language data for the first time…', p2wOcrPage: 'Reading page {p} of {n} ({pct}%)…',
     p2wOcrDone: 'Done ✓ — converted via OCR ({n} page(s)). Review the text before relying on it officially; minor reading errors can happen.',
+    p2wAutoOcrDone: 'The original text layer looked broken, so it was converted via OCR instead ✓ ({n} page(s)). Review the text before relying on it officially.',
     p2wOcrNoNet: 'Could not load the OCR language data — this mode needs an internet connection (especially the first time).',
     p2wOcrEmpty: 'No text was recognized in the file — make sure the pages are clear and not blank.',
     p2wVerified: 'Done ✓ — verified: every character was carried over ({n} characters). Give the file a quick look before relying on it.', p2wMismatch: 'Converted, but the character count differs ({n} of {m}) — check the file or use “Exact page image”.',
@@ -17145,12 +17147,25 @@ async function ptOcrToDocx(file, onProgress){
   zip.file('word/document.xml', ocrDocXml(pages));
   return { blob: await zip.generateAsync({ type:'blob', mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document', compression:'DEFLATE' }), pageCount:pages.length };
 }
+/* Detects a PDF text layer whose font has a broken char→Unicode map (common with some
+   Word-exported Arabic PDFs): the ligature/kashida decomposition that breaks produces an
+   unnatural number of words with an immediately-repeated letter (e.g. "مواااوملس", "موخاا"),
+   something real Arabic prose almost never does. Measured against real samples: a clean
+   paragraph scores ~2-3%, a scrambled one scores 50-70%+. */
+function ptTextLooksGarbled(text){
+  const words = text.split(/[^؀-ۿ]+/).filter(w=> w.length >= 2);
+  if(words.length < 20) return false;
+  const run2 = /(.)\1/;
+  const bad = words.reduce((n, w)=> n + (run2.test(w) ? 1 : 0), 0);
+  return (bad / words.length) > 0.15;
+}
 (function ptWordInit(){
   const btn = document.getElementById('pdf2word-btn'), mode = document.getElementById('pdf2word-mode'), ocrNote = document.getElementById('pdf2word-ocrnote');
   const syncOcrNote = ()=>{ ocrNote.style.display = mode.value === 'ocr' ? '' : 'none'; };
   mode.addEventListener('change', syncOcrNote); syncOcrNote();
   async function toDocx(file, imageMode){
     const d = await pdfjsLib.getDocument({ data:new Uint8Array(await file.arrayBuffer()) }).promise, pages = [], jpgs = [];
+    let allPlainText = '';
     for(let i = 1; i <= d.numPages; i++){
       const page = await d.getPage(i), view = page.view, pw = view[2] - view[0], ph = view[3] - view[1];
       if(imageMode){
@@ -17161,16 +17176,18 @@ async function ptOcrToDocx(file, onProgress){
       }
       if((page.rotate || 0) % 360 !== 0) throw ptFail('p2wRotated');
       const ol = await page.getOperatorList(), tc = await page.getTextContent(), bold = await ptWordBoldMap(page, tc);
+      allPlainText += tc.items.map(it=> it.str || '').join(' ') + '\n';
       const items = tc.items.map(it=> it.transform ? Object.assign({}, it, { transform:[it.transform[0], it.transform[1], it.transform[2], it.transform[3], it.transform[4] - view[0], it.transform[5] - view[1]] }) : it);
       const r = P2W.pageLines(items, bold, P2W.glyphStream(ol, pdfjsLib.OPS)), pp = P2W.paragraphs(r.lines, pw);
       pages.push({ w:pw, h:ph, paras:pp.paras, minX0:pp.minX0, maxX1:pp.maxX1, rawChars:r.rawChars });
     }
+    if(!imageMode && ptTextLooksGarbled(allPlainText)) return { garbled:true };
     const zip = new JSZip();
     zip.file('[Content_Types].xml', P2W.CT); zip.file('_rels/.rels', P2W.RELS);
     let check = null;
     if(imageMode){ zip.file('word/document.xml', P2W.imageDocXml(pages)); zip.file('word/_rels/document.xml.rels', P2W.docRels(pages.length)); jpgs.forEach((b, i)=> zip.file('word/media/p' + (i + 1) + '.jpeg', b)); }
     else{
-      if(!pages.some(pg=> pg.paras.length)) throw ptFail('p2tNone');
+      if(!pages.some(pg=> pg.paras.length)) return { garbled:true };
       zip.file('word/document.xml', P2W.docXml(pages)); check = P2W.verify(pages);
     }
     return { blob: await zip.generateAsync({ type:'blob', mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document', compression:'DEFLATE' }), check };
@@ -17178,17 +17195,21 @@ async function ptOcrToDocx(file, onProgress){
   btn.addEventListener('click', async ()=>{
     const f = document.getElementById('pdf2word-file').files[0], st = 'pdf2word-status';
     if(!f){ setStatus(st, ptT('ptNoFile'), 'err'); return; }
-    let res = null, ocr = mode.value === 'ocr';
+    let res = null, ocr = mode.value === 'ocr', autoSwitched = false;
     await ptRun('pdf2word', btn, 'p2wBtn', async ()=>{
+      if(!ocr && mode.value === 'text'){
+        res = await toDocx(f, false);
+        if(res.garbled){ ocr = true; autoSwitched = true; res = null; }
+      }
       if(ocr){
         res = await ptOcrToDocx(f, info=>{
           if(info.phase === 'load') setStatus(st, ptT('p2wOcrLoadLang'), 'ok');
           else setStatus(st, ptT('p2wOcrPage').replace('{p}', info.p).replace('{n}', info.n).replace('{pct}', info.pct), 'ok');
         });
-      } else res = await toDocx(f, mode.value === 'image');
+      } else if(!res) res = await toDocx(f, mode.value === 'image');
       downloadBlob(res.blob, ptBaseName(f) + '.docx');
     });
-    if(ocr && res) setStatus(st, ptT('p2wOcrDone').replace('{n}', res.pageCount), 'ok');
+    if(ocr && res) setStatus(st, ptT(autoSwitched ? 'p2wAutoOcrDone' : 'p2wOcrDone').replace('{n}', res.pageCount), 'ok');
     else if(res && res.check) setStatus(st, ptT(res.check.ok ? 'p2wVerified' : 'p2wMismatch').replace('{n}', res.check.got).replace('{m}', res.check.want), res.check.ok ? 'ok' : 'err');
   });
 })();
