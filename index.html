@@ -3644,7 +3644,7 @@
         <label for="pdf2word-mode" data-i18n="p2wMode">طريقة التحويل</label>
         <select id="pdf2word-mode"><option value="text" data-i18n="p2wModeText">نص قابل للتعديل (الأفضل للكتابة والتعديل)</option><option value="ocr" data-i18n="p2wModeOcr">🔎 قراءة ضوئية OCR (للنص المكسّر/المقلوب أو الملفات الممسوحة ضوئياً — يحتاج إنترنت أول مرة)</option><option value="image" data-i18n="p2wModeImg">صورة طبق الأصل لكل صفحة (شكل مطابق 100% لكن لا يُعدَّل)</option></select>
       </div>
-      <p class="hint" id="pdf2word-ocrnote" data-i18n="p2wOcrNote" style="display:none">القراءة الضوئية تعالج كل صفحة كصورة وتتعرف على حروفها، فتُصلح النص العربي المكسّر لكنها قد تخطئ في بعض الكلمات أو الأرقام — راجع الناتج قبل الاستخدام الرسمي. التنسيق (الخط العريض، الجداول) لا يُنقل. يحتاج الاستخدام الأول اتصالاً بالإنترنت لتحميل ملفات اللغة (~2 ميجابايت)، تُحفظ بعدها في المتصفح.</p>
+      <p class="hint" id="pdf2word-ocrnote" data-i18n="p2wOcrNote" style="display:none">القراءة الضوئية تعالج كل صفحة كصورة وتتعرف على حروفها، فتُصلح النص العربي المكسّر وتعيد بناء العناوين والفقرات والترقيم تلقائياً، لكنها قد تخطئ في بعض الكلمات أو الأرقام — راجع الناتج قبل الاستخدام الرسمي. مُحسّنة للنص العربي تحديداً (فلو الملف إنجليزي بالكامل استخدم «نص قابل للتعديل» بدلاً منها)، ولا تنقل التنسيق كالجداول. يحتاج الاستخدام الأول اتصالاً بالإنترنت لتحميل ملفات اللغة (~2 ميجابايت)، تُحفظ بعدها في المتصفح.</p>
       <button class="btn" id="pdf2word-btn" data-i18n="p2wBtn">تحويل وتنزيل Word</button>
       <div id="pdf2word-status"></div>
     </div>
@@ -5448,7 +5448,7 @@ const I18N = {
     p2wJoin: 'دمج أسطر الفقرة الواحدة تلقائياً',
     p2wBtn: 'تحويل وتنزيل Word',
     p2wMode: 'طريقة التحويل', p2wModeText: 'نص قابل للتعديل (الأفضل للكتابة والتعديل)', p2wModeOcr: '🔎 قراءة ضوئية OCR (للنص المكسّر/المقلوب أو الملفات الممسوحة ضوئياً — يحتاج إنترنت أول مرة)', p2wModeImg: 'صورة طبق الأصل لكل صفحة (شكل مطابق 100% لكن لا يُعدَّل)',
-    p2wOcrNote: 'القراءة الضوئية تعالج كل صفحة كصورة وتتعرف على حروفها، فتُصلح النص العربي المكسّر لكنها قد تخطئ في بعض الكلمات أو الأرقام — راجع الناتج قبل الاستخدام الرسمي. التنسيق (الخط العريض، الجداول) لا يُنقل. يحتاج الاستخدام الأول اتصالاً بالإنترنت لتحميل ملفات اللغة (~2 ميجابايت)، تُحفظ بعدها في المتصفح.',
+    p2wOcrNote: 'القراءة الضوئية تعالج كل صفحة كصورة وتتعرف على حروفها، فتُصلح النص العربي المكسّر وتعيد بناء العناوين والفقرات والترقيم تلقائياً، لكنها قد تخطئ في بعض الكلمات أو الأرقام — راجع الناتج قبل الاستخدام الرسمي. مُحسّنة للنص العربي تحديداً (فلو الملف إنجليزي بالكامل استخدم «نص قابل للتعديل» بدلاً منها)، ولا تنقل التنسيق كالجداول. يحتاج الاستخدام الأول اتصالاً بالإنترنت لتحميل ملفات اللغة (~2 ميجابايت)، تُحفظ بعدها في المتصفح.',
     p2wOcrLoadLang: 'جارٍ تحميل بيانات اللغة لأول مرة…', p2wOcrPage: 'جارٍ القراءة الضوئية: صفحة {p} من {n} ({pct}%)',
     p2wOcrDone: 'تم ✓ — تحويل بالقراءة الضوئية ({n} صفحة). راجع النص قبل الاستخدام الرسمي فقد تحدث أخطاء بسيطة في القراءة.',
     p2wOcrNoNet: 'تعذّر تحميل بيانات القراءة الضوئية — هذا الوضع يحتاج اتصالاً بالإنترنت (خصوصاً أول مرة).',
@@ -6388,7 +6388,7 @@ const I18N = {
     p2wJoin: 'Join lines of the same paragraph',
     p2wBtn: 'Convert & download Word',
     p2wMode: 'Conversion mode', p2wModeText: 'Editable text (best for editing)', p2wModeOcr: '🔎 OCR (for broken/reversed text or scanned files — needs internet the first time)', p2wModeImg: 'Exact page image (100% identical look, not editable)',
-    p2wOcrNote: 'OCR processes each page as an image and recognizes its letters, which fixes broken Arabic text, but it may misread some words or numbers — review the result before relying on it officially. Formatting (bold, tables) is not carried over. First use needs an internet connection to download language data (~2MB), cached afterward in the browser.',
+    p2wOcrNote: 'OCR processes each page as an image and recognizes its letters, fixing broken Arabic text and automatically rebuilding titles, paragraphs and numbering, but it may misread some words or numbers — review the result before relying on it officially. Tuned specifically for Arabic (for an all-English file use "Editable text" instead); formatting like tables is not carried over. First use needs an internet connection to download language data (~2MB), cached afterward in the browser.',
     p2wOcrLoadLang: 'Loading language data for the first time…', p2wOcrPage: 'Reading page {p} of {n} ({pct}%)…',
     p2wOcrDone: 'Done ✓ — converted via OCR ({n} page(s)). Review the text before relying on it officially; minor reading errors can happen.',
     p2wOcrNoNet: 'Could not load the OCR language data — this mode needs an internet connection (especially the first time).',
@@ -17076,7 +17076,7 @@ function ocrDocXml(pages){
 async function ptOcrToDocx(file, onProgress){
   const d = await pdfjsLib.getDocument({ data:new Uint8Array(await file.arrayBuffer()) }).promise;
   let worker;
-  try{ onProgress({ phase:'load' }); worker = await Tesseract.createWorker(['ara', 'eng']); }
+  try{ onProgress({ phase:'load' }); worker = await Tesseract.createWorker('ara'); }
   catch(e){ throw ptFail('p2wOcrNoNet'); }
   const pages = [];
   try{
@@ -17091,18 +17091,35 @@ async function ptOcrToDocx(file, onProgress){
       try{ ({ data } = await worker.recognize(c, {}, { blocks:true })); }
       catch(e){ throw ptFail('p2wOcrNoNet'); }
       c.width = c.height = 0;
+      /* Tesseract.js's own "paragraph" grouping is unreliable in default page-seg mode
+         (it sometimes merges the whole page into one giant paragraph) — so rebuild
+         paragraphs ourselves from the line-level boxes, which stay granular. */
+      const rawLines = [];
+      (data.blocks || []).forEach(block=> (block.paragraphs || []).forEach(para=> (para.lines || []).forEach(line=>{
+        const t = (line.text || '').trim();
+        if(t && line.bbox) rawLines.push({ text:t, bbox:line.bbox });
+      })));
+      rawLines.sort((a, b)=> a.bbox.y0 - b.bbox.y0);
+      const heights = rawLines.map(l=> l.bbox.y1 - l.bbox.y0).filter(h=> h > 0).sort((a, b)=> a - b);
+      const medianH = heights.length ? heights[Math.floor(heights.length / 2)] : 20 * scale;
+      const groups = []; let prevY1 = null;
+      rawLines.forEach(l=>{
+        if(prevY1 === null || (l.bbox.y0 - prevY1) > medianH * 0.6) groups.push([]);
+        groups[groups.length - 1].push(l);
+        prevY1 = l.bbox.y1;
+      });
       const paras = [];
-      (data.blocks || []).forEach(block=> (block.paragraphs || []).forEach(para=>{
-        const text = (para.text || '').replace(/\s*\n\s*/g, ' ').trim();
+      groups.forEach(group=>{
+        const text = group.map(l=> l.text).join(' ').replace(/\s+/g, ' ').trim();
         if(!text) return;
-        const x0 = para.bbox.x0 / scale, x1 = para.bbox.x1 / scale, y0 = para.bbox.y0 / scale, y1 = para.bbox.y1 / scale;
-        const nLines = (para.lines || []).length || 1, lineH = Math.max(8, (y1 - y0) / nLines);
+        const x0 = Math.min(...group.map(l=> l.bbox.x0)) / scale, x1 = Math.max(...group.map(l=> l.bbox.x1)) / scale;
+        const y0 = Math.min(...group.map(l=> l.bbox.y0)) / scale, y1 = Math.max(...group.map(l=> l.bbox.y1)) / scale;
+        const nLines = group.length, lineH = Math.max(8, (y1 - y0) / nLines);
         let sz = Math.max(16, Math.min(32, Math.round(lineH * 0.68 * 2)));
         const widthRatio = (x1 - x0) / pw, centerOff = Math.abs(((x0 + x1) / 2) - pw / 2) / pw;
         const align = (widthRatio < 0.62 && centerOff < 0.12) ? 'center' : null;
-        let rtl;
-        if(typeof para.is_ltr === 'boolean') rtl = !para.is_ltr;
-        else{ const ar = (text.match(/[؀-ۿ]/g) || []).length; rtl = ar > text.length * 0.3; }
+        const ar = (text.match(/[؀-ۿ]/g) || []).length;
+        const rtl = ar > text.length * 0.3;
         const isDocTitle = align === 'center' && pages.length === 0 && paras.length === 0;
         const wordCount = text.split(/\s+/).filter(Boolean).length;
         const endsColon = /[:：]\s*$/.test(text);
@@ -17113,8 +17130,7 @@ async function ptOcrToDocx(file, onProgress){
         else if(numMatch){ runs = [{ t:numMatch[0], bold:true }, { t:text.slice(numMatch[0].length), bold:false }]; justify = false; }
         else runs = [{ t:text, bold:false }];
         paras.push({ runs, rtl, y0, y1, line:lineH, sz, align, justify });
-      }));
-      paras.sort((a, b)=> a.y0 - b.y0);
+      });
       pages.push({ w:pw, h:ph, paras });
       onProgress({ phase:'page', p:i, n:d.numPages, pct:100 });
     }
