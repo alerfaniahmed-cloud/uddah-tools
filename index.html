@@ -682,11 +682,11 @@
   .lab-vg{cursor:pointer;transition:filter .2s;}.lab-vg.on{filter:drop-shadow(0 0 5px rgba(201,162,75,.65));}
   .lab-vl{fill:var(--brass);font-size:15px;font-weight:700;font-family:var(--font-mono);}
   .lab-liq{transition:transform .65s cubic-bezier(.3,.7,.3,1);}
-  .lab-bub{fill:rgba(255,255,255,.6);animation:lab-rise 1.6s linear infinite;opacity:0;}
-  @keyframes lab-rise{0%{transform:translateY(0);opacity:0}12%{opacity:.9}100%{transform:translateY(calc(var(--h,100px) * -1));opacity:0}}
+  .lab-bub{fill:rgba(255,255,255,.72);filter:drop-shadow(0 0 2px rgba(255,255,255,.5));animation:lab-rise 1.6s linear infinite;opacity:0;}
+  @keyframes lab-rise{0%{transform:translate(0,0);opacity:0}10%{opacity:.95}35%{transform:translate(2px,calc(var(--h,100px) * -.35))}65%{transform:translate(-2px,calc(var(--h,100px) * -.65))}100%{transform:translate(0,calc(var(--h,100px) * -1));opacity:0}}
   .lab-sp{animation:lab-float 4s ease-in-out infinite alternate;}
   @keyframes lab-float{from{transform:translate(-3px,-4px)}to{transform:translate(3px,4px)}}
-  .lab-flame{transform-box:fill-box;transform-origin:50% 100%;animation:lab-flick .22s ease-in-out infinite alternate;}.lab-flame.f2{animation-duration:.17s;}
+  .lab-flame{transform-box:fill-box;transform-origin:50% 100%;animation:lab-flick .22s ease-in-out infinite alternate;filter:drop-shadow(0 0 7px rgba(90,170,255,.85)) drop-shadow(0 0 14px rgba(255,180,60,.5));}.lab-flame.f2{animation-duration:.17s;}
   @keyframes lab-flick{from{transform:scale(1,1) skewX(-4deg)}to{transform:scale(.88,1.1) skewX(4deg)}}
   .lab-steam{fill:rgba(240,245,255,.45);animation:lab-steam 1.8s ease-out infinite;}.lab-steam.s2{animation-delay:.5s}.lab-steam.s3{animation-delay:1s}
   @keyframes lab-steam{0%{transform:translateY(0) scale(.6);opacity:.8}100%{transform:translateY(-44px) scale(1.8);opacity:0}}
@@ -694,10 +694,23 @@
   @keyframes lab-fall{0%{transform:translateY(-12px);opacity:1}85%{opacity:1}100%{transform:translateY(120px);opacity:0}}
   .lab-stirbar.go ellipse{transform-box:fill-box;transform-origin:center;animation:lab-spinx .22s linear infinite;}
   @keyframes lab-spinx{0%{transform:scaleX(1)}50%{transform:scaleX(.15)}100%{transform:scaleX(1)}}
-  .lab-flash{position:absolute;left:50%;top:40%;font-size:3rem;transform:translate(-50%,-50%) scale(0);opacity:0;pointer-events:none;}
-  .lab-flash.go{animation:lab-flash .6s ease-out;}
-  @keyframes lab-flash{0%{transform:translate(-50%,-50%) scale(.2);opacity:1}100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}}
+  .lab-vg{position:relative;}
+  .lab-vg::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.22) 45%,transparent 60%);background-size:260% 260%;background-position:120% -20%;pointer-events:none;mix-blend-mode:screen;animation:lab-shine 5.5s ease-in-out infinite;}
+  @keyframes lab-shine{0%,70%{background-position:130% -30%}100%{background-position:-30% 130%}}
+  .lab-flash{position:absolute;left:50%;top:40%;font-size:3rem;transform:translate(-50%,-50%) scale(0);opacity:0;pointer-events:none;filter:drop-shadow(0 0 18px rgba(255,210,100,.9));}
+  .lab-flash.go{animation:lab-flash .7s cubic-bezier(.2,.9,.3,1);}
+  @keyframes lab-flash{0%{transform:translate(-50%,-50%) scale(.1) rotate(0deg);opacity:1}55%{transform:translate(-50%,-50%) scale(1.6) rotate(25deg);opacity:1}100%{transform:translate(-50%,-50%) scale(2.6) rotate(45deg);opacity:0}}
+  .lab-stagewrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 85%,rgba(255,170,60,.16),transparent 60%);pointer-events:none;opacity:0;transition:opacity .4s;z-index:1;}
+  .lab-stagewrap.heating::before{opacity:1;animation:lab-glowpulse 1.4s ease-in-out infinite alternate;}
+  @keyframes lab-glowpulse{from{opacity:.55}to{opacity:1}}
   .lab-toast{position:absolute;left:8px;right:8px;bottom:8px;background:rgba(0,0,0,.78);color:#fff;padding:8px 12px;border-radius:10px;font-size:.85rem;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s;}.lab-toast.on{opacity:1;}
+  .ach-bar{display:flex;align-items:center;gap:9px;margin:10px 0;padding:9px 13px;border:1px solid var(--border);border-radius:13px;background:linear-gradient(90deg,rgba(201,162,75,.16),rgba(201,162,75,.02));font-size:.82rem;flex-wrap:wrap;}
+  .ach-lv{font-weight:700;white-space:nowrap;}
+  .ach-track{flex:1;min-width:70px;height:9px;border-radius:6px;background:rgba(255,255,255,.12);overflow:hidden;}
+  .ach-track i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#c9a24b,#ffd45a);transition:width .6s cubic-bezier(.2,.8,.3,1);}
+  .ach-cnt{font-family:var(--font-mono);color:var(--bone-dim);white-space:nowrap;}
+  .ach-pop{position:fixed;top:22%;left:50%;transform:translate(-50%,-50%);font-size:3.4rem;z-index:9999;pointer-events:none;animation:ach-pop-go 1.3s ease-out forwards;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4));}
+  @keyframes ach-pop-go{0%{transform:translate(-50%,-40%) scale(.2) rotate(-8deg);opacity:0}18%{opacity:1;transform:translate(-50%,-50%) scale(1.35) rotate(6deg)}35%{transform:translate(-50%,-50%) scale(1) rotate(0deg)}82%{opacity:1}100%{transform:translate(-50%,-75%) scale(.85) rotate(4deg);opacity:0}}
   .lab-reads{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:10px;}
   .lab-ro{position:relative;padding:8px 10px 8px 26px;border:1px solid var(--border);border-radius:12px;background:var(--bg-elev-2);}.lab-ro.on{border-color:var(--brass);}
   .lab-ro b{font-size:.82rem;}.lab-rg{display:flex;flex-wrap:wrap;gap:4px 10px;font-family:var(--font-mono);font-size:.82rem;margin-top:3px;}
@@ -19781,7 +19794,10 @@ const FUN_PHYS = [
   try_:['ارسم العلاقة بين عدد الصفحات المتداخلة والقوة اللازمة للفصل: هل هي خطية؟','Plot force versus number of interleaved pages. Is it linear?'] }
 ];
 
-  const ST = { chem:{ open:null, flt:'all', done:{}, tick:{}, pick:{} }, phys:{ open:null, flt:'all', done:{}, tick:{}, pick:{} } };
+  const funLoad = ()=>{ try{ return JSON.parse(localStorage.getItem('uddah-fun-done')) || { chem:{}, phys:{} }; }catch(e){ return { chem:{}, phys:{} }; } };
+  const funSave = d=>{ try{ localStorage.setItem('uddah-fun-done', JSON.stringify(d)); }catch(e){} };
+  const FUN_DONE = funLoad();
+  const ST = { chem:{ open:null, flt:'all', done:(FUN_DONE.chem || {}), tick:{}, pick:{} }, phys:{ open:null, flt:'all', done:(FUN_DONE.phys || {}), tick:{}, pick:{} } };
   const hosts = {};
   const LV = { 1:['⭐', 'سهلة', 'Easy'], 2:['⭐⭐', 'متوسطة', 'Medium'], 3:['⭐⭐⭐', 'تحتاج معلماً', 'Teacher-guided'] };
   const key = (ns, id, k)=> ns + ':' + id + ':' + k;
@@ -19817,7 +19833,7 @@ const FUN_PHYS = [
     if(a === 'tick'){ s.tick[t.dataset.k] = t.checked; return; }
     if(a === 'toggle'){ s.open = s.open === t.dataset.id ? null : t.dataset.id; render(ns); const c = hosts[ns].querySelector('.fn-card.open'); if(c) c.scrollIntoView({ block:'nearest', behavior:'smooth' }); return; }
     if(a === 'pick'){ s.pick[t.dataset.id] = +t.dataset.i; render(ns); return; }
-    if(a === 'done'){ s.done[t.dataset.id] = !s.done[t.dataset.id]; render(ns); return; }
+    if(a === 'done'){ s.done[t.dataset.id] = !s.done[t.dataset.id]; if(!s.done[t.dataset.id]) delete s.done[t.dataset.id]; funSave({ chem:ST.chem.done, phys:ST.phys.done }); if(s.done[t.dataset.id] && window.uddahAch) window.uddahAch.mark(ns === 'chem' ? 'chem-fun' : 'phys-fun', t.dataset.id); render(ns); return; }
     if(a === 'flt'){ s.flt = t.dataset.v; render(ns); }
   }
   function mount(host, ns){
@@ -19827,6 +19843,48 @@ const FUN_PHYS = [
   }
   new MutationObserver(()=> setTimeout(()=>{ Object.keys(hosts).forEach(ns=>{ if(hosts[ns] && document.body.contains(hosts[ns])) render(ns); }); }, 40)).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
   return { mount, ST, CHEM: FUN_CHEM, PHYS: FUN_PHYS, render };
+})();
+
+/* ============================================================
+   Shared lab gamification: badges/levels for the virtual labs
+   (persisted in localStorage; used by both chemistry & physics labs)
+   ============================================================ */
+window.uddahAch = (function(){
+  const lang = ()=> (typeof currentLang !== 'undefined' ? currentLang : 'ar');
+  const load = ()=>{ try{ return JSON.parse(localStorage.getItem('uddah-lab-ach')) || {}; }catch(e){ return {}; } };
+  const save = d=>{ try{ localStorage.setItem('uddah-lab-ach', JSON.stringify(d)); }catch(e){} };
+  let DATA = load();
+  const LV = [
+    { n:0, ic:'🌱', ar:'مستكشف جديد', en:'New explorer' },
+    { n:3, ic:'🥉', ar:'متدرّب المعمل', en:'Lab trainee' },
+    { n:6, ic:'🥈', ar:'فنّي ماهر', en:'Skilled technician' },
+    { n:10, ic:'🥇', ar:'خبير المعمل', en:'Lab expert' },
+    { n:16, ic:'🏆', ar:'عالم أسطوري', en:'Legendary scientist' }
+  ];
+  function levelFor(n){ let L = LV[0]; for(const l of LV) if(n >= l.n) L = l; return L; }
+  function pop(){
+    try{
+      const d = document.createElement('div'); d.className = 'ach-pop'; d.textContent = '🏅';
+      document.body.appendChild(d); setTimeout(()=>{ try{ d.remove(); }catch(e){} }, 1300);
+    }catch(e){}
+  }
+  function mark(dom, id){
+    DATA[dom] = DATA[dom] || {};
+    const isNew = !DATA[dom][id];
+    if(isNew){ DATA[dom][id] = 1; save(DATA); pop(); }
+    sync(dom);
+    return isNew;
+  }
+  function count(dom){ return Object.keys(DATA[dom] || {}).length; }
+  const hosts = {};
+  function bar(dom, total){
+    const n = count(dom), L = levelFor(n), en = lang() === 'en';
+    const pct = total ? Math.min(100, Math.round(n / total * 100)) : 0;
+    return `<div class="ach-bar"><span class="ach-lv">${L.ic} ${en ? L.en : L.ar}</span><span class="ach-track"><i style="width:${pct}%"></i></span><span class="ach-cnt">${n}/${total}</span></div>`;
+  }
+  function sync(dom){ const h = hosts[dom]; if(h && h.el && document.body.contains(h.el)) h.el.innerHTML = bar(dom, h.total); }
+  function mount(elId, dom, total){ const el = document.getElementById(elId); if(!el) return; hosts[dom] = { el, total }; el.innerHTML = bar(dom, total); }
+  return { mark, count, mount, levelFor };
 })();
 
 
@@ -21142,10 +21200,10 @@ reg('bench', 'المنضدة', 'Bench', '🧪', ()=> `
   $('lab-grp').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(c){ BN.grp = c.dataset.v; BN.q = ''; $('lab-q').value = ''; setChips('lab-grp', BN.grp); renderShelf(); } });
   $('lab-q').addEventListener('input', e=>{ BN.q = e.target.value; renderShelf(); });
   $('lab-shelf').addEventListener('click', e=>{ const bt = e.target.closest('.lab-bt'); if(bt) addReagent(bt.dataset.id); });
-  $('lab-heat').addEventListener('click', ()=>{ BN.heater[BN.active] = !BN.heater[BN.active]; $('lab-heat').classList.toggle('on', BN.heater[BN.active]); ensureTimer(); paintAll(); });
+  $('lab-heat').addEventListener('click', ()=>{ BN.heater[BN.active] = !BN.heater[BN.active]; const isHot = BN.heater[BN.active]; $('lab-heat').classList.toggle('on', isHot); const sw = document.querySelector('#lab-root .lab-stagewrap'); if(sw) sw.classList.toggle('heating', isHot); ensureTimer(); paintAll(); });
   $('lab-stir').addEventListener('click', ()=>{ const k = BN.active; const s = $('stir' + k); if(!s) return; s.style.display = ''; s.classList.add('go'); setTimeout(()=>{ s.style.display = 'none'; s.classList.remove('go'); }, 2200); });
   $('lab-undo').addEventListener('click', ()=>{ for(let i = BN.tl.length - 1; i >= 0; i--){ if(BN.tl[i].v === BN.active){ BN.tl.splice(i, 1); break; } } BN.sig = {}; paintAll(); });
-  $('lab-empty').addEventListener('click', ()=>{ BN.tl.push({ v:BN.active, ev:'clear' }); BN.heat[BN.active] = 0; BN.heater[BN.active] = false; BN.heatedLog[BN.active] = false; $('lab-heat').classList.remove('on'); BN.sig = {}; paintAll(); });
+  $('lab-empty').addEventListener('click', ()=>{ BN.tl.push({ v:BN.active, ev:'clear' }); BN.heat[BN.active] = 0; BN.heater[BN.active] = false; BN.heatedLog[BN.active] = false; $('lab-heat').classList.remove('on'); const sw0 = document.querySelector('#lab-root .lab-stagewrap'); if(sw0) sw0.classList.remove('heating'); BN.sig = {}; paintAll(); });
   $('lab-reset').addEventListener('click', ()=>{ benchReset(); });
   document.querySelectorAll('.lab-gt').forEach(bt=> bt.addEventListener('click', ()=> gasTest(bt.dataset.t)));
   renderShelf(); buildStage();
@@ -21153,12 +21211,12 @@ reg('bench', 'المنضدة', 'Bench', '🧪', ()=> `
 
 function benchReset(){
   BN.tl = []; BN.heat = { A:0, B:0 }; BN.heater = { A:false, B:false }; BN.heatedLog = { A:false, B:false }; BN.sig = {}; BN.active = 'A';
-  const t = $('lab-test'); if(t) t.style.display = 'none'; const hb = $('lab-heat'); if(hb) hb.classList.remove('on'); setChips('lab-vsel', BN.vt.A); buildStage();
+  const t = $('lab-test'); if(t) t.style.display = 'none'; const hb = $('lab-heat'); if(hb) hb.classList.remove('on'); const sw1 = document.querySelector('#lab-root .lab-stagewrap'); if(sw1) sw1.classList.remove('heating'); setChips('lab-vsel', BN.vt.A); buildStage();
 }
 const Bench = {
   setup(vt, hasB, tube){ benchReset(); BN.vt.A = vt.A || 'beaker'; BN.vt.B = vt.B || 'tube'; BN.hasB = !!hasB; BN.tube = !!tube; const h = $('lab-hasb'), t = $('lab-tube'); if(h) h.checked = BN.hasB; if(t) t.checked = BN.tube; buildStage(); },
   add(v, id, amt, conc){ const r = L.R[id]; BN.active = v; const solid = r.kind === 'salt' || r.kind === 'solid' || r.kind === 'metal'; BN.tl.push({ v, id, amt: r.kind === 'ind' ? 1 : amt, conc: conc || BN.conc }); fxDrop(v, r); paintAll(); },
-  heat(v, on){ BN.heater[v] = on; const hb = $('lab-heat'); if(hb) hb.classList.toggle('on', !!BN.heater[BN.active]); ensureTimer(); },
+  heat(v, on){ BN.heater[v] = on; const hb = $('lab-heat'); const isHot = !!BN.heater[BN.active]; if(hb) hb.classList.toggle('on', isHot); const sw = document.querySelector('#lab-root .lab-stagewrap'); if(sw) sw.classList.toggle('heating', isHot); ensureTimer(); },
   state(){ return BN.cur; }, BN
 };
 
@@ -21251,6 +21309,7 @@ function showSub(id){
   setChips('lab-nav', id);
   MODS.forEach(m=>{ if(m.id !== id && m.hide) m.hide(); });
   const m = MODS.filter(x=> x.id === id)[0]; if(m && m.show) m.show();
+  if(window.uddahAch && id !== 'fun') window.uddahAch.mark('chem-mod', id);
 }
 const TESTN = { splint:['عود مشتعل', 'lit splint'], glow:['عود متوهج', 'glowing splint'], litmus:['عباد الشمس', 'litmus paper'], lead:['خلات الرصاص', 'lead acetate paper'], smell:['شمّ بالتلويح', 'waft smell'] };
 function actTxt(s){
@@ -21290,7 +21349,7 @@ function runExp(id){
   let i = 0; showGuide(x, 0, false);
   const next = ()=>{
     if(token !== XN.running) return;
-    if(i >= x.run.length){ showGuide(x, i, true); const gd = $('lab-guide'); if(gd) gd.scrollIntoView({ behavior:'smooth', block:'nearest' }); toast(B('اكتملت التجربة ✅', 'Experiment complete ✅')); return; }
+    if(i >= x.run.length){ showGuide(x, i, true); const gd = $('lab-guide'); if(gd) gd.scrollIntoView({ behavior:'smooth', block:'nearest' }); toast(B('اكتملت التجربة ✅', 'Experiment complete ✅')); if(window.uddahAch) window.uddahAch.mark('chem-exp', x.id); return; }
     showGuide(x, i, false);
     const s = x.run[i++]; let delay = 1100;
     if(s[0] === 'wait') delay = s[1];
@@ -22055,10 +22114,12 @@ function buildRoot(){
   const root = $('lab-root'); if(!root) return false;
   root.innerHTML = `<div class="ch-card2 lab-card"><h3>🧪 ${b('المعمل الافتراضي', 'Virtual lab')}</h3>
     <p class="hint">${b('اضغط على زجاجات المواد لإضافتها إلى الأواني الزجاجية، سخّن وحرّك وقِس درجة الحرارة وpH، ولاحظ الألوان والرواسب والغازات مثل المعمل الحقيقي. كل النتائج محسوبة كيميائياً.', 'Tap reagent bottles to add them to glassware, heat, stir and measure temperature and pH – and watch colours, precipitates and gases just like a real lab. Every result is computed chemically.')}</p>
+    <div id="lab-ach"></div>
     <div class="img-chips" id="lab-nav">${MODS.map(m=> `<button type="button" class="img-chip ${m.id === curSub ? 'active' : ''}" data-v="${m.id}" data-ar="${m.icon} ${m.ar}" data-en="${m.icon} ${m.en}">${m.icon} ${m.ar}</button>`).join('')}</div>
     ${MODS.map(m=> `<div class="lab-sub" data-s="${m.id}" style="display:${m.id === curSub ? '' : 'none'}">${m.html()}</div>`).join('')}</div>`;
   MODS.forEach(m=>{ try{ m.init && m.init(); }catch(err){ console.error('lab init', m.id, err); } });
   $('lab-nav').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(c) showSub(c.dataset.v); });
+  if(window.uddahAch) window.uddahAch.mount('lab-ach', 'chem-mod', MODS.filter(m=> m.id !== 'fun').length);
   return true;
 }
 function relang(){
@@ -22432,12 +22493,15 @@ window.uddahLab = { open, close, sub:(tab, s)=>{ showSub(tab); if(tab === 'sep' 
   function buildRoot(){
     const root = $('plab-root'); if(!root) return;
     root.innerHTML = `<div class="pl-top"><h3>🔬 ${b('معمل الفيزياء الافتراضي', 'Virtual physics lab')}</h3><p class="hint">${b('تجارب تفاعلية: قِس وسجّل واستنتج القوانين بنفسك كما في المعمل الحقيقي.', 'Interactive experiments: measure, record and discover the laws yourself, like in a real lab.')}</p></div>
+      <div id="pl-ach"></div>
       <div class="img-chips pl-nav" id="pl-nav">${MODS.map(m=> `<button type="button" class="img-chip ${m.id === cur ? 'active' : ''}" data-s="${m.id}" data-ar="${m.ic} ${m.ar}" data-en="${m.ic} ${m.en}">${m.ic} ${m.ar}</button>`).join('')}</div>
       <div id="pl-aim" class="pl-aim"></div>
       ${MODS.map(m=> `<div class="pl-sub" data-s="${m.id}" style="display:${m.id === cur ? '' : 'none'}">${m.html()}</div>`).join('')}`;
     MODS.forEach(m=> m.init());
     $('pl-nav').addEventListener('click', e=>{ const c = e.target.closest('.img-chip'); if(c) show(c.dataset.s); });
     root.querySelectorAll('[data-ar]').forEach(e=>{ if(lang() === 'en') e.textContent = e.dataset.en; });
+    if(window.uddahAch) window.uddahAch.mount('pl-ach', 'phys-mod', MODS.filter(m=> m.id !== 'fun').length);
+    if(window.uddahAch && cur !== 'fun') window.uddahAch.mark('phys-mod', cur);
     aim();
   }
   function aim(){ const m = MODS.filter(x=> x.id === cur)[0]; const a = $('pl-aim'); if(a && m) a.innerHTML = `<b>🎯 ${B('الهدف', 'Goal')}:</b> ${esc(B(m.aim[0], m.aim[1]))}`; }
@@ -22445,6 +22509,7 @@ window.uddahLab = { open, close, sub:(tab, s)=>{ showSub(tab); if(tab === 'sep' 
     cur = id; document.querySelectorAll('#plab-root .pl-sub').forEach(s=> s.style.display = s.dataset.s === id ? '' : 'none');
     const n = $('pl-nav'); if(n) n.querySelectorAll('.img-chip').forEach(c=> c.classList.toggle('active', c.dataset.s === id)); aim();
     if(id === 'fall') ffTable(); if(id === 'pend') pdTable(); if(id === 'spring') spTable(); if(id === 'circ') ciTable(); if(id === 'inst') miDraw();
+    if(window.uddahAch && id !== 'fun') window.uddahAch.mark('phys-mod', id);
     last = 0;
   }
   function frame(t){
