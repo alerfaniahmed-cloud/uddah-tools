@@ -19855,11 +19855,11 @@ window.uddahAch = (function(){
   const save = d=>{ try{ localStorage.setItem('uddah-lab-ach', JSON.stringify(d)); }catch(e){} };
   let DATA = load();
   const LV = [
-    { n:0, ic:'🌱', ar:'مستكشف جديد', en:'New explorer' },
-    { n:3, ic:'🥉', ar:'متدرّب المعمل', en:'Lab trainee' },
-    { n:6, ic:'🥈', ar:'فنّي ماهر', en:'Skilled technician' },
-    { n:10, ic:'🥇', ar:'خبير المعمل', en:'Lab expert' },
-    { n:16, ic:'🏆', ar:'عالم أسطوري', en:'Legendary scientist' }
+    { n:0, ic:'🧪', ar:'متدرّب معمل', en:'Lab trainee' },
+    { n:3, ic:'🥼', ar:'مساعد معمل', en:'Lab assistant' },
+    { n:6, ic:'🔬', ar:'فنّي مختبر', en:'Lab technician' },
+    { n:10, ic:'⚗️', ar:'باحث مختبر', en:'Lab researcher' },
+    { n:16, ic:'🏆', ar:'عالم معمل', en:'Lab scientist' }
   ];
   function levelFor(n){ let L = LV[0]; for(const l of LV) if(n >= l.n) L = l; return L; }
   function pop(){
