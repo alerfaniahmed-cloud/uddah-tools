@@ -22,6 +22,7 @@
 <script src="https://cdn.jsdelivr.net/npm/adhan@4.4.3/lib/bundles/adhan.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@7/dist/tesseract.min.js"></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 <style>
   :root{
     --bg:#F7F5F0;
@@ -652,6 +653,21 @@
   @keyframes tileIn{from{opacity:0;transform:translateY(8px) scale(.98);}to{opacity:1;transform:none;}}
   @media (prefers-reduced-motion:reduce){.pdf-tile{animation:none;transition:none;}}
   @media (max-width:420px){#pdf-home-grid .pdf-tiles,#tools-home-grid .pdf-tiles,#img-home-grid .pdf-tiles,#stu-grid .pdf-tiles{grid-template-columns:repeat(2,1fr);gap:10px;}.pdf-tile{min-height:104px;padding:12px 11px;}}
+  #pg-root{display:flex;flex-direction:column;gap:14px;}
+  .pg-langs{display:flex;flex-wrap:wrap;gap:8px;}
+  .pg-lessons{display:flex;flex-wrap:wrap;gap:6px;padding-bottom:4px;border-bottom:1px solid var(--border);}
+  .pg-lb{padding:6px 12px;border:1px solid var(--steel);border-radius:999px;background:transparent;color:var(--bone-dim);font-family:var(--font-display);font-size:.8rem;cursor:pointer;}
+  .pg-lb:hover{border-color:var(--brass);}
+  .pg-lb.active{background:var(--brass);border-color:var(--brass);color:#fff;font-weight:700;}
+  .pg-body h3{margin:4px 0 6px;}
+  .pg-desc{color:var(--bone-dim);font-size:.92rem;line-height:1.75;margin:0 0 12px;}
+  .pg-code{width:100%;min-height:180px;background:var(--bg-elev-2);color:var(--bone);border:1px solid var(--border);border-radius:var(--radius);padding:12px;font-family:var(--font-mono);font-size:.88rem;line-height:1.6;resize:vertical;direction:ltr;text-align:left;tab-size:2;}
+  .pg-code:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 4px color-mix(in srgb,var(--brass) 18%,transparent);}
+  .pg-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0;}
+  .pg-nav{display:flex;gap:8px;margin-inline-start:auto;}
+  .pg-out{background:#14181c;color:#d6ead0;border-radius:var(--radius);padding:12px;min-height:60px;white-space:pre-wrap;word-break:break-word;font-family:var(--font-mono);font-size:.85rem;direction:ltr;text-align:left;margin:0;}
+  .pg-frame{width:100%;min-height:260px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;}
+  @media (max-width:560px){.pg-nav{margin-inline-start:0;width:100%;justify-content:space-between;}}
 
   /* ===== virtual physics lab ===== */
   #plab-root .pl-top h3{margin:0 0 4px;font-size:1.1rem;}
@@ -3170,6 +3186,7 @@
     <div class="stu-view" data-v="calc" style="display:none"><button type="button" class="btn secondary stu-back" data-ar="← رجوع لأدوات الطلاب" data-en="← Back to student tools">← رجوع لأدوات الطلاب</button><div class="card" id="uc-root"></div></div>
     <div class="stu-view" data-v="chem" style="display:none"><button type="button" class="btn secondary stu-back" data-ar="← رجوع لأدوات الطلاب" data-en="← Back to student tools">← رجوع لأدوات الطلاب</button><div class="card" id="ch-root"></div></div>
     <div class="stu-view" data-v="phys" style="display:none"><button type="button" class="btn secondary stu-back" data-ar="← رجوع لأدوات الطلاب" data-en="← Back to student tools">← رجوع لأدوات الطلاب</button><div class="card" id="fz-root"></div></div>
+    <div class="stu-view" data-v="prog" style="display:none"><button type="button" class="btn secondary stu-back" data-ar="← رجوع لأدوات الطلاب" data-en="← Back to student tools">← رجوع لأدوات الطلاب</button><div class="card" id="pg-root"></div></div>
   </section>
 
   <!-- ===================== TAB: SCHOOLS (exam committees) ===================== -->
@@ -19566,7 +19583,8 @@ const CX = (function(){
   const TILES = [
     ['calc', '🧮', 'الحاسبة العلمية', 'Scientific calculator', 'رسم بياني، جداول، معادلات، إحصاء، مصفوفات، أعداد مركبة، متجهات، احتمالات.', 'Graphing, tables, equations, statistics, matrices, complex numbers, vectors, probability.'],
     ['chem', '🧪', 'الكيمياء', 'Chemistry', 'جدول دوري تفاعلي، موازنة المعادلات، المتفاعل المحدد، pH، المحاليل، الأيونات ولعبة.', 'Interactive periodic table, equation balancing, limiting reagent, pH, solutions, ions and a game.'],
-    ['phys', '⚛️', 'الفيزياء', 'Physics', 'قوانين بخطوات الحل، مقذوفات، تصادمات، اهتزازات، سطح مائل، دوائر كهربائية.', 'Formulas with worked steps, projectiles, collisions, oscillations, inclines, circuits.']
+    ['phys', '⚛️', 'الفيزياء', 'Physics', 'قوانين بخطوات الحل، مقذوفات، تصادمات، اهتزازات، سطح مائل، دوائر كهربائية.', 'Formulas with worked steps, projectiles, collisions, oscillations, inclines, circuits.'],
+    ['prog', '💻', 'لغات البرمجة', 'Programming languages', 'دروس تفاعلية في بايثون وJavaScript وHTML/CSS مع محرر كود حقيقي يشغّل النتيجة فوراً.', 'Interactive lessons in Python, JavaScript and HTML/CSS with a real code editor that runs instantly.']
   ];
   function build(){
     const L = lang(); $('stu-grid').innerHTML = '<div class="pdf-tiles">' + TILES.map(t=> `<button type="button" class="pdf-tile" data-v="${t[0]}"><span class="pdf-ti">${t[1]}</span><b>${L === 'en' ? t[3] : t[2]}</b><small>${L === 'en' ? t[5] : t[4]}</small></button>`).join('') + '</div>';
@@ -19584,6 +19602,264 @@ const CX = (function(){
     document.querySelectorAll('#panel-student .stu-back').forEach(bt=> bt.addEventListener('click', ()=> show(null)));
     new MutationObserver(()=> setTimeout(build, 30)).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
     window.uddahStudent = { show };
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
+/* ============================================================
+   STUDENT TOOLS: Programming languages lessons (Python, JS, HTML/CSS)
+   ============================================================ */
+(function(){
+  const $ = id=> document.getElementById(id);
+  const lang = ()=> (typeof currentLang !== 'undefined' ? currentLang : 'ar');
+  const B = (ar, en)=> lang() === 'en' ? en : ar;
+  const esc = s=> String(s).replace(/[&<>]/g, c=> ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[c]));
+
+  const PY = [
+    { id:'print', titleAr:'الطباعة والتعليقات', titleEn:'Printing & comments',
+      descAr:'أمر print() يطبع أي نص أو رقم على الشاشة. أي سطر يبدأ بعلامة # يُعتبر تعليقاً، وبايثون يتجاهله تماماً — يُستخدم لشرح الكود لنفسك أو لغيرك.',
+      descEn:'print() displays text or numbers on screen. A line starting with # is a comment — Python ignores it completely; it is just a note for humans.',
+      code:'# هذا تعليق، بايثون يتجاهله\nprint("Hello, Uddah!")\nprint(5 + 3)' },
+    { id:'vars', titleAr:'المتغيرات وأنواع البيانات', titleEn:'Variables & data types',
+      descAr:'المتغيّر اسم يخزّن قيمة. بايثون يحدّد النوع تلقائياً: أرقام صحيحة (int)، أرقام عشرية (float)، نصوص (str)، وقيم منطقية (bool: True/False). استخدم type() لمعرفة نوع أي قيمة.',
+      descEn:'A variable is a name that stores a value. Python infers the type automatically: whole numbers (int), decimals (float), text (str), and booleans (True/False). Use type() to check a value’s type.',
+      code:'name = "Ahmed"\nage = 25\nheight = 1.75\nis_student = True\nprint(name, age, height, is_student)\nprint(type(age))' },
+    { id:'if', titleAr:'الجمل الشرطية', titleEn:'Conditionals',
+      descAr:'if / elif / else تُنفّذ كوداً مختلفاً حسب شرط. لاحظ المسافة البادئة (indentation) بعد النقطتين — في بايثون هي إلزامية وتحدّد ما الذي يقع داخل الشرط.',
+      descEn:'if / elif / else run different code depending on a condition. Notice the indentation after the colon — in Python it is required and defines what belongs inside the block.',
+      code:'score = 75\nif score >= 90:\n    print("ممتاز")\nelif score >= 60:\n    print("ناجح")\nelse:\n    print("راسب")' },
+    { id:'loops', titleAr:'الحلقات التكرارية', titleEn:'Loops',
+      descAr:'for تُكرّر كتلة كود لعدد محدد من المرات (مثلاً على range أو عناصر قائمة). while تُكرّر طالما الشرط صحيح. ⚠️ احذر: حلقة while بشرط دائم الصحة (بدون break) ستُجمّد هذه الصفحة — أعد تحميلها إن حدث ذلك.',
+      descEn:'for repeats a block a fixed number of times (e.g. over range or a list). while repeats as long as a condition holds. ⚠️ Careful: a while loop whose condition is always true (with no break) will freeze this page — reload it if that happens.',
+      code:'for i in range(5):\n    print("تكرار رقم", i)\n\nn = 3\nwhile n > 0:\n    print(n)\n    n -= 1' },
+    { id:'lists', titleAr:'القوائم (Lists)', titleEn:'Lists',
+      descAr:'القائمة تخزّن عدة قيم مرتّبة بين قوسين مربعين []. تقدر تضيف (append)، تحذف، وتصل لأي عنصر برقمه (index) بدءاً من 0.',
+      descEn:'A list stores several ordered values in square brackets []. You can append, remove, and access any element by its index, starting from 0.',
+      code:'fruits = ["تفاح", "موز", "عنب"]\nfruits.append("برتقال")\nprint(fruits)\nprint(fruits[0])\nprint(len(fruits))' },
+    { id:'dict', titleAr:'القواميس (Dictionaries)', titleEn:'Dictionaries',
+      descAr:'القاموس يخزّن بيانات على شكل مفتاح وقيمة {key: value}، مفيد لتمثيل كائن له خصائص (مثل بيانات طالب).',
+      descEn:'A dictionary stores key:value pairs — useful for representing an object with properties (like a student record).',
+      code:'student = {"name": "سارة", "grade": 10, "passed": True}\nprint(student["name"])\nstudent["grade"] = 11\nprint(student)' },
+    { id:'func', titleAr:'الدوال (Functions)', titleEn:'Functions',
+      descAr:'الدالة كتلة كود قابلة لإعادة الاستخدام، تُعرَّف بـ def، وتأخذ مدخلات (parameters) وترجع نتيجة بـ return.',
+      descEn:'A function is reusable code, defined with def; it takes parameters and returns a result with return.',
+      code:'def add(a, b):\n    return a + b\n\ndef greet(name):\n    print("أهلاً", name)\n\ngreet("أحمد")\nprint(add(4, 7))' },
+    { id:'project', titleAr:'مشروع: آلة حاسبة بسيطة', titleEn:'Project: a simple calculator',
+      descAr:'جرّب تعديل القيم والعملية في الكود التالي لتبني حاسبة صغيرة تجمع كل ما تعلّمته: متغيّرات، شرط، ودالة.',
+      descEn:'Try editing the values and operator below to build a tiny calculator that combines everything you learned: variables, a condition, and a function.',
+      code:'def calculate(a, b, op):\n    if op == "+":\n        return a + b\n    elif op == "-":\n        return a - b\n    elif op == "*":\n        return a * b\n    elif op == "/":\n        return a / b if b != 0 else "لا يمكن القسمة على صفر"\n    else:\n        return "عملية غير معروفة"\n\nprint(calculate(12, 4, "+"))\nprint(calculate(12, 4, "*"))\nprint(calculate(12, 0, "/"))' }
+  ];
+
+  const JS = [
+    { id:'log', titleAr:'console.log والتعليقات', titleEn:'console.log & comments',
+      descAr:'console.log() يطبع أي قيمة في نافذة الإخراج (تقابل أدوات المطوّر في متصفح حقيقي). // تبدأ تعليقاً من سطر واحد، و/* ... */ تعليقاً متعدد الأسطر.',
+      descEn:'console.log() prints any value to the output pane (this mirrors a real browser’s developer console). // starts a single-line comment, and /* ... */ a multi-line one.',
+      code:'// هذا تعليق\nconsole.log("Hello, Uddah!");\nconsole.log(5 + 3);' },
+    { id:'vars', titleAr:'المتغيرات وأنواع البيانات', titleEn:'Variables & data types',
+      descAr:'let لمتغيّر يتغيّر، const لقيمة ثابتة لا تتغيّر. الأنواع الأساسية: number، string، boolean، وأيضاً undefined/null.',
+      descEn:'let declares a variable that can change, const a value that cannot be reassigned. Basic types: number, string, boolean, plus undefined/null.',
+      code:'let name = "Ahmed";\nconst age = 25;\nlet isStudent = true;\nconsole.log(name, age, isStudent);\nconsole.log(typeof age);' },
+    { id:'if', titleAr:'الجمل الشرطية', titleEn:'Conditionals',
+      descAr:'if / else if / else تُنفّذ كوداً مختلفاً حسب شرط، وتُحاط دائماً بأقواس معقوفة { }.',
+      descEn:'if / else if / else run different code based on a condition, always wrapped in curly braces { }.',
+      code:'let score = 75;\nif (score >= 90) {\n  console.log("ممتاز");\n} else if (score >= 60) {\n  console.log("ناجح");\n} else {\n  console.log("راسب");\n}' },
+    { id:'loops', titleAr:'الحلقات', titleEn:'Loops',
+      descAr:'for تُكرّر بعدد محدد من المرات. while تُكرّر طالما الشرط صحيح. ⚠️ حلقة لا نهائية (مثل while(true) بدون break) تُوقَف هنا تلقائياً بعد ٣ ثوانٍ لحمايتك.',
+      descEn:'for repeats a fixed number of times. while repeats as long as a condition holds. ⚠️ An infinite loop (like while(true) without break) is stopped automatically here after 3 seconds to protect you.',
+      code:'for (let i = 0; i < 5; i++) {\n  console.log("تكرار رقم", i);\n}\n\nlet n = 3;\nwhile (n > 0) {\n  console.log(n);\n  n--;\n}' },
+    { id:'arrays', titleAr:'المصفوفات (Arrays)', titleEn:'Arrays',
+      descAr:'المصفوفة تخزّن عدة قيم مرتّبة بين [ ]. من أشهر دوالّها: push للإضافة، map لتحويل كل عنصر، وfilter لاختيار عناصر حسب شرط.',
+      descEn:'An array stores several ordered values in [ ]. Common methods: push to add, map to transform every element, filter to pick elements by a condition.',
+      code:'let fruits = ["تفاح", "موز", "عنب"];\nfruits.push("برتقال");\nconsole.log(fruits);\nconsole.log(fruits[0]);\nconsole.log(fruits.length);\nconst upper = fruits.map(f => f.toUpperCase());\nconsole.log(upper);' },
+    { id:'objects', titleAr:'الكائنات (Objects)', titleEn:'Objects',
+      descAr:'الكائن يخزّن بيانات على شكل مفتاح وقيمة { key: value }، مفيد لتمثيل شيء له خصائص متعددة.',
+      descEn:'An object stores key:value pairs — useful for representing something with multiple properties.',
+      code:'const student = { name: "سارة", grade: 10, passed: true };\nconsole.log(student.name);\nstudent.grade = 11;\nconsole.log(student);' },
+    { id:'func', titleAr:'الدوال', titleEn:'Functions',
+      descAr:'الدالة كتلة كود قابلة لإعادة الاستخدام. تقدر تكتبها بصيغة function عادية، أو بصيغة مختصرة تسمى arrow function باستخدام =>.',
+      descEn:'A function is reusable code. You can write it as a regular function, or in the shorter arrow-function form using =>.',
+      code:'function add(a, b) {\n  return a + b;\n}\nconst greet = (name) => {\n  console.log("أهلاً", name);\n};\ngreet("أحمد");\nconsole.log(add(4, 7));' },
+    { id:'project', titleAr:'مشروع: آلة حاسبة بسيطة', titleEn:'Project: a simple calculator',
+      descAr:'جرّب تعديل القيم والعملية في الكود التالي لتبني حاسبة صغيرة تجمع كل ما تعلّمته: متغيّرات، شرط، ودالة.',
+      descEn:'Try editing the values and operator below to build a tiny calculator that combines everything you learned: variables, a condition, and a function.',
+      code:'function calculate(a, b, op) {\n  if (op === "+") return a + b;\n  if (op === "-") return a - b;\n  if (op === "*") return a * b;\n  if (op === "/") return b !== 0 ? a / b : "لا يمكن القسمة على صفر";\n  return "عملية غير معروفة";\n}\nconsole.log(calculate(12, 4, "+"));\nconsole.log(calculate(12, 4, "*"));\nconsole.log(calculate(12, 0, "/"));' }
+  ];
+
+  const HTM = [
+    { id:'basics', titleAr:'أول صفحة HTML', titleEn:'Your first HTML page',
+      descAr:'كل صفحة HTML تبدأ بوسم <html>، وبداخله <head> للمعلومات (غير ظاهرة)، و<body> للمحتوى الظاهر على الشاشة.',
+      descEn:'Every HTML page starts with an <html> tag, containing <head> for (invisible) metadata and <body> for the visible content.',
+      code:'<html>\n  <head>\n    <title>صفحتي الأولى</title>\n  </head>\n  <body>\n    <h1>مرحباً بالعالم!</h1>\n    <p>هذه أول صفحة ويب أكتبها.</p>\n  </body>\n</html>' },
+    { id:'headings', titleAr:'العناوين والفقرات', titleEn:'Headings & paragraphs',
+      descAr:'<h1> إلى <h6> عناوين بأحجام متدرّجة (h1 الأكبر)، و<p> فقرة نصية عادية.',
+      descEn:'<h1> through <h6> are headings of decreasing size (h1 is biggest), and <p> is an ordinary text paragraph.',
+      code:'<h1>عنوان رئيسي</h1>\n<h2>عنوان فرعي</h2>\n<p>هذه فقرة عادية تشرح فكرة معينة بجملة أو أكثر.</p>\n<p><b>نص عريض</b> و<i>نص مائل</i> داخل الفقرة.</p>' },
+    { id:'links', titleAr:'الروابط والصور', titleEn:'Links & images',
+      descAr:'<a href="...">نص</a> ينشئ رابطاً، و<img src="..." alt="..."> يعرض صورة (alt نص بديل يظهر إذا تعذّر تحميلها).',
+      descEn:'<a href="...">text</a> creates a link, and <img src="..." alt="..."> shows an image (alt is shown if it fails to load).',
+      code:'<a href="https://example.com" target="_blank">رابط لموقع تجريبي</a>\n<br><br>\n<img src="https://picsum.photos/200/120" alt="صورة تجريبية">' },
+    { id:'lists', titleAr:'القوائم والجداول', titleEn:'Lists & tables',
+      descAr:'<ul> قائمة نقطية، <ol> قائمة مرقّمة، وكلتاهما تحتوي عناصر <li>. <table> لعرض بيانات في صفوف <tr> وخلايا <td>.',
+      descEn:'<ul> is a bulleted list, <ol> a numbered one, both containing <li> items. <table> shows data in rows <tr> and cells <td>.',
+      code:'<ul>\n  <li>تفاح</li>\n  <li>موز</li>\n</ul>\n<table border="1">\n  <tr><th>الاسم</th><th>العمر</th></tr>\n  <tr><td>سارة</td><td>16</td></tr>\n</table>' },
+    { id:'css-intro', titleAr:'مقدمة في CSS', titleEn:'Introduction to CSS',
+      descAr:'CSS يُنسّق شكل HTML. تكتبه داخل <style>، وتحدد الوسم المطلوب تنسيقه ثم الخصائص بين أقواس { }.',
+      descEn:'CSS styles how HTML looks. Write it inside <style>, pick the tag to style, then set properties inside { }.',
+      code:'<style>\n  h1 { color: #B8863B; font-family: sans-serif; }\n  p { color: #444; font-size: 18px; }\n</style>\n<h1>عنوان ملوّن</h1>\n<p>فقرة بخط أكبر ولون مختلف.</p>' },
+    { id:'box', titleAr:'نموذج الصندوق', titleEn:'The box model',
+      descAr:'كل عنصر HTML هو صندوق له: المحتوى، ثم padding (مسافة داخلية)، ثم border (حدّ)، ثم margin (مسافة خارجية تفصله عن العناصر الأخرى).',
+      descEn:'Every HTML element is a box with: content, then padding (inner space), border, then margin (outer space separating it from other elements).',
+      code:'<style>\n  .box {\n    background: #eef;\n    padding: 16px;\n    border: 3px solid #557;\n    margin: 20px;\n    width: 200px;\n  }\n</style>\n<div class="box">صندوق بحدّ ومسافات</div>' },
+    { id:'flex', titleAr:'التخطيط بـ Flexbox', titleEn:'Layout with Flexbox',
+      descAr:'display: flex يرتّب العناصر الفرعية في صف واحد (أو عمود) تلقائياً، ويسهّل محاذاتها وتوزيع المسافات بينها.',
+      descEn:'display: flex arranges child elements in a row (or column) automatically, making alignment and spacing much easier.',
+      code:'<style>\n  .row { display: flex; gap: 10px; justify-content: center; }\n  .card { background: #f2e9d8; padding: 14px; border-radius: 8px; }\n</style>\n<div class="row">\n  <div class="card">بطاقة ١</div>\n  <div class="card">بطاقة ٢</div>\n  <div class="card">بطاقة ٣</div>\n</div>' },
+    { id:'project', titleAr:'مشروع: بطاقة تعريف شخصية', titleEn:'Project: a profile card',
+      descAr:'جرّب تعديل النصوص والألوان في الكود التالي لتبني بطاقة تعريف شخصية بسيطة تجمع كل ما تعلّمته.',
+      descEn:'Try editing the text and colors below to build a simple profile card that combines everything you learned.',
+      code:'<style>\n  .profile {\n    width: 240px;\n    margin: 20px auto;\n    padding: 20px;\n    text-align: center;\n    background: #fdf8ef;\n    border: 2px solid #B8863B;\n    border-radius: 12px;\n    font-family: sans-serif;\n  }\n  .profile img { border-radius: 50%; width: 80px; }\n</style>\n<div class="profile">\n  <img src="https://picsum.photos/80" alt="صورة شخصية">\n  <h2>أحمد</h2>\n  <p>مطوّر ويب ومالك مكتب خدمات</p>\n</div>' }
+  ];
+
+  const LANGS = [
+    { id:'py', ic:'🐍', ar:'بايثون', en:'Python', lessons:PY },
+    { id:'js', ic:'🟨', ar:'JavaScript', en:'JavaScript', lessons:JS },
+    { id:'html', ic:'🌐', ar:'HTML / CSS', en:'HTML / CSS', lessons:HTM }
+  ];
+
+  const S = { lang:'py', idx:0 };
+  const CODE = {};
+  let pyodidePromise = null;
+  function ensurePyodide(){
+    if(!pyodidePromise){
+      pyodidePromise = (typeof window.loadPyodide === 'function') ? window.loadPyodide() : Promise.reject(new Error('loadPyodide missing'));
+    }
+    return pyodidePromise;
+  }
+
+  async function runPython(code){
+    try{
+      const py = await ensurePyodide();
+      let out = '';
+      py.setStdout({ batched: s=> out += s + '\n' });
+      py.setStderr({ batched: s=> out += s + '\n' });
+      try{ await py.runPythonAsync(code); }
+      catch(e){ out += '⚠️ ' + (e && e.message ? e.message : String(e)); }
+      return out || B('(لا يوجد إخراج)', '(no output)');
+    }catch(e){
+      return '⚠️ ' + B('تعذّر تشغيل بايثون: ', 'Failed to start Python: ') + ((e && e.message) || e);
+    }
+  }
+
+  function runJS(code){
+    return new Promise(resolve=>{
+      try{
+        const src = "self.onmessage=function(e){var logs=[];var oc=console.log;console.log=function(){var a=[].slice.call(arguments);logs.push(a.map(function(x){try{return typeof x==='object'?JSON.stringify(x):String(x);}catch(_){return String(x);}}).join(' '));};var err=null;try{(0,eval)(e.data);}catch(ex){err=(ex&&ex.message)||String(ex);}console.log=oc;self.postMessage({logs:logs.join('\\n'),err:err});};";
+        const blob = new Blob([src], { type:'application/javascript' });
+        const url = URL.createObjectURL(blob);
+        const w = new Worker(url);
+        let done = false;
+        const timer = setTimeout(()=>{
+          if(done) return; done = true;
+          try{ w.terminate(); }catch(e){}
+          URL.revokeObjectURL(url);
+          resolve('⏱️ ' + B('انتهى الوقت المسموح (3 ثوانٍ) — تحقّق من وجود حلقة لا نهائية', 'Timed out after 3s — check for an infinite loop'));
+        }, 3000);
+        w.onmessage = e=>{
+          if(done) return; done = true; clearTimeout(timer);
+          try{ w.terminate(); }catch(_){}
+          URL.revokeObjectURL(url);
+          const d = e.data || {}; let res = d.logs || '';
+          if(d.err) res += (res ? '\n' : '') + '⚠️ ' + d.err;
+          resolve(res || B('(لا يوجد إخراج)', '(no output)'));
+        };
+        w.onerror = e=>{
+          if(done) return; done = true; clearTimeout(timer);
+          try{ w.terminate(); }catch(_){}
+          URL.revokeObjectURL(url);
+          resolve('⚠️ ' + ((e && e.message) || String(e)));
+        };
+        w.postMessage(code);
+      }catch(e){ resolve('⚠️ ' + ((e && e.message) || String(e))); }
+    });
+  }
+
+  let debTimer = null;
+  function updatePreview(){
+    const frame = $('pg-frame'); const ta = $('pg-code'); if(!frame || !ta) return;
+    frame.srcdoc = ta.value;
+  }
+
+  function wire(L, lesson, key, isHtml){
+    const ta = $('pg-code');
+    ta.addEventListener('input', e=>{
+      CODE[key] = e.target.value;
+      if(isHtml){ clearTimeout(debTimer); debTimer = setTimeout(updatePreview, 500); }
+    });
+    ta.addEventListener('keydown', e=>{
+      if(e.key === 'Tab'){
+        e.preventDefault();
+        const s = ta.selectionStart, en = ta.selectionEnd;
+        ta.value = ta.value.slice(0, s) + '  ' + ta.value.slice(en);
+        ta.selectionStart = ta.selectionEnd = s + 2;
+        CODE[key] = ta.value;
+      }
+    });
+    $('pg-run').addEventListener('click', async ()=>{
+      const code = $('pg-code').value; CODE[key] = code;
+      if(isHtml){ updatePreview(); return; }
+      const out = $('pg-out'); const btn = $('pg-run');
+      out.textContent = B('… جارٍ التشغيل', '… running');
+      btn.disabled = true;
+      try{
+        const result = L.id === 'py' ? await runPython(code) : await runJS(code);
+        out.textContent = result;
+      } finally { btn.disabled = false; }
+    });
+    $('pg-reset').addEventListener('click', ()=>{ delete CODE[key]; render(); });
+    const prevBt = $('pg-prev'), nextBt = $('pg-next');
+    if(prevBt) prevBt.addEventListener('click', ()=>{ if(S.idx > 0){ S.idx--; render(); } });
+    if(nextBt) nextBt.addEventListener('click', ()=>{ if(S.idx < L.lessons.length - 1){ S.idx++; render(); } });
+    document.querySelectorAll('#pg-root .pg-langs .img-chip').forEach(b=> b.addEventListener('click', ()=>{ S.lang = b.dataset.lang; S.idx = 0; render(); }));
+    document.querySelectorAll('#pg-root .pg-lb').forEach(b=> b.addEventListener('click', ()=>{ S.idx = +b.dataset.i; render(); }));
+  }
+
+  function render(){
+    const root = $('pg-root'); if(!root) return;
+    const L = LANGS.find(l=> l.id === S.lang) || LANGS[0];
+    if(S.idx >= L.lessons.length) S.idx = 0;
+    const lesson = L.lessons[S.idx];
+    const key = L.id + ':' + lesson.id;
+    const code = Object.prototype.hasOwnProperty.call(CODE, key) ? CODE[key] : lesson.code;
+    const isHtml = L.id === 'html';
+    root.innerHTML = `
+      <p class="pg-desc" style="margin-top:0">${B('دروس تفاعلية في البرمجة — اختر لغة، ثم درساً، وجرّب تشغيل الكود مباشرة.', 'Interactive programming lessons — pick a language, then a lesson, and try running the code live.')}</p>
+      <div class="pg-langs">${LANGS.map(l=> `<button type="button" class="img-chip ${l.id === S.lang ? 'active' : ''}" data-lang="${l.id}">${l.ic} ${esc(B(l.ar, l.en))}</button>`).join('')}</div>
+      <div class="pg-lessons">${L.lessons.map((ls, i)=> `<button type="button" class="pg-lb ${i === S.idx ? 'active' : ''}" data-i="${i}">${i + 1}. ${esc(B(ls.titleAr, ls.titleEn))}</button>`).join('')}</div>
+      <div class="pg-body">
+        <h3>${esc(B(lesson.titleAr, lesson.titleEn))}</h3>
+        <p class="pg-desc">${esc(B(lesson.descAr, lesson.descEn))}</p>
+        <textarea id="pg-code" class="pg-code" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off">${esc(code)}</textarea>
+        <div class="pg-tools">
+          <button type="button" class="btn" id="pg-run">${isHtml ? B('🔄 تحديث المعاينة', '🔄 Update preview') : B('▶ تشغيل', '▶ Run')}</button>
+          <button type="button" class="btn secondary" id="pg-reset">${B('↺ استرجاع الكود الأصلي', '↺ Reset to starter')}</button>
+          <div class="pg-nav">
+            <button type="button" class="btn secondary" id="pg-prev" ${S.idx === 0 ? 'disabled' : ''}>${B('← السابق', '← Prev')}</button>
+            <button type="button" class="btn secondary" id="pg-next" ${S.idx === L.lessons.length - 1 ? 'disabled' : ''}>${B('التالي →', 'Next →')}</button>
+          </div>
+        </div>
+        ${isHtml
+          ? `<iframe id="pg-frame" class="pg-frame" sandbox="allow-scripts" title="HTML preview"></iframe>`
+          : `<pre id="pg-out" class="pg-out" dir="ltr">${esc(B('اضغط "تشغيل" لرؤية النتيجة', 'Press "Run" to see the output'))}</pre>`}
+      </div>`;
+    wire(L, lesson, key, isHtml);
+    if(isHtml) updatePreview();
+  }
+
+  function init(){
+    if(!$('pg-root')) return;
+    render();
+    new MutationObserver(()=> render()).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+    window.uddahProg = { render };
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
