@@ -22,7 +22,7 @@
 <script src="https://cdn.jsdelivr.net/npm/adhan@4.4.3/lib/bundles/adhan.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@7/dist/tesseract.min.js"></script>
-<script src="https://cdn.jsdelivr.net/pyodide/v0.27.0/full/pyodide.js"></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
 <style>
   :root{
     --bg:#F7F5F0;
@@ -19733,7 +19733,7 @@ const CX = (function(){
     if(!pyodidePromise){
       try{
         pyodidePromise = (typeof window.loadPyodide === 'function')
-          ? window.loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.27.0/full/' })
+          ? window.loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.1/full/' })
           : Promise.reject(new Error('loadPyodide missing'));
       }catch(e){ pyodidePromise = Promise.reject(e); }
       pyodidePromise.catch(()=>{ pyodidePromise = null; });
