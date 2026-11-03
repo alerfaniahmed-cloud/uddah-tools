@@ -19731,7 +19731,10 @@ const CX = (function(){
   let pyodidePromise = null;
   function ensurePyodide(){
     if(!pyodidePromise){
-      pyodidePromise = (typeof window.loadPyodide === 'function') ? window.loadPyodide() : Promise.reject(new Error('loadPyodide missing'));
+      pyodidePromise = (typeof window.loadPyodide === 'function')
+        ? window.loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/' })
+        : Promise.reject(new Error('loadPyodide missing'));
+      pyodidePromise.catch(()=>{ pyodidePromise = null; });
     }
     return pyodidePromise;
   }
