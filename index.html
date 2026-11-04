@@ -976,7 +976,7 @@
       <button type="button" class="btn secondary" id="pa-toggle" style="padding:6px 12px;font-size:.85rem;">🔔</button>
       <label style="display:flex;align-items:center;gap:4px;font-size:.8rem;color:var(--bone-dim);"><input type="checkbox" id="pa-sound" checked> <span id="pa-sound-lbl">🔊</span></label>
       <button type="button" class="btn secondary" id="pa-test" style="padding:6px 10px;font-size:.8rem;" data-i18n="paTest">تجربة</button>
-      <button type="button" class="btn secondary" id="pa-set" style="padding:6px 10px;font-size:.85rem;" aria-expanded="false" title="إعدادات الأذان والإقامة">⚙️</button>
+      <button type="button" class="btn secondary" id="pa-set" style="padding:6px 10px;font-size:.85rem;display:none;" aria-expanded="false" title="إعدادات الأذان والإقامة">⚙️</button>
     </div>
     <div id="pa-panel" style="display:none;flex-basis:100%;border-top:1px dashed var(--border);padding-top:10px;font-size:.85rem;">
       <div style="display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;">
@@ -12842,6 +12842,23 @@ exSchedule();
    PRAYER ALERT BAR — next prayer + countdown for the chosen city, with an alert at the adhan time
    ============================================================ */
 const PA_KEY = 'uddah-prayer-alert';
+/* زر إعدادات الأذان/الإقامة (⚙️) مخفي تماماً عن أي شخص آخر يستخدم نفس الجهاز/المتصفح.
+   لإظهاره مرة واحدة على جهازك: افتح الموقع وأضف #uddah-pa-2026 في نهاية الرابط
+   (مثال: https://.../index.html#uddah-pa-2026) ثم اضغط Enter — بعدها يبقى ظاهراً
+   على هذا الجهاز دائماً حتى لو مسحت الرابط. تقدر تغيّر الكلمة بتعديل PA_UNLOCK_CODE بالأسفل. */
+const PA_UNLOCK_KEY = 'uddah-pa-unlocked';
+const PA_UNLOCK_CODE = 'uddah-pa-2026';
+function paCheckUnlock(){
+  try{
+    if(localStorage.getItem(PA_UNLOCK_KEY) === '1') return true;
+    if(location.hash && location.hash.slice(1) === PA_UNLOCK_CODE){
+      localStorage.setItem(PA_UNLOCK_KEY, '1');
+      try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+      return true;
+    }
+  }catch(e){}
+  return false;
+}
 const PA_ORDER = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
 const PA_LABEL = { fajr:'prayerFajr', dhuhr:'prayerDhuhr', asr:'prayerAsr', maghrib:'prayerMaghrib', isha:'prayerIsha' };
 let paState = { city:'24.7136,46.6753', on:false, sound:true, voice:true, tone:'soft', iqOn:true, iqTone:'soft', iq:{ fajr:25, dhuhr:15, asr:20, maghrib:10, isha:20 } };
@@ -13189,6 +13206,8 @@ document.getElementById('pa-test').addEventListener('click', async ()=>{
   document.getElementById('pa-sound').checked = !!paState.sound;
   if(paState.city === 'auto') paResolveAuto();
   paRefreshLabels();
+  const gear = document.getElementById('pa-set');
+  if(gear) gear.style.display = paCheckUnlock() ? '' : 'none';
   setInterval(paTick, 1000);
 })();
 
