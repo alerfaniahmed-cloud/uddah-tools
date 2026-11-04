@@ -13258,7 +13258,7 @@ function eraseCreateEditRow(edit, index){
   ).join('');
   row.innerHTML =
     '<div style="display:flex;gap:8px;align-items:center;">' +
-    '<input type="text" class="erase-edit-text" placeholder="النص الجديد" style="flex:1;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:9px 10px;font-family:var(--font-display);font-size:.9rem;">' +
+    '<input type="text" class="erase-edit-text" placeholder="النص الجديد" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" style="flex:1;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:9px 10px;font-family:var(--font-display);font-size:.9rem;">' +
     '<button type="button" class="erase-edit-remove" title="حذف التعديل" style="flex:0 0 auto;width:28px;height:28px;border-radius:50%;border:none;background:var(--rust);color:#fff;cursor:pointer;font-size:.9rem;">×</button>' +
     '</div>' +
     '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
