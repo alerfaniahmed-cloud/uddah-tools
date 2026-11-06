@@ -20228,7 +20228,10 @@ window.uddahAch = (function(){
   const fnum = (x, d)=>{ if(!isFinite(x)) return '—'; if(x === 0) return '0'; const a = Math.abs(x); if(a >= 1e7 || a < 1e-3){ const e = x.toExponential((d || 4) - 1); const m = e.split('e'); return m[0].replace(/\.?0+$/, '') + ' × 10' + sup(parseInt(m[1], 10)); } return String(parseFloat(x.toPrecision(d || 6))); };
   const SUP = { '0':'⁰', '1':'¹', '2':'²', '3':'³', '4':'⁴', '5':'⁵', '6':'⁶', '7':'⁷', '8':'⁸', '9':'⁹', '-':'⁻', '+':'⁺' };
   const sup = n=> String(n).split('').map(c=> SUP[c] || c).join('');
-  const pretty = f=> esc(f).replace(/([A-Za-z\)\]])(\d+)/g, '$1<sub>$2</sub>');
+  const ascSub = s=> String(s).replace(/[₀-₉]/g, d=> String(d.charCodeAt(0) - 8320));
+  // typed digits right after an element symbol / bracket become real subscripts (H2O -> H₂O); a leading coefficient (3H2O) or a digit after + · stays normal
+  const subDigits = s=> { let out = '', prev = ''; for(const ch of String(s)){ if(/[0-9]/.test(ch) && /[A-Za-z\)\]₀-₉]/.test(prev)){ out += '₀₁₂₃₄₅₆₇₈₉'[+ch]; prev = out[out.length - 1]; } else{ out += ch; prev = ch; } } return out; };
+  const pretty = f=> esc(ascSub(f)).replace(/([A-Za-z\)\]])(\d+)/g, '$1<sub>$2</sub>');
 
   /* ---------- element data: symbol|ar|en|mass|category ---------- */
   const RAW = 'H|هيدروجين|Hydrogen|1.008|nm;He|هيليوم|Helium|4.0026|ng;Li|ليثيوم|Lithium|6.94|ak;Be|بيريليوم|Beryllium|9.0122|ae;B|بورون|Boron|10.81|mt;C|كربون|Carbon|12.011|nm;N|نيتروجين|Nitrogen|14.007|nm;O|أكسجين|Oxygen|15.999|nm;F|فلور|Fluorine|18.998|hl;Ne|نيون|Neon|20.180|ng;Na|صوديوم|Sodium|22.990|ak;Mg|مغنيسيوم|Magnesium|24.305|ae;Al|ألومنيوم|Aluminium|26.982|pt;Si|سيليكون|Silicon|28.085|mt;P|فوسفور|Phosphorus|30.974|nm;S|كبريت|Sulfur|32.06|nm;Cl|كلور|Chlorine|35.45|hl;Ar|أرجون|Argon|39.948|ng;K|بوتاسيوم|Potassium|39.098|ak;Ca|كالسيوم|Calcium|40.078|ae;Sc|سكانديوم|Scandium|44.956|tm;Ti|تيتانيوم|Titanium|47.867|tm;V|فاناديوم|Vanadium|50.942|tm;Cr|كروم|Chromium|51.996|tm;Mn|منغنيز|Manganese|54.938|tm;Fe|حديد|Iron|55.845|tm;Co|كوبالت|Cobalt|58.933|tm;Ni|نيكل|Nickel|58.693|tm;Cu|نحاس|Copper|63.546|tm;Zn|زنك|Zinc|65.38|tm;Ga|غاليوم|Gallium|69.723|pt;Ge|جرمانيوم|Germanium|72.630|mt;As|زرنيخ|Arsenic|74.922|mt;Se|سيلينيوم|Selenium|78.971|nm;Br|بروم|Bromine|79.904|hl;Kr|كريبتون|Krypton|83.798|ng;Rb|روبيديوم|Rubidium|85.468|ak;Sr|سترونشيوم|Strontium|87.62|ae;Y|إتريوم|Yttrium|88.906|tm;Zr|زركونيوم|Zirconium|91.224|tm;Nb|نيوبيوم|Niobium|92.906|tm;Mo|موليبدنوم|Molybdenum|95.95|tm;Tc|تكنيشيوم|Technetium|98|tm;Ru|روثينيوم|Ruthenium|101.07|tm;Rh|روديوم|Rhodium|102.91|tm;Pd|بالاديوم|Palladium|106.42|tm;Ag|فضة|Silver|107.87|tm;Cd|كادميوم|Cadmium|112.41|tm;In|إنديوم|Indium|114.82|pt;Sn|قصدير|Tin|118.71|pt;Sb|أنتيمون|Antimony|121.76|mt;Te|تيلوريوم|Tellurium|127.60|mt;I|يود|Iodine|126.90|hl;Xe|زينون|Xenon|131.29|ng;Cs|سيزيوم|Caesium|132.91|ak;Ba|باريوم|Barium|137.33|ae;La|لانثانوم|Lanthanum|138.91|ln;Ce|سيريوم|Cerium|140.12|ln;Pr|براسيوديميوم|Praseodymium|140.91|ln;Nd|نيوديميوم|Neodymium|144.24|ln;Pm|بروميثيوم|Promethium|145|ln;Sm|ساماريوم|Samarium|150.36|ln;Eu|يوروبيوم|Europium|151.96|ln;Gd|غادولينيوم|Gadolinium|157.25|ln;Tb|تيربيوم|Terbium|158.93|ln;Dy|ديسبروسيوم|Dysprosium|162.50|ln;Ho|هولميوم|Holmium|164.93|ln;Er|إربيوم|Erbium|167.26|ln;Tm|ثوليوم|Thulium|168.93|ln;Yb|إتربيوم|Ytterbium|173.05|ln;Lu|لوتيتيوم|Lutetium|174.97|ln;Hf|هافنيوم|Hafnium|178.49|tm;Ta|تانتالوم|Tantalum|180.95|tm;W|تنغستن|Tungsten|183.84|tm;Re|رينيوم|Rhenium|186.21|tm;Os|أوزميوم|Osmium|190.23|tm;Ir|إريديوم|Iridium|192.22|tm;Pt|بلاتين|Platinum|195.08|tm;Au|ذهب|Gold|196.97|tm;Hg|زئبق|Mercury|200.59|tm;Tl|ثاليوم|Thallium|204.38|pt;Pb|رصاص|Lead|207.2|pt;Bi|بزموث|Bismuth|208.98|pt;Po|بولونيوم|Polonium|209|pt;At|أستاتين|Astatine|210|hl;Rn|رادون|Radon|222|ng;Fr|فرانسيوم|Francium|223|ak;Ra|راديوم|Radium|226|ae;Ac|أكتينيوم|Actinium|227|ac;Th|ثوريوم|Thorium|232.04|ac;Pa|بروتكتينيوم|Protactinium|231.04|ac;U|يورانيوم|Uranium|238.03|ac;Np|نبتونيوم|Neptunium|237|ac;Pu|بلوتونيوم|Plutonium|244|ac;Am|أمريسيوم|Americium|243|ac;Cm|كوريوم|Curium|247|ac;Bk|بيركيليوم|Berkelium|247|ac;Cf|كاليفورنيوم|Californium|251|ac;Es|أينشتاينيوم|Einsteinium|252|ac;Fm|فيرميوم|Fermium|257|ac;Md|مندليفيوم|Mendelevium|258|ac;No|نوبيليوم|Nobelium|259|ac;Lr|لورنسيوم|Lawrencium|266|ac;Rf|رذرفورديوم|Rutherfordium|267|tm;Db|دوبنيوم|Dubnium|268|tm;Sg|سيبورجيوم|Seaborgium|269|tm;Bh|بوريوم|Bohrium|270|tm;Hs|هاسيوم|Hassium|277|tm;Mt|مايتنريوم|Meitnerium|278|tm;Ds|دارمشتاتيوم|Darmstadtium|281|tm;Rg|رونتجينيوم|Roentgenium|282|tm;Cn|كوبرنيسيوم|Copernicium|285|tm;Nh|نيهونيوم|Nihonium|286|pt;Fl|فليروفيوم|Flerovium|289|pt;Mc|موسكوفيوم|Moscovium|290|pt;Lv|ليفرموريوم|Livermorium|293|pt;Ts|تينيسين|Tennessine|294|hl;Og|أوغانيسون|Oganesson|294|ng';
@@ -20295,7 +20298,7 @@ window.uddahAch = (function(){
   const fmul = (x, y)=> fr(x[0] * y[0], x[1] * y[1]);
   const fdiv = (x, y)=> fr(x[0] * y[1], x[1] * y[0]);
   function balance(text){
-    const parts = String(text).split(/->|→|⟶|⇒|=>|⟹|=/);
+    const parts = ascSub(text).split(/->|→|⟶|⇒|=>|⟹|=/);
     if(parts.length !== 2 || !parts[0].trim() || !parts[1].trim()) throw new Error('sides');
     const side = t=> t.split('+').map(x=> x.trim().replace(/^\d+\s*/, '')).filter(Boolean);
     const L = side(parts[0]), R = side(parts[1]);
@@ -20332,7 +20335,7 @@ window.uddahAch = (function(){
   /* ---------- UI ---------- */
   const MODES = [['table', 'الجدول الدوري', 'Periodic table'], ['lab', '🧪 المعمل الافتراضي', '🧪 Virtual lab'], ['mass', 'الكتلة المولية', 'Molar mass'], ['bal', 'موازنة المعادلات', 'Balancer'], ['stoich', 'المتفاعل المحدد', 'Limiting reagent'], ['mol', 'المولات', 'Moles'], ['sol', 'المحاليل', 'Solutions'], ['ph', 'الحموضة pH', 'pH'], ['gas', 'الغازات', 'Gas laws'], ['ions', 'الأيونات', 'Ions'], ['cpd', '🔬 المركبات الكيميائية', '🔬 Compound lookup'], ['emp', 'الصيغة الأولية', 'Empirical formula'], ['game', 'لعبة العناصر', 'Element game']];
   const S = { mode:'table', sel:1, color:'cat', size:'m', filter:null, q:'' };
-  const ex = (list, id, target)=> `<div class="ch-chips" data-for="${target}">` + list.map(x=> `<button type="button" class="ch-ex" data-v="${esc(x)}">${esc(x)}</button>`).join('') + '</div>';
+  const ex = (list, id, target)=> `<div class="ch-chips" data-for="${target}">` + list.map(x=> `<button type="button" class="ch-ex" data-v="${esc(subDigits(x))}">${esc(subDigits(x))}</button>`).join('') + '</div>';
   function html(){
     return `
     <h2>${b('الكيمياء', 'Chemistry')}</h2>
@@ -20416,7 +20419,7 @@ window.uddahAch = (function(){
 
     <div class="ch-sec" data-m="stoich" style="display:none">
       <p class="hint">${b('اكتب المعادلة، اضغط «حلّل»، ثم أدخل كمية متفاعل أو أكثر — سنحدد المتفاعل المحدد والمتبقي وكتل النواتج. اترك المتفاعل الذي بوفرة فارغاً.', 'Type the equation, press Analyze, then enter the amount of one or more reactants — we find the limiting reagent, leftovers and product masses. Leave an excess reactant empty.')}</p>
-      <div class="field"><label>${b('المعادلة', 'Equation')}</label><input type="text" id="ch-se" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="H2 + O2 -> H2O"></div>
+      <div class="field"><label>${b('المعادلة', 'Equation')}</label><input type="text" id="ch-se" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="H₂ + O₂ -> H₂O"></div>
       ${ex(['H2 + O2 -> H2O', 'N2 + H2 -> NH3', 'Al + O2 -> Al2O3', 'CH4 + O2 -> CO2 + H2O', 'Fe + O2 -> Fe2O3', 'Na + Cl2 -> NaCl'], 's', 'ch-se')}
       <button type="button" class="btn" id="ch-sgo" style="margin-top:12px">${b('حلّل المعادلة', 'Analyze equation')}</button>
       <div id="ch-sform"></div><div id="ch-sout"></div>
@@ -20445,8 +20448,8 @@ window.uddahAch = (function(){
     </div>
 
     <div class="ch-sec" data-m="cpd" style="display:none">
-      <p class="hint">${b('اكتب الصيغة الكيميائية لأي مركب (مثل Ca(OH)2 أو H2SO4) وسنعرض لك اسمه، وكيف يتكوّن بالتفصيل، ودرجات الحرارة والظروف اللازمة لتكوينه — وأيضاً كيمياء عكسية: كيف نفكّكه مرة أخرى إلى عناصره أو مكوناته 🔄 — مفيدة وممتعة للطلاب والمعلمين.', 'Type any compound\'s chemical formula (e.g. Ca(OH)2 or H2SO4) and we\'ll show its name, exactly how it forms, the temperature/conditions needed — and also reverse chemistry: how to break it back apart 🔄 — handy and fun for students and teachers.')}</p>
-      <div class="field"><label>${b('الصيغة الكيميائية', 'Chemical formula')}</label><input type="text" id="ch-cpf" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="H2SO4"></div>
+      <p class="hint">${b('اكتب الصيغة الكيميائية لأي مركب (مثل Ca(OH)₂ أو H₂SO₄) وسنعرض لك اسمه، وكيف يتكوّن بالتفصيل، ودرجات الحرارة والظروف اللازمة لتكوينه — وأيضاً كيمياء عكسية: كيف نفكّكه مرة أخرى إلى عناصره أو مكوناته 🔄 — مفيدة وممتعة للطلاب والمعلمين.', 'Type any compound\'s chemical formula (e.g. Ca(OH)₂ or H₂SO₄) and we\'ll show its name, exactly how it forms, the temperature/conditions needed — and also reverse chemistry: how to break it back apart 🔄 — handy and fun for students and teachers.')}</p>
+      <div class="field"><label>${b('الصيغة الكيميائية', 'Chemical formula')}</label><input type="text" id="ch-cpf" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="H₂SO₄"></div>
       ${ex(['H2O', 'CO2', 'NaCl', 'H2SO4', 'NaOH', 'CaCO3', 'NH3', 'Fe2O3', 'CH3COOH', 'KMnO4'], 'cp', 'ch-cpf')}
       <button type="button" class="btn" id="ch-cpgo" style="margin-top:12px">${b('ابحث عن المركب', 'Look up compound')}</button>
       <div id="ch-cpout"></div>
@@ -20898,7 +20901,7 @@ const CPD_REV = {
 };
 
   /* ---------- compound lookup: name / how it forms / temperature conditions ---------- */
-  function cpdNorm(str){ return String(str).trim().replace(/\s+/g, ''); }
+  function cpdNorm(str){ return ascSub(str).trim().replace(/\s+/g, ''); }
   function cpdLookup(formulaRaw){
     const f = cpdNorm(formulaRaw);
     if(CPD[f]) return CPD[f];
@@ -21023,7 +21026,7 @@ const CPD_REV = {
   }
   function cpdRender(formulaRaw){
     const out = $('ch-cpout');
-    const ftxt = formulaRaw.trim();
+    const ftxt = ascSub(formulaRaw).trim();
     if(!ftxt){ out.innerHTML = ''; return; }
     const hit = cpdLookup(ftxt);
     if(hit){
@@ -21038,7 +21041,7 @@ const CPD_REV = {
     const g = cpdFallback(ftxt);
     if(g.err){ out.innerHTML = `<div class="ch-err">${g.err}</div>`; return; }
     if(g.element){ out.innerHTML = `<div class="ch-balbox"><div class="ch-baleq" dir="ltr">${pretty(ftxt)}</div><div class="ch-balt">${esc(g.nAr)}</div></div><div class="ch-note">ℹ️ ${esc(B(g.note, g.note))}</div>`; return; }
-    if(g.unknown){ out.innerHTML = `<div class="ch-err">${B('هذه الصيغة غير موجودة في قاعدة بياناتنا الموثقة، ولم نتمكن من تصنيفها تلقائياً بثقة (قد تكون صيغة معقدة أو غير صحيحة). تأكد من كتابتها بحروف كبيرة/صغيرة صحيحة (مثل Ca(OH)2).', 'This formula isn\'t in our verified database, and we couldn\'t confidently auto-classify it (it may be complex or mistyped). Check the capitalization (e.g. Ca(OH)2).')}</div>`; return; }
+    if(g.unknown){ out.innerHTML = `<div class="ch-err">${B('هذه الصيغة غير موجودة في قاعدة بياناتنا الموثقة، ولم نتمكن من تصنيفها تلقائياً بثقة (قد تكون صيغة معقدة أو غير صحيحة). تأكد من كتابتها بحروف كبيرة/صغيرة صحيحة (مثل Ca(OH)₂).', 'This formula isn\'t in our verified database, and we couldn\'t confidently auto-classify it (it may be complex or mistyped). Check the capitalization (e.g. Ca(OH)₂).')}</div>`; return; }
     out.innerHTML = `<div class="ch-balbox"><div class="ch-baleq" dir="ltr">${pretty(ftxt)}</div><div class="ch-balt">${esc(B(g.nAr, g.nEn))}</div></div>
       <div class="ch-note">⚠️ ${B('تقدير عام تلقائي', 'General automatic estimate')} — ${esc(B(g.tAr, g.tEn))}. ${B('هذا المركب غير موجود في قاعدة بياناتنا الموثقة، والمعلومات التالية مبنية على قواعد تصنيف عامة قد لا تنطبق بدقة على كل الحالات.', 'This compound isn\'t in our verified database — the following is based on general classification rules that may not fit every case precisely.')}</div>
       <div class="ch-card2"><h3>${B('كيف يتكوّن غالباً؟', 'How does it generally form?')}</h3><p>${esc(B(g.fAr, g.fEn))}</p></div>
@@ -21082,6 +21085,8 @@ const CPD_REV = {
     $('ch-sgo').addEventListener('click', stoichBuild); $('ch-se').addEventListener('keydown', e=>{ if(e.key === 'Enter') stoichBuild(); }); $('ch-sform').addEventListener('click', e=>{ if(e.target.closest('#ch-scalc')) stoichCalc(); }); $('ch-sform').addEventListener('keydown', e=>{ if(e.key === 'Enter' && e.target.classList.contains('ch-sin')) stoichCalc(); });
     $('ch-dgo').addEventListener('click', dilOut); $('ch-tgo').addEventListener('click', titOut); $('ch-pgo2').addEventListener('click', prepOut);
     $('ch-ic').addEventListener('change', ionsOut); $('ch-ia').addEventListener('change', ionsOut);
+    ['ch-cpf', 'ch-f', 'ch-eq', 'ch-mf', 'ch-pf', 'ch-se'].forEach(id=>{ const el = $(id); if(!el) return; el.addEventListener('input', ()=>{ const v = el.value, nv = subDigits(v); if(nv !== v){ const s = el.selectionStart, en = el.selectionEnd; el.value = nv; try{ el.setSelectionRange(s, en); }catch(er){} } }); });
+    let cpTm = 0; $('ch-cpf').addEventListener('input', ()=>{ clearTimeout(cpTm); cpTm = setTimeout(()=>{ const v = $('ch-cpf').value; if(!v.trim()){ $('ch-cpout').innerHTML = ''; return; } try{ parseFormula(v); }catch(e){ $('ch-cpout').innerHTML = ''; return; } cpdRender(v); }, 220); });
     $('ch-cpgo').addEventListener('click', ()=> cpdRender($('ch-cpf').value)); $('ch-cpf').addEventListener('keydown', e=>{ if(e.key === 'Enter') cpdRender($('ch-cpf').value); });
     $('ch-eadd').addEventListener('click', ()=>{ const cur = Array.from(document.querySelectorAll('.ch-er')).map(r=> [r.querySelector('.ch-es').value, r.querySelector('.ch-ev').value]); if(cur.length < 8){ cur.push(['', '']); empRows(cur); } }); $('ch-ego').addEventListener('click', empOut);
     $('ch-game').addEventListener('click', e=>{ const k = e.target.closest('#ch-gk .img-chip'); if(k){ GM.kind = k.dataset.k; GM.cur = null; GM.done = false; gameRender(); return; }
