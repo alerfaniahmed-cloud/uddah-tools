@@ -253,6 +253,34 @@
   #erase-brush-pick.sh-active{background:var(--brass);border-color:var(--brass);color:#1C1B1A;}
 
   .file-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+  .mg-drop{display:flex;flex-direction:column;align-items:center;gap:4px;padding:34px 16px;margin:6px 0 16px;border:2px dashed var(--steel);border-radius:var(--radius);background:var(--bg-elev-2);cursor:pointer;text-align:center;transition:border-color .15s,background .15s;}
+  .mg-drop:hover,.mg-drop.mg-over,.mg-drop:focus-visible{border-color:var(--brass);background:var(--bg-elev);outline:none;}
+  .mg-drop-ic{font-size:2.2rem;line-height:1;}
+  .mg-drop span{color:var(--bone-dim);font-size:.9rem;}
+  .mg-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 14px;}
+  .mg-round{position:relative;width:46px;height:46px;border-radius:50%;border:1px solid var(--border);background:var(--bg-elev);color:var(--bone);font:700 1.05rem var(--font-display);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.12);padding:0;}
+  #mg-add{background:var(--brass);border-color:var(--brass);color:#fff;font-size:1.7rem;font-weight:400;}
+  .mg-round:hover{border-color:var(--brass);}
+  .mg-sort{font-size:.8rem;letter-spacing:0;}
+  .mg-badge{position:absolute;top:-6px;inset-inline-end:-6px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--bone);color:var(--bg-elev);font:700 .72rem/20px var(--font-display);font-style:normal;text-align:center;}
+  .mg-clear{min-height:0 !important;width:auto !important;padding:6px 14px !important;font-size:.85rem !important;}
+  .mg-sum{margin-inline-start:auto;color:var(--bone-dim);font-size:.9rem;}
+  .mg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:12px;margin-bottom:10px;}
+  .mg-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px 8px;background:var(--bg-elev);border:1px solid var(--border);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);cursor:grab;user-select:none;transition:transform .12s,box-shadow .12s,border-color .12s;}
+  .mg-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.14);}
+  .mg-card.mg-drag{opacity:.35;}
+  .mg-card.mg-target{border-color:var(--brass);transform:scale(1.03);}
+  .mg-thumb{width:100%;height:150px;display:flex;align-items:center;justify-content:center;background:var(--bg-elev-2);border-radius:6px;overflow:hidden;}
+  .mg-thumb canvas{max-width:100%;max-height:100%;box-shadow:0 1px 4px rgba(0,0,0,.25);background:#fff;pointer-events:none;}
+  .mg-ph{font-size:2.2rem;opacity:.55;}
+  .mg-name{width:100%;text-align:center;font-size:.82rem;line-height:1.35;direction:ltr;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .mg-meta{font-size:.72rem;color:var(--bone-dim);}
+  .mg-num{position:absolute;top:6px;inset-inline-start:6px;min-width:22px;height:22px;border-radius:11px;background:var(--bone);color:var(--bg-elev);font:700 .75rem/22px var(--font-display);text-align:center;padding:0 5px;z-index:1;}
+  .mg-x{position:absolute;top:6px;inset-inline-end:6px;width:24px;height:24px;border-radius:50%;border:0;background:var(--rust);color:#fff;font-size:1rem;line-height:1;cursor:pointer;padding:0;z-index:1;}
+  .mg-mv{display:flex;gap:6px;}
+  .mg-mv button{width:34px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elev-2);color:var(--bone);cursor:pointer;font-size:1rem;padding:0;}
+  .mg-mv button:disabled{opacity:.3;cursor:default;}
+  .mg-tip{margin:0 0 14px;}
   .file-chip{
     display:inline-flex;align-items:center;gap:8px;
     background:var(--bg-elev-2);border:1px solid var(--border);
@@ -3702,9 +3730,20 @@
     <div class="card pdf-card" id="pdftool-merge">
       <h2 data-i18n="mergeTitle">دمج ملفات PDF</h2>
       <p class="hint" data-i18n="mergeHint">اختر عدة ملفات PDF، ورتّبها بالسحب والإفلات (⠿) بالترتيب اللي تبيه، وسيتم دمجها في ملف واحد.</p>
-      <div class="field">
-        <input type="file" id="merge-files" accept="application/pdf" multiple>
-        <div class="file-list" id="merge-files-list"></div>
+      <input type="file" id="merge-files" accept="application/pdf,.pdf" multiple hidden>
+      <div id="mg-empty" class="mg-drop" tabindex="0" role="button">
+        <div class="mg-drop-ic" aria-hidden="true">📎</div>
+        <b id="mg-empty-t"></b><span id="mg-empty-s"></span>
+      </div>
+      <div id="mg-work" style="display:none">
+        <div class="mg-bar">
+          <button type="button" class="mg-round" id="mg-add"><span aria-hidden="true">+</span><i class="mg-badge" id="mg-count">0</i></button>
+          <button type="button" class="mg-round mg-sort" id="mg-sort"><span aria-hidden="true">A↓Z</span></button>
+          <button type="button" class="btn secondary mg-clear" id="mg-clear"></button>
+          <span class="mg-sum" id="mg-sum"></span>
+        </div>
+        <div class="mg-grid" id="mg-grid"></div>
+        <p class="hint mg-tip" id="mg-tip"></p>
       </div>
       <button class="btn" id="merge-btn" data-i18n="mergeBtn">دمج الملفات وتنزيلها</button>
       <div id="merge-status"></div>
@@ -6686,6 +6725,7 @@ function applyLanguage(lang){
   if(typeof lkRender === 'function') lkRender();
   if(typeof shApplyLang === 'function') shApplyLang();
   if(window.txsvRender) window.txsvRender();
+  if(window.mgRender) window.mgRender();
   if(window.cewRender) window.cewRender();
   if(typeof paBuildCitySelect === 'function'){ paBuildCitySelect(); paRefreshLabels(); }
   paintStamp();
@@ -9182,7 +9222,6 @@ function setupFilePicker(inputId, listId, multiple, reorderable){
     render();
   });
 }
-setupFilePicker('merge-files', 'merge-files-list', true, true);
 setupFilePicker('mergepairs-file', 'mergepairs-file-list', false);
 setupFilePicker('extract-file', 'extract-file-list', false);
 setupFilePicker('img2pdf-files', 'img2pdf-files-list', true, true);
@@ -9197,7 +9236,7 @@ setupFilePicker('text-file', 'text-file-list', false);
 document.getElementById('merge-btn').addEventListener('click', async ()=>{
   const files = document.getElementById('merge-files').files;
   const btn = document.getElementById('merge-btn');
-  if(!files.length){ setStatus('merge-status', I18N[currentLang].mergeErrMin, 'err'); return; }
+  if(files.length < 2){ setStatus('merge-status', I18N[currentLang].mergeErrMin, 'err'); return; }
   setBusy(btn, true, I18N[currentLang].mergingBusy, I18N[currentLang].mergeBtn);
   try{
     const merged = await PDFDocument.create();
@@ -23729,6 +23768,84 @@ window.uddahLab = { open, close, sub:(tab, s)=>{ showSub(tab); if(tab === 'sep' 
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 
+
+/* ---------- Merge PDF: thumbnail grid (drag or arrow buttons to reorder, A-Z sort, add more, drop files) ---------- */
+(function(){
+  const $ = id => document.getElementById(id), input = $('merge-files');
+  const TX = {
+    ar:{ et:'اختر ملفات PDF أو أسقطها هنا', es:'اختر ملفين أو أكثر — تقدر تضيف غيرها بعد كذا', clear:'إفراغ القائمة', files:'ملفات', file:'ملف', pages:'صفحة', tip:'اسحب الملف إلى المكان اللي تبيه، أو استخدم الأسهم تحت كل ملف (مناسبة للجوال).', add:'إضافة ملفات', sort:'ترتيب أبجدي', rm:'إزالة', earlier:'تقديم', later:'تأخير', locked:'تعذّرت المعاينة', skipped:'تم تجاهل ملفات ليست PDF' },
+    en:{ et:'Choose PDF files or drop them here', es:'Pick two or more — you can add more afterwards', clear:'Clear list', files:'files', file:'file', pages:'pages', tip:'Drag a file to where you want it, or use the arrows under each file (handy on a phone).', add:'Add files', sort:'Sort alphabetically', rm:'Remove', earlier:'Move earlier', later:'Move later', locked:'Preview unavailable', skipped:'Non-PDF files were ignored' }
+  };
+  const L = k => (TX[currentLang] || TX.ar)[k] || k;
+  let items = [], uid = 0, dragId = null, asc = true, thumbQ = Promise.resolve();
+  const isPdf = f => f.type === 'application/pdf' || /\.pdf$/i.test(f.name);
+  const kb = n => n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+
+  function sync(){ const dt = new DataTransfer(); items.forEach(i=> dt.items.add(i.file)); input.files = dt.files; }
+  function addFiles(list){
+    const arr = Array.from(list), ok = arr.filter(isPdf);
+    if(ok.length < arr.length) setStatus('merge-status', L('skipped'), 'err');
+    ok.forEach(f=>{ const it = { id:++uid, file:f, pages:0, canvas:null, fail:false }; items.push(it); thumbQ = thumbQ.then(()=> makeThumb(it)); });
+    sync(); render();
+  }
+  async function makeThumb(it){
+    try{
+      const pdf = await pdfjsLib.getDocument({ data:new Uint8Array(await it.file.arrayBuffer()) }).promise;
+      it.pages = pdf.numPages;
+      const pg = await pdf.getPage(1), base = pg.getViewport({ scale:1 }), sc = Math.min(2, 300 / base.width, 380 / base.height), vp = pg.getViewport({ scale:sc });
+      const c = document.createElement('canvas'); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+      const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+      await pg.render({ canvasContext:x, viewport:vp }).promise; it.canvas = c; try{ pdf.destroy(); }catch(e){}
+    }catch(e){ it.fail = true; }
+    if(items.includes(it)) render();
+  }
+  function move(from, to){ if(to < 0 || to >= items.length || from === to) return; items.splice(to, 0, items.splice(from, 1)[0]); sync(); render(); }
+  function render(){
+    const has = items.length > 0;
+    $('mg-empty').style.display = has ? 'none' : ''; $('mg-work').style.display = has ? '' : 'none';
+    $('mg-empty-t').textContent = L('et'); $('mg-empty-s').textContent = L('es');
+    $('mg-clear').textContent = L('clear'); $('mg-tip').textContent = L('tip'); $('mg-count').textContent = items.length;
+    $('mg-add').title = $('mg-add').ariaLabel = L('add'); $('mg-sort').title = $('mg-sort').ariaLabel = L('sort'); $('mg-sort').firstChild.textContent = asc ? 'A↓Z' : 'Z↓A';
+    const tp = items.reduce((s, i)=> s + i.pages, 0);
+    $('mg-sum').textContent = items.length + ' ' + (items.length === 1 ? L('file') : L('files')) + (tp ? ' · ' + tp + ' ' + L('pages') : '');
+    const rtl = getComputedStyle(document.documentElement).direction === 'rtl', grid = $('mg-grid'); grid.textContent = '';
+    items.forEach((it, idx)=>{
+      const card = document.createElement('div'); card.className = 'mg-card'; card.draggable = true; card.dataset.id = it.id;
+      const num = document.createElement('span'); num.className = 'mg-num'; num.textContent = idx + 1;
+      const x = document.createElement('button'); x.type = 'button'; x.className = 'mg-x'; x.textContent = '×'; x.title = x.ariaLabel = L('rm');
+      x.addEventListener('click', ()=>{ items = items.filter(i=> i !== it); sync(); render(); });
+      const th = document.createElement('div'); th.className = 'mg-thumb';
+      if(it.canvas) th.appendChild(it.canvas); else { const ph = document.createElement('span'); ph.className = 'mg-ph'; ph.textContent = it.fail ? '📄' : '⏳'; ph.title = it.fail ? L('locked') : ''; th.appendChild(ph); }
+      const nm = document.createElement('div'); nm.className = 'mg-name'; nm.textContent = it.file.name; nm.title = it.file.name;
+      const mt = document.createElement('div'); mt.className = 'mg-meta'; mt.textContent = (it.pages ? it.pages + ' ' + L('pages') + ' · ' : '') + '\u2066' + kb(it.file.size) + '\u2069';
+      const mv = document.createElement('div'); mv.className = 'mg-mv';
+      const b1 = document.createElement('button'), b2 = document.createElement('button');
+      b1.type = b2.type = 'button'; b1.textContent = rtl ? '→' : '←'; b2.textContent = rtl ? '←' : '→'; b1.title = b1.ariaLabel = L('earlier'); b2.title = b2.ariaLabel = L('later');
+      b1.disabled = idx === 0; b2.disabled = idx === items.length - 1;
+      b1.addEventListener('click', ()=> move(idx, idx - 1)); b2.addEventListener('click', ()=> move(idx, idx + 1));
+      mv.append(b1, b2); card.append(num, x, th, nm, mt, mv);
+      card.addEventListener('dragstart', e=>{ dragId = it.id; card.classList.add('mg-drag'); try{ e.dataTransfer.setData('text/plain', String(it.id)); e.dataTransfer.effectAllowed = 'move'; }catch(er){} });
+      card.addEventListener('dragend', ()=>{ dragId = null; card.classList.remove('mg-drag'); grid.querySelectorAll('.mg-target').forEach(n=> n.classList.remove('mg-target')); });
+      card.addEventListener('dragover', e=>{ if(dragId !== null){ e.preventDefault(); card.classList.add('mg-target'); } });
+      card.addEventListener('dragleave', ()=> card.classList.remove('mg-target'));
+      card.addEventListener('drop', e=>{ if(dragId === null) return; e.preventDefault(); e.stopPropagation(); const from = items.findIndex(i=> i.id === dragId); dragId = null; move(from, idx); });
+      grid.appendChild(card);
+    });
+  }
+  const pick = ()=>{ input.value = ''; input.click(); };
+  input.addEventListener('change', ()=>{ const picked = Array.from(input.files); sync(); if(picked.length) addFiles(picked.filter(f=> !items.some(i=> i.file === f))); });
+  // the native change handler fires after the browser replaced input.files with the new picks only, so rebuild from items first
+  input.addEventListener('click', ()=>{ sync(); });
+  $('mg-add').addEventListener('click', pick);
+  $('mg-empty').addEventListener('click', pick); $('mg-empty').addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(); } });
+  $('mg-sort').addEventListener('click', ()=>{ items.sort((a, b)=> (asc ? 1 : -1) * a.file.name.localeCompare(b.file.name, currentLang === 'en' ? 'en' : 'ar', { numeric:true, sensitivity:'base' })); asc = !asc; sync(); render(); });
+  $('mg-clear').addEventListener('click', ()=>{ items = []; sync(); render(); $('merge-status').innerHTML = ''; });
+  const card = $('pdftool-merge');
+  ['dragenter', 'dragover'].forEach(ev=> card.addEventListener(ev, e=>{ if(dragId === null && e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files')){ e.preventDefault(); $('mg-empty').classList.add('mg-over'); } }));
+  ['dragleave', 'drop'].forEach(ev=> card.addEventListener(ev, ()=> $('mg-empty').classList.remove('mg-over')));
+  card.addEventListener('drop', e=>{ if(dragId === null && e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length){ e.preventDefault(); addFiles(e.dataTransfer.files); } });
+  window.mgRender = render; render();
+})();
 
 applyLanguage(localStorage.getItem('uddah-lang') || 'ar');
 </script>
