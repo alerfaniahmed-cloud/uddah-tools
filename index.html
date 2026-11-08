@@ -281,6 +281,41 @@
   .mg-mv button{width:34px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elev-2);color:var(--bone);cursor:pointer;font-size:1rem;padding:0;}
   .mg-mv button:disabled{opacity:.3;cursor:default;}
   .mg-tip{margin:0 0 14px;}
+  .fs-field .file-list{display:none;}
+  .fs-field input[type=file]{display:none;}
+  .fs-stage{margin:6px 0 14px;}
+  .fs-one{max-width:230px;margin-inline:auto;cursor:default;}
+  .fs-rep{background:none;border:0;color:var(--brass-light);font:600 .8rem var(--font-display);cursor:pointer;text-decoration:underline;padding:2px 4px;}
+  .fs-chk{width:100%;display:flex;gap:8px;align-items:center;margin:10px 0 4px;font-size:.92rem;cursor:pointer;}
+  .fs-opts{display:grid;gap:8px;margin:6px 0 12px;}
+  .fs-opt{display:flex;gap:12px;align-items:center;text-align:start;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg-elev);color:var(--bone);cursor:pointer;font-family:inherit;width:100%;}
+  .fs-opt:hover{border-color:var(--steel);}
+  .fs-opt[aria-pressed=true]{border-color:var(--brass);background:var(--bg-elev-2);box-shadow:0 0 0 1px var(--brass) inset;}
+  .fs-radio{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--steel);display:inline-block;position:relative;}
+  .fs-opt[aria-pressed=true] .fs-radio{border-color:var(--brass);}
+  .fs-opt[aria-pressed=true] .fs-radio::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--brass);}
+  .fs-opt b{display:block;font-size:.95rem;}
+  .fs-opt small{display:block;color:var(--bone-dim);font-size:.8rem;}
+  .fs-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 14px;}
+  .fs-mode{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg-elev);color:var(--bone);cursor:pointer;font:600 .82rem var(--font-display);}
+  .fs-mode span{font-size:1.4rem;line-height:1;}
+  .fs-mode[aria-pressed=true]{border-color:var(--brass);background:var(--bg-elev-2);box-shadow:0 0 0 1px var(--brass) inset;}
+  .fs-rng{border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin:0 0 10px;background:var(--bg-elev);}
+  .fs-rng-h{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:.9rem;margin-bottom:8px;}
+  .fs-rng-h button{border:0;background:none;color:var(--rust);font-size:1.1rem;cursor:pointer;padding:0 4px;}
+  .fs-rng label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.88rem;margin-top:6px;}
+  .fs-rng input{width:90px !important;direction:ltr;text-align:center;}
+  .fs-add{display:block;margin:4px auto 6px;padding:7px 18px;border:1.5px solid var(--brass);border-radius:8px;background:transparent;color:var(--brass-light);font:700 .88rem var(--font-display);cursor:pointer;}
+  .fs-tot{font-size:.85rem;color:var(--bone-dim);margin:0 0 8px;}
+  @media (min-width:880px){
+    .card.wb:not([style*="none"]){display:grid !important;grid-template-columns:minmax(0,1fr) 340px;column-gap:28px;align-items:start;}
+    .card.wb > h2,.card.wb > .hint{grid-column:1 / -1;}
+    .card.wb > .wb-stage{grid-column:1;grid-row:3 / span 40;}
+    .card.wb > .img-results,.card.wb > [id$="-zip"]{grid-column:1 / -1 !important;}
+    .card.wb > *:not(h2):not(.hint):not(.wb-stage){grid-column:2;}
+    .card.wb > .btn:not(.secondary){min-height:54px;font-size:1.05rem;}
+    .card.wb .mg-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
+  }
   .file-chip{
     display:inline-flex;align-items:center;gap:8px;
     background:var(--bg-elev-2);border:1px solid var(--border);
@@ -3571,7 +3606,7 @@
     </div>
 
 
-    <div class="card pdf-card" id="pdftool-split">
+    <div class="card pdf-card wb" id="pdftool-split">
       <h2 data-i18n="splitTitle">تقسيم ملف PDF</h2>
       <p class="hint" data-i18n="splitHint">قسّم الملف إلى عدة ملفات: حسب نطاقات تحددها، أو كل N صفحة، أو كل صفحة ملف مستقل. الناتج ملف ZIP.</p>
       <div class="field"><input type="file" id="split-file" accept="application/pdf"><div class="file-list" id="split-file-list"></div></div>
@@ -3585,6 +3620,7 @@
       </div>
       <div class="field" id="split-ranges-wrap"><label for="split-ranges" data-i18n="splitRangesLabel">النطاقات (افصل بينها بفاصلة، كل نطاق يصير ملف)</label><input type="text" id="split-ranges" placeholder="1-3, 4-6, 7" style="direction:ltr;text-align:left;"></div>
       <div class="field" id="split-every-wrap" style="display:none;"><label for="split-every" data-i18n="splitEveryLabel">عدد الصفحات في كل ملف</label><input type="number" id="split-every" value="1" min="1" style="direction:ltr;text-align:left;"></div>
+      <label class="fs-chk" id="split-merge-wrap" style="display:none"><input type="checkbox" id="split-merge"> <span id="split-merge-t"></span></label>
       <button class="btn" id="split-btn" data-i18n="splitBtn">تقسيم وتنزيل</button>
       <div id="split-status"></div>
     </div>
@@ -3727,15 +3763,15 @@
       <div id="compare-out" style="margin-top:10px;"></div>
     </div>
 
-    <div class="card pdf-card" id="pdftool-merge">
+    <div class="card pdf-card wb" id="pdftool-merge">
       <h2 data-i18n="mergeTitle">دمج ملفات PDF</h2>
       <p class="hint" data-i18n="mergeHint">اختر عدة ملفات PDF، ورتّبها بالسحب والإفلات (⠿) بالترتيب اللي تبيه، وسيتم دمجها في ملف واحد.</p>
       <input type="file" id="merge-files" accept="application/pdf,.pdf" multiple hidden>
-      <div id="mg-empty" class="mg-drop" tabindex="0" role="button">
+      <div id="mg-empty" class="mg-drop wb-stage" tabindex="0" role="button">
         <div class="mg-drop-ic" aria-hidden="true">📎</div>
         <b id="mg-empty-t"></b><span id="mg-empty-s"></span>
       </div>
-      <div id="mg-work" style="display:none">
+      <div id="mg-work" class="wb-stage" style="display:none">
         <div class="mg-bar">
           <button type="button" class="mg-round" id="mg-add"><span aria-hidden="true">+</span><i class="mg-badge" id="mg-count">0</i></button>
           <button type="button" class="mg-round mg-sort" id="mg-sort"><span aria-hidden="true">A↓Z</span></button>
@@ -3782,7 +3818,7 @@
       <div id="extract-status"></div>
     </div>
 
-    <div class="card pdf-card" id="pdftool-img2pdf">
+    <div class="card pdf-card wb" id="pdftool-img2pdf">
       <h2 data-i18n="img2pdfTitle">تحويل صور إلى PDF</h2>
       <p class="hint" data-i18n="img2pdfHint">اختر صورة أو أكثر (JPG أو PNG) وسيتم وضع كل صورة في صفحة داخل ملف PDF واحد.</p>
       <div class="field">
@@ -3821,7 +3857,7 @@
       <div id="pdf2img-status"></div>
     </div>
 
-    <div class="card pdf-card" id="pdftool-compress">
+    <div class="card pdf-card wb" id="pdftool-compress">
       <h2 data-i18n="compressTitle">ضغط ملف PDF أو صورة</h2>
       <p class="hint" data-i18n="compressHint">يعيد هذا الخيار رسم صفحات الملف بجودة أقل لتقليل الحجم — مناسب للمستندات النصية والصور، وقد يقلل وضوح النصوص الدقيقة جداً.</p>
       <div class="field">
@@ -6726,6 +6762,7 @@ function applyLanguage(lang){
   if(typeof shApplyLang === 'function') shApplyLang();
   if(window.txsvRender) window.txsvRender();
   if(window.mgRender) window.mgRender();
+  if(window.fsRender) window.fsRender();
   if(window.cewRender) window.cewRender();
   if(typeof paBuildCitySelect === 'function'){ paBuildCitySelect(); paRefreshLabels(); }
   paintStamp();
@@ -9224,7 +9261,6 @@ function setupFilePicker(inputId, listId, multiple, reorderable){
 }
 setupFilePicker('mergepairs-file', 'mergepairs-file-list', false);
 setupFilePicker('extract-file', 'extract-file-list', false);
-setupFilePicker('img2pdf-files', 'img2pdf-files-list', true, true);
 setupFilePicker('pdf2img-file', 'pdf2img-file-list', false);
 setupFilePicker('compress-file', 'compress-file-list', false);
 setupFilePicker('sign-file', 'sign-file-list', false);
@@ -16638,6 +16674,7 @@ const ptFail = key => Object.assign(new Error(key), { ptMsg:key });
       const parts = normalizeDigits(document.getElementById('split-ranges').value).split(/[,،;]+/).map(x=> x.trim()).filter(Boolean);
       parts.forEach(pt=>{ const idx = parseRange(pt, n); if(idx.length) groups.push(idx); });
       if(!groups.length) throw ptFail('ptBadRange');
+      if(document.getElementById('split-merge') && document.getElementById('split-merge').checked){ const all = []; groups.forEach(g=> g.forEach(i=> all.push(i))); groups.length = 0; groups.push(all); }
     }
     const base = ptBaseName(f), files = [];
     for(let gi = 0; gi < groups.length; gi++){
@@ -18113,6 +18150,7 @@ const CV_TPLS = [
       <div id="${id}-status" style="margin-top:8px"></div>
       <div class="img-results" id="${id}-res"></div>
       <button type="button" class="btn secondary" id="${id}-zip" style="display:none;margin-top:10px" data-i18n="imgxZip"></button>`));
+    cardsHtml[cardsHtml.length - 1] = cardsHtml[cardsHtml.length - 1].replace('class="card img-card"', 'class="card img-card wb"');
   }
   function addResult(host, f, blob, name, note, r){
     const url = URL.createObjectURL(blob), d = document.createElement('div'); d.className = 'img-res-item';
@@ -18125,7 +18163,7 @@ const CV_TPLS = [
     host.appendChild(d);
   }
   function wireBatch(id, run){
-    const input = $(id + '-files'); setupFilePicker(id + '-files', id + '-list', true, false);
+    const input = $(id + '-files');
     const btn = $(id + '-go'), res = $(id + '-res'), zipBtn = $(id + '-zip'); let outs = [];
     btn.addEventListener('click', async ()=>{
       const files = [...input.files]; if(!files.length){ setStatus(id + '-status', t('imgxNoFile'), 'err'); return; }
@@ -23845,6 +23883,163 @@ window.uddahLab = { open, close, sub:(tab, s)=>{ showSub(tab); if(tab === 'sep' 
   ['dragleave', 'drop'].forEach(ev=> card.addEventListener(ev, ()=> $('mg-empty').classList.remove('mg-over')));
   card.addEventListener('drop', e=>{ if(dragId === null && e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length){ e.preventDefault(); addFiles(e.dataTransfer.files); } });
   window.mgRender = render; render();
+})();
+
+/* ---------- file stage for single-file tools (thumbnail card + drop zone), compress level cards, split range builder ---------- */
+(function(){
+  const $ = id => document.getElementById(id);
+  const TX = {
+    ar:{ dropPdf:'اختر ملف PDF أو أسقطه هنا', dropImg:'اختر صورة أو أسقطها هنا', dropAny:'اختر ملف PDF أو صورة أو أسقطه هنا', rep:'استبدال الملف', rm:'إزالة', pages:'صفحة', c3:['أقصى ضغط', 'أقل جودة، ضغط عالٍ'], c2:['الضغط الموصى به', 'جودة جيدة، ضغط جيد'], c1:['أقل ضغط', 'جودة عالية، ضغط أقل'], cLbl:'مستوى الضغط:', m1:['نطاق', '▭ ▭'], m2:['كل N صفحة', '⋮⋮'], m3:['كل صفحة', '📄'], mLbl:'وضع التقسيم:', rng:'النطاق', from:'من صفحة', to:'إلى', add:'+ إضافة نطاق', all:'دمج جميع النطاقات في ملف PDF واحد', tot:'عدد صفحات الملف:' },
+    en:{ dropPdf:'Choose a PDF or drop it here', dropImg:'Choose an image or drop it here', dropAny:'Choose a PDF or an image, or drop it here', rep:'Replace file', rm:'Remove', pages:'pages', c3:['Extreme compression', 'Lowest quality, high compression'], c2:['Recommended compression', 'Good quality, good compression'], c1:['Less compression', 'High quality, less compression'], cLbl:'Compression level:', m1:['Ranges', '▭ ▭'], m2:['Every N pages', '⋮⋮'], m3:['Every page', '📄'], mLbl:'Split mode:', rng:'Range', from:'From page', to:'To', add:'+ Add range', all:'Merge all ranges into one PDF', tot:'Pages in the file:' }
+  };
+  const L = k => (TX[currentLang] || TX.ar)[k];
+  const kb = n => n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+  const stages = [];
+
+  async function thumbOf(file){
+    if(file.type.startsWith('image/')){ const u = URL.createObjectURL(file), im = new Image(); await new Promise((res, rej)=>{ im.onload = res; im.onerror = rej; im.src = u; }); im.style.cssText = 'max-width:100%;max-height:100%;box-shadow:0 1px 4px rgba(0,0,0,.25);pointer-events:none;'; im.onload = null; return { el:im, meta:'\u2066' + im.naturalWidth + '×' + im.naturalHeight + '\u2069', url:u }; }
+    const pdf = await pdfjsLib.getDocument({ data:new Uint8Array(await file.arrayBuffer()) }).promise, pg = await pdf.getPage(1), b = pg.getViewport({ scale:1 }), sc = Math.min(2, 300 / b.width, 380 / b.height), vp = pg.getViewport({ scale:sc });
+    const c = document.createElement('canvas'); c.width = Math.round(vp.width); c.height = Math.round(vp.height); const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+    await pg.render({ canvasContext:x, viewport:vp }).promise; const n = pdf.numPages; try{ pdf.destroy(); }catch(e){}
+    return { el:c, meta:n + ' ' + L('pages'), pages:n };
+  }
+  function enhance(input){
+    if(input.multiple || input.dataset.fs || input.id === 'merge-files') return;
+    const field = input.closest('.field'); if(!field) return; input.dataset.fs = '1';
+    field.classList.add('fs-field', 'wb-stage');
+    const host = document.createElement('div'); host.className = 'fs-stage'; field.appendChild(host);
+    const acc = input.accept || '', pdfOk = /pdf/.test(acc), imgOk = /image/.test(acc), ok = f=> (pdfOk && (f.type === 'application/pdf' || /\.pdf$/i.test(f.name))) || (imgOk && f.type.startsWith('image/')) || (!pdfOk && !imgOk);
+    let token = 0, lastUrl = null;
+    const pick = ()=>{ input.value = ''; input.click(); };
+    const setFile = f=>{ const dt = new DataTransfer(); dt.items.add(f); input.files = dt.files; input.dispatchEvent(new Event('change', { bubbles:true })); };
+    async function render(){
+      const my = ++token, f = input.files[0]; host.textContent = '';
+      if(lastUrl){ URL.revokeObjectURL(lastUrl); lastUrl = null; }
+      if(!f){
+        const z = document.createElement('div'); z.className = 'mg-drop'; z.tabIndex = 0; z.setAttribute('role', 'button');
+        z.innerHTML = '<div class="mg-drop-ic" aria-hidden="true">' + (pdfOk && !imgOk ? '📄' : imgOk && !pdfOk ? '🖼️' : '📎') + '</div><b></b>'; z.lastChild.textContent = L(pdfOk && imgOk ? 'dropAny' : pdfOk ? 'dropPdf' : 'dropImg');
+        z.addEventListener('click', pick); z.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(); } });
+        ['dragenter', 'dragover'].forEach(ev=> z.addEventListener(ev, e=>{ e.preventDefault(); z.classList.add('mg-over'); })); z.addEventListener('dragleave', ()=> z.classList.remove('mg-over'));
+        z.addEventListener('drop', e=>{ e.preventDefault(); z.classList.remove('mg-over'); const g = Array.from(e.dataTransfer.files || []).find(ok); if(g) setFile(g); });
+        host.appendChild(z); return;
+      }
+      const card = document.createElement('div'); card.className = 'mg-card fs-one'; card.draggable = false;
+      const x = document.createElement('button'); x.type = 'button'; x.className = 'mg-x'; x.textContent = '×'; x.title = x.ariaLabel = L('rm');
+      x.addEventListener('click', ()=>{ input.value = ''; input.dispatchEvent(new Event('change', { bubbles:true })); });
+      const th = document.createElement('div'); th.className = 'mg-thumb'; th.innerHTML = '<span class="mg-ph">⏳</span>';
+      const nm = document.createElement('div'); nm.className = 'mg-name'; nm.textContent = f.name; nm.title = f.name;
+      const mt = document.createElement('div'); mt.className = 'mg-meta'; mt.textContent = '⁦' + kb(f.size) + '⁩';
+      const rp = document.createElement('button'); rp.type = 'button'; rp.className = 'fs-rep'; rp.textContent = L('rep'); rp.addEventListener('click', pick);
+      card.append(x, th, nm, mt, rp); host.appendChild(card);
+      try{
+        const t = await thumbOf(f); if(my !== token) { if(t.url) URL.revokeObjectURL(t.url); return; }
+        lastUrl = t.url || null; th.textContent = ''; th.appendChild(t.el); mt.textContent = t.meta + ' · ⁦' + kb(f.size) + '⁩';
+        if(t.pages) document.dispatchEvent(new CustomEvent('fs-pages', { detail:{ id:input.id, pages:t.pages } }));
+      }catch(e){ if(my === token) th.innerHTML = '<span class="mg-ph">' + (f.type.startsWith('image/') ? '🖼️' : '📄') + '</span>'; }
+    }
+    input.addEventListener('change', render); stages.push(render); render();
+  }
+  document.querySelectorAll('#panel-pdf .pdf-card input[type=file], #img-cards input[type=file]').forEach(enhance);
+  // multi-file inputs (batch image tools, images -> PDF): thumbnail grid with drag / arrows reorder, A-Z, add more, clear
+  function enhanceMulti(input){
+    if(input.dataset.fs) return; const field = input.closest('.field'); if(!field) return; input.dataset.fs = '1'; field.classList.add('fs-field', 'wb-stage');
+    const host = document.createElement('div'); host.className = 'fs-stage'; field.appendChild(host);
+    const T2 = { ar:{ drop:'اختر صور أو أسقطها هنا', add:'إضافة ملفات', sort:'ترتيب أبجدي', clear:'إفراغ القائمة', files:'ملفات', file:'ملف', earlier:'تقديم', later:'تأخير', tip:'اسحب الصورة إلى مكانها أو استخدم الأسهم تحتها.' }, en:{ drop:'Choose images or drop them here', add:'Add files', sort:'Sort alphabetically', clear:'Clear list', files:'files', file:'file', earlier:'Move earlier', later:'Move later', tip:'Drag an image to where you want it, or use the arrows under it.' } };
+    const M = k => (T2[currentLang] || T2.ar)[k], acc = input.accept || '', pdfOk = /pdf/.test(acc), svgOk = /svg/.test(acc);
+    const ok = f=> f.type.startsWith('image/') || (pdfOk && /pdf/.test(f.type)) || (svgOk && /\.svg$/i.test(f.name));
+    let items = [], uid = 0, dragId = null, asc = true, q = Promise.resolve();
+    const sync = ()=>{ const dt = new DataTransfer(); items.forEach(i=> dt.items.add(i.file)); input.files = dt.files; };
+    const add = list=>{ Array.from(list).filter(ok).forEach(f=>{ const it = { id:++uid, file:f, el:null, meta:'', url:null }; items.push(it); q = q.then(async ()=>{ try{ const t = await thumbOf(f); it.el = t.el; it.meta = t.meta; it.url = t.url; }catch(e){ it.el = null; } if(items.includes(it)) draw(); }); }); sync(); draw(); };
+    const pick = ()=>{ input.value = ''; input.click(); };
+    input.addEventListener('change', ()=>{ const picked = Array.from(input.files).filter(f=> !items.some(i=> i.file === f)); sync(); if(picked.length) add(picked); });
+    const move = (a, b)=>{ if(b < 0 || b >= items.length || a === b) return; items.splice(b, 0, items.splice(a, 1)[0]); sync(); draw(); };
+    function draw(){
+      host.textContent = '';
+      const hasAny = items.length > 0;
+      if(!hasAny){
+        const z = document.createElement('div'); z.className = 'mg-drop'; z.tabIndex = 0; z.setAttribute('role', 'button'); z.innerHTML = '<div class="mg-drop-ic" aria-hidden="true">🖼️</div><b></b>'; z.lastChild.textContent = M('drop');
+        z.addEventListener('click', pick); z.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(); } });
+        ['dragenter', 'dragover'].forEach(ev=> z.addEventListener(ev, e=>{ e.preventDefault(); z.classList.add('mg-over'); })); z.addEventListener('dragleave', ()=> z.classList.remove('mg-over'));
+        z.addEventListener('drop', e=>{ e.preventDefault(); z.classList.remove('mg-over'); add(e.dataTransfer.files); }); host.appendChild(z); return;
+      }
+      const bar = document.createElement('div'); bar.className = 'mg-bar';
+      const mk = (cls, label, txt, fn)=>{ const b = document.createElement('button'); b.type = 'button'; b.className = cls; b.title = b.ariaLabel = label; b.innerHTML = '<span aria-hidden="true"></span>'; b.firstChild.textContent = txt; b.addEventListener('click', fn); return b; };
+      const addB = mk('mg-round', M('add'), '+', pick); addB.style.cssText = 'background:var(--brass);border-color:var(--brass);color:#fff;font-size:1.7rem;font-weight:400;'; const bd = document.createElement('i'); bd.className = 'mg-badge'; bd.textContent = items.length; addB.appendChild(bd);
+      const sortB = mk('mg-round mg-sort', M('sort'), asc ? 'A↓Z' : 'Z↓A', ()=>{ items.sort((a, b)=> (asc ? 1 : -1) * a.file.name.localeCompare(b.file.name, currentLang === 'en' ? 'en' : 'ar', { numeric:true, sensitivity:'base' })); asc = !asc; sync(); draw(); });
+      const clr = document.createElement('button'); clr.type = 'button'; clr.className = 'btn secondary mg-clear'; clr.textContent = M('clear'); clr.addEventListener('click', ()=>{ items = []; sync(); draw(); });
+      const sum = document.createElement('span'); sum.className = 'mg-sum'; sum.textContent = items.length + ' ' + (items.length === 1 ? M('file') : M('files'));
+      bar.append(addB, sortB, clr, sum); host.appendChild(bar);
+      const rtl = getComputedStyle(document.documentElement).direction === 'rtl', grid = document.createElement('div'); grid.className = 'mg-grid';
+      items.forEach((it, idx)=>{
+        const card = document.createElement('div'); card.className = 'mg-card'; card.draggable = true;
+        const num = document.createElement('span'); num.className = 'mg-num'; num.textContent = idx + 1;
+        const x = document.createElement('button'); x.type = 'button'; x.className = 'mg-x'; x.textContent = '×'; x.addEventListener('click', ()=>{ if(it.url) URL.revokeObjectURL(it.url); items = items.filter(i=> i !== it); sync(); draw(); });
+        const th = document.createElement('div'); th.className = 'mg-thumb'; if(it.el){ th.appendChild(it.el.cloneNode ? (it.el.tagName === 'CANVAS' ? it.el : it.el) : it.el); } else { th.innerHTML = '<span class="mg-ph">' + (it.meta === '' ? '⏳' : '🖼️') + '</span>'; }
+        const nm = document.createElement('div'); nm.className = 'mg-name'; nm.textContent = it.file.name; nm.title = it.file.name;
+        const mt = document.createElement('div'); mt.className = 'mg-meta'; mt.textContent = (it.meta ? it.meta + ' · ' : '') + '⁦' + kb(it.file.size) + '⁩';
+        const mv = document.createElement('div'); mv.className = 'mg-mv'; const b1 = document.createElement('button'), b2 = document.createElement('button'); b1.type = b2.type = 'button';
+        b1.textContent = rtl ? '→' : '←'; b2.textContent = rtl ? '←' : '→'; b1.title = b1.ariaLabel = M('earlier'); b2.title = b2.ariaLabel = M('later'); b1.disabled = idx === 0; b2.disabled = idx === items.length - 1;
+        b1.addEventListener('click', ()=> move(idx, idx - 1)); b2.addEventListener('click', ()=> move(idx, idx + 1)); mv.append(b1, b2); card.append(num, x, th, nm, mt, mv);
+        card.addEventListener('dragstart', e=>{ dragId = it.id; card.classList.add('mg-drag'); try{ e.dataTransfer.setData('text/plain', String(it.id)); }catch(er){} });
+        card.addEventListener('dragend', ()=>{ dragId = null; card.classList.remove('mg-drag'); grid.querySelectorAll('.mg-target').forEach(n=> n.classList.remove('mg-target')); });
+        card.addEventListener('dragover', e=>{ if(dragId !== null){ e.preventDefault(); card.classList.add('mg-target'); } }); card.addEventListener('dragleave', ()=> card.classList.remove('mg-target'));
+        card.addEventListener('drop', e=>{ if(dragId === null) return; e.preventDefault(); e.stopPropagation(); const from = items.findIndex(i=> i.id === dragId); dragId = null; move(from, idx); });
+        grid.appendChild(card);
+      });
+      host.appendChild(grid); const tp = document.createElement('p'); tp.className = 'hint mg-tip'; tp.textContent = M('tip'); host.appendChild(tp);
+    }
+    host.addEventListener('dragover', e=>{ if(dragId === null && e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files')) e.preventDefault(); });
+    host.addEventListener('drop', e=>{ if(dragId === null && e.dataTransfer && e.dataTransfer.files.length){ e.preventDefault(); add(e.dataTransfer.files); } });
+    stages.push(draw); draw();
+  }
+  document.querySelectorAll('#img-cards input[type=file][multiple], #img2pdf-files').forEach(enhanceMulti);
+
+
+  /* ----- compress: three level cards bound to the existing select ----- */
+  (function(){
+    const sel = $('compress-quality'); if(!sel) return; sel.closest('.field').style.display = 'none';
+    const box = document.createElement('div'); box.className = 'field'; box.innerHTML = '<label id="cz-l"></label><div class="fs-opts" id="cz-o"></div>'; sel.closest('.field').after(box);
+    const defs = [['0.35', 'c3'], ['0.6', 'c2'], ['0.85', 'c1']];
+    function draw(){
+      $('cz-l').textContent = L('cLbl'); const o = $('cz-o'); o.textContent = '';
+      defs.forEach(([v, k])=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'fs-opt'; b.setAttribute('aria-pressed', String(sel.value === v)); b.innerHTML = '<span class="fs-radio"></span><span><b></b><small></small></span>'; b.querySelector('b').textContent = L(k)[0]; b.querySelector('small').textContent = L(k)[1]; b.addEventListener('click', ()=>{ sel.value = v; sel.dispatchEvent(new Event('change', { bubbles:true })); draw(); }); o.appendChild(b); });
+    }
+    stages.push(draw); draw();
+  })();
+
+  /* ----- split: mode cards + from/to range builder writing into the existing fields ----- */
+  (function(){
+    const mode = $('split-mode'), rngIn = $('split-ranges'), rngWrap = $('split-ranges-wrap'), everyWrap = $('split-every-wrap'); if(!mode || !rngIn) return;
+    mode.closest('.field').style.display = 'none'; rngWrap.style.display = 'none';
+    const mbox = document.createElement('div'); mbox.className = 'field'; mbox.innerHTML = '<label id="sp-ml"></label><div class="fs-modes" id="sp-modes"></div>'; mode.closest('.field').after(mbox);
+    const rbox = document.createElement('div'); rbox.id = 'sp-rb'; rbox.className = 'field'; rngWrap.after(rbox);
+    let pages = 0, rows = [[1, 1]];
+    const clampRow = r=>{ const m = pages || 9999; r[0] = Math.max(1, Math.min(m, +r[0] || 1)); r[1] = Math.max(r[0], Math.min(m, +r[1] || r[0])); };
+    const push = ()=>{ rngIn.value = rows.map(r=> r[0] === r[1] ? String(r[0]) : r[0] + '-' + r[1]).join(', '); };
+    function drawRanges(){
+      rbox.textContent = ''; if(mode.value !== 'ranges'){ rbox.style.display = 'none'; return; } rbox.style.display = '';
+      if(pages){ const p = document.createElement('p'); p.className = 'fs-tot'; p.textContent = L('tot') + ' ' + pages; rbox.appendChild(p); }
+      rows.forEach((r, i)=>{
+        const d = document.createElement('div'); d.className = 'fs-rng'; d.innerHTML = '<div class="fs-rng-h"><span></span></div><label><span></span><input type="number" min="1" inputmode="numeric"></label><label><span></span><input type="number" min="1" inputmode="numeric"></label>';
+        d.querySelector('.fs-rng-h span').textContent = L('rng') + ' ' + (i + 1); const sp = d.querySelectorAll('label span'), ins = d.querySelectorAll('input'); sp[0].textContent = L('from'); sp[1].textContent = L('to'); ins[0].value = r[0]; ins[1].value = r[1];
+        ins.forEach((el, k)=> el.addEventListener('change', ()=>{ r[k] = +el.value; if(k === 0 && r[1] < r[0]) r[1] = r[0]; clampRow(r); ins[0].value = r[0]; ins[1].value = r[1]; push(); }));
+        if(rows.length > 1){ const x = document.createElement('button'); x.type = 'button'; x.textContent = '×'; x.title = L('rm'); x.addEventListener('click', ()=>{ rows.splice(i, 1); push(); drawRanges(); }); d.querySelector('.fs-rng-h').appendChild(x); }
+        rbox.appendChild(d);
+      });
+      const a = document.createElement('button'); a.type = 'button'; a.className = 'fs-add'; a.textContent = L('add');
+      a.addEventListener('click', ()=>{ const last = rows[rows.length - 1], s = Math.min(pages || 9999, last[1] + 1); rows.push([s, pages || s]); rows.forEach(clampRow); push(); drawRanges(); }); rbox.appendChild(a);
+    }
+    function drawModes(){
+      $('sp-ml').textContent = L('mLbl'); const m = $('sp-modes'); m.textContent = '';
+      [['ranges', 'm1'], ['every', 'm2'], ['each', 'm3']].forEach(([v, k])=>{ const b = document.createElement('button'); b.type = 'button'; b.className = 'fs-mode'; b.setAttribute('aria-pressed', String(mode.value === v)); b.innerHTML = '<span></span><div></div>'; b.firstChild.textContent = L(k)[1]; b.lastChild.textContent = L(k)[0]; b.addEventListener('click', ()=>{ mode.value = v; mode.dispatchEvent(new Event('change', { bubbles:true })); sync(); }); m.appendChild(b); });
+      $('split-merge-t').textContent = L('all');
+    }
+    function sync(){ drawModes(); drawRanges(); $('split-merge-wrap').style.display = mode.value === 'ranges' ? '' : 'none'; everyWrap.style.display = mode.value === 'every' ? '' : 'none'; }
+    document.addEventListener('fs-pages', e=>{ if(e.detail.id !== 'split-file') return; pages = e.detail.pages; rows = [[1, pages]]; push(); sync(); });
+    $('split-file').addEventListener('change', ()=>{ if(!$('split-file').files[0]){ pages = 0; rows = [[1, 1]]; rngIn.value = ''; sync(); } });
+    stages.push(sync); push(); sync();
+  })();
+  window.fsRender = ()=> stages.forEach(fn=>{ try{ fn(); }catch(e){} });
 })();
 
 applyLanguage(localStorage.getItem('uddah-lang') || 'ar');
