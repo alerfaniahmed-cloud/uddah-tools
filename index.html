@@ -1042,36 +1042,46 @@
       <button type="button" class="btn secondary" id="pa-set" style="padding:6px 10px;font-size:.85rem;display:none;" aria-expanded="false" title="إعدادات الأذان والإقامة">⚙️</button>
     </div>
     <div id="pa-panel" style="display:none;flex-basis:100%;border-top:1px dashed var(--border);padding-top:10px;font-size:.85rem;">
-      <div style="display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;">
-        <label style="display:flex;align-items:center;gap:6px;"><span id="pa-tone-lbl">🎵 النغمة</span>
-          <select id="pa-tone" style="padding:6px 8px;font-size:.85rem;">
-            <option value="soft"></option><option value="oud"></option><option value="file"></option>
-          </select></label>
-        <span id="pa-filebox" style="display:none;align-items:center;gap:6px;flex-wrap:wrap;">
-          <label class="btn secondary" style="padding:6px 10px;font-size:.8rem;cursor:pointer;margin:0;"><span id="pa-file-lbl">📂 اختر ملف الأذان</span><input type="file" id="pa-file" accept="audio/*" style="display:none"></label>
-          <span id="pa-file-name" style="color:var(--bone-dim);"></span>
-        </span>
-        <label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="pa-iq-on"> <span id="pa-iq-lbl">🕋 تنبيه الإقامة</span></label>
-        <button type="button" class="btn secondary" id="pa-test-iq" style="padding:6px 10px;font-size:.8rem;">▶ تجربة الإقامة</button>
-      </div>
-      <div id="pa-iq-box" style="margin-top:10px;">
-        <div style="display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-bottom:10px;">
-          <label style="display:flex;align-items:center;gap:6px;"><span id="pa-iq-tone-lbl">🎵 نغمة الإقامة</span>
-            <select id="pa-iq-tone" style="padding:6px 8px;font-size:.85rem;">
+      <style>.pa-sec{border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:10px;background:var(--bg-elev);}.pa-h{font-weight:700;margin-bottom:8px;font-size:.92rem;}.pa-row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;}.pa-fb{display:none;align-items:center;gap:8px;flex-wrap:wrap;}.pa-del{border:0;background:none;color:var(--rust);cursor:pointer;font-size:1rem;padding:0 4px;}</style>
+      <div class="pa-sec" id="pa-sec-ad">
+        <div class="pa-h" id="pa-h-ad">🕌 الأذان</div>
+        <div class="pa-row">
+          <label style="display:flex;align-items:center;gap:6px;"><span id="pa-tone-lbl">🎵 النغمة</span>
+            <select id="pa-tone" style="padding:6px 8px;font-size:.85rem;">
               <option value="soft"></option><option value="oud"></option><option value="file"></option>
             </select></label>
-          <span id="pa-iq-filebox" style="display:none;align-items:center;gap:6px;flex-wrap:wrap;">
-            <label class="btn secondary" style="padding:6px 10px;font-size:.8rem;cursor:pointer;margin:0;"><span id="pa-iq-file-lbl">📂 اختر ملف الإقامة</span><input type="file" id="pa-iq-file" accept="audio/*" style="display:none"></label>
-            <span id="pa-iq-file-name" style="color:var(--bone-dim);"></span>
+          <span id="pa-filebox" class="pa-fb">
+            <label class="btn secondary" style="padding:6px 10px;font-size:.8rem;cursor:pointer;margin:0;"><span id="pa-file-lbl">📂 اختر ملف الأذان</span><input type="file" id="pa-file" accept="audio/*" style="display:none"></label>
+            <span id="pa-file-name" style="color:var(--bone-dim);"></span><button type="button" class="pa-del" id="pa-file-del" style="display:none">✕</button>
           </span>
+          <button type="button" class="btn secondary" id="pa-test-ad" style="padding:6px 10px;font-size:.8rem;">▶ تجربة الأذان</button>
         </div>
-        <div id="pa-iq-title" style="color:var(--bone-dim);margin-bottom:6px;">الإقامة بعد الأذان بـ (دقيقة):</div>
+      </div>
+      <div class="pa-sec" id="pa-sec-iq">
+        <div class="pa-h" id="pa-h-iq">🕋 الإقامة</div>
+        <div class="pa-row">
+          <label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="pa-iq-on"> <span id="pa-iq-lbl">🕋 تنبيه الإقامة</span></label>
+          <button type="button" class="btn secondary" id="pa-test-iq" style="padding:6px 10px;font-size:.8rem;">▶ تجربة الإقامة</button>
+        </div>
+        <div id="pa-iq-box" style="margin-top:10px;">
+          <div class="pa-row" style="margin-bottom:10px;">
+            <label style="display:flex;align-items:center;gap:6px;"><span id="pa-iq-tone-lbl">🎵 نغمة الإقامة</span>
+              <select id="pa-iq-tone" style="padding:6px 8px;font-size:.85rem;">
+                <option value="soft"></option><option value="oud"></option><option value="file"></option>
+              </select></label>
+            <span id="pa-iq-filebox" class="pa-fb">
+              <label class="btn secondary" style="padding:6px 10px;font-size:.8rem;cursor:pointer;margin:0;"><span id="pa-iq-file-lbl">📂 اختر ملف الإقامة</span><input type="file" id="pa-iq-file" accept="audio/*" style="display:none"></label>
+              <span id="pa-iq-file-name" style="color:var(--bone-dim);"></span><button type="button" class="pa-del" id="pa-iq-file-del" style="display:none">✕</button>
+            </span>
+          </div>
+          <div id="pa-iq-title" style="color:var(--bone-dim);margin-bottom:6px;">الإقامة بعد الأذان بـ (دقيقة):</div>
         <div style="display:flex;flex-wrap:wrap;gap:8px 14px;">
           <label style="display:flex;align-items:center;gap:5px;"><span data-pk="fajr"></span><input type="number" min="1" max="60" id="pa-iq-fajr" style="width:62px;padding:5px 6px;"></label>
           <label style="display:flex;align-items:center;gap:5px;"><span data-pk="dhuhr"></span><input type="number" min="1" max="60" id="pa-iq-dhuhr" style="width:62px;padding:5px 6px;"></label>
           <label style="display:flex;align-items:center;gap:5px;"><span data-pk="asr"></span><input type="number" min="1" max="60" id="pa-iq-asr" style="width:62px;padding:5px 6px;"></label>
           <label style="display:flex;align-items:center;gap:5px;"><span data-pk="maghrib"></span><input type="number" min="1" max="60" id="pa-iq-maghrib" style="width:62px;padding:5px 6px;"></label>
           <label style="display:flex;align-items:center;gap:5px;"><span data-pk="isha"></span><input type="number" min="1" max="60" id="pa-iq-isha" style="width:62px;padding:5px 6px;"></label>
+        </div>
         </div>
       </div>
     </div>
@@ -13026,6 +13036,7 @@ function paPlayTone(kind, short){
 const paDB = {
   open(){ return new Promise((res, rej)=>{ const r = indexedDB.open('uddah-pa', 1); r.onupgradeneeded = ()=> r.result.createObjectStore('f'); r.onsuccess = ()=> res(r.result); r.onerror = ()=> rej(r.error); }); },
   async put(k, v){ const d = await this.open(); return new Promise((res, rej)=>{ const t = d.transaction('f', 'readwrite'); t.objectStore('f').put(v, k); t.oncomplete = res; t.onerror = ()=> rej(t.error); }); },
+  async del(k){ const d = await this.open(); return new Promise((res, rej)=>{ const t = d.transaction('f', 'readwrite'); t.objectStore('f').delete(k); t.oncomplete = res; t.onerror = ()=> rej(t.error); }); },
   async get(k){ const d = await this.open(); return new Promise((res, rej)=>{ const q = d.transaction('f').objectStore('f').get(k); q.onsuccess = ()=> res(q.result); q.onerror = ()=> rej(q.error); }); }
 };
 let paFileAudio = null;
@@ -13198,7 +13209,7 @@ function paRefreshLabels(){
   const set = (id, ar, e)=>{ const el = document.getElementById(id); if(el) el.textContent = en ? e : ar; };
   set('pa-test-iq', '▶ تجربة الإقامة', '▶ Test iqama'); set('pa-tone-lbl', '🎵 النغمة', '🎵 Tone'); set('pa-iq-lbl', '🕋 تنبيه الإقامة', '🕋 Iqama alert');
   set('pa-iq-title', 'الإقامة بعد الأذان بـ (دقيقة):', 'Iqama after adhan (minutes):'); set('pa-file-lbl', '📂 اختر ملف الأذان', '📂 Choose adhan file');
-  set('pa-iq-tone-lbl', '🎵 نغمة الإقامة', '🎵 Iqama tone'); set('pa-iq-file-lbl', '📂 اختر ملف الإقامة', '📂 Choose iqama file');
+  set('pa-h-ad', '🕌 الأذان', '🕌 Adhan'); set('pa-h-iq', '🕋 الإقامة', '🕋 Iqama'); set('pa-test-ad', '▶ تجربة الأذان', '▶ Test adhan'); set('pa-iq-tone-lbl', '🎵 نغمة الإقامة', '🎵 Iqama tone'); set('pa-iq-file-lbl', '📂 اختر ملف الإقامة', '📂 Choose iqama file');
   const to = document.getElementById('pa-tone');
   if(to){ to.options[0].textContent = en ? 'Simple ring (default)' : 'رنة بسيطة (افتراضي)'; to.options[1].textContent = en ? 'Oud' : 'عود'; to.options[2].textContent = en ? 'My own adhan file' : 'ملف أذان خاص بي'; }
   const ito = document.getElementById('pa-iq-tone');
@@ -13246,8 +13257,9 @@ function paSyncPanel(){
   document.getElementById('pa-iq-on').checked = !!paState.iqOn;
   document.getElementById('pa-iq-box').style.opacity = paState.iqOn ? '1' : '.5';
   PA_ORDER.forEach(k=>{ document.getElementById('pa-iq-' + k).value = paState.iq[k]; });
-  paDB.get('adhan').then(b=>{ document.getElementById('pa-file-name').textContent = b ? (b.name || '✔') : ''; }).catch(()=>{});
-  paDB.get('iqama').then(b=>{ document.getElementById('pa-iq-file-name').textContent = b ? (b.name || '✔') : ''; }).catch(()=>{});
+  const en = currentLang === 'en', miss = en ? '⚠ No file chosen — the simple ring will play' : '⚠ لم تختر ملفاً — ستعمل الرنة البسيطة';
+  paDB.get('adhan').then(b=>{ document.getElementById('pa-file-name').textContent = b ? (b.name || '✔') : miss; document.getElementById('pa-file-del').style.display = b ? '' : 'none'; }).catch(()=>{});
+  paDB.get('iqama').then(b=>{ document.getElementById('pa-iq-file-name').textContent = b ? (b.name || '✔') : miss; document.getElementById('pa-iq-file-del').style.display = b ? '' : 'none'; }).catch(()=>{});
 }
 document.getElementById('pa-tone').addEventListener('change', e=>{ paState.tone = e.target.value; paSave(); paSyncPanel(); });
 document.getElementById('pa-iq-tone').addEventListener('change', e=>{ paState.iqTone = e.target.value; paSave(); paSyncPanel(); });
@@ -13269,6 +13281,11 @@ function paWireFileInput(inputId, nameId, dbKey){
 }
 paWireFileInput('pa-file', 'pa-file-name', 'adhan');
 paWireFileInput('pa-iq-file', 'pa-iq-file-name', 'iqama');
+document.getElementById('pa-file').addEventListener('change', ()=> setTimeout(paSyncPanel, 150));
+document.getElementById('pa-iq-file').addEventListener('change', ()=> setTimeout(paSyncPanel, 150));
+document.getElementById('pa-file-del').addEventListener('click', async ()=>{ try{ await paDB.del('adhan'); }catch(e){} paStopFile(); document.getElementById('pa-file').value = ''; paSyncPanel(); });
+document.getElementById('pa-iq-file-del').addEventListener('click', async ()=>{ try{ await paDB.del('iqama'); }catch(e){} paStopFile(); document.getElementById('pa-iq-file').value = ''; paSyncPanel(); });
+document.getElementById('pa-test-ad').addEventListener('click', ()=>{ paAnnounce('dhuhr'); });
 document.getElementById('pa-test-iq').addEventListener('click', ()=>{ paAnnounce('dhuhr', true); });
 document.getElementById('pa-test').addEventListener('click', async ()=>{
   try{ if(!paAudio) paAudio = new (window.AudioContext || window.webkitAudioContext)(); if(paAudio.state === 'suspended') await paAudio.resume(); }catch(e){}
