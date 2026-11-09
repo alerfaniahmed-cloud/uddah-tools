@@ -12,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Aref+Ruqaa+Ink&family=Rakkas&family=Lalezar&family=Jomhuria&family=Katibeh&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@600&family=Allura&family=Sacramento&family=Caveat:wght@600&family=Satisfy&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&family=El+Messiri:wght@400;700&family=Changa:wght@400;700&family=Mada:wght@400;700&family=Markazi+Text:wght@400;700&family=Readex+Pro:wght@400;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Yellowtail&family=Mr+Dafoe&family=Mrs+Saint+Delafield&family=Herr+Von+Muellerhoff&family=Kaushan+Script&family=Marck+Script&family=Homemade+Apple&family=Zeyada&family=Parisienne&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Lateef&family=Mirza&family=Vibes&family=Marhey&family=Harmattan&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Tajawal:wght@400;500;700&family=Almarai:wght@400;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -316,6 +317,37 @@
     .card.wb > .btn:not(.secondary){min-height:54px;font-size:1.05rem;}
     .card.wb .mg-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
   }
+  .ed-card{border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px;background:var(--bg-elev);box-shadow:0 1px 4px rgba(0,0,0,.07);}
+  .ed-head{display:flex;gap:10px;align-items:center;margin-bottom:12px;}
+  .ed-num{flex:none;width:30px;height:30px;border-radius:50%;background:var(--brass);color:#fff;font:700 .9rem/30px var(--font-display);text-align:center;}
+  .ed-card input[type=text],.ed-card input[type=number],.ed-card select{width:100%;background:var(--bg-elev-2);border:1px solid var(--border);color:var(--bone);border-radius:9px;padding:9px 11px;font-family:var(--font-display);font-size:.9rem;transition:border-color .15s,box-shadow .15s;}
+  .ed-card input:focus,.ed-card select:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 3px rgba(184,134,59,.18);}
+  .ed-text{flex:1;font-size:1rem !important;min-height:42px;}
+  .ed-del{flex:none;width:32px;height:32px;border-radius:50%;border:0;background:transparent;color:var(--rust);font-size:1.3rem;line-height:1;cursor:pointer;transition:background .15s;}
+  .ed-del:hover{background:var(--bg-elev-2);}
+  .ed-sec{background:var(--bg-elev-2);border-radius:11px;padding:11px 12px;margin-top:10px;display:grid;gap:10px;}
+  .ed-t{font:700 .88rem var(--font-display);display:flex;align-items:center;gap:6px;}
+  .ed-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .ed-grid3{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));}
+  .ed-f{display:flex;flex-direction:column;gap:5px;font-size:.78rem;color:var(--bone-dim);font-weight:600;}
+  .ed-f b{color:var(--brass-light);font-weight:700;margin-inline-start:6px;}
+  .ed-f input[type=range]{width:100%;margin:2px 0;}
+  .ed-f input[type=text],.ed-f select{font-weight:400;}
+  .ed-fontsel{font-size:1rem !important;}
+  .ed-color{flex-direction:row;align-items:center;justify-content:space-between;}
+  .ed-color input[type=color]{width:64px !important;height:34px;padding:2px;border:1px solid var(--border);border-radius:9px;background:var(--bg-elev);cursor:pointer;}
+  .ed-seg{display:flex;border:1px solid var(--border);border-radius:9px;overflow:hidden;background:var(--bg-elev);}
+  .ed-seg button{flex:1;border:0;background:transparent;color:var(--bone);padding:8px 4px;font:600 .82rem var(--font-display);cursor:pointer;border-inline-start:1px solid var(--border);}
+  .ed-seg button:first-child{border-inline-start:0;}
+  .ed-seg button[aria-pressed=true]{background:var(--brass);color:#fff;}
+  .ed-more{border:1px dashed var(--border);border-radius:9px;padding:7px 10px;}
+  .ed-more summary{cursor:pointer;font:600 .8rem var(--font-display);color:var(--bone-dim);}
+  .ed-more[open] summary{margin-bottom:8px;}
+  .ed-step{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--bone-dim);margin-bottom:8px;}
+  .ed-step input{width:70px !important;text-align:center;font-family:var(--font-mono) !important;padding:5px 6px !important;}
+  .ed-nudges{display:flex;flex-wrap:wrap;gap:6px;}
+  .ed-nudges button{padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elev);color:var(--bone);cursor:pointer;font-size:.78rem;}
+  .ed-nudges button:hover{border-color:var(--brass);}
   .file-chip{
     display:inline-flex;align-items:center;gap:8px;
     background:var(--bg-elev-2);border:1px solid var(--border);
@@ -4055,6 +4087,7 @@
       <button type="button" class="btn secondary" id="text-add-more" style="margin-bottom:12px;" data-i18n="textAddMore">➕ حفظ هذا النص وإضافة نص آخر</button>
       <div id="text-items" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;"></div>
 
+      <div class="field"><label for="text-font">نوع الخط</label><select id="text-font" style="font-size:1rem;"><option value="">الافتراضي (IBM Plex Sans Arabic)</option></select></div>
       <div class="row">
         <div class="field">
           <label for="text-size" data-i18n="textSizeLabel">حجم الخط (نقطة PDF)</label>
@@ -10455,17 +10488,17 @@ function textEditItem(i){
   const it = textItems[i]; if(!it) return;
   if(textCanvasData && textPos) textCommitCurrent();
   textItems.splice(i, 1);
-  document.getElementById('text-content').value = it.content; document.getElementById('text-size').value = it.size; document.getElementById('text-color').value = it.color;
+  document.getElementById('text-content').value = it.content; document.getElementById('text-size').value = it.size; document.getElementById('text-color').value = it.color; document.getElementById('text-font').value = it.font || '';
   textPos = { x:it.pos.x, y:it.pos.y }; textRenderList(); refreshTextCanvas();
 }
 function textCommitCurrent(){
   if(!textCanvasData || !textPos) return false;
-  textItems.push({ content:uddahDigits(document.getElementById('text-content').value, document.getElementById('text-digits').value), size:parseFloat(document.getElementById('text-size').value) || 24, color:document.getElementById('text-color').value, pos:{ x:textPos.x, y:textPos.y }, data:textCanvasData });
+  textItems.push({ content:uddahDigits(document.getElementById('text-content').value, document.getElementById('text-digits').value), size:parseFloat(document.getElementById('text-size').value) || 24, color:document.getElementById('text-color').value, font:document.getElementById('text-font').value, pos:{ x:textPos.x, y:textPos.y }, data:textCanvasData });
   return true;
 }
 function textAllItems(){
-  const all = textItems.map(it=> ({ content:it.content, size:it.size, color:it.color, pos:it.pos }));
-  if(textCanvasData && textPos) all.push({ content:uddahDigits(document.getElementById('text-content').value, document.getElementById('text-digits').value), size:parseFloat(document.getElementById('text-size').value) || 24, color:document.getElementById('text-color').value, pos:textPos });
+  const all = textItems.map(it=> ({ content:it.content, size:it.size, color:it.color, font:it.font, pos:it.pos }));
+  if(textCanvasData && textPos) all.push({ content:uddahDigits(document.getElementById('text-content').value, document.getElementById('text-digits').value), size:parseFloat(document.getElementById('text-size').value) || 24, color:document.getElementById('text-color').value, font:document.getElementById('text-font').value, pos:textPos });
   return all;
 }
 document.getElementById('text-add-more').addEventListener('click', ()=>{
@@ -10486,12 +10519,13 @@ async function refreshTextCanvas(){
   const fontSize = parseFloat(document.getElementById('text-size').value) || 24;
   const color = document.getElementById('text-color').value;
   // preview resolution: high enough for retina zoom
-  textCanvasData = renderTextToCanvas(content, fontSize, color, null, 6);
+  textCanvasData = renderTextToCanvas(content, fontSize, color, document.getElementById('text-font').value || null, 6);
   if(textPos == null && textSrc.kind){ textPos = { x:(textSrc.pw - textCanvasData.widthPt)/2, y:(textSrc.ph - textCanvasData.heightPt)/2 }; }
   textSyncSliders();
   updateTextPreview(true);
 }
 ['text-content','text-size','text-color','text-digits'].forEach(id=>document.getElementById(id).addEventListener('input', refreshTextCanvas));
+document.getElementById('text-font').addEventListener('change', refreshTextCanvas);
 
 const textXInput = document.getElementById('text-x');
 const textYInput = document.getElementById('text-y');
@@ -10719,7 +10753,7 @@ document.getElementById('text-btn').addEventListener('click', async ()=>{
 
       // Text rasterised at very high resolution (~1000 DPI) — page content stays untouched/vector.
       for(const tx of allTexts){
-        const hi = renderTextToCanvas(tx.content, tx.size, tx.color, null, 14);
+        const hi = renderTextToCanvas(tx.content, tx.size, tx.color, tx.font || null, 14);
         const textBytes = await (await textCanvasToBlob(hi.canvas, 'image/png')).arrayBuffer();
         const textImage = await pdfDoc.embedPng(textBytes);
         targetPage.drawImage(textImage, { x: tx.pos.x, y: ph - tx.pos.y - hi.heightPt, width: hi.widthPt, height: hi.heightPt });
@@ -10743,7 +10777,7 @@ document.getElementById('text-btn').addEventListener('click', async ()=>{
       const fmt = document.getElementById('text-format').value;
       if(fmt === 'jpg'){ ctx.fillStyle = '#fff'; ctx.fillRect(0,0,cw,ch); }
       ctx.drawImage(img, 0, 0, cw, ch);   // original pixels, no downscale
-      allTexts.forEach(tx=>{ const t = renderTextToCanvas(tx.content, tx.size, tx.color, null, Math.max(k, 1)); ctx.drawImage(t.canvas, tx.pos.x*k, tx.pos.y*k, t.widthPt*k, t.heightPt*k); });
+      allTexts.forEach(tx=>{ const t = renderTextToCanvas(tx.content, tx.size, tx.color, tx.font || null, Math.max(k, 1)); ctx.drawImage(t.canvas, tx.pos.x*k, tx.pos.y*k, t.widthPt*k, t.heightPt*k); });
 
       if(fmt === 'png'){
         downloadBlob(await textCanvasToBlob(out, 'image/png'), 'نص_مضاف.png');
@@ -13329,8 +13363,34 @@ const ERASE_FONT_OPTIONS = [
   { v:"'Open Sans', sans-serif", l:'Open Sans (إنجليزي)' },
   { v:"'Lato', sans-serif", l:'Lato (إنجليزي)' },
   { v:"'Montserrat', sans-serif", l:'Montserrat (إنجليزي)' },
-  { v:"'Courier New', monospace", l:'Courier New (أحادي المسافة)' }
+  { v:"'Courier New', monospace", l:'Courier New (أحادي المسافة)' },
+  { v:"'Reem Kufi', sans-serif", l:'ريم كوفي (كوفي حديث)' },
+  { v:"'Noto Kufi Arabic', sans-serif", l:'نوتو كوفي' },
+  { v:"'Noto Sans Arabic', sans-serif", l:'نوتو سانس عربي' },
+  { v:"'Scheherazade New', serif", l:'شهرزاد (نسخ تقليدي)' },
+  { v:"'Lateef', serif", l:'لطيف (نسخ)' },
+  { v:"'Mirza', serif", l:'ميرزا' },
+  { v:"'Harmattan', sans-serif", l:'هرمتن' },
+  { v:"'El Messiri', sans-serif", l:'المسيري' },
+  { v:"'Changa', sans-serif", l:'شانغا' },
+  { v:"'Mada', sans-serif", l:'مدى' },
+  { v:"'Markazi Text', serif", l:'مركزي' },
+  { v:"'Readex Pro', sans-serif", l:'ريدكس' }
 ];
+
+/* Windows / Word fonts: usable only when installed on this device, so each one is detected first and only the installed ones are listed */
+const SYS_FONT_NAMES = [
+  ['Calibri','Calibri'],['Calibri Light','Calibri Light'],['Cambria','Cambria'],['Times New Roman','Times New Roman (Word)'],['Arial','Arial (Word)'],['Arial Black','Arial Black'],['Arial Narrow','Arial Narrow'],['Arial Rounded MT Bold','Arial Rounded MT Bold'],['Arial Unicode MS','Arial Unicode MS'],
+  ['AGA Arabesque','AGA Arabesque'],['AGA Arabesque Desktop','AGA Arabesque Desktop'],['Agency FB','Agency FB'],['Akhbar MT','Akhbar MT (أخبار)'],['Aldhabi','Aldhabi (الذهبي)'],['Algerian','ALGERIAN'],['Andalus','Andalus (أندلس)'],['Arabic Typesetting','Arabic Typesetting'],
+  ['Traditional Arabic','Traditional Arabic'],['Simplified Arabic','Simplified Arabic'],['Sakkal Majalla','Sakkal Majalla'],['Arabic Transparent','Arabic Transparent'],['Dubai','Dubai'],['Sultan bold','Sultan'],['Mudir MT','Mudir MT'],['Naskh MT','Naskh MT'],['Diwani Letter','Diwani Letter'],['Tahoma','Tahoma'],['Segoe UI','Segoe UI'],['Verdana','Verdana'],['Georgia','Georgia'],['Trebuchet MS','Trebuchet MS'],['Century Gothic','Century Gothic'],['Bookman Old Style','Bookman Old Style'],['Garamond','Garamond'],['Palatino Linotype','Palatino Linotype'],['Comic Sans MS','Comic Sans MS'],['Impact','Impact'],['Consolas','Consolas'],['Calisto MT','Calisto MT'],['Bahnschrift','Bahnschrift']
+];
+function uddahFontInstalled(name){
+  try{
+    const c = document.createElement('canvas').getContext('2d'), probe = 'mmmmmmmmmmlliWWمرحبا عربي 0123';
+    return ['monospace', 'serif', 'sans-serif'].some(base=>{ c.font = '72px ' + base; const w0 = c.measureText(probe).width; c.font = "72px '" + name + "', " + base; return c.measureText(probe).width !== w0; });
+  }catch(e){ return false; }
+}
+SYS_FONT_NAMES.forEach(([n, l])=>{ if(uddahFontInstalled(n) && !ERASE_FONT_OPTIONS.some(o=> o.v.indexOf("'" + n + "'") === 0 || o.v.indexOf(n + ',') === 0)) ERASE_FONT_OPTIONS.push({ v:"'" + n + "', sans-serif", l:l + ' · ' + 'خط النظام', sys:true }); });
 
 const ERASE_NUDGES = [
   ['L','+','يسار +','توسيع من اليسار'],['L','-','يسار −','تقليص من اليسار'],
@@ -13343,67 +13403,45 @@ const ERASE_NUDGES = [
 
 function eraseCreateEditRow(edit, index){
   const row = document.createElement('div');
-  row.className = 'erase-edit-row';
-  row.style.cssText = 'border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;background:var(--bg-elev-2);';
+  row.className = 'erase-edit-row ed-card';
   const fontOptionsHtml = ERASE_FONT_OPTIONS.map(f=>
-    '<option value="' + f.v.replace(/"/g,'&quot;') + '"' + (f.v === edit.fontFamily ? ' selected' : '') + '>' + f.l + '</option>'
+    '<option value="' + f.v.replace(/"/g,'&quot;') + '"' + (f.v === edit.fontFamily ? ' selected' : '') + ' style="font-family:' + f.v.replace(/"/g,'&quot;') + '">' + f.l + '</option>'
   ).join('');
+  const sel = (v, cur)=> v === cur ? ' selected' : '';
+  const num = (cls, val)=> '<input type="text" inputmode="decimal" class="' + cls + '" value="' + val + '">';
   row.innerHTML =
-    '<div style="display:flex;gap:8px;align-items:center;">' +
-    '<input type="text" class="erase-edit-text" placeholder="النص الجديد" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" style="flex:1;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:9px 10px;font-family:var(--font-display);font-size:.9rem;">' +
-    '<button type="button" class="erase-edit-remove" title="حذف التعديل" style="flex:0 0 auto;width:28px;height:28px;border-radius:50%;border:none;background:var(--rust);color:#fff;cursor:pointer;font-size:.9rem;">×</button>' +
-    '</div>' +
-    '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
-    '<div style="flex:1;min-width:130px;"><label style="font-size:.75rem;color:var(--bone-dim);">الموضع الأفقي: <span class="erase-edit-x-val">' + Number(edit.xPct).toFixed(1) + '</span>٪</label>' +
-    '<input type="range" class="erase-edit-x" min="0" max="100" step="0.01" value="' + edit.xPct + '" style="width:100%;"></div>' +
-    '<div style="flex:1;min-width:130px;"><label style="font-size:.75rem;color:var(--bone-dim);">الموضع الرأسي: <span class="erase-edit-y-val">' + Number(edit.yPct).toFixed(1) + '</span>٪</label>' +
-    '<input type="range" class="erase-edit-y" min="0" max="100" step="0.01" value="' + edit.yPct + '" style="width:100%;"></div>' +
-    '</div>' +
-    '<div class="erase-nudge" style="margin-top:8px;border:1px dashed var(--border);border-radius:8px;padding:8px;">' +
-    '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-size:.75rem;color:var(--bone-dim);">ضبط دقيق · الخطوة (نقطة):</span>' +
-    '<input type="text" inputmode="decimal" class="erase-nudge-step" value="0.25" style="width:64px;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:5px 6px;font-family:var(--font-mono);font-size:.8rem;"></div>' +
-    '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">' +
-    ERASE_NUDGES.map(function(z){return '<button type="button" class="erase-nudge-btn" data-e="'+z[0]+'" data-s="'+z[1]+'" title="'+z[3]+'" style="padding:5px 9px;border-radius:7px;border:1px solid var(--border);background:var(--bg-elev);color:var(--bone);cursor:pointer;font-size:.78rem;">'+z[2]+'</button>';}).join('') +
-    '</div></div>' +
-    '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
-    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">عرض منطقة المسح (نقطة)</label>' +
-    '<input type="text" inputmode="decimal" class="erase-edit-width" value="' + edit.widthPt + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
-    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">ارتفاع منطقة المسح (نقطة)</label>' +
-    '<input type="text" inputmode="decimal" class="erase-edit-height" value="' + edit.heightPt + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
-    '<div style="flex:1;min-width:90px;"><label style="font-size:.75rem;color:var(--bone-dim);">حجم الخط</label>' +
-    '<input type="text" inputmode="decimal" class="erase-edit-fontsize" value="' + edit.fontSize + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
-    '</div>' +
-    '<div style="margin-top:8px;"><label style="font-size:.75rem;color:var(--bone-dim);">سماكة الخط</label>' +
-    '<select class="erase-edit-weight" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-size:.85rem;">' +
-    '<option value="400"' + ((edit.weight||600)==400?' selected':'') + '>عادي (مثل أغلب المستندات)</option>' +
-    '<option value="600"' + ((edit.weight||600)==600?' selected':'') + '>سميك</option>' +
-    '</select></div>' +
-    '<div style="margin-top:8px;"><label style="font-size:.75rem;color:var(--bone-dim);">نوع الخط</label>' +
-    '<select class="erase-edit-font" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-size:.85rem;">' + fontOptionsHtml + '</select></div>' +
-    '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
-    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">محاذاة النص</label>' +
-    '<select class="erase-edit-align" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-size:.85rem;">' +
-    '<option value="right"' + (edit.textAlign==='right'?' selected':'') + '>يمين</option>' +
-    '<option value="center"' + (edit.textAlign==='center'?' selected':'') + '>وسط</option>' +
-    '<option value="left"' + (edit.textAlign==='left'?' selected':'') + '>يسار</option>' +
-    '</select></div>' +
-    '<div style="flex:1;min-width:90px;"><label style="font-size:.75rem;color:var(--bone-dim);">إزاحة أفقية (نقطة)</label>' +
-    '<input type="text" inputmode="decimal" class="erase-edit-offsetx" value="' + edit.offsetX + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
-    '<div style="flex:1;min-width:90px;"><label style="font-size:.75rem;color:var(--bone-dim);">إزاحة رأسية (نقطة)</label>' +
-    '<input type="text" inputmode="decimal" class="erase-edit-offsety" value="' + edit.offsetY + '" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-family:var(--font-mono);font-size:.85rem;"></div>' +
-    '</div>' +
-    '<div style="margin-top:8px;"><label style="font-size:.75rem;color:var(--bone-dim);">' + I18N[currentLang].eraseModeLabel + '</label>' +
-    '<select class="erase-edit-mode" style="width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--bone);border-radius:8px;padding:7px 8px;font-size:.85rem;">' +
-    '<option value="auto"' + ((edit.eraseMode||'auto')==='auto'?' selected':'') + '>' + I18N[currentLang].eraseModeAuto + '</option>' +
-    '<option value="blend"' + (edit.eraseMode==='blend'?' selected':'') + '>' + I18N[currentLang].eraseModeBlend + '</option>' +
-    '<option value="manual"' + (edit.eraseMode==='manual'?' selected':'') + '>' + I18N[currentLang].eraseModeManual + '</option>' +
-    '</select></div>' +
-    '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">' +
-    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">لون النص الجديد</label>' +
-    '<input type="color" class="erase-edit-textcolor" value="' + edit.textColor + '" style="width:100%;height:38px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev);padding:3px;cursor:pointer;"></div>' +
-    '<div style="flex:1;min-width:110px;"><label style="font-size:.75rem;color:var(--bone-dim);">لون منطقة المسح</label>' +
-    '<input type="color" class="erase-edit-erasecolor" value="' + edit.eraseColor + '" style="width:100%;height:38px;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev);padding:3px;cursor:pointer;"></div>' +
-    '</div>';
+    '<div class="ed-head"><span class="ed-num">' + (index + 1) + '</span>' +
+    '<input type="text" class="erase-edit-text ed-text" placeholder="النص الجديد" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">' +
+    '<button type="button" class="erase-edit-remove ed-del" title="حذف التعديل" aria-label="حذف التعديل">×</button></div>' +
+    '<div class="ed-sec"><div class="ed-t"><span>📍</span> الموضع</div>' +
+    '<div class="ed-grid">' +
+    '<label class="ed-f">الأفقي <b><span class="erase-edit-x-val">' + Number(edit.xPct).toFixed(1) + '</span>٪</b><input type="range" class="erase-edit-x" min="0" max="100" step="0.01" value="' + edit.xPct + '"></label>' +
+    '<label class="ed-f">الرأسي <b><span class="erase-edit-y-val">' + Number(edit.yPct).toFixed(1) + '</span>٪</b><input type="range" class="erase-edit-y" min="0" max="100" step="0.01" value="' + edit.yPct + '"></label></div>' +
+    '<details class="ed-more erase-nudge"><summary>ضبط دقيق بالأسهم</summary>' +
+    '<div class="ed-step"><span>الخطوة (نقطة)</span><input type="text" inputmode="decimal" class="erase-nudge-step" value="0.25"></div>' +
+    '<div class="ed-nudges">' + ERASE_NUDGES.map(function(z){ return '<button type="button" class="erase-nudge-btn" data-e="' + z[0] + '" data-s="' + z[1] + '" title="' + z[3] + '">' + z[2] + '</button>'; }).join('') + '</div></details></div>' +
+    '<div class="ed-sec"><div class="ed-t"><span>🔤</span> النص</div>' +
+    '<label class="ed-f">نوع الخط<select class="erase-edit-font ed-fontsel">' + fontOptionsHtml + '</select></label>' +
+    '<div class="ed-grid ed-grid3">' +
+    '<label class="ed-f">حجم الخط' + num('erase-edit-fontsize', edit.fontSize) + '</label>' +
+    '<div class="ed-f">السماكة<div class="ed-seg" data-for="weight"><button type="button" data-v="400">عادي</button><button type="button" data-v="600">سميك</button></div></div>' +
+    '<div class="ed-f">المحاذاة<div class="ed-seg" data-for="align"><button type="button" data-v="right">يمين</button><button type="button" data-v="center">وسط</button><button type="button" data-v="left">يسار</button></div></div></div>' +
+    '<select class="erase-edit-weight" hidden><option value="400"' + sel('400', String(edit.weight || 600)) + '>400</option><option value="600"' + sel('600', String(edit.weight || 600)) + '>600</option></select>' +
+    '<select class="erase-edit-align" hidden><option value="right"' + sel('right', edit.textAlign) + '>right</option><option value="center"' + sel('center', edit.textAlign) + '>center</option><option value="left"' + sel('left', edit.textAlign) + '>left</option></select>' +
+    '<label class="ed-f ed-color">لون النص الجديد<input type="color" class="erase-edit-textcolor" value="' + edit.textColor + '"></label></div>' +
+    '<div class="ed-sec"><div class="ed-t"><span>🧽</span> منطقة المسح</div>' +
+    '<div class="ed-grid"><label class="ed-f">العرض (نقطة)' + num('erase-edit-width', edit.widthPt) + '</label><label class="ed-f">الارتفاع (نقطة)' + num('erase-edit-height', edit.heightPt) + '</label></div>' +
+    '<label class="ed-f">' + I18N[currentLang].eraseModeLabel + '<select class="erase-edit-mode">' +
+    '<option value="auto"' + sel('auto', edit.eraseMode || 'auto') + '>' + I18N[currentLang].eraseModeAuto + '</option>' +
+    '<option value="blend"' + sel('blend', edit.eraseMode) + '>' + I18N[currentLang].eraseModeBlend + '</option>' +
+    '<option value="manual"' + sel('manual', edit.eraseMode) + '>' + I18N[currentLang].eraseModeManual + '</option></select></label>' +
+    '<label class="ed-f ed-color">لون منطقة المسح<input type="color" class="erase-edit-erasecolor" value="' + edit.eraseColor + '"></label>' +
+    '<details class="ed-more"><summary>إزاحة النص داخل المنطقة</summary><div class="ed-grid"><label class="ed-f">أفقية (نقطة)' + num('erase-edit-offsetx', edit.offsetX) + '</label><label class="ed-f">رأسية (نقطة)' + num('erase-edit-offsety', edit.offsetY) + '</label></div></details></div>';
+  row.querySelectorAll('.ed-seg').forEach(function(sg){
+    const sl = row.querySelector('.erase-edit-' + sg.dataset.for), paint = function(){ sg.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.v === sl.value)); }); };
+    sg.querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){ sl.value = b.dataset.v; sl.dispatchEvent(new Event('change', { bubbles:true })); }); });
+    sl.addEventListener('change', paint); paint();
+  });
 
   const textInput = row.querySelector('.erase-edit-text');
   textInput.value = edit.text;
@@ -17971,16 +18009,16 @@ const CV_TPLS = [
   async function snapshot(){
     const f = $('text-file').files[0]; if(!f) return null;
     const items = textAllItems(); if(!items.length) return null;
-    return { v:1, file:{ name:f.name, type:f.type, b64:uddahB64(new Uint8Array(await f.arrayBuffer())) }, items, digits:$('text-digits').value, size:$('text-size').value, color:$('text-color').value, page:$('text-page').value, fmt:$('text-format').value };
+    return { v:1, file:{ name:f.name, type:f.type, b64:uddahB64(new Uint8Array(await f.arrayBuffer())) }, items, digits:$('text-digits').value, size:$('text-size').value, color:$('text-color').value, font:$('text-font').value, page:$('text-page').value, fmt:$('text-format').value };
   }
   async function apply(s){
     const f = new File([uddahUnB64(s.file.b64)], s.file.name, { type:s.file.type || (/\.pdf$/i.test(s.file.name) ? 'application/pdf' : '') });
     const dt = new DataTransfer(); dt.items.add(f); $('text-file').files = dt.files; $('text-file').dispatchEvent(new Event('change'));
     for(let i = 0; i < 100 && !(textSrc.kind && textSrc.file && textSrc.file.name === f.name); i++) await new Promise(r=> setTimeout(r, 50));
-    $('text-digits').value = s.digits || 'keep'; $('text-size').value = s.size || 24; $('text-color').value = s.color || '#2B2A28'; $('text-page').value = s.page || 1; if(s.fmt) $('text-format').value = s.fmt;
+    $('text-digits').value = s.digits || 'keep'; $('text-size').value = s.size || 24; $('text-color').value = s.color || '#2B2A28'; $('text-font').value = s.font || ''; $('text-page').value = s.page || 1; if(s.fmt) $('text-format').value = s.fmt;
     await document.fonts.ready;
     $('text-content').value = ''; textCanvasData = null; textPos = null;
-    textItems = s.items.map(it=> ({ content:it.content, size:it.size, color:it.color, pos:{ x:it.pos.x, y:it.pos.y }, data:renderTextToCanvas(it.content, it.size, it.color, null, 6) }));
+    textItems = s.items.map(it=> ({ content:it.content, size:it.size, color:it.color, font:it.font, pos:{ x:it.pos.x, y:it.pos.y }, data:renderTextToCanvas(it.content, it.size, it.color, it.font || null, 6) }));
     textRenderList(); await updateTextPreview(true);
   }
   async function render(){
@@ -24059,6 +24097,7 @@ window.uddahLab = { open, close, sub:(tab, s)=>{ showSub(tab); if(tab === 'sep' 
   window.fsRender = ()=> stages.forEach(fn=>{ try{ fn(); }catch(e){} });
 })();
 
+;(function(){ const s = document.getElementById('text-font'); if(!s) return; ERASE_FONT_OPTIONS.forEach(f=>{ const o = document.createElement('option'); o.value = f.v; o.textContent = f.l; o.style.fontFamily = f.v; s.appendChild(o); }); })();
 applyLanguage(localStorage.getItem('uddah-lang') || 'ar');
 </script>
 </body>
