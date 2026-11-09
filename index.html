@@ -3946,7 +3946,7 @@
 
       <div class="field">
         <label data-i18n="signDrawLabel">ارسم توقيعك هنا</label>
-        <canvas id="sign-canvas" width="600" height="180" style="width:100%;max-width:500px;height:150px;background:var(--bg-elev-2);border:1px dashed var(--steel);border-radius:8px;touch-action:none;cursor:crosshair;display:block;"></canvas>
+        <canvas id="sign-canvas" width="1800" height="540" style="width:100%;max-width:500px;height:150px;background:var(--bg-elev-2);border:1px dashed var(--steel);border-radius:8px;touch-action:none;cursor:crosshair;display:block;"></canvas>
         <button type="button" class="btn secondary" id="sign-clear-btn" style="margin-top:8px;padding:8px 16px;font-size:.82rem;" data-i18n="signClearBtn">مسح التوقيع</button>
       </div>
 
@@ -9694,58 +9694,77 @@ function psInjectFormat(prefix){
 /* --- Electronic Signature --- */
 const signCanvas = document.getElementById('sign-canvas');
 const signCtx = signCanvas.getContext('2d');
-signCtx.strokeStyle = '#2B2A28';
-signCtx.lineWidth = 3;
-signCtx.lineCap = 'round';
-signCtx.lineJoin = 'round';
-let signDrawing = false;
+const SIGN_HI = 3; /* internal resolution multiplier: 1800x540 instead of 600x180 */
+const SIGN_INK = '#2B2A28';
+signCtx.lineCap = 'round'; signCtx.lineJoin = 'round';
 let signHasContent = false;
+const signUndo = [];
 function setSignSize(w, h){
   if(signCanvas.width === w && signCanvas.height === h) return;
   signCanvas.width = w; signCanvas.height = h;
-  const def = (w === 600 && h === 180);
-  signCanvas.style.height = def ? '150px' : 'auto'; signCanvas.style.maxWidth = def ? '500px' : Math.min(500, w) + 'px';
-  signCtx.strokeStyle = '#2B2A28'; signCtx.lineWidth = 3; signCtx.lineCap = 'round'; signCtx.lineJoin = 'round';
+  const def = (w === 600 * SIGN_HI && h === 180 * SIGN_HI);
+  signCanvas.style.height = def ? '150px' : 'auto'; signCanvas.style.maxWidth = def ? '500px' : Math.min(500, w / SIGN_HI) + 'px';
+  signCtx.lineCap = 'round'; signCtx.lineJoin = 'round';
+  signUndo.length = 0;
 }
+setSignSize(600 * SIGN_HI, 180 * SIGN_HI);
 
 function signCanvasPos(evt){
   const rect = signCanvas.getBoundingClientRect();
-  const scaleX = signCanvas.width / rect.width;
-  const scaleY = signCanvas.height / rect.height;
-  const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
-  const clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
-  return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+  return { x:(evt.clientX - rect.left) * signCanvas.width / rect.width, y:(evt.clientY - rect.top) * signCanvas.height / rect.height, t:evt.timeStamp, pr:evt.pressure, pen:evt.pointerType === 'pen' };
 }
+/* smooth pen: pointer events + midpoint quadratic curves + width that follows speed (or pen pressure) */
+let signPen = null;
+function signPenWidths(){ const k = signCanvas.width / (signCanvas.getBoundingClientRect().width || 500); return { max:2.9 * k, min:1.0 * k, k:k }; }
 function signStart(evt){
+  if(evt.pointerType === 'mouse' && evt.button !== 0) return;
   evt.preventDefault();
-  signDrawing = true;
-  const p = signCanvasPos(evt);
-  signCtx.beginPath();
-  signCtx.moveTo(p.x, p.y);
+  try{ signCanvas.setPointerCapture(evt.pointerId); }catch(e){}
+  signUndo.push(signCtx.getImageData(0, 0, signCanvas.width, signCanvas.height)); if(signUndo.length > 8) signUndo.shift();
+  const p = signCanvasPos(evt), W = signPenWidths();
+  signPen = { last:p, mid:p, w:W.max * 0.8, W:W, moved:false };
+  signCtx.strokeStyle = SIGN_INK; signCtx.fillStyle = SIGN_INK;
+}
+function signSeg(p){
+  const s = signPen, W = s.W, dt = Math.max(1, p.t - s.last.t), dist = Math.hypot(p.x - s.last.x, p.y - s.last.y);
+  let target;
+  if(p.pen && p.pr > 0 && p.pr !== 0.5) target = W.min + Math.min(1, p.pr * 1.4) * (W.max - W.min);
+  else target = W.max - Math.min(1, (dist / dt) / (2.2 * W.k)) * (W.max - W.min);
+  const w = s.w + (target - s.w) * 0.22, mid = { x:(s.last.x + p.x) / 2, y:(s.last.y + p.y) / 2 };
+  signCtx.lineWidth = (s.w + w) / 2;
+  signCtx.beginPath(); signCtx.moveTo(s.mid.x, s.mid.y); signCtx.quadraticCurveTo(s.last.x, s.last.y, mid.x, mid.y); signCtx.stroke();
+  s.w = w; s.mid = mid; s.last = p; s.moved = true; signHasContent = true;
 }
 function signMove(evt){
-  if(!signDrawing) return;
+  if(!signPen) return;
   evt.preventDefault();
-  const p = signCanvasPos(evt);
-  signCtx.lineTo(p.x, p.y);
-  signCtx.stroke();
-  signHasContent = true;
+  const list = evt.getCoalescedEvents ? evt.getCoalescedEvents() : null;
+  (list && list.length ? list : [evt]).forEach(e=>{ const p = signCanvasPos(e); if(Math.hypot(p.x - signPen.last.x, p.y - signPen.last.y) >= 0.6 * signPen.W.k) signSeg(p); });
 }
-function signEnd(){ signDrawing = false; updateSignPreview(); }
-
-signCanvas.addEventListener('mousedown', signStart);
-signCanvas.addEventListener('mousemove', signMove);
-window.addEventListener('mouseup', signEnd);
-signCanvas.addEventListener('touchstart', signStart, {passive:false});
-signCanvas.addEventListener('touchmove', signMove, {passive:false});
-signCanvas.addEventListener('touchend', signEnd);
+function signEnd(){
+  if(!signPen) return;
+  const s = signPen; signPen = null;
+  if(!s.moved){ signCtx.beginPath(); signCtx.arc(s.last.x, s.last.y, s.W.max * 0.55, 0, 6.2832); signCtx.fill(); signHasContent = true; }
+  else{ signCtx.lineWidth = s.w; signCtx.beginPath(); signCtx.moveTo(s.mid.x, s.mid.y); signCtx.lineTo(s.last.x, s.last.y); signCtx.stroke(); }
+  updateSignPreview();
+}
+signCanvas.addEventListener('pointerdown', signStart);
+signCanvas.addEventListener('pointermove', signMove);
+signCanvas.addEventListener('pointerup', signEnd);
+signCanvas.addEventListener('pointercancel', signEnd);
 
 document.getElementById('sign-clear-btn').addEventListener('click', ()=>{
-  setSignSize(600, 180);
+  setSignSize(600 * SIGN_HI, 180 * SIGN_HI);
   signCtx.clearRect(0, 0, signCanvas.width, signCanvas.height);
-  signHasContent = false;
+  signHasContent = false; signUndo.length = 0;
   updateSignPreview();
 });
+(function(){
+  const clr = document.getElementById('sign-clear-btn'), u = document.createElement('button');
+  u.type = 'button'; u.className = 'btn secondary'; u.id = 'sign-undo-btn'; u.textContent = '↶ تراجع'; u.style.cssText = 'margin-top:8px;margin-inline-start:8px;padding:8px 16px;font-size:.82rem;';
+  clr.insertAdjacentElement('afterend', u);
+  u.addEventListener('click', ()=>{ const s = signUndo.pop(); if(!s) return; signCtx.putImageData(s, 0, 0); updateSignPreview(); });
+})();
 
 
 
@@ -9950,8 +9969,9 @@ function uddahScribble(ctx, name, color, W, H, rtl, variant){
 
   function setSize(w, h){ if(typeof setSignSize === 'function') setSignSize(w, h); }
   async function apply(item){
-    chosen = item; setSize(item.dim[0], item.dim[1]);
-    await item.paint(signCtx, item.dim[0], item.dim[1], colEl.value);
+    const F = (typeof SIGN_HI === 'number' ? SIGN_HI : 1);
+    chosen = item; setSize(item.dim[0] * F, item.dim[1] * F); signCtx.save(); signCtx.setTransform(F, 0, 0, F, 0, 0);
+    try{ await item.paint(signCtx, item.dim[0], item.dim[1], colEl.value); } finally { signCtx.restore(); }
     signHasContent = true; updateSignPreview();
   }
   function render(){
