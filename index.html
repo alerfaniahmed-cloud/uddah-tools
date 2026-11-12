@@ -742,6 +742,10 @@
   .pdf-tile .ico,#stu-grid .pdf-tile .pdf-ti{width:50px;height:50px;border-radius:16px;color:#fff;background:linear-gradient(145deg,var(--acc,var(--brass)),color-mix(in srgb,var(--acc,var(--brass)) 60%,#1d1b18));box-shadow:0 6px 14px color-mix(in srgb,var(--acc,var(--brass)) 38%,transparent),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .2s ease;}
   .pdf-tile .ico svg,#stu-grid .pdf-tile .pdf-ti svg{width:26px;height:26px;display:block;}
   .pdf-tile:hover .ico,.pdf-tile:hover .pdf-ti{transform:scale(1.08) rotate(-4deg);}
+  .tg-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px;}
+  .tg-chips button{padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--bg-elev-2);color:var(--bone);font:600 .8rem var(--font-display);cursor:pointer;transition:all .15s;}
+  .tg-chips button:hover{border-color:var(--brass);}
+  .tg-chips button[aria-pressed=true]{background:var(--brass);border-color:var(--brass);color:#fff;}
   .pdf-tile .nm,#stu-grid .pdf-tile b{position:relative;z-index:1;font-weight:700;font-size:.92rem;line-height:1.4;}
   .pdf-tile .ds,#stu-grid .pdf-tile small{position:relative;z-index:1;}
   #stu-grid .pdf-tiles .pdf-tile:nth-child(6n+1){--acc:var(--a1);}#stu-grid .pdf-tiles .pdf-tile:nth-child(6n+2){--acc:var(--a2);}#stu-grid .pdf-tiles .pdf-tile:nth-child(6n+3){--acc:var(--a3);}#stu-grid .pdf-tiles .pdf-tile:nth-child(6n+4){--acc:var(--a4);}#stu-grid .pdf-tiles .pdf-tile:nth-child(6n+5){--acc:var(--a5);}#stu-grid .pdf-tiles .pdf-tile:nth-child(6n){--acc:var(--a6);}
@@ -3916,6 +3920,12 @@
           <option value="0.6" selected data-i18n="compressMedium">متوسط</option>
           <option value="0.35" data-i18n="compressStrong">قوي (حجم أصغر، جودة أقل)</option>
         </select>
+      </div>
+      <div class="field tg-field" id="compress-target-wrap">
+        <label for="compress-target" data-i18n="tgLbl">الحجم المطلوب (ميجابايت) — اختياري</label>
+        <input type="number" id="compress-target" min="0.05" step="0.05" inputmode="decimal" placeholder="مثال: 2" data-i18n-ph="tgPh">
+        <div class="tg-chips" data-tg="compress-target"></div>
+        <p class="note" data-i18n="tgNote">اتركه فارغاً لاستخدام مستوى الضغط بالأعلى. عند كتابة رقم يضغط الملف تلقائياً ليصير أقل من هذا الحجم (مفيد للمواقع الحكومية). ملاحظة: الضغط للحجم يحوّل صفحات الـ PDF إلى صور.</p>
       </div>
       <button class="btn" id="compress-btn" data-i18n="compressBtn">ضغط وتنزيل</button>
       <div id="compress-status"></div>
@@ -9539,16 +9549,80 @@ document.getElementById('pdf2img-btn').addEventListener('click', async ()=>{
   setBusy(btn, false, '', I18N[currentLang].pdf2imgBtn);
 });
 
-/* --- Compress --- */
+/* --- Compress (with optional target size in MB) --- */
+Object.assign(I18N.ar, {
+  tgLbl:'الحجم المطلوب (ميجابايت) — اختياري', tgPh:'مثال: 2', tgNote:'اتركه فارغاً لاستخدام مستوى الضغط بالأعلى. عند كتابة رقم يضغط الملف تلقائياً ليصير أقل من هذا الحجم (مفيد للمواقع الحكومية). ملاحظة: الضغط للحجم يحوّل صفحات الـ PDF إلى صور.',
+  tgMB:'ميجا', tgFit:'تم الضغط إلى', tgUnder:'حجم الملف الأصلي أقل من المطلوب أصلاً — نزّلته كما هو.', tgFail:'ما قدرت أوصل للحجم المطلوب حتى بأقل جودة. هذا أصغر حجم ممكن:', tgBad:'اكتب حجماً صحيحاً بالميجابايت.', tgWorking:'جارٍ البحث عن أنسب جودة...'
+});
+Object.assign(I18N.en, {
+  tgLbl:'Target size (MB) — optional', tgPh:'e.g. 2', tgNote:'Leave empty to use the compression level above. Type a number to compress automatically to below that size (useful for government sites). Note: size targeting turns PDF pages into images.',
+  tgMB:'MB', tgFit:'Compressed to', tgUnder:'The original is already smaller than requested — downloaded unchanged.', tgFail:'Could not reach the target size even at the lowest quality. Smallest possible:', tgBad:'Enter a valid size in MB.', tgWorking:'Finding the best quality...'
+});
+/* 1 MB is counted as 1,000,000 bytes and the result aims at 97% of it, so it passes sites that count either 1,000,000 or 1,048,576 */
+function uddahTargetBytes(mb){ return Math.floor(mb * 1000000 * 0.97); }
+function uddahWireTargetChips(root){
+  (root || document).querySelectorAll('.tg-chips').forEach(box=>{
+    if(box.dataset.done) return; box.dataset.done = '1';
+    [0.3, 0.5, 1, 2, 3, 5].forEach(v=>{
+      const bt = document.createElement('button'); bt.type = 'button'; bt.textContent = v + ' MB';
+      bt.addEventListener('click', ()=>{ const el = document.getElementById(box.dataset.tg); el.value = v; el.dispatchEvent(new Event('input', { bubbles:true })); });
+      box.appendChild(bt);
+    });
+    const el = document.getElementById(box.dataset.tg), paint = ()=> box.querySelectorAll('button').forEach(bt=> bt.setAttribute('aria-pressed', String(parseFloat(bt.textContent) === parseFloat(el.value))));
+    el.addEventListener('input', paint); paint();
+  });
+}
+uddahWireTargetChips();
+async function uddahCompressPdfToTarget(pdf, targetBytes, onStep){
+  /* quality ladder from best to smallest: [render scale, jpeg quality]; binary search for the best step that fits */
+  const steps = [[1.7, .82], [1.5, .7], [1.3, .62], [1.15, .55], [1.0, .5], [0.85, .44], [0.72, .38], [0.6, .32], [0.5, .27], [0.4, .22]];
+  const attempt = async (si)=>{
+    const out = []; let total = 0;
+    for(let i = 1; i <= pdf.numPages; i++){
+      const page = await pdf.getPage(i), vp = page.getViewport({ scale:steps[si][0] }), c = document.createElement('canvas');
+      c.width = Math.max(1, Math.floor(vp.width)); c.height = Math.max(1, Math.floor(vp.height));
+      const cx = c.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, c.width, c.height);
+      await page.render({ canvasContext:cx, viewport:vp }).promise;
+      const bytes = new Uint8Array(await (await fetch(c.toDataURL('image/jpeg', steps[si][1]))).arrayBuffer());
+      out.push({ bytes, w:vp.width, h:vp.height, pw:page.getViewport({ scale:1 }).width, ph:page.getViewport({ scale:1 }).height }); total += bytes.length + 700;
+      if(total > targetBytes * 1.4 && i < pdf.numPages){ return { fits:false, total:Infinity, out:null }; }
+    }
+    return { fits:total <= targetBytes, total, out };
+  };
+  let lo = 0, hi = steps.length - 1, best = null;
+  while(lo <= hi){
+    const mid = (lo + hi) >> 1; if(onStep) onStep(mid, steps.length);
+    const r = await attempt(mid);
+    if(r.fits){ best = r; hi = mid - 1; } else lo = mid + 1;
+  }
+  if(!best){ const r = await attempt(steps.length - 1); return { fits:false, out:r.out, total:r.total }; }
+  return { fits:true, out:best.out, total:best.total };
+}
+async function uddahBuildPdfFromJpegs(pages){
+  const out = await PDFDocument.create();
+  for(const p of pages){ const img = await out.embedJpg(p.bytes), pg = out.addPage([p.pw, p.ph]); pg.drawImage(img, { x:0, y:0, width:p.pw, height:p.ph }); }
+  return await out.save();
+}
 document.getElementById('compress-btn').addEventListener('click', async ()=>{
   const file = document.getElementById('compress-file').files[0];
   const quality = parseFloat(document.getElementById('compress-quality').value);
   const btn = document.getElementById('compress-btn');
   if(!file){ setStatus('compress-status', I18N[currentLang].selectPdfFirst, 'err'); return; }
+  const tgRaw = document.getElementById('compress-target').value.trim(), tgMB = tgRaw === '' ? 0 : parseFloat(tgRaw);
+  if(tgRaw !== '' && !(tgMB > 0)){ setStatus('compress-status', I18N[currentLang].tgBad, 'err'); return; }
+  const tgB = tgMB > 0 ? uddahTargetBytes(tgMB) : 0, T = I18N[currentLang];
+  const mbTxt = n=> (n / 1000000).toFixed(2) + ' ' + T.tgMB;
   setBusy(btn, true, I18N[currentLang].compressingBusy, I18N[currentLang].compressBtn);
   try{
     if(!psIsPdfFile(file)){
       const im = await psLoadImg(file);
+      if(tgB){
+        if(file.size <= tgB){ downloadBlob(file, file.name); setStatus('compress-status', T.tgUnder, 'ok'); setBusy(btn, false, '', T.compressBtn); return; }
+        const r = await uddahFitImageToBytes(im, im.naturalWidth, im.naturalHeight, tgB);
+        downloadBlob(r.blob, 'مضغوط.jpg');
+        setStatus('compress-status', (r.fits ? T.tgFit : T.tgFail) + ' ' + mbTxt(r.blob.size) + ' (' + r.w + '×' + r.h + ')', r.fits ? 'ok' : 'err');
+        setBusy(btn, false, '', T.compressBtn); return;
+      }
       const c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight;
       const cx = c.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0,0,c.width,c.height); cx.drawImage(im, 0, 0);
       const jb = await psCanvasBlob(c, 'image/jpeg', quality);
@@ -9565,6 +9639,15 @@ document.getElementById('compress-btn').addEventListener('click', async ()=>{
     const bytes = await file.arrayBuffer();
     const originalSize = bytes.byteLength;
     const pdf = await pdfjsLib.getDocument({data: bytes}).promise;
+    if(tgB){
+      if(originalSize <= tgB){ downloadBlob(new Blob([bytes], {type:'application/pdf'}), 'مضغوط.pdf'); setStatus('compress-status', T.tgUnder, 'ok'); setBusy(btn, false, '', T.compressBtn); return; }
+      setStatus('compress-status', T.tgWorking, 'ok');
+      const r = await uddahCompressPdfToTarget(pdf, tgB, null);
+      const outBytes = await uddahBuildPdfFromJpegs(r.out);
+      downloadBlob(new Blob([outBytes], {type:'application/pdf'}), 'مضغوط.pdf');
+      setStatus('compress-status', (r.fits ? T.tgFit : T.tgFail) + ' ' + mbTxt(outBytes.byteLength), r.fits ? 'ok' : 'err');
+      setBusy(btn, false, '', T.compressBtn); return;
+    }
     const out = await PDFDocument.create();
     for(let i=1; i<=pdf.numPages; i++){
       const page = await pdf.getPage(i);
@@ -9595,6 +9678,28 @@ document.getElementById('compress-btn').addEventListener('click', async ()=>{
   }
   setBusy(btn, false, '', I18N[currentLang].compressBtn);
 });
+
+/* image (HTMLImageElement) -> JPEG that fits under targetBytes: best quality first, then shrink dimensions */
+async function uddahFitImageToBytes(im, W, H, targetBytes){
+  const enc = (c, q)=> psCanvasBlob(c, 'image/jpeg', q);
+  let w = W, h = H;
+  for(let round = 0; round < 14; round++){
+    const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w)); c.height = Math.max(1, Math.round(h));
+    const cx = c.getContext('2d'); cx.imageSmoothingQuality = 'high'; cx.fillStyle = '#fff'; cx.fillRect(0, 0, c.width, c.height); cx.drawImage(im, 0, 0, c.width, c.height);
+    let b = await enc(c, 0.92); if(b.size <= targetBytes) return { blob:b, fits:true, w:c.width, h:c.height };
+    const bLow = await enc(c, 0.4);
+    if(bLow.size > targetBytes){
+      const k = Math.max(0.5, Math.min(0.9, Math.sqrt(targetBytes / bLow.size) * 1.04)); w *= k; h *= k;
+      if(Math.max(w, h) < 160) return { blob:bLow, fits:false, w:c.width, h:c.height };
+      continue;
+    }
+    let lo = 0.4, hi = 0.92, best = bLow;
+    for(let i = 0; i < 7; i++){ const m = (lo + hi) / 2, bb = await enc(c, m); if(bb.size <= targetBytes){ best = bb; lo = m; } else hi = m; }
+    return { blob:best, fits:true, w:c.width, h:c.height };
+  }
+  const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w)); c.height = Math.max(1, Math.round(h)); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+  return { blob:await enc(c, 0.4), fits:false, w:c.width, h:c.height };
+}
 
 /* ============================================================
    SHARED: PDF-or-image source for editing tools (sign / stamp / watermark / barcode / compress)
@@ -18257,7 +18362,7 @@ const CV_TPLS = [
           if(r.keepIfLarger && blob.size >= f.size){ blob = f; note = t('imgxKept'); }
           const ext = note ? ((f.name.split('.').pop() || 'png').toLowerCase()) : (EXT[blob.type] || 'png');
           const name = baseN(f.name) + (note ? '' : (r.suffix || '')) + '.' + ext;
-          outs.push({ name, blob }); addResult(res, f, blob, name, note, r); ok++;
+          outs.push({ name, blob }); addResult(res, f, blob, name, note || r.warn || '', r); ok++;
         }catch(e){
           fail++; const d = document.createElement('div'); d.className = 'img-res-item'; d.innerHTML = '<div class="meta"><b></b><span class="nt" style="color:var(--rust)"></span></div>';
           d.querySelector('b').textContent = f.name; d.querySelector('.nt').textContent = e && e.message === 'huge' ? t('imgxTooBig') : (e && e.userMsg) || t('imgxFail'); res.appendChild(d);
@@ -18278,9 +18383,19 @@ const CV_TPLS = [
 
   /* ---------- compress ---------- */
   batchCard('compress', 'imgxN_compress', 'imgxD_compress',
-    rng('compress-q', 30, 95, 75, 'imgxQLabel') + sel('compress-max', 'imgxMaxSide', [['0', 'imgxOrig'], ['4000', 'imgxMx4000'], ['2560', 'imgxMx2560'], ['1920', 'imgxMx1920'], ['1280', 'imgxMx1280'], ['1024', 'imgxMx1024']]) + fmtSel('compress-fmt', true) + '<p class="note" data-i18n="imgxPngNote"></p>', 'imgxBtnCompress');
+    '<div class="field tg-field"><label for="imgcompress-target" data-i18n="tgLbl"></label><input type="number" id="imgcompress-target" min="0.05" step="0.05" inputmode="decimal" data-i18n-ph="tgPh"><div class="tg-chips" data-tg="imgcompress-target"></div><p class="note" data-i18n="tgNoteImg"></p></div>' + rng('compress-q', 30, 95, 75, 'imgxQLabel') + sel('compress-max', 'imgxMaxSide', [['0', 'imgxOrig'], ['4000', 'imgxMx4000'], ['2560', 'imgxMx2560'], ['1920', 'imgxMx1920'], ['1280', 'imgxMx1280'], ['1024', 'imgxMx1024']]) + fmtSel('compress-fmt', true) + '<p class="note" data-i18n="imgxPngNote"></p>', 'imgxBtnCompress');
   ['4000', '2560', '1920', '1280', '1024'].forEach(n=>{ I18N.ar['imgxMx' + n] = n + ' px'; I18N.en['imgxMx' + n] = n + ' px'; });
+  I18N.ar.tgNoteImg = 'اتركه فارغاً لاستخدام الجودة بالأسفل. عند كتابة رقم تُضغط كل صورة تلقائياً لتصير أقل من هذا الحجم (تتحول إلى JPG).'; I18N.en.tgNoteImg = 'Leave empty to use the quality below. Type a number to compress each image to below that size (converted to JPG).';
   inits.push(()=> wireBatch('compress', async (im, f)=>{
+    const tgRaw = $('imgcompress-target').value.trim(), tgMB = tgRaw === '' ? 0 : parseFloat(tgRaw);
+    if(tgMB > 0){
+      const tb = uddahTargetBytes(tgMB);
+      if(f.size <= tb) return { blob:f, keepIfLarger:true, dim:im.w + '×' + im.h };
+      let sw = im.w, sh = im.h, mx0 = +$('compress-max').value; if(mx0 && Math.max(sw, sh) > mx0){ const k0 = mx0 / Math.max(sw, sh); sw = Math.round(sw * k0); sh = Math.round(sh * k0); }
+      const base = (sw === im.w && sh === im.h) ? im.src : smoothResize(im.src, im.w, im.h, sw, sh);
+      const r = await uddahFitImageToBytes(base, sw, sh, tb);
+      return { blob:r.blob, suffix:'-min', dim:r.w + '×' + r.h, warn: r.fits ? '' : I18N[currentLang].tgFail };
+    }
     const type = typeOf($('compress-fmt').value, f), mx = +$('compress-max').value; let tw = im.w, th = im.h;
     if(mx && Math.max(tw, th) > mx){ const k = mx / Math.max(tw, th); tw = Math.round(tw * k); th = Math.round(th * k); }
     return { canvas: smoothResize(im.src, im.w, im.h, tw, th), type, q: (+$('compress-q').value) / 100, suffix: '-min', keepIfLarger: tw === im.w && th === im.h && $('compress-fmt').value === 'same', dim: tw + '×' + th };
@@ -18726,6 +18841,7 @@ const CV_TPLS = [
     const panel = $('panel-images'); if(!panel) return;
     $('img-cards').innerHTML = cardsHtml.join('');
     inits.forEach(fn=>{ try{ fn(); }catch(e){ console.error('img init', e); } });
+    uddahWireTargetChips($('img-cards'));
     document.querySelectorAll('#img-cards input[type=range]').forEach(r=> r.addEventListener('input', ()=>{ const v = $(r.id + '-v'); if(v) v.textContent = r.value; }));
     $('img-back').addEventListener('click', ()=>{ homeOpen = true; show(); });
     $('img-home-search').addEventListener('input', buildHome);
