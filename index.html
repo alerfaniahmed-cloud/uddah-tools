@@ -742,6 +742,8 @@
   .pdf-tile .ico,#stu-grid .pdf-tile .pdf-ti{width:50px;height:50px;border-radius:16px;color:#fff;background:linear-gradient(145deg,var(--acc,var(--brass)),color-mix(in srgb,var(--acc,var(--brass)) 60%,#1d1b18));box-shadow:0 6px 14px color-mix(in srgb,var(--acc,var(--brass)) 38%,transparent),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .2s ease;}
   .pdf-tile .ico svg,#stu-grid .pdf-tile .pdf-ti svg{width:26px;height:26px;display:block;}
   .pdf-tile:hover .ico,.pdf-tile:hover .pdf-ti{transform:scale(1.08) rotate(-4deg);}
+  #text-preview-overlay,#erase-preview-container img,#erase-preview-container [id*=overlay]{touch-action:none;}
+  button,.btn,.pdf-tile,select,summary,label,.img-chip{touch-action:manipulation;}
   .tg-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px;}
   .tg-chips button{padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--bg-elev-2);color:var(--bone);font:600 .8rem var(--font-display);cursor:pointer;transition:all .15s;}
   .tg-chips button:hover{border-color:var(--brass);}
@@ -4575,9 +4577,10 @@ function paintStamp(){
   document.getElementById('stampGreg').textContent = now.toLocaleDateString(locale,{year:'numeric',month:'2-digit',day:'2-digit'});
   document.getElementById('stampHijri').textContent = formatHijri(gregorianToHijri(new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()))));
   document.getElementById('stampDayName').textContent = now.toLocaleDateString(currentLang === 'en' ? 'en-US' : 'ar-SA',{weekday:'long'});
-  const manzila = findCurrentManzila(now);
-  const manzilaLbl = currentLang === 'en' ? `${manzila.name} (star: ${manzila.star})` : `${manzila.name} (نجم ${manzila.star})`;
-  document.getElementById('stampManzila').textContent = manzila ? manzilaLbl : '—';
+  const manzila = findCurrentManzila(now) || {name:'', star:''};
+  const MZ_EN = {'الشرطين':'Al-Sharatain','البطين':'Al-Butain','الثريا':'Al-Thurayya (Pleiades)','الدبران':'Al-Dabaran','الهقعة':'Al-Haqʿa','الهنعة':'Al-Hanʿa','الذراع':'Al-Dhirāʿ','النثرة':'Al-Nathra','الطرفة':'Al-Tarfa','الجبهة':'Al-Jabha','الزبرة':'Al-Zubra','الصرفة':'Al-Sarfa','العواء':'Al-ʿAwwāʾ','السماك':'Al-Simāk','الغفر':'Al-Ghafr','الزبانا':'Al-Zubānā','الإكليل':'Al-Iklīl','القلب':'Al-Qalb','الشولة':'Al-Shawla','النعايم':'Al-Naʿāʾim','البلدة':'Al-Balda','سعد الذابح':'Saʿd al-Dhābiḥ','سعد بلع':'Saʿd Bulaʿ','سعد السعود':'Saʿd al-Suʿūd','سعد الأخبية':'Saʿd al-Akhbiya','المقدم':'Al-Muqaddam','المؤخر':'Al-Muʾakhkhar','الرشاء':'Al-Rishāʾ','التويبع':'Al-Tuwaybiʿ','الجوزاء':'Al-Jawzāʾ','المرزم (الشعرى اليمانية)':'Al-Murzim (Sirius)','الكليبين':'Al-Kulaybayn','سهيل':'Suhail (Canopus)','الوسم':'Al-Wasm','المربعانية':'Al-Murabbaʿāniyya','الشبط':'Al-Shabat','العقارب':'Al-ʿAqārib (Scorpions)','الحميمين':'Al-Humaymayn','الذراعين':'Al-Dhirāʿayn'};
+  const manzilaLbl = currentLang === 'en' ? `${MZ_EN[manzila.name] || manzila.name} — star: ${MZ_EN[manzila.star] || manzila.star}` : `${manzila.name} (نجم ${manzila.star})`;
+  document.getElementById('stampManzila').textContent = manzila.name ? manzilaLbl : '—';
 }
 paintStamp();
 
@@ -4868,7 +4871,7 @@ function downloadBlob(blob, filename){
   const a = document.createElement('a');
   a.href = url; a.download = filename;
   document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url), 4000);
+  setTimeout(()=>URL.revokeObjectURL(url), 180000);
 }
 
 /* ============================================================
@@ -7406,8 +7409,13 @@ function calcInheritance(input){
     }
   }
 
+  if(grandfatherEligible && (input.fullBrothers + input.fullSisters + input.paternalBrothers + input.paternalSisters) > 0){
+    note = (note ? note + ' ' : '') + INH_GF_NOTE_AR;
+  }
   return {shares, note, blocked};
 }
+const INH_GF_NOTE_AR = 'تنبيه: في حالة وجود الجد مع الإخوة تطبّق الحاسبة قول أبي حنيفة (الجد يحجب الإخوة). جمهور الفقهاء ومنهم الحنابلة يرون أن الجد يقاسم الإخوة، فراجع المحكمة أو المفتي في هذه الحالة.';
+const INH_GF_NOTE_EN = 'Note: when a grandfather and siblings are both present, this calculator applies the Hanafi ruling (the grandfather excludes siblings). Most jurists, including the Hanbalis, hold that the grandfather shares with the siblings, so please consult the court or a mufti for this case.';
 
 let lastInheritanceResult = null;
 let inhShowFraction = true;
@@ -7478,6 +7486,7 @@ function translateInheritanceReason(s){
 
 function translateInheritanceNote(s){
   if(currentLang !== 'en' || !s) return s;
+  if(s.indexOf(INH_GF_NOTE_AR) !== -1){ const rest = s.replace(INH_GF_NOTE_AR, '').trim(); return (rest ? translateInheritanceNote(rest) + ' ' : '') + INH_GF_NOTE_EN; }
   const map = {
     'الأنصبة الظاهرة أعلاه للذكور والإناث الوارثين معاً هي أنصبتهم الكاملة والنهائية (بعد اقتسام الباقي من التركة بينهم، حيث يأخذ كل ذكر ضعف نصيب كل أنثى) — وليست أجزاءً ناقصة يتبقى منها شيء آخر.':
       "The shares shown above for male and female heirs sharing the residue together are their full and final shares (after dividing the remainder among them, where each male gets double each female's share) — not partial amounts with something left over.",
@@ -24239,6 +24248,68 @@ window.uddahLab = { open, close, sub:(tab, s)=>{ showSub(tab); if(tab === 'sep' 
 })();
 
 ;(function(){ const s = document.getElementById('text-font'); if(!s) return; ERASE_FONT_OPTIONS.forEach(f=>{ const o = document.createElement('option'); o.value = f.v; o.textContent = f.l; o.style.fontFamily = f.v; s.appendChild(o); }); })();
+/* ===== English-mode layer: translates leftover Arabic strings (static and dynamically rendered) and restores them when switching back ===== */
+;(function(){
+  const EN = {"المنزلة (النجم)": "Lunar mansion (star)", "من نحن": "About us", "سياسة الخصوصية": "Privacy policy", "اتصل بنا": "Contact us", "عُدّة — أدوات محلية تعمل في متصفحك بدون اتصال دائم بالإنترنت بعد أول تحميل للصفحة": "Uddah — local tools that run in your browser, with no constant internet connection needed after the first page load", "المبلغ (ريال)": "Amount (SAR)", "2048 px (طباعة)": "2048 px (print)", "دائري": "Circle", "مربع": "Square", "الحجم:": "Size:", "الموضع العمودي:": "Vertical position:", "الموضع الأفقي:": "Horizontal position:", "٪": "%", "سم": "cm", "العربية (right to left)": "Arabic (right to left)", "نوع الخط": "Font", "↶ تراجع": "↶ Undo", "الموضع": "Position", "الأفقي": "Horizontal", "الرأسي": "Vertical", "ضبط دقيق بالأسهم": "Fine-tune with arrows", "الخطوة (نقطة)": "Step (pt)", "يسار +": "Left +", "يسار −": "Left −", "يمين +": "Right +", "يمين −": "Right −", "أعلى +": "Up +", "أعلى −": "Up −", "أسفل +": "Down +", "أسفل −": "Down −", "النص": "Text", "حجم الخط": "Font size", "السماكة": "Weight", "عادي": "Regular", "سميك": "Bold", "المحاذاة": "Alignment", "يمين": "Right", "وسط": "Center", "يسار": "Left", "لون النص الجديد": "New text colour", "منطقة المسح": "Erase area", "العرض (نقطة)": "Width (pt)", "الارتفاع (نقطة)": "Height (pt)", "لون منطقة المسح": "Erase area colour", "إزاحة النص داخل المنطقة": "Text offset inside the area", "أفقية (نقطة)": "Horizontal (pt)", "رأسية (نقطة)": "Vertical (pt)", "🎯 ضبط حدود المسح تلقائياً على الحبر الفعلي (لا يقطع حرفاً ولا يلمس الأقواس المجاورة)": "🎯 Auto-fit the erase bounds to the actual ink (never cuts a letter or touches nearby brackets)", "النص الجديد": "New text", "حذف التعديل": "Remove edit", "اكتب النص هنا": "Type text here", "حذف السطر": "Remove line", "اتجاه الورقة": "Paper orientation", "مثال: ذهب، Fe، 26": "e.g. Gold, Fe, 26", "1448 / 1449 هـ": "1448 / 1449 AH", "توسيع من اليسار": "Expand from left", "تقليص من اليسار": "Shrink from left", "توسيع من اليمين": "Expand from right", "تقليص من اليمين": "Shrink from right", "توسيع من الأعلى": "Expand from top", "تقليص من الأعلى": "Shrink from top", "توسيع من الأسفل": "Expand from bottom", "تقليص من الأسفل": "Shrink from bottom", "تحريك يساراً": "Move left", "تحريك يميناً": "Move right", "تحريك للأعلى": "Move up", "تحريك للأسفل": "Move down", "تبديل الوضع الليلي/النهاري": "Toggle dark/light mode", "Switch language / تبديل اللغة": "Switch language", "إعدادات الأذان والإقامة": "Adhan & Iqama settings", "شهادة شكر وتقدير": "Certificate of Appreciation", "تتقدم {org} بخالص الشكر والتقدير إلى": "{org} extends its sincere thanks and appreciation to", "وذلك تقديراً لجهوده المتميزة وعطائه المثمر، سائلين الله له دوام التوفيق والنجاح.": "in recognition of his outstanding efforts and fruitful contribution, wishing him continued success.", "مدير المدرسة": "School principal", "وكيل المدرسة": "Vice principal", "المستلم": "Recipient", "المحاسب": "Accountant", "اختبارات نهاية الفصل الدراسي الأول": "First-term final exams", "# هذا تعليق، بايثون يتجاهله": "# This is a comment, Python ignores it", "قاعة 1\nقاعة 2": "Hall 1\nHall 2", "# هذا تعليق، بايثون يتجاهله\nprint(\"Hello, Uddah!\")": "# This is a comment, Python ignores it\nprint(\"Hello, Uddah!\")", "⚠ لم تختر ملفاً — ستعمل الرنة البسيطة": "⚠ No file chosen — the simple built-in tone will play", "الكمية": "Quantity", "سعر الوحدة": "Unit price", "الخصم (قبل الضريبة)": "Discount (before tax)", "الضريبة": "Tax", "ما فيه قوالب محفوظة بعد.": "No saved templates yet.", "اكتب العملية…": "Type the operation…", "(كسر حقيقي)": "(proper fraction)", "نسبة مئوية": "Percentage", "عدد كسري": "Mixed number", "عشري": "Decimal", "① المقام المشترك الأصغر =": "① Lowest common denominator =", "③ اختصر بقسمة البسط والمقام على القاسم المشترك الأكبر →": "③ Simplify by dividing numerator and denominator by the greatest common divisor →", "العنصر 1": "Element 1", "العنصر 2": "Element 2", "العنصر 3": "Element 3", "% أو جم": "% or g", "أضف قوى بمقدار واتجاه (الزاوية من المحور الأفقي الموجب)، وسترى المحصلة بطريقة الرأس إلى الذيل.": "Add forces with a magnitude and direction (angle from the positive horizontal axis) and see the resultant using the head-to-tail method.", "＋ قوة": "＋ Force", "− حذف الأخيرة": "− Remove last", "معامل الارتداد e:": "Restitution coefficient e:", "▶ تصادم!": "▶ Collide!", "إعادة": "Reset", "بندول بسيط": "Simple pendulum", "نابض وكتلة": "Spring and mass", "الكوكب": "Planet", "☀️ الشمس (g = 274)": "☀️ Sun (g = 274)", "☿ عطارد (g = 3.7)": "☿ Mercury (g = 3.7)", "♀️ الزهرة (g = 8.87)": "♀️ Venus (g = 8.87)", "🌍 الأرض (g = 9.81)": "🌍 Earth (g = 9.81)", "🌙 القمر (g = 1.62)": "🌙 Moon (g = 1.62)", "🔴 المريخ (g = 3.71)": "🔴 Mars (g = 3.71)", "🟠 المشتري (g = 24.79)": "🟠 Jupiter (g = 24.79)", "🪐 زحل (g = 10.44)": "🪐 Saturn (g = 10.44)", "🔵 أورانوس (g = 8.87)": "🔵 Uranus (g = 8.87)", "🌀 نبتون (g = 11.15)": "🌀 Neptune (g = 11.15)", "⚪ بلوتو (g = 0.62)": "⚪ Pluto (g = 0.62)", "الطول L:": "Length L:", "الزاوية الابتدائية:": "Initial angle:", "الكتلة m:": "Mass m:", "ثابت النابض k:": "Spring constant k:", "السعة A:": "Amplitude A:", "التخميد:": "Damping:", "⏸ إيقاف مؤقت": "⏸ Pause", "زاوية الميل:": "Incline angle:", "الكتلة:": "Mass:", "معامل الاحتكاك μ:": "Friction coefficient μ:", "طول المنحدر:": "Ramp length:", "▶ اترك الجسم": "▶ Release the body", "V (جهد المصدر) [V]": "V (source voltage) [V]", "احسب": "Calculate", "أضف أسماء الطلاب أولاً.": "Add the student names first.", "✓ التباين جيد للقراءة": "✓ Contrast is good for scanning", "طريقة تعبئة منطقة المسح": "Erase-area fill method", "تلقائي — يطابق لون الصفحة المحيط (ويكتشف التدرّج)": "Auto — matches the surrounding page colour (and detects gradients)", "تلقائي متدرّج — للخلفيات المتدرجة": "Auto gradient — for gradient backgrounds", "لون يدوي": "Manual colour", "وصف البند / المنتج": "Item / product description", "اسحب الباركود أو الشعار (المربع المتقطع) لأي مكان في الصفحة الأولى، ونقرتان عليه ترجعه لمكانه.": "Drag the barcode or logo (dashed box) anywhere on the first page; double-click it to return it to its place.", "اسحب الشعار أو الختم أو الباركود أو رمز QR (المربعات المتقطعة) لأي مكان في الشهادة، ونقرتان على أي منها ترجعه لمكانه.": "Drag the logo, stamp, barcode or QR code (dashed boxes) anywhere on the certificate; double-click any of them to return it to its place.", "صحيح": "Integer", "محمد عبدالله الشهري": "Mohammed Abdullah Al-Shehri", "مدير مشاريع هندسية": "Engineering Projects Manager", "الرياض، المملكة العربية السعودية": "Riyadh, Saudi Arabia", "سعودي الجنسية • رخصة قيادة سارية": "Saudi national • Valid driving licence", "مهندس مدني بخبرة تتجاوز ٩ سنوات في إدارة وتنفيذ المشاريع الإنشائية والبنية التحتية، أتقن إعداد الجداول الزمنية والميزانيات وقيادة الفرق الميدانية، وأسعى لتقديم مشاريع بجودة عالية وضمن الوقت والتكلفة المحددة.": "Civil engineer with over 9 years of experience managing and delivering construction and infrastructure projects. Skilled in schedules, budgets and leading field teams, committed to delivering high-quality projects on time and within budget.", "مدير مشاريع": "Project Manager", "شركة الإنشاءات المتقدمة": "Advanced Construction Company", "2021 - الآن": "2021 - Present", "قيادة فريق من ٢٥ مهندسًا وفنيًا في مشاريع سكنية وتجارية بقيمة تتجاوز ١٢٠ مليون ريال\nخفض التكاليف التشغيلية بنسبة ١٨٪ عبر إعادة هيكلة عقود الموردين\nتسليم ٦ مشاريع قبل الموعد المحدد وبدون ملاحظات جوهرية": "Led a team of 25 engineers and technicians on residential and commercial projects worth over SAR 120 million\nReduced operating costs by 18% by restructuring supplier contracts\nDelivered 6 projects ahead of schedule with no major defects", "مهندس موقع أول": "Senior Site Engineer", "مجموعة العمران للمقاولات": "Al-Omran Contracting Group", "الإشراف اليومي على التنفيذ ومطابقة الأعمال للمخططات والمواصفات\nإعداد تقارير التقدم الأسبوعية ومتابعة جداول الأعمال": "Daily supervision of execution and checking work against drawings and specifications\nPreparing weekly progress reports and tracking work schedules", "مهندس مدني": "Civil Engineer", "مكتب الرؤية الهندسي": "Vision Engineering Office", "إعداد الرسومات التنفيذية وحصر الكميات وتقدير التكاليف": "Preparing shop drawings, quantity take-offs and cost estimates", "بكالوريوس الهندسة المدنية": "Bachelor's in Civil Engineering", "جامعة الملك سعود": "King Saud University", "تقدير ممتاز مع مرتبة الشرف": "Excellent with honours", "إدارة المشاريع\nMS Project / Primavera\nAutoCAD\nإدارة العقود\nالتخطيط والجدولة\nقيادة الفرق\nمراقبة الجودة": "Project management\nMS Project / Primavera\nAutoCAD\nContract management\nPlanning and scheduling\nTeam leadership\nQuality control", "العربية": "Arabic", "الإنجليزية": "English", "شهادة إدارة المشاريع الاحترافية PMP\nعضوية الهيئة السعودية للمهندسين\nدورة السلامة المهنية OSHA 30": "Project Management Professional (PMP) certification\nSaudi Council of Engineers membership\nOSHA 30 occupational safety course", "الهوايات": "Hobbies", "القراءة\nالسباحة\nالعمل التطوعي": "Reading\nSwimming\nVolunteering", "اسحب الباركود أو الشعار (المربع المتقطع)": "Drag the barcode or logo"};
+  const SEG = [["خط احتفالي مزخرف", "Decorative display"], ["رقعة حبر (بارز)", "Ruqaa Ink (bold)"], ["نوتو سانس عربي", "Noto Sans Arabic"], ["خط عريض مزخرف", "Bold decorative"], ["خط كتابة بارز", "Bold script"], ["أحادي المسافة", "monospace"], ["رقعة كلاسيكي", "Classic Ruqaa"], ["خط طويل أنيق", "Tall elegant"], ["نسخ كلاسيكي", "Classic Naskh"], ["نسخ تقليدي", "Traditional Naskh"], ["الافتراضي", "Default"], ["عربي حديث", "Modern Arabic"], ["كوفي حديث", "modern Kufi"], ["نوتو كوفي", "Noto Kufi"], ["عارف رقعة", "Aref Ruqaa"], ["خط النظام", "system font"], ["ريم كوفي", "Reem Kufi"], ["افتراضي", "Default"], ["إنجليزي", "English"], ["المسيري", "El Messiri"], ["شهرزاد", "Scheherazade"], ["الذهبي", "Aldhabi"], ["ميرزا", "Mirza"], ["هرمتن", "Harmattan"], ["شانغا", "Changa"], ["مركزي", "Markazi"], ["ريدكس", "Readex"], ["أميري", "Amiri"], ["أخبار", "Akhbar"], ["أندلس", "Andalus"], ["كوفي", "Kufi"], ["لطيف", "Lateef"], ["رقعة", "Ruqaa"], ["عصري", "modern"], ["بارز", "bold"], ["نسخ", "Naskh"], ["مدى", "Mada"]];
+  const AR = /[؀-ۿ]/, store = new Map(); let busy = false;
+  const isEn = ()=> currentLang === 'en';
+  function trStr(s, isOpt){
+    const k = s.trim(); if(!k || !AR.test(k)) return null;
+    let o = Object.prototype.hasOwnProperty.call(EN, k) ? EN[k] : null;
+    if(o === null && isOpt){ o = k; SEG.forEach(function(x){ o = o.split(x[0]).join(x[1]); }); if(AR.test(o)) return null; }
+    if(o === null) return null;
+    return s.replace(k, o);
+  }
+  function remember(node, key, orig){ let m = store.get(node); if(!m){ m = {}; store.set(node, m); } if(!(key in m)) m[key] = orig; }
+  function doText(n){
+    if(n.nodeType !== 3) return; const p = n.parentElement; if(!p || /^(SCRIPT|STYLE|TEXTAREA)$/.test(p.tagName)) return;
+    const r = trStr(n.nodeValue, p.tagName === 'OPTION'); if(r !== null){ remember(n, 't', n.nodeValue); n.nodeValue = r; }
+  }
+  function doEl(e){
+    if(e.nodeType !== 1) return;
+    if(e.hasAttribute('data-ar') && e.hasAttribute('data-en') && !e.children.length){ const t = e.getAttribute('data-en'); if(e.textContent !== t){ remember(e, 'dt', e.textContent); e.textContent = t; } }
+    ['placeholder', 'title', 'aria-label'].forEach(function(a){ const v = e.getAttribute(a); if(v){ const r = trStr(v); if(r !== null){ remember(e, 'a:' + a, v); e.setAttribute(a, r); } } });
+    if((e.tagName === 'TEXTAREA' || (e.tagName === 'INPUT' && /^(text|search)?$/.test(e.type))) && e.value && AR.test(e.value)){
+      const r = Object.prototype.hasOwnProperty.call(EN, e.value) ? EN[e.value] : null; if(r !== null){ remember(e, 'v', e.value); e.__enAuto = r; e.value = r; setTimeout(function(){ try{ e.dispatchEvent(new Event('input', { bubbles:true })); }catch(x){} }, 0); }
+    }
+  }
+  function walk(root){
+    if(!root) return;
+    if(root.nodeType === 3){ doText(root); return; }
+    if(root.nodeType !== 1) return;
+    doEl(root);
+    root.querySelectorAll('[data-ar][data-en],[placeholder],[title],[aria-label],textarea,input').forEach(doEl);
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); let n; while((n = w.nextNode())) doText(n);
+  }
+  function restore(){
+    store.forEach(function(m, node){
+      if(!node.isConnected) return;
+      if('t' in m) node.nodeValue = m.t;
+      if('dt' in m) node.textContent = node.getAttribute('data-ar');
+      Object.keys(m).forEach(function(k){ if(k.indexOf('a:') === 0) node.setAttribute(k.slice(2), m[k]); });
+      if('v' in m && node.value === node.__enAuto){ node.value = m.v; setTimeout(function(){ try{ node.dispatchEvent(new Event('input', { bubbles:true })); }catch(x){} }, 0); }
+    });
+    store.clear();
+  }
+  const mo = new MutationObserver(function(muts){
+    if(busy || !isEn()) return; busy = true;
+    try{ muts.forEach(function(m){
+      if(m.type === 'childList') m.addedNodes.forEach(walk);
+      else if(m.type === 'characterData') doText(m.target);
+      else if(m.type === 'attributes') doEl(m.target);
+    }); }catch(e){}
+    mo.takeRecords(); busy = false;
+  });
+  function sync(){ busy = true; try{ if(isEn()) walk(document.body); }catch(e){} mo.takeRecords(); busy = false; }
+  const baseApply = applyLanguage;
+  applyLanguage = function(lang){
+    if(isEn() && lang !== 'en'){ busy = true; try{ restore(); }catch(e){} mo.takeRecords(); busy = false; }
+    baseApply(lang); sync();
+  };
+  mo.observe(document.body, { childList:true, subtree:true, characterData:true, attributes:true, attributeFilter:['placeholder', 'title', 'aria-label'] });
+})();
+
 applyLanguage(localStorage.getItem('uddah-lang') || 'ar');
 </script>
 </body>
